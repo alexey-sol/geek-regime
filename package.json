@@ -1,0 +1,52 @@
+{
+    "name": "geek-regime-client-web",
+    "version": "0.0.1",
+    "description": "Geek Regime: Web frontend app",
+    "author": "Alexey Soloviev",
+    "private": true,
+    "license": "UNLICENSED",
+    "scripts": {
+        "start": "webpack serve --config webpack.development.ts",
+        "build": "webpack --env production",
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "dependencies": {
+        "@reduxjs/toolkit": "1.8.2",
+        "dotenv": "16.0.1",
+        "joi": "17.6.0",
+        "react": "18.1.0",
+        "react-dom": "18.1.0",
+        "react-router": "6.3.0",
+        "react-router-dom": "6.3.0",
+        "redux-logger": "3.0.6"
+    },
+    "devDependencies": {
+        "@types/dotenv-webpack": "7.0.3",
+        "@types/node": "17.0.41",
+        "@types/react": "18.0.12",
+        "@types/react-dom": "18.0.5",
+        "@types/webpack": "5.28.0",
+        "@types/webpack-dev-server": "4.7.2",
+        "@typescript-eslint/eslint-plugin": "5.27.1",
+        "@typescript-eslint/parser": "5.27.1",
+        "clean-webpack-plugin": "4.0.0",
+        "dotenv-webpack": "7.1.0",
+        "eslint": "8.17.0",
+        "eslint-config-airbnb": "19.0.4",
+        "eslint-import-resolver-alias": "1.1.2",
+        "eslint-plugin-import": "2.26.0",
+        "eslint-plugin-jsx-a11y": "6.5.1",
+        "eslint-plugin-react": "7.30.0",
+        "eslint-plugin-react-hooks": "4.5.0",
+        "eslint-plugin-unicorn": "42.0.0",
+        "fork-ts-checker-webpack-plugin": "7.2.11",
+        "html-webpack-plugin": "5.5.0",
+        "ts-loader": "9.3.0",
+        "ts-node": "10.8.1",
+        "typescript": "4.7.3",
+        "webpack": "5.73.0",
+        "webpack-cli": "4.9.2",
+        "webpack-dev-server": "4.9.2",
+        "webpack-merge": "5.8.0"
+    }
+}
