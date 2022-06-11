@@ -1,0 +1,48 @@
+version: "3.9"
+
+services:
+    api-gateway:
+        restart: always
+        ports:
+            - ${API_GATEWAY_PORT_EXTERNAL}:${API_GATEWAY_PORT}
+        depends_on:
+            - database
+        networks:
+            - geek-regime
+        environment:
+            - API_GATEWAY_HOST
+            - API_GATEWAY_PORT
+            - API_GATEWAY_PORT_DEBUG
+            - API_GATEWAY_PORT_EXTERNAL
+            - API_GATEWAY_PREFIX
+            - CLIENT_WEB_HOST
+            - CLIENT_WEB_PORT
+            - CLIENT_WEB_PORT_EXTERNAL
+            - JWT_EXPIRES_IN
+            - JWT_SECRET
+            - NODE_ENV
+
+    client-web:
+        restart: always
+        ports:
+            - ${CLIENT_WEB_PORT_EXTERNAL}:${CLIENT_WEB_PORT}
+        depends_on:
+            - api-gateway
+        networks:
+            - geek-regime
+        environment:
+            - API_GATEWAY_HOST
+            - API_GATEWAY_HOST_EXTERNAL
+            - API_GATEWAY_PORT
+            - API_GATEWAY_PORT_EXTERNAL
+            - API_GATEWAY_PREFIX
+            - APP_NAME
+            - CLIENT_WEB_HOST
+            - CLIENT_WEB_PORT
+            - CLIENT_WEB_PORT_EXTERNAL
+            - CLIENT_WEB_WEBSOCKET_URL
+            - NODE_ENV
+
+networks:
+    geek-regime:
+        driver: bridge

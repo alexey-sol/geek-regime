@@ -1,0 +1,25 @@
+version: "3.9"
+
+services:
+    api-gateway:
+        container_name: geek-regime_api-gateway_dev
+        ports:
+            - ${API_GATEWAY_PORT_DEBUG}:${API_GATEWAY_PORT_DEBUG}
+        build:
+            context: ../geek-regime-api-gateway
+            dockerfile: $PWD/builder/api-gateway/Dockerfile.development
+        command: npm run start:debug
+        volumes:
+            - ../geek-regime-api-gateway:/app
+          # - /app/node_modules
+
+    client-web:
+        container_name: geek-regime_client-web_dev
+        build:
+            context: ../geek-regime-client-web
+            dockerfile: $PWD/builder/client-web/Dockerfile.development
+        command: npm start
+        volumes:
+            - ../geek-regime-client-web:/app
+        tty: true
+          # - /app/node_modules

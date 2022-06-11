@@ -1,0 +1,12 @@
+{
+    "name": "geek-regime-launcher",
+    "version": "0.0.1",
+    "description": "Geek Regime: Project launcher",
+    "author": "Alexey Soloviev",
+    "private": true,
+    "license": "UNLICENSED",
+    "scripts": {
+        "dev:up": "docker-compose -f docker-compose.yml -f docker-compose.development.yml up",
+        "dev:down": "docker-compose -f docker-compose.yml -f docker-compose.development.yml down"
+    }
+}
