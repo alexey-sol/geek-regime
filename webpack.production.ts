@@ -2,7 +2,7 @@ import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import { merge } from "webpack-merge";
 import path from "path";
 import webpack from "webpack";
-import * as nodeEnvConst from "@/const/node-env";
+import * as nodeEnvConst from "./src/const/node-env";
 import coreConfig from "./webpack.core";
 
 const config: webpack.Configuration = merge(coreConfig, {

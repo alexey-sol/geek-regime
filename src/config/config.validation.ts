@@ -1,6 +1,8 @@
 import * as Joi from "joi";
-import * as nodeEnvConst from "../../const/node-env";
+import * as nodeEnvConst from "../const/node-env";
 
+// Each environment variable used either in Webpack config or in runtime, should
+// be listed in the schema below.
 export const envSchema = Joi.object({
     API_GATEWAY_HOST: Joi
         .string()

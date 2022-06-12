@@ -76,6 +76,7 @@ module.exports = {
                 extensions: [".ts", ".js", ".json"],
                 map: [
                     ["@", "./src"],
+                    ["@store", "./src/features/app/store"],
                 ],
             },
         },

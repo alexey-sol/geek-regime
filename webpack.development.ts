@@ -3,9 +3,9 @@ import { Configuration as WebpackDevServerConfiguration } from "webpack-dev-serv
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import { merge } from "webpack-merge";
 import path from "path";
-import * as nodeEnvConst from "@/const/node-env";
+import * as nodeEnvConst from "./src/const/node-env";
 import coreConfig from "./webpack.core";
-import { envConfig } from "./src/config";
+import { envConfig } from "./src/config/env";
 
 interface ResultConfiguration extends webpack.Configuration {
     devServer?: WebpackDevServerConfiguration;

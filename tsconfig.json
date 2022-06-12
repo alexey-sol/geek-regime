@@ -13,7 +13,8 @@
         "noEmit": true,
         "noImplicitAny": true,
         "paths": {
-            "@/*": ["./src/*"]
+            "@/*": ["./src/*"],
+            "@store": ["./src/features/app/store"]
         },
         "resolveJsonModule": true,
         "skipLibCheck": true,

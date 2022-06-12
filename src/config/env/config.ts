@@ -1,4 +1,8 @@
-import { envSchema } from "./config.validation";
+import { envSchema } from "../config.validation";
+
+// This config isn't supposed to be used in runtime since dotenv-webpack doesn't
+// allow to read the whole process.env. Doing so will break the app.
+// Also, since this used in Webpack config, aliases (like "@/config") don't work.
 
 const { error, value } = envSchema.validate(process.env, {
     stripUnknown: true,
