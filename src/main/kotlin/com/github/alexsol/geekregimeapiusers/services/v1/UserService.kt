@@ -6,9 +6,9 @@ import org.springframework.stereotype.Service
 
 @Service
 class UserService(val db: UserRepository) {
-    fun findUsers(): List<User> = db.findUsers()
+    fun findAllUsers(): List<User> = db.findAllUsers()
 
-    fun createUser(user: User){
-        db.save(user)
-    }
+    fun findUserById(id: Int): User? = db.findUserById(id)
+
+    fun createUser(userDto: User): User = db.save(userDto)
 }

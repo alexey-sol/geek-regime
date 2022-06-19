@@ -6,13 +6,15 @@ spring:
         username: ${DB_USERS_USER}
         password: ${DB_USERS_PASSWORD}
     jpa:
+        generate-ddl: true
         hibernate:
             ddl-auto: create
-        generate-ddl: true
         properties:
             hibernate:
                 auto_quote_keyword: true
                 dialect: org.hibernate.dialect.PostgreSQLDialect
+                format_sql: true
+        show-sql: true
 
 server:
     port: ${API_USERS_PORT:3001}
@@ -20,3 +22,5 @@ server:
 api-users:
     prefix: /${API_USERS_PREFIX:api}
     resource: ${API_USERS_RESOURCE:users}
+
+# TODO profiles default, prod, dev

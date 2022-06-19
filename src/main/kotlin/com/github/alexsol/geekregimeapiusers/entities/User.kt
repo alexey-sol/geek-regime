@@ -6,6 +6,9 @@ import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
 import javax.persistence.*
+import javax.validation.Valid
+import javax.validation.constraints.Email
+import javax.validation.constraints.NotEmpty
 
 @Entity
 @Table(name = Constants.USER_TABLE)
@@ -17,6 +20,8 @@ data class User(
     var id: Int,
 
     @Column(nullable = false, unique = true, length = 255)
+    @field:NotEmpty(message = "Email is required")
+    @field:Email(message = "Email must have valid format")
     val email: String,
 
     @Column(name = "created_at", updatable = false)
@@ -27,7 +32,8 @@ data class User(
     @LastModifiedDate
     var updatedAt: Instant? = null,
 
-    @OneToOne(fetch = FetchType.LAZY, cascade = [CascadeType.ALL])
+    @OneToOne(cascade = [CascadeType.ALL])
     @JoinColumn(name = "details_id", nullable = false)
+    @field:Valid
     val details: UserDetails,
 )
