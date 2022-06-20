@@ -9,6 +9,9 @@ interface UserRepository : CrudRepository<User, Int> {
     @Query("SELECT * FROM ${Constants.USER_TABLE}", nativeQuery = true)
     fun findAllUsers(): List<User>
 
-    @Query("SELECT * FROM ${Constants.USER_TABLE} WHERE id = ?", nativeQuery = true)
+    @Query("SELECT * FROM ${Constants.USER_TABLE} WHERE id = :id", nativeQuery = true)
     fun findUserById(id: Int): User?
+
+    @Query("DELETE FROM ${Constants.USER_TABLE} WHERE id = :id RETURNING id", nativeQuery = true)
+    fun removeUserById(id: Int): Int
 }

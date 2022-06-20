@@ -6,7 +6,6 @@ import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.time.Instant
 import javax.persistence.*
-import javax.validation.Valid
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotEmpty
 
@@ -14,11 +13,6 @@ import javax.validation.constraints.NotEmpty
 @Table(name = Constants.USER_TABLE)
 @EntityListeners(AuditingEntityListener::class)
 data class User(
-    @Column(nullable = false)
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int,
-
     @Column(nullable = false, unique = true, length = 255)
     @field:NotEmpty(message = "Email is required")
     @field:Email(message = "Email must have valid format")
@@ -32,8 +26,8 @@ data class User(
     @LastModifiedDate
     var updatedAt: Instant? = null,
 
-    @OneToOne(cascade = [CascadeType.ALL])
-    @JoinColumn(name = "details_id", nullable = false)
-    @field:Valid
-    val details: UserDetails,
+    @Column(nullable = false)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    var id: Int,
 )

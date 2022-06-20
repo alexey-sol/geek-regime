@@ -1,5 +1,6 @@
 package com.github.alexsol.geekregimeapiusers.controllers.v1
 
+import com.github.alexsol.geekregimeapiusers.dtos.CreateUserDto
 import com.github.alexsol.geekregimeapiusers.constants.PathConstants as Constants
 import com.github.alexsol.geekregimeapiusers.entities.User
 import com.github.alexsol.geekregimeapiusers.exceptions.UserNotFoundException
@@ -10,7 +11,7 @@ import javax.validation.Valid
 
 @RestController
 @RequestMapping(
-    path = [Constants.V1_COMMON_PATH],
+    path = [Constants.API_V1_PATH],
     produces = ["application/json"]
 )
 @Validated
@@ -24,5 +25,8 @@ class UserController(val service: UserService) {
         ?: throw UserNotFoundException(id)
 
     @PostMapping
-    fun postUser(@RequestBody @Valid userDto: User): User = service.createUser(userDto)
+    fun postUser(@RequestBody @Valid dto: CreateUserDto): User = service.createUser(dto)
+
+    @DeleteMapping("{id}")
+    fun deleteUserById(@PathVariable id: Int): Int? = service.removeUserById(id)
 }
