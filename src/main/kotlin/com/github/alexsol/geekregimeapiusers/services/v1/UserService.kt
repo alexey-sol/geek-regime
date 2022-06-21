@@ -32,8 +32,8 @@ class UserService(
     }
 
     fun removeUserById(id: Int): Int? {
-        val deletedCount = db.removeUserById(id)
-        val userDeleted = deletedCount > 0
-        return if (userDeleted) id else null
+        val deletedRowCount = db.removeUserById(id)
+        val userIsDeleted = deletedRowCount > 0
+        return if (userIsDeleted) id else null
     }
 }
