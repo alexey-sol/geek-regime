@@ -1,9 +1,11 @@
 package com.github.alexsol.geekregimeapiusers.entities
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 import com.github.alexsol.geekregimeapiusers.constants.DatabaseConstants as Constants
 import javax.persistence.*
+import javax.validation.Valid
 
 @Entity
 @Table(name = Constants.CREDENTIALS_TABLE)
@@ -14,13 +16,15 @@ data class Credentials(
     @Column
     val salt: ByteArray,
 
-    @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @OneToOne
+    @MapsId
     @OnDelete(action = OnDeleteAction.CASCADE)
-    val user: User,
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    @field:Valid
+    var user: User? = null,
 
-    @Column(nullable = false)
+    @Column(name = "user_id", nullable = false)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int? = null,
+    val userId: Int? = null,
 )

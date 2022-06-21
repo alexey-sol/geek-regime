@@ -1,5 +1,6 @@
 package com.github.alexsol.geekregimeapiusers.entities
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 import com.github.alexsol.geekregimeapiusers.constants.DatabaseConstants as Constants
@@ -29,16 +30,17 @@ data class Details(
 
     @Column(name = "updated_at")
     @LastModifiedDate
-    val updatedAt: Instant? = null,
+    var updatedAt: Instant? = null,
 
-    @OneToOne
     @JoinColumn(name = "user_id", nullable = false)
+    @OneToOne
+    @MapsId
     @OnDelete(action = OnDeleteAction.CASCADE)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @field:Valid
-    val user: User? = null,
+    var user: User? = null,
 
-    @Column(nullable = false)
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var id: Int? = null,
+    @Column(name = "user_id", nullable = false)
+    val userId: Int? = null,
 )

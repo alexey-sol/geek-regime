@@ -28,5 +28,7 @@ class UserController(val service: UserService) {
     fun postUser(@RequestBody @Valid dto: CreateUserDto): User = service.createUser(dto)
 
     @DeleteMapping("{id}")
+    @Throws(UserNotFoundException::class)
     fun deleteUserById(@PathVariable id: Int): Int? = service.removeUserById(id)
+        ?: throw UserNotFoundException(id)
 }
