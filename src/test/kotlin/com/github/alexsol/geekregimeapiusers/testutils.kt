@@ -5,7 +5,7 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders
 
-fun toJsonString(obj: Any? = null): String {
+fun objectToJsonString(obj: Any? = null): String {
     try {
         return ObjectMapper().writeValueAsString(obj);
     } catch (exception: Exception) {
@@ -16,5 +16,5 @@ fun toJsonString(obj: Any? = null): String {
 fun mockPostRequest(apiPath: String, data: Any? = null): MockHttpServletRequestBuilder {
     return MockMvcRequestBuilders.post(apiPath)
         .contentType(MediaType.APPLICATION_JSON)
-        .content(toJsonString(data))
+        .content(objectToJsonString(data))
 }

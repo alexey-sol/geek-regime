@@ -38,9 +38,13 @@ data class Details(
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @field:Valid
-    var user: User? = null,
+    private var user: User? = null,
 
     @Id
     @Column(name = "user_id", nullable = false)
     val userId: Int? = null,
-)
+) {
+    fun setUser(user: User) {
+        this.user = user
+    }
+}

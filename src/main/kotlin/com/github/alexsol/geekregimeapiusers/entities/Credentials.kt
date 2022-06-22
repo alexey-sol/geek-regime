@@ -22,7 +22,7 @@ data class Credentials(
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @field:Valid
-    var user: User? = null,
+    private var user: User? = null,
 
     @Column(name = "user_id", nullable = false)
     @Id

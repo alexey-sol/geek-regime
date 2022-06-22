@@ -16,7 +16,7 @@ class UserService(
 
     fun createUser(dto: CreateUserDto): User {
         val (user) = dto
-        user.details?.user = user
+        user.details?.setUser(user)
 
         db.save(user)
         updateAssociationsIfNeeded(dto)
@@ -36,4 +36,6 @@ class UserService(
         val userIsDeleted = deletedRowCount > 0
         return if (userIsDeleted) id else null
     }
+
+    fun userAlreadyExists(email: String): Boolean = db.existsUserByEmail(email)
 }

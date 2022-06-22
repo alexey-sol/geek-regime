@@ -41,5 +41,5 @@ data class User(
     @PrimaryKeyJoinColumn
     @OneToOne(mappedBy = "user")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    var credentials: Credentials? = null,
+    private var credentials: Credentials? = null,
 )

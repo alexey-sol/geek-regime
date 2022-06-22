@@ -13,6 +13,8 @@ interface UserRepository : CrudRepository<User, Int> {
     @Query("SELECT u FROM User u WHERE u.id = :id")
     fun findUserById(id: Int): User?
 
+    fun existsUserByEmail(email: String): Boolean
+
     @Query("DELETE FROM User u WHERE u.id = :id")
     @Transactional
     @Modifying
