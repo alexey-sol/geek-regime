@@ -40,8 +40,9 @@ data class Details(
     @field:Valid
     private var user: User? = null,
 
-    @Id
     @Column(name = "user_id", nullable = false)
+    @Id
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     val userId: Int? = null,
 ) {
     fun setUser(user: User) {

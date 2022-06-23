@@ -20,14 +20,15 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class GetUserById(
+class GetUserByIdTest(
     @Autowired mockMvc: MockMvc,
     @Autowired sourceResolver: ApiUsersSourceResolver
 ) : BaseUserControllerTest(mockMvc, sourceResolver) {
     @Test
     fun givenUserExist_whenGetUserById_thenReturnsUserWithStatus200() {
-        val user = User(id = 1, email = "mark@mail.com")
-        every { service.findUserById(user.id) } returns user
+        val userId = 1
+        val user = User(id = userId, email = "mark@mail.com")
+        every { service.findUserById(userId) } returns user
 
         mockMvc.perform(MockMvcRequestBuilders.get("${apiV1Path}/${user.id}"))
             .andExpect(MockMvcResultMatchers.status().isOk)

@@ -23,7 +23,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class PostUser(
+class PostUserTest(
     @Autowired mockMvc: MockMvc,
     @Autowired sourceResolver: ApiUsersSourceResolver
 ) : BaseUserControllerTest(mockMvc, sourceResolver) {
@@ -148,7 +148,7 @@ class PostUser(
     }
 
     @Test
-    fun givenDtoHasUserAlreadyExists_whenPostUser_thenReturnsStatus409() {
+    fun givenDtoHasUserThatAlreadyExists_whenPostUser_thenReturnsStatus409() {
         val user = User(id = 1, email = "just-performing-meiosis@mail.com")
         val dto = CreateUserDto(user)
         every { service.userAlreadyExists(user.email) } returns true

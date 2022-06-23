@@ -4,6 +4,7 @@ import com.github.alexsol.geekregimeapiusers.dtos.CreateUserDto
 import com.github.alexsol.geekregimeapiusers.entities.User
 import com.github.alexsol.geekregimeapiusers.repositories.UserRepository
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Service
 class UserService(
@@ -14,6 +15,7 @@ class UserService(
 
     fun findUserById(id: Int): User? = db.findUserById(id)
 
+    @Transactional
     fun createUser(dto: CreateUserDto): User {
         val (user) = dto
         user.details?.setUser(user)

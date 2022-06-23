@@ -18,7 +18,7 @@ data class User(
     @Column(nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    val id: Int,
+    val id: Int? = null,
 
     @Column(nullable = false, unique = true, length = 255)
     @field:NotEmpty(message = "Email is required")

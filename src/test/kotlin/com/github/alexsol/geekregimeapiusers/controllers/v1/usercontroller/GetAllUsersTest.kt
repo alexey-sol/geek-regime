@@ -16,7 +16,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class GetAllUsers(
+class GetAllUsersTest(
     @Autowired mockMvc: MockMvc,
     @Autowired sourceResolver: ApiUsersSourceResolver
 ) : BaseUserControllerTest(mockMvc, sourceResolver) {

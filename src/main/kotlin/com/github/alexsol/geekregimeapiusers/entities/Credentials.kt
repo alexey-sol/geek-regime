@@ -26,5 +26,6 @@ data class Credentials(
 
     @Column(name = "user_id", nullable = false)
     @Id
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     val userId: Int? = null,
 )

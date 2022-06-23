@@ -17,7 +17,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class DeleteUserById(
+class DeleteUserByIdTest(
     @Autowired mockMvc: MockMvc,
     @Autowired sourceResolver: ApiUsersSourceResolver
 ) : BaseUserControllerTest(mockMvc, sourceResolver) {
