@@ -18,3 +18,16 @@ fun mockPostRequest(apiPath: String, data: Any? = null): MockHttpServletRequestB
         .contentType(MediaType.APPLICATION_JSON)
         .content(objectToJsonString(data))
 }
+
+fun <Item>sameContentInArrays(array1: Array<Item>, array2: Array<Item>): Boolean {
+    val iterator = array1.iterator()
+    val isSame = true
+
+    for ((index, item) in iterator.withIndex()) {
+        if (item != array2[index]) {
+            return false
+        }
+    }
+
+    return isSame
+}

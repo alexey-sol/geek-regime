@@ -3,6 +3,7 @@ package com.github.alexsol.geekregimeapiusers.services.v1
 import com.github.alexsol.geekregimeapiusers.dtos.CreateUserDto
 import com.github.alexsol.geekregimeapiusers.entities.User
 import com.github.alexsol.geekregimeapiusers.repositories.UserRepository
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
@@ -13,7 +14,7 @@ class UserService(
 ) {
     fun findAllUsers(): List<User> = db.findAllUsers()
 
-    fun findUserById(id: Int): User? = db.findUserById(id)
+    fun findUserById(id: Int): User? = db.findByIdOrNull(id)
 
     @Transactional
     fun createUser(dto: CreateUserDto): User {

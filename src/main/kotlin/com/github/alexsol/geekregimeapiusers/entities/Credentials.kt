@@ -11,7 +11,7 @@ import javax.validation.Valid
 @Table(name = Constants.CREDENTIALS_TABLE)
 data class Credentials(
     @Column
-    val hashedPassword: ByteArray, // TODO override methods
+    val hashedPassword: ByteArray,
 
     @Column
     val salt: ByteArray,
@@ -28,4 +28,17 @@ data class Credentials(
     @Id
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     val userId: Int? = null,
-)
+) {
+    override fun equals(other: Any?): Boolean {
+        if (this === other) return true
+        if (javaClass != other?.javaClass) return false
+
+        other as Credentials
+
+        if (userId != other.userId) return false
+
+        return true
+    }
+
+    override fun hashCode(): Int = userId ?: 0
+}
