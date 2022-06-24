@@ -8,7 +8,7 @@
         <version>2.7.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
-    <groupId>com.github.alexsol</groupId>
+    <groupId>com.github.alexeysol</groupId>
     <artifactId>geek-regime-api-users</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <name>geek-regime-api-users</name>
