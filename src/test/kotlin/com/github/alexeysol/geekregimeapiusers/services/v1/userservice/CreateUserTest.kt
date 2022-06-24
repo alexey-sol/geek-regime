@@ -10,7 +10,7 @@ import org.junit.jupiter.api.Assertions
 class CreateUserTest : BaseUserServiceTest() {
     @Test
     fun givenDto_whenCreateUser_thenReturnsUser() {
-        val user = User(id = 1, email = "mark@mail.com")
+        val user = User(email = "mark@mail.com")
         val dto = CreateUserDto(user)
         every { userRepository.save(user) } returns user
 

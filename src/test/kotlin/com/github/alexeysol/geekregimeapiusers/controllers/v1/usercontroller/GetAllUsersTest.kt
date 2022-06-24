@@ -22,8 +22,8 @@ class GetAllUsersTest(
 ) : BaseUserControllerTest(mockMvc, sourceResolver) {
     @Test
     fun usersExist_whenGetAllUsers_thenReturnsUserListWithStatus200() {
-        val user1 = User(id = 1, email = "mark@mail.com")
-        val user2 = User(id = 2, email = "boobuntu@mail.com")
+        val user1 = User(email = "mark@mail.com")
+        val user2 = User(email = "boobuntu@mail.com")
         val users = listOf(user1, user2)
         every { service.findAllUsers() } returns users
 

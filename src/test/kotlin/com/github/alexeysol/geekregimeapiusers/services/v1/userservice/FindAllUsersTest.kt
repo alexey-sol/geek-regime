@@ -9,8 +9,8 @@ import org.junit.jupiter.api.Assertions
 class FindAllUsersTest : BaseUserServiceTest() {
     @Test
     fun usersExist_whenFindAllUsers_thenReturnsUserList() {
-        val user1 = User(id = 1, email = "mark@mail.com")
-        val user2 = User(id = 2, email = "boobuntu@mail.com")
+        val user1 = User(email = "mark@mail.com")
+        val user2 = User(email = "boobuntu@mail.com")
         val users = listOf(user1, user2)
         every { userRepository.findAllUsers() } returns users
 

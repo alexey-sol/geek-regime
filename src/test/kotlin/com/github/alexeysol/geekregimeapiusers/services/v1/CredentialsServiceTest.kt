@@ -16,7 +16,7 @@ class CredentialsServiceTest {
 
     @Test
     fun givenDto_whenCreateCredentials_thenReturnsCredentials() {
-        val user = User(id = 1, email = "mark@mail.com")
+        val user = User(email = "mark@mail.com")
         val password = "123"
         val salt = Security.generateSalt()
         val hashedPassword = Security.generateHash(password, salt)

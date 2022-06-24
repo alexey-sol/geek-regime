@@ -10,13 +10,13 @@ import org.springframework.data.repository.findByIdOrNull
 class FindUserByIdTest : BaseUserServiceTest() {
     @Test
     fun givenUserExist_whenFindUserById_thenReturnsUser() {
-        val userId = 1
-        val user = User(id = userId, email = "mark@mail.com")
-        every { userRepository.findByIdOrNull(userId) } returns user
+        val initialUserId = 1
+        val user = User(email = "mark@mail.com")
+        every { userRepository.findByIdOrNull(initialUserId) } returns user
 
-        val result = userService.findUserById(userId)
+        val result = userService.findUserById(initialUserId)
 
-        verify(exactly = 1) { userRepository.findByIdOrNull(userId) }
+        verify(exactly = 1) { userRepository.findByIdOrNull(initialUserId) }
         Assertions.assertEquals(user, result)
     }
 

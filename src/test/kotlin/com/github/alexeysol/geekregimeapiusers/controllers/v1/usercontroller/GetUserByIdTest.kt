@@ -26,11 +26,11 @@ class GetUserByIdTest(
 ) : BaseUserControllerTest(mockMvc, sourceResolver) {
     @Test
     fun givenUserExist_whenGetUserById_thenReturnsUserWithStatus200() {
-        val userId = 1
-        val user = User(id = userId, email = "mark@mail.com")
-        every { service.findUserById(userId) } returns user
+        val initialUserId = 1
+        val user = User(email = "mark@mail.com")
+        every { service.findUserById(initialUserId) } returns user
 
-        mockMvc.perform(MockMvcRequestBuilders.get("${apiV1Path}/${user.id}"))
+        mockMvc.perform(MockMvcRequestBuilders.get("${apiV1Path}/${initialUserId}"))
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
             .andExpect { result ->

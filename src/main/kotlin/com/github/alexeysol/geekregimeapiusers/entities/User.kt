@@ -18,6 +18,7 @@ data class User(
     @Column(nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     val id: Int? = null,
 
     @Column(nullable = false, unique = true, length = 255)

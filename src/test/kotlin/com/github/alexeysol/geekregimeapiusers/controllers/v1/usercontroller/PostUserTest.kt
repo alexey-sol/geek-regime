@@ -29,7 +29,7 @@ class PostUserTest(
 ) : BaseUserControllerTest(mockMvc, sourceResolver) {
     @Test
     fun givenDtoHasUser_whenPostUser_thenReturnsUserWithStatus200() {
-        val user = User(id = 1, email = "mark@mail.com")
+        val user = User(email = "mark@mail.com")
         val dto = CreateUserDto(user)
         every { service.userAlreadyExists(user.email) } returns false
         every { service.createUser(dto) } returns user
@@ -45,7 +45,7 @@ class PostUserTest(
     @Test
     fun givenDtoHasUserWithDetails_whenPostUser_thenReturnsUserWithStatus200() {
         val details = Details(name = "Mark")
-        val user = User(id = 1, email = "mark@mail.com", details = details)
+        val user = User(email = "mark@mail.com", details = details)
         val dto = CreateUserDto(user)
         every { service.userAlreadyExists(user.email) } returns false
         every { service.createUser(dto) } returns user
@@ -61,7 +61,7 @@ class PostUserTest(
     @Test
     fun givenDtoHasUserWithDetailsAndPassword_whenPostUser_thenReturnsUserWithStatus200() {
         val details = Details(name = "Mark")
-        val user = User(id = 1, email = "mark@mail.com", details = details)
+        val user = User(email = "mark@mail.com", details = details)
         val dto = CreateUserDto(user, password = "123")
         every { service.userAlreadyExists(user.email) } returns false
         every { service.createUser(dto) } returns user
@@ -76,7 +76,7 @@ class PostUserTest(
 
     @Test
     fun givenDtoHasBlankEmailInUser_whenPostUser_thenReturnsStatus400() {
-        val user = User(id = 1, email = "")
+        val user = User(email = "")
         val dto = CreateUserDto(user)
 
         mockMvc.perform(mockPostRequest(apiV1Path, dto))
@@ -94,7 +94,7 @@ class PostUserTest(
 
     @Test
     fun givenDtoHasInvalidEmailInUser_whenPostUser_thenReturnsStatus400() {
-        val user = User(id = 1, email = "is-this-even-email")
+        val user = User(email = "is-this-even-email")
         val dto = CreateUserDto(user)
 
         mockMvc.perform(mockPostRequest(apiV1Path, dto))
@@ -113,7 +113,7 @@ class PostUserTest(
     @Test
     fun givenDtoHasBlankNameInUser_whenPostUser_thenReturnsStatus400() {
         val details = Details(name = "")
-        val user = User(id = 1, email = "mark@mail.com", details = details)
+        val user = User(email = "mark@mail.com", details = details)
         val dto = CreateUserDto(user)
 
         mockMvc.perform(mockPostRequest(apiV1Path, dto))
@@ -131,7 +131,7 @@ class PostUserTest(
 
     @Test
     fun givenDtoHasBlankPassword_whenPostUser_thenReturnsStatus400() {
-        val user = User(id = 1, email = "mark@mail.com")
+        val user = User(email = "mark@mail.com")
         val dto = CreateUserDto(user, password = "")
 
         mockMvc.perform(mockPostRequest(apiV1Path, dto))
@@ -149,7 +149,7 @@ class PostUserTest(
 
     @Test
     fun givenDtoHasUserThatAlreadyExists_whenPostUser_thenReturnsStatus409() {
-        val user = User(id = 1, email = "just-performing-meiosis@mail.com")
+        val user = User(email = "just-performing-meiosis@mail.com")
         val dto = CreateUserDto(user)
         every { service.userAlreadyExists(user.email) } returns true
 
