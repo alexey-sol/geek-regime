@@ -4,6 +4,7 @@ import com.github.alexeysol.geekregimeapiposts.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.repositories.PostRepository;
 import org.springframework.data.util.Streamable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -25,7 +26,14 @@ public class PostService {
         return db.findById(id);
     }
 
+    @Transactional
     public Post createPost(Post dto) {
+        dto.generateAndSetSlug();
+
+        if (postAlreadyExists(dto.getSlug())) {
+            dto.attachSuffixToSlug();
+        }
+
         return db.save(dto);
     }
 
@@ -38,5 +46,9 @@ public class PostService {
         }
 
         return -1;
+    }
+
+    public boolean postAlreadyExists(String slug) {
+        return db.existsPostBySlug(slug);
     }
 }

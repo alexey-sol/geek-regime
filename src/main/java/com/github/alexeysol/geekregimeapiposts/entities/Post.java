@@ -2,6 +2,8 @@ package com.github.alexeysol.geekregimeapiposts.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.alexeysol.geekregimeapiposts.constants.DatabaseConstants;
+import com.github.alexeysol.geekregimeapiposts.utils.Slug;
+import net.bytebuddy.utility.RandomString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -36,6 +38,7 @@ public class Post {
 
     @Column(nullable = false, unique = true, length = 255)
     @Size(min = 1, message = "Slug must not be blank")
+    @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String slug;
 
     @Column(name = "created_at", updatable = false)
@@ -45,6 +48,10 @@ public class Post {
     @Column(name = "updated_at")
     @LastModifiedDate
     private Instant updatedAt;
+
+    public Integer getId() {
+        return id;
+    }
 
     public String getTitle() {
         return title;
@@ -84,5 +91,14 @@ public class Post {
 
     public void setSlug(String slug) {
         this.slug = slug;
+    }
+
+    public void generateAndSetSlug() {
+        slug = Slug.generateSlug(title);
+    }
+
+    public void attachSuffixToSlug() {
+        String suffix = Slug.getSlugSuffixFromHash(this);
+        setSlug(slug + suffix);
     }
 }

@@ -9,8 +9,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface PostRepository extends CrudRepository<Post, Integer> {
+    @Query("SELECT p FROM Post p WHERE p.slug = :slug")
+    @Transactional
+    Post findPostBySlug(String slug);
+
     @Query("DELETE FROM Post p WHERE p.id = :id")
     @Transactional
     @Modifying
     int removePostById(int id);
+
+    Boolean existsPostBySlug(String slug);
 }
