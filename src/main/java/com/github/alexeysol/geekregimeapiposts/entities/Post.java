@@ -3,7 +3,6 @@ package com.github.alexeysol.geekregimeapiposts.entities;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.alexeysol.geekregimeapiposts.constants.DatabaseConstants;
 import com.github.alexeysol.geekregimeapiposts.utils.Slug;
-import net.bytebuddy.utility.RandomString;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -53,6 +52,10 @@ public class Post {
         return id;
     }
 
+    public Integer getUserId() {
+        return userId;
+    }
+
     public String getTitle() {
         return title;
     }
@@ -98,7 +101,7 @@ public class Post {
     }
 
     public void attachSuffixToSlug() {
-        String suffix = Slug.getSlugSuffixFromHash(this);
+        String suffix = Slug.getSuffixFromHash(this);
         setSlug(slug + suffix);
     }
 }

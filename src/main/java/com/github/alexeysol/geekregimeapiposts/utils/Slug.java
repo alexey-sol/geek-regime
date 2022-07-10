@@ -9,7 +9,7 @@ public class Slug {
         return slugify.slugify(title);
     }
 
-    public static String getSlugSuffixFromHash(Object obj) {
+    public static String getSuffixFromHash(Object obj) {
         return String.format("-%s", RandomString.hashOf(obj));
     }
 }
