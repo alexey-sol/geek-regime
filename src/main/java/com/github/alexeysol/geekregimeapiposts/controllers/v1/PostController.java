@@ -11,8 +11,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping(
@@ -30,9 +29,12 @@ public class PostController {
     }
 
     @GetMapping
-    List<Post> getAllPosts() {
-        // TODO add authors
-        return postService.findAllPosts();
+    List<DetailedPost> getAllPosts(@RequestParam Optional<List<Integer>> ids) {
+        Iterable<Post> posts = ids.isPresent()
+            ? postService.findAllPostsById(ids.get())
+            : postService.findAllPosts();
+
+        return postService.convertPostsToDetailedPosts(posts);
     }
 
     @GetMapping("{id}")

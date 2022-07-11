@@ -22,6 +22,7 @@ public class Post {
     private Integer id;
 
     @Column(name = "user_id", nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private Integer userId;
 
     @Column(name = "space_id", nullable = false)
@@ -35,7 +36,7 @@ public class Post {
     @Size(min = 1, message = "Body must not be blank")
     private String body;
 
-    @Column(nullable = false, unique = true, length = 255)
+    @Column(nullable = false, unique = true)
     @Size(min = 1, message = "Slug must not be blank")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String slug;

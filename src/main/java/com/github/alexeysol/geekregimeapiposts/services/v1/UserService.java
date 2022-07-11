@@ -1,10 +1,13 @@
 package com.github.alexeysol.geekregimeapiposts.services.v1;
 
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.alexeysol.geekregimeapiposts.ApiUsersSourceResolver;
 import com.github.alexeysol.geekregimeapiposts.mappers.User;
 import com.github.alexeysol.geekregimeapiposts.utils.Request;
 import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class UserService {
@@ -14,17 +17,39 @@ public class UserService {
         this.sourceResolver = sourceResolver;
     }
 
-    public User getUser(int id) {
-        String apiUsersUrl = getApiUsersUrl();
-        String getUserUrl = String.format("%s/%d", apiUsersUrl, id);
-        User user = null;
+    public List<User> getAllUsers(List<Integer> ids) {
+        List<User> users;
 
         try {
-            String userJson = Request.get(getUserUrl);
+            Request request = new Request(getApiUsersUrl());
+            String usersJson = request.addIntegerQueryParams(ids)
+                .get()
+                .getResult();
+            ObjectMapper mapper = new ObjectMapper();
+            users = mapper.readValue(usersJson, new TypeReference<>() {});
+        } catch (IllegalArgumentException e) {
+            throw e;
+        } catch (Exception e) {
+            throw new RuntimeException(e.getMessage());
+        }
+
+        return users;
+    }
+
+    public User getUser(int id) {
+        User user;
+
+        try {
+            Request request = new Request(getApiUsersUrl());
+            String userJson = request.addPathVariable(id)
+                .get()
+                .getResult();
             ObjectMapper mapper = new ObjectMapper();
             user = mapper.readValue(userJson, User.class);
+        } catch (IllegalArgumentException e) {
+            throw e;
         } catch (Exception e) {
-            e.printStackTrace();
+            throw new RuntimeException(e.getMessage());
         }
 
         return user;
