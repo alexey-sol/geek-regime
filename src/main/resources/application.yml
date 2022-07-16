@@ -19,7 +19,7 @@ server:
     port: ${API_USERS_PORT:3001}
 
 api-users:
-    prefix: /${API_USERS_PREFIX:api}
+    prefix: ${API_USERS_PREFIX:api}
     resource: ${API_USERS_RESOURCE:users}
 
 ---

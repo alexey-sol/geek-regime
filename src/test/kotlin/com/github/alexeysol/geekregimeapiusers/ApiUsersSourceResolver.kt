@@ -11,5 +11,5 @@ data class ApiUsersSourceResolver (
     @Value("\${api-users.resource}")
     val resource: String? = null,
 ) {
-    fun getApiPath(version: Int = 1) = "${apiPrefix}/v${version}/${resource}"
+    fun getApiPath(version: Int = 1) = "/${apiPrefix}/v${version}/${resource}"
 }

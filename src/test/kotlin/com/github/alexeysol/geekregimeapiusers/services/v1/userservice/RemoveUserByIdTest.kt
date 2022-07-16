@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Assertions
 class RemoveUserByIdTest : BaseUserServiceTest() {
     @Test
     fun givenUserExists_whenRemoveUserById_thenReturnsUserId() {
-        val userId = 3
+        val userId = 3L
         val deletedRowCount = 1
         every { userRepository.removeUserById(userId) } returns deletedRowCount
 
@@ -19,14 +19,14 @@ class RemoveUserByIdTest : BaseUserServiceTest() {
     }
 
     @Test
-    fun givenUserDoesntExist_whenRemoveUserById_thenReturnsNull() {
-        val absentUserId = 10
+    fun givenUserDoesntExist_whenRemoveUserById_thenReturnsOutOfRange() {
+        val absentUserId = 10L
         val deletedRowCount = 0
         every { userRepository.removeUserById(absentUserId) } returns deletedRowCount
 
         val result = userService.removeUserById(absentUserId)
 
         verify(exactly = 1) { userRepository.removeUserById(absentUserId) }
-        Assertions.assertEquals(null, result)
+        Assertions.assertEquals(-1, result)
     }
 }

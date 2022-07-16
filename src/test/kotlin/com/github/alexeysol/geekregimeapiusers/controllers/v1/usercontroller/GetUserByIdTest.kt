@@ -2,7 +2,7 @@ package com.github.alexeysol.geekregimeapiusers.controllers.v1.usercontroller
 
 import com.github.alexeysol.geekregimeapiusers.ApiUsersSourceResolver
 import com.github.alexeysol.geekregimeapiusers.constants.ExceptionMessageConstants
-import com.github.alexeysol.geekregimeapiusers.entities.User
+import com.github.alexeysol.geekregimeapiusers.models.entities.User
 import com.github.alexeysol.geekregimeapiusers.exceptions.UserNotFoundException
 import com.github.alexeysol.geekregimeapiusers.objectToJsonString
 import io.mockk.every
@@ -26,7 +26,7 @@ class GetUserByIdTest(
 ) : BaseUserControllerTest(mockMvc, sourceResolver) {
     @Test
     fun givenUserExist_whenGetUserById_thenReturnsUserWithStatus200() {
-        val initialUserId = 1
+        val initialUserId = 1L
         val user = User(email = "mark@mail.com")
         every { service.findUserById(initialUserId) } returns user
 
@@ -40,7 +40,7 @@ class GetUserByIdTest(
 
     @Test
     fun givenUserDoesntExist_whenGetUserById_thenReturnsStatus404() {
-        val absentUserId = 10
+        val absentUserId = 10L
         every { service.findUserById(absentUserId) } returns null
 
         mockMvc.perform(MockMvcRequestBuilders.get("${apiV1Path}/${absentUserId}"))

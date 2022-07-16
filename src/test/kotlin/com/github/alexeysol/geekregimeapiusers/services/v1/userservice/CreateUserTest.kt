@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregimeapiusers.services.v1.userservice
 
-import com.github.alexeysol.geekregimeapiusers.dtos.CreateUserDto
-import com.github.alexeysol.geekregimeapiusers.entities.User
+import com.github.alexeysol.geekregimeapiusers.models.dtos.CreateUserDto
+import com.github.alexeysol.geekregimeapiusers.models.entities.User
 import io.mockk.every
 import io.mockk.verify
 import org.junit.jupiter.api.Test

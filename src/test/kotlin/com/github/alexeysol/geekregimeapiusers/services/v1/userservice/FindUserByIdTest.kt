@@ -1,6 +1,6 @@
 package com.github.alexeysol.geekregimeapiusers.services.v1.userservice
 
-import com.github.alexeysol.geekregimeapiusers.entities.User
+import com.github.alexeysol.geekregimeapiusers.models.entities.User
 import io.mockk.every
 import io.mockk.verify
 import org.junit.jupiter.api.Test
@@ -10,7 +10,7 @@ import org.springframework.data.repository.findByIdOrNull
 class FindUserByIdTest : BaseUserServiceTest() {
     @Test
     fun givenUserExist_whenFindUserById_thenReturnsUser() {
-        val initialUserId = 1
+        val initialUserId = 1L
         val user = User(email = "mark@mail.com")
         every { userRepository.findByIdOrNull(initialUserId) } returns user
 
@@ -22,7 +22,7 @@ class FindUserByIdTest : BaseUserServiceTest() {
 
     @Test
     fun givenUserDoesntExist_whenFindUserById_thenReturnsNull() {
-        val absentUserId = 10
+        val absentUserId = 10L
         every { userRepository.findByIdOrNull(absentUserId) } returns null
 
         val result = userService.findUserById(absentUserId)

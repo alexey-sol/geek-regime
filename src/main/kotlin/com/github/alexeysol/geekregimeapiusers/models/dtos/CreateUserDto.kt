@@ -1,6 +1,6 @@
-package com.github.alexeysol.geekregimeapiusers.dtos
+package com.github.alexeysol.geekregimeapiusers.models.dtos
 
-import com.github.alexeysol.geekregimeapiusers.entities.User
+import com.github.alexeysol.geekregimeapiusers.models.entities.User
 import javax.validation.Valid
 import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size

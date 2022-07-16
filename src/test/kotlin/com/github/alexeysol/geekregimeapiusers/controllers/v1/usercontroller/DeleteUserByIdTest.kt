@@ -23,7 +23,7 @@ class DeleteUserByIdTest(
 ) : BaseUserControllerTest(mockMvc, sourceResolver) {
     @Test
     fun givenUserExists_whenDeleteUserById_thenReturnsUserIdWithStatus200() {
-        val userId = 1
+        val userId = 1L
         every { service.removeUserById(userId) } returns userId
 
         mockMvc.perform(MockMvcRequestBuilders.delete("${apiV1Path}/${userId}"))
@@ -32,7 +32,7 @@ class DeleteUserByIdTest(
 
     @Test
     fun givenUserDoesntExist_whenDeleteUserById_thenReturnsStatus404() {
-        val absentUserId = 10
+        val absentUserId = 10L
         every { service.removeUserById(absentUserId) } returns null
 
         mockMvc.perform(MockMvcRequestBuilders.delete("${apiV1Path}/${absentUserId}"))

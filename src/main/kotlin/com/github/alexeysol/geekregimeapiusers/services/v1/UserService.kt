@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregimeapiusers.services.v1
 
-import com.github.alexeysol.geekregimeapiusers.dtos.CreateUserDto
-import com.github.alexeysol.geekregimeapiusers.entities.User
+import com.github.alexeysol.geekregimeapiusers.models.dtos.CreateUserDto
+import com.github.alexeysol.geekregimeapiusers.models.entities.User
 import com.github.alexeysol.geekregimeapiusers.repositories.UserRepository
 import org.springframework.data.repository.findByIdOrNull
 import org.springframework.stereotype.Service
@@ -12,9 +12,11 @@ class UserService(
     val db: UserRepository,
     val credentialsService: CredentialsService
 ) {
-    fun findAllUsers(): List<User> = db.findAllUsers()
+    fun findAllUsers(): Iterable<User> = db.findAll()
 
-    fun findUserById(id: Int): User? = db.findByIdOrNull(id)
+    fun findAllUsersById(ids: List<Long>): Iterable<User> = db.findAllById(ids)
+
+    fun findUserById(id: Long): User? = db.findByIdOrNull(id)
 
     @Transactional
     fun createUser(dto: CreateUserDto): User {
@@ -34,10 +36,10 @@ class UserService(
         }
     }
 
-    fun removeUserById(id: Int): Int? {
+    fun removeUserById(id: Long): Long? {
         val deletedRowCount = db.removeUserById(id)
         val userIsDeleted = deletedRowCount > 0
-        return if (userIsDeleted) id else null
+        return if (userIsDeleted) id else -1
     }
 
     fun userAlreadyExists(email: String): Boolean = db.existsUserByEmail(email)

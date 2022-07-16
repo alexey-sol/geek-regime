@@ -1,4 +1,4 @@
-package com.github.alexeysol.geekregimeapiusers.entities
+package com.github.alexeysol.geekregimeapiusers.models.entities
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.github.alexeysol.geekregimeapiusers.constants.DatabaseConstants as Constants
@@ -19,7 +19,7 @@ data class User(
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    val id: Int? = null,
+    val id: Long? = null,
 
     @Column(nullable = false, unique = true, length = 255)
     @field:NotEmpty(message = "Email is required")

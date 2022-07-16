@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregimeapiusers.services.v1
 
-import com.github.alexeysol.geekregimeapiusers.entities.Credentials
-import com.github.alexeysol.geekregimeapiusers.entities.User
+import com.github.alexeysol.geekregimeapiusers.models.entities.Credentials
+import com.github.alexeysol.geekregimeapiusers.models.entities.User
 import com.github.alexeysol.geekregimeapiusers.repositories.CredentialsRepository
 import com.github.alexeysol.geekregimeapiusers.utils.Security
 import org.springframework.stereotype.Service

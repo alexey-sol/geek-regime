@@ -1,4 +1,4 @@
-package com.github.alexeysol.geekregimeapiusers.entities
+package com.github.alexeysol.geekregimeapiusers.models.entities
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.hibernate.annotations.OnDelete
@@ -27,7 +27,7 @@ data class Credentials(
     @Column(name = "user_id", nullable = false)
     @Id
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    val userId: Int? = null,
+    val userId: Long? = null,
 ) {
     override fun equals(other: Any?): Boolean {
         if (this === other) return true
@@ -40,5 +40,5 @@ data class Credentials(
         return true
     }
 
-    override fun hashCode(): Int = userId ?: 0
+    override fun hashCode(): Int = userId?.hashCode() ?: 0
 }
