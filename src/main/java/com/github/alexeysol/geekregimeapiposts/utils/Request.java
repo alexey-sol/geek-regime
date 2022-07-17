@@ -52,7 +52,7 @@ public class Request {
         return response.get().body();
     }
 
-    public Request addPathVariable(int pathVariable) {
+    public Request addPathVariable(long pathVariable) {
         return addPathVariable(String.valueOf(pathVariable));
     }
 
@@ -65,19 +65,22 @@ public class Request {
         return this;
     }
 
-    public Request addIntegerQueryParams(List<Integer> items) {
-        List<String> itemsAsStrings = new ArrayList<>();
-
-        for (int item : items) {
-            itemsAsStrings.add(String.valueOf(item));
-        }
-
-        return addStringQueryParams(itemsAsStrings);
-    }
-
-    public Request addStringQueryParams(List<String> items) {
+    public Request addQueryParams(List<?> items) {
         Assert.isNull(httpRequest, "Request is already done; add query params before making request");
 
+        List<String> stringifiedItems = new ArrayList<>();
+
+        for (Object item : items) {
+            stringifiedItems.add(String.valueOf(item));
+        }
+
+        String queryParams = getQueryParams(stringifiedItems);
+        url += queryParams;
+
+        return this;
+    }
+
+    private String getQueryParams(List<String> items) {
         StringBuilder queryParams = new StringBuilder();
 
         for (String item : items) {
@@ -87,7 +90,6 @@ public class Request {
             hasQueryParams = true;
         }
 
-        url += queryParams.toString();
-        return this;
+        return queryParams.toString();
     }
 }

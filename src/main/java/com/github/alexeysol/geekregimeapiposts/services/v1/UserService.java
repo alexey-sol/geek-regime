@@ -1,9 +1,11 @@
 package com.github.alexeysol.geekregimeapiposts.services.v1;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.github.alexeysol.geekregimeapiposts.ApiUsersSourceResolver;
-import com.github.alexeysol.geekregimeapiposts.mappers.User;
+import com.github.alexeysol.geekregimeapiposts.exceptions.BaseApiPostsException;
+import com.github.alexeysol.geekregimeapiposts.exceptions.ResourceNotFoundException;
+import com.github.alexeysol.geekregimeapiposts.models.mappers.User;
+import com.github.alexeysol.geekregimeapiposts.utils.Json;
 import com.github.alexeysol.geekregimeapiposts.utils.Request;
 import org.springframework.stereotype.Service;
 
@@ -17,16 +19,16 @@ public class UserService {
         this.sourceResolver = sourceResolver;
     }
 
-    public List<User> getAllUsers(List<Integer> ids) {
+    public List<User> getAllUsers(List<Long> ids) {
         List<User> users;
 
         try {
             Request request = new Request(getApiUsersUrl());
-            String usersJson = request.addIntegerQueryParams(ids)
+            String usersJson = request.addQueryParams(ids)
                 .get()
                 .getResult();
-            ObjectMapper mapper = new ObjectMapper();
-            users = mapper.readValue(usersJson, new TypeReference<>() {});
+
+            users = Json.parse(usersJson, new TypeReference<>() {});
         } catch (IllegalArgumentException e) {
             throw e;
         } catch (Exception e) {
@@ -36,7 +38,7 @@ public class UserService {
         return users;
     }
 
-    public User getUser(int id) {
+    public User getUser(long id) throws BaseApiPostsException {
         User user;
 
         try {
@@ -44,9 +46,9 @@ public class UserService {
             String userJson = request.addPathVariable(id)
                 .get()
                 .getResult();
-            ObjectMapper mapper = new ObjectMapper();
-            user = mapper.readValue(userJson, User.class);
-        } catch (IllegalArgumentException e) {
+
+            user = Json.parse(userJson, User.class);
+        } catch (IllegalArgumentException | BaseApiPostsException e) {
             throw e;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());

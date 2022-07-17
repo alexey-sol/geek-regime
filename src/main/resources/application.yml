@@ -19,7 +19,7 @@ server:
     port: ${API_POSTS_PORT:3002}
 
 api-posts:
-    prefix: ${API_POSTS_PREFIX:api} # TODO remove leading "/" everywhere (api-users)
+    prefix: ${API_POSTS_PREFIX:api}
     resource: ${API_POSTS_RESOURCE:posts}
 
 api-users:

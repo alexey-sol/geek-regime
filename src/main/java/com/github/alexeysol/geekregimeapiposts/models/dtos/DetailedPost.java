@@ -1,7 +1,7 @@
-package com.github.alexeysol.geekregimeapiposts.dtos;
+package com.github.alexeysol.geekregimeapiposts.models.dtos;
 
-import com.github.alexeysol.geekregimeapiposts.entities.Post;
-import com.github.alexeysol.geekregimeapiposts.mappers.User;
+import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
+import com.github.alexeysol.geekregimeapiposts.models.mappers.User;
 
 public class DetailedPost {
     public Post post;

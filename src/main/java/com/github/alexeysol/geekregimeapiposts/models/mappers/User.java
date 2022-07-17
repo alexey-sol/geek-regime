@@ -1,15 +1,15 @@
-package com.github.alexeysol.geekregimeapiposts.mappers;
+package com.github.alexeysol.geekregimeapiposts.models.mappers;
 
 import java.util.Date;
 
 public class User {
-    private Integer id;
+    private long id;
     private String email;
     private Date createdAt;
     private Date updatedAt;
     private UserDetails details;
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 

@@ -1,8 +1,8 @@
 package com.github.alexeysol.geekregimeapiposts.services.v1;
 
-import com.github.alexeysol.geekregimeapiposts.dtos.DetailedPost;
-import com.github.alexeysol.geekregimeapiposts.entities.Post;
-import com.github.alexeysol.geekregimeapiposts.mappers.User;
+import com.github.alexeysol.geekregimeapiposts.models.dtos.DetailedPost;
+import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
+import com.github.alexeysol.geekregimeapiposts.models.mappers.User;
 import com.github.alexeysol.geekregimeapiposts.repositories.PostRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -28,11 +28,11 @@ public class PostService {
         return db.findAll();
     }
 
-    public Iterable<Post> findAllPostsById(List<Integer> ids) {
+    public Iterable<Post> findAllPostsById(List<Long> ids) {
         return db.findAllById(ids);
     }
 
-    public Optional<Post> findPostById(int id) {
+    public Optional<Post> findPostById(long id) {
         return db.findById(id);
     }
 
@@ -47,7 +47,7 @@ public class PostService {
         return db.save(dto);
     }
 
-    public int removePostById(int id) {
+    public long removePostById(long id) {
         int deletedRowCount = db.removePostById(id);
         boolean postIsDeleted = deletedRowCount > 0;
 
@@ -55,7 +55,7 @@ public class PostService {
             return id;
         }
 
-        return -1;
+        return -1L;
     }
 
     public boolean postAlreadyExists(String slug) {
@@ -63,20 +63,20 @@ public class PostService {
     }
 
     public List<DetailedPost> convertPostsToDetailedPosts(Iterable<Post> posts) {
-        List<Integer> authorIds = new ArrayList<>();
+        List<Long> authorIds = new ArrayList<>();
 
         for (Post post : posts) {
             authorIds.add(post.getUserId());
         }
 
-        Map<Integer, User> mapAuthorIdToAuthor = userService.getAllUsers(authorIds)
+        Map<Long, User> mapAuthorIdToAuthor = userService.getAllUsers(authorIds)
             .stream()
             .collect(Collectors.toMap(User::getId, Function.identity()));
 
         List<DetailedPost> detailedPosts = new ArrayList<>();
 
         for (Post post : posts) {
-            int authorId = post.getUserId();
+            long authorId = post.getUserId();
             User author = mapAuthorIdToAuthor.get(authorId);
             detailedPosts.add(new DetailedPost(post, author));
         }

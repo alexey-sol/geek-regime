@@ -1,9 +1,9 @@
 package com.github.alexeysol.geekregimeapiposts.controllers.v1;
 
 import com.github.alexeysol.geekregimeapiposts.constants.PathConstants;
-import com.github.alexeysol.geekregimeapiposts.mappers.User;
-import com.github.alexeysol.geekregimeapiposts.entities.Post;
-import com.github.alexeysol.geekregimeapiposts.dtos.DetailedPost;
+import com.github.alexeysol.geekregimeapiposts.models.mappers.User;
+import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
+import com.github.alexeysol.geekregimeapiposts.models.dtos.DetailedPost;
 import com.github.alexeysol.geekregimeapiposts.exceptions.PostNotFoundException;
 import com.github.alexeysol.geekregimeapiposts.services.v1.UserService;
 import com.github.alexeysol.geekregimeapiposts.services.v1.PostService;
@@ -29,7 +29,7 @@ public class PostController {
     }
 
     @GetMapping
-    List<DetailedPost> getAllPosts(@RequestParam Optional<List<Integer>> ids) {
+    List<DetailedPost> getAllPosts(@RequestParam Optional<List<Long>> ids) {
         Iterable<Post> posts = ids.isPresent()
             ? postService.findAllPostsById(ids.get())
             : postService.findAllPosts();
@@ -38,7 +38,7 @@ public class PostController {
     }
 
     @GetMapping("{id}")
-    DetailedPost getPostById(@PathVariable int id) throws PostNotFoundException {
+    DetailedPost getPostById(@PathVariable long id) throws PostNotFoundException {
         Optional<Post> post = postService.findPostById(id);
 
         if (post.isEmpty()) {
@@ -58,8 +58,8 @@ public class PostController {
     }
 
     @DeleteMapping("{id}")
-    int deletePostById(@PathVariable int id) throws PostNotFoundException {
-        int result = postService.removePostById(id);
+    long deletePostById(@PathVariable long id) throws PostNotFoundException {
+        long result = postService.removePostById(id);
         boolean postIsDeleted = result != -1;
 
         if (postIsDeleted) {

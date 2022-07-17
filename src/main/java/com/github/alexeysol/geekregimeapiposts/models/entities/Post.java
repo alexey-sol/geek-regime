@@ -1,4 +1,4 @@
-package com.github.alexeysol.geekregimeapiposts.entities;
+package com.github.alexeysol.geekregimeapiposts.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.alexeysol.geekregimeapiposts.constants.DatabaseConstants;
@@ -19,14 +19,14 @@ public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
-    private Integer id;
+    private long id;
 
     @Column(name = "user_id", nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Integer userId;
+    private long userId;
 
     @Column(name = "space_id", nullable = false)
-    private Integer spaceId;
+    private long spaceId;
 
     @Column(nullable = false)
     @Size(min = 1, message = "Title must not be blank")
@@ -49,11 +49,11 @@ public class Post {
     @LastModifiedDate
     private Instant updatedAt;
 
-    public Integer getId() {
+    public long getId() {
         return id;
     }
 
-    public Integer getUserId() {
+    public long getUserId() {
         return userId;
     }
 
@@ -77,11 +77,11 @@ public class Post {
         return updatedAt;
     }
 
-    public void setUserId(Integer userId) {
+    public void setUserId(long userId) {
         this.userId = userId;
     }
 
-    public void setSpaceId(Integer spaceId) {
+    public void setSpaceId(long spaceId) {
         this.spaceId = spaceId;
     }
 
