@@ -1,38 +1,58 @@
 package com.github.alexeysol.geekregimeapiposts.exceptions;
 
+import com.github.alexeysol.geekregimeapiposts.models.ApiResource;
+import com.github.alexeysol.geekregimeapiposts.models.ApiResourceExceptionCode;
 import com.github.alexeysol.geekregimeapiposts.utils.Pair;
 
 public abstract class BaseApiPostsException extends RuntimeException {
+    private ApiResource resource = null;
+    private ApiResourceExceptionCode code = null;
     private Pair<String, String> invalidKeyValuePair = null;
-
-    public BaseApiPostsException(
-        String message,
-        Pair<String, String> invalidKeyValuePair
-    ) {
-        super(message);
-        this.invalidKeyValuePair = invalidKeyValuePair;
-    }
 
     public BaseApiPostsException(String message) {
         super(message);
     }
 
-    public BaseApiPostsException(Pair<String, String> invalidKeyValuePair) {
+    public BaseApiPostsException(
+        ApiResource resource,
+        ApiResourceExceptionCode code,
+        Pair<String, String> invalidKeyValuePair
+    ) {
+        this(resource, code);
         this.invalidKeyValuePair = invalidKeyValuePair;
     }
 
-    private String getExtraInfoIfAvailable() {
+    public BaseApiPostsException(
+        ApiResource resource,
+        ApiResourceExceptionCode code
+    ) {
+        this.resource = resource;
+        this.code = code;
+    }
+
+    private String createDetailsIfPossible() {
         if (invalidKeyValuePair == null) {
             return "";
         }
 
         String key = invalidKeyValuePair.key();
         String value = invalidKeyValuePair.value();
-        return String.format(", provided %s = %s", key, value);
+        return String.format("%s=%s", key, value);
     }
 
     @Override
     public String getMessage() {
-        return String.format("%s%s", super.getMessage(), getExtraInfoIfAvailable());
+        if (code == null) {
+            return super.getMessage();
+        }
+
+        String message = String.format("%s/%s", resource, code);
+        String details = createDetailsIfPossible();
+
+        if (!details.isEmpty()) {
+            message = String.format("%s/%s", message, details);
+        }
+
+        return message;
     }
 }

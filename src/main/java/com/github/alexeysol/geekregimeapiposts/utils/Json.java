@@ -14,9 +14,9 @@ import java.util.Map;
 public class Json {
     private static final ObjectMapper mapper = new ObjectMapper();
 
-    private static final String ERROR = "error";
-    private static final String MESSAGE = "message";
-    private static final String STATUS = "status";
+    private static final String ERROR_FIELD = "error";
+    private static final String MESSAGE_FIELD = "message";
+    private static final String STATUS_FIELD = "status";
 
     public static <Content> Content parse(
         String json,
@@ -51,21 +51,21 @@ public class Json {
     }
 
     private static String getMessageIfExists(Map<String, Object> map) {
-        return map.containsKey(MESSAGE)
-            ? map.get(MESSAGE).toString()
+        return map.containsKey(MESSAGE_FIELD)
+            ? map.get(MESSAGE_FIELD).toString()
             : "";
     }
 
     private static boolean isNotFoundError(Map<String, Object> map) {
         int notFoundValue = HttpStatus.NOT_FOUND.value();
-        return isApiError(map) && map.get(STATUS).equals(notFoundValue);
+        return isApiError(map) && map.get(STATUS_FIELD).equals(notFoundValue);
     }
 
     private static boolean isApiError(Map<String, Object> map) {
         return (
-            map.containsKey(ERROR) &&
-            map.containsKey(MESSAGE) &&
-            map.containsKey(STATUS)
+            map.containsKey(ERROR_FIELD) &&
+            map.containsKey(MESSAGE_FIELD) &&
+            map.containsKey(STATUS_FIELD)
         );
     }
 }

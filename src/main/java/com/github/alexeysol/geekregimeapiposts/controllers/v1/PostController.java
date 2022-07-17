@@ -1,10 +1,11 @@
 package com.github.alexeysol.geekregimeapiposts.controllers.v1;
 
 import com.github.alexeysol.geekregimeapiposts.constants.PathConstants;
+import com.github.alexeysol.geekregimeapiposts.models.ApiResource;
 import com.github.alexeysol.geekregimeapiposts.models.mappers.User;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.DetailedPost;
-import com.github.alexeysol.geekregimeapiposts.exceptions.PostNotFoundException;
+import com.github.alexeysol.geekregimeapiposts.exceptions.ResourceNotFoundException;
 import com.github.alexeysol.geekregimeapiposts.services.v1.UserService;
 import com.github.alexeysol.geekregimeapiposts.services.v1.PostService;
 import org.springframework.validation.annotation.Validated;
@@ -38,11 +39,11 @@ public class PostController {
     }
 
     @GetMapping("{id}")
-    DetailedPost getPostById(@PathVariable long id) throws PostNotFoundException {
+    DetailedPost getPostById(@PathVariable long id) throws ResourceNotFoundException {
         Optional<Post> post = postService.findPostById(id);
 
         if (post.isEmpty()) {
-            throw new PostNotFoundException(id);
+            throw new ResourceNotFoundException(ApiResource.POST, id);
         }
 
         User author = userService.getUser(post.get().getUserId());
@@ -58,7 +59,7 @@ public class PostController {
     }
 
     @DeleteMapping("{id}")
-    long deletePostById(@PathVariable long id) throws PostNotFoundException {
+    long deletePostById(@PathVariable long id) throws ResourceNotFoundException {
         long result = postService.removePostById(id);
         boolean postIsDeleted = result != -1;
 
@@ -66,6 +67,6 @@ public class PostController {
             return result;
         }
 
-        throw new PostNotFoundException(id);
+        throw new ResourceNotFoundException(ApiResource.POST, id);
     }
 }

@@ -3,7 +3,6 @@ package com.github.alexeysol.geekregimeapiposts.services.v1;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.alexeysol.geekregimeapiposts.ApiUsersSourceResolver;
 import com.github.alexeysol.geekregimeapiposts.exceptions.BaseApiPostsException;
-import com.github.alexeysol.geekregimeapiposts.exceptions.ResourceNotFoundException;
 import com.github.alexeysol.geekregimeapiposts.models.mappers.User;
 import com.github.alexeysol.geekregimeapiposts.utils.Json;
 import com.github.alexeysol.geekregimeapiposts.utils.Request;
