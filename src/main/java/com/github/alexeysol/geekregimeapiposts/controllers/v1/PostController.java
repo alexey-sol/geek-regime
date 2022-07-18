@@ -1,11 +1,11 @@
 package com.github.alexeysol.geekregimeapiposts.controllers.v1;
 
+import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException;
+import com.github.alexeysol.geekregimeapicommons.models.ApiResource;
 import com.github.alexeysol.geekregimeapiposts.constants.PathConstants;
-import com.github.alexeysol.geekregimeapiposts.models.ApiResource;
 import com.github.alexeysol.geekregimeapiposts.models.mappers.User;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.DetailedPost;
-import com.github.alexeysol.geekregimeapiposts.exceptions.ResourceNotFoundException;
 import com.github.alexeysol.geekregimeapiposts.services.v1.UserService;
 import com.github.alexeysol.geekregimeapiposts.services.v1.PostService;
 import org.springframework.validation.annotation.Validated;

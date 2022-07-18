@@ -1,11 +1,11 @@
 package com.github.alexeysol.geekregimeapiposts.services.v1;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.github.alexeysol.geekregimeapicommons.exceptions.BaseApiPostsException;
+import com.github.alexeysol.geekregimeapicommons.utils.Json;
+import com.github.alexeysol.geekregimeapicommons.utils.Request;
 import com.github.alexeysol.geekregimeapiposts.ApiUsersSourceResolver;
-import com.github.alexeysol.geekregimeapiposts.exceptions.BaseApiPostsException;
 import com.github.alexeysol.geekregimeapiposts.models.mappers.User;
-import com.github.alexeysol.geekregimeapiposts.utils.Json;
-import com.github.alexeysol.geekregimeapiposts.utils.Request;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -37,7 +37,7 @@ public class UserService {
         return users;
     }
 
-    public User getUser(long id) throws BaseApiPostsException {
+    public User getUser(long id) throws IllegalArgumentException, BaseApiPostsException {
         User user;
 
         try {
