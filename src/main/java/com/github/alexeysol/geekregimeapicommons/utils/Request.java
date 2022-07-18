@@ -68,13 +68,13 @@ public class Request {
     public Request addQueryParams(List<?> items) {
         Assert.isNull(httpRequest, "Request is already done; add query params before making request");
 
-        List<String> stringifiedItems = new ArrayList<>();
+        List<String> itemsAsStrings = new ArrayList<>();
 
         for (Object item : items) {
-            stringifiedItems.add(String.valueOf(item));
+            itemsAsStrings.add(String.valueOf(item));
         }
 
-        String queryParams = getQueryParams(stringifiedItems);
+        String queryParams = getQueryParams(itemsAsStrings);
         url += queryParams;
 
         return this;
