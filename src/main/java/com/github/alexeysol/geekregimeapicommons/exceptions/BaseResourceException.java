@@ -4,25 +4,25 @@ import com.github.alexeysol.geekregimeapicommons.models.ApiResource;
 import com.github.alexeysol.geekregimeapicommons.models.ApiResourceExceptionCode;
 import com.github.alexeysol.geekregimeapicommons.models.Pair;
 
-public abstract class BaseApiPostsException extends RuntimeException {
+public abstract class BaseResourceException extends RuntimeException {
     private ApiResource resource = null;
     private ApiResourceExceptionCode code = null;
-    private Pair<String, String> invalidKeyValuePair = null;
+    private Pair<String, String> keyValuePairCausedException = null;
 
-    public BaseApiPostsException(String message) {
+    public BaseResourceException(String message) {
         super(message);
     }
 
-    public BaseApiPostsException(
+    public BaseResourceException(
         ApiResource resource,
         ApiResourceExceptionCode code,
-        Pair<String, String> invalidKeyValuePair
+        Pair<String, String> keyValuePairCausedException
     ) {
         this(resource, code);
-        this.invalidKeyValuePair = invalidKeyValuePair;
+        this.keyValuePairCausedException = keyValuePairCausedException;
     }
 
-    public BaseApiPostsException(
+    public BaseResourceException(
         ApiResource resource,
         ApiResourceExceptionCode code
     ) {
@@ -31,12 +31,12 @@ public abstract class BaseApiPostsException extends RuntimeException {
     }
 
     private String createDetailsIfPossible() {
-        if (invalidKeyValuePair == null) {
+        if (keyValuePairCausedException == null) {
             return "";
         }
 
-        String key = invalidKeyValuePair.key();
-        String value = invalidKeyValuePair.value();
+        String key = keyValuePairCausedException.key();
+        String value = keyValuePairCausedException.value();
         return String.format("%s=%s", key, value);
     }
 
