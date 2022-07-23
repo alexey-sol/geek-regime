@@ -1,5 +1,6 @@
 package com.github.alexeysol.geekregimeapiposts.controllers.v1;
 
+import com.github.alexeysol.geekregimeapicommons.exceptions.BaseResourceException;
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException;
 import com.github.alexeysol.geekregimeapicommons.models.ApiResource;
 import com.github.alexeysol.geekregimeapiposts.constants.PathConstants;
@@ -39,27 +40,28 @@ public class PostController {
     }
 
     @GetMapping("{id}")
-    DetailedPost getPostById(@PathVariable long id) throws ResourceNotFoundException {
+    DetailedPost getPostById(@PathVariable long id) throws BaseResourceException {
         Optional<Post> post = postService.findPostById(id);
 
         if (post.isEmpty()) {
             throw new ResourceNotFoundException(ApiResource.POST, id);
         }
 
-        User author = userService.getUser(post.get().getUserId());
+        long authorId = post.get().getUserId();
+        User author = userService.getUser(authorId);
         return new DetailedPost(post.get(), author);
     }
 
     @PostMapping
     DetailedPost postPost(@RequestBody @Valid Post dto) {
-        User author = userService.getUser(dto.getUserId());
-        // TODO throw UserNotFound if user == null
+        long authorId = dto.getUserId();
+        User author = userService.getUser(authorId);
         postService.createPost(dto);
         return new DetailedPost(dto, author);
     }
 
     @DeleteMapping("{id}")
-    long deletePostById(@PathVariable long id) throws ResourceNotFoundException {
+    long deletePostById(@PathVariable long id) throws BaseResourceException {
         long result = postService.removePostById(id);
         boolean postIsDeleted = result != -1;
 

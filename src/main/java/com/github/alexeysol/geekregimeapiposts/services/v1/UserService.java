@@ -1,10 +1,11 @@
 package com.github.alexeysol.geekregimeapiposts.services.v1;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.github.alexeysol.geekregimeapicommons.exceptions.BaseApiPostsException;
+import com.github.alexeysol.geekregimeapicommons.exceptions.BaseResourceException;
 import com.github.alexeysol.geekregimeapicommons.utils.Json;
 import com.github.alexeysol.geekregimeapicommons.utils.Request;
-import com.github.alexeysol.geekregimeapiposts.ApiUsersSourceResolver;
+import com.github.alexeysol.geekregimeapiposts.sources.ApiUsersSourceResolver;
+import com.github.alexeysol.geekregimeapiposts.constants.PathConstants;
 import com.github.alexeysol.geekregimeapiposts.models.mappers.User;
 import org.springframework.stereotype.Service;
 
@@ -37,7 +38,7 @@ public class UserService {
         return users;
     }
 
-    public User getUser(long id) throws IllegalArgumentException, BaseApiPostsException {
+    public User getUser(long id) throws IllegalArgumentException, BaseResourceException {
         User user;
 
         try {
@@ -47,7 +48,7 @@ public class UserService {
                 .getResult();
 
             user = Json.parse(userJson, User.class);
-        } catch (IllegalArgumentException | BaseApiPostsException e) {
+        } catch (IllegalArgumentException | BaseResourceException e) {
             throw e;
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage());
@@ -57,12 +58,8 @@ public class UserService {
     }
 
     private String getApiUsersUrl() {
-        return getApiUsersUrl(1);
-    }
-
-    private String getApiUsersUrl(int apiVersion) {
         String baseUrl = sourceResolver.getBaseUrl();
-        String apiPath = sourceResolver.getApiPath(apiVersion);
-        return String.format("%s/%s", baseUrl, apiPath);
+        String apiPath = sourceResolver.getApiPath(PathConstants.V1);
+        return baseUrl + apiPath;
     }
 }

@@ -19,6 +19,7 @@ server:
     port: ${API_POSTS_PORT:3002}
 
 api-posts:
+    base-url: http://${API_POSTS_HOST}:${API_POSTS_PORT}
     prefix: ${API_POSTS_PREFIX:api}
     resource: ${API_POSTS_RESOURCE:posts}
 
