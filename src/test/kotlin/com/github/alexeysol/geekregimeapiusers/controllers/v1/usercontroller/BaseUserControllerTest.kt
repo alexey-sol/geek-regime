@@ -1,6 +1,7 @@
 package com.github.alexeysol.geekregimeapiusers.controllers.v1.usercontroller
 
-import com.github.alexeysol.geekregimeapiusers.ApiUsersSourceResolver
+import com.github.alexeysol.geekregimeapiusers.constants.PathConstants as Constants
+import com.github.alexeysol.geekregimeapiusers.sources.ApiUsersSourceResolver
 import com.github.alexeysol.geekregimeapiusers.services.v1.UserService
 import com.ninjasquad.springmockk.MockkBean
 import org.springframework.beans.factory.annotation.Autowired
@@ -13,11 +14,11 @@ internal const val VALIDATION_FAILED_MESSAGE = "Validation failed"
 @SpringBootTest
 @AutoConfigureMockMvc
 abstract class BaseUserControllerTest(
-    @Autowired final val mockMvc: MockMvc,
-    @Autowired final val sourceResolver: ApiUsersSourceResolver
+    @Autowired val mockMvc: MockMvc,
+    @Autowired val sourceResolver: ApiUsersSourceResolver
 ) {
     @MockkBean
     lateinit var service: UserService
 
-    protected val apiV1Path = sourceResolver.getApiPath(1)
+    protected val apiV1Path = sourceResolver.getApiPath(Constants.V1)
 }

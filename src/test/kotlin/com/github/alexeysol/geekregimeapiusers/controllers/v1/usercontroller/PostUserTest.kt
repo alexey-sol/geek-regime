@@ -1,12 +1,11 @@
 package com.github.alexeysol.geekregimeapiusers.controllers.v1.usercontroller
 
-import com.fasterxml.jackson.databind.exc.InvalidFormatException
-import com.github.alexeysol.geekregimeapiusers.ApiUsersSourceResolver
-import com.github.alexeysol.geekregimeapiusers.constants.ExceptionMessageConstants
+import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceAlreadyExistsException
+import com.github.alexeysol.geekregimeapicommons.models.ApiResourceExceptionCode
+import com.github.alexeysol.geekregimeapiusers.sources.ApiUsersSourceResolver
 import com.github.alexeysol.geekregimeapiusers.models.dtos.CreateUserDto
 import com.github.alexeysol.geekregimeapiusers.models.entities.Details
 import com.github.alexeysol.geekregimeapiusers.models.entities.User
-import com.github.alexeysol.geekregimeapiusers.exceptions.UserAlreadyExistsException
 import com.github.alexeysol.geekregimeapiusers.mockPostRequest
 import com.github.alexeysol.geekregimeapiusers.objectToJsonString
 import io.mockk.every
@@ -157,12 +156,12 @@ class PostUserTest(
         mockMvc.perform(mockPostRequest(apiV1Path, dto))
             .andExpect(MockMvcResultMatchers.status().isConflict)
             .andExpect { result ->
-                Assertions.assertTrue(result.resolvedException is UserAlreadyExistsException)
+                Assertions.assertTrue(result.resolvedException is ResourceAlreadyExistsException)
             }
             .andExpect { result ->
                 MatcherAssert.assertThat(
                     result.resolvedException?.message,
-                    CoreMatchers.containsString(ExceptionMessageConstants.USER_ALREADY_EXISTS)
+                    CoreMatchers.containsString(ApiResourceExceptionCode.ALREADY_EXISTS.toString())
                 )
             }
     }

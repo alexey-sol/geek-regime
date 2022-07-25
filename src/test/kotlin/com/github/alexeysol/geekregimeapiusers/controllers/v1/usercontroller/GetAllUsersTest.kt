@@ -1,6 +1,6 @@
 package com.github.alexeysol.geekregimeapiusers.controllers.v1.usercontroller
 
-import com.github.alexeysol.geekregimeapiusers.ApiUsersSourceResolver
+import com.github.alexeysol.geekregimeapiusers.sources.ApiUsersSourceResolver
 import com.github.alexeysol.geekregimeapiusers.models.entities.User
 import com.github.alexeysol.geekregimeapiusers.objectToJsonString
 import com.jayway.jsonpath.JsonPath

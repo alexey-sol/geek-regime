@@ -1,9 +1,9 @@
 package com.github.alexeysol.geekregimeapiusers.controllers.v1.usercontroller
 
-import com.github.alexeysol.geekregimeapiusers.ApiUsersSourceResolver
-import com.github.alexeysol.geekregimeapiusers.constants.ExceptionMessageConstants
+import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException
+import com.github.alexeysol.geekregimeapicommons.models.ApiResourceExceptionCode
+import com.github.alexeysol.geekregimeapiusers.sources.ApiUsersSourceResolver
 import com.github.alexeysol.geekregimeapiusers.models.entities.User
-import com.github.alexeysol.geekregimeapiusers.exceptions.UserNotFoundException
 import com.github.alexeysol.geekregimeapiusers.objectToJsonString
 import io.mockk.every
 import org.hamcrest.CoreMatchers
@@ -46,12 +46,12 @@ class GetUserByIdTest(
         mockMvc.perform(MockMvcRequestBuilders.get("${apiV1Path}/${absentUserId}"))
             .andExpect(MockMvcResultMatchers.status().isNotFound)
             .andExpect { result ->
-                Assertions.assertTrue(result.resolvedException is UserNotFoundException)
+                Assertions.assertTrue(result.resolvedException is ResourceNotFoundException)
             }
             .andExpect { result ->
                 MatcherAssert.assertThat(
                     result.resolvedException?.message,
-                    CoreMatchers.containsString(ExceptionMessageConstants.USER_NOT_FOUND)
+                    CoreMatchers.containsString(ApiResourceExceptionCode.NOT_FOUND.toString())
                 )
             }
     }
