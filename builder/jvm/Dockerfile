@@ -1,0 +1,22 @@
+ARG API_COMMONS_VERSION
+ARG API_COMMONS_REPOSITORY=geek-regime-api-commons
+
+FROM eggziom/$API_COMMONS_REPOSITORY:$API_COMMONS_VERSION AS api-commons
+
+FROM maven:3.8.5-openjdk-17-slim
+
+ARG REPOSITORY
+ARG API_COMMONS_VERSION
+ARG API_COMMONS_REPOSITORY
+ARG API_COMMONS_FROM=/api-commons/target/$API_COMMONS_REPOSITORY-$API_COMMONS_VERSION.jar
+ARG API_COMMONS_TO=/root/.m2/repository/com/github/alexeysol/$API_COMMONS_REPOSITORY/$API_COMMONS_VERSION
+
+RUN mkdir -p $API_COMMONS_TO
+COPY --from=api-commons $API_COMMONS_FROM $API_COMMONS_TO
+
+WORKDIR /app
+
+COPY ./$REPOSITORY/pom.xml ./pom.xml
+RUN mvn dependency:go-offline -B
+COPY ./$REPOSITORY/src ./src
+RUN mvn package -Dmaven.test.skip

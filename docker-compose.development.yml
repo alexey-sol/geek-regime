@@ -2,7 +2,7 @@ version: "3.9"
 
 services:
     api-gateway:
-        container_name: geek-regime_api-gateway_dev
+        container_name: geek-regime-api-gateway_dev
         ports:
             - ${API_GATEWAY_PORT_DEBUG}:${API_GATEWAY_PORT_DEBUG}
         build:
@@ -13,8 +13,42 @@ services:
             - ../geek-regime-api-gateway:/app
           # - /app/node_modules
 
+    api-users:
+        container_name: geek-regime-api-users_dev
+        build:
+            context: ../
+            dockerfile: $PWD/builder/jvm/Dockerfile
+            args:
+                API_COMMONS_VERSION: 0.0.1-SNAPSHOT # [1]
+                REPOSITORY: geek-regime-api-users
+        command: mvn spring-boot:run
+#        volumes:
+#            - ${HOME}/.m2:/root/.m2
+
+    api-posts:
+        container_name: geek-regime-api-posts_dev
+        build:
+            context: ../
+            dockerfile: $PWD/builder/jvm/Dockerfile
+            args:
+                API_COMMONS_VERSION: 0.0.1-SNAPSHOT # [1]
+                REPOSITORY: geek-regime-api-posts
+        command: mvn spring-boot:run
+#        volumes:
+#            - ${HOME}/.m2:/root/.m2
+
+    db-users:
+        container_name: geek-regime-db-users_dev
+        volumes:
+            - db-users-data_dev:${DB_USERS_DATA_PATH}
+
+    db-posts:
+        container_name: geek-regime-db-posts_dev
+        volumes:
+            - db-posts-data_dev:${DB_POSTS_DATA_PATH}
+
     client-web:
-        container_name: geek-regime_client-web_dev
+        container_name: geek-regime-client-web_dev
         build:
             context: ../geek-regime-client-web
             dockerfile: $PWD/builder/client-web/Dockerfile.development
@@ -22,4 +56,12 @@ services:
         volumes:
             - ../geek-regime-client-web:/app
         tty: true
-          # - /app/node_modules
+        # - /app/node_modules
+
+volumes:
+    db-posts-data_dev:
+    db-users-data_dev:
+        driver: local
+
+# [1] Must correspond to an existing tag from the Docker repository:
+# https://hub.docker.com/repository/docker/eggziom/geek-regime-api-commons
