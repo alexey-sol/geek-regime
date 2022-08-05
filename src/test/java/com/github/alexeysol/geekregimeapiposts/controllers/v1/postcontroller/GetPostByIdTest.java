@@ -32,7 +32,7 @@ public class GetPostByIdTest extends BasePostControllerTest {
     }
 
     @Test
-    public void givenPostExist_whenGetPostById_thenReturnsPostWithStatus200()
+    public void givenPostAndAuthorExist_whenGetPostById_thenReturnsDetailedPostWithStatus200()
     throws Exception {
         long initialPostId = 1L;
         long initialUserId = 1L;
