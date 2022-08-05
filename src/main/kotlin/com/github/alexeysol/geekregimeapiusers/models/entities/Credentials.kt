@@ -10,7 +10,7 @@ import javax.validation.Valid
 @Entity
 @Table(name = Constants.CREDENTIALS_TABLE)
 data class Credentials(
-    @Column
+    @Column(name = "hashed_password")
     val hashedPassword: ByteArray,
 
     @Column
