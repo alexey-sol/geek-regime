@@ -7,7 +7,7 @@ import com.github.alexeysol.geekregimeapiposts.services.v1.PostService;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-public class BasePostControllerTest {
+public abstract class BasePostControllerTest {
     protected final String VALIDATION_FAILED_MESSAGE = "Validation failed";
 
     protected MockMvc mockMvc;

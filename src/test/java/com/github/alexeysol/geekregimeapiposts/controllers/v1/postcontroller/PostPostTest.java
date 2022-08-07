@@ -38,7 +38,7 @@ public class PostPostTest extends BasePostControllerTest {
         User author = new User();
         Post post = new Post();
         post.setTitle("Test Post");
-        post.setBody("Hello world");
+        post.setBody("Hello World");
         DetailedPost detailedPost = new DetailedPost(post, author);
 
         when(postService.createPost(Mockito.any(Post.class))).thenReturn(post);

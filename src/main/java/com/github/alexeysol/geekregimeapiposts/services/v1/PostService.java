@@ -19,7 +19,7 @@ public class PostService {
     private final PostRepository db;
     private final UserService userService;
 
-    PostService(PostRepository db, UserService userService) {
+    public PostService(PostRepository db, UserService userService) {
         this.db = db;
         this.userService = userService;
     }
