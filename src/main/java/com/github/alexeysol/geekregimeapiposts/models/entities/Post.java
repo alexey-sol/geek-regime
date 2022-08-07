@@ -26,6 +26,7 @@ public class Post {
     private long userId;
 
     @Column(name = "space_id", nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private long spaceId;
 
     @Column(nullable = false)
@@ -55,6 +56,10 @@ public class Post {
 
     public long getUserId() {
         return userId;
+    }
+
+    public long getSpaceId() {
+        return spaceId;
     }
 
     public String getTitle() {
@@ -98,7 +103,7 @@ public class Post {
     }
 
     public void generateAndSetSlug() {
-        slug = Slug.generateSlug(title);
+        setSlug(Slug.generateSlug(title));
     }
 
     public void attachSuffixToSlug() {

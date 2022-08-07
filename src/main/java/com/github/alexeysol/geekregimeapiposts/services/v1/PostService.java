@@ -62,7 +62,7 @@ public class PostService {
         return db.existsPostBySlug(slug);
     }
 
-    public List<DetailedPost> convertPostsToDetailedPosts(Iterable<Post> posts) {
+    public List<DetailedPost> convertAllPostsToDetailedPosts(Iterable<Post> posts) {
         List<Long> authorIds = new ArrayList<>();
 
         for (Post post : posts) {
@@ -78,9 +78,19 @@ public class PostService {
         for (Post post : posts) {
             long authorId = post.getUserId();
             User author = mapAuthorIdToAuthor.get(authorId);
-            detailedPosts.add(new DetailedPost(post, author));
+            detailedPosts.add(convertPostToDetailedPost(post, author));
         }
 
         return detailedPosts;
+    }
+
+    public DetailedPost convertPostToDetailedPost(Post post) {
+        long authorId = post.getUserId();
+        User author = userService.getUser(authorId);
+        return convertPostToDetailedPost(post, author);
+    }
+
+    public DetailedPost convertPostToDetailedPost(Post post, User author) {
+        return new DetailedPost(post, author);
     }
 }

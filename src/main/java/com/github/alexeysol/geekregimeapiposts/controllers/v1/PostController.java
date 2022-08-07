@@ -4,10 +4,8 @@ import com.github.alexeysol.geekregimeapicommons.exceptions.BaseResourceExceptio
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException;
 import com.github.alexeysol.geekregimeapicommons.models.ApiResource;
 import com.github.alexeysol.geekregimeapiposts.constants.PathConstants;
-import com.github.alexeysol.geekregimeapiposts.models.mappers.User;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.DetailedPost;
-import com.github.alexeysol.geekregimeapiposts.services.v1.UserService;
 import com.github.alexeysol.geekregimeapiposts.services.v1.PostService;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -23,11 +21,9 @@ import java.util.*;
 @Validated
 public class PostController {
     private final PostService postService;
-    private final UserService userService;
 
-    PostController(PostService postService, UserService userService) {
+    PostController(PostService postService) {
         this.postService = postService;
-        this.userService = userService;
     }
 
     @GetMapping
@@ -36,7 +32,7 @@ public class PostController {
             ? postService.findAllPostsById(ids.get())
             : postService.findAllPosts();
 
-        return postService.convertPostsToDetailedPosts(posts);
+        return postService.convertAllPostsToDetailedPosts(posts);
     }
 
     @GetMapping("{id}")
@@ -47,17 +43,13 @@ public class PostController {
             throw new ResourceNotFoundException(ApiResource.POST, id);
         }
 
-        long authorId = post.get().getUserId();
-        User author = userService.getUser(authorId);
-        return new DetailedPost(post.get(), author);
+        return postService.convertPostToDetailedPost(post.get());
     }
 
     @PostMapping
     DetailedPost postPost(@RequestBody @Valid Post dto) {
-        long authorId = dto.getUserId();
-        User author = userService.getUser(authorId);
-        postService.createPost(dto);
-        return new DetailedPost(dto, author);
+        Post post = postService.createPost(dto);
+        return postService.convertPostToDetailedPost(post);
     }
 
     @DeleteMapping("{id}")
