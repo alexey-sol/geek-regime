@@ -1,0 +1,14 @@
+[
+    {
+        "id": 1,
+        "email": "boobuntu@mail.com",
+        "createdAt": "2021-09-18T19:23:59.064510Z",
+        "updatedAt": "2021-10-11T19:23:59.064510Z"
+    },
+    {
+        "id": 2,
+        "email": "alexius@mail.com",
+        "createdAt": "2021-08-11T19:23:59.054739Z",
+        "updatedAt": null
+    }
+]

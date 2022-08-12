@@ -9,8 +9,6 @@ import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
@@ -24,8 +22,6 @@ import java.util.List;
 
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
-@AutoConfigureMockMvc
 public class GetAllPosts extends BasePostControllerTest {
     private final long initialPostId1 = 1L;
     private final long initialPostId2 = 2L;
@@ -44,12 +40,8 @@ public class GetAllPosts extends BasePostControllerTest {
     @Test
     public void allPostsExist_whenGetAllPosts_thenReturnsDetailedPostListWithStatus200()
     throws Exception {
-        ArrayList<Post> posts = new ArrayList<>();
-        posts.add(post1);
-        posts.add(post2);
-        List<DetailedPost> detailedPosts = new ArrayList<>();
-        detailedPosts.add(detailedPost1);
-        detailedPosts.add(detailedPost2);
+        List<Post> posts = List.of(post1, post2);
+        List<DetailedPost> detailedPosts = List.of(detailedPost1, detailedPost2);
 
         when(postService.findAllPosts()).thenReturn(posts);
         when(postService.convertAllPostsToDetailedPosts(posts)).thenReturn(detailedPosts);
@@ -86,15 +78,9 @@ public class GetAllPosts extends BasePostControllerTest {
     @Test
     public void allPostsExist_whenGetAllPostsById_thenReturnsPostListWithStatus200()
     throws Exception {
-        ArrayList<Post> posts = new ArrayList<>();
-        posts.add(post1);
-        posts.add(post2);
-        List<DetailedPost> detailedPosts = new ArrayList<>();
-        detailedPosts.add(detailedPost1);
-        detailedPosts.add(detailedPost2);
-        List<Long> postIds = new ArrayList<>();
-        postIds.add(initialPostId1);
-        postIds.add(initialPostId2);
+        List<Post> posts = List.of(post1, post2);
+        List<DetailedPost> detailedPosts = List.of(detailedPost1, detailedPost2);
+        List<Long> postIds = List.of(initialPostId1, initialPostId2);
 
         when(postService.findAllPostsById(postIds)).thenReturn(posts);
         when(postService.convertAllPostsToDetailedPosts(posts)).thenReturn(detailedPosts);
@@ -117,14 +103,9 @@ public class GetAllPosts extends BasePostControllerTest {
     throws Exception {
         long absentPostId1 = 10L;
         long absentPostId2 = 11L;
-        ArrayList<Post> posts = new ArrayList<>();
-        posts.add(post1);
-        List<DetailedPost> detailedPosts = new ArrayList<>();
-        detailedPosts.add(detailedPost1);
-        List<Long> postIds = new ArrayList<>();
-        postIds.add(initialPostId1);
-        postIds.add(absentPostId1);
-        postIds.add(absentPostId2);
+        List<Post> posts = List.of(post1);
+        List<DetailedPost> detailedPosts = List.of(detailedPost1);
+        List<Long> postIds = List.of(initialPostId1, absentPostId1, absentPostId2);
 
         when(postService.findAllPostsById(postIds)).thenReturn(posts);
         when(postService.convertAllPostsToDetailedPosts(posts)).thenReturn(detailedPosts);
@@ -150,9 +131,7 @@ public class GetAllPosts extends BasePostControllerTest {
         long absentPostId2 = 11L;
         ArrayList<Post> posts = new ArrayList<>();
         List<DetailedPost> detailedPosts = new ArrayList<>();
-        List<Long> postIds = new ArrayList<>();
-        postIds.add(absentPostId1);
-        postIds.add(absentPostId2);
+        List<Long> postIds = List.of(absentPostId1, absentPostId2);
 
         when(postService.findAllPostsById(postIds)).thenReturn(posts);
         when(postService.convertAllPostsToDetailedPosts(posts)).thenReturn(detailedPosts);

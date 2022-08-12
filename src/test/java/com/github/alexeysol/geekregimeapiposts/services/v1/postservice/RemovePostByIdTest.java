@@ -2,11 +2,9 @@ package com.github.alexeysol.geekregimeapiposts.services.v1.postservice;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
 public class RemovePostByIdTest extends BasePostServiceTest {
     @Test
     public void givenPostExists_whenRemovePostById_thenReturnsPostId() {

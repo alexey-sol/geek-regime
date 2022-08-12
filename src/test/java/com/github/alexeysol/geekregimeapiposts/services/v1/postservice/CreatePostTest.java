@@ -5,11 +5,9 @@ import com.github.alexeysol.geekregimeapiposts.utils.Slug;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
-import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.mockito.Mockito.when;
 
-@SpringBootTest
 public class CreatePostTest extends BasePostServiceTest {
     @Test
     public void givenDtoHasNoSlug_whenCreatePost_thenReturnsPostWithGeneratedSlug() {
