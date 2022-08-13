@@ -21,6 +21,6 @@ public class ApiPostsSourceResolver implements ApiPath, BaseUrl {
     }
 
     public String getApiPath(int version) {
-        return String.format("/%s/v%d/%s", apiPrefix, version, resource); // TODO create path formatter in commons?
+        return formatApiPath(apiPrefix, version, resource);
     }
 }

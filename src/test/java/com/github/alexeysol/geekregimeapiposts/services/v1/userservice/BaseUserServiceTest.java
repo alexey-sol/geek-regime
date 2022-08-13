@@ -11,6 +11,7 @@ import com.github.tomakehurst.wiremock.core.WireMockConfiguration;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.HttpStatus;
@@ -19,19 +20,27 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 @SpringBootTest
 public abstract class BaseUserServiceTest {
-    protected ApiUsersSourceResolver apiUsersSourceResolver;
+    private final static String HOST = "localhost";
+    static WireMockServer wireMockServer = new WireMockServer();
+
     private String apiV1Path;
+    protected ApiUsersSourceResolver apiUsersSourceResolver;
 
     @SpyBean
     protected UserService userService;
 
-    static WireMockServer wireMockServer = new WireMockServer();
-
     @BeforeAll
     public static void beforeAll() {
-        wireMockServer = new WireMockServer(WireMockConfiguration.wireMockConfig().port(3001));
+        WireMockConfiguration wireMockConfig = WireMockConfiguration.wireMockConfig().dynamicPort();
+        wireMockServer = new WireMockServer(wireMockConfig);
         wireMockServer.start();
-        WireMock.configureFor("localhost", wireMockServer.port());
+        WireMock.configureFor(HOST, wireMockServer.port());
+
+    }
+
+    @BeforeEach
+    public void beforeEach() {
+        userService.setApiUsersUrl(getTestBaseUrl());
     }
 
     @AfterAll
@@ -49,6 +58,11 @@ public abstract class BaseUserServiceTest {
     ) {
         this.apiUsersSourceResolver = apiUsersSourceResolver;
         this.apiV1Path = apiUsersSourceResolver.getApiPath(PathConstants.V1);
+    }
+
+    protected String getTestBaseUrl() {
+        int port = wireMockServer.port();
+        return String.format(PathConstants.BASE_URL_TEMPLATE, HOST, port);
     }
 
     protected String getEndpoint() {

@@ -13,10 +13,16 @@ import java.util.List;
 
 @Service
 public class UserService {
+    private String apiUsersBaseUrl = "";
+
     private final ApiUsersSourceResolver sourceResolver;
 
     public UserService(ApiUsersSourceResolver sourceResolver) {
         this.sourceResolver = sourceResolver;
+    }
+
+    public void setApiUsersUrl(String apiUsersBaseUrl) {
+        this.apiUsersBaseUrl = apiUsersBaseUrl;
     }
 
     public List<User> getAllUsers(List<Long> ids) {
@@ -58,8 +64,11 @@ public class UserService {
     }
 
     private String getApiUsersUrl() {
-        String baseUrl = sourceResolver.getBaseUrl();
         String apiPath = sourceResolver.getApiPath(PathConstants.V1);
+        String baseUrl = (apiUsersBaseUrl.isEmpty())
+            ? sourceResolver.getBaseUrl()
+            : apiUsersBaseUrl;
+
         return baseUrl + apiPath;
     }
 }
