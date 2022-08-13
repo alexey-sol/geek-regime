@@ -28,6 +28,9 @@ class DeleteUserByIdTest(
 
         mockMvc.perform(MockMvcRequestBuilders.delete("${apiV1Path}/${userId}"))
             .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect { result ->
+                Assertions.assertEquals(result.response.contentAsString, userId.toString())
+            }
     }
 
     @Test

@@ -14,8 +14,8 @@ internal const val VALIDATION_FAILED_MESSAGE = "Validation failed"
 @SpringBootTest
 @AutoConfigureMockMvc
 abstract class BaseUserControllerTest(
-    @Autowired val mockMvc: MockMvc,
-    @Autowired val sourceResolver: ApiUsersSourceResolver
+    val mockMvc: MockMvc,
+    sourceResolver: ApiUsersSourceResolver
 ) {
     @MockkBean
     lateinit var service: UserService

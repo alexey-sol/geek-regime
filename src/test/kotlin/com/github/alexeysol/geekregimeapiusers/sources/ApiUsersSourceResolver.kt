@@ -12,5 +12,5 @@ data class ApiUsersSourceResolver (
     @Value("\${api-users.resource}")
     private val resource: String? = null,
 ) : ApiPath {
-    override fun getApiPath(version: Int) = "/${apiPrefix}/v${version}/${resource}"
+    override fun getApiPath(version: Int): String = formatApiPath(apiPrefix, version, resource)
 }

@@ -55,7 +55,7 @@ class GetAllUsersTest(
     }
 
     @Test
-    fun allUsersExist_whenGetAllUsersByIds_thenReturnsUserListWithStatus200() {
+    fun allUsersExist_whenGetAllUsersById_thenReturnsUserListWithStatus200() {
         val users = listOf(user1, user2)
         val userIds = listOf(initialId1, initialId2)
         every { service.findAllUsersById(userIds) } returns users
@@ -74,7 +74,7 @@ class GetAllUsersTest(
     }
 
     @Test
-    fun fewUsersExist_whenGetAllUsersByIds_thenReturnsUserListWithStatus200() {
+    fun fewUsersExist_whenGetAllUsersById_thenReturnsUserListWithStatus200() {
         val absentId1 = 10L
         val absentId2 = 11L
         val users = listOf(user1)
@@ -95,7 +95,7 @@ class GetAllUsersTest(
     }
 
     @Test
-    fun usersDontExist_whenGetAllUsersByIds_thenReturnsEmptyListWithStatus200() {
+    fun usersDontExist_whenGetAllUsersById_thenReturnsEmptyListWithStatus200() {
         val absentId1 = 10L
         val absentId2 = 11L
         val emptyList = listOf<User>()
