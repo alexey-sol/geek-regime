@@ -11,6 +11,9 @@
 	<artifactId>geek-regime-api-commons</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
+	<build>
+		<defaultGoal>package</defaultGoal>
+	</build>
 
 	<name>geek-regime-api-commons</name>
 	<description>Geek Regime: Shared tools for JVM based apps</description>
