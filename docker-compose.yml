@@ -5,6 +5,9 @@ services:
         restart: always
         ports:
             - ${API_GATEWAY_PORT_EXTERNAL}:${API_GATEWAY_PORT}
+        depends_on:
+            - api-users
+            - api-posts
         networks:
             - geek-regime-internal
             - geek-regime-external
@@ -18,6 +21,15 @@ services:
             - JWT_EXPIRES_IN
             - JWT_SECRET
             - NODE_ENV
+
+    api-commons:
+        image: eggziom/geek-regime-api-commons
+        restart: "no"
+        build:
+            context: ../geek-regime-api-commons
+            dockerfile: $PWD/builder/api-commons/Dockerfile
+        volumes:
+            - ../geek-regime-api-commons:/api-commons
 
     api-users:
         restart: always
@@ -43,6 +55,7 @@ services:
             - ${API_POSTS_PORT_EXTERNAL}:${API_POSTS_PORT}
         depends_on:
             - db-posts
+            - api-users
         networks:
             - geek-regime-internal
         environment:

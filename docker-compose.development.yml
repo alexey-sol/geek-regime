@@ -21,9 +21,9 @@ services:
             args:
                 API_COMMONS_VERSION: 0.0.1-SNAPSHOT # [1]
                 REPOSITORY: geek-regime-api-users
-        command: mvn spring-boot:run
-#        volumes:
-#            - ${HOME}/.m2:/root/.m2
+        command: mvn spring-boot:run -D spring-boot.run.profiles=dev
+        volumes:
+            - ../geek-regime-api-users:/app
 
     api-posts:
         container_name: geek-regime-api-posts_dev
@@ -33,9 +33,9 @@ services:
             args:
                 API_COMMONS_VERSION: 0.0.1-SNAPSHOT # [1]
                 REPOSITORY: geek-regime-api-posts
-        command: mvn spring-boot:run
-#        volumes:
-#            - ${HOME}/.m2:/root/.m2
+        command: mvn spring-boot:run -D spring-boot.run.profiles=dev
+        volumes:
+            - ../geek-regime-api-posts:/app
 
     db-users:
         container_name: geek-regime-db-users_dev
