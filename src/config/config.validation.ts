@@ -1,5 +1,5 @@
 import * as Joi from "joi";
-import * as nodeEnvConst from "@/const/node-env";
+import { NodeEnv } from "@/shared/const/node-env";
 
 export const envSchema = Joi.object({
     API_GATEWAY_HOST_EXTERNAL: Joi
@@ -14,9 +14,24 @@ export const envSchema = Joi.object({
     API_GATEWAY_PREFIX: Joi
         .string()
         .default("api"),
-    API_GATEWAY_VERSION: Joi
-        .number()
-        .default(1),
+    API_POSTS_HOST: Joi
+        .string()
+        .required(),
+    API_POSTS_PORT: Joi
+        .string()
+        .required(),
+    API_POSTS_RESOURCE: Joi
+        .string()
+        .required(),
+    API_USERS_HOST: Joi
+        .string()
+        .required(),
+    API_USERS_PORT: Joi
+        .string()
+        .required(),
+    API_USERS_RESOURCE: Joi
+        .string()
+        .required(),
     CLIENT_WEB_HOST_EXTERNAL: Joi
         .string()
         .required(),
@@ -31,6 +46,6 @@ export const envSchema = Joi.object({
         .required(),
     NODE_ENV: Joi
         .string()
-        .valid(nodeEnvConst.DEVELOPMENT, nodeEnvConst.PRODUCTION, nodeEnvConst.TEST)
-        .default(nodeEnvConst.DEVELOPMENT),
+        .valid(NodeEnv.DEVELOPMENT, NodeEnv.PRODUCTION, NodeEnv.TEST)
+        .default(NodeEnv.DEVELOPMENT),
 });

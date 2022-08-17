@@ -24,6 +24,8 @@ module.exports = {
         "unicorn",
     ],
     rules: {
+        "@typescript-eslint/no-shadow": ["error"],
+        "@typescript-eslint/no-unused-vars": "error",
         "class-methods-use-this": "off",
         "import/extensions": ["error", "ignorePackages", {
             js: "never",
@@ -36,6 +38,12 @@ module.exports = {
         "import/prefer-default-export": "off",
         indent: ["error", 4],
         "linebreak-style": ["error", "unix"],
+        "lines-between-class-members": ["error", "always", {
+            exceptAfterSingleLine: true,
+        }],
+        "max-len": ["error", {
+            code: 100,
+        }],
         "no-console": "off",
         "no-empty-function": ["error", {
             allow: ["constructors"],
@@ -46,6 +54,7 @@ module.exports = {
         "no-restricted-exports": ["error", {
             restrictedNamedExports: [],
         }],
+        "no-shadow": "off",
         "no-unused-vars": ["error", {
             args: "none",
         }],

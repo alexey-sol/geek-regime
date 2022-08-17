@@ -3,6 +3,8 @@ import { ConfigService } from "@nestjs/config";
 import { Logger, ValidationPipe, ValidationPipeOptions } from "@nestjs/common";
 import { useContainer } from "class-validator";
 import { NestExpressApplication } from "@nestjs/platform-express";
+import { createProxyMiddleware } from "http-proxy-middleware";
+import { ProxyMiddlewareOptions } from "@/shared/utils/options/proxy-middleware-options";
 import { AppModule } from "./app.module";
 
 async function bootstrap() {
@@ -10,13 +12,17 @@ async function bootstrap() {
 
     const configService = app.get(ConfigService);
     const validationOptions = configService.get<ValidationPipeOptions>("validationPipe");
-    const apiGatewayPrefix = configService.get<string>("apiGateway.apiGatewayPrefix");
-    const apiGatewayVersion = configService.get<string>("apiGateway.apiGatewayVersion");
-    const apiGatewayPort = configService.get<number>("apiGateway.apiGatewayPort");
+    const apiGatewayPrefix = configService.get<string>("apiGateway.prefix");
+    const apiGatewayPort = configService.get<number>("apiGateway.port");
 
     useContainer(app.select(AppModule), { fallbackOnErrors: true }); // [1]
     app.useGlobalPipes(new ValidationPipe(validationOptions));
-    app.setGlobalPrefix(`${apiGatewayPrefix}/${apiGatewayVersion}`);
+    app.setGlobalPrefix(apiGatewayPrefix);
+
+    const proxyMiddlewareOptions = new ProxyMiddlewareOptions(configService);
+    const proxyPath = `/${apiGatewayPrefix}/v(\\d+)`;
+    const proxyOptions = proxyMiddlewareOptions.getResult();
+    app.use(proxyPath, createProxyMiddleware(proxyOptions));
 
     await app.listen(apiGatewayPort);
 }
