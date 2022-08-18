@@ -4,8 +4,8 @@ import { Logger, ValidationPipe, ValidationPipeOptions } from "@nestjs/common";
 import { useContainer } from "class-validator";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { createProxyMiddleware } from "http-proxy-middleware";
-import { ProxyMiddlewareOptions } from "@/shared/utils/options/proxy-middleware-options";
-import { AppModule } from "./app.module";
+import { getUseContainerOptions, ProxyMiddlewareOptions } from "@/app/app.utils";
+import { AppModule } from "./app/app.module";
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -15,19 +15,16 @@ async function bootstrap() {
     const apiGatewayPrefix = configService.get<string>("apiGateway.prefix");
     const apiGatewayPort = configService.get<number>("apiGateway.port");
 
-    useContainer(app.select(AppModule), { fallbackOnErrors: true }); // [1]
+    useContainer(app.select(AppModule), getUseContainerOptions());
     app.useGlobalPipes(new ValidationPipe(validationOptions));
     app.setGlobalPrefix(apiGatewayPrefix);
 
-    const proxyMiddlewareOptions = new ProxyMiddlewareOptions(configService);
-    const proxyPath = `/${apiGatewayPrefix}/v(\\d+)`;
-    const proxyOptions = proxyMiddlewareOptions.getResult();
-    app.use(proxyPath, createProxyMiddleware(proxyOptions));
+    const proxyOptions = new ProxyMiddlewareOptions(configService);
+    const proxyPath = proxyOptions.getProxyPath();
+    const proxyOptionsResult = proxyOptions.getResult();
+    app.use(proxyPath, createProxyMiddleware(proxyOptionsResult));
 
     await app.listen(apiGatewayPort);
 }
 
 bootstrap().catch((error) => Logger.error(error));
-
-// [1]. Allows to inject dependencies into @ValidatorConstraint as described here:
-// https://github.com/nestjs/nest/issues/528#issuecomment-395338798

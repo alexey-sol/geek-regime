@@ -27,6 +27,7 @@ module.exports = {
         "@typescript-eslint/no-shadow": ["error"],
         "@typescript-eslint/no-unused-vars": "error",
         "class-methods-use-this": "off",
+        "implicit-arrow-linebreak": "off",
         "import/extensions": ["error", "ignorePackages", {
             js: "never",
             ts: "never",
@@ -41,6 +42,7 @@ module.exports = {
         "lines-between-class-members": ["error", "always", {
             exceptAfterSingleLine: true,
         }],
+        "max-classes-per-file": "off",
         "max-len": ["error", {
             code: 100,
         }],
