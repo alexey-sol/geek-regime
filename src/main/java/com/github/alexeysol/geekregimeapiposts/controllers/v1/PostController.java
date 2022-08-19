@@ -6,9 +6,12 @@ import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundExce
 import com.github.alexeysol.geekregimeapicommons.models.ApiResource;
 import com.github.alexeysol.geekregimeapicommons.utils.converters.QueryConverter;
 import com.github.alexeysol.geekregimeapiposts.constants.PathConstants;
-import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
+import com.github.alexeysol.geekregimeapiposts.models.dtos.PostPostDto;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.DetailedPost;
+import com.github.alexeysol.geekregimeapiposts.models.dtos.PatchPostDto;
+import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.services.v1.PostService;
+import org.modelmapper.ModelMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
@@ -25,9 +28,11 @@ import java.util.*;
 @Validated
 public class PostController {
     private final PostService postService;
+    private final ModelMapper modelMapper;
 
-    PostController(PostService postService) {
+    PostController(PostService postService, ModelMapper modelMapper) {
         this.postService = postService;
+        this.modelMapper = modelMapper;
     }
 
     @GetMapping
@@ -56,19 +61,50 @@ public class PostController {
     }
 
     @PostMapping
-    DetailedPost postPost(@RequestBody @Valid Post dto) {
-        return postService.createPost(dto);
+    DetailedPost postPost(@RequestBody @Valid PostPostDto dto) {
+        Post postContent = convertPostPostDtoToEntity(dto);
+        return postService.createPost(postContent);
+    }
+
+    @PatchMapping("{id}")
+    DetailedPost patchPost(
+        @PathVariable long id,
+        @RequestBody @Valid PatchPostDto dto
+    ) {
+        Post postContent = convertPatchPostDtoToEntity(dto);
+        DetailedPost post = postService.updatePost(id, postContent);
+        boolean isNotFound = post == null;
+
+        if (isNotFound) {
+            throw new ResourceNotFoundException(ApiResource.POST, id);
+        }
+
+        return post;
     }
 
     @DeleteMapping("{id}")
     long deletePostById(@PathVariable long id) throws BaseResourceException {
         long result = postService.removePostById(id);
-        boolean postIsDeleted = result != DefaultValueConstants.NOT_FOUND_BY_ID;
+        boolean isNotFound = result == DefaultValueConstants.NOT_FOUND_BY_ID;
 
-        if (postIsDeleted) {
-            return result;
+        if (isNotFound) {
+            throw new ResourceNotFoundException(ApiResource.POST, id);
         }
 
-        throw new ResourceNotFoundException(ApiResource.POST, id);
+        return result;
+    }
+
+    private Post convertPostPostDtoToEntity(PostPostDto dto) {
+        dto.generateAndSetSlug();
+
+        if (postService.postAlreadyExists(dto.getSlug())) {
+            dto.attachSuffixToSlug();
+        }
+
+        return modelMapper.map(dto, Post.class);
+    }
+
+    private Post convertPatchPostDtoToEntity(PatchPostDto dto) {
+        return modelMapper.map(dto, Post.class);
     }
 }
