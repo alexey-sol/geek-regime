@@ -37,8 +37,7 @@ public class PostPostTest extends BasePostControllerTest {
         post.setBody("Hello World");
         DetailedPost detailedPost = new DetailedPost(post, author);
 
-        when(postService.createPost(Mockito.any(Post.class))).thenReturn(post);
-        when(postService.convertPostToDetailedPost(post)).thenReturn(detailedPost);
+        when(postService.createPost(Mockito.any(Post.class))).thenReturn(detailedPost);
 
         mockMvc.perform(TestUtils.mockPostRequest(apiV1Path, post))
             .andExpect(MockMvcResultMatchers.status().isOk())
@@ -59,8 +58,7 @@ public class PostPostTest extends BasePostControllerTest {
         post.setBody("");
         DetailedPost detailedPost = new DetailedPost(post, author);
 
-        when(postService.createPost(Mockito.any(Post.class))).thenReturn(post);
-        when(postService.convertPostToDetailedPost(post)).thenReturn(detailedPost);
+        when(postService.createPost(Mockito.any(Post.class))).thenReturn(detailedPost);
 
         mockMvc.perform(TestUtils.mockPostRequest(apiV1Path, post))
             .andExpect(MockMvcResultMatchers.status().isBadRequest())

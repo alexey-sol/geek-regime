@@ -1,5 +1,6 @@
 package com.github.alexeysol.geekregimeapiposts.services.v1.postservice;
 
+import com.github.alexeysol.geekregimeapiposts.models.dtos.DetailedPost;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.utils.Slug;
 import org.junit.jupiter.api.Assertions;
@@ -17,10 +18,9 @@ public class CreatePostTest extends BasePostServiceTest {
         String expectedSlug = "test-post";
         when(postRepository.save(Mockito.any(Post.class))).thenReturn(post);
 
-        Post result = postService.createPost(post);
+        DetailedPost result = postService.createPost(post);
 
-        Assertions.assertEquals(post.getSlug(), expectedSlug);
-        Assertions.assertEquals(post, result);
+        Assertions.assertEquals(result.post.getSlug(), expectedSlug);
     }
 
     @Test
@@ -34,9 +34,8 @@ public class CreatePostTest extends BasePostServiceTest {
         when(postRepository.existsPostBySlug(initialSlug)).thenReturn(true);
         when(postRepository.save(Mockito.any(Post.class))).thenReturn(post);
 
-        Post result = postService.createPost(post);
+        DetailedPost result = postService.createPost(post);
 
-        Assertions.assertEquals(post.getSlug(), expectedSlug);
-        Assertions.assertEquals(post, result);
+        Assertions.assertEquals(result.post.getSlug(), expectedSlug);
     }
 }

@@ -1,9 +1,11 @@
 package com.github.alexeysol.geekregimeapiposts.services.v1;
 
+import com.github.alexeysol.geekregimeapicommons.constants.DefaultValueConstants;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.DetailedPost;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.models.mappers.User;
 import com.github.alexeysol.geekregimeapiposts.repositories.PostRepository;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -24,27 +26,35 @@ public class PostService {
         this.userService = userService;
     }
 
-    public Iterable<Post> findAllPosts() {
-        return db.findAll();
+    public Page<DetailedPost> findAllPosts(Pageable pageable) {
+        Page<Post> postsPage = db.findAll(pageable);
+        List<DetailedPost> detailedPosts = convertAllPostsToDetailedPosts(postsPage
+            .getContent());
+
+        return new PageImpl<>(detailedPosts, pageable, postsPage.getTotalElements());
     }
 
-    public Iterable<Post> findAllPostsById(List<Long> ids) {
-        return db.findAllById(ids);
-    }
+    public Optional<DetailedPost> findPostById(long id) {
+        Optional<Post> post = db.findById(id);
+        Optional<DetailedPost> detailedPost = Optional.empty();
 
-    public Optional<Post> findPostById(long id) {
-        return db.findById(id);
+        if (post.isPresent()) {
+            detailedPost = Optional.of(convertPostToDetailedPost(post.get()));
+        }
+
+        return detailedPost;
     }
 
     @Transactional
-    public Post createPost(Post dto) {
+    public DetailedPost createPost(Post dto) {
         dto.generateAndSetSlug();
 
         if (postAlreadyExists(dto.getSlug())) {
             dto.attachSuffixToSlug();
         }
 
-        return db.save(dto);
+        Post post = db.save(dto);
+        return convertPostToDetailedPost(post);
     }
 
     public long removePostById(long id) {
@@ -55,14 +65,14 @@ public class PostService {
             return id;
         }
 
-        return -1L;
+        return DefaultValueConstants.NOT_FOUND_BY_ID;
     }
 
     public boolean postAlreadyExists(String slug) {
         return db.existsPostBySlug(slug);
     }
 
-    public List<DetailedPost> convertAllPostsToDetailedPosts(Iterable<Post> posts) {
+    private List<DetailedPost> convertAllPostsToDetailedPosts(List<Post> posts) {
         List<Long> authorIds = new ArrayList<>();
 
         for (Post post : posts) {
@@ -84,13 +94,13 @@ public class PostService {
         return detailedPosts;
     }
 
-    public DetailedPost convertPostToDetailedPost(Post post) {
+    private DetailedPost convertPostToDetailedPost(Post post) {
         long authorId = post.getUserId();
         User author = userService.getUser(authorId);
         return convertPostToDetailedPost(post, author);
     }
 
-    public DetailedPost convertPostToDetailedPost(Post post, User author) {
+    private DetailedPost convertPostToDetailedPost(Post post, User author) {
         return new DetailedPost(post, author);
     }
 }

@@ -1,5 +1,6 @@
 package com.github.alexeysol.geekregimeapiposts.controllers.v1.postcontroller;
 
+import com.github.alexeysol.geekregimeapicommons.utils.converters.QueryConverter;
 import com.github.alexeysol.geekregimeapiposts.TestUtils;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.DetailedPost;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
@@ -8,11 +9,14 @@ import com.github.alexeysol.geekregimeapiposts.sources.ApiPostsSourceResolver;
 import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
@@ -23,8 +27,9 @@ import java.util.List;
 import static org.mockito.Mockito.when;
 
 public class GetAllPosts extends BasePostControllerTest {
-    private final long initialPostId1 = 1L;
-    private final long initialPostId2 = 2L;
+    private final QueryConverter queryConverterStub = new QueryConverter("", "");
+    private final Pageable pageableStub = queryConverterStub.getPageable();
+
     private final Post post1 = new Post();
     private final Post post2 = new Post();
     private final DetailedPost detailedPost1 = new DetailedPost(post1, new User());
@@ -38,120 +43,50 @@ public class GetAllPosts extends BasePostControllerTest {
     }
 
     @Test
-    public void allPostsExist_whenGetAllPosts_thenReturnsDetailedPostListWithStatus200()
+    public void allPostsExist_whenGetAllPosts_thenReturnsPageWithFullListAndWithStatus200()
     throws Exception {
-        List<Post> posts = List.of(post1, post2);
         List<DetailedPost> detailedPosts = List.of(detailedPost1, detailedPost2);
+        Page<DetailedPost> page = new PageImpl<>(detailedPosts, pageableStub, detailedPosts.size());
 
-        when(postService.findAllPosts()).thenReturn(posts);
-        when(postService.convertAllPostsToDetailedPosts(posts)).thenReturn(detailedPosts);
+        when(postService.findAllPosts(Mockito.any(Pageable.class))).thenReturn(page);
 
         mockMvc.perform(MockMvcRequestBuilders.get(apiV1Path))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.jsonPath("$").isArray())
-            .andExpect(MockMvcResultMatchers.jsonPath("$").isNotEmpty())
+            .andExpect(MockMvcResultMatchers.jsonPath("$.content").isArray())
+            .andExpect(MockMvcResultMatchers.jsonPath("$.content").isNotEmpty())
             .andExpect(result -> {
-                responseContentEqualsProvidedList(result.getResponse(), detailedPosts);
+                responseContentEqualsProvidedPage(result.getResponse(), page);
             });
     }
 
     @Test
-    public void postsDontExist_whenGetAllPosts_thenReturnsEmptyListWithStatus200()
+    public void postsDontExist_whenGetAllPosts_thenReturnsEmptyPageWithStatus200()
     throws Exception {
-        ArrayList<Post> posts = new ArrayList<>();
         List<DetailedPost> detailedPosts = new ArrayList<>();
+        Page<DetailedPost> page = new PageImpl<>(detailedPosts, pageableStub, 0);
 
-        when(postService.findAllPosts()).thenReturn(posts);
-        when(postService.convertAllPostsToDetailedPosts(posts)).thenReturn(detailedPosts);
-
-        mockMvc.perform(MockMvcRequestBuilders.get(apiV1Path))
-            .andExpect(MockMvcResultMatchers.status().isOk())
-            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.jsonPath("$").isArray())
-            .andExpect(MockMvcResultMatchers.jsonPath("$").isEmpty())
-            .andExpect(result -> {
-                responseContentEqualsProvidedList(result.getResponse(), detailedPosts);
-            });
-    }
-
-    @Test
-    public void allPostsExist_whenGetAllPostsById_thenReturnsPostListWithStatus200()
-    throws Exception {
-        List<Post> posts = List.of(post1, post2);
-        List<DetailedPost> detailedPosts = List.of(detailedPost1, detailedPost2);
-        List<Long> postIds = List.of(initialPostId1, initialPostId2);
-
-        when(postService.findAllPostsById(postIds)).thenReturn(posts);
-        when(postService.convertAllPostsToDetailedPosts(posts)).thenReturn(detailedPosts);
-
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(apiV1Path)
-            .queryParam("ids", String.valueOf(initialPostId1), String.valueOf(initialPostId2));
-
-        mockMvc.perform(requestBuilder)
-            .andExpect(MockMvcResultMatchers.status().isOk())
-            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.jsonPath("$").isArray())
-            .andExpect(MockMvcResultMatchers.jsonPath("$").isNotEmpty())
-            .andExpect(result -> {
-                responseContentEqualsProvidedList(result.getResponse(), detailedPosts);
-            });
-    }
-
-    @Test
-    public void fewPostsExist_whenGetAllPostsById_thenReturnsPostListWithStatus200()
-    throws Exception {
-        long absentPostId1 = 10L;
-        long absentPostId2 = 11L;
-        List<Post> posts = List.of(post1);
-        List<DetailedPost> detailedPosts = List.of(detailedPost1);
-        List<Long> postIds = List.of(initialPostId1, absentPostId1, absentPostId2);
-
-        when(postService.findAllPostsById(postIds)).thenReturn(posts);
-        when(postService.convertAllPostsToDetailedPosts(posts)).thenReturn(detailedPosts);
-
-        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get(apiV1Path)
-            .queryParam("ids", String.valueOf(initialPostId1), String.valueOf(absentPostId1),
-                String.valueOf(absentPostId2));
-
-        mockMvc.perform(requestBuilder)
-            .andExpect(MockMvcResultMatchers.status().isOk())
-            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.jsonPath("$").isArray())
-            .andExpect(MockMvcResultMatchers.jsonPath("$").isNotEmpty())
-            .andExpect(result -> {
-                responseContentEqualsProvidedList(result.getResponse(), detailedPosts);
-            });
-    }
-
-    @Test
-    public void postsDontExist_whenGetAllPostsById_thenReturnsEmptyListWithStatus200()
-    throws Exception {
-        long absentPostId1 = 10L;
-        long absentPostId2 = 11L;
-        ArrayList<Post> posts = new ArrayList<>();
-        List<DetailedPost> detailedPosts = new ArrayList<>();
-        List<Long> postIds = List.of(absentPostId1, absentPostId2);
-
-        when(postService.findAllPostsById(postIds)).thenReturn(posts);
-        when(postService.convertAllPostsToDetailedPosts(posts)).thenReturn(detailedPosts);
+        when(postService.findAllPosts(Mockito.any(Pageable.class))).thenReturn(page);
 
         mockMvc.perform(MockMvcRequestBuilders.get(apiV1Path))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
-            .andExpect(MockMvcResultMatchers.jsonPath("$").isArray())
-            .andExpect(MockMvcResultMatchers.jsonPath("$").isEmpty())
+            .andExpect(MockMvcResultMatchers.jsonPath("$.content").isArray())
+            .andExpect(MockMvcResultMatchers.jsonPath("$.content").isEmpty())
             .andExpect(result -> {
-                responseContentEqualsProvidedList(result.getResponse(), detailedPosts);
+                responseContentEqualsProvidedPage(result.getResponse(), page);
             });
     }
 
-    private <Item> void responseContentEqualsProvidedList(
+    private <ValueType> void responseContentEqualsProvidedPage(
         MockHttpServletResponse response,
-        List<Item> list
+        Page<ValueType> page
     ) throws UnsupportedEncodingException {
         String contentAsString = response.getContentAsString();
-        Assertions.assertEquals(TestUtils.objectToJsonString(list), contentAsString);
-        Assertions.assertEquals(list.size(), (Integer) JsonPath.read(contentAsString, "$.length()"));
+        int expectedPageContentSize = page.getContent().size();
+        int actualPageContentSize = JsonPath.read(contentAsString, "$.content.length()");
+
+        Assertions.assertEquals(TestUtils.objectToJsonString(page), contentAsString);
+        Assertions.assertEquals(expectedPageContentSize, actualPageContentSize);
     }
 }

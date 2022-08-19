@@ -1,5 +1,6 @@
 package com.github.alexeysol.geekregimeapiposts.controllers.v1.postcontroller;
 
+import com.github.alexeysol.geekregimeapicommons.constants.DefaultValueConstants;
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException;
 import com.github.alexeysol.geekregimeapicommons.models.ApiResourceExceptionCode;
 import com.github.alexeysol.geekregimeapiposts.sources.ApiPostsSourceResolver;
@@ -46,7 +47,7 @@ public class DeletePostByIdTest extends BasePostControllerTest {
         throws Exception {
             long absentPostId = 10L;
 
-            when(postService.removePostById(absentPostId)).thenReturn(-1L);
+            when(postService.removePostById(absentPostId)).thenReturn(DefaultValueConstants.NOT_FOUND_BY_ID);
 
             String url = String.format("%s/%d", apiV1Path, absentPostId);
             mockMvc.perform(MockMvcRequestBuilders.delete(url))

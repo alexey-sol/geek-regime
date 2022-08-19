@@ -32,17 +32,15 @@ public class GetPostByIdTest extends BasePostControllerTest {
         Post post = new Post();
         post.setUserId(initialUserId);
         User author = new User();
-        Optional<Post> optionalOfPost = Optional.of(post);
-        DetailedPost detailedPost = new DetailedPost(post, author);
+        Optional<DetailedPost> detailedPost = Optional.of(new DetailedPost(post, author));
 
-        when(postService.findPostById(initialPostId)).thenReturn(optionalOfPost);
-        when(postService.convertPostToDetailedPost(post)).thenReturn(detailedPost);
+        when(postService.findPostById(initialPostId)).thenReturn(detailedPost);
 
         String url = String.format("%s/%d", apiV1Path, initialPostId);
         mockMvc.perform(MockMvcRequestBuilders.get(url))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(result -> {
-                String expected = TestUtils.objectToJsonString(detailedPost);
+                String expected = TestUtils.objectToJsonString(detailedPost.get());
                 String actual = result.getResponse().getContentAsString();
                 Assertions.assertEquals(expected, actual);
             });
@@ -52,9 +50,9 @@ public class GetPostByIdTest extends BasePostControllerTest {
         public void givenPostDoesntExist_whenGetPostById_thenReturnsStatus404()
         throws Exception {
             long initialPostId = 1L;
-            Optional<Post> optionalEmpty = Optional.empty();
+            Optional<DetailedPost> empty = Optional.empty();
 
-            when(postService.findPostById(initialPostId)).thenReturn(optionalEmpty);
+            when(postService.findPostById(initialPostId)).thenReturn(empty);
 
             String url = String.format("%s/%d", apiV1Path, initialPostId);
             mockMvc.perform(MockMvcRequestBuilders.get(url))
