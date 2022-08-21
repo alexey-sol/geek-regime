@@ -51,3 +51,7 @@ spring:
         hibernate:
             ddl-auto: update
         show-sql: false
+
+server:
+    error:
+        include-stacktrace: on_param

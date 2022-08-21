@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregimeapiusers.models.entities
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.github.alexeysol.geekregimeapiusers.constants.DatabaseConstants as Constants
+import com.github.alexeysol.geekregimeapiusers.constants.DatabaseConstants
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
@@ -12,7 +12,7 @@ import javax.validation.constraints.Email
 import javax.validation.constraints.NotEmpty
 
 @Entity
-@Table(name = Constants.USERS_TABLE)
+@Table(name = DatabaseConstants.USERS_TABLE)
 @EntityListeners(AuditingEntityListener::class)
 data class User(
     @Column(nullable = false)
@@ -22,9 +22,9 @@ data class User(
     val id: Long? = null,
 
     @Column(nullable = false, unique = true, length = 255)
-    @field:NotEmpty(message = "Email is required")
+    @field:NotEmpty(message = "Email is required and must not be blank")
     @field:Email(message = "Email must have valid format")
-    val email: String,
+    var email: String? = null,
 
     @Column(name = "created_at", updatable = false)
     @CreatedDate
@@ -41,6 +41,5 @@ data class User(
 
     @PrimaryKeyJoinColumn
     @OneToOne(mappedBy = "user")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private var credentials: Credentials? = null,
+    var credentials: Credentials? = null,
 )

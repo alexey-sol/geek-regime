@@ -18,7 +18,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class GetAllUsersTest(
+class FindAllUsersTest(
     @Autowired mockMvc: MockMvc,
     @Autowired sourceResolver: ApiUsersSourceResolver
 ) : BaseUserControllerTest(mockMvc, sourceResolver) {
@@ -28,7 +28,7 @@ class GetAllUsersTest(
     private val user2 = User(id = initialId2, email = "boobuntu@mail.com")
 
     @Test
-    fun allUsersExist_whenGetAllUsers_thenReturnsUserListWithStatus200() {
+    fun allUsersExist_whenFindAllUsers_thenReturnsUserListWithStatus200() {
         val users = listOf(user1, user2)
         every { service.findAllUsers() } returns users
 
@@ -43,7 +43,7 @@ class GetAllUsersTest(
     }
 
     @Test
-    fun usersDontExist_whenGetAllUsers_thenReturnsEmptyListWithStatus200() {
+    fun usersDontExist_whenFindAllUsers_thenReturnsEmptyListWithStatus200() {
         val emptyList = listOf<User>()
         every { service.findAllUsers() } returns emptyList
 
@@ -55,7 +55,7 @@ class GetAllUsersTest(
     }
 
     @Test
-    fun allUsersExist_whenGetAllUsersById_thenReturnsUserListWithStatus200() {
+    fun allUsersExist_whenFindAllUsersById_thenReturnsUserListWithStatus200() {
         val users = listOf(user1, user2)
         val userIds = listOf(initialId1, initialId2)
         every { service.findAllUsersById(userIds) } returns users
@@ -74,7 +74,7 @@ class GetAllUsersTest(
     }
 
     @Test
-    fun fewUsersExist_whenGetAllUsersById_thenReturnsUserListWithStatus200() {
+    fun fewUsersExist_whenFindAllUsersById_thenReturnsUserListWithStatus200() {
         val absentId1 = 10L
         val absentId2 = 11L
         val users = listOf(user1)
@@ -95,7 +95,7 @@ class GetAllUsersTest(
     }
 
     @Test
-    fun usersDontExist_whenGetAllUsersById_thenReturnsEmptyListWithStatus200() {
+    fun usersDontExist_whenFindAllUsersById_thenReturnsEmptyListWithStatus200() {
         val absentId1 = 10L
         val absentId2 = 11L
         val emptyList = listOf<User>()

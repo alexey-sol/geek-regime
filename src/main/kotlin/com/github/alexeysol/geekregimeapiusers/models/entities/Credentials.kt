@@ -3,18 +3,20 @@ package com.github.alexeysol.geekregimeapiusers.models.entities
 import com.fasterxml.jackson.annotation.JsonProperty
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
-import com.github.alexeysol.geekregimeapiusers.constants.DatabaseConstants as Constants
+import com.github.alexeysol.geekregimeapiusers.constants.DatabaseConstants
+import lombok.ToString
 import javax.persistence.*
 import javax.validation.Valid
 
 @Entity
-@Table(name = Constants.CREDENTIALS_TABLE)
+@Table(name = DatabaseConstants.CREDENTIALS_TABLE)
+@ToString(exclude = ["user"])
 data class Credentials(
-    @Column(name = "hashed_password")
-    val hashedPassword: ByteArray,
+    @Column(name = "hashed_password", nullable = false)
+    var hashedPassword: ByteArray,
 
-    @Column
-    val salt: ByteArray,
+    @Column(nullable = false)
+    var salt: ByteArray,
 
     @JoinColumn(name = "user_id", nullable = false)
     @OneToOne
@@ -22,7 +24,7 @@ data class Credentials(
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     @field:Valid
-    private var user: User? = null,
+    private var user: User?,
 
     @Column(name = "user_id", nullable = false)
     @Id

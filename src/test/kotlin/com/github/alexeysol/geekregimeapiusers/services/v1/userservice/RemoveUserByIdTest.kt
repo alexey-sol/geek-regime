@@ -1,5 +1,6 @@
 package com.github.alexeysol.geekregimeapiusers.services.v1.userservice
 
+import com.github.alexeysol.geekregimeapicommons.constants.DefaultValueConstants
 import io.mockk.every
 import io.mockk.verify
 import org.junit.jupiter.api.Test
@@ -27,6 +28,6 @@ class RemoveUserByIdTest : BaseUserServiceTest() {
         val result = userService.removeUserById(absentUserId)
 
         verify(exactly = 1) { userRepository.removeUserById(absentUserId) }
-        Assertions.assertEquals(-1, result)
+        Assertions.assertEquals(DefaultValueConstants.NOT_FOUND_BY_ID, result)
     }
 }

@@ -23,12 +23,12 @@ import org.springframework.web.bind.MethodArgumentNotValidException
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class PostUserTest(
+class CreateUserTest(
     @Autowired mockMvc: MockMvc,
     @Autowired sourceResolver: ApiUsersSourceResolver
 ) : BaseUserControllerTest(mockMvc, sourceResolver) {
     @Test
-    fun givenDtoHasUser_whenPostUser_thenReturnsUserWithStatus200() {
+    fun givenDtoHasUser_whenCreateUser_thenReturnsUserWithStatus200() {
         val user = User(email = "mark@mail.com")
         val dto = CreateUserDto(user)
         every { service.userAlreadyExists(user.email) } returns false
@@ -43,7 +43,7 @@ class PostUserTest(
     }
 
     @Test
-    fun givenDtoHasUserWithDetails_whenPostUser_thenReturnsUserWithStatus200() {
+    fun givenDtoHasUserWithDetails_whenCreateUser_thenReturnsUserWithStatus200() {
         val details = Details(name = "Mark")
         val user = User(email = "mark@mail.com", details = details)
         val dto = CreateUserDto(user)
@@ -59,7 +59,7 @@ class PostUserTest(
     }
 
     @Test
-    fun givenDtoHasUserWithDetailsAndPassword_whenPostUser_thenReturnsUserWithStatus200() {
+    fun givenDtoHasUserWithDetailsAndPassword_whenCreateUser_thenReturnsUserWithStatus200() {
         val details = Details(name = "Mark")
         val user = User(email = "mark@mail.com", details = details)
         val dto = CreateUserDto(user, password = "123")
@@ -75,7 +75,7 @@ class PostUserTest(
     }
 
     @Test
-    fun givenDtoHasBlankEmailInUser_whenPostUser_thenReturnsStatus400() {
+    fun givenDtoHasBlankEmailInUser_whenCreateUser_thenReturnsStatus400() {
         val user = User(email = "")
         val dto = CreateUserDto(user)
 
@@ -93,7 +93,7 @@ class PostUserTest(
     }
 
     @Test
-    fun givenDtoHasInvalidEmailInUser_whenPostUser_thenReturnsStatus400() {
+    fun givenDtoHasInvalidEmailInUser_whenCreateUser_thenReturnsStatus400() {
         val user = User(email = "is-this-even-email")
         val dto = CreateUserDto(user)
 
@@ -111,7 +111,7 @@ class PostUserTest(
     }
 
     @Test
-    fun givenDtoHasBlankNameInUser_whenPostUser_thenReturnsStatus400() {
+    fun givenDtoHasBlankNameInUser_whenCreateUser_thenReturnsStatus400() {
         val details = Details(name = "")
         val user = User(email = "mark@mail.com", details = details)
         val dto = CreateUserDto(user)
@@ -130,7 +130,7 @@ class PostUserTest(
     }
 
     @Test
-    fun givenDtoHasBlankPassword_whenPostUser_thenReturnsStatus400() {
+    fun givenDtoHasBlankPassword_whenCreateUser_thenReturnsStatus400() {
         val user = User(email = "mark@mail.com")
         val dto = CreateUserDto(user, password = "")
 
@@ -148,7 +148,7 @@ class PostUserTest(
     }
 
     @Test
-    fun givenDtoHasUserThatAlreadyExists_whenPostUser_thenReturnsStatus409() {
+    fun givenDtoHasUserThatAlreadyExists_whenCreateUser_thenReturnsStatus409() {
         val user = User(email = "just-performing-meiosis@mail.com")
         val dto = CreateUserDto(user)
         every { service.userAlreadyExists(user.email) } returns true
