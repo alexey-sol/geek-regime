@@ -1,27 +1,23 @@
 package com.github.alexeysol.geekregimeapiposts.models.dtos;
 
-import com.github.alexeysol.geekregimeapiposts.utils.Slug;
-
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
-import javax.validation.constraints.Size;
 
-public class PostPostDto {
-    @NotNull(message = "User ID must be present")
+public class CreatePostDto {
+    @NotNull(message = "User ID is required")
     private long userId;
 
-    @NotNull(message = "Space ID must be present")
+    @NotNull(message = "Space ID is required")
     private long spaceId;
 
-    @NotNull(message = "Title must be present")
-    @Size(min = 1, message = "Title must not be blank")
+    @NotEmpty(message = "Title is required and must not be blank")
     private String title;
 
-    @NotNull(message = "Body must be present")
-    @Size(min = 1, message = "Body must not be blank")
+    @NotEmpty(message = "Body is required and must not be blank")
     private String body;
 
-    @Null(message = "Slug must not be present")
+    @Null(message = "Slug must be absent")
     private String slug;
 
     public long getUserId() {
@@ -62,14 +58,5 @@ public class PostPostDto {
 
     public void setSlug(String slug) {
         this.slug = slug;
-    }
-
-    public void generateAndSetSlug() {
-        setSlug(Slug.generateSlug(title));
-    }
-
-    public void attachSuffixToSlug() {
-        String suffix = Slug.getSuffixFromHash(this);
-        setSlug(slug + suffix);
     }
 }

@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregimeapiposts.services.v1.userservice;
 
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException;
-import com.github.alexeysol.geekregimeapiposts.models.mappers.User;
+import com.github.alexeysol.geekregimeapiposts.models.dtos.UserDto;
 import com.github.alexeysol.geekregimeapiposts.sources.ApiUsersSourceResolver;
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import org.junit.jupiter.api.Assertions;
@@ -27,7 +27,7 @@ public class GetUserTest extends BaseUserServiceTest {
 
         wireMockServer.stubFor(getApiUsersMappingBuilder(responseToReturn, id));
 
-        User user = userService.getUser(id);
+        UserDto user = userService.getUser(id);
 
         wireMockServer.verify(getRequestedFor(urlPathEqualTo(getEndpoint(id)))
             .withHeader("Content-Type", equalTo("application/json")));

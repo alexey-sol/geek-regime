@@ -17,8 +17,8 @@ import java.util.Objects;
 
 import static org.mockito.Mockito.when;
 
-public class DeletePostByIdTest extends BasePostControllerTest {
-    public DeletePostByIdTest(
+public class RemovePostByIdTest extends BasePostControllerTest {
+    public RemovePostByIdTest(
         @Autowired MockMvc mockMvc,
         @Autowired ApiPostsSourceResolver sourceResolver
     ) {
@@ -26,7 +26,7 @@ public class DeletePostByIdTest extends BasePostControllerTest {
     }
 
     @Test
-    public void givenPostExists_whenDeletePostById_thenReturnsPostIdWithStatus200()
+    public void givenPostExists_whenRemovePostById_thenReturnsPostIdWithStatus200()
     throws Exception {
         long postId = 1L;
 
@@ -43,7 +43,7 @@ public class DeletePostByIdTest extends BasePostControllerTest {
         }
 
         @Test
-        public void givenPostDoesntExist_whenDeletePostById_thenReturnsStatus404()
+        public void givenPostDoesntExist_whenRemovePostById_thenReturnsStatus404()
         throws Exception {
             long absentPostId = 10L;
 

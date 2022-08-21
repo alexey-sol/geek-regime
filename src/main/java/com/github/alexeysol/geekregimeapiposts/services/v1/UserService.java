@@ -6,7 +6,7 @@ import com.github.alexeysol.geekregimeapicommons.utils.Json;
 import com.github.alexeysol.geekregimeapicommons.utils.Request;
 import com.github.alexeysol.geekregimeapiposts.sources.ApiUsersSourceResolver;
 import com.github.alexeysol.geekregimeapiposts.constants.PathConstants;
-import com.github.alexeysol.geekregimeapiposts.models.mappers.User;
+import com.github.alexeysol.geekregimeapiposts.models.dtos.UserDto;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -25,8 +25,8 @@ public class UserService {
         this.apiUsersBaseUrl = apiUsersBaseUrl;
     }
 
-    public List<User> getAllUsers(List<Long> ids) {
-        List<User> users;
+    public List<UserDto> getAllUsers(List<Long> ids) {
+        List<UserDto> users;
 
         try {
             Request request = new Request(getApiUsersUrl());
@@ -44,8 +44,8 @@ public class UserService {
         return users;
     }
 
-    public User getUser(long id) throws IllegalArgumentException, BaseResourceException {
-        User user;
+    public UserDto getUser(long id) throws IllegalArgumentException, BaseResourceException {
+        UserDto user;
 
         try {
             Request request = new Request(getApiUsersUrl());
@@ -53,7 +53,7 @@ public class UserService {
                 .get()
                 .getResult();
 
-            user = Json.parse(userJson, User.class);
+            user = Json.parse(userJson, UserDto.class);
         } catch (IllegalArgumentException | BaseResourceException e) {
             throw e;
         } catch (Exception e) {

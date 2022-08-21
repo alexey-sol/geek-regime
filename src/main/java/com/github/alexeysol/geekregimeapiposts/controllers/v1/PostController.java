@@ -6,13 +6,14 @@ import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundExce
 import com.github.alexeysol.geekregimeapicommons.models.ApiResource;
 import com.github.alexeysol.geekregimeapicommons.utils.converters.QueryConverter;
 import com.github.alexeysol.geekregimeapiposts.constants.PathConstants;
-import com.github.alexeysol.geekregimeapiposts.models.dtos.PostPostDto;
-import com.github.alexeysol.geekregimeapiposts.models.dtos.DetailedPost;
-import com.github.alexeysol.geekregimeapiposts.models.dtos.PatchPostDto;
+import com.github.alexeysol.geekregimeapiposts.models.dtos.CreatePostDto;
+import com.github.alexeysol.geekregimeapiposts.models.dtos.PostDto;
+import com.github.alexeysol.geekregimeapiposts.models.dtos.UpdatePostDto;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.services.v1.PostService;
-import org.modelmapper.ModelMapper;
+import com.github.alexeysol.geekregimeapiposts.utils.mappers.PostMapper;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,15 +29,15 @@ import java.util.*;
 @Validated
 public class PostController {
     private final PostService postService;
-    private final ModelMapper modelMapper;
+    private final PostMapper postMapper;
 
-    PostController(PostService postService, ModelMapper modelMapper) {
+    PostController(PostService postService, PostMapper postMapper) {
         this.postService = postService;
-        this.modelMapper = modelMapper;
+        this.postMapper = postMapper;
     }
 
     @GetMapping
-    Page<DetailedPost> getAllPosts(
+    Page<PostDto> findAllPosts(
         @RequestParam Optional<String> paging,
         @RequestParam Optional<String> sortBy
     ) {
@@ -46,44 +47,48 @@ public class PostController {
         );
 
         Pageable pageable = queryConverter.getPageable();
-        return postService.findAllPosts(pageable);
+        Page<Post> postsPage = postService.findAllPosts(pageable);
+        List<PostDto> postDtos = postMapper.allEntitiesToPostDtos(postsPage.getContent());
+        return new PageImpl<>(postDtos, pageable, postsPage.getTotalElements());
     }
 
     @GetMapping("{id}")
-    DetailedPost getPostById(@PathVariable long id) throws BaseResourceException {
-        Optional<DetailedPost> detailedPost = postService.findPostById(id);
+    PostDto findPostById(@PathVariable long id) throws BaseResourceException {
+        Optional<Post> post = postService.findPostById(id);
 
-        if (detailedPost.isPresent()) {
-            return detailedPost.get();
+        if (post.isEmpty()) {
+            throw new ResourceNotFoundException(ApiResource.POST, id);
         }
 
-        throw new ResourceNotFoundException(ApiResource.POST, id);
+        return postMapper.entityToPostDto(post.get());
     }
 
     @PostMapping
-    DetailedPost postPost(@RequestBody @Valid PostPostDto dto) {
-        Post postContent = convertPostPostDtoToEntity(dto);
-        return postService.createPost(postContent);
+    PostDto createPost(@RequestBody @Valid CreatePostDto dto) {
+        Post post = postMapper.createPostDtoToEntity(dto);
+        Post createdPost = postService.savePost(post);
+        return postMapper.entityToPostDto(createdPost);
+
     }
 
     @PatchMapping("{id}")
-    DetailedPost patchPost(
+    PostDto updatePost(
         @PathVariable long id,
-        @RequestBody @Valid PatchPostDto dto
+        @RequestBody @Valid UpdatePostDto dto
     ) {
-        Post postContent = convertPatchPostDtoToEntity(dto);
-        DetailedPost post = postService.updatePost(id, postContent);
-        boolean isNotFound = post == null;
+        Post post = postMapper.updatePostDtoToEntity(dto, id);
+        Post updatedPost = postService.savePost(post);
+        boolean isNotFound = updatedPost == null;
 
         if (isNotFound) {
             throw new ResourceNotFoundException(ApiResource.POST, id);
         }
 
-        return post;
+        return postMapper.entityToPostDto(updatedPost);
     }
 
     @DeleteMapping("{id}")
-    long deletePostById(@PathVariable long id) throws BaseResourceException {
+    long removePostById(@PathVariable long id) throws BaseResourceException {
         long result = postService.removePostById(id);
         boolean isNotFound = result == DefaultValueConstants.NOT_FOUND_BY_ID;
 
@@ -92,19 +97,5 @@ public class PostController {
         }
 
         return result;
-    }
-
-    private Post convertPostPostDtoToEntity(PostPostDto dto) {
-        dto.generateAndSetSlug();
-
-        if (postService.postAlreadyExists(dto.getSlug())) {
-            dto.attachSuffixToSlug();
-        }
-
-        return modelMapper.map(dto, Post.class);
-    }
-
-    private Post convertPatchPostDtoToEntity(PatchPostDto dto) {
-        return modelMapper.map(dto, Post.class);
     }
 }

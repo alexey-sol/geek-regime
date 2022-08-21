@@ -2,9 +2,9 @@ package com.github.alexeysol.geekregimeapiposts.controllers.v1.postcontroller;
 
 import com.github.alexeysol.geekregimeapicommons.utils.converters.QueryConverter;
 import com.github.alexeysol.geekregimeapiposts.TestUtils;
-import com.github.alexeysol.geekregimeapiposts.models.dtos.DetailedPost;
+import com.github.alexeysol.geekregimeapiposts.models.dtos.PostDto;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
-import com.github.alexeysol.geekregimeapiposts.models.mappers.User;
+import com.github.alexeysol.geekregimeapiposts.models.dtos.UserDto;
 import com.github.alexeysol.geekregimeapiposts.sources.ApiPostsSourceResolver;
 import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Assertions;
@@ -26,16 +26,16 @@ import java.util.List;
 
 import static org.mockito.Mockito.when;
 
-public class GetAllPosts extends BasePostControllerTest {
+public class FindAllPosts extends BasePostControllerTest {
     private final QueryConverter queryConverterStub = new QueryConverter("", "");
     private final Pageable pageableStub = queryConverterStub.getPageable();
 
     private final Post post1 = new Post();
     private final Post post2 = new Post();
-    private final DetailedPost detailedPost1 = new DetailedPost(post1, new User());
-    private final DetailedPost detailedPost2 = new DetailedPost(post2, new User());
+    private final PostDto detailedPost1 = new PostDto(post1, new UserDto());
+    private final PostDto detailedPost2 = new PostDto(post2, new UserDto());
 
-    public GetAllPosts(
+    public FindAllPosts(
         @Autowired MockMvc mockMvc,
         @Autowired ApiPostsSourceResolver sourceResolver
     ) {
@@ -43,10 +43,10 @@ public class GetAllPosts extends BasePostControllerTest {
     }
 
     @Test
-    public void allPostsExist_whenGetAllPosts_thenReturnsPageWithFullListAndWithStatus200()
+    public void allPostsExist_whenFindAllPosts_thenReturnsPageWithFullListAndWithStatus200()
     throws Exception {
-        List<DetailedPost> detailedPosts = List.of(detailedPost1, detailedPost2);
-        Page<DetailedPost> page = new PageImpl<>(detailedPosts, pageableStub, detailedPosts.size());
+        List<PostDto> detailedPosts = List.of(detailedPost1, detailedPost2);
+        Page<PostDto> page = new PageImpl<>(detailedPosts, pageableStub, detailedPosts.size());
 
         when(postService.findAllPosts(Mockito.any(Pageable.class))).thenReturn(page);
 
@@ -61,10 +61,10 @@ public class GetAllPosts extends BasePostControllerTest {
     }
 
     @Test
-    public void postsDontExist_whenGetAllPosts_thenReturnsEmptyPageWithStatus200()
+    public void postsDontExist_whenFindAllPosts_thenReturnsEmptyPageWithStatus200()
     throws Exception {
-        List<DetailedPost> detailedPosts = new ArrayList<>();
-        Page<DetailedPost> page = new PageImpl<>(detailedPosts, pageableStub, 0);
+        List<PostDto> detailedPosts = new ArrayList<>();
+        Page<PostDto> page = new PageImpl<>(detailedPosts, pageableStub, 0);
 
         when(postService.findAllPosts(Mockito.any(Pageable.class))).thenReturn(page);
 

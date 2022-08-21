@@ -2,14 +2,15 @@ package com.github.alexeysol.geekregimeapiposts.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.alexeysol.geekregimeapiposts.constants.DatabaseConstants;
+import com.github.alexeysol.geekregimeapiposts.utils.Slug;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
-import javax.validation.constraints.Size;
-import java.time.Instant;
+import java.util.Date;
 
 @Entity
 @Table(name = DatabaseConstants.POSTS_TABLE)
@@ -23,37 +24,34 @@ public class Post {
 
     @Column(name = "user_id", nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    @NotNull(message = "User ID must be present")
+    @NotNull(message = "User ID is required")
     private long userId;
 
     @Column(name = "space_id", nullable = false)
-    @NotNull(message = "Space ID must be present")
+    @NotNull(message = "Space ID is required")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private long spaceId;
 
     @Column(nullable = false)
-    @NotNull(message = "Title must be present")
-    @Size(min = 1, message = "Title must not be blank")
+    @NotEmpty(message = "Title is required and must not be blank")
     private String title;
 
     @Column(nullable = false, columnDefinition = "TEXT")
-    @NotNull(message = "Body must be present")
-    @Size(min = 1, message = "Body must not be blank")
+    @NotEmpty(message = "Body is required and must not be blank")
     private String body;
 
     @Column(nullable = false, unique = true)
-    @NotNull(message = "Slug must be present")
-    @Size(min = 1, message = "Slug must not be blank")
+    @NotEmpty(message = "Slug is required and must not be blank")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String slug;
 
     @Column(name = "created_at", updatable = false)
     @CreatedDate
-    private Instant createdAt;
+    private Date createdAt;
 
     @Column(name = "updated_at")
     @LastModifiedDate
-    private Instant updatedAt;
+    private Date updatedAt;
 
     public long getId() {
         return id;
@@ -79,11 +77,11 @@ public class Post {
         return slug;
     }
 
-    public Instant getCreatedAt() {
+    public Date getCreatedAt() {
         return createdAt;
     }
 
-    public Instant getUpdatedAt() {
+    public Date getUpdatedAt() {
         return updatedAt;
     }
 
@@ -105,5 +103,14 @@ public class Post {
 
     public void setSlug(String slug) {
         this.slug = slug;
+    }
+
+    public void generateAndSetSlug() {
+        setSlug(Slug.generateSlug(title));
+    }
+
+    public void attachSuffixToSlug() {
+        String suffix = Slug.getSuffixFromHash(this);
+        setSlug(slug + suffix);
     }
 }

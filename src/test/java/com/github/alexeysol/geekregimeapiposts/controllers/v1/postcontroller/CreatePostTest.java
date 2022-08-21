@@ -1,9 +1,9 @@
 package com.github.alexeysol.geekregimeapiposts.controllers.v1.postcontroller;
 
 import com.github.alexeysol.geekregimeapiposts.TestUtils;
-import com.github.alexeysol.geekregimeapiposts.models.dtos.DetailedPost;
+import com.github.alexeysol.geekregimeapiposts.models.dtos.PostDto;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
-import com.github.alexeysol.geekregimeapiposts.models.mappers.User;
+import com.github.alexeysol.geekregimeapiposts.models.dtos.UserDto;
 import com.github.alexeysol.geekregimeapiposts.sources.ApiPostsSourceResolver;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
@@ -20,8 +20,8 @@ import java.util.Objects;
 
 import static org.mockito.Mockito.when;
 
-public class PostPostTest extends BasePostControllerTest {
-    public PostPostTest(
+public class CreatePostTest extends BasePostControllerTest {
+    public CreatePostTest(
         @Autowired MockMvc mockMvc,
         @Autowired ApiPostsSourceResolver sourceResolver
     ) {
@@ -29,13 +29,13 @@ public class PostPostTest extends BasePostControllerTest {
     }
 
     @Test
-    public void givenDtoIsValid_whenPostPost_thenReturnsDetailedPostWithStatus200()
+    public void givenDtoIsValid_whenCreatePost_thenReturnsDetailedPostWithStatus200()
     throws Exception {
-        User author = new User();
+        UserDto author = new UserDto();
         Post post = new Post();
         post.setTitle("Test Post");
         post.setBody("Hello World");
-        DetailedPost detailedPost = new DetailedPost(post, author);
+        PostDto detailedPost = new PostDto(post, author);
 
         when(postService.createPost(Mockito.any(Post.class))).thenReturn(detailedPost);
 
@@ -50,13 +50,13 @@ public class PostPostTest extends BasePostControllerTest {
     }
 
     @Test
-    public void givenDtoIsInvalid_whenPostPost_thenReturnsStatus400()
+    public void givenDtoIsInvalid_whenCreatePost_thenReturnsStatus400()
     throws Exception {
-        User author = new User();
+        UserDto author = new UserDto();
         Post post = new Post();
         post.setTitle("");
         post.setBody("");
-        DetailedPost detailedPost = new DetailedPost(post, author);
+        PostDto detailedPost = new PostDto(post, author);
 
         when(postService.createPost(Mockito.any(Post.class))).thenReturn(detailedPost);
 
