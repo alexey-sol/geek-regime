@@ -2,6 +2,7 @@ package com.github.alexeysol.geekregimeapiposts.controllers.v1.postcontroller;
 
 import com.github.alexeysol.geekregimeapiposts.models.dtos.CreatePostDto;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.PostDto;
+import com.github.alexeysol.geekregimeapiposts.models.dtos.UpdatePostDto;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.services.v1.UserService;
 import com.github.alexeysol.geekregimeapiposts.utils.mappers.PostMapper;
@@ -65,8 +66,11 @@ public abstract class BasePostControllerTest {
         return dto;
     }
 
-    protected Post convertCreatePostDtoToEntity(CreatePostDto dto) {
-        return postMapper.createPostDtoToEntity(dto);
+    protected UpdatePostDto createUpdatePostDto(String title, String body) {
+        UpdatePostDto dto = new UpdatePostDto();
+        dto.setTitle(title);
+        dto.setBody(body);
+        return dto;
     }
 
     protected Post createPost() {

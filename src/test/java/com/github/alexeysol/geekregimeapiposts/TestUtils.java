@@ -24,4 +24,13 @@ public class TestUtils {
             .contentType(MediaType.APPLICATION_JSON)
             .content(objectToJsonString(value));
     }
+
+    static public <Value> MockHttpServletRequestBuilder mockPatchRequest(
+        String apiPath,
+        Value value
+    ) {
+        return MockMvcRequestBuilders.patch(apiPath)
+            .contentType(MediaType.APPLICATION_JSON)
+            .content(objectToJsonString(value));
+    }
 }
