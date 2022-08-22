@@ -2,7 +2,7 @@ package com.github.alexeysol.geekregimeapiposts.services.v1.userservice;
 
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.UserDto;
-import com.github.alexeysol.geekregimeapiposts.sources.ApiUsersSourceResolver;
+import com.github.alexeysol.geekregimeapiposts.utils.sources.ApiUsersSourceResolver;
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -11,33 +11,33 @@ import org.springframework.http.HttpStatus;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
-public class GetUserTest extends BaseUserServiceTest {
-    public GetUserTest(
+public class FindUserByIdTest extends BaseUserServiceTest {
+    public FindUserByIdTest(
         @Autowired ApiUsersSourceResolver apiUsersSourceResolver
     ) {
         super(apiUsersSourceResolver);
     }
 
     @Test
-    public void userExists_whenGetUser_thenReturnsUser() {
-        long id = 1L;
+    public void userExists_whenFindUserById_thenReturnsUser() {
+        long userId = 1L;
 
         ResponseDefinitionBuilder responseToReturn = aResponse()
             .withBodyFile(getJsonPath("getUser", HttpStatus.OK));
 
-        wireMockServer.stubFor(getApiUsersMappingBuilder(responseToReturn, id));
+        wireMockServer.stubFor(getApiUsersMappingBuilder(responseToReturn, userId));
 
-        UserDto user = userService.getUser(id);
+        UserDto user = userService.findUserById(userId);
 
-        wireMockServer.verify(getRequestedFor(urlPathEqualTo(getEndpoint(id)))
+        wireMockServer.verify(getRequestedFor(urlPathEqualTo(getEndpoint(userId)))
             .withHeader("Content-Type", equalTo("application/json")));
 
         Assertions.assertNotNull(user);
-        Assertions.assertEquals(id, user.getId());
+        Assertions.assertEquals(userId, user.getId());
     }
 
     @Test
-    public void userDoesntExist_whenGetUser_thenReturnsStatus404() {
+    public void userDoesntExist_whenFindUserById_thenReturnsStatus404() {
         long absentId = 10L;
 
         ResponseDefinitionBuilder responseToReturn = aResponse()
@@ -46,7 +46,7 @@ public class GetUserTest extends BaseUserServiceTest {
         wireMockServer.stubFor(getApiUsersMappingBuilder(responseToReturn, absentId));
 
         ResourceNotFoundException exception = Assertions.assertThrows(
-            ResourceNotFoundException.class, () -> userService.getUser(absentId)
+            ResourceNotFoundException.class, () -> userService.findUserById(absentId)
         );
 
         String expectedMessage = "USER/NOT_FOUND/id=10";

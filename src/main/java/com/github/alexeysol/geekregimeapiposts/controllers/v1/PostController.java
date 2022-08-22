@@ -1,9 +1,9 @@
 package com.github.alexeysol.geekregimeapiposts.controllers.v1;
 
+import com.github.alexeysol.geekregimeapicommons.constants.ApiResource;
 import com.github.alexeysol.geekregimeapicommons.constants.DefaultValueConstants;
 import com.github.alexeysol.geekregimeapicommons.exceptions.BaseResourceException;
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException;
-import com.github.alexeysol.geekregimeapicommons.models.ApiResource;
 import com.github.alexeysol.geekregimeapicommons.utils.converters.QueryConverter;
 import com.github.alexeysol.geekregimeapiposts.constants.PathConstants;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.CreatePostDto;
@@ -78,12 +78,6 @@ public class PostController {
     ) {
         Post post = postMapper.updatePostDtoToEntity(dto, id);
         Post updatedPost = postService.savePost(post);
-        boolean isNotFound = updatedPost == null;
-
-        if (isNotFound) {
-            throw new ResourceNotFoundException(ApiResource.POST, id);
-        }
-
         return postMapper.entityToPostDto(updatedPost);
     }
 

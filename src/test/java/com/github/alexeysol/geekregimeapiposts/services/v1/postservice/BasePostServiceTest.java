@@ -1,5 +1,6 @@
 package com.github.alexeysol.geekregimeapiposts.services.v1.postservice;
 
+import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.repositories.PostRepository;
 import com.github.alexeysol.geekregimeapiposts.services.v1.PostService;
 import com.github.alexeysol.geekregimeapiposts.services.v1.UserService;
@@ -17,4 +18,11 @@ public abstract class BasePostServiceTest {
 
     @SpyBean
     protected PostService postService;
+
+    protected Post createPost(String title, String body) {
+        Post post = new Post();
+        post.setTitle(title);
+        post.setBody(body);
+        return post;
+    }
 }

@@ -4,7 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.alexeysol.geekregimeapicommons.exceptions.BaseResourceException;
 import com.github.alexeysol.geekregimeapicommons.utils.Json;
 import com.github.alexeysol.geekregimeapicommons.utils.Request;
-import com.github.alexeysol.geekregimeapiposts.sources.ApiUsersSourceResolver;
+import com.github.alexeysol.geekregimeapiposts.utils.sources.ApiUsersSourceResolver;
 import com.github.alexeysol.geekregimeapiposts.constants.PathConstants;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.UserDto;
 import org.springframework.stereotype.Service;
@@ -25,7 +25,7 @@ public class UserService {
         this.apiUsersBaseUrl = apiUsersBaseUrl;
     }
 
-    public List<UserDto> getAllUsers(List<Long> ids) {
+    public List<UserDto> findAllUsers(List<Long> ids) {
         List<UserDto> users;
 
         try {
@@ -44,7 +44,7 @@ public class UserService {
         return users;
     }
 
-    public UserDto getUser(long id) throws IllegalArgumentException, BaseResourceException {
+    public UserDto findUserById(long id) throws IllegalArgumentException, BaseResourceException {
         UserDto user;
 
         try {

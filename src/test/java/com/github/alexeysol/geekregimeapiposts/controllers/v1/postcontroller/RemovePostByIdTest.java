@@ -1,9 +1,10 @@
 package com.github.alexeysol.geekregimeapiposts.controllers.v1.postcontroller;
 
+import com.github.alexeysol.geekregimeapicommons.constants.ApiResourceExceptionCode;
 import com.github.alexeysol.geekregimeapicommons.constants.DefaultValueConstants;
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException;
-import com.github.alexeysol.geekregimeapicommons.models.ApiResourceExceptionCode;
-import com.github.alexeysol.geekregimeapiposts.sources.ApiPostsSourceResolver;
+import com.github.alexeysol.geekregimeapiposts.utils.mappers.PostMapper;
+import com.github.alexeysol.geekregimeapiposts.utils.sources.ApiPostsSourceResolver;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Assertions;
@@ -20,46 +21,45 @@ import static org.mockito.Mockito.when;
 public class RemovePostByIdTest extends BasePostControllerTest {
     public RemovePostByIdTest(
         @Autowired MockMvc mockMvc,
-        @Autowired ApiPostsSourceResolver sourceResolver
+        @Autowired ApiPostsSourceResolver sourceResolver,
+        @Autowired PostMapper postMapper
     ) {
-        super(mockMvc, sourceResolver);
+        super(mockMvc, sourceResolver, postMapper);
     }
 
     @Test
     public void givenPostExists_whenRemovePostById_thenReturnsPostIdWithStatus200()
-    throws Exception {
+        throws Exception {
+
         long postId = 1L;
 
         when(postService.removePostById(postId)).thenReturn(postId);
 
-        String url = String.format("%s/%d", apiV1Path, postId);
-        mockMvc.perform(MockMvcRequestBuilders.delete(url))
+        mockMvc.perform(MockMvcRequestBuilders.delete(getUrl(postId)))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(result -> {
                 String expected = String.valueOf(postId);
                 String actual = result.getResponse().getContentAsString();
                 Assertions.assertEquals(expected, actual);
             });
-        }
+    }
 
-        @Test
-        public void givenPostDoesntExist_whenRemovePostById_thenReturnsStatus404()
+    @Test
+    public void givenPostDoesntExist_whenRemovePostById_thenReturnsStatus404()
         throws Exception {
-            long absentPostId = 10L;
 
-            when(postService.removePostById(absentPostId)).thenReturn(DefaultValueConstants.NOT_FOUND_BY_ID);
+        long absentPostId = 10L;
 
-            String url = String.format("%s/%d", apiV1Path, absentPostId);
-            mockMvc.perform(MockMvcRequestBuilders.delete(url))
-                .andExpect(MockMvcResultMatchers.status().isNotFound())
-                .andExpect(result -> {
-                    Assertions.assertTrue(result.getResolvedException() instanceof ResourceNotFoundException);
-                })
-                .andExpect(result -> {
-                    MatcherAssert.assertThat(
-                        Objects.requireNonNull(result.getResolvedException()).getMessage(),
-                        CoreMatchers.containsString(ApiResourceExceptionCode.NOT_FOUND.toString())
-                    );
-                });
-        }
+        when(postService.removePostById(absentPostId)).thenReturn(DefaultValueConstants.NOT_FOUND_BY_ID);
+
+        mockMvc.perform(MockMvcRequestBuilders.delete(getUrl(absentPostId)))
+            .andExpect(MockMvcResultMatchers.status().isNotFound())
+            .andExpect(result -> {
+                Assertions.assertTrue(result.getResolvedException() instanceof ResourceNotFoundException);
+            })
+            .andExpect(result -> MatcherAssert.assertThat(
+                Objects.requireNonNull(result.getResolvedException()).getMessage(),
+                CoreMatchers.containsString(ApiResourceExceptionCode.NOT_FOUND.toString())
+            ));
+    }
 }

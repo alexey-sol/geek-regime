@@ -4,8 +4,8 @@ import com.github.alexeysol.geekregimeapicommons.utils.converters.QueryConverter
 import com.github.alexeysol.geekregimeapiposts.TestUtils;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.PostDto;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
-import com.github.alexeysol.geekregimeapiposts.models.dtos.UserDto;
-import com.github.alexeysol.geekregimeapiposts.sources.ApiPostsSourceResolver;
+import com.github.alexeysol.geekregimeapiposts.utils.mappers.PostMapper;
+import com.github.alexeysol.geekregimeapiposts.utils.sources.ApiPostsSourceResolver;
 import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -30,51 +30,53 @@ public class FindAllPosts extends BasePostControllerTest {
     private final QueryConverter queryConverterStub = new QueryConverter("", "");
     private final Pageable pageableStub = queryConverterStub.getPageable();
 
-    private final Post post1 = new Post();
-    private final Post post2 = new Post();
-    private final PostDto detailedPost1 = new PostDto(post1, new UserDto());
-    private final PostDto detailedPost2 = new PostDto(post2, new UserDto());
-
     public FindAllPosts(
         @Autowired MockMvc mockMvc,
-        @Autowired ApiPostsSourceResolver sourceResolver
+        @Autowired ApiPostsSourceResolver sourceResolver,
+        @Autowired PostMapper postMapper
     ) {
-        super(mockMvc, sourceResolver);
+        super(mockMvc, sourceResolver, postMapper);
     }
 
     @Test
-    public void allPostsExist_whenFindAllPosts_thenReturnsPageWithFullListAndWithStatus200()
-    throws Exception {
-        List<PostDto> detailedPosts = List.of(detailedPost1, detailedPost2);
-        Page<PostDto> page = new PageImpl<>(detailedPosts, pageableStub, detailedPosts.size());
+    public void allPostsExist_whenFindAllPosts_thenReturnsPageContainingAllDtosWithStatus200()
+        throws Exception {
 
-        when(postService.findAllPosts(Mockito.any(Pageable.class))).thenReturn(page);
+        List<Post> posts = List.of(createPost(), createPost(), createPost());
+        Page<Post> postPage = new PageImpl<>(posts, pageableStub, posts.size());
 
-        mockMvc.perform(MockMvcRequestBuilders.get(apiV1Path))
+        List<PostDto> postDtos = convertAllEntitiesToPostDtos(posts);
+        Page<PostDto> postDtoPage = new PageImpl<>(postDtos, pageableStub, postDtos.size());
+
+        when(postService.findAllPosts(Mockito.any(Pageable.class))).thenReturn(postPage);
+
+        mockMvc.perform(MockMvcRequestBuilders.get(getUrl()))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.jsonPath("$.content").isArray())
             .andExpect(MockMvcResultMatchers.jsonPath("$.content").isNotEmpty())
             .andExpect(result -> {
-                responseContentEqualsProvidedPage(result.getResponse(), page);
+                responseContentEqualsProvidedPage(result.getResponse(), postDtoPage);
             });
     }
 
     @Test
-    public void postsDontExist_whenFindAllPosts_thenReturnsEmptyPageWithStatus200()
-    throws Exception {
-        List<PostDto> detailedPosts = new ArrayList<>();
-        Page<PostDto> page = new PageImpl<>(detailedPosts, pageableStub, 0);
+    public void postsDontExist_whenFindAllPosts_thenReturnsPageContainingNothingWithStatus200()
+        throws Exception {
 
-        when(postService.findAllPosts(Mockito.any(Pageable.class))).thenReturn(page);
+        int total = 0;
+        Page<Post> postPage = new PageImpl<>(new ArrayList<>(), pageableStub, total);
+        Page<PostDto> postDtoPage = new PageImpl<>(new ArrayList<>(), pageableStub, total);
 
-        mockMvc.perform(MockMvcRequestBuilders.get(apiV1Path))
+        when(postService.findAllPosts(Mockito.any(Pageable.class))).thenReturn(postPage);
+
+        mockMvc.perform(MockMvcRequestBuilders.get(getUrl()))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(MockMvcResultMatchers.jsonPath("$.content").isArray())
             .andExpect(MockMvcResultMatchers.jsonPath("$.content").isEmpty())
             .andExpect(result -> {
-                responseContentEqualsProvidedPage(result.getResponse(), page);
+                responseContentEqualsProvidedPage(result.getResponse(), postDtoPage);
             });
     }
 

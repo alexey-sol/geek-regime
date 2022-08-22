@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregimeapiposts.services.v1.userservice;
 
 import com.github.alexeysol.geekregimeapiposts.models.dtos.UserDto;
-import com.github.alexeysol.geekregimeapiposts.sources.ApiUsersSourceResolver;
+import com.github.alexeysol.geekregimeapiposts.utils.sources.ApiUsersSourceResolver;
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,25 +12,25 @@ import java.util.List;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
-public class GetAllUsersTest extends BaseUserServiceTest {
-    private final long userId1 = 1L;
-    private final long userId2 = 2L;
-
-    public GetAllUsersTest(
+public class FindAllUsersTest extends BaseUserServiceTest {
+    public FindAllUsersTest(
         @Autowired ApiUsersSourceResolver apiUsersSourceResolver
     ) {
         super(apiUsersSourceResolver);
     }
 
     @Test
-    public void usersExist_whenGetAllUsers_thenReturnsUserList() {
+    public void usersExist_whenFindAllUsers_thenReturnsUserList() {
+        long userId1 = 1L;
+        long userId2 = 2L;
+
         ResponseDefinitionBuilder responseToReturn = aResponse()
             .withBodyFile(getJsonPath("getAllUsers", HttpStatus.OK));
 
         wireMockServer.stubFor(getApiUsersMappingBuilder(responseToReturn));
 
         List<Long> ids = List.of(userId1, userId2);
-        List<UserDto> users = userService.getAllUsers(ids);
+        List<UserDto> users = userService.findAllUsers(ids);
 
         wireMockServer.verify(getRequestedFor(urlPathEqualTo(getEndpoint()))
             .withHeader("Content-Type", equalTo("application/json")));

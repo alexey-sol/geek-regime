@@ -1,4 +1,4 @@
-package com.github.alexeysol.geekregimeapiposts.sources;
+package com.github.alexeysol.geekregimeapiposts.utils.sources;
 
 import com.github.alexeysol.geekregimeapicommons.models.ApiPath;
 import com.github.alexeysol.geekregimeapicommons.models.BaseUrl;

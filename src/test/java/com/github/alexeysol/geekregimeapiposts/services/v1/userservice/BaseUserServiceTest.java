@@ -2,7 +2,7 @@ package com.github.alexeysol.geekregimeapiposts.services.v1.userservice;
 
 import com.github.alexeysol.geekregimeapiposts.constants.PathConstants;
 import com.github.alexeysol.geekregimeapiposts.services.v1.UserService;
-import com.github.alexeysol.geekregimeapiposts.sources.ApiUsersSourceResolver;
+import com.github.alexeysol.geekregimeapiposts.utils.sources.ApiUsersSourceResolver;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.MappingBuilder;
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;

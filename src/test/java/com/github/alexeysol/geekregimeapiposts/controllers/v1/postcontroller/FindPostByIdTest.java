@@ -3,8 +3,8 @@ package com.github.alexeysol.geekregimeapiposts.controllers.v1.postcontroller;
 import com.github.alexeysol.geekregimeapiposts.TestUtils;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.PostDto;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
-import com.github.alexeysol.geekregimeapiposts.models.dtos.UserDto;
-import com.github.alexeysol.geekregimeapiposts.sources.ApiPostsSourceResolver;
+import com.github.alexeysol.geekregimeapiposts.utils.mappers.PostMapper;
+import com.github.alexeysol.geekregimeapiposts.utils.sources.ApiPostsSourceResolver;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,43 +19,42 @@ import static org.mockito.Mockito.when;
 public class FindPostByIdTest extends BasePostControllerTest {
     public FindPostByIdTest(
         @Autowired MockMvc mockMvc,
-        @Autowired ApiPostsSourceResolver sourceResolver
+        @Autowired ApiPostsSourceResolver sourceResolver,
+        @Autowired PostMapper postMapper
     ) {
-        super(mockMvc, sourceResolver);
+        super(mockMvc, sourceResolver, postMapper);
     }
 
     @Test
-    public void givenPostAndAuthorExist_whenFindPostById_thenReturnsDetailedPostWithStatus200()
-    throws Exception {
-        long initialPostId = 1L;
-        long initialUserId = 1L;
-        Post post = new Post();
-        post.setUserId(initialUserId);
-        UserDto author = new UserDto();
-        Optional<PostDto> detailedPost = Optional.of(new PostDto(post, author));
+    public void givenPostAndAuthorExist_whenFindPostById_thenReturnsDtoWithStatus200()
+        throws Exception {
 
-        when(postService.findPostById(initialPostId)).thenReturn(detailedPost);
+        long postId = 1L;
+        long userId = 1L;
+        Post post = createPost();
+        post.setUserId(userId);
+        PostDto postDto = convertEntityToPostDto(post);
 
-        String url = String.format("%s/%d", apiV1Path, initialPostId);
-        mockMvc.perform(MockMvcRequestBuilders.get(url))
+        when(postService.findPostById(postId)).thenReturn(Optional.of(post));
+
+        mockMvc.perform(MockMvcRequestBuilders.get(getUrl(postId)))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(result -> {
-                String expected = TestUtils.objectToJsonString(detailedPost.get());
+                String expected = TestUtils.objectToJsonString(postDto);
                 String actual = result.getResponse().getContentAsString();
                 Assertions.assertEquals(expected, actual);
             });
-        }
+    }
 
-        @Test
-        public void givenPostDoesntExist_whenFindPostById_thenReturnsStatus404()
+    @Test
+    public void givenPostDoesntExist_whenFindPostById_thenReturnsStatus404()
         throws Exception {
-            long initialPostId = 1L;
-            Optional<PostDto> empty = Optional.empty();
 
-            when(postService.findPostById(initialPostId)).thenReturn(empty);
+        long absentPostId = 10L;
 
-            String url = String.format("%s/%d", apiV1Path, initialPostId);
-            mockMvc.perform(MockMvcRequestBuilders.get(url))
-                .andExpect(MockMvcResultMatchers.status().isNotFound());
-        }
+        when(postService.findPostById(absentPostId)).thenReturn(Optional.empty());
+
+        mockMvc.perform(MockMvcRequestBuilders.get(getUrl(absentPostId)))
+            .andExpect(MockMvcResultMatchers.status().isNotFound());
+    }
 }

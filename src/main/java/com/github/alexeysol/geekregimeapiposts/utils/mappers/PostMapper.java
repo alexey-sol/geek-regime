@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregimeapiposts.utils.mappers;
 
+import com.github.alexeysol.geekregimeapicommons.constants.ApiResource;
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException;
-import com.github.alexeysol.geekregimeapicommons.models.ApiResource;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.CreatePostDto;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.PostDto;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.UpdatePostDto;
@@ -81,6 +81,6 @@ public class PostMapper {
     }
 
     private UserDto getAuthorById(long id) {
-        return userService.getUser(id);
+        return userService.findUserById(id);
     }
 }

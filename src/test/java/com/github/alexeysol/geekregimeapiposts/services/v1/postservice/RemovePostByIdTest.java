@@ -11,10 +11,10 @@ public class RemovePostByIdTest extends BasePostServiceTest {
     public void givenPostExists_whenRemovePostById_thenReturnsPostId() {
         long postId = 3L;
         int deletedRowCount = 1;
+
         when(postRepository.removePostById(postId)).thenReturn(deletedRowCount);
 
         long result = postService.removePostById(postId);
-
         Assertions.assertEquals(postId, result);
     }
 
@@ -22,10 +22,10 @@ public class RemovePostByIdTest extends BasePostServiceTest {
     public void givenPostDoesntExist_whenRemovePostById_thenReturnsOutOfRange() {
         long absentPostId = 3L;
         int deletedRowCount = 0;
+
         when(postRepository.removePostById(absentPostId)).thenReturn(deletedRowCount);
 
         long result = postService.removePostById(absentPostId);
-
         Assertions.assertEquals(DefaultValueConstants.NOT_FOUND_BY_ID, result);
     }
 }

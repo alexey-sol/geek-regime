@@ -3,6 +3,9 @@ package com.github.alexeysol.geekregimeapiposts.models.entities;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.alexeysol.geekregimeapiposts.constants.DatabaseConstants;
 import com.github.alexeysol.geekregimeapiposts.utils.Slug;
+import lombok.AccessLevel;
+import lombok.Data;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -15,11 +18,13 @@ import java.util.Date;
 @Entity
 @Table(name = DatabaseConstants.POSTS_TABLE)
 @EntityListeners(AuditingEntityListener.class)
+@Data
 public class Post {
     @Column(nullable = false)
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @Setter(value = AccessLevel.NONE)
     private long id;
 
     @Column(name = "user_id", nullable = false)
@@ -47,63 +52,13 @@ public class Post {
 
     @Column(name = "created_at", updatable = false)
     @CreatedDate
+    @Setter(value = AccessLevel.NONE)
     private Date createdAt;
 
     @Column(name = "updated_at")
     @LastModifiedDate
+    @Setter(value = AccessLevel.NONE)
     private Date updatedAt;
-
-    public long getId() {
-        return id;
-    }
-
-    public long getUserId() {
-        return userId;
-    }
-
-    public long getSpaceId() {
-        return spaceId;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public String getBody() {
-        return body;
-    }
-
-    public String getSlug() {
-        return slug;
-    }
-
-    public Date getCreatedAt() {
-        return createdAt;
-    }
-
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
-
-    public void setUserId(long userId) {
-        this.userId = userId;
-    }
-
-    public void setSpaceId(long spaceId) {
-        this.spaceId = spaceId;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public void setBody(String body) {
-        this.body = body;
-    }
-
-    public void setSlug(String slug) {
-        this.slug = slug;
-    }
 
     public void generateAndSetSlug() {
         setSlug(Slug.generateSlug(title));

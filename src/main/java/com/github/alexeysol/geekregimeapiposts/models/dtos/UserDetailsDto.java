@@ -1,7 +1,6 @@
 package com.github.alexeysol.geekregimeapiposts.models.dtos;
 
-import com.github.alexeysol.geekregimeapiposts.models.Gender;
-
+import com.github.alexeysol.geekregimeapicommons.constants.Gender;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
