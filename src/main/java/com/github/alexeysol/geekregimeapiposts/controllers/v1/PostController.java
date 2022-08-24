@@ -48,8 +48,8 @@ public class PostController {
 
         Pageable pageable = queryConverter.getPageable();
         Page<Post> postsPage = postService.findAllPosts(pageable);
-        List<PostDto> postDtos = postMapper.allEntitiesToPostDtos(postsPage.getContent());
-        return new PageImpl<>(postDtos, pageable, postsPage.getTotalElements());
+        List<PostDto> postDtoList = postMapper.allEntitiesToPostDtoList(postsPage.getContent());
+        return new PageImpl<>(postDtoList, pageable, postsPage.getTotalElements());
     }
 
     @GetMapping("{id}")

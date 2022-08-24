@@ -16,30 +16,30 @@ public abstract class BasePostMapper {
     protected final UserService userService;
 
     static protected class UserDtoList {
-        private List<UserDto> userDtos;
+        private List<UserDto> list;
 
-        public List<UserDto> getValue() {
-            return userDtos;
+        public List<UserDto> getList() {
+            return list;
         }
 
-        public void setValue(List<UserDto> userDtos) {
-            this.userDtos = userDtos;
+        public void setList(List<UserDto> list) {
+            this.list = list;
         }
     }
 
     static protected class PostList {
-        private List<Post> posts;
+        private List<Post> list;
 
-        public List<Post> getValue() {
-            return posts;
+        public List<Post> getList() {
+            return list;
         }
 
-        public void setValue(List<Post> posts) {
-            this.posts = posts;
+        public void setList(List<Post> list) {
+            this.list = list;
         }
 
         public List<Long> getAuthorIds() {
-            return posts
+            return list
                 .stream()
                 .map(Post::getUserId)
                 .collect(Collectors.toList());
@@ -67,7 +67,7 @@ public abstract class BasePostMapper {
                     List<Long> authorIds = ObjectCasting.objectToList(source, Long.class);
                     return getAllAuthorsById(authorIds);
                 })
-                .map(PostList::getAuthorIds, UserDtoList::setValue));
+                .map(PostList::getAuthorIds, UserDtoList::setList));
     }
 
     private UserDto getAuthorById(long id) {

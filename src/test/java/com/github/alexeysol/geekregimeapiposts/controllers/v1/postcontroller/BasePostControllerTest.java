@@ -51,8 +51,8 @@ public abstract class BasePostControllerTest {
         return String.format("%s/%d", apiV1Path, id);
     }
 
-    protected List<PostDto> convertAllEntitiesToPostDtos(List<Post> posts) {
-        return postMapper.allEntitiesToPostDtos(posts);
+    protected List<PostDto> convertAllEntitiesToPostDtoList(List<Post> posts) {
+        return postMapper.allEntitiesToPostDtoList(posts);
     }
 
     protected PostDto convertEntityToPostDto(Post post) {

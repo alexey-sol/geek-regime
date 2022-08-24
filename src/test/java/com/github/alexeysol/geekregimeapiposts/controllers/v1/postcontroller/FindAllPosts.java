@@ -39,14 +39,14 @@ public class FindAllPosts extends BasePostControllerTest {
     }
 
     @Test
-    public void allPostsExist_whenFindAllPosts_thenReturnsPageContainingAllDtosWithStatus200()
+    public void allPostsExist_whenFindAllPosts_thenReturnsPageContainingFullDtoListWithStatus200()
         throws Exception {
 
         List<Post> posts = List.of(createPost(), createPost(), createPost());
         Page<Post> postPage = new PageImpl<>(posts, pageableStub, posts.size());
 
-        List<PostDto> postDtos = convertAllEntitiesToPostDtos(posts);
-        Page<PostDto> postDtoPage = new PageImpl<>(postDtos, pageableStub, postDtos.size());
+        List<PostDto> postDtoList = convertAllEntitiesToPostDtoList(posts);
+        Page<PostDto> postDtoPage = new PageImpl<>(postDtoList, pageableStub, postDtoList.size());
 
         when(postService.findAllPosts(Mockito.any(Pageable.class))).thenReturn(postPage);
 

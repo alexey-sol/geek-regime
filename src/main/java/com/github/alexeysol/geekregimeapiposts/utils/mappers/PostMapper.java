@@ -19,13 +19,13 @@ public class PostMapper extends BasePostMapper {
         super(modelMapper, postService, userService);
     }
 
-    public List<UserDto> allEntitiesToUserDtos(List<Post> posts) {
+    public List<UserDto> allEntitiesToUserDtoList(List<Post> posts) {
         PostList postList = new PostList();
-        postList.setValue(posts);
-        return modelMapper.map(postList, UserDtoList.class).getValue();
+        postList.setList(posts);
+        return modelMapper.map(postList, UserDtoList.class).getList();
     }
 
-    public List<PostDto> allEntitiesToPostDtos(List<Post> posts) {
+    public List<PostDto> allEntitiesToPostDtoList(List<Post> posts) {
         Map<Long, UserDto> mapAuthorIdToAuthor = getMapAuthorIdToAuthor(posts);
 
         return posts.stream()
@@ -37,7 +37,7 @@ public class PostMapper extends BasePostMapper {
     }
 
     private Map<Long, UserDto> getMapAuthorIdToAuthor(List<Post> posts) {
-        return allEntitiesToUserDtos(posts).stream()
+        return allEntitiesToUserDtoList(posts).stream()
             .collect(Collectors.toMap(UserDto::getId, Function.identity()));
     }
 
