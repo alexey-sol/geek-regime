@@ -6,9 +6,9 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
 public class PostDto {
     private long id;
     private String title;

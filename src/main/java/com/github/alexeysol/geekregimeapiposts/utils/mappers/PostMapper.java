@@ -2,47 +2,57 @@ package com.github.alexeysol.geekregimeapiposts.utils.mappers;
 
 import com.github.alexeysol.geekregimeapicommons.constants.ApiResource;
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException;
-import com.github.alexeysol.geekregimeapiposts.models.dtos.CreatePostDto;
-import com.github.alexeysol.geekregimeapiposts.models.dtos.PostDto;
-import com.github.alexeysol.geekregimeapiposts.models.dtos.UpdatePostDto;
-import com.github.alexeysol.geekregimeapiposts.models.dtos.UserDto;
+import com.github.alexeysol.geekregimeapiposts.models.dtos.*;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.services.v1.PostService;
 import com.github.alexeysol.geekregimeapiposts.services.v1.UserService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.Optional;
+import java.util.*;
+import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Component
-public class PostMapper {
-    private final ModelMapper modelMapper;
-    private final PostService postService;
-    private final UserService userService;
-
+public class PostMapper extends BasePostMapper {
     public PostMapper(ModelMapper modelMapper, PostService postService, UserService userService) {
-        this.modelMapper = modelMapper;
-        this.postService = postService;
-        this.userService = userService;
-
-        // Attach the corresponding author to each post DTO.
-        modelMapper.createTypeMap(Post.class, PostDto.class)
-            .addMappings(mapper -> mapper
-                .using(context -> getAuthorById((long) context.getSource()))
-                .map(Post::getUserId, PostDto::setAuthor));
+        super(modelMapper, postService, userService);
     }
 
-    public List<PostDto> allEntitiesToPostDtos(Iterable<Post> posts) {
-        List<PostDto> postDtos = new ArrayList<>();
-        posts.forEach(post -> postDtos.add(entityToPostDto(post)));
-        return postDtos;
+    public List<UserDto> allEntitiesToUserDtos(List<Post> posts) {
+        PostList postList = new PostList();
+        postList.setValue(posts);
+        return modelMapper.map(postList, UserDtoList.class).getValue();
+    }
+
+    public List<PostDto> allEntitiesToPostDtos(List<Post> posts) {
+        Map<Long, UserDto> mapAuthorIdToAuthor = getMapAuthorIdToAuthor(posts);
+
+        return posts.stream()
+            .map(post -> {
+                UserDto author = mapAuthorIdToAuthor.get(post.getUserId());
+                return postToPostDtoWithProvidedAuthor(post, author);
+            })
+            .toList();
+    }
+
+    private Map<Long, UserDto> getMapAuthorIdToAuthor(List<Post> posts) {
+        return allEntitiesToUserDtos(posts).stream()
+            .collect(Collectors.toMap(UserDto::getId, Function.identity()));
+    }
+
+    public PostDto postToPostDtoWithProvidedAuthor(Post post, UserDto author) {
+        PartialPostDto partialDto = entityToPartialPostDto(post);
+        partialDto.setAuthor(author);
+        return partialDto;
     }
 
     public PostDto entityToPostDto(Post post) {
         return modelMapper.map(post, PostDto.class);
+    }
+
+    public PartialPostDto entityToPartialPostDto(Post post) {
+        return modelMapper.map(post, PartialPostDto.class);
     }
 
     public Post createPostDtoToEntity(CreatePostDto dto) {
@@ -59,9 +69,7 @@ public class PostMapper {
         }
 
         Post entity = optionalEntity.get();
-        String oldTitle = entity.getTitle();
-        String newTitle = dto.getTitle();
-        boolean titleChanged = !Objects.equals(oldTitle, newTitle);
+        boolean titleChanged = hasNewPostTitle(entity, dto);
 
         modelMapper.map(dto, entity);
 
@@ -72,15 +80,17 @@ public class PostMapper {
         return entity;
     }
 
+    private boolean hasNewPostTitle(Post entity, UpdatePostDto dto) {
+        String oldTitle = entity.getTitle();
+        String newTitle = dto.getTitle();
+        return !Objects.equals(oldTitle, newTitle);
+    }
+
     private void generateAndSetSlug(Post entity) {
         entity.generateAndSetSlug();
 
         if (postService.postAlreadyExists(entity.getSlug())) {
             entity.attachSuffixToSlug();
         }
-    }
-
-    private UserDto getAuthorById(long id) {
-        return userService.findUserById(id);
     }
 }
