@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregimeapiusers.controllers.v1.usercontroller
 
+import com.github.alexeysol.geekregimeapicommons.constants.ApiResourceExceptionCode
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException
-import com.github.alexeysol.geekregimeapicommons.models.ApiResourceExceptionCode
 import com.github.alexeysol.geekregimeapiusers.sources.ApiUsersSourceResolver
 import com.github.alexeysol.geekregimeapiusers.models.entities.User
 import com.github.alexeysol.geekregimeapiusers.objectToJsonString

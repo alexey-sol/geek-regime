@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregimeapiusers.models.entities
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.github.alexeysol.geekregimeapiusers.models.Gender
+import com.github.alexeysol.geekregimeapicommons.constants.Gender
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 import com.github.alexeysol.geekregimeapiusers.constants.DatabaseConstants
@@ -27,7 +27,7 @@ data class Details(
     var gender: Gender? = null,
 
     @JoinColumn(name = "user_id", nullable = false)
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

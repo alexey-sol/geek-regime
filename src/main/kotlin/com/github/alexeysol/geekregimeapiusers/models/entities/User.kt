@@ -35,11 +35,11 @@ data class User(
     var updatedAt: Instant? = null,
 
     @PrimaryKeyJoinColumn
-    @OneToOne(mappedBy = "user", cascade = [CascadeType.ALL])
+    @OneToOne(mappedBy = "user", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     @field:Valid
     var details: Details? = null,
 
     @PrimaryKeyJoinColumn
-    @OneToOne(mappedBy = "user")
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
     var credentials: Credentials? = null,
 )

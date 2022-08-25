@@ -1,17 +1,20 @@
 package com.github.alexeysol.geekregimeapiusers.controllers.v1
 
+import com.github.alexeysol.geekregimeapicommons.constants.ApiResource
 import com.github.alexeysol.geekregimeapicommons.constants.DefaultValueConstants
 import com.github.alexeysol.geekregimeapicommons.exceptions.BaseResourceException
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceAlreadyExistsException
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException
-import com.github.alexeysol.geekregimeapicommons.models.ApiResource
 import com.github.alexeysol.geekregimeapicommons.models.Pair
+import com.github.alexeysol.geekregimeapicommons.utils.converters.QueryConverter
 import com.github.alexeysol.geekregimeapiusers.constants.PathConstants
 import com.github.alexeysol.geekregimeapiusers.models.dtos.CreateUserDto
-import com.github.alexeysol.geekregimeapiusers.models.dtos.UserDto
 import com.github.alexeysol.geekregimeapiusers.models.dtos.UpdateUserDto
+import com.github.alexeysol.geekregimeapiusers.models.dtos.UserDto
 import com.github.alexeysol.geekregimeapiusers.services.v1.UserService
-import com.github.alexeysol.geekregimeapiusers.utils.mappers.UserDtoMapper
+import com.github.alexeysol.geekregimeapiusers.utils.mappers.UserMapper
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
@@ -24,14 +27,23 @@ import javax.validation.Valid
 @Validated
 class UserController(
     val service: UserService,
-    val userDtoMapper: UserDtoMapper
+    val userMapper: UserMapper
 ) {
     @GetMapping
-    fun findAllUsers(@RequestParam ids: List<Long>?): List<UserDto> {
-        val users = if (ids === null) service.findAllUsers()
-        else service.findAllUsersById(ids)
+    fun findAllUsers(
+        @RequestParam ids: List<Long>?,
+        @RequestParam paging: String?,
+        @RequestParam sortBy: String?
+    ): Page<UserDto> {
+        val queryConverter = QueryConverter(paging, sortBy)
+        val pageable = queryConverter.pageable
 
-        return userDtoMapper.allEntitiesToUserDtos(users)
+        val usersPage =
+            if (ids === null) service.findAllUsers(pageable)
+            else service.findAllUsersById(ids, pageable)
+
+        val userDtoList = userMapper.allEntitiesToUserDtoList(usersPage.content);
+        return PageImpl(userDtoList, pageable, usersPage.totalElements)
     }
 
     @GetMapping("{id}")
@@ -40,7 +52,7 @@ class UserController(
         val user = service.findUserById(id)
             ?: throw ResourceNotFoundException(ApiResource.USER, id)
 
-        return userDtoMapper.entityToUserDto(user)
+        return userMapper.entityToUserDto(user)
     }
 
     @PostMapping
@@ -50,9 +62,9 @@ class UserController(
             throw ResourceAlreadyExistsException(ApiResource.USER, Pair("email", dto.email))
         }
 
-        val user = userDtoMapper.createUserDtoToEntity(dto)
+        val user = userMapper.createUserDtoToEntity(dto)
         val createdUser = service.createUser(user, dto.password)
-        return userDtoMapper.entityToUserDto(createdUser)
+        return userMapper.entityToUserDto(createdUser)
     }
 
     @PatchMapping("{id}")
@@ -61,9 +73,15 @@ class UserController(
         @PathVariable id: Long,
         @RequestBody @Valid dto: UpdateUserDto
     ): UserDto {
-        val user = userDtoMapper.updateUserDtoToEntity(dto, id)
+        dto.email?.let {
+            if (service.userAlreadyExists(it)) {
+                throw ResourceAlreadyExistsException(ApiResource.USER, Pair("email", it))
+            }
+        }
+
+        val user = userMapper.updateUserDtoToEntity(dto, id)
         val updatedUser = service.updateUser(id, user, dto.newPassword)
-        return userDtoMapper.entityToUserDto(updatedUser)
+        return userMapper.entityToUserDto(updatedUser)
     }
 
     @DeleteMapping("{id}")

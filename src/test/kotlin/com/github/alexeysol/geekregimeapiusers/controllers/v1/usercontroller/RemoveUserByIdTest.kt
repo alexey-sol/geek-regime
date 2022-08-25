@@ -1,8 +1,8 @@
 package com.github.alexeysol.geekregimeapiusers.controllers.v1.usercontroller
 
+import com.github.alexeysol.geekregimeapicommons.constants.ApiResourceExceptionCode
 import com.github.alexeysol.geekregimeapicommons.constants.DefaultValueConstants
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException
-import com.github.alexeysol.geekregimeapicommons.models.ApiResourceExceptionCode
 import com.github.alexeysol.geekregimeapiusers.sources.ApiUsersSourceResolver
 import io.mockk.every
 import org.hamcrest.CoreMatchers

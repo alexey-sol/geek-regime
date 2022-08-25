@@ -19,7 +19,7 @@ data class Credentials(
     var salt: ByteArray,
 
     @JoinColumn(name = "user_id", nullable = false)
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @MapsId
     @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)

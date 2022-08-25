@@ -3,17 +3,19 @@ package com.github.alexeysol.geekregimeapiusers.services.v1
 import com.github.alexeysol.geekregimeapicommons.constants.DefaultValueConstants
 import com.github.alexeysol.geekregimeapiusers.models.entities.User
 import com.github.alexeysol.geekregimeapiusers.repositories.UserRepository
-import org.springframework.data.repository.findByIdOrNull
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 
 @Service
 class UserService(val db: UserRepository, val credentialsService: CredentialsService) {
-    fun findAllUsers(): Iterable<User> = db.findAll()
+    fun findAllUsers(pageable: Pageable): Page<User> = db.findAllUsers(pageable)
 
-    fun findAllUsersById(ids: List<Long>): Iterable<User> = db.findAllById(ids)
+    fun findAllUsersById(ids: List<Long>, pageable: Pageable): Page<User> =
+        db.findAllUsersById(ids, pageable)
 
-    fun findUserById(id: Long): User? = db.findByIdOrNull(id)
+    fun findUserById(id: Long): User? = db.findUserById(id)
 
     @Transactional
     fun createUser(user: User, password: String?): User {

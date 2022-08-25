@@ -1,6 +1,6 @@
 package com.github.alexeysol.geekregimeapiusers.models.dtos
 
-import com.github.alexeysol.geekregimeapiusers.models.Gender
+import com.github.alexeysol.geekregimeapicommons.constants.Gender
 
 data class DetailsDto(
     var name: String? = null,
