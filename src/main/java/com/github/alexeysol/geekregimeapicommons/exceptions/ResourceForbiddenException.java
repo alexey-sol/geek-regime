@@ -6,24 +6,24 @@ import com.github.alexeysol.geekregimeapicommons.models.Pair;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ResponseStatus;
 
-@ResponseStatus(value = HttpStatus.CONFLICT)
-public class ResourceAlreadyExistsException extends BaseResourceException {
-    public ResourceAlreadyExistsException(String message) {
+@ResponseStatus(value = HttpStatus.FORBIDDEN)
+public class ResourceForbiddenException extends BaseResourceException {
+    public ResourceForbiddenException(String message) {
         super(message);
     }
 
-    public ResourceAlreadyExistsException(ApiResource resource, Long id) {
+    public ResourceForbiddenException(ApiResource resource, Long id) {
         this(resource, new Pair<>("id", id.toString()));
     }
 
-    public ResourceAlreadyExistsException(
+    public ResourceForbiddenException(
         ApiResource resource,
         Pair<String, String> keyValuePairCausedException
     ) {
-        super(resource, ApiResourceExceptionCode.ALREADY_EXISTS, keyValuePairCausedException);
+        super(resource, ApiResourceExceptionCode.FORBIDDEN, keyValuePairCausedException);
     }
 
-    public ResourceAlreadyExistsException(ApiResource resource) {
-        super(resource, ApiResourceExceptionCode.ALREADY_EXISTS);
+    public ResourceForbiddenException(ApiResource resource) {
+        super(resource, ApiResourceExceptionCode.FORBIDDEN);
     }
 }

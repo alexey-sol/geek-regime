@@ -1,6 +1,6 @@
 package com.github.alexeysol.geekregimeapicommons.models.dtos;
 
-public class PagingOptions {
+public class PagingDto {
     private final int DEFAULT_SIZE = 10;
     private final int DEFAULT_PAGE = 0;
 

@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregimeapicommons.exceptions;
 
-import com.github.alexeysol.geekregimeapicommons.models.ApiResource;
-import com.github.alexeysol.geekregimeapicommons.models.ApiResourceExceptionCode;
+import com.github.alexeysol.geekregimeapicommons.constants.ApiResource;
+import com.github.alexeysol.geekregimeapicommons.constants.ApiResourceExceptionCode;
 import com.github.alexeysol.geekregimeapicommons.models.Pair;
 
 public abstract class BaseResourceException extends RuntimeException {
