@@ -4,6 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.alexeysol.geekregimeapicommons.exceptions.BaseResourceException;
 import com.github.alexeysol.geekregimeapicommons.utils.Json;
 import com.github.alexeysol.geekregimeapicommons.utils.Request;
+import com.github.alexeysol.geekregimeapiposts.models.dtos.PageImplDeserializer;
 import com.github.alexeysol.geekregimeapiposts.utils.sources.ApiUsersSourceResolver;
 import com.github.alexeysol.geekregimeapiposts.constants.PathConstants;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.UserDto;
@@ -30,15 +31,20 @@ public class UserService {
 
         try {
             Request request = new Request(getApiUsersUrl());
-            String usersJson = request.addQueryParams(ids)
+            String usersPageJson = request.addQueryParams(ids)
                 .get()
                 .getResult();
 
-            users = Json.parse(usersJson, new TypeReference<>() {});
-        } catch (IllegalArgumentException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+            PageImplDeserializer<List<UserDto>> usersPage = Json.parse(
+                usersPageJson,
+                new TypeReference<>() {}
+            );
+
+            users = usersPage.getContent();
+        } catch (IllegalArgumentException exception) {
+            throw exception;
+        } catch (Exception exception) {
+            throw new RuntimeException(exception.getMessage());
         }
 
         return users;
@@ -54,10 +60,10 @@ public class UserService {
                 .getResult();
 
             user = Json.parse(userJson, UserDto.class);
-        } catch (IllegalArgumentException | BaseResourceException e) {
-            throw e;
-        } catch (Exception e) {
-            throw new RuntimeException(e.getMessage());
+        } catch (IllegalArgumentException | BaseResourceException exception) {
+            throw exception;
+        } catch (Exception exception) {
+            throw new RuntimeException(exception.getMessage());
         }
 
         return user;

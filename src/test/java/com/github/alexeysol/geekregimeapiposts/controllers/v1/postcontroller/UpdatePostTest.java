@@ -42,7 +42,7 @@ public class UpdatePostTest extends BasePostControllerTest {
         String body = "Hello World";
         Post post = createPost(title, body);
         UpdatePostDto updatePostDto = createUpdatePostDto(title, body);
-        PostDto postDto = convertEntityToPostDto(post);
+        PostDto postDto = convertPostToPostDto(post);
 
         when(postService.findPostById(1L)).thenReturn(Optional.of(post));
         when(postService.savePost(Mockito.any(Post.class))).thenReturn(post);

@@ -38,7 +38,7 @@ public class CreatePostTest extends BasePostControllerTest {
         String body = "Hello World";
         Post post = createPost(title, body);
         CreatePostDto createPostDto = createCreatePostDto(title, body);
-        PostDto postDto = convertEntityToPostDto(post);
+        PostDto postDto = convertPostToPostDto(post);
 
         when(postService.savePost(Mockito.any(Post.class))).thenReturn(post);
 

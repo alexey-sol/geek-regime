@@ -45,7 +45,7 @@ public class FindAllPosts extends BasePostControllerTest {
         List<Post> posts = List.of(createPost(), createPost(), createPost());
         Page<Post> postPage = new PageImpl<>(posts, pageableStub, posts.size());
 
-        List<PostDto> postDtoList = convertAllEntitiesToPostDtoList(posts);
+        List<PostDto> postDtoList = convertPostListToPostDtoList(posts);
         Page<PostDto> postDtoPage = new PageImpl<>(postDtoList, pageableStub, postDtoList.size());
 
         when(postService.findAllPosts(Mockito.any(Pageable.class))).thenReturn(postPage);

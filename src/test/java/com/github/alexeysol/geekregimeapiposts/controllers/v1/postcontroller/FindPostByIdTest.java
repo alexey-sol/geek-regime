@@ -33,7 +33,7 @@ public class FindPostByIdTest extends BasePostControllerTest {
         long userId = 1L;
         Post post = createPost();
         post.setUserId(userId);
-        PostDto postDto = convertEntityToPostDto(post);
+        PostDto postDto = convertPostToPostDto(post);
 
         when(postService.findPostById(postId)).thenReturn(Optional.of(post));
 

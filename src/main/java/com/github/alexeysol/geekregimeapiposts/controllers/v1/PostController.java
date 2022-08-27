@@ -28,6 +28,10 @@ import java.util.*;
 )
 @Validated
 public class PostController {
+    private final List<String> sortByUserFields = List.of(
+        "author.details.name", "author.email", "createdAt", "id", "slug", "title", "updatedAt"
+    );
+
     private final PostService postService;
     private final PostMapper postMapper;
 
@@ -43,12 +47,13 @@ public class PostController {
     ) {
         QueryConverter queryConverter = new QueryConverter(
             paging.orElse(""),
-            sortBy.orElse("")
+            sortBy.orElse(""),
+            sortByUserFields
         );
 
         Pageable pageable = queryConverter.getPageable();
         Page<Post> postsPage = postService.findAllPosts(pageable);
-        List<PostDto> postDtoList = postMapper.allEntitiesToPostDtoList(postsPage.getContent());
+        List<PostDto> postDtoList = postMapper.fromPostListToPostDtoList(postsPage.getContent());
         return new PageImpl<>(postDtoList, pageable, postsPage.getTotalElements());
     }
 
@@ -60,14 +65,14 @@ public class PostController {
             throw new ResourceNotFoundException(ApiResource.POST, id);
         }
 
-        return postMapper.entityToPostDto(post.get());
+        return postMapper.fromPostToPostDto(post.get());
     }
 
     @PostMapping
     PostDto createPost(@RequestBody @Valid CreatePostDto dto) {
-        Post post = postMapper.createPostDtoToEntity(dto);
+        Post post = postMapper.fromCreatePostDtoToPost(dto);
         Post createdPost = postService.savePost(post);
-        return postMapper.entityToPostDto(createdPost);
+        return postMapper.fromPostToPostDto(createdPost);
 
     }
 
@@ -76,9 +81,9 @@ public class PostController {
         @PathVariable long id,
         @RequestBody @Valid UpdatePostDto dto
     ) {
-        Post post = postMapper.updatePostDtoToEntity(dto, id);
+        Post post = postMapper.fromUpdatePostDtoToPost(dto, id);
         Post updatedPost = postService.savePost(post);
-        return postMapper.entityToPostDto(updatedPost);
+        return postMapper.fromPostToPostDto(updatedPost);
     }
 
     @DeleteMapping("{id}")

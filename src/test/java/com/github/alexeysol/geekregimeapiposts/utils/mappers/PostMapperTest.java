@@ -33,7 +33,7 @@ public class PostMapperTest {
     }
 
     @Test
-    public void whenAllEntitiesToUserDtoList_thenReturnsUserDtoList() {
+    public void whenFromPostListToUserDtoList_thenReturnsUserDtoList() {
         String title = "Test Post";
         String body = "Hello World";
         String slug = "test-post";
@@ -58,14 +58,14 @@ public class PostMapperTest {
 
         when(userService.findAllUsers(authorIds)).thenReturn(authors);
 
-        List<UserDto> result = postMapper.allEntitiesToUserDtoList(posts);
+        List<UserDto> result = postMapper.fromPostListToUserDtoList(posts);
         Assertions.assertEquals(authorIds.size(), result.size());
         Assertions.assertEquals(userId, result.get(0).getId());
         Assertions.assertEquals(userId2, result.get(1).getId());
     }
 
     @Test
-    public void whenAllEntitiesToPostDtoList_thenReturnsPostDtoListWithMappedFields() {
+    public void whenFromPostListToPostDtoList_thenReturnsPostDtoListWithMappedFields() {
         String title = "Test Post";
         String body = "Hello World";
         String slug = "test-post";
@@ -90,7 +90,7 @@ public class PostMapperTest {
 
         when(userService.findAllUsers(authorIds)).thenReturn(authors);
 
-        List<PostDto> result = postMapper.allEntitiesToPostDtoList(posts);
+        List<PostDto> result = postMapper.fromPostListToPostDtoList(posts);
         Assertions.assertEquals(posts.size(), result.size());
         Assertions.assertEquals(title, result.get(0).getTitle());
         Assertions.assertEquals(body, result.get(0).getBody());
@@ -103,7 +103,7 @@ public class PostMapperTest {
     }
 
     @Test
-    public void whenEntityToPostDto_thenReturnsPostDtoWithMappedFields() {
+    public void whenFromPostToPostDto_thenReturnsPostDtoWithMappedFields() {
         String title = "Test Post";
         String body = "Hello World";
         String slug = "test-post";
@@ -115,7 +115,7 @@ public class PostMapperTest {
 
         when(userService.findUserById(userId)).thenReturn(userDto);
 
-        PostDto result = postMapper.entityToPostDto(post);
+        PostDto result = postMapper.fromPostToPostDto(post);
         Assertions.assertEquals(title, result.getTitle());
         Assertions.assertEquals(body, result.getBody());
         Assertions.assertEquals(slug, result.getSlug());
@@ -123,7 +123,7 @@ public class PostMapperTest {
     }
 
     @Test
-    public void whenEntityToPartialPostDto_thenReturnsPartialPostDtoWithNullableFields() {
+    public void whenFromPostToPartialPostDto_thenReturnsPartialPostDtoWithNullableFields() {
         String title = "Test Post";
         String absentBody = null;
         String absentSlug = null;
@@ -132,7 +132,7 @@ public class PostMapperTest {
 
         when(userService.findUserById(userId)).thenReturn(null);
 
-        PartialPostDto result = postMapper.entityToPartialPostDto(post);
+        PartialPostDto result = postMapper.fromPostToPartialPostDto(post);
         Assertions.assertEquals(title, result.getTitle());
         Assertions.assertEquals(absentBody, result.getBody());
         Assertions.assertEquals(absentSlug, result.getSlug());
@@ -140,7 +140,7 @@ public class PostMapperTest {
     }
 
     @Test
-    public void givenSlugDoesntExist_whenCreatePostDtoToEntity_thenReturnsPostWithGeneratedSlug() {
+    public void givenSlugDoesntExist_whenFromCreatePostDtoToPost_thenReturnsPostWithGeneratedSlug() {
         String title = "Test Post";
         String body = "Hello World";
         String slug = "test-post";
@@ -148,13 +148,13 @@ public class PostMapperTest {
 
         when(postService.postAlreadyExists(slug)).thenReturn(false);
 
-        Post result = postMapper.createPostDtoToEntity(createPostDto);
+        Post result = postMapper.fromCreatePostDtoToPost(createPostDto);
         Assertions.assertNull(createPostDto.getSlug());
         Assertions.assertEquals(slug, result.getSlug());
     }
 
     @Test
-    public void givenSlugExists_whenCreatePostDtoToEntity_thenReturnsPostWithModifiedSlug() {
+    public void givenSlugExists_whenFromCreatePostDtoToPost_thenReturnsPostWithModifiedSlug() {
         String title = "Test Post";
         String body = "Hello World";
         String slug = "test-post";
@@ -162,14 +162,14 @@ public class PostMapperTest {
 
         when(postService.postAlreadyExists(slug)).thenReturn(true);
 
-        Post result = postMapper.createPostDtoToEntity(createPostDto);
+        Post result = postMapper.fromCreatePostDtoToPost(createPostDto);
         String expectedSlugSuffix = Slug.getSuffixFromHash(result);
         Assertions.assertNull(createPostDto.getSlug());
         Assertions.assertTrue(result.getSlug().endsWith(expectedSlugSuffix));
     }
 
     @Test
-    public void givenNewTitle_whenUpdatePostDtoToEntity_thenReturnsPostWithModifiedSlug() {
+    public void givenNewTitle_whenFromUpdatePostDtoToPost_thenReturnsPostWithModifiedSlug() {
         long postId = 1L;
         String oldTitle = "Test Post";
         String oldBody = "Hello World";
@@ -182,13 +182,13 @@ public class PostMapperTest {
         when(postService.findPostById(postId)).thenReturn(Optional.of(oldPost));
         when(postService.postAlreadyExists(newSlug)).thenReturn(true);
 
-        Post result = postMapper.updatePostDtoToEntity(updatePostDto, postId);
+        Post result = postMapper.fromUpdatePostDtoToPost(updatePostDto, postId);
         String expectedSlugSuffix = Slug.getSuffixFromHash(result);
         Assertions.assertTrue(result.getSlug().endsWith(expectedSlugSuffix));
     }
 
     @Test
-    public void givenDtoHasNulls_whenUpdatePostDtoToEntity_thenReturnsPostWithNotAppliedNulls() {
+    public void givenDtoHasNulls_whenFromUpdatePostDtoToPost_thenReturnsPostWithNotAppliedNulls() {
         long postId = 1L;
         String oldTitle = "Test Post";
         String oldBody = "Hello World";
@@ -202,14 +202,14 @@ public class PostMapperTest {
         when(postService.findPostById(postId)).thenReturn(Optional.of(oldPost));
         when(postService.postAlreadyExists(slug)).thenReturn(false);
 
-        Post result = postMapper.updatePostDtoToEntity(updatePostDto, postId);
+        Post result = postMapper.fromUpdatePostDtoToPost(updatePostDto, postId);
         Assertions.assertEquals(newTitle, result.getTitle());
         Assertions.assertEquals(oldBody, result.getBody());
         Assertions.assertNotEquals(newBody, result.getBody());
     }
 
     @Test
-    public void givenPostDoesntExist_whenUpdatePostDtoToEntity_thenThrowsResourceNotFoundException() {
+    public void givenPostDoesntExist_whenFromUpdatePostDtoToPost_thenThrowsResourceNotFoundException() {
         long absentPostId = 10L;
         String newTitle = "Test Post";
         String newBody = "Hello World";
@@ -218,7 +218,7 @@ public class PostMapperTest {
         when(postService.findPostById(absentPostId)).thenReturn(Optional.empty());
 
         Assertions.assertThrows(ResourceNotFoundException.class, () -> {
-            postMapper.updatePostDtoToEntity(updatePostDto, absentPostId);
+            postMapper.fromUpdatePostDtoToPost(updatePostDto, absentPostId);
         });
     }
 

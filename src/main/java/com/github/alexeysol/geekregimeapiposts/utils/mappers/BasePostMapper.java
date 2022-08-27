@@ -8,7 +8,6 @@ import com.github.alexeysol.geekregimeapiposts.utils.ObjectCasting;
 import org.modelmapper.ModelMapper;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 public abstract class BasePostMapper {
     protected final ModelMapper modelMapper;
@@ -39,10 +38,9 @@ public abstract class BasePostMapper {
         }
 
         public List<Long> getAuthorIds() {
-            return list
-                .stream()
+            return list.stream()
                 .map(Post::getUserId)
-                .collect(Collectors.toList());
+                .toList();
         }
     }
 
@@ -64,7 +62,11 @@ public abstract class BasePostMapper {
             .addMappings(mapper -> mapper
                 .using(context -> {
                     Object source = context.getSource();
-                    List<Long> authorIds = ObjectCasting.objectToList(source, Long.class);
+                    List<Long> authorIds = ObjectCasting.objectToList(source, Long.class)
+                        .stream()
+                        .distinct()
+                        .toList();
+
                     return getAllAuthorsById(authorIds);
                 })
                 .map(PostList::getAuthorIds, UserDtoList::setList));

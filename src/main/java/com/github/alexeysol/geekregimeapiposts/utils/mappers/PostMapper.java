@@ -19,49 +19,49 @@ public class PostMapper extends BasePostMapper {
         super(modelMapper, postService, userService);
     }
 
-    public List<UserDto> allEntitiesToUserDtoList(List<Post> posts) {
+    public List<UserDto> fromPostListToUserDtoList(List<Post> posts) {
         PostList postList = new PostList();
         postList.setList(posts);
         return modelMapper.map(postList, UserDtoList.class).getList();
     }
 
-    public List<PostDto> allEntitiesToPostDtoList(List<Post> posts) {
+    public List<PostDto> fromPostListToPostDtoList(List<Post> posts) {
         Map<Long, UserDto> mapAuthorIdToAuthor = getMapAuthorIdToAuthor(posts);
 
         return posts.stream()
             .map(post -> {
                 UserDto author = mapAuthorIdToAuthor.get(post.getUserId());
-                return postToPostDtoWithProvidedAuthor(post, author);
+                return fromPostToPostDtoWithProvidedAuthor(post, author);
             })
             .toList();
     }
 
     private Map<Long, UserDto> getMapAuthorIdToAuthor(List<Post> posts) {
-        return allEntitiesToUserDtoList(posts).stream()
+        return fromPostListToUserDtoList(posts).stream()
             .collect(Collectors.toMap(UserDto::getId, Function.identity()));
     }
 
-    public PostDto postToPostDtoWithProvidedAuthor(Post post, UserDto author) {
-        PartialPostDto partialDto = entityToPartialPostDto(post);
+    public PostDto fromPostToPostDtoWithProvidedAuthor(Post post, UserDto author) {
+        PartialPostDto partialDto = fromPostToPartialPostDto(post);
         partialDto.setAuthor(author);
         return partialDto;
     }
 
-    public PostDto entityToPostDto(Post post) {
+    public PostDto fromPostToPostDto(Post post) {
         return modelMapper.map(post, PostDto.class);
     }
 
-    public PartialPostDto entityToPartialPostDto(Post post) {
+    public PartialPostDto fromPostToPartialPostDto(Post post) {
         return modelMapper.map(post, PartialPostDto.class);
     }
 
-    public Post createPostDtoToEntity(CreatePostDto dto) {
+    public Post fromCreatePostDtoToPost(CreatePostDto dto) {
         Post entity = modelMapper.map(dto, Post.class);
         generateAndSetSlug(entity);
         return entity;
     }
 
-    public Post updatePostDtoToEntity(UpdatePostDto dto, long postId) {
+    public Post fromUpdatePostDtoToPost(UpdatePostDto dto, long postId) {
         Optional<Post> optionalEntity = postService.findPostById(postId);
 
         if (optionalEntity.isEmpty()) {
