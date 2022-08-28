@@ -43,7 +43,7 @@ public class Request {
     }
 
     public String getResult() throws InterruptedException, ExecutionException {
-        Assert.notNull(httpRequest, "No request made; make request first");
+        Assert.notNull(httpRequest, "No built request; build request first");
 
         CompletableFuture<HttpResponse<String>> response = HttpClient.newBuilder()
             .build()
@@ -57,7 +57,7 @@ public class Request {
     }
 
     public Request addPathVariable(String pathVariable) {
-        Assert.isNull(httpRequest, "Request is already done; add path variable before making request");
+        Assert.isNull(httpRequest, "Request is already built; add path variable before making request");
         Assert.isTrue(!hasQueryParams, "URI already has query params in it; add path variable first");
 
         String path = String.format("/%s", pathVariable);
@@ -66,7 +66,7 @@ public class Request {
     }
 
     public Request addQueryParams(List<?> items) {
-        Assert.isNull(httpRequest, "Request is already done; add query params before making request");
+        Assert.isNull(httpRequest, "Request is already built; add query params before making request");
 
         List<String> itemsAsStrings = new ArrayList<>();
 
