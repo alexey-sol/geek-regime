@@ -1,13 +1,10 @@
 package com.github.alexeysol.geekregimeapiposts.controllers.v1.postcontroller;
 
+import com.github.alexeysol.geekregimeapicommons.utils.TestUtils;
 import com.github.alexeysol.geekregimeapicommons.utils.converters.QueryConverter;
-import com.github.alexeysol.geekregimeapiposts.TestUtils;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.PostDto;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
-import com.github.alexeysol.geekregimeapiposts.utils.mappers.PostMapper;
 import com.github.alexeysol.geekregimeapiposts.utils.sources.ApiPostsSourceResolver;
-import com.jayway.jsonpath.JsonPath;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,12 +12,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
-import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -32,10 +27,9 @@ public class FindAllPosts extends BasePostControllerTest {
 
     public FindAllPosts(
         @Autowired MockMvc mockMvc,
-        @Autowired ApiPostsSourceResolver sourceResolver,
-        @Autowired PostMapper postMapper
+        @Autowired ApiPostsSourceResolver sourceResolver
     ) {
-        super(mockMvc, sourceResolver, postMapper);
+        super(mockMvc, sourceResolver);
     }
 
     @Test
@@ -45,10 +39,11 @@ public class FindAllPosts extends BasePostControllerTest {
         List<Post> posts = List.of(createPost(), createPost(), createPost());
         Page<Post> postPage = new PageImpl<>(posts, pageableStub, posts.size());
 
-        List<PostDto> postDtoList = convertPostListToPostDtoList(posts);
+        List<PostDto> postDtoList = List.of(createPostDto(), createPostDto(), createPostDto());
         Page<PostDto> postDtoPage = new PageImpl<>(postDtoList, pageableStub, postDtoList.size());
 
         when(postService.findAllPosts(Mockito.any(Pageable.class))).thenReturn(postPage);
+        when(postMapper.fromPostListToPostDtoList(posts)).thenReturn(postDtoList);
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl()))
             .andExpect(MockMvcResultMatchers.status().isOk())
@@ -56,7 +51,8 @@ public class FindAllPosts extends BasePostControllerTest {
             .andExpect(MockMvcResultMatchers.jsonPath("$.content").isArray())
             .andExpect(MockMvcResultMatchers.jsonPath("$.content").isNotEmpty())
             .andExpect(result -> {
-                responseContentEqualsProvidedPage(result.getResponse(), postDtoPage);
+                String contentAsString = result.getResponse().getContentAsString();
+                TestUtils.responseContentEqualsProvidedPage(postDtoPage, contentAsString);
             });
     }
 
@@ -64,11 +60,14 @@ public class FindAllPosts extends BasePostControllerTest {
     public void postsDontExist_whenFindAllPosts_thenReturnsPageContainingNothingWithStatus200()
         throws Exception {
 
-        int total = 0;
-        Page<Post> postPage = new PageImpl<>(new ArrayList<>(), pageableStub, total);
-        Page<PostDto> postDtoPage = new PageImpl<>(new ArrayList<>(), pageableStub, total);
+        List<Post> emptyPostList = List.of();
+        Page<Post> emptyPostPage = new PageImpl<>(new ArrayList<>(), pageableStub, 0);
 
-        when(postService.findAllPosts(Mockito.any(Pageable.class))).thenReturn(postPage);
+        List<PostDto> emptyPostDtoList = List.of();
+        Page<PostDto> emptyPostDtoPage = new PageImpl<>(new ArrayList<>(), pageableStub, 0);
+
+        when(postService.findAllPosts(Mockito.any(Pageable.class))).thenReturn(emptyPostPage);
+        when(postMapper.fromPostListToPostDtoList(emptyPostList)).thenReturn(emptyPostDtoList);
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl()))
             .andExpect(MockMvcResultMatchers.status().isOk())
@@ -76,19 +75,8 @@ public class FindAllPosts extends BasePostControllerTest {
             .andExpect(MockMvcResultMatchers.jsonPath("$.content").isArray())
             .andExpect(MockMvcResultMatchers.jsonPath("$.content").isEmpty())
             .andExpect(result -> {
-                responseContentEqualsProvidedPage(result.getResponse(), postDtoPage);
+                String contentAsString = result.getResponse().getContentAsString();
+                TestUtils.responseContentEqualsProvidedPage(emptyPostDtoPage, contentAsString);
             });
-    }
-
-    private <ValueType> void responseContentEqualsProvidedPage(
-        MockHttpServletResponse response,
-        Page<ValueType> page
-    ) throws UnsupportedEncodingException {
-        String contentAsString = response.getContentAsString();
-        int expectedPageContentSize = page.getContent().size();
-        int actualPageContentSize = JsonPath.read(contentAsString, "$.content.length()");
-
-        Assertions.assertEquals(TestUtils.objectToJsonString(page), contentAsString);
-        Assertions.assertEquals(expectedPageContentSize, actualPageContentSize);
     }
 }

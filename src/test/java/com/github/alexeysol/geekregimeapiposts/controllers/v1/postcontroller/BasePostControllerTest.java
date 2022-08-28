@@ -14,8 +14,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.util.List;
-
 @SpringBootTest
 @AutoConfigureMockMvc
 public abstract class BasePostControllerTest {
@@ -23,7 +21,6 @@ public abstract class BasePostControllerTest {
 
     protected MockMvc mockMvc;
     protected ApiPostsSourceResolver sourceResolver;
-    protected PostMapper postMapper;
     protected String apiV1Path;
 
     @MockBean
@@ -32,14 +29,15 @@ public abstract class BasePostControllerTest {
     @MockBean
     protected UserService userService;
 
+    @MockBean
+    protected PostMapper postMapper;
+
     public BasePostControllerTest(
         MockMvc mockMvc,
-        ApiPostsSourceResolver sourceResolver,
-        PostMapper postMapper
+        ApiPostsSourceResolver sourceResolver
     ) {
         this.mockMvc = mockMvc;
         this.sourceResolver = sourceResolver;
-        this.postMapper = postMapper;
         this.apiV1Path = sourceResolver.getApiPath(PathConstants.V1);
     }
 
@@ -49,14 +47,6 @@ public abstract class BasePostControllerTest {
 
     protected String getUrl(long id) {
         return String.format("%s/%d", apiV1Path, id);
-    }
-
-    protected List<PostDto> convertPostListToPostDtoList(List<Post> posts) {
-        return postMapper.fromPostListToPostDtoList(posts);
-    }
-
-    protected PostDto convertPostToPostDto(Post post) {
-        return postMapper.fromPostToPostDto(post);
     }
 
     protected CreatePostDto createCreatePostDto(String title, String body) {
@@ -79,6 +69,17 @@ public abstract class BasePostControllerTest {
 
     protected Post createPost(String title, String body) {
         Post post = new Post();
+        post.setTitle(title);
+        post.setBody(body);
+        return post;
+    }
+
+    protected PostDto createPostDto() {
+        return createPostDto("", "");
+    }
+
+    protected PostDto createPostDto(String title, String body) {
+        PostDto post = new PostDto();
         post.setTitle(title);
         post.setBody(body);
         return post;

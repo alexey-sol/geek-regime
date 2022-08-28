@@ -3,7 +3,6 @@ package com.github.alexeysol.geekregimeapiposts.controllers.v1.postcontroller;
 import com.github.alexeysol.geekregimeapicommons.constants.ApiResourceExceptionCode;
 import com.github.alexeysol.geekregimeapicommons.constants.DefaultValueConstants;
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException;
-import com.github.alexeysol.geekregimeapiposts.utils.mappers.PostMapper;
 import com.github.alexeysol.geekregimeapiposts.utils.sources.ApiPostsSourceResolver;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
@@ -21,10 +20,9 @@ import static org.mockito.Mockito.when;
 public class RemovePostByIdTest extends BasePostControllerTest {
     public RemovePostByIdTest(
         @Autowired MockMvc mockMvc,
-        @Autowired ApiPostsSourceResolver sourceResolver,
-        @Autowired PostMapper postMapper
+        @Autowired ApiPostsSourceResolver sourceResolver
     ) {
-        super(mockMvc, sourceResolver, postMapper);
+        super(mockMvc, sourceResolver);
     }
 
     @Test
