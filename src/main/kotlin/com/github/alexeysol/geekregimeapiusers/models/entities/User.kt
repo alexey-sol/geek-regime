@@ -28,11 +28,11 @@ data class User(
 
     @Column(name = "created_at", updatable = false)
     @CreatedDate
-    var createdAt: Instant? = null,
+    var createdAt: Instant? = Instant.now(),
 
     @Column(name = "updated_at")
     @LastModifiedDate
-    var updatedAt: Instant? = null,
+    var updatedAt: Instant? = Instant.now(),
 
     @PrimaryKeyJoinColumn
     @OneToOne(mappedBy = "user", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)

@@ -5,30 +5,30 @@ import io.mockk.every
 import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
 
 class FindAllUsersTest : BaseUserServiceTest() {
-    private val user1 = User(email = "mark@mail.com")
-    private val user2 = User(email = "boobuntu@mail.com")
-
     @Test
     fun usersExist_whenFindAllUsers_thenReturnsUserList() {
-        val users = listOf(user1, user2)
-        every { userRepository.findAll() } returns users
+        val users = listOf(User(), User())
+        val userPage: Page<User> = PageImpl(users, pageableStub, users.size.toLong())
 
-        val result = userService.findAllUsers()
+        every { userRepository.findAllUsers(pageableStub) } returns userPage
 
-        verify(exactly = 1) { userRepository.findAll() }
-        Assertions.assertEquals(users, result)
+        val result = userService.findAllUsers(pageableStub)
+        verify(exactly = 1) { userRepository.findAllUsers(pageableStub) }
+        Assertions.assertEquals(userPage, result)
     }
 
     @Test
     fun usersDontExist_whenFindAllUsers_thenReturnsEmptyList() {
-        val emptyList = listOf<User>()
-        every { userRepository.findAll() } returns emptyList
+        val emptyUserPage: Page<User> = PageImpl(listOf(), pageableStub, 0)
 
-        val result = userService.findAllUsers()
+        every { userRepository.findAllUsers(pageableStub) } returns emptyUserPage
 
-        verify(exactly = 1) { userRepository.findAll() }
-        Assertions.assertEquals(emptyList, result)
+        val result = userService.findAllUsers(pageableStub)
+        verify(exactly = 1) { userRepository.findAllUsers(pageableStub) }
+        Assertions.assertEquals(emptyUserPage, result)
     }
 }

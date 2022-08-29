@@ -11,10 +11,10 @@ data class CreateUserDto(
     val email: String = "", // [1]
 
     @field:Size(min = 1, message = "Password must not be blank")
-    val password: String?,
+    val password: String? = null,
 
     @field:Valid
-    val details: CreateOrUpdateDetailsDto? = CreateOrUpdateDetailsDto(),
+    val details: CreateOrUpdateDetailsDto? = null,
 )
 
 // [1]. If the value isn't initialized, NotNull/NotEmpty validation won't work:

@@ -21,10 +21,10 @@ class CredentialsServiceTest {
         val salt = Security.generateSalt()
         val hashedPassword = Security.generateHash(password, salt)
         val credentials = Credentials(hashedPassword = hashedPassword, salt = salt)
+
         every { db.save(credentials) } returns credentials
 
         val result = service.createCredentials(password, user)
-
         verify(exactly = 1) { db.save(credentials) }
         Assertions.assertEquals(credentials, result)
     }

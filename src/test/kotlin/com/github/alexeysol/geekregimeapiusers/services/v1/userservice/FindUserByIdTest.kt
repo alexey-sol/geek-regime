@@ -5,29 +5,28 @@ import io.mockk.every
 import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions
-import org.springframework.data.repository.findByIdOrNull
 
 class FindUserByIdTest : BaseUserServiceTest() {
     @Test
     fun givenUserExist_whenFindUserById_thenReturnsUser() {
-        val initialUserId = 1L
+        val userId = 1L
         val user = User(email = "mark@mail.com")
-        every { userRepository.findByIdOrNull(initialUserId) } returns user
 
-        val result = userService.findUserById(initialUserId)
+        every { userRepository.findUserById(userId) } returns user
 
-        verify(exactly = 1) { userRepository.findByIdOrNull(initialUserId) }
+        val result = userService.findUserById(userId)
+        verify(exactly = 1) { userRepository.findUserById(userId) }
         Assertions.assertEquals(user, result)
     }
 
     @Test
     fun givenUserDoesntExist_whenFindUserById_thenReturnsNull() {
         val absentUserId = 10L
-        every { userRepository.findByIdOrNull(absentUserId) } returns null
+
+        every { userRepository.findUserById(absentUserId) } returns null
 
         val result = userService.findUserById(absentUserId)
-
-        verify(exactly = 1) { userRepository.findByIdOrNull(absentUserId) }
+        verify(exactly = 1) { userRepository.findUserById(absentUserId) }
         Assertions.assertEquals(null, result)
     }
 }

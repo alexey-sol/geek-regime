@@ -2,6 +2,7 @@ package com.github.alexeysol.geekregimeapiusers.utils.mappers
 
 import com.github.alexeysol.geekregimeapicommons.constants.ApiResource
 import com.github.alexeysol.geekregimeapicommons.constants.DefaultValueConstants
+import com.github.alexeysol.geekregimeapicommons.exceptions.BaseResourceException
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceForbiddenException
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException
 import com.github.alexeysol.geekregimeapicommons.models.Pair
@@ -17,19 +18,20 @@ import org.springframework.stereotype.Component
 
 @Component
 class UserMapper(val modelMapper: ModelMapper, val userService: UserService) {
-    fun allEntitiesToUserDtoList(users: Iterable<User>): List<UserDto> =
-        users.map { entityToUserDto(it) }
+    fun fromUserListToUserDtoList(users: Iterable<User>): List<UserDto> =
+        users.map { fromUserToUserDto(it) }
 
-    fun entityToUserDto(user: User): UserDto =
+    fun fromUserToUserDto(user: User): UserDto =
         modelMapper.map(user, UserDto::class.java)
 
-    fun createUserDtoToEntity(dto: CreateUserDto): User {
+    fun fromCreateUserDtoToUser(dto: CreateUserDto): User {
         val entity = modelMapper.map(dto, User::class.java)
         entity.details?.setUser(entity)
         return entity
     }
 
-    fun updateUserDtoToEntity(dto: UpdateUserDto, userId: Long): User {
+    @Throws(BaseResourceException::class)
+    fun fromUpdateUserDtoToUser(dto: UpdateUserDto, userId: Long): User {
         val entity = userService.findUserById(userId)
             ?: throw ResourceNotFoundException(ApiResource.USER, userId)
 

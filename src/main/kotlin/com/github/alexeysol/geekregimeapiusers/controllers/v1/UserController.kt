@@ -19,6 +19,8 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
 
+private val sortByUserFields: List<String> = listOf("createdAt", "details.name", "email", "id")
+
 @RestController
 @RequestMapping(
     path = [PathConstants.API_V1_PATH],
@@ -35,14 +37,14 @@ class UserController(
         @RequestParam paging: String?,
         @RequestParam sortBy: String?
     ): Page<UserDto> {
-        val queryConverter = QueryConverter(paging, sortBy)
+        val queryConverter = QueryConverter(paging, sortBy, sortByUserFields)
         val pageable = queryConverter.pageable
 
         val usersPage =
             if (ids === null) service.findAllUsers(pageable)
             else service.findAllUsersById(ids, pageable)
 
-        val userDtoList = userMapper.allEntitiesToUserDtoList(usersPage.content);
+        val userDtoList = userMapper.fromUserListToUserDtoList(usersPage.content);
         return PageImpl(userDtoList, pageable, usersPage.totalElements)
     }
 
@@ -52,7 +54,7 @@ class UserController(
         val user = service.findUserById(id)
             ?: throw ResourceNotFoundException(ApiResource.USER, id)
 
-        return userMapper.entityToUserDto(user)
+        return userMapper.fromUserToUserDto(user)
     }
 
     @PostMapping
@@ -62,9 +64,9 @@ class UserController(
             throw ResourceAlreadyExistsException(ApiResource.USER, Pair("email", dto.email))
         }
 
-        val user = userMapper.createUserDtoToEntity(dto)
+        val user = userMapper.fromCreateUserDtoToUser(dto)
         val createdUser = service.createUser(user, dto.password)
-        return userMapper.entityToUserDto(createdUser)
+        return userMapper.fromUserToUserDto(createdUser)
     }
 
     @PatchMapping("{id}")
@@ -79,9 +81,9 @@ class UserController(
             }
         }
 
-        val user = userMapper.updateUserDtoToEntity(dto, id)
+        val user = userMapper.fromUpdateUserDtoToUser(dto, id)
         val updatedUser = service.updateUser(id, user, dto.newPassword)
-        return userMapper.entityToUserDto(updatedUser)
+        return userMapper.fromUserToUserDto(updatedUser)
     }
 
     @DeleteMapping("{id}")

@@ -5,36 +5,38 @@ import io.mockk.every
 import io.mockk.verify
 import org.junit.jupiter.api.Test
 import org.junit.jupiter.api.Assertions
+import org.springframework.data.domain.Page
+import org.springframework.data.domain.PageImpl
 
 class FindAllUsersByIdTest : BaseUserServiceTest() {
-    private val initialId1 = 1L
-    private val initialId2 = 2L
-    private val user1 = User(id = initialId1, email = "mark@mail.com")
-    private val user2 = User(id = initialId2, email = "boobuntu@mail.com")
-
     @Test
     fun usersExist_whenFindAllUsersById_thenReturnsUserList() {
-        val users = listOf(user1, user2)
-        val userIds = listOf(initialId1, initialId2)
-        every { userRepository.findAllById(userIds) } returns users
+        val userId = 1L
+        val userId2 = 2L
+        val userIds = listOf(userId, userId2)
 
-        val result = userService.findAllUsersById(userIds)
+        val users = listOf(User(id = userId), User(id = userId2))
+        val userPage: Page<User> = PageImpl(users, pageableStub, users.size.toLong())
 
-        verify(exactly = 1) { userRepository.findAllById(userIds) }
-        Assertions.assertEquals(users, result)
+        every { userRepository.findAllUsersById(userIds, pageableStub) } returns userPage
+
+        val result = userService.findAllUsersById(userIds, pageableStub)
+        verify(exactly = 1) { userRepository.findAllUsersById(userIds, pageableStub) }
+        Assertions.assertEquals(userPage, result)
     }
 
     @Test
     fun usersDontExist_whenFindAllUsersById_thenReturnsEmptyList() {
-        val absentId1 = 10L
+        val absentId = 10L
         val absentId2 = 11L
-        val emptyList = listOf<User>()
-        val userIds = listOf(absentId1, absentId2)
-        every { userRepository.findAllById(userIds) } returns emptyList
+        val userIds = listOf(absentId, absentId2)
 
-        val result = userService.findAllUsersById(userIds)
+        val emptyUserPage: Page<User> = PageImpl(listOf(), pageableStub, 0)
 
-        verify(exactly = 1) { userRepository.findAllById(userIds) }
-        Assertions.assertEquals(emptyList, result)
+        every { userRepository.findAllUsersById(userIds, pageableStub) } returns emptyUserPage
+
+        val result = userService.findAllUsersById(userIds, pageableStub)
+        verify(exactly = 1) { userRepository.findAllUsersById(userIds, pageableStub) }
+        Assertions.assertEquals(emptyUserPage, result)
     }
 }

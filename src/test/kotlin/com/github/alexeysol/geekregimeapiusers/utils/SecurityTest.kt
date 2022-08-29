@@ -1,6 +1,5 @@
 package com.github.alexeysol.geekregimeapiusers.utils
 
-import com.github.alexeysol.geekregimeapiusers.isSameContentsInArrays
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
@@ -60,5 +59,19 @@ class SecurityTest {
         val hashedString2 = Security.generateHash(string2, salt2).toTypedArray()
 
         Assertions.assertFalse(isSameContentsInArrays(hashedString1, hashedString2))
+    }
+
+    private fun <Item>isSameContentsInArrays(array1: Array<Item>, array2: Array<Item>): Boolean {
+        if (array1.size != array2.size) {
+            return false
+        }
+
+        array1.forEachIndexed { index, item ->
+            if (item != array2[index]) {
+                return false
+            }
+        }
+
+        return true
     }
 }

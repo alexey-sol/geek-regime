@@ -25,9 +25,10 @@ class RemoveUserByIdTest(
     @Test
     fun givenUserExists_whenRemoveUserById_thenReturnsUserIdWithStatus200() {
         val userId = 1L
-        every { service.removeUserById(userId) } returns userId
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("${apiV1Path}/${userId}"))
+        every { userService.removeUserById(userId) } returns userId
+
+        mockMvc.perform(MockMvcRequestBuilders.delete(getUrl(userId)))
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect { result ->
                 Assertions.assertEquals(result.response.contentAsString, userId.toString())
@@ -37,9 +38,10 @@ class RemoveUserByIdTest(
     @Test
     fun givenUserDoesntExist_whenRemoveUserById_thenReturnsStatus404() {
         val absentUserId = 10L
-        every { service.removeUserById(absentUserId) } returns DefaultValueConstants.NOT_FOUND_BY_ID
 
-        mockMvc.perform(MockMvcRequestBuilders.delete("${apiV1Path}/${absentUserId}"))
+        every { userService.removeUserById(absentUserId) } returns DefaultValueConstants.NOT_FOUND_BY_ID
+
+        mockMvc.perform(MockMvcRequestBuilders.delete(getUrl(absentUserId)))
             .andExpect(MockMvcResultMatchers.status().isNotFound)
             .andExpect { result ->
                 Assertions.assertTrue(result.resolvedException is ResourceNotFoundException)

@@ -18,14 +18,14 @@ class UserService(val db: UserRepository, val credentialsService: CredentialsSer
     fun findUserById(id: Long): User? = db.findUserById(id)
 
     @Transactional
-    fun createUser(user: User, password: String?): User {
+    fun createUser(user: User, password: String? = null): User {
         db.save(user)
         password?.let { credentialsService.createCredentials(password, user) }
         return user
     }
 
     @Transactional
-    fun updateUser(id: Long, user: User, newPassword: String?): User {
+    fun updateUser(id: Long, user: User, newPassword: String? = null): User {
         db.save(user)
         newPassword?.let { credentialsService.updateCredentials(newPassword, id, user) }
         return user

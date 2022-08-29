@@ -11,10 +11,10 @@ class RemoveUserByIdTest : BaseUserServiceTest() {
     fun givenUserExists_whenRemoveUserById_thenReturnsUserId() {
         val userId = 3L
         val deletedRowCount = 1
+
         every { userRepository.removeUserById(userId) } returns deletedRowCount
 
         val result = userService.removeUserById(userId)
-
         verify(exactly = 1) { userRepository.removeUserById(userId) }
         Assertions.assertEquals(userId, result)
     }
@@ -23,10 +23,10 @@ class RemoveUserByIdTest : BaseUserServiceTest() {
     fun givenUserDoesntExist_whenRemoveUserById_thenReturnsOutOfRange() {
         val absentUserId = 10L
         val deletedRowCount = 0
+
         every { userRepository.removeUserById(absentUserId) } returns deletedRowCount
 
         val result = userService.removeUserById(absentUserId)
-
         verify(exactly = 1) { userRepository.removeUserById(absentUserId) }
         Assertions.assertEquals(DefaultValueConstants.NOT_FOUND_BY_ID, result)
     }
