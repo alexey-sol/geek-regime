@@ -7,8 +7,8 @@ import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceForbiddenExc
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException
 import com.github.alexeysol.geekregimeapicommons.models.Pair
 import com.github.alexeysol.geekregimeapiusers.models.dtos.CreateUserDto
-import com.github.alexeysol.geekregimeapiusers.models.dtos.UserDto
 import com.github.alexeysol.geekregimeapiusers.models.dtos.UpdateUserDto
+import com.github.alexeysol.geekregimeapiusers.models.dtos.UserDto
 import com.github.alexeysol.geekregimeapiusers.models.entities.Credentials
 import com.github.alexeysol.geekregimeapiusers.models.entities.User
 import com.github.alexeysol.geekregimeapiusers.services.v1.UserService
@@ -17,7 +17,7 @@ import org.modelmapper.ModelMapper
 import org.springframework.stereotype.Component
 
 @Component
-class UserMapper(val modelMapper: ModelMapper, val userService: UserService) {
+class UserMapper(private val modelMapper: ModelMapper, private val userService: UserService) {
     fun fromUserListToUserDtoList(users: Iterable<User>): List<UserDto> =
         users.map { fromUserToUserDto(it) }
 
@@ -35,8 +35,8 @@ class UserMapper(val modelMapper: ModelMapper, val userService: UserService) {
         val entity = userService.findUserById(userId)
             ?: throw ResourceNotFoundException(ApiResource.USER, userId)
 
-        modelMapper.map(dto.details, entity.details)
         modelMapper.map(dto, entity)
+        entity.details?.setUser(entity)
         val credentials = entity.credentials
 
         try {

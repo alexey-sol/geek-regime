@@ -9,7 +9,6 @@ import com.github.alexeysol.geekregimeapiusers.models.dtos.CreateUserDto
 import com.github.alexeysol.geekregimeapiusers.models.entities.User
 import com.github.alexeysol.geekregimeapiusers.models.dtos.UpdateUserDto
 import com.github.alexeysol.geekregimeapiusers.models.dtos.UserDto
-import com.github.alexeysol.geekregimeapiusers.utils.mappers.UserMapper
 import io.mockk.every
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert

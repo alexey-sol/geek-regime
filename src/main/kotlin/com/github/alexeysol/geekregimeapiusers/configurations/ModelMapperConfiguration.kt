@@ -2,6 +2,7 @@ package com.github.alexeysol.geekregimeapiusers.configurations
 
 import org.modelmapper.Conditions
 import org.modelmapper.ModelMapper
+import org.modelmapper.convention.MatchingStrategies
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 
@@ -12,6 +13,7 @@ class ModelMapperConfiguration {
         val modelMapper = ModelMapper()
         modelMapper.configuration.isSkipNullEnabled = true
         modelMapper.configuration.propertyCondition = Conditions.isNotNull()
+        modelMapper.configuration.matchingStrategy = MatchingStrategies.STRICT
         return modelMapper
     }
 }
