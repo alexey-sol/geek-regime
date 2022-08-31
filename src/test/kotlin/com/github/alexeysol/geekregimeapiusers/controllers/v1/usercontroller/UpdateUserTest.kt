@@ -4,10 +4,9 @@ import com.github.alexeysol.geekregimeapicommons.constants.ApiResourceExceptionC
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceAlreadyExistsException
 import com.github.alexeysol.geekregimeapicommons.utils.Json
 import com.github.alexeysol.geekregimeapicommons.utils.TestUtils
-import com.github.alexeysol.geekregimeapiusers.sources.ApiUsersSourceResolver
-import com.github.alexeysol.geekregimeapiusers.models.dtos.CreateUserDto
-import com.github.alexeysol.geekregimeapiusers.models.entities.User
 import com.github.alexeysol.geekregimeapiusers.models.dtos.UpdateUserDto
+import com.github.alexeysol.geekregimeapiusers.sources.ApiUsersSourceResolver
+import com.github.alexeysol.geekregimeapiusers.models.entities.User
 import com.github.alexeysol.geekregimeapiusers.models.dtos.UserDto
 import io.mockk.every
 import org.hamcrest.CoreMatchers
@@ -50,7 +49,29 @@ class UpdateUserTest(
     @Test
     fun givenDtoHasInvalidEmail_whenUpdateUser_thenReturnsStatus400() {
         val userId = 1L
-        val updateUserDto = CreateUserDto(email = "is-this-even-email")
+        val updateUserDto = UpdateUserDto(email = "is-this-even-email")
+
+        mockMvc.perform(TestUtils.mockPatchRequest(getUrl(userId), updateUserDto))
+            .andExpect(MockMvcResultMatchers.status().isBadRequest)
+            .andExpect { result ->
+                Assertions.assertTrue(result.resolvedException is MethodArgumentNotValidException)
+            }
+            .andExpect { result ->
+                MatcherAssert.assertThat(
+                    result.resolvedException?.message,
+                    CoreMatchers.containsString(VALIDATION_FAILED_MESSAGE)
+                )
+            }
+    }
+
+    @Test
+    fun givenDtoHasIncompletePasswordInfo_whenUpdateUser_thenReturnsStatus400() {
+        val userId = 1L
+        val updateUserDto = UpdateUserDto(
+            email = "mark@mail.com",
+            oldPassword = "123",
+            newPassword = null
+        )
 
         mockMvc.perform(TestUtils.mockPatchRequest(getUrl(userId), updateUserDto))
             .andExpect(MockMvcResultMatchers.status().isBadRequest)
@@ -69,7 +90,7 @@ class UpdateUserTest(
     fun givenDtoHasEmailThatAlreadyExists_whenUpdateUser_thenReturnsStatus409() {
         val userId = 1L
         val existingEmail = "already-exists@mail.com"
-        val updateUserDto = CreateUserDto(email = existingEmail)
+        val updateUserDto = UpdateUserDto(email = existingEmail)
 
         every { userService.userAlreadyExists(existingEmail) } returns true
 

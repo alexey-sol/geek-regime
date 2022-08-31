@@ -1,8 +1,10 @@
 package com.github.alexeysol.geekregimeapiusers.models.dtos
 
 import javax.validation.Valid
+import javax.validation.constraints.AssertTrue
 import javax.validation.constraints.Email
 import javax.validation.constraints.Size
+
 
 data class UpdateUserDto(
     @field:Size(min = 1, message = "Email must not be blank")
@@ -17,4 +19,11 @@ data class UpdateUserDto(
 
     @field:Valid
     val details: CreateOrUpdateDetailsDto? = CreateOrUpdateDetailsDto(),
-)
+) {
+    @AssertTrue(message = "Old password and new password may not go separately")
+    private fun isValid(): Boolean {
+        oldPassword ?: newPassword ?: return true
+
+        return oldPassword != null && newPassword != null
+    }
+}

@@ -47,6 +47,32 @@ class CreateUserTest(
     }
 
     @Test
+    fun givenDtoHasMatchingPasswordAndConfirmPassword_whenCreateUser_thenReturnsUserDtoWithStatus200() {
+        val email = "mark@mail.com"
+        val password = "123"
+        val now = Instant.now()
+        val user = User(email = email, createdAt = now, updatedAt = now)
+        val createUserDto = CreateUserDto(
+            email = email,
+            password = password,
+            confirmPassword = password
+        )
+        val userDto = UserDto(email = email, createdAt = now, updatedAt = now)
+
+        every { userService.userAlreadyExists(email) } returns false
+        every { userMapper.fromCreateUserDtoToUser(createUserDto) } returns user
+        every { userService.createUser(user, password = password) } returns user
+        every { userMapper.fromUserToUserDto(user) } returns userDto
+
+        mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createUserDto))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect { result ->
+                Assertions.assertEquals(result.response.contentAsString, Json.stringify(userDto))
+            }
+    }
+
+    @Test
     fun givenDtoHasInvalidEmail_whenCreateUser_thenReturnsStatus400() {
         val createUserDto = CreateUserDto(email = "is-this-even-email")
 
@@ -84,6 +110,48 @@ class CreateUserTest(
     @Test
     fun givenDtoHasBlankPassword_whenCreateUser_thenReturnsStatus400() {
         val createUserDto = CreateUserDto(email = "mark@mail.com", password = "")
+
+        mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createUserDto))
+            .andExpect(MockMvcResultMatchers.status().isBadRequest)
+            .andExpect { result ->
+                Assertions.assertTrue(result.resolvedException is MethodArgumentNotValidException)
+            }
+            .andExpect { result ->
+                MatcherAssert.assertThat(
+                    result.resolvedException?.message,
+                    CoreMatchers.containsString(VALIDATION_FAILED_MESSAGE)
+                )
+            }
+    }
+
+    @Test
+    fun givenDtoHasIncompletePasswordInfo_whenCreateUser_thenReturnsStatus400() {
+        val createUserDto = CreateUserDto(
+            email = "mark@mail.com",
+            password = "123",
+            confirmPassword = null
+        )
+
+        mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createUserDto))
+            .andExpect(MockMvcResultMatchers.status().isBadRequest)
+            .andExpect { result ->
+                Assertions.assertTrue(result.resolvedException is MethodArgumentNotValidException)
+            }
+            .andExpect { result ->
+                MatcherAssert.assertThat(
+                    result.resolvedException?.message,
+                    CoreMatchers.containsString(VALIDATION_FAILED_MESSAGE)
+                )
+            }
+    }
+
+    @Test
+    fun givenDtoHasNotMatchingPasswordAndConfirmPassword_whenCreateUser_thenReturnsStatus400() {
+        val createUserDto = CreateUserDto(
+            email = "mark@mail.com",
+            password = "123",
+            confirmPassword = "321"
+        )
 
         mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createUserDto))
             .andExpect(MockMvcResultMatchers.status().isBadRequest)
