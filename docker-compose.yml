@@ -16,6 +16,12 @@ services:
             - API_GATEWAY_PORT
             - API_GATEWAY_PORT_EXTERNAL
             - API_GATEWAY_PREFIX
+            - API_POSTS_HOST
+            - API_POSTS_PORT
+            - API_POSTS_RESOURCE
+            - API_USERS_HOST
+            - API_USERS_PORT
+            - API_USERS_RESOURCE
             - CLIENT_WEB_HOST_EXTERNAL
             - CLIENT_WEB_PORT_EXTERNAL
             - JWT_EXPIRES_IN
@@ -111,6 +117,8 @@ services:
             - API_GATEWAY_PORT
             - API_GATEWAY_PORT_EXTERNAL
             - API_GATEWAY_PREFIX
+            - API_POSTS_RESOURCE
+            - API_USERS_RESOURCE
             - APP_NAME
             - CLIENT_WEB_HOST
             - CLIENT_WEB_PORT

@@ -8,6 +8,7 @@
     "scripts": {
         "dev:up": "docker-compose -f docker-compose.yml -f docker-compose.development.yml up",
         "dev:down": "docker-compose -f docker-compose.yml -f docker-compose.development.yml down",
-        "local:up": "docker-compose -f docker-compose.yml -f docker-compose.development.yml up db-users db-posts"
+        "local:up": "docker-compose -f docker-compose.yml -f docker-compose.development.yml up db-users db-posts",
+        "local:down": "npm run dev:down"
     }
 }

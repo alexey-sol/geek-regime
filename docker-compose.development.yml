@@ -19,7 +19,7 @@ services:
             context: ../
             dockerfile: $PWD/builder/jvm/Dockerfile
             args:
-                API_COMMONS_VERSION: 0.0.1-SNAPSHOT # [1]
+                API_COMMONS_VERSION: ${API_COMMONS_VERSION} # [1]
                 REPOSITORY: geek-regime-api-users
         command: mvn spring-boot:run -D spring-boot.run.profiles=dev
         volumes:
@@ -31,7 +31,7 @@ services:
             context: ../
             dockerfile: $PWD/builder/jvm/Dockerfile
             args:
-                API_COMMONS_VERSION: 0.0.1-SNAPSHOT # [1]
+                API_COMMONS_VERSION: ${API_COMMONS_VERSION} # [1]
                 REPOSITORY: geek-regime-api-posts
         command: mvn spring-boot:run -D spring-boot.run.profiles=dev
         volumes:
