@@ -1,5 +1,5 @@
 import * as Joi from "joi";
-import * as nodeEnvConst from "../const/node-env";
+import { NodeEnv } from "../shared/const/node-env";
 
 // Each environment variable used either in Webpack config or in runtime, should
 // be listed in the schema below.
@@ -19,6 +19,12 @@ export const envSchema = Joi.object({
     API_GATEWAY_PREFIX: Joi
         .string()
         .default("api"),
+    API_POSTS_RESOURCE: Joi
+        .string()
+        .required(),
+    API_USERS_RESOURCE: Joi
+        .string()
+        .required(),
     APP_NAME: Joi
         .string()
         .required(),
@@ -36,6 +42,6 @@ export const envSchema = Joi.object({
         .default("auto://0.0.0.0:0/ws"),
     NODE_ENV: Joi
         .string()
-        .valid(nodeEnvConst.DEVELOPMENT, nodeEnvConst.PRODUCTION, nodeEnvConst.TEST)
-        .default(nodeEnvConst.DEVELOPMENT),
+        .valid(NodeEnv.DEVELOPMENT, NodeEnv.PRODUCTION, NodeEnv.TEST)
+        .default(NodeEnv.DEVELOPMENT),
 });

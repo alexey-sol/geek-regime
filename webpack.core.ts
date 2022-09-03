@@ -20,7 +20,6 @@ const config: webpack.Configuration = {
     resolve: {
         alias: {
             "@": path.join(__dirname, "src"),
-            "@store": path.join(__dirname, "src", "features", "app", "store"),
         },
         extensions: [".tsx", ".ts", ".js"],
     },

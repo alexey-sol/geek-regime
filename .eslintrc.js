@@ -4,10 +4,13 @@ module.exports = {
         es2021: true,
     },
     extends: [
-        "plugin:react/recommended",
         "airbnb",
         "airbnb/hooks",
     ],
+    globals: {
+        JSX: true,
+        React: true,
+    },
     overrides: [
         {
             files: ["webpack.*.ts"],
@@ -30,6 +33,9 @@ module.exports = {
         "unicorn",
     ],
     rules: {
+        "@typescript-eslint/no-shadow": ["error"],
+        "@typescript-eslint/no-unused-vars": "error",
+        "implicit-arrow-linebreak": "off",
         "import/extensions": ["error", "ignorePackages", {
             js: "never",
             jsx: "never",
@@ -43,10 +49,21 @@ module.exports = {
         "import/prefer-default-export": "off",
         indent: ["error", 4],
         "linebreak-style": ["error", "unix"],
+        "lines-between-class-members": ["error", "always", {
+            exceptAfterSingleLine: true,
+        }],
+        "max-len": ["error", {
+            code: 100,
+        }],
         "no-console": "off",
+        "no-param-reassign": ["error", {
+            props: false,
+        }],
         "no-restricted-exports": ["error", {
             restrictedNamedExports: [],
         }],
+        "no-shadow": "off",
+        "no-unused-vars": "off",
         quotes: ["error", "double"],
         "react/function-component-definition": ["error", {
             namedComponents: "arrow-function",
@@ -73,10 +90,9 @@ module.exports = {
                 extensions: [".js", ".jsx", ".ts", ".tsx"],
             },
             alias: {
-                extensions: [".ts", ".js", ".json"],
+                extensions: [".ts", ".tsx", ".js", ".jsx", ".json"],
                 map: [
                     ["@", "./src"],
-                    ["@store", "./src/features/app/store"],
                 ],
             },
         },

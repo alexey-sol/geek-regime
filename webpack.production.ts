@@ -2,11 +2,11 @@ import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import { merge } from "webpack-merge";
 import path from "path";
 import webpack from "webpack";
-import * as nodeEnvConst from "./src/const/node-env";
+import { NodeEnv } from "./src/shared/const/node-env";
 import coreConfig from "./webpack.core";
 
 const config: webpack.Configuration = merge(coreConfig, {
-    mode: nodeEnvConst.PRODUCTION,
+    mode: NodeEnv.PRODUCTION,
     output: {
         path: path.resolve(__dirname, "dist"),
         filename: "[name].[contenthash].js",

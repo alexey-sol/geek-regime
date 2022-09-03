@@ -17,8 +17,8 @@ export const envConfig = {
     apiUrl: `http://${value.API_GATEWAY_HOST}:${value.API_GATEWAY_PORT}`,
     appName: value.APP_NAME,
     clientHost: value.CLIENT_WEB_HOST,
-    clientPort: value.CLIENT_WEB_PORT,
-    clientPortExternal: value.CLIENT_WEB_PORT_EXTERNAL,
+    clientPort: parseInt(value.CLIENT_WEB_PORT, 10),
+    clientPortExternal: parseInt(value.CLIENT_WEB_PORT_EXTERNAL, 10),
     nodeEnv: value.NODE_ENV,
     webSocketUrl: value.CLIENT_WEB_WEBSOCKET_URL,
 };

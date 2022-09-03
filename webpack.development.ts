@@ -3,7 +3,7 @@ import { Configuration as WebpackDevServerConfiguration } from "webpack-dev-serv
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import { merge } from "webpack-merge";
 import path from "path";
-import * as nodeEnvConst from "./src/const/node-env";
+import { NodeEnv } from "./src/shared/const/node-env";
 import coreConfig from "./webpack.core";
 import { envConfig } from "./src/config/env";
 
@@ -12,7 +12,7 @@ interface ResultConfiguration extends webpack.Configuration {
 }
 
 const config: ResultConfiguration = merge(coreConfig, {
-    mode: nodeEnvConst.DEVELOPMENT,
+    mode: NodeEnv.DEVELOPMENT,
     output: {
         publicPath: "/",
     },
@@ -28,6 +28,7 @@ const config: ResultConfiguration = merge(coreConfig, {
         devMiddleware: {
             writeToDisk: false,
         },
+        historyApiFallback: true, // [2]
         host: envConfig.clientHost,
         hot: true,
         port: envConfig.clientPort,
@@ -35,7 +36,7 @@ const config: ResultConfiguration = merge(coreConfig, {
             [`/${envConfig.apiPrefix}`]: envConfig.apiUrl,
         },
         static: {
-            directory: path.join(__dirname, "./dist"),
+            directory: path.join(__dirname, "src", "public"),
         },
     },
 });
@@ -43,3 +44,4 @@ const config: ResultConfiguration = merge(coreConfig, {
 export default config;
 
 // [1]. Makes HMR work in dockerized app.
+// [2]. Serve index.html on an arbitrary path in address bar (fixes "cannot GET /...").
