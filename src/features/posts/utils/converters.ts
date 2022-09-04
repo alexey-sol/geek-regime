@@ -1,11 +1,9 @@
 import { Post, PostsPage } from "@/features/posts/types/models";
 import { PageDto } from "@/shared/types/models";
+import { getMapIdToEntity } from "@/shared/utils/converters/get-map-id-to-entity";
 
 export const fromPageDtoToPostsPage = (response: PageDto<Post[]>): PostsPage => ({
-    items: response.content.reduce((posts, post) => {
-        posts[post.id] = post;
-        return posts;
-    }, {} as Record<number, Post>), // TODO fix casting?
+    items: getMapIdToEntity(response.content),
     options: {
         size: response.size,
         totalPages: response.totalPages,

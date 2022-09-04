@@ -21,7 +21,7 @@ const config: webpack.Configuration = {
         alias: {
             "@": path.join(__dirname, "src"),
         },
-        extensions: [".tsx", ".ts", ".js"],
+        extensions: [".tsx", ".ts", ".js", ".scss"],
     },
     plugins: [
         new Dotenv({

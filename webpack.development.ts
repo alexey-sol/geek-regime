@@ -3,9 +3,11 @@ import { Configuration as WebpackDevServerConfiguration } from "webpack-dev-serv
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import { merge } from "webpack-merge";
 import path from "path";
+import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import { NodeEnv } from "./src/shared/const/node-env";
 import coreConfig from "./webpack.core";
 import { envConfig } from "./src/config/env";
+import { getStyleRule } from "./webpack.utils";
 
 interface ResultConfiguration extends webpack.Configuration {
     devServer?: WebpackDevServerConfiguration;
@@ -16,8 +18,18 @@ const config: ResultConfiguration = merge(coreConfig, {
     output: {
         publicPath: "/",
     },
+    module: {
+        rules: [
+            getStyleRule({ mode: NodeEnv.DEVELOPMENT, modules: true }),
+            getStyleRule({ mode: NodeEnv.DEVELOPMENT, modules: false }),
+        ],
+    },
     plugins: [
         new ForkTsCheckerWebpackPlugin({ async: false }),
+        new MiniCssExtractPlugin({
+            filename: "[name].css",
+            chunkFilename: "[id].css",
+        }),
     ],
     devtool: "inline-source-map",
     devServer: {

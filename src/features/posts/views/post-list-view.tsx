@@ -5,5 +5,4 @@ export const PostListView = () => (
     <PostList />
 );
 
-// eslint-disable-next-line import/no-default-export
 export default PostListView;

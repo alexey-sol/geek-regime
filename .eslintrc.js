@@ -13,7 +13,7 @@ module.exports = {
     },
     overrides: [
         {
-            files: ["webpack.*.ts"],
+            files: ["webpack.*.ts", "src/features/**/views/*"],
             rules: {
                 "import/no-default-export": "off",
             },
