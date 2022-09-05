@@ -1,8 +1,8 @@
 import { Page } from "@/shared/types/models";
-import { User } from "@/features/users/types/models";
+import { UserDto } from "@/features/users/models/dtos";
 
-export type Post = {
-    author: User;
+export type PostDto = {
+    author: UserDto;
     body: string;
     createdAt: string;
     id: number;
@@ -11,4 +11,4 @@ export type Post = {
     updatedAt: string;
 }
 
-export type PostsPage = Page<Record<number, Post>>
+export type PostsPage = Page<Record<number, PostDto>>

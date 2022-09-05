@@ -1,14 +1,14 @@
-export type Gender = "FEMALE" | "MALE";
+import { Gender } from "@/features/users/types";
 
-export type UserDetails = {
+export type UserDetailsDto = {
     name?: string;
     image: null;
     gender?: Gender;
 }
 
-export type User = {
+export type UserDto = {
     createdAt: string;
-    details?: UserDetails;
+    details?: UserDetailsDto;
     email: string;
     id: number;
     updatedAt: string;

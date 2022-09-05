@@ -1,12 +1,12 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Paging } from "@/shared/types/models";
-import * as defaultValues from "@/shared/const/default-values";
+import { defaults } from "@/shared/const";
 import { PostsState } from "./types";
 
 const initialState: PostsState = {
     paging: {
-        page: defaultValues.PAGING_PAGE,
-        size: defaultValues.PAGING_SIZE,
+        page: defaults.PAGING_PAGE,
+        size: defaults.PAGING_SIZE,
     },
 };
 

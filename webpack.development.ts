@@ -4,7 +4,7 @@ import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import { merge } from "webpack-merge";
 import path from "path";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import { NodeEnv } from "./src/shared/const/node-env";
+import { NodeEnv } from "./src/shared/const";
 import coreConfig from "./webpack.core";
 import { envConfig } from "./src/config/env";
 import { getStyleRule } from "./webpack.utils";

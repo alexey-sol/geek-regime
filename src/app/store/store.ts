@@ -2,7 +2,7 @@ import { configureStore } from "@reduxjs/toolkit";
 import logger from "redux-logger";
 import { postsReducer } from "@/features/posts/slice/slice";
 import { appConfig } from "@/config/app";
-import { NodeEnv } from "@/shared/const/node-env";
+import { NodeEnv } from "@/shared/const";
 import { postsApi } from "@/features/posts/services/api";
 import { setupListeners } from "@reduxjs/toolkit/query";
 

@@ -1,9 +1,9 @@
 import React from "react";
 
-export const PostDetails = () => (
+export const PostDetailsView = () => (
     <div>
         Post Details
     </div>
 );
 
-export default PostDetails;
+export default PostDetailsView;

@@ -1,5 +1,5 @@
 import * as Joi from "joi";
-import { NodeEnv } from "../shared/const/node-env";
+import { NodeEnv } from "../shared/const";
 
 // Each environment variable used either in Webpack config or in runtime, should
 // be listed in the schema below.

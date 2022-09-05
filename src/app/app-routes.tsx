@@ -2,7 +2,7 @@ import React, { lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 
 const PostListView = lazy(() => import("@/features/posts/views/post-list-view"));
-const PostDetailsView = lazy(() => import("@/features/posts/views/post-details"));
+const PostDetailsView = lazy(() => import("@/features/posts/views/post-details-view"));
 
 export const AppRoutes = () => (
     <Routes>

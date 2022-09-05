@@ -1,6 +1,6 @@
 import webpack from "webpack";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import { NodeEnv } from "./src/shared/const/node-env";
+import { NodeEnv } from "./src/shared/const";
 
 const getStyleLoader = (isProduction: boolean): webpack.RuleSetUseItem =>
     (isProduction ? MiniCssExtractPlugin.loader : "style-loader");

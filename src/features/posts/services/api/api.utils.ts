@@ -1,5 +1,5 @@
 import { appConfig } from "@/config/app";
-import { getApiPath } from "@/shared/utils/formatters/get-api-path";
+import { getApiPath } from "@/shared/utils/formatters/api-path";
 
 const {
     apiPostsResource = "posts",

@@ -4,7 +4,7 @@ import path from "path";
 import webpack from "webpack";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
-import { NodeEnv } from "./src/shared/const/node-env";
+import { NodeEnv } from "./src/shared/const";
 import coreConfig from "./webpack.core";
 import { getStyleRule } from "./webpack.utils";
 

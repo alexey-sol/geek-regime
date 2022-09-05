@@ -34,7 +34,9 @@ module.exports = {
     ],
     rules: {
         "@typescript-eslint/no-shadow": ["error"],
+        "@typescript-eslint/no-empty-function": "error",
         "@typescript-eslint/no-unused-vars": "error",
+        "@typescript-eslint/no-useless-constructor": "error",
         "implicit-arrow-linebreak": "off",
         "import/extensions": ["error", "ignorePackages", {
             js: "never",
@@ -56,6 +58,7 @@ module.exports = {
             code: 100,
         }],
         "no-console": "off",
+        "no-empty-function": "off",
         "no-param-reassign": ["error", {
             props: false,
         }],
@@ -64,6 +67,7 @@ module.exports = {
         }],
         "no-shadow": "off",
         "no-unused-vars": "off",
+        "no-useless-constructor": "off",
         quotes: ["error", "double"],
         "react/function-component-definition": ["error", {
             namedComponents: "arrow-function",
