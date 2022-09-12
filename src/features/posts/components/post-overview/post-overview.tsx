@@ -1,7 +1,8 @@
 import React from "react";
 import { PostDto } from "@/features/posts/models/dtos";
 import { fromPostDtoToEntity } from "@/features/posts/utils/converters";
-import { Container } from "./post-overview.style";
+import { Typography } from "@/shared/components/typography";
+import { PostOverviewStyled } from "./post-overview.style";
 
 export type PostOverviewProps = {
     postDto: PostDto;
@@ -11,22 +12,22 @@ export const PostOverview = ({ postDto }: PostOverviewProps) => {
     const post = fromPostDtoToEntity(postDto);
 
     return (
-        <Container>
+        <PostOverviewStyled>
             <section>
-                <h2>{post.title}</h2>
-                <section>{post.body}</section>
+                <Typography as="h2">{post.title}</Typography>
+                <Typography>{post.body}</Typography>
             </section>
 
             <section>
-                <p>
+                <Typography>
                     Created at:
                     {post.getFormattedCreatedAt()}
-                </p>
-                <p>
+                </Typography>
+                <Typography>
                     Updated at:
                     {post.getFormattedUpdatedAt()}
-                </p>
+                </Typography>
             </section>
-        </Container>
+        </PostOverviewStyled>
     );
 };

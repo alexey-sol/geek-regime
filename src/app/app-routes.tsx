@@ -10,7 +10,7 @@ export const AppRoutes = () => (
 
         <Route path="posts">
             <Route index element={<PostListView />} />
-            <Route path=":taskId" element={<PostDetailsView />} />
+            <Route path=":slug" element={<PostDetailsView />} />
         </Route>
 
         <Route path="*" element={<div>404</div>} />

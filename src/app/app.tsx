@@ -1,14 +1,12 @@
 import React from "react";
-import { Header } from "@/features/header";
+import { Layout } from "@/shared/components/layout";
 import { withProviders } from "./providers";
 import { AppRoutes } from "./app-routes";
-import "@/shared/style/global.scss";
 
 export const App = () => (
-    <>
-        <Header />
+    <Layout>
         <AppRoutes />
-    </>
+    </Layout>
 );
 
 export const AppWithProviders = withProviders(App);

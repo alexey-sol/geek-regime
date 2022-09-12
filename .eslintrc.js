@@ -80,6 +80,8 @@ module.exports = {
         "react/jsx-indent-props": ["error", 4],
         "react/jsx-props-no-spreading": "off",
         "react/prop-types": "off",
+        "react/require-default-props": "off",
+        "react/state-in-constructor": "off",
         "unicorn/filename-case": ["error", {
             case: "kebabCase",
         }],

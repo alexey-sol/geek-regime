@@ -1,9 +1,9 @@
 import styled from "styled-components";
 
-export const Container = styled.section`
+export const PostListStyled = styled.section``;
 
-`;
-
-export const List = styled.ul`
-    list-style-type: none;
+export const ListStyled = styled.ul`
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
 `;
