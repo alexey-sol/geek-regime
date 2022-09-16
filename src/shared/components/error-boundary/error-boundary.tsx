@@ -1,4 +1,5 @@
 import React, { Component, ReactNode } from "react";
+import { Typography } from "@/shared/components/typography";
 
 export type ErrorBoundaryProps = {
     children: ReactNode;
@@ -19,9 +20,9 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
 
     static renderErrorMessage() {
         return ( // TODO
-            <section>
+            <Typography>
                 Простите, на странице что-то поломалось.
-            </section>
+            </Typography>
         );
     }
 

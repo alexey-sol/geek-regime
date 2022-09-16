@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import { useAppSelector } from "@/app/hooks";
 import { selectPostsPaging } from "@/features/posts/slice/selectors";
 import { useGetAllPostsQuery } from "@/features/posts/services/api";
-import { PostOverview } from "@/features/posts/components/post-overview/post-overview";
+import { PostOverview } from "@/features/posts/components/post-overview";
 import { ListStyled, PostListStyled } from "./post-list.style";
 
 export const PostList = () => {

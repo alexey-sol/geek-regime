@@ -1,8 +1,10 @@
 import React from "react";
-import { FooterStyled } from "@/shared/components/layout/footer/footer.style";
+import { FooterInnerStyled, FooterStyled } from "./footer.style";
 
 export const Footer = () => (
     <FooterStyled>
-        Footer
+        <FooterInnerStyled>
+            Footer
+        </FooterInnerStyled>
     </FooterStyled>
 );

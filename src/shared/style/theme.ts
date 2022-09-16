@@ -1,3 +1,5 @@
+import { mixins } from "@/shared/style/mixins";
+
 export const theme = {
     colors: {
         primary: "orange",
@@ -15,4 +17,5 @@ export const theme = {
     fontSizes: {
         normal: "1.6rem",
     },
+    mixins,
 };
