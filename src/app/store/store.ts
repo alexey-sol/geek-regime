@@ -1,24 +1,30 @@
-import { configureStore } from "@reduxjs/toolkit";
+import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import logger from "redux-logger";
-import { postsReducer } from "@/features/posts/slice/slice";
+import { sessionReducer } from "@/features/session/slice/slice";
 import { appConfig } from "@/config/app";
 import { NodeEnv } from "@/shared/const";
-import { postsApi } from "@/features/posts/services/api";
 import { setupListeners } from "@reduxjs/toolkit/query";
+
+import sessionMiddlewares from "@/features/session/slice/middlewares";
+import { postsApi } from "@/features/posts/services/api";
 
 const isProduction = appConfig.nodeEnv === NodeEnv.PRODUCTION;
 
+const rootReducer = combineReducers({
+    [postsApi.reducerPath]: postsApi.reducer,
+    session: sessionReducer,
+});
+
+export type RootState = ReturnType<typeof rootReducer>;
+
 export const store = configureStore({
-    reducer: {
-        [postsApi.reducerPath]: postsApi.reducer,
-        posts: postsReducer,
-    },
+    reducer: rootReducer,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware()
+        .concat(sessionMiddlewares)
         .concat(logger),
     devTools: !isProduction,
 });
 
 setupListeners(store.dispatch);
 
-export type RootState = ReturnType<typeof store.getState>
-export type AppDispatch = typeof store.dispatch
+export type AppDispatch = typeof store.dispatch;

@@ -9,6 +9,6 @@ export type PostDto = {
     slug: string;
     title: string;
     updatedAt: string;
-}
+};
 
-export type PostsPage = Page<Record<number, PostDto>>
+export type PostsPage = Page<PostDto[]>;

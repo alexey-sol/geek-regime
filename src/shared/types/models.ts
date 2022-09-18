@@ -32,14 +32,12 @@ export type Page<Content = unknown> = {
     items: Content;
     options: {
         size: number;
-        totalPages: number;
         totalSize: number;
     }
 };
 
-export type Paging = {
+export type PagingOptions = Page["options"] & {
     page: number;
-    size: number;
 }
 
 export type HasId<Value extends number | string = number> = {

@@ -10,6 +10,7 @@ export const AppRoutes = () => (
 
         <Route path="posts">
             <Route index element={<PostListView />} />
+            <Route path="page-:page" element={<PostListView />} />
             <Route path=":slug" element={<PostDetailsView />} />
         </Route>
 

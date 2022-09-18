@@ -6,8 +6,8 @@ export enum NodeEnv {
 
 export const defaults = {
     DATE_FORMAT_PATTERN: "d MMMM y",
-    PAGING_PAGE: 0,
-    PAGING_SIZE: 20,
+    PAGING_PAGE: 1,
+    PAGING_SIZE: 10,
 };
 
 export const dom = {

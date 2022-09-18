@@ -13,7 +13,9 @@ module.exports = {
     },
     overrides: [
         {
-            files: ["webpack.*.ts", "src/features/**/views/*"],
+            files: [
+                "webpack.*.ts", "src/features/**/views/*", "src/features/**/slice/middlewares.ts"
+            ],
             rules: {
                 "import/no-default-export": "off",
             },
@@ -33,10 +35,12 @@ module.exports = {
         "unicorn",
     ],
     rules: {
+        "@typescript-eslint/member-delimiter-style": "warn",
         "@typescript-eslint/no-shadow": ["error"],
         "@typescript-eslint/no-empty-function": "error",
         "@typescript-eslint/no-unused-vars": "error",
         "@typescript-eslint/no-useless-constructor": "error",
+        "@typescript-eslint/semi": "warn",
         "implicit-arrow-linebreak": "off",
         "import/extensions": ["error", "ignorePackages", {
             js: "never",
@@ -82,6 +86,7 @@ module.exports = {
         "react/prop-types": "off",
         "react/require-default-props": "off",
         "react/state-in-constructor": "off",
+        semi: "off",
         "unicorn/filename-case": ["error", {
             case: "kebabCase",
         }],

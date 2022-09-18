@@ -1,21 +1,16 @@
-import React, { useMemo } from "react";
-import { useAppSelector } from "@/app/hooks";
-import { selectPostsPaging } from "@/features/posts/slice/selectors";
-import { useGetAllPostsQuery } from "@/features/posts/services/api";
+import React from "react";
 import { PostOverview } from "@/features/posts/components/post-overview";
+import { usePostsPagingContext } from "@/features/posts/contexts/posts-paging";
 import { ListStyled, PostListStyled } from "./post-list.style";
 
 export const PostList = () => {
-    const paging = useAppSelector(selectPostsPaging);
-    const { data, isLoading } = useGetAllPostsQuery(paging);
+    const { isLoading, items } = usePostsPagingContext();
 
-    const postDtoList = useMemo(() => data?.items ?? {}, [data?.items]);
-    const postOverviewElems = Object.values(postDtoList)
-        .map((dto) => (
-            <li key={dto.id}>
-                <PostOverview postDto={dto} />
-            </li>
-        ));
+    const postOverviewElems = items.map((post) => (
+        <li key={post.id}>
+            <PostOverview post={post} />
+        </li>
+    ));
 
     return (
         <PostListStyled>
