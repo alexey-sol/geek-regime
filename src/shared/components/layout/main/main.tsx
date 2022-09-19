@@ -3,7 +3,7 @@ import { MainInnerStyled, MainStyled } from "./main.style";
 
 export type MainProps = {
     children: ReactNode;
-}
+};
 
 export const Main = ({ children }: MainProps) => (
     <MainStyled>

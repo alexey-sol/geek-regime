@@ -7,7 +7,7 @@ export const fromPageDtoToPostsPage = (response: PageDto<PostDto[]>): PostsPage 
     items: response.content,
     options: {
         size: response.size,
-        totalSize: response.totalElements,
+        totalItems: response.totalElements,
     },
 });
 

@@ -3,11 +3,11 @@ import { Typography } from "@/shared/components/typography";
 
 export type ErrorBoundaryProps = {
     children: ReactNode;
-}
+};
 
 export type ErrorBoundaryState = {
     error: Error | null;
-}
+};
 
 export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
     state: ErrorBoundaryState = {

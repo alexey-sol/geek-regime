@@ -17,8 +17,8 @@ export const PostsPaging = React.createContext<PostsPagingValue | null>(null);
 export const PostsPagingProvider = (
     { children }: { children: ReactNode },
 ) => {
-    const { options, setPage, setTotalSize } = useOptions();
-    const { isLoading, items, removeItem } = useItems({ options, setTotalSize });
+    const { options, setPage, setTotalItems } = useOptions();
+    const { isLoading, items, removeItem } = useItems({ options, setTotalItems });
 
     const value = useMemo(() => ({
         isLoading,

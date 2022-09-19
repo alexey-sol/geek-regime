@@ -1,145 +1,166 @@
 import React from "react";
 
-import { defaults } from "@/shared/const";
 import { useNavigate } from "react-router";
+import { defaults } from "@/shared/const";
 import { range } from "@/shared/utils/helpers/range";
+import {
+    StepButtonsWrapStyled, StepButtonStyled,
+    PageNumbersWrapStyled,
+    PagingButtonStyled,
+    PagingStyled, LeapButtonStyled,
+    LeapButtonsWrapStyled,
+} from "@/shared/components/paging/paging.style";
+import { Typography } from "@/shared/components/typography";
+
+const maxPageCountWithoutLeapButtons = 2;
 
 export type PagingProps = {
-    count?: number;
-    currentPage?: number;
+    page?: number;
     pageNeighbours?: number;
     pathPrefix?: string;
     qs?: string;
-    setCurrentPage: any;
-    totalRecords: number;
+    setPage: any;
+    size?: number;
+    totalItems: number;
 };
 
 export const Paging = ({
-    count = defaults.PAGING_SIZE,
-    currentPage = defaults.PAGING_PAGE,
-    pageNeighbours = 2,
+    page = defaults.PAGING_PAGE,
+    pageNeighbours = 4,
     pathPrefix = "",
     qs = "",
-    setCurrentPage,
-    totalRecords,
+    setPage,
+    size = defaults.PAGING_SIZE,
+    totalItems,
 }: PagingProps) => {
     const navigate = useNavigate();
 
-    const lastNumber = Math.ceil(totalRecords / count);
-    const totalNumbers = (pageNeighbours * 2) + 1;
+    const lastPage = Math.ceil(totalItems / size);
+    const visiblePages = (pageNeighbours * 2) + 1;
 
-    if (!totalRecords || lastNumber === 1) {
+    if (!totalItems || lastPage === 1) {
         return null;
     }
 
-    const leftmostNumber = currentPage - pageNeighbours;
-    const rightmostNumber = currentPage + pageNeighbours;
+    const leftmostPage = page - pageNeighbours;
+    const rightmostPage = page + pageNeighbours;
 
-    const hasLeftSpill = leftmostNumber > 1;
-    const hasRightSpill = rightmostNumber < lastNumber;
+    const hasLeftSpill = leftmostPage > 1;
+    const hasRightSpill = rightmostPage < lastPage;
 
-    const handlePageChange = (page: number) => {
-        if (currentPage === page) {
+    const handlePageChange = (selectedPage: number) => {
+        if (selectedPage === page) {
             return;
         }
 
-        const path = (!qs && page === 1)
+        const path = (!qs && selectedPage === 1)
             ? `${pathPrefix}/`
-            : `${pathPrefix}/page-${page}${qs}`;
+            : `${pathPrefix}/page-${selectedPage}${qs}`;
 
-        setCurrentPage(page);
+        setPage(selectedPage);
         navigate(path);
     };
 
-    const goToPage = (pageNumber: number) => {
-        const page = Math.max(0, Math.min(pageNumber, lastNumber));
-        handlePageChange(page);
+    const goToPage = (selectedPage: number) => {
+        handlePageChange(Math.max(0, Math.min(selectedPage, lastPage)));
     };
 
     const getPagesRange = () => {
-        const numbersBeforePivot = (hasLeftSpill) ? pageNeighbours : currentPage - 1;
-        const numbersAfterPivot = totalNumbers - numbersBeforePivot - 1;
+        const pagesBeforePivot = (hasLeftSpill) ? pageNeighbours : page - 1;
+        const pagesAfterPivot = visiblePages - pagesBeforePivot - 1;
 
-        const startNumber = Math.max(1, leftmostNumber);
-        const endNumber = Math.min(lastNumber, currentPage + numbersAfterPivot);
+        const shouldOffsetRightNeighbours = pageNeighbours * 2 > lastPage - leftmostPage;
+        const absentRightNeighbours = page - lastPage + pageNeighbours;
+
+        const resultLeftmostPage = (shouldOffsetRightNeighbours)
+            ? leftmostPage - absentRightNeighbours
+            : leftmostPage;
+
+        const startNumber = Math.max(1, resultLeftmostPage);
+        const endNumber = Math.min(lastPage, page + pagesAfterPivot);
 
         return range(startNumber, endNumber);
     };
 
     const pagesRange = getPagesRange();
 
-    const isStartPage = currentPage === 1;
-    const isLastPage = currentPage === lastNumber;
+    const isStartPage = page === 1;
+    const isLastPage = page === lastPage;
 
-    const toPreviousPage = () => goToPage(currentPage - 1);
-    const toNextPage = () => goToPage(currentPage + 1);
+    const toPreviousPage = () => goToPage(page - 1);
+    const toNextPage = () => goToPage(page + 1);
+    const toStartPage = () => goToPage(1);
+    const toLastPage = () => goToPage(lastPage);
 
-    const shouldShowSteps = lastNumber > 2;
+    const shouldShowLeapButtons = maxPageCountWithoutLeapButtons < lastPage;
 
-    const numberItems = pagesRange.map((page) => (
-        <li key={page}>
-            <button
-                onClick={() => goToPage(page)}
+    const pageNumberItems = pagesRange.map((pageNumber) => (
+        <li key={pageNumber}>
+            <PagingButtonStyled
+                active={pageNumber === page}
+                onClick={() => goToPage(pageNumber)}
                 type="button"
             >
-                {page}
-            </button>
+                <Typography>{pageNumber}</Typography>
+            </PagingButtonStyled>
         </li>
     ));
 
     return (
-        <nav>
-            {shouldShowSteps && (
-                <ul>
+        <PagingStyled>
+            {shouldShowLeapButtons && (
+                <LeapButtonsWrapStyled>
                     <li>
-                        <button
-                            disabled={isStartPage}
-                            onClick={toPreviousPage}
-                            title="На предыдущую страницу"
+                        <LeapButtonStyled
+                            disabled={!hasLeftSpill}
+                            onClick={toStartPage}
+                            title="На страницу 1"
                             type="button"
                         >
-                            {" Назад"}
-                        </button>
+                            <Typography size="small">В начало</Typography>
+                        </LeapButtonStyled>
                     </li>
 
                     <li>
-                        <button
-                            disabled={isLastPage}
-                            onClick={toNextPage}
-                            title="На следующую страницу"
+                        <LeapButtonStyled
+                            disabled={!hasRightSpill}
+                            onClick={toLastPage}
+                            title={`На страницу ${lastPage}`}
                             type="button"
                         >
-                            {"Вперед "}
-                        </button>
+                            <Typography size="small">В конец</Typography>
+                        </LeapButtonStyled>
                     </li>
-                </ul>
+                </LeapButtonsWrapStyled>
             )}
 
-            <section>
-                <div title="На первую страницу">
-                    <button
-                        disabled={!hasLeftSpill}
-                        onClick={() => goToPage(1)}
+            <StepButtonsWrapStyled>
+                <section>
+                    <StepButtonStyled
+                        disabled={isStartPage}
+                        onClick={toPreviousPage}
+                        title="На предыдущую страницу"
                         type="button"
                     >
-                        <span>&laquo;</span>
-                    </button>
-                </div>
+                        <Typography size="larger">&laquo;</Typography>
+                    </StepButtonStyled>
+                </section>
 
-                <ul>
-                    {numberItems}
-                </ul>
+                <PageNumbersWrapStyled>
+                    {pageNumberItems}
+                </PageNumbersWrapStyled>
 
-                <div title={`На последнюю страницу - ${lastNumber}`}>
-                    <button
-                        disabled={!hasRightSpill}
-                        onClick={() => goToPage(lastNumber)}
+                <section>
+                    <StepButtonStyled
+                        disabled={isLastPage}
+                        onClick={toNextPage}
+                        title="На следующую страницу"
                         type="button"
                     >
-                        <span>&raquo;</span>
-                    </button>
-                </div>
-            </section>
-        </nav>
+                        <Typography size="larger">&raquo;</Typography>
+                    </StepButtonStyled>
+                </section>
+            </StepButtonsWrapStyled>
+        </PagingStyled>
     );
 };

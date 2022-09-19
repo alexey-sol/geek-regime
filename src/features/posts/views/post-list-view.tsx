@@ -8,24 +8,27 @@ const pathPrefix = "/posts";
 
 export const PostListViewStyled = styled.section`
     display: flex;
+    box-sizing: border-box;
+    height: 100%;
     flex-direction: column;
+    justify-content: space-between;
 `;
 
 export const PostListView = () => {
     const { options, setPage } = usePostsPagingContext();
-    const { page, size, totalSize } = options;
+    const { page, size, totalItems } = options;
 
     return (
         <PostListViewStyled>
             <PostList />
 
             <Paging
-                count={size}
-                currentPage={page}
+                page={page}
                 pathPrefix={pathPrefix}
                 qs=""
-                setCurrentPage={setPage}
-                totalRecords={totalSize}
+                setPage={setPage}
+                size={size}
+                totalItems={totalItems}
             />
         </PostListViewStyled>
     );

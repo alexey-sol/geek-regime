@@ -1,7 +1,7 @@
 import React from "react";
 
 export const useCustomContext = <Value>(
-    Context: React.Context<Value | null>
+    Context: React.Context<Value | null>,
 ): Value | never => {
     const context = React.useContext(Context);
 

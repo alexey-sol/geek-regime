@@ -2,7 +2,7 @@ type SortDto = {
     empty: false;
     sorted: true;
     unsorted: false;
-}
+};
 
 export type PageDto<Content = unknown> = {
     content: Content;
@@ -26,20 +26,20 @@ export type PageDto<Content = unknown> = {
     sort: SortDto;
     totalElements: number;
     totalPages: number;
-}
+};
 
 export type Page<Content = unknown> = {
     items: Content;
     options: {
         size: number;
-        totalSize: number;
-    }
+        totalItems: number;
+    };
 };
 
 export type PagingOptions = Page["options"] & {
     page: number;
-}
+};
 
 export type HasId<Value extends number | string = number> = {
     id: Value;
-}
+};

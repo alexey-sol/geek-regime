@@ -20,7 +20,7 @@ export const useOptions = () => {
     const [options, setOptions] = useState({
         page: resultPage,
         size: defaults.PAGING_SIZE,
-        totalSize: 0,
+        totalItems: 0,
     });
 
     const setPage = useCallback((newPage: number) =>
@@ -29,16 +29,16 @@ export const useOptions = () => {
             page: newPage,
         })), []);
 
-    const setTotalSize = useCallback((newTotalSize: number) =>
+    const setTotalItems = useCallback((newTotalItems: number) =>
         setOptions((oldOptions) => ({
             ...oldOptions,
-            totalSize: newTotalSize,
+            totalItems: newTotalItems,
         })), []);
 
     return {
         options,
         setPage,
-        setTotalSize,
+        setTotalItems,
     };
 };
 
@@ -49,7 +49,7 @@ type UseItemsArg = Omit<
     "setPage"
 >;
 
-export const useItems = ({ options, setTotalSize }: UseItemsArg) => {
+export const useItems = ({ options, setTotalItems }: UseItemsArg) => {
     const [items, setItems] = useState(initialItems);
 
     const { data, isLoading } = useGetAllPostsQuery({
@@ -57,7 +57,7 @@ export const useItems = ({ options, setTotalSize }: UseItemsArg) => {
         size: options.size,
     });
 
-    const resultTotalSize = data?.options.totalSize ?? options.totalSize;
+    const resultTotalSize = data?.options.totalItems ?? options.totalItems;
     const postDtoList = useMemo(() => data?.items ?? [], [data?.items]);
 
     // TODO test how getAllPosts cache will behave with this
@@ -67,8 +67,8 @@ export const useItems = ({ options, setTotalSize }: UseItemsArg) => {
     }, []);
 
     useEffect(() => {
-        setTotalSize(resultTotalSize);
-    }, [resultTotalSize, setTotalSize]);
+        setTotalItems(resultTotalSize);
+    }, [resultTotalSize, setTotalItems]);
 
     useEffect(() => {
         const hasItems = Object.keys(postDtoList).length > 0;

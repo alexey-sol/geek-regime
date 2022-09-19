@@ -9,7 +9,7 @@ import { LayoutStyled } from "./layout.style";
 
 export type LayoutProps = {
     children: ReactNode;
-}
+};
 
 export const Layout = ({ children }: LayoutProps) => (
     <LayoutStyled>

@@ -14,7 +14,9 @@ module.exports = {
     overrides: [
         {
             files: [
-                "webpack.*.ts", "src/features/**/views/*", "src/features/**/slice/middlewares.ts"
+                "webpack.*.ts",
+                "src/features/**/views/*",
+                "src/features/**/slice/middlewares.ts",
             ],
             rules: {
                 "import/no-default-export": "off",
@@ -101,7 +103,7 @@ module.exports = {
                 extensions: [".js", ".jsx", ".ts", ".tsx"],
             },
             alias: {
-                extensions: [".ts", ".tsx", ".js", ".jsx", ".json"],
+                extensions: [".js", ".jsx", ".ts", ".tsx", ".json"],
                 map: [
                     ["@", "./src"],
                 ],

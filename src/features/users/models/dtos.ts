@@ -4,7 +4,7 @@ export type UserDetailsDto = {
     name?: string;
     image: null;
     gender?: Gender;
-}
+};
 
 export type UserDto = {
     createdAt: string;
@@ -12,4 +12,4 @@ export type UserDto = {
     email: string;
     id: number;
     updatedAt: string;
-}
+};
