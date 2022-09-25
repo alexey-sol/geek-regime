@@ -4,6 +4,7 @@ import com.github.alexeysol.geekregimeapicommons.constants.ApiResource;
 import com.github.alexeysol.geekregimeapicommons.constants.DefaultValueConstants;
 import com.github.alexeysol.geekregimeapicommons.exceptions.BaseResourceException;
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException;
+import com.github.alexeysol.geekregimeapicommons.models.Pair;
 import com.github.alexeysol.geekregimeapicommons.utils.converters.QueryConverter;
 import com.github.alexeysol.geekregimeapiposts.constants.PathConstants;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.CreatePostDto;
@@ -57,12 +58,12 @@ public class PostController {
         return new PageImpl<>(postDtoList, pageable, postsPage.getTotalElements());
     }
 
-    @GetMapping("{id}")
-    PostDto findPostById(@PathVariable long id) throws BaseResourceException {
-        Optional<Post> post = postService.findPostById(id);
+    @GetMapping("{slug}")
+    PostDto findPostBySlug(@PathVariable String slug) throws BaseResourceException {
+        Optional<Post> post = postService.findPostBySlug(slug);
 
         if (post.isEmpty()) {
-            throw new ResourceNotFoundException(ApiResource.POST, id);
+            throw new ResourceNotFoundException(ApiResource.POST, new Pair<>("slug", slug));
         }
 
         return postMapper.fromPostToPostDto(post.get());

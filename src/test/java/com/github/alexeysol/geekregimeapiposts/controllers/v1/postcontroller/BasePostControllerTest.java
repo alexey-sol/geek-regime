@@ -46,7 +46,11 @@ public abstract class BasePostControllerTest {
     }
 
     protected String getUrl(long id) {
-        return String.format("%s/%d", apiV1Path, id);
+        return getUrl(String.valueOf(id));
+    }
+
+    protected String getUrl(String id) {
+        return String.format("%s/%s", apiV1Path, id);
     }
 
     protected CreatePostDto createCreatePostDto(String title, String body) {

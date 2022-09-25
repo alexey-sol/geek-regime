@@ -15,8 +15,8 @@ import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 
-public class FindPostByIdTest extends BasePostControllerTest {
-    public FindPostByIdTest(
+public class FindPostBySlugTest extends BasePostControllerTest {
+    public FindPostBySlugTest(
         @Autowired MockMvc mockMvc,
         @Autowired ApiPostsSourceResolver sourceResolver
     ) {
@@ -24,20 +24,19 @@ public class FindPostByIdTest extends BasePostControllerTest {
     }
 
     @Test
-    public void givenPostAndAuthorExist_whenFindPostById_thenReturnsDtoWithStatus200()
+    public void givenPostAndAuthorExist_whenFindPostBySlug_thenReturnsDtoWithStatus200()
         throws Exception {
 
-        long postId = 1L;
+        String postSlug = "test-post";
         long userId = 1L;
         Post post = createPost();
         post.setUserId(userId);
         PostDto postDto = createPostDto();
 
-        when(postService.findPostById(postId)).thenReturn(Optional.of(post));
+        when(postService.findPostBySlug(postSlug)).thenReturn(Optional.of(post));
         when(postMapper.fromPostToPostDto(post)).thenReturn(postDto);
 
-
-        mockMvc.perform(MockMvcRequestBuilders.get(getUrl(postId)))
+        mockMvc.perform(MockMvcRequestBuilders.get(getUrl(postSlug)))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(result -> {
                 String expected = Json.stringify(postDto);
@@ -47,14 +46,14 @@ public class FindPostByIdTest extends BasePostControllerTest {
     }
 
     @Test
-    public void givenPostDoesntExist_whenFindPostById_thenReturnsStatus404()
+    public void givenPostDoesntExist_whenFindPostBySlug_thenReturnsStatus404()
         throws Exception {
 
-        long absentPostId = 10L;
+        String absentPostSlug = "test-post";
 
-        when(postService.findPostById(absentPostId)).thenReturn(Optional.empty());
+        when(postService.findPostBySlug(absentPostSlug)).thenReturn(Optional.empty());
 
-        mockMvc.perform(MockMvcRequestBuilders.get(getUrl(absentPostId)))
+        mockMvc.perform(MockMvcRequestBuilders.get(getUrl(absentPostSlug)))
             .andExpect(MockMvcResultMatchers.status().isNotFound());
     }
 }

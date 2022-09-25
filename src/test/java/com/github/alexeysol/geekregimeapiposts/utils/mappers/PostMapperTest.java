@@ -34,20 +34,14 @@ public class PostMapperTest {
 
     @Test
     public void whenFromPostListToUserDtoList_thenReturnsUserDtoList() {
-        String title = "Test Post";
-        String body = "Hello World";
-        String slug = "test-post";
         long userId = 1L;
-        Post post = createPost(title, body, slug, userId);
+        Post post = createPost("Test Post", "Hello World", "test-post", userId);
 
         UserDto author = new UserDto();
         author.setId(userId);
 
-        String title2 = "Another Test Post";
-        String body2 = "Another Hello World";
-        String slug2 = "another-test-post";
         long userId2 = 2L;
-        Post post2 = createPost(title2, body2, slug2, userId2);
+        Post post2 = createPost("Der Titel", "Der Something", "der-titel", userId2);
 
         UserDto author2 = new UserDto();
         author2.setId(userId2);
@@ -75,8 +69,8 @@ public class PostMapperTest {
         UserDto author = new UserDto();
         author.setId(userId);
 
-        String title2 = "Another Test Post";
-        String body2 = "Another Hello World";
+        String title2 = "Der Titel";
+        String body2 = "Der Something";
         String slug2 = "another-test-post";
         long userId2 = 2L;
         Post post2 = createPost(title2, body2, slug2, userId2);

@@ -25,6 +25,10 @@ public class PostService {
         return db.findById(id);
     }
 
+    public Optional<Post> findPostBySlug(String slug) {
+        return Optional.ofNullable(db.findPostBySlug(slug));
+    }
+
     @Transactional
     public Post savePost(Post post) {
         return db.save(post);
