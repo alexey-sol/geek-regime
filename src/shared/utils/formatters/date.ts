@@ -1,7 +1,11 @@
-import format from "date-fns/format";
-import { defaults } from "@/shared/const";
+import { getLanguage } from "@/shared/utils/language";
+
+const defaultOptions: Intl.DateTimeFormatOptions = {
+    dateStyle: "long",
+};
 
 export const formatTimestamp = (
     timestamp: string,
-    pattern = defaults.DATE_FORMAT_PATTERN,
-) => format(new Date(timestamp), pattern);
+    language = getLanguage(),
+    options = defaultOptions,
+) => new Intl.DateTimeFormat(language, options).format(new Date(timestamp));

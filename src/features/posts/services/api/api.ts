@@ -21,10 +21,10 @@ export const postsApi = createApi({
                 return fromPageDtoToPostsPage(response);
             },
         }),
-        getPostById: builder.query<PostDto, number>({
-            query: (id) => `${id}`,
+        getPostBySlug: builder.query<PostDto, string>({
+            query: (slug) => `${slug}`,
         }),
     }),
 });
 
-export const { useGetAllPostsQuery, useGetPostByIdQuery } = postsApi;
+export const { useGetAllPostsQuery, useGetPostBySlugQuery } = postsApi;

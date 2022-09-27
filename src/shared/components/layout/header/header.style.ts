@@ -11,4 +11,5 @@ export const HeaderInnerStyled = styled.section`
     display: flex;
     box-sizing: border-box;
     padding: 1rem 0;
+    justify-content: space-between;
 `;

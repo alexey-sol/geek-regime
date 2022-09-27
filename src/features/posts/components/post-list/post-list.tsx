@@ -4,7 +4,7 @@ import { usePostsPagingContext } from "@/features/posts/contexts/posts-paging";
 import { ListStyled, PostListStyled } from "./post-list.style";
 
 export const PostList = () => {
-    const { isLoading, items } = usePostsPagingContext();
+    const { items } = usePostsPagingContext();
 
     const postOverviewElems = items.map((post) => (
         <li key={post.id}>
@@ -15,9 +15,7 @@ export const PostList = () => {
     return (
         <PostListStyled>
             <ListStyled>
-                {isLoading
-                    ? "loading..."
-                    : postOverviewElems}
+                {postOverviewElems}
             </ListStyled>
         </PostListStyled>
     );

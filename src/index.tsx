@@ -3,6 +3,7 @@ import React from "react";
 import { createRoot } from "react-dom/client";
 import { AppWithProviders } from "@/app";
 import { dom } from "@/shared/const";
+import "./config/i18n";
 
 const rootElement = document.getElementById(dom.ROOT_ELEMENT_ID);
 

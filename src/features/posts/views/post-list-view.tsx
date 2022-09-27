@@ -15,12 +15,14 @@ export const PostListViewStyled = styled.section`
 `;
 
 export const PostListView = () => {
-    const { options, setPage } = usePostsPagingContext();
+    const { isLoading, options, setPage } = usePostsPagingContext();
     const { page, size, totalItems } = options;
 
     return (
         <PostListViewStyled>
-            <PostList />
+            {isLoading
+                ? "loading..."
+                : <PostList />}
 
             <Paging
                 page={page}

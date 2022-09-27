@@ -1,3 +1,8 @@
+export enum Language {
+    EN = "en",
+    RU = "ru"
+}
+
 export enum NodeEnv {
     DEVELOPMENT = "development",
     PRODUCTION = "production",
@@ -5,9 +10,8 @@ export enum NodeEnv {
 }
 
 export const defaults = {
-    DATE_FORMAT_PATTERN: "d MMMM y",
     PAGING_PAGE: 1,
-    PAGING_SIZE: 1, // TODO
+    PAGING_SIZE: 20,
 };
 
 export const dom = {

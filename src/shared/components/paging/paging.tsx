@@ -11,6 +11,7 @@ import {
     LeapButtonsWrapStyled,
 } from "@/shared/components/paging/paging.style";
 import { Typography } from "@/shared/components/typography";
+import { useTranslation } from "react-i18next";
 
 const maxPageCountWithoutLeapButtons = 2;
 
@@ -33,6 +34,7 @@ export const Paging = ({
     size = defaults.PAGING_SIZE,
     totalItems,
 }: PagingProps) => {
+    const { t } = useTranslation();
     const navigate = useNavigate();
 
     const lastPage = Math.ceil(totalItems / size);
@@ -42,11 +44,11 @@ export const Paging = ({
         return null;
     }
 
-    const leftmostPage = page - pageNeighbours;
-    const rightmostPage = page + pageNeighbours;
+    const leftmostVisiblePage = page - pageNeighbours;
+    const rightmostVisiblePage = page + pageNeighbours;
 
-    const hasLeftSpill = leftmostPage > 1;
-    const hasRightSpill = rightmostPage < lastPage;
+    const hasLeftSpill = leftmostVisiblePage > 1;
+    const hasRightSpill = rightmostVisiblePage < lastPage;
 
     const handlePageChange = (selectedPage: number) => {
         if (selectedPage === page) {
@@ -69,14 +71,14 @@ export const Paging = ({
         const pagesBeforePivot = (hasLeftSpill) ? pageNeighbours : page - 1;
         const pagesAfterPivot = visiblePages - pagesBeforePivot - 1;
 
-        const shouldOffsetRightNeighbours = pageNeighbours * 2 > lastPage - leftmostPage;
+        const shouldOffsetLeftNeighbours = pageNeighbours * 2 > lastPage - leftmostVisiblePage;
         const absentRightNeighbours = page - lastPage + pageNeighbours;
 
-        const resultLeftmostPage = (shouldOffsetRightNeighbours)
-            ? leftmostPage - absentRightNeighbours
-            : leftmostPage;
+        const leftmostVisiblePageWithOffset = (shouldOffsetLeftNeighbours)
+            ? leftmostVisiblePage - absentRightNeighbours
+            : leftmostVisiblePage;
 
-        const startNumber = Math.max(1, resultLeftmostPage);
+        const startNumber = Math.max(1, leftmostVisiblePageWithOffset);
         const endNumber = Math.min(lastPage, page + pagesAfterPivot);
 
         return range(startNumber, endNumber);
@@ -114,10 +116,10 @@ export const Paging = ({
                         <LeapButtonStyled
                             disabled={!hasLeftSpill}
                             onClick={toStartPage}
-                            title="На страницу 1"
+                            title={`${t("paging.leapButton.toStart.title")} 1`}
                             type="button"
                         >
-                            <Typography size="small">В начало</Typography>
+                            <Typography i18nKey="paging.leapButton.toStart.text" size="small" />
                         </LeapButtonStyled>
                     </li>
 
@@ -125,10 +127,10 @@ export const Paging = ({
                         <LeapButtonStyled
                             disabled={!hasRightSpill}
                             onClick={toLastPage}
-                            title={`На страницу ${lastPage}`}
+                            title={`${t("paging.leapButton.toEnd.title")} ${lastPage}`}
                             type="button"
                         >
-                            <Typography size="small">В конец</Typography>
+                            <Typography i18nKey="paging.leapButton.toEnd.text" size="small" />
                         </LeapButtonStyled>
                     </li>
                 </LeapButtonsWrapStyled>
@@ -139,7 +141,7 @@ export const Paging = ({
                     <StepButtonStyled
                         disabled={isStartPage}
                         onClick={toPreviousPage}
-                        title="На предыдущую страницу"
+                        title={t("paging.stepButton.previous.title")}
                         type="button"
                     >
                         <Typography size="larger">&laquo;</Typography>
@@ -154,7 +156,7 @@ export const Paging = ({
                     <StepButtonStyled
                         disabled={isLastPage}
                         onClick={toNextPage}
-                        title="На следующую страницу"
+                        title={t("paging.stepButton.next.title")}
                         type="button"
                     >
                         <Typography size="larger">&raquo;</Typography>

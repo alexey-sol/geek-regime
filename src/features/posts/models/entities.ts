@@ -18,7 +18,7 @@ export class Post {
         this.author = author;
     }
 
-    getFormattedCreatedAt = () => formatTimestamp(this.createdAt);
+    getFormattedCreatedAt = (language?: string) => formatTimestamp(this.createdAt, language);
 
-    getFormattedUpdatedAt = () => formatTimestamp(this.updatedAt);
+    getFormattedUpdatedAt = (language?: string) => formatTimestamp(this.updatedAt, language);
 }
