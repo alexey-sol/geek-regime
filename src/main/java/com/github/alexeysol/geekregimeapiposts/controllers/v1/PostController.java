@@ -13,6 +13,7 @@ import com.github.alexeysol.geekregimeapiposts.models.dtos.UpdatePostDto;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.services.v1.PostService;
 import com.github.alexeysol.geekregimeapiposts.utils.mappers.PostMapper;
+import org.modelmapper.MappingException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
@@ -70,11 +71,25 @@ public class PostController {
     }
 
     @PostMapping
-    PostDto createPost(@RequestBody @Valid CreatePostDto dto) {
+    PostDto createPost(@RequestBody @Valid CreatePostDto dto) throws Throwable {
         Post post = postMapper.fromCreatePostDtoToPost(dto);
         Post createdPost = postService.savePost(post);
-        return postMapper.fromPostToPostDto(createdPost);
 
+        try {
+            return postMapper.fromPostToPostDto(createdPost);
+        } catch (MappingException exception) {
+            Throwable cause = exception.getCause();
+            cleanUpIfNeeded(cause, createdPost.getId());
+            throw cause;
+        }
+    }
+
+    private void cleanUpIfNeeded(Throwable exception, long postId) {
+        // If there are issues with referenced resources (for example, the post's author doesn't
+        // exist), delete the post.
+        if (exception instanceof BaseResourceException) {
+            postService.removePostById(postId);
+        }
     }
 
     @PatchMapping("{id}")

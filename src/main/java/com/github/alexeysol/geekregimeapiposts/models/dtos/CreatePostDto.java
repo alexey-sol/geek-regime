@@ -2,16 +2,16 @@ package com.github.alexeysol.geekregimeapiposts.models.dtos;
 
 import lombok.Data;
 
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Null;
 
 @Data
 public class CreatePostDto {
-    @NotNull(message = "User ID is required")
+    @Min(value = 1, message = "User ID is required and must be greater than 0")
     private long userId;
 
-    @NotNull(message = "Space ID is required")
+    @Min(value = 1, message = "Space ID is required and must be greater than 0")
     private long spaceId;
 
     @NotEmpty(message = "Title is required and must not be blank")

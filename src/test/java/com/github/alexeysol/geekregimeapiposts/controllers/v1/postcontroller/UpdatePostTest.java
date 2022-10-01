@@ -38,7 +38,7 @@ public class UpdatePostTest extends BasePostControllerTest {
         long postId = 1L;
         String title = "Test Post";
         String body = "Hello World";
-        Post post = createPost(title, body);
+        Post post = createPost(title, body, 1, 1);
         UpdatePostDto updatePostDto = createUpdatePostDto(title, body);
         PostDto postDto = createPostDto(title, body);
 
