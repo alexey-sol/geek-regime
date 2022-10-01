@@ -56,9 +56,7 @@ public class PostMapper extends BasePostMapper {
     }
 
     public Post fromCreatePostDtoToPost(CreatePostDto dto) {
-        Post entity = modelMapper.map(dto, Post.class);
-        generateAndSetSlug(entity);
-        return entity;
+        return modelMapper.map(dto, Post.class);
     }
 
     public Post fromUpdatePostDtoToPost(UpdatePostDto dto, long postId) {
@@ -69,28 +67,7 @@ public class PostMapper extends BasePostMapper {
         }
 
         Post entity = optionalEntity.get();
-        boolean titleChanged = hasNewPostTitle(entity, dto);
-
         modelMapper.map(dto, entity);
-
-        if (titleChanged) {
-            generateAndSetSlug(entity);
-        }
-
         return entity;
-    }
-
-    private boolean hasNewPostTitle(Post entity, UpdatePostDto dto) {
-        String oldTitle = entity.getTitle();
-        String newTitle = dto.getTitle();
-        return !Objects.equals(oldTitle, newTitle);
-    }
-
-    private void generateAndSetSlug(Post entity) {
-        entity.generateAndSetSlug();
-
-        if (postService.postAlreadyExists(entity.getSlug())) {
-            entity.attachSuffixToSlug();
-        }
     }
 }

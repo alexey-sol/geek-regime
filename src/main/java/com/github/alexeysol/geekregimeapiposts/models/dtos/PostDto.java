@@ -13,6 +13,7 @@ public class PostDto {
     private long id;
     private String title;
     private String body;
+    private String excerpt;
     private String slug;
     private Date createdAt;
     private Date updatedAt;

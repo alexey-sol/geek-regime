@@ -2,7 +2,6 @@ package com.github.alexeysol.geekregimeapiposts.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.alexeysol.geekregimeapiposts.constants.DatabaseConstants;
-import com.github.alexeysol.geekregimeapiposts.utils.Slug;
 import lombok.AccessLevel;
 import lombok.Data;
 import lombok.Setter;
@@ -45,6 +44,10 @@ public class Post {
     @NotEmpty(message = "Body is required and must not be blank")
     private String body;
 
+    @Column(nullable = false, columnDefinition = "TEXT")
+    @NotEmpty(message = "Excerpt is required and must not be blank")
+    private String excerpt;
+
     @Column(nullable = false, unique = true)
     @NotEmpty(message = "Slug is required and must not be blank")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
@@ -59,13 +62,4 @@ public class Post {
     @LastModifiedDate
     @Setter(value = AccessLevel.NONE)
     private Date updatedAt;
-
-    public void generateAndSetSlug() {
-        setSlug(Slug.generateSlug(title));
-    }
-
-    public void attachSuffixToSlug() {
-        String suffix = Slug.getSuffixFromHash(this);
-        setSlug(slug + suffix);
-    }
 }

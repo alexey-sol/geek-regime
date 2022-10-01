@@ -5,6 +5,8 @@ import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.services.v1.PostService;
 import com.github.alexeysol.geekregimeapiposts.services.v1.UserService;
 import com.github.alexeysol.geekregimeapiposts.utils.ObjectCasting;
+import com.github.alexeysol.geekregimeapiposts.utils.mappers.converters.RawBodyToExcerptConverter;
+import com.github.alexeysol.geekregimeapiposts.utils.mappers.converters.TitleToSlugConverter;
 import org.modelmapper.ModelMapper;
 
 import java.util.List;
@@ -40,6 +42,7 @@ public abstract class BasePostMapper {
         public List<Long> getAuthorIds() {
             return list.stream()
                 .map(Post::getUserId)
+                .distinct()
                 .toList();
         }
     }
@@ -52,31 +55,40 @@ public abstract class BasePostMapper {
     }
 
     private void init(ModelMapper modelMapper) {
-        // Attach the corresponding author to each post DTO.
         modelMapper.createTypeMap(Post.class, PostDto.class)
             .addMappings(mapper -> mapper
-                .using(context -> getAuthorById((long) context.getSource()))
+                .using(context -> userService.findUserById((long) context.getSource()))
                 .map(Post::getUserId, PostDto::setAuthor));
 
+        // Attach the corresponding author to each post DTO.
         modelMapper.createTypeMap(PostList.class, UserDtoList.class)
             .addMappings(mapper -> mapper
                 .using(context -> {
                     Object source = context.getSource();
-                    List<Long> authorIds = ObjectCasting.objectToList(source, Long.class)
-                        .stream()
-                        .distinct()
-                        .toList();
-
-                    return getAllAuthorsById(authorIds);
+                    return userService.findAllUsers(ObjectCasting.objectToList(source, Long.class));
                 })
                 .map(PostList::getAuthorIds, UserDtoList::setList));
-    }
 
-    private UserDto getAuthorById(long id) {
-        return userService.findUserById(id);
-    }
+        modelMapper.typeMap(CreatePostDto.class, Post.class)
+            .addMappings(mapper -> {
+                mapper.using(new TitleToSlugConverter(postService))
+                    .map(CreatePostDto::getTitle, Post::setSlug);
 
-    private List<UserDto> getAllAuthorsById(List<Long> authorsIds) {
-        return userService.findAllUsers(authorsIds);
+                mapper.using(new RawBodyToExcerptConverter())
+                    .map(CreatePostDto::getRawBody, Post::setExcerpt);
+
+                mapper.map(CreatePostDto::getDisplayBody, Post::setBody);
+            });
+
+        modelMapper.typeMap(UpdatePostDto.class, Post.class)
+            .addMappings(mapper -> {
+                mapper.using(new TitleToSlugConverter(postService))
+                    .map(UpdatePostDto::getTitle, Post::setSlug);
+
+                mapper.using(new RawBodyToExcerptConverter())
+                    .map(UpdatePostDto::getRawBody, Post::setExcerpt);
+
+                mapper.map(UpdatePostDto::getDisplayBody, Post::setBody);
+            });
     }
 }

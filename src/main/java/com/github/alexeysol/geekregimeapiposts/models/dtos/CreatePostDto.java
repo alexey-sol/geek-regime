@@ -17,8 +17,11 @@ public class CreatePostDto {
     @NotEmpty(message = "Title is required and must not be blank")
     private String title;
 
-    @NotEmpty(message = "Body is required and must not be blank")
-    private String body;
+    @NotEmpty(message = "Raw body is required and must not be blank")
+    private String rawBody;
+
+    @NotEmpty(message = "Display body is required and must not be blank")
+    private String displayBody;
 
     @Null(message = "Slug must be absent")
     private String slug;
