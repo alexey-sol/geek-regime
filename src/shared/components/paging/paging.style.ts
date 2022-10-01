@@ -5,7 +5,6 @@ const disabledButtonOpacity = 0.3;
 
 export const PagingStyled = styled.nav`
     display: flex;
-    box-sizing: border-box;
     width: fit-content;
     padding: 2rem 0;
     flex-direction: column;
@@ -49,7 +48,6 @@ export const PagingButtonStyled = styled.button<{ active?: boolean }>(
 
 export const LeapButtonsWrapStyled = styled.ul`
     display: flex;
-    box-sizing: border-box;
     width: 100%;
     padding: 0;
     margin: 0 0 0.5rem 0;
@@ -57,7 +55,6 @@ export const LeapButtonsWrapStyled = styled.ul`
 `;
 
 export const LeapButtonStyled = styled.button`
-    box-sizing: border-box;
     border: 0;
     padding: 0;
     background-color: transparent;
@@ -87,7 +84,6 @@ export const StepButtonStyled = styled(PagingButtonStyled)`
 
 export const PageNumbersWrapStyled = styled.ul`
     display: flex;
-    box-sizing: border-box;
     padding: 0;
     margin: 0;
     justify-content: center;

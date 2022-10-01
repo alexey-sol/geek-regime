@@ -7,7 +7,6 @@ export const FooterStyled = styled.footer`
 
 export const FooterInnerStyled = styled.section`
     ${({ theme }) => theme.mixins.gridLayoutInner}
-    box-sizing: border-box;
     padding: 1rem 0;
     background-color: ${({ theme }) => theme.colors.secondary};
 `;

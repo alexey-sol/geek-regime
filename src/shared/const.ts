@@ -17,3 +17,10 @@ export const defaults = {
 export const dom = {
     ROOT_ELEMENT_ID: "root",
 };
+
+export const path = {
+    CREATE: "create",
+    PAGE: "page",
+    POSTS: "posts",
+    UPDATE: "update",
+};

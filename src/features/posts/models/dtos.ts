@@ -1,14 +1,25 @@
-import { Page } from "@/shared/types/models";
+import { HasId, Page } from "@/shared/types/models";
 import { UserDto } from "@/features/users/models/dtos";
 
-export type PostDto = {
+export type PostDto = HasId & {
     author: UserDto;
     body: string;
     createdAt: string;
-    id: number;
     slug: string;
     title: string;
     updatedAt: string;
+
+    // TODO
+    // body -> displayBody
+    // +rawBody
+    // +excerpt
 };
+
+export type CreatePostDto = Pick<PostDto, "title" | "body"> & {
+    spaceId: number;
+    userId: number;
+};
+
+export type UpdatePostDto = Partial<Pick<PostDto, "title" | "body">>;
 
 export type PostsPage = Page<PostDto[]>;

@@ -38,16 +38,16 @@ export const getStyleRule = ({ mode, modules }: {
     modules: boolean;
 }): webpack.RuleSetRule => {
     const isProduction = mode === NodeEnv.PRODUCTION;
-    const moduleScssRegExp = /\.module.s[ac]ss$/i;
-    const scssRegExp = /\.s[ac]ss$/i;
+    const moduleExtRegExp = /\.module.(css|s[ac]ss)$/i;
+    const extRegExp = /\.(css|s[ac]ss)$/i;
 
     return {
         test: modules
-            ? moduleScssRegExp
-            : scssRegExp,
+            ? moduleExtRegExp
+            : extRegExp,
         exclude: modules
             ? undefined
-            : moduleScssRegExp,
+            : moduleExtRegExp,
         use: [
             getStyleLoader(isProduction),
             getCssLoader(isProduction, modules),

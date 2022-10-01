@@ -10,7 +10,6 @@ export const NavbarStyled = styled.nav`
 export const NavbarInnerStyled = styled.section`
     ${({ theme }) => theme.mixins.gridLayoutInner}
     display: flex;
-    box-sizing: border-box;
     padding: 1rem 0;
 `;
 

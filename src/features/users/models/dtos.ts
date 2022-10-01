@@ -1,4 +1,5 @@
 import { Gender } from "@/features/users/types";
+import { HasId } from "@/shared/types/models";
 
 export type UserDetailsDto = {
     name?: string;
@@ -6,10 +7,9 @@ export type UserDetailsDto = {
     gender?: Gender;
 };
 
-export type UserDto = {
+export type UserDto = HasId & {
     createdAt: string;
     details?: UserDetailsDto;
     email: string;
-    id: number;
     updatedAt: string;
 };

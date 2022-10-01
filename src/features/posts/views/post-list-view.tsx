@@ -3,12 +3,10 @@ import { PostList } from "@/features/posts/components/post-list";
 import { Paging } from "@/shared/components/paging";
 import styled from "styled-components";
 import { PostsPagingProvider, usePostsPagingContext } from "@/features/posts/contexts/posts-paging";
-
-const pathPrefix = "/posts";
+import { path } from "@/shared/const";
 
 export const PostListViewStyled = styled.section`
     display: flex;
-    box-sizing: border-box;
     height: 100%;
     flex-direction: column;
     justify-content: space-between;
@@ -26,7 +24,7 @@ export const PostListView = () => {
 
             <Paging
                 page={page}
-                pathPrefix={pathPrefix}
+                pathPrefix={`/${path.POSTS}`}
                 qs=""
                 setPage={setPage}
                 size={size}

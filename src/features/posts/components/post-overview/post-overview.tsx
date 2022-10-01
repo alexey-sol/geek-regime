@@ -2,6 +2,7 @@ import React from "react";
 import { Typography } from "@/shared/components/typography";
 import { Post } from "@/features/posts/models/entities";
 import { Link } from "react-router-dom";
+import { path } from "@/shared/const";
 import { PostOverviewStyled } from "./post-overview.style";
 
 export type PostOverviewProps = {
@@ -10,7 +11,7 @@ export type PostOverviewProps = {
 
 export const PostOverview = ({ post }: PostOverviewProps) => (
     <PostOverviewStyled>
-        <Link to={post.slug}>
+        <Link to={`/${path.POSTS}/${post.slug}`}>
             <section>
                 <Typography as="h2">{post.title}</Typography>
                 <Typography>{post.body}</Typography>

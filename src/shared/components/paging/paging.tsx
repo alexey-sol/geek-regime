@@ -4,10 +4,12 @@ import { useNavigate } from "react-router";
 import { defaults } from "@/shared/const";
 import { range } from "@/shared/utils/helpers/range";
 import {
-    StepButtonsWrapStyled, StepButtonStyled,
+    StepButtonsWrapStyled,
+    StepButtonStyled,
     PageNumbersWrapStyled,
     PagingButtonStyled,
-    PagingStyled, LeapButtonStyled,
+    PagingStyled,
+    LeapButtonStyled,
     LeapButtonsWrapStyled,
 } from "@/shared/components/paging/paging.style";
 import { Typography } from "@/shared/components/typography";
@@ -39,10 +41,6 @@ export const Paging = ({
 
     const lastPage = Math.ceil(totalItems / size);
     const visiblePages = (pageNeighbours * 2) + 1;
-
-    if (!totalItems || lastPage === 1) {
-        return null;
-    }
 
     const leftmostVisiblePage = page - pageNeighbours;
     const rightmostVisiblePage = page + pageNeighbours;
