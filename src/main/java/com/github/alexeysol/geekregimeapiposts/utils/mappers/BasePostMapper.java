@@ -5,7 +5,7 @@ import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.services.v1.PostService;
 import com.github.alexeysol.geekregimeapiposts.services.v1.UserService;
 import com.github.alexeysol.geekregimeapiposts.utils.ObjectCasting;
-import com.github.alexeysol.geekregimeapiposts.utils.mappers.converters.RawBodyToExcerptConverter;
+import com.github.alexeysol.geekregimeapiposts.utils.mappers.converters.BodyToExcerptConverter;
 import com.github.alexeysol.geekregimeapiposts.utils.mappers.converters.TitleToSlugConverter;
 import org.modelmapper.ModelMapper;
 
@@ -74,10 +74,8 @@ public abstract class BasePostMapper {
                 mapper.using(new TitleToSlugConverter(postService))
                     .map(CreatePostDto::getTitle, Post::setSlug);
 
-                mapper.using(new RawBodyToExcerptConverter())
-                    .map(CreatePostDto::getRawBody, Post::setExcerpt);
-
-                mapper.map(CreatePostDto::getDisplayBody, Post::setBody);
+                mapper.using(new BodyToExcerptConverter())
+                    .map(CreatePostDto::getBody, Post::setExcerpt);
             });
 
         modelMapper.typeMap(UpdatePostDto.class, Post.class)
@@ -85,10 +83,8 @@ public abstract class BasePostMapper {
                 mapper.using(new TitleToSlugConverter(postService))
                     .map(UpdatePostDto::getTitle, Post::setSlug);
 
-                mapper.using(new RawBodyToExcerptConverter())
-                    .map(UpdatePostDto::getRawBody, Post::setExcerpt);
-
-                mapper.map(UpdatePostDto::getDisplayBody, Post::setBody);
+                mapper.using(new BodyToExcerptConverter())
+                    .map(UpdatePostDto::getBody, Post::setExcerpt);
             });
     }
 }

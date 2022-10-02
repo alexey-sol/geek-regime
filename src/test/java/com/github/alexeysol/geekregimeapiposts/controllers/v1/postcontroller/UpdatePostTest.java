@@ -20,6 +20,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.Objects;
+import java.util.Optional;
 
 import static org.mockito.Mockito.when;
 
@@ -27,7 +28,7 @@ public class UpdatePostTest extends BasePostControllerTest {
     public UpdatePostTest(
         @Autowired MockMvc mockMvc,
         @Autowired ApiPostsSourceResolver sourceResolver
-        ) {
+    ) {
         super(mockMvc, sourceResolver);
     }
 
@@ -38,11 +39,12 @@ public class UpdatePostTest extends BasePostControllerTest {
         long postId = 1L;
         String title = "Test Post";
         String body = "Hello World";
-        Post post = createPost(title, body, 1, 1);
+        Post post = createPost(1L, 1L, title, body);
         UpdatePostDto updatePostDto = createUpdatePostDto(title, body);
         PostDto postDto = createPostDto(title, body);
 
-        when(postMapper.fromUpdatePostDtoToPost(updatePostDto, postId)).thenReturn(post);
+        when(postService.findPostById(postId)).thenReturn(Optional.of(post));
+        when(postMapper.mapUpdatePostDtoToPost(updatePostDto, post)).thenReturn(post);
         when(postService.savePost(post)).thenReturn(post);
         when(postMapper.fromPostToPostDto(post)).thenReturn(postDto);
 
@@ -61,11 +63,9 @@ public class UpdatePostTest extends BasePostControllerTest {
         throws Exception {
 
         long absentId = 10L;
-        String title = "Test Post";
-        String body = "Hello World";
-        UpdatePostDto updatePostDto = createUpdatePostDto(title, body);
+        UpdatePostDto updatePostDto = createUpdatePostDto("Test Post", "Hello World");
 
-        when(postMapper.fromUpdatePostDtoToPost(updatePostDto, absentId))
+        when(postService.findPostById(absentId))
             .thenThrow(new ResourceNotFoundException(ApiResource.POST, absentId));
 
         mockMvc.perform(TestUtils.mockPatchRequest(getUrl(absentId), updatePostDto))
@@ -84,9 +84,8 @@ public class UpdatePostTest extends BasePostControllerTest {
         throws Exception {
 
         long postId = 1L;
-        String invalidTitle = "";
         String invalidBody = "";
-        UpdatePostDto updatePostDto = createUpdatePostDto(invalidTitle, invalidBody);
+        UpdatePostDto updatePostDto = createUpdatePostDto("Test Post", invalidBody);
 
         mockMvc.perform(TestUtils.mockPatchRequest(getUrl(postId), updatePostDto))
             .andExpect(MockMvcResultMatchers.status().isBadRequest())

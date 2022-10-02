@@ -18,7 +18,7 @@ public class FindPostBySlugTest extends BasePostRepositoryTest {
     @Test
     public void givenPostExists_whenFindPostBySlug_thenReturnsPost() {
         String slug = "test-post";
-        Post post = createPost("Test Post", "Hello World", slug);
+        Post post = createPost("Test Post", "Hello World", "Test Post", slug);
         entityManager.persist(post);
         entityManager.flush();
 

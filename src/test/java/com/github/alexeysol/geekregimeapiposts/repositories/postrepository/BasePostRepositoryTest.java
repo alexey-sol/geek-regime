@@ -22,10 +22,11 @@ public abstract class BasePostRepositoryTest {
         this.postRepository = postRepository;
     }
 
-    protected Post createPost(String title, String body, String slug) {
+    protected Post createPost(String title, String body, String excerpt, String slug) {
         Post post = new Post();
         post.setTitle(title);
         post.setBody(body);
+        post.setExcerpt(excerpt);
         post.setSlug(slug);
         return post;
     }

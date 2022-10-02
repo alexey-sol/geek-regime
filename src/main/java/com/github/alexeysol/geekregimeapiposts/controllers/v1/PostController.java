@@ -84,20 +84,18 @@ public class PostController {
         }
     }
 
-    private void cleanUpIfNeeded(Throwable exception, long postId) {
-        // If there are issues with referenced resources (for example, the post's author doesn't
-        // exist), delete the post.
-        if (exception instanceof BaseResourceException) {
-            postService.removePostById(postId);
-        }
-    }
-
     @PatchMapping("{id}")
     PostDto updatePost(
         @PathVariable long id,
         @RequestBody @Valid UpdatePostDto dto
     ) {
-        Post post = postMapper.fromUpdatePostDtoToPost(dto, id);
+        Optional<Post> optionalPost = postService.findPostById(id);
+
+        if (optionalPost.isEmpty()) {
+            throw new ResourceNotFoundException(ApiResource.POST, id);
+        }
+
+        Post post = postMapper.mapUpdatePostDtoToPost(dto, optionalPost.get());
         Post updatedPost = postService.savePost(post);
         return postMapper.fromPostToPostDto(updatedPost);
     }
@@ -112,5 +110,13 @@ public class PostController {
         }
 
         return result;
+    }
+
+    private void cleanUpIfNeeded(Throwable exception, long postId) {
+        // If there are issues with referenced resources (for example, the post's author doesn't
+        // exist), delete the post.
+        if (exception instanceof BaseResourceException) {
+            postService.removePostById(postId);
+        }
     }
 }

@@ -1,27 +1,24 @@
 package com.github.alexeysol.geekregimeapiposts.utils;
 
-import net.bytebuddy.utility.RandomString;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
 public class SlugTest {
     @Test
     public void givenTitle_whenGenerateSlug_returnsSlugifiedTitle() {
-        String title = "Hello World";
-
-        String actual = Slug.generateSlug(title);
+        String actual = Slug.generateSlug("Hello World");
 
         String expected = "hello-world";
         Assertions.assertEquals(expected, actual);
     }
 
     @Test
-    public void givenObject_whenGetSuffixFromHash_returnsSlugSuffix() {
-        Object obj = this;
+    public void givenObject_whenGetSuffix_returnsSlugSuffixWithSeparator() {
+        int suffixLength = 3;
+        int separatorLength = 1;
+        int expected = separatorLength + suffixLength;
 
-        String actual = Slug.getSuffixFromHash(obj);
-
-        String expected = String.format("-%s", RandomString.hashOf(obj));
+        int actual = Slug.getSuffix(suffixLength).length();
         Assertions.assertEquals(expected, actual);
     }
 }

@@ -1,7 +1,5 @@
 package com.github.alexeysol.geekregimeapiposts.utils.mappers;
 
-import com.github.alexeysol.geekregimeapicommons.constants.ApiResource;
-import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.*;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.services.v1.PostService;
@@ -59,15 +57,8 @@ public class PostMapper extends BasePostMapper {
         return modelMapper.map(dto, Post.class);
     }
 
-    public Post fromUpdatePostDtoToPost(UpdatePostDto dto, long postId) {
-        Optional<Post> optionalEntity = postService.findPostById(postId);
-
-        if (optionalEntity.isEmpty()) {
-            throw new ResourceNotFoundException(ApiResource.POST, postId);
-        }
-
-        Post entity = optionalEntity.get();
-        modelMapper.map(dto, entity);
-        return entity;
+    public Post mapUpdatePostDtoToPost(UpdatePostDto dto, Post post) {
+        modelMapper.map(dto, post);
+        return post;
     }
 }

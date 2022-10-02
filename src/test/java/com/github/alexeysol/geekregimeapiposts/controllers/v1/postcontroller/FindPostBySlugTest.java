@@ -28,9 +28,8 @@ public class FindPostBySlugTest extends BasePostControllerTest {
         throws Exception {
 
         String postSlug = "test-post";
-        long userId = 1L;
         Post post = createPost();
-        post.setUserId(userId);
+        post.setUserId(1L);
         PostDto postDto = createPostDto();
 
         when(postService.findPostBySlug(postSlug)).thenReturn(Optional.of(post));

@@ -35,12 +35,13 @@ public class CreatePostTest extends BasePostControllerTest {
     public void givenDtoIsValid_whenCreatePost_thenReturnsDtoWithStatus200()
         throws Exception {
 
+        long userId = 1L;
+        long spaceId = 1L;
         String title = "Test Post";
         String body = "Hello World";
-        long userId = 1;
-        long spaceId = 1;
-        Post post = createPost(title, body, userId, spaceId);
-        CreatePostDto createPostDto = createCreatePostDto(title, body, userId, spaceId);
+
+        Post post = createPost(userId, spaceId, title, body);
+        CreatePostDto createPostDto = createCreatePostDto(userId, spaceId, title, body);
         PostDto postDto = createPostDto(title, body);
 
         when(postMapper.fromCreatePostDtoToPost(createPostDto)).thenReturn(post);
@@ -62,8 +63,7 @@ public class CreatePostTest extends BasePostControllerTest {
         throws Exception {
 
         String invalidTitle = "";
-        String invalidBody = "";
-        CreatePostDto createPostDto = createCreatePostDto(invalidTitle, invalidBody, 1, 1);
+        CreatePostDto createPostDto = createCreatePostDto(1L, 1L, invalidTitle, "Hello World");
 
         mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createPostDto))
             .andExpect(MockMvcResultMatchers.status().isBadRequest())
@@ -80,12 +80,13 @@ public class CreatePostTest extends BasePostControllerTest {
     public void givenDtoIsValidButUserDoesntExist_whenCreatePost_thenReturnsStatus404()
         throws Exception {
 
+        long absentUserId = 10L;
+        long spaceId = 1L;
         String title = "Test Post";
         String body = "Hello World";
-        long absentUserId = 10;
-        long spaceId = 1;
-        Post post = createPost(title, body, absentUserId, spaceId);
-        CreatePostDto createPostDto = createCreatePostDto(title, body, absentUserId, spaceId);
+
+        Post post = createPost(absentUserId, spaceId, title, body);
+        CreatePostDto createPostDto = createCreatePostDto(absentUserId, spaceId, title, body);
 
         when(postMapper.fromCreatePostDtoToPost(createPostDto)).thenReturn(post);
         when(postService.savePost(post)).thenReturn(post);

@@ -1,23 +1,17 @@
 package com.github.alexeysol.geekregimeapiposts.utils;
 
+import com.github.alexeysol.geekregimeapiposts.constants.PostConstants;
 import com.github.slugify.Slugify;
 import net.bytebuddy.utility.RandomString;
 
 public class Slug {
-    private final static String DEFAULT_SLUG = "_";
-
     public static String generateSlug(String title) {
         final Slugify slugify = new Slugify().withTransliterator(true);
         String slug = slugify.slugify(title);
 
         return (slug.isEmpty())
-            ? DEFAULT_SLUG
+            ? PostConstants.DEFAULT_SLUG
             : slug;
-    }
-
-    // TODO not needed anymore
-    public static String getSuffixFromHash(Object obj) {
-        return String.format("-%s", RandomString.hashOf(obj));
     }
 
     public static String getSuffix() {

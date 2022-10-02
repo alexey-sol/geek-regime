@@ -53,12 +53,17 @@ public abstract class BasePostControllerTest {
         return String.format("%s/%s", apiV1Path, id);
     }
 
-    protected CreatePostDto createCreatePostDto(String title, String body, long userId, long spaceId) {
+    protected CreatePostDto createCreatePostDto(
+        long userId,
+        long spaceId,
+        String title,
+        String body
+    ) {
         CreatePostDto dto = new CreatePostDto();
-        dto.setTitle(title);
-        dto.setBody(body);
         dto.setUserId(userId);
         dto.setSpaceId(spaceId);
+        dto.setTitle(title);
+        dto.setBody(body);
         return dto;
     }
 
@@ -70,15 +75,15 @@ public abstract class BasePostControllerTest {
     }
 
     protected Post createPost() {
-        return createPost("", "", 0, 0);
+        return createPost(0, 0, "", "");
     }
 
-    protected Post createPost(String title, String body, long userId, long spaceId) {
+    protected Post createPost(long userId, long spaceId, String title, String body) {
         Post post = new Post();
-        post.setTitle(title);
-        post.setBody(body);
         post.setUserId(userId);
         post.setSpaceId(spaceId);
+        post.setTitle(title);
+        post.setBody(body);
         return post;
     }
 

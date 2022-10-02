@@ -1,11 +1,10 @@
 package com.github.alexeysol.geekregimeapiposts.utils.mappers;
 
-import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException;
+import com.github.alexeysol.geekregimeapiposts.constants.PostConstants;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.*;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.services.v1.PostService;
 import com.github.alexeysol.geekregimeapiposts.services.v1.UserService;
-import com.github.alexeysol.geekregimeapiposts.utils.Slug;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,10 +20,10 @@ import static org.mockito.Mockito.when;
 @SuppressWarnings("ConstantConditions")
 public class PostMapperTest {
     @MockBean
-    protected PostService postService;
+    private PostService postService;
 
     @MockBean
-    protected UserService userService;
+    private UserService userService;
 
     private final PostMapper postMapper;
 
@@ -134,60 +133,76 @@ public class PostMapperTest {
     }
 
     @Test
-    public void givenSlugDoesntExist_whenFromCreatePostDtoToPost_thenReturnsPostWithGeneratedSlug() {
-        String title = "Test Post";
-        String body = "Hello World";
+    public void whenFromCreatePostDtoToPost_thenReturnsPostWithGeneratedSlug() {
         String slug = "test-post";
-        CreatePostDto createPostDto = createCreatePostDto(title, body);
+        CreatePostDto createPostDto = createCreatePostDto(1L, 1L, "Test Post", "Hello World");
 
         when(postService.postAlreadyExists(slug)).thenReturn(false);
 
         Post result = postMapper.fromCreatePostDtoToPost(createPostDto);
-        Assertions.assertNull(createPostDto.getSlug());
         Assertions.assertEquals(slug, result.getSlug());
     }
 
     @Test
     public void givenSlugExists_whenFromCreatePostDtoToPost_thenReturnsPostWithModifiedSlug() {
         String title = "Test Post";
-        String body = "Hello World";
         String slug = "test-post";
-        CreatePostDto createPostDto = createCreatePostDto(title, body);
+        CreatePostDto createPostDto = createCreatePostDto(1L, 1L, title, "Hello World");
 
         when(postService.postAlreadyExists(slug)).thenReturn(true);
 
         Post result = postMapper.fromCreatePostDtoToPost(createPostDto);
-        String expectedSlugSuffix = Slug.getSuffixFromHash(result);
-        Assertions.assertNull(createPostDto.getSlug());
-        Assertions.assertTrue(result.getSlug().endsWith(expectedSlugSuffix));
+        Assertions.assertNotEquals(title.length(), result.getSlug().length());
     }
 
     @Test
-    public void givenNewTitle_whenFromUpdatePostDtoToPost_thenReturnsPostWithModifiedSlug() {
+    public void whenFromCreatePostDtoToPost_thenReturnsPostWithGeneratedExcerpt() {
+        String title = "Test Post";
+        String body = "Hello World";
+        CreatePostDto createPostDto = createCreatePostDto(1L, 1L, title, body);
+
+        Post result = postMapper.fromCreatePostDtoToPost(createPostDto);
+        String expectedExcerptStart = getExpectedExcerptStart(body);
+        Assertions.assertTrue(result.getExcerpt().startsWith(expectedExcerptStart));
+    }
+
+    @Test
+    public void givenNewTitle_whenMapUpdatePostDtoToPost_thenReturnsPostWithModifiedSlug() {
         long postId = 1L;
         String oldTitle = "Test Post";
-        String oldBody = "Hello World";
-        Post oldPost = createPost(oldTitle, oldBody);
+        Post oldPost = createPost(oldTitle, null);
 
-        String newTitle = "New Title";
         String newSlug = "new-title";
-        UpdatePostDto updatePostDto = createUpdatePostDto(newTitle);
+        UpdatePostDto updatePostDto = createUpdatePostDto("New Title", null);
 
         when(postService.findPostById(postId)).thenReturn(Optional.of(oldPost));
         when(postService.postAlreadyExists(newSlug)).thenReturn(true);
 
-        Post result = postMapper.fromUpdatePostDtoToPost(updatePostDto, postId);
-        String expectedSlugSuffix = Slug.getSuffixFromHash(result);
-        Assertions.assertTrue(result.getSlug().endsWith(expectedSlugSuffix));
+        Post result = postMapper.mapUpdatePostDtoToPost(updatePostDto, oldPost);
+        Assertions.assertNotEquals(oldTitle.length(), result.getSlug().length());
     }
 
     @Test
-    public void givenDtoHasNulls_whenFromUpdatePostDtoToPost_thenReturnsPostWithNotAppliedNulls() {
+    public void givenNewBody_whenMapUpdatePostDtoToPost_thenReturnsPostWithModifiedExcerpt() {
         long postId = 1L;
-        String oldTitle = "Test Post";
+        Post oldPost = createPost("Test Post", "Hello World");
+
+        String newBody = "Oh hi Mark";
+        UpdatePostDto updatePostDto = createUpdatePostDto(null, newBody);
+
+        when(postService.findPostById(postId)).thenReturn(Optional.of(oldPost));
+
+        Post result = postMapper.mapUpdatePostDtoToPost(updatePostDto, oldPost);
+        String exptectedExcerptStart = getExpectedExcerptStart(newBody);
+        Assertions.assertTrue(result.getExcerpt().startsWith(exptectedExcerptStart));
+    }
+
+    @Test
+    public void givenDtoHasNulls_whenMapUpdatePostDtoToPost_thenReturnsPostWithNotAppliedNulls() {
+        long postId = 1L;
         String oldBody = "Hello World";
         String slug = "test-post";
-        Post oldPost = createPost(oldTitle, oldBody);
+        Post oldPost = createPost("Test Post", oldBody);
 
         String newTitle = "Hello!";
         String newBody = null;
@@ -196,35 +211,24 @@ public class PostMapperTest {
         when(postService.findPostById(postId)).thenReturn(Optional.of(oldPost));
         when(postService.postAlreadyExists(slug)).thenReturn(false);
 
-        Post result = postMapper.fromUpdatePostDtoToPost(updatePostDto, postId);
+        Post result = postMapper.mapUpdatePostDtoToPost(updatePostDto, oldPost);
         Assertions.assertEquals(newTitle, result.getTitle());
         Assertions.assertEquals(oldBody, result.getBody());
         Assertions.assertNotEquals(newBody, result.getBody());
     }
 
-    @Test
-    public void givenPostDoesntExist_whenFromUpdatePostDtoToPost_thenThrowsResourceNotFoundException() {
-        long absentPostId = 10L;
-        String newTitle = "Test Post";
-        String newBody = "Hello World";
-        UpdatePostDto updatePostDto = createUpdatePostDto(newTitle, newBody);
-
-        when(postService.findPostById(absentPostId)).thenReturn(Optional.empty());
-
-        Assertions.assertThrows(ResourceNotFoundException.class, () -> {
-            postMapper.fromUpdatePostDtoToPost(updatePostDto, absentPostId);
-        });
-    }
-
-    private CreatePostDto createCreatePostDto(String title, String body) {
+    private CreatePostDto createCreatePostDto(
+        long userId,
+        long spaceId,
+        String title,
+        String body
+    ) {
         CreatePostDto dto = new CreatePostDto();
+        dto.setUserId(userId);
+        dto.setSpaceId(spaceId);
         dto.setTitle(title);
         dto.setBody(body);
         return dto;
-    }
-
-    private UpdatePostDto createUpdatePostDto(String title) {
-        return createUpdatePostDto(title, null);
     }
 
     private UpdatePostDto createUpdatePostDto(String title, String body) {
@@ -234,16 +238,22 @@ public class PostMapperTest {
         return dto;
     }
 
-    protected Post createPost(String title, String body) {
+    private Post createPost(String title, String body) {
         return createPost(title, body, null, 0L);
     }
 
-    protected Post createPost(String title, String body, String slug, long userId) {
+    private Post createPost(String title, String body, String slug, long userId) {
         Post post = new Post();
         post.setTitle(title);
         post.setBody(body);
         post.setSlug(slug);
         post.setUserId(userId);
         return post;
+    }
+
+    private String getExpectedExcerptStart(String body) {
+        return (body.length() < PostConstants.MAX_EXCERPT_LENGTH)
+            ? body
+            : body.substring(0, PostConstants.MAX_EXCERPT_LENGTH);
     }
 }
