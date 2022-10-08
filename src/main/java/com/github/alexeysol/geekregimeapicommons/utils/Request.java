@@ -1,12 +1,16 @@
 package com.github.alexeysol.geekregimeapicommons.utils;
 
+import com.github.alexeysol.geekregimeapicommons.models.Pair;
 import org.springframework.util.Assert;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.ArrayList;
 import java.util.List;
@@ -65,19 +69,26 @@ public class Request {
         return this;
     }
 
-    public Request addQueryParams(List<?> items) {
+    public Request addQueryParams(Pair<String, ?> keyValuePair) {
         Assert.isNull(httpRequest, "Request is already built; add query params before making request");
 
-        List<String> itemsAsStrings = new ArrayList<>();
+        List<String> itemsAsString = new ArrayList<>();
+        String key = keyValuePair.key();
+        String encodedValue = encode(String.valueOf(keyValuePair.value()));
+        itemsAsString.add(String.format("%s=%s", key, encodedValue));
 
-        for (Object item : items) {
-            itemsAsStrings.add(String.valueOf(item));
-        }
-
-        String queryParams = getQueryParams(itemsAsStrings);
+        String queryParams = getQueryParams(itemsAsString);
         url += queryParams;
 
         return this;
+    }
+
+    private String encode(String value) {
+        try {
+            return URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
+        } catch (UnsupportedEncodingException exception) {
+            return value;
+        }
     }
 
     private String getQueryParams(List<String> items) {
@@ -91,5 +102,19 @@ public class Request {
         }
 
         return queryParams.toString();
+    }
+
+    public static class QueryUtils {
+        public static String toQueryListAsString(List<?> list) {
+            return toQueryListAsString(list, ",");
+        }
+
+        private static String toQueryListAsString(List<?> list, String delimiter) {
+            List<String> stringList = list.stream()
+                .map(String::valueOf)
+                .toList();
+
+            return String.join(delimiter, stringList);
+        }
     }
 }

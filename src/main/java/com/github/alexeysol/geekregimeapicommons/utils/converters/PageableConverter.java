@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
-public class QueryConverter {
+public class PageableConverter {
     private static final String INVALID_SORT_BY_FIELD_TEMPLATE = "Sort by field value must be " +
         "one of: %s";
     private static final List<String> DEFAULT_SORT_BY_FIELDS = List.of(
@@ -25,33 +25,14 @@ public class QueryConverter {
     private final String sortByJson;
     private final List<String> sortByFields;
 
-    public QueryConverter(String pagingJson, String sortByJson) {
+    public PageableConverter(String pagingJson, String sortByJson) {
         this(pagingJson, sortByJson, DEFAULT_SORT_BY_FIELDS);
     }
 
-    public QueryConverter(String pagingJson, String sortByJson, List<String> sortByFields) {
+    public PageableConverter(String pagingJson, String sortByJson, List<String> sortByFields) {
         this.pagingJson = Objects.requireNonNullElse(pagingJson, "");
         this.sortByJson = Objects.requireNonNullElse(sortByJson, "");
         this.sortByFields = sortByFields;
-    }
-
-    static <Value> Optional<Value> queryJsonToValue(
-        String queryJson,
-        Class<Value> valueType
-    ) {
-        Optional<Value> value = Optional.empty();
-
-        if (queryJson.isEmpty()) {
-            return value;
-        }
-
-        try {
-            value = Optional.of(Json.parse(queryJson, valueType));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-        return value;
     }
 
     public Pageable getPageable() throws BadRequestException {
@@ -87,6 +68,25 @@ public class QueryConverter {
         return (isAscendingDirection)
             ? sort.ascending()
             : sort.descending();
+    }
+
+    private static <Value> Optional<Value> queryJsonToValue(
+        String queryJson,
+        Class<Value> valueType
+    ) {
+        Optional<Value> value = Optional.empty();
+
+        if (queryJson.isEmpty()) {
+            return value;
+        }
+
+        try {
+            value = Optional.of(Json.parse(queryJson, valueType));
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
+
+        return value;
     }
 
     private void assertSortByFieldIsValid(String field) throws IllegalArgumentException {

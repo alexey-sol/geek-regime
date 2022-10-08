@@ -6,6 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.SerializationFeature;
+import com.github.alexeysol.geekregimeapicommons.exceptions.BadRequestException;
 import com.github.alexeysol.geekregimeapicommons.exceptions.BaseResourceException;
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceAlreadyExistsException;
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException;
@@ -35,12 +36,13 @@ public class Json {
         String json,
         TypeReference<Content> valueTypeRef
     ) throws JsonProcessingException {
+        assertJsonIsNotApiException(json);
         return objectMapper.readValue(json, valueTypeRef);
     }
 
     public static Map<String, Object> parse(String json) throws JsonProcessingException {
-        ObjectReader reader = objectMapper.readerFor(Map.class);
-        return reader.readValue(json);
+        assertJsonIsNotApiException(json);
+        return readMap(json);
     }
 
     static public <Value> String stringify(Value obj) {
@@ -52,21 +54,29 @@ public class Json {
     }
 
     private static void assertJsonIsNotApiException(String json) throws JsonProcessingException,
-    BaseResourceException {
-        Map<String, Object> map = parse(json);
+        BaseResourceException {
+
+        Map<String, Object> map = readMap(json);
         ExceptionCheck check = new ExceptionCheck(map);
         String message = check.getMessageIfExists();
 
         try {
             Assert.isTrue(!check.isApiException(), message);
-        } catch (IllegalArgumentException e) {
+        } catch (IllegalArgumentException exception) {
             if (check.isNotFoundException()) {
                 throw new ResourceNotFoundException(message);
             } else if (check.isAlreadyExistsException()) {
                 throw new ResourceAlreadyExistsException(message);
             } else {
-                throw new RuntimeException(message);
+                throw new BadRequestException(message);
             }
         }
+    }
+
+    private static Map<String, Object> readMap(
+        String json
+    ) throws JsonProcessingException {
+        ObjectReader reader = objectMapper.readerFor(Map.class);
+        return reader.readValue(json);
     }
 }
