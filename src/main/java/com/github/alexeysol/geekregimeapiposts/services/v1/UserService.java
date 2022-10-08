@@ -2,9 +2,10 @@ package com.github.alexeysol.geekregimeapiposts.services.v1;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.alexeysol.geekregimeapicommons.exceptions.BaseResourceException;
+import com.github.alexeysol.geekregimeapicommons.models.Pair;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.PageImplDeserializer;
 import com.github.alexeysol.geekregimeapicommons.utils.Json;
 import com.github.alexeysol.geekregimeapicommons.utils.Request;
-import com.github.alexeysol.geekregimeapiposts.models.dtos.PageImplDeserializer;
 import com.github.alexeysol.geekregimeapiposts.utils.sources.ApiUsersSourceResolver;
 import com.github.alexeysol.geekregimeapiposts.constants.PathConstants;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.UserDto;
@@ -31,7 +32,9 @@ public class UserService {
 
         try {
             Request request = new Request(getApiUsersUrl());
-            String usersPageJson = request.addQueryParams(ids)
+
+            String idsAsString = Request.QueryUtils.toQueryListAsString(ids);
+            String usersPageJson = request.addQueryParams(new Pair<>("ids", idsAsString))
                 .get()
                 .getResult();
 

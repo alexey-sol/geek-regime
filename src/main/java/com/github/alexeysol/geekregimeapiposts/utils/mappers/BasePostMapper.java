@@ -1,10 +1,10 @@
 package com.github.alexeysol.geekregimeapiposts.utils.mappers;
 
+import com.github.alexeysol.geekregimeapicommons.utils.ObjectCasting;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.*;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.services.v1.PostService;
 import com.github.alexeysol.geekregimeapiposts.services.v1.UserService;
-import com.github.alexeysol.geekregimeapiposts.utils.ObjectCasting;
 import com.github.alexeysol.geekregimeapiposts.utils.mappers.converters.BodyToExcerptConverter;
 import com.github.alexeysol.geekregimeapiposts.utils.mappers.converters.TitleToSlugConverter;
 import org.modelmapper.ModelMapper;
@@ -64,8 +64,8 @@ public abstract class BasePostMapper {
         modelMapper.createTypeMap(PostList.class, UserDtoList.class)
             .addMappings(mapper -> mapper
                 .using(context -> {
-                    Object source = context.getSource();
-                    return userService.findAllUsers(ObjectCasting.objectToList(source, Long.class));
+                    List<Long> userIds = ObjectCasting.objectToList(context.getSource(), Long.class);
+                    return convertUserIdsToUsers(userIds);
                 })
                 .map(PostList::getAuthorIds, UserDtoList::setList));
 
@@ -86,5 +86,11 @@ public abstract class BasePostMapper {
                 mapper.using(new BodyToExcerptConverter())
                     .map(UpdatePostDto::getBody, Post::setExcerpt);
             });
+    }
+
+    private List<UserDto> convertUserIdsToUsers(List<Long> userIds) {
+        return (userIds.isEmpty())
+            ? List.of()
+            : userService.findAllUsers(userIds);
     }
 }

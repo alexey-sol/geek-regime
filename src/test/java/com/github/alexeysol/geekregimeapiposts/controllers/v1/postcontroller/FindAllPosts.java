@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregimeapiposts.controllers.v1.postcontroller;
 
 import com.github.alexeysol.geekregimeapicommons.utils.TestUtils;
-import com.github.alexeysol.geekregimeapicommons.utils.converters.QueryConverter;
+import com.github.alexeysol.geekregimeapicommons.utils.converters.PageableConverter;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.PostDto;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.utils.sources.ApiPostsSourceResolver;
@@ -22,8 +22,8 @@ import java.util.List;
 import static org.mockito.Mockito.when;
 
 public class FindAllPosts extends BasePostControllerTest {
-    private final QueryConverter queryConverterStub = new QueryConverter("", "");
-    private final Pageable pageableStub = queryConverterStub.getPageable();
+    private final PageableConverter pageableConverterStub = new PageableConverter("", "");
+    private final Pageable pageableStub = pageableConverterStub.getPageable();
 
     public FindAllPosts(
         @Autowired MockMvc mockMvc,

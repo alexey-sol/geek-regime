@@ -5,7 +5,7 @@ import com.github.alexeysol.geekregimeapicommons.constants.DefaultValueConstants
 import com.github.alexeysol.geekregimeapicommons.exceptions.BaseResourceException;
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException;
 import com.github.alexeysol.geekregimeapicommons.models.Pair;
-import com.github.alexeysol.geekregimeapicommons.utils.converters.QueryConverter;
+import com.github.alexeysol.geekregimeapicommons.utils.converters.PageableConverter;
 import com.github.alexeysol.geekregimeapiposts.constants.PathConstants;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.CreatePostDto;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.PostDto;
@@ -47,13 +47,13 @@ public class PostController {
         @RequestParam Optional<String> paging,
         @RequestParam Optional<String> sortBy
     ) {
-        QueryConverter queryConverter = new QueryConverter(
+        PageableConverter pageableConverter = new PageableConverter(
             paging.orElse(""),
             sortBy.orElse(""),
             sortByUserFields
         );
 
-        Pageable pageable = queryConverter.getPageable();
+        Pageable pageable = pageableConverter.getPageable();
         Page<Post> postsPage = postService.findAllPosts(pageable);
         List<PostDto> postDtoList = postMapper.fromPostListToPostDtoList(postsPage.getContent());
         return new PageImpl<>(postDtoList, pageable, postsPage.getTotalElements());
