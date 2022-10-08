@@ -5,7 +5,7 @@ import com.github.alexeysol.geekregimeapiusers.constants.DatabaseConstants
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
-import java.time.Instant
+import java.util.*
 import javax.persistence.*
 import javax.validation.Valid
 import javax.validation.constraints.Email
@@ -28,11 +28,11 @@ data class User(
 
     @Column(name = "created_at", updatable = false)
     @CreatedDate
-    var createdAt: Instant? = Instant.now(),
+    var createdAt: Date? = Date(),
 
     @Column(name = "updated_at")
     @LastModifiedDate
-    var updatedAt: Instant? = Instant.now(),
+    var updatedAt: Date? = Date(),
 
     @PrimaryKeyJoinColumn
     @OneToOne(mappedBy = "user", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)

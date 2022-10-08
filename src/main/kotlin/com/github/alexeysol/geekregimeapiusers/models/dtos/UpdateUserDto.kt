@@ -5,7 +5,6 @@ import javax.validation.constraints.AssertTrue
 import javax.validation.constraints.Email
 import javax.validation.constraints.Size
 
-
 data class UpdateUserDto(
     @field:Size(min = 1, message = "Email must not be blank")
     @field:Email(message = "Email must have valid format")

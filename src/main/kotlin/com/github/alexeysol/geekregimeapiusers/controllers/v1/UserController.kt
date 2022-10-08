@@ -6,12 +6,13 @@ import com.github.alexeysol.geekregimeapicommons.exceptions.BaseResourceExceptio
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceAlreadyExistsException
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException
 import com.github.alexeysol.geekregimeapicommons.models.Pair
-import com.github.alexeysol.geekregimeapicommons.utils.converters.QueryConverter
+import com.github.alexeysol.geekregimeapicommons.models.dtos.UserDto
+import com.github.alexeysol.geekregimeapicommons.utils.converters.PageableConverter
 import com.github.alexeysol.geekregimeapiusers.constants.PathConstants
 import com.github.alexeysol.geekregimeapiusers.models.dtos.CreateUserDto
 import com.github.alexeysol.geekregimeapiusers.models.dtos.UpdateUserDto
-import com.github.alexeysol.geekregimeapiusers.models.dtos.UserDto
 import com.github.alexeysol.geekregimeapiusers.services.v1.UserService
+import com.github.alexeysol.geekregimeapiusers.utils.assertPasswordsMatchIfNeeded
 import com.github.alexeysol.geekregimeapiusers.utils.mappers.UserMapper
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
@@ -37,8 +38,8 @@ class UserController(
         @RequestParam paging: String?,
         @RequestParam sortBy: String?
     ): Page<UserDto> {
-        val queryConverter = QueryConverter(paging, sortBy, sortByUserFields)
-        val pageable = queryConverter.pageable
+        val pageableConverter = PageableConverter(paging, sortBy, sortByUserFields)
+        val pageable = pageableConverter.pageable
 
         val usersPage =
             if (ids === null) service.findAllUsers(pageable)
@@ -81,8 +82,13 @@ class UserController(
             }
         }
 
-        val user = userMapper.fromUpdateUserDtoToUser(dto, id)
-        val updatedUser = service.updateUser(id, user, dto.newPassword)
+        val user = service.findUserById(id)
+            ?: throw ResourceNotFoundException(ApiResource.USER, id)
+
+        assertPasswordsMatchIfNeeded(dto.oldPassword, dto.newPassword, user.credentials)
+
+        val entity = userMapper.fromUpdateUserDtoToUser(dto, user)
+        val updatedUser = service.updateUser(id, entity, dto.newPassword)
         return userMapper.fromUserToUserDto(updatedUser)
     }
 

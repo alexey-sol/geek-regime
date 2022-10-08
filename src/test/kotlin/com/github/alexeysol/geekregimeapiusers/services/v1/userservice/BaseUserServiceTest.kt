@@ -1,6 +1,6 @@
 package com.github.alexeysol.geekregimeapiusers.services.v1.userservice
 
-import com.github.alexeysol.geekregimeapicommons.utils.converters.QueryConverter
+import com.github.alexeysol.geekregimeapicommons.utils.converters.PageableConverter
 import com.github.alexeysol.geekregimeapiusers.repositories.CredentialsRepository
 import com.github.alexeysol.geekregimeapiusers.repositories.UserRepository
 import com.github.alexeysol.geekregimeapiusers.services.v1.CredentialsService
@@ -15,6 +15,6 @@ abstract class BaseUserServiceTest {
     private val credentialsService = CredentialsService(credentialsRepository)
     protected val userService = UserService(userRepository, credentialsService)
 
-    private val queryConverterStub = QueryConverter("", "")
-    protected val pageableStub: Pageable = queryConverterStub.pageable
+    private val pageableConverterStub = PageableConverter("", "")
+    protected val pageableStub: Pageable = pageableConverterStub.pageable
 }

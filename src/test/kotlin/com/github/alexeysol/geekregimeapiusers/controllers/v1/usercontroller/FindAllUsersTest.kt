@@ -1,8 +1,9 @@
 package com.github.alexeysol.geekregimeapiusers.controllers.v1.usercontroller
 
+import com.github.alexeysol.geekregimeapicommons.models.dtos.UserDto
 import com.github.alexeysol.geekregimeapicommons.utils.TestUtils
-import com.github.alexeysol.geekregimeapicommons.utils.converters.QueryConverter
-import com.github.alexeysol.geekregimeapiusers.models.dtos.UserDto
+import com.github.alexeysol.geekregimeapicommons.utils.converters.PageableConverter
+import com.github.alexeysol.geekregimeapiusers.createUserDto
 import com.github.alexeysol.geekregimeapiusers.models.entities.User
 import com.github.alexeysol.geekregimeapiusers.sources.ApiUsersSourceResolver
 import io.mockk.every
@@ -19,8 +20,8 @@ class FindAllUsersTest(
     @Autowired mockMvc: MockMvc,
     @Autowired sourceResolver: ApiUsersSourceResolver
 ) : BaseUserControllerTest(mockMvc, sourceResolver) {
-    private val queryConverterStub = QueryConverter("", "")
-    private val pageableStub = queryConverterStub.pageable
+    private val pageableConverterStub = PageableConverter("", "")
+    private val pageableStub = pageableConverterStub.pageable
 
     @Test
     fun allUsersExist_whenFindAllUsers_thenReturnsUserDtoListWithStatus200() {
@@ -69,7 +70,7 @@ class FindAllUsersTest(
         val users = listOf(User(id = userId), User(id = userId2))
         val userPage: Page<User> = PageImpl(users, pageableStub, users.size.toLong())
 
-        val userDtoList = listOf(UserDto(id = userId), UserDto(id = userId2))
+        val userDtoList = listOf(createUserDto(id = userId), createUserDto(id = userId2))
         val userDtoPage = PageImpl(userDtoList, pageableStub, userDtoList.size.toLong());
 
         every { userService.findAllUsersById(userIds, pageableStub) } returns userPage
@@ -97,7 +98,7 @@ class FindAllUsersTest(
         val users = listOf(User(id = userId))
         val userPage: Page<User> = PageImpl(users, pageableStub, users.size.toLong())
 
-        val userDtoList = listOf(UserDto(id = userId))
+        val userDtoList = listOf(createUserDto(id = userId))
         val userDtoPage = PageImpl(userDtoList, pageableStub, userDtoList.size.toLong());
 
         every { userService.findAllUsersById(userIds, pageableStub) } returns userPage

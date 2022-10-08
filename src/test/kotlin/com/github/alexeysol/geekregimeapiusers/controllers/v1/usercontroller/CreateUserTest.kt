@@ -4,11 +4,11 @@ import com.github.alexeysol.geekregimeapicommons.constants.ApiResourceExceptionC
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceAlreadyExistsException
 import com.github.alexeysol.geekregimeapicommons.utils.Json
 import com.github.alexeysol.geekregimeapicommons.utils.TestUtils
+import com.github.alexeysol.geekregimeapiusers.createUserDto
 import com.github.alexeysol.geekregimeapiusers.sources.ApiUsersSourceResolver
 import com.github.alexeysol.geekregimeapiusers.models.dtos.CreateUserDto
 import com.github.alexeysol.geekregimeapiusers.models.entities.User
 import com.github.alexeysol.geekregimeapiusers.models.dtos.CreateOrUpdateDetailsDto
-import com.github.alexeysol.geekregimeapiusers.models.dtos.UserDto
 import io.mockk.every
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
@@ -19,7 +19,7 @@ import org.springframework.http.MediaType
 import org.springframework.test.web.servlet.MockMvc
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 import org.springframework.web.bind.MethodArgumentNotValidException
-import java.time.Instant
+import java.util.*
 
 class CreateUserTest(
     @Autowired mockMvc: MockMvc,
@@ -28,10 +28,10 @@ class CreateUserTest(
     @Test
     fun givenDtoIsValidButWithoutPassword_whenCreateUser_thenReturnsUserDtoWithStatus200() {
         val email = "mark@mail.com"
-        val now = Instant.now()
+        val now = Date()
         val user = User(email = email, createdAt = now, updatedAt = now)
         val createUserDto = CreateUserDto(email = email)
-        val userDto = UserDto(email = email, createdAt = now, updatedAt = now)
+        val userDto = createUserDto(email = email, createdAt = now, updatedAt = now)
 
         every { userService.userAlreadyExists(email) } returns false
         every { userMapper.fromCreateUserDtoToUser(createUserDto) } returns user
@@ -50,14 +50,14 @@ class CreateUserTest(
     fun givenDtoHasMatchingPasswordAndConfirmPassword_whenCreateUser_thenReturnsUserDtoWithStatus200() {
         val email = "mark@mail.com"
         val password = "123"
-        val now = Instant.now()
+        val now = Date()
         val user = User(email = email, createdAt = now, updatedAt = now)
         val createUserDto = CreateUserDto(
             email = email,
             password = password,
             confirmPassword = password
         )
-        val userDto = UserDto(email = email, createdAt = now, updatedAt = now)
+        val userDto = createUserDto(email = email, createdAt = now, updatedAt = now)
 
         every { userService.userAlreadyExists(email) } returns false
         every { userMapper.fromCreateUserDtoToUser(createUserDto) } returns user

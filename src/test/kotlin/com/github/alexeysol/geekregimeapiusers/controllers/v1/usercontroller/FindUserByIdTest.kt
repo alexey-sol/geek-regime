@@ -3,7 +3,7 @@ package com.github.alexeysol.geekregimeapiusers.controllers.v1.usercontroller
 import com.github.alexeysol.geekregimeapicommons.constants.ApiResourceExceptionCode
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException
 import com.github.alexeysol.geekregimeapicommons.utils.Json
-import com.github.alexeysol.geekregimeapiusers.models.dtos.UserDto
+import com.github.alexeysol.geekregimeapiusers.createUserDto
 import com.github.alexeysol.geekregimeapiusers.sources.ApiUsersSourceResolver
 import com.github.alexeysol.geekregimeapiusers.models.entities.User
 import io.mockk.every
@@ -29,7 +29,7 @@ class FindUserByIdTest(
     fun givenUserExists_whenFindUserById_thenReturnsUserWithStatus200() {
         val userId = 1L
         val user = User(id = userId, email = "mark@mail.com")
-        val userDto = UserDto(id = userId, email = "mark@mail.com")
+        val userDto = createUserDto(id = userId, email = "mark@mail.com")
 
         every { userService.findUserById(userId) } returns user
         every { userMapper.fromUserToUserDto(user) } returns userDto
