@@ -1,10 +1,5 @@
 package com.github.alexeysol.geekregimeapiposts.controllers.v1.postcontroller;
 
-import com.github.alexeysol.geekregimeapiposts.models.dtos.CreatePostDto;
-import com.github.alexeysol.geekregimeapiposts.models.dtos.PostDto;
-import com.github.alexeysol.geekregimeapiposts.models.dtos.UpdatePostDto;
-import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
-import com.github.alexeysol.geekregimeapiposts.services.v1.UserService;
 import com.github.alexeysol.geekregimeapiposts.utils.mappers.PostMapper;
 import com.github.alexeysol.geekregimeapiposts.utils.sources.ApiPostsSourceResolver;
 import com.github.alexeysol.geekregimeapiposts.constants.PathConstants;
@@ -25,9 +20,6 @@ public abstract class BasePostControllerTest {
 
     @MockBean
     protected PostService postService;
-
-    @MockBean
-    protected UserService userService;
 
     @MockBean
     protected PostMapper postMapper;
@@ -51,50 +43,5 @@ public abstract class BasePostControllerTest {
 
     protected String getUrl(String id) {
         return String.format("%s/%s", apiV1Path, id);
-    }
-
-    protected CreatePostDto createCreatePostDto(
-        long userId,
-        long spaceId,
-        String title,
-        String body
-    ) {
-        CreatePostDto dto = new CreatePostDto();
-        dto.setUserId(userId);
-        dto.setSpaceId(spaceId);
-        dto.setTitle(title);
-        dto.setBody(body);
-        return dto;
-    }
-
-    protected UpdatePostDto createUpdatePostDto(String title, String body) {
-        UpdatePostDto dto = new UpdatePostDto();
-        dto.setTitle(title);
-        dto.setBody(body);
-        return dto;
-    }
-
-    protected Post createPost() {
-        return createPost(0, 0, "", "");
-    }
-
-    protected Post createPost(long userId, long spaceId, String title, String body) {
-        Post post = new Post();
-        post.setUserId(userId);
-        post.setSpaceId(spaceId);
-        post.setTitle(title);
-        post.setBody(body);
-        return post;
-    }
-
-    protected PostDto createPostDto() {
-        return createPostDto("", "");
-    }
-
-    protected PostDto createPostDto(String title, String body) {
-        PostDto post = new PostDto();
-        post.setTitle(title);
-        post.setBody(body);
-        return post;
     }
 }

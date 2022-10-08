@@ -3,10 +3,10 @@ package com.github.alexeysol.geekregimeapiposts.controllers.v1.postcontroller;
 import com.github.alexeysol.geekregimeapicommons.constants.ApiResource;
 import com.github.alexeysol.geekregimeapicommons.constants.ApiResourceExceptionCode;
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.RawPostDto;
 import com.github.alexeysol.geekregimeapicommons.utils.Json;
 import com.github.alexeysol.geekregimeapicommons.utils.TestUtils;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.CreatePostDto;
-import com.github.alexeysol.geekregimeapiposts.models.dtos.PostDto;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.utils.sources.ApiPostsSourceResolver;
 import org.hamcrest.CoreMatchers;
@@ -21,6 +21,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.Objects;
 
+import static com.github.alexeysol.geekregimeapiposts.testutils.Factories.*;
 import static org.mockito.Mockito.when;
 
 public class CreatePostTest extends BasePostControllerTest {
@@ -42,17 +43,17 @@ public class CreatePostTest extends BasePostControllerTest {
 
         Post post = createPost(userId, spaceId, title, body);
         CreatePostDto createPostDto = createCreatePostDto(userId, spaceId, title, body);
-        PostDto postDto = createPostDto(title, body);
+        RawPostDto rawPostDto = createRawPostDto(title, body);
 
         when(postMapper.fromCreatePostDtoToPost(createPostDto)).thenReturn(post);
         when(postService.savePost(post)).thenReturn(post);
-        when(postMapper.fromPostToPostDto(post)).thenReturn(postDto);
+        when(postMapper.fromPostToRawPostDto(post)).thenReturn(rawPostDto);
 
         mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createPostDto))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(result -> {
-                String expected = Json.stringify(postDto);
+                String expected = Json.stringify(rawPostDto);
                 String actual = result.getResponse().getContentAsString();
                 Assertions.assertEquals(expected, actual);
             });
@@ -90,7 +91,7 @@ public class CreatePostTest extends BasePostControllerTest {
 
         when(postMapper.fromCreatePostDtoToPost(createPostDto)).thenReturn(post);
         when(postService.savePost(post)).thenReturn(post);
-        when(postMapper.fromPostToPostDto(post))
+        when(postMapper.fromPostToRawPostDto(post))
             .thenThrow(new ResourceNotFoundException(ApiResource.USER, absentUserId));
 
         mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createPostDto))

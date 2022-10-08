@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
+import static com.github.alexeysol.geekregimeapiposts.testutils.Factories.createPost;
+
 public class RemovePostByIdTest extends BasePostRepositoryTest {
     public RemovePostByIdTest(
         @Autowired TestEntityManager entityManager,

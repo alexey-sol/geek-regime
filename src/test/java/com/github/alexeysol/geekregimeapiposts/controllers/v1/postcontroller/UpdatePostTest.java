@@ -3,9 +3,9 @@ package com.github.alexeysol.geekregimeapiposts.controllers.v1.postcontroller;
 import com.github.alexeysol.geekregimeapicommons.constants.ApiResource;
 import com.github.alexeysol.geekregimeapicommons.constants.ApiResourceExceptionCode;
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.RawPostDto;
 import com.github.alexeysol.geekregimeapicommons.utils.Json;
 import com.github.alexeysol.geekregimeapicommons.utils.TestUtils;
-import com.github.alexeysol.geekregimeapiposts.models.dtos.PostDto;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.UpdatePostDto;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.utils.sources.ApiPostsSourceResolver;
@@ -22,6 +22,7 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import java.util.Objects;
 import java.util.Optional;
 
+import static com.github.alexeysol.geekregimeapiposts.testutils.Factories.*;
 import static org.mockito.Mockito.when;
 
 public class UpdatePostTest extends BasePostControllerTest {
@@ -41,18 +42,18 @@ public class UpdatePostTest extends BasePostControllerTest {
         String body = "Hello World";
         Post post = createPost(1L, 1L, title, body);
         UpdatePostDto updatePostDto = createUpdatePostDto(title, body);
-        PostDto postDto = createPostDto(title, body);
+        RawPostDto rawPostDto = createRawPostDto(title, body);
 
         when(postService.findPostById(postId)).thenReturn(Optional.of(post));
         when(postMapper.mapUpdatePostDtoToPost(updatePostDto, post)).thenReturn(post);
         when(postService.savePost(post)).thenReturn(post);
-        when(postMapper.fromPostToPostDto(post)).thenReturn(postDto);
+        when(postMapper.fromPostToRawPostDto(post)).thenReturn(rawPostDto);
 
         mockMvc.perform(TestUtils.mockPatchRequest(getUrl(postId), updatePostDto))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(result -> {
-                String expected = Json.stringify(postDto);
+                String expected = Json.stringify(rawPostDto);
                 String actual = result.getResponse().getContentAsString();
                 Assertions.assertEquals(expected, actual);
             });

@@ -5,10 +5,10 @@ import com.github.alexeysol.geekregimeapicommons.constants.DefaultValueConstants
 import com.github.alexeysol.geekregimeapicommons.exceptions.BaseResourceException;
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException;
 import com.github.alexeysol.geekregimeapicommons.models.Pair;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.RawPostDto;
 import com.github.alexeysol.geekregimeapicommons.utils.converters.PageableConverter;
 import com.github.alexeysol.geekregimeapiposts.constants.PathConstants;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.CreatePostDto;
-import com.github.alexeysol.geekregimeapiposts.models.dtos.PostDto;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.UpdatePostDto;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.services.v1.PostService;
@@ -43,7 +43,7 @@ public class PostController {
     }
 
     @GetMapping
-    Page<PostDto> findAllPosts(
+    Page<RawPostDto> findAllPosts(
         @RequestParam Optional<String> paging,
         @RequestParam Optional<String> sortBy
     ) {
@@ -55,28 +55,28 @@ public class PostController {
 
         Pageable pageable = pageableConverter.getPageable();
         Page<Post> postsPage = postService.findAllPosts(pageable);
-        List<PostDto> postDtoList = postMapper.fromPostListToPostDtoList(postsPage.getContent());
-        return new PageImpl<>(postDtoList, pageable, postsPage.getTotalElements());
+        List<RawPostDto> rawPostDtoList = postMapper.fromPostListToRawPostDtoList(postsPage.getContent());
+        return new PageImpl<>(rawPostDtoList, pageable, postsPage.getTotalElements());
     }
 
     @GetMapping("{slug}")
-    PostDto findPostBySlug(@PathVariable String slug) throws BaseResourceException {
+    RawPostDto findPostBySlug(@PathVariable String slug) throws BaseResourceException {
         Optional<Post> post = postService.findPostBySlug(slug);
 
         if (post.isEmpty()) {
             throw new ResourceNotFoundException(ApiResource.POST, new Pair<>("slug", slug));
         }
 
-        return postMapper.fromPostToPostDto(post.get());
+        return postMapper.fromPostToRawPostDto(post.get());
     }
 
     @PostMapping
-    PostDto createPost(@RequestBody @Valid CreatePostDto dto) throws Throwable {
+    RawPostDto createPost(@RequestBody @Valid CreatePostDto dto) throws Throwable {
         Post post = postMapper.fromCreatePostDtoToPost(dto);
         Post createdPost = postService.savePost(post);
 
         try {
-            return postMapper.fromPostToPostDto(createdPost);
+            return postMapper.fromPostToRawPostDto(createdPost);
         } catch (MappingException exception) {
             Throwable cause = exception.getCause();
             cleanUpIfNeeded(cause, createdPost.getId());
@@ -85,7 +85,7 @@ public class PostController {
     }
 
     @PatchMapping("{id}")
-    PostDto updatePost(
+    RawPostDto updatePost(
         @PathVariable long id,
         @RequestBody @Valid UpdatePostDto dto
     ) {
@@ -97,7 +97,7 @@ public class PostController {
 
         Post post = postMapper.mapUpdatePostDtoToPost(dto, optionalPost.get());
         Post updatedPost = postService.savePost(post);
-        return postMapper.fromPostToPostDto(updatedPost);
+        return postMapper.fromPostToRawPostDto(updatedPost);
     }
 
     @DeleteMapping("{id}")

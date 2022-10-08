@@ -7,6 +7,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
+import static com.github.alexeysol.geekregimeapiposts.testutils.Factories.createPost;
+
 public class FindPostBySlugTest extends BasePostRepositoryTest {
     public FindPostBySlugTest(
         @Autowired TestEntityManager entityManager,

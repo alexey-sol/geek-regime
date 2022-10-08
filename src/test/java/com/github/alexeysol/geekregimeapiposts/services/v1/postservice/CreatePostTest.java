@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import static com.github.alexeysol.geekregimeapiposts.testutils.Factories.createPost;
 import static org.mockito.Mockito.when;
 
 public class CreatePostTest extends BasePostServiceTest {

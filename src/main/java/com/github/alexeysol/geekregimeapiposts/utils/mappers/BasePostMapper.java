@@ -1,73 +1,29 @@
 package com.github.alexeysol.geekregimeapiposts.utils.mappers;
 
-import com.github.alexeysol.geekregimeapicommons.utils.ObjectCasting;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.RawPostDto;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.*;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.services.v1.PostService;
-import com.github.alexeysol.geekregimeapiposts.services.v1.UserService;
 import com.github.alexeysol.geekregimeapiposts.utils.mappers.converters.BodyToExcerptConverter;
 import com.github.alexeysol.geekregimeapiposts.utils.mappers.converters.TitleToSlugConverter;
 import org.modelmapper.ModelMapper;
-
-import java.util.List;
+import org.modelmapper.spi.MappingContext;
 
 public abstract class BasePostMapper {
     protected final ModelMapper modelMapper;
     protected final PostService postService;
-    protected final UserService userService;
 
-    static protected class UserDtoList {
-        private List<UserDto> list;
-
-        public List<UserDto> getList() {
-            return list;
-        }
-
-        public void setList(List<UserDto> list) {
-            this.list = list;
-        }
-    }
-
-    static protected class PostList {
-        private List<Post> list;
-
-        public List<Post> getList() {
-            return list;
-        }
-
-        public void setList(List<Post> list) {
-            this.list = list;
-        }
-
-        public List<Long> getAuthorIds() {
-            return list.stream()
-                .map(Post::getUserId)
-                .distinct()
-                .toList();
-        }
-    }
-
-    public BasePostMapper(ModelMapper modelMapper, PostService postService, UserService userService) {
+    public BasePostMapper(ModelMapper modelMapper, PostService postService) {
         this.modelMapper = modelMapper;
         this.postService = postService;
-        this.userService = userService;
         init(modelMapper);
     }
 
     private void init(ModelMapper modelMapper) {
-        modelMapper.createTypeMap(Post.class, PostDto.class)
+        modelMapper.createTypeMap(Post.class, RawPostDto.class)
             .addMappings(mapper -> mapper
-                .using(context -> userService.findUserById((long) context.getSource()))
-                .map(Post::getUserId, PostDto::setAuthor));
-
-        // Attach the corresponding author to each post DTO.
-        modelMapper.createTypeMap(PostList.class, UserDtoList.class)
-            .addMappings(mapper -> mapper
-                .using(context -> {
-                    List<Long> userIds = ObjectCasting.objectToList(context.getSource(), Long.class);
-                    return convertUserIdsToUsers(userIds);
-                })
-                .map(PostList::getAuthorIds, UserDtoList::setList));
+                .using(MappingContext::getSource)
+                .map(Post::getUserId, RawPostDto::setAuthorId));
 
         modelMapper.typeMap(CreatePostDto.class, Post.class)
             .addMappings(mapper -> {
@@ -86,11 +42,5 @@ public abstract class BasePostMapper {
                 mapper.using(new BodyToExcerptConverter())
                     .map(UpdatePostDto::getBody, Post::setExcerpt);
             });
-    }
-
-    private List<UserDto> convertUserIdsToUsers(List<Long> userIds) {
-        return (userIds.isEmpty())
-            ? List.of()
-            : userService.findAllUsers(userIds);
     }
 }

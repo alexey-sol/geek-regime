@@ -1,8 +1,8 @@
 package com.github.alexeysol.geekregimeapiposts.controllers.v1.postcontroller;
 
+import com.github.alexeysol.geekregimeapicommons.models.dtos.RawPostDto;
 import com.github.alexeysol.geekregimeapicommons.utils.TestUtils;
 import com.github.alexeysol.geekregimeapicommons.utils.converters.PageableConverter;
-import com.github.alexeysol.geekregimeapiposts.models.dtos.PostDto;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.utils.sources.ApiPostsSourceResolver;
 import org.junit.jupiter.api.Test;
@@ -19,6 +19,8 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.github.alexeysol.geekregimeapiposts.testutils.Factories.createPost;
+import static com.github.alexeysol.geekregimeapiposts.testutils.Factories.createRawPostDto;
 import static org.mockito.Mockito.when;
 
 public class FindAllPosts extends BasePostControllerTest {
@@ -39,11 +41,11 @@ public class FindAllPosts extends BasePostControllerTest {
         List<Post> posts = List.of(createPost(), createPost(), createPost());
         Page<Post> postPage = new PageImpl<>(posts, pageableStub, posts.size());
 
-        List<PostDto> postDtoList = List.of(createPostDto(), createPostDto(), createPostDto());
-        Page<PostDto> postDtoPage = new PageImpl<>(postDtoList, pageableStub, postDtoList.size());
+        List<RawPostDto> rawPostDtoList = List.of(createRawPostDto(), createRawPostDto(), createRawPostDto());
+        Page<RawPostDto> rawPostDtoPage = new PageImpl<>(rawPostDtoList, pageableStub, rawPostDtoList.size());
 
         when(postService.findAllPosts(Mockito.any(Pageable.class))).thenReturn(postPage);
-        when(postMapper.fromPostListToPostDtoList(posts)).thenReturn(postDtoList);
+        when(postMapper.fromPostListToRawPostDtoList(posts)).thenReturn(rawPostDtoList);
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl()))
             .andExpect(MockMvcResultMatchers.status().isOk())
@@ -52,7 +54,7 @@ public class FindAllPosts extends BasePostControllerTest {
             .andExpect(MockMvcResultMatchers.jsonPath("$.content").isNotEmpty())
             .andExpect(result -> {
                 String contentAsString = result.getResponse().getContentAsString();
-                TestUtils.responseContentEqualsProvidedPage(postDtoPage, contentAsString);
+                TestUtils.responseContentEqualsProvidedPage(rawPostDtoPage, contentAsString);
             });
     }
 
@@ -63,11 +65,11 @@ public class FindAllPosts extends BasePostControllerTest {
         List<Post> emptyPostList = List.of();
         Page<Post> emptyPostPage = new PageImpl<>(new ArrayList<>(), pageableStub, 0);
 
-        List<PostDto> emptyPostDtoList = List.of();
-        Page<PostDto> emptyPostDtoPage = new PageImpl<>(new ArrayList<>(), pageableStub, 0);
+        List<RawPostDto> emptyPostDtoList = List.of();
+        Page<RawPostDto> emptyPostDtoPage = new PageImpl<>(new ArrayList<>(), pageableStub, 0);
 
         when(postService.findAllPosts(Mockito.any(Pageable.class))).thenReturn(emptyPostPage);
-        when(postMapper.fromPostListToPostDtoList(emptyPostList)).thenReturn(emptyPostDtoList);
+        when(postMapper.fromPostListToRawPostDtoList(emptyPostList)).thenReturn(emptyPostDtoList);
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl()))
             .andExpect(MockMvcResultMatchers.status().isOk())
