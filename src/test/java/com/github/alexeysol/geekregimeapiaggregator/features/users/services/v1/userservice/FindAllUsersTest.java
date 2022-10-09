@@ -21,7 +21,7 @@ public class FindAllUsersTest extends BaseUserServiceTest {
 
     @Test
     public void usersExist_whenFindAllUsers_thenReturnsUserList() {
-        long userId1 = 1L;
+        long userId = 1L;
         long userId2 = 2L;
 
         ResponseDefinitionBuilder responseToReturn = aResponse()
@@ -29,7 +29,7 @@ public class FindAllUsersTest extends BaseUserServiceTest {
 
         wireMockServer.stubFor(getApiUsersMappingBuilder(responseToReturn));
 
-        List<Long> ids = List.of(userId1, userId2);
+        List<Long> ids = List.of(userId, userId2);
         List<UserDto> users = userService.findAllUsers(ids);
 
         wireMockServer.verify(getRequestedFor(urlPathEqualTo(getEndpoint()))
@@ -37,7 +37,7 @@ public class FindAllUsersTest extends BaseUserServiceTest {
 
         int expectedListSize = 2;
         Assertions.assertEquals(expectedListSize, users.size());
-        Assertions.assertEquals(userId1, users.get(0).getId());
+        Assertions.assertEquals(userId, users.get(0).getId());
         Assertions.assertEquals(userId2, users.get(1).getId());
     }
 }

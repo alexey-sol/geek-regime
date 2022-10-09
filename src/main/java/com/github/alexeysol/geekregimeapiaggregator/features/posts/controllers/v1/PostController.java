@@ -3,7 +3,9 @@ package com.github.alexeysol.geekregimeapiaggregator.features.posts.controllers.
 import com.github.alexeysol.geekregimeapiaggregator.features.posts.constants.PostsPathConstants;
 import com.github.alexeysol.geekregimeapiaggregator.features.posts.services.v1.PostService;
 import com.github.alexeysol.geekregimeapiaggregator.features.posts.utils.mappers.PostMapper;
+import com.github.alexeysol.geekregimeapicommons.exceptions.BaseResourceException;
 import com.github.alexeysol.geekregimeapicommons.models.BasicPage;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.DeletionResultDto;
 import com.github.alexeysol.geekregimeapicommons.models.dtos.PostDto;
 import com.github.alexeysol.geekregimeapicommons.models.dtos.RawPostDto;
 import org.springframework.validation.annotation.Validated;
@@ -34,5 +36,31 @@ public class PostController {
         BasicPage<RawPostDto> page = postService.findAllPosts(paging, sortBy);
         List<PostDto> postDtoList = postMapper.fromRawPostDtoListToPostDtoList(page.getContent());
         return page.convertContent(postDtoList);
+    }
+
+    @GetMapping("{slug}")
+    PostDto findPostBySlug(@PathVariable String slug) throws BaseResourceException {
+        RawPostDto rawPostDto = postService.findPostBySlug(slug);
+        return postMapper.fromRawPostDtoToPostDto(rawPostDto);
+    }
+
+    @PostMapping
+    PostDto createPost(@RequestBody String dto) {
+        RawPostDto createdPost = postService.createPost(dto);
+        return postMapper.fromRawPostDtoToPostDto(createdPost);
+    }
+
+    @PatchMapping("{id}")
+    PostDto updatePost(
+        @PathVariable long id,
+        @RequestBody String dto
+    ) {
+        RawPostDto createdPost = postService.updatePost(id, dto);
+        return postMapper.fromRawPostDtoToPostDto(createdPost);
+    }
+
+    @DeleteMapping("{id}")
+    DeletionResultDto removePostById(@PathVariable long id) {
+        return postService.removePostById(id);
     }
 }

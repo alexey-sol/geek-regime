@@ -3,13 +3,13 @@ package com.github.alexeysol.geekregimeapiaggregator.features.users.services.v1;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.alexeysol.geekregimeapiaggregator.shared.constants.PathConstants;
 import com.github.alexeysol.geekregimeapiaggregator.shared.utils.sources.ApiUsersSourceResolver;
-import com.github.alexeysol.geekregimeapicommons.exceptions.BaseResourceException;
 import com.github.alexeysol.geekregimeapicommons.models.BasicPage;
 import com.github.alexeysol.geekregimeapicommons.models.Pair;
 import com.github.alexeysol.geekregimeapicommons.models.dtos.UserDto;
 import com.github.alexeysol.geekregimeapicommons.utils.Json;
 import com.github.alexeysol.geekregimeapicommons.utils.Request;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -49,7 +49,7 @@ public class UserService {
         return users;
     }
 
-    public UserDto findUserById(long id) throws IllegalArgumentException, BaseResourceException {
+    public UserDto findUserById(long id) {
         UserDto user;
 
         try {
@@ -59,7 +59,7 @@ public class UserService {
                 .getResult();
 
             user = Json.parse(userJson, UserDto.class);
-        } catch (IllegalArgumentException | BaseResourceException exception) {
+        } catch (IllegalArgumentException | ResponseStatusException exception) {
             throw exception;
         } catch (Exception exception) {
             throw new RuntimeException(exception.getMessage());

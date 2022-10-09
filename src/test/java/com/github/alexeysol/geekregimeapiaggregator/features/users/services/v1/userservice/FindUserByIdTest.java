@@ -1,13 +1,13 @@
 package com.github.alexeysol.geekregimeapiaggregator.features.users.services.v1.userservice;
 
 import com.github.alexeysol.geekregimeapiaggregator.shared.utils.sources.ApiUsersSourceResolver;
-import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException;
 import com.github.alexeysol.geekregimeapicommons.models.dtos.UserDto;
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.web.server.ResponseStatusException;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
@@ -45,12 +45,9 @@ public class FindUserByIdTest extends BaseUserServiceTest {
 
         wireMockServer.stubFor(getApiUsersMappingBuilder(responseToReturn, absentId));
 
-        ResourceNotFoundException exception = Assertions.assertThrows(
-            ResourceNotFoundException.class, () -> userService.findUserById(absentId)
+        ResponseStatusException exception = Assertions.assertThrows(
+            ResponseStatusException.class, () -> userService.findUserById(absentId)
         );
-
-        String expectedMessage = "USER/NOT_FOUND/id=10";
-        Assertions.assertEquals(expectedMessage, exception.getMessage());
 
         wireMockServer.verify(getRequestedFor(urlPathEqualTo(getEndpoint(absentId)))
             .withHeader("Content-Type", equalTo("application/json")));
