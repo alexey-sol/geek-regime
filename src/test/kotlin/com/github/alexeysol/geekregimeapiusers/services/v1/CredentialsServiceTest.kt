@@ -11,8 +11,8 @@ import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 
 class CredentialsServiceTest {
-    private val db: CredentialsRepository = mockk()
-    private val service = CredentialsService(db)
+    private val repository: CredentialsRepository = mockk()
+    private val service = CredentialsService(repository)
 
     @Test
     fun givenDto_whenCreateCredentials_thenReturnsCredentials() {
@@ -22,10 +22,10 @@ class CredentialsServiceTest {
         val hashedPassword = Security.generateHash(password, salt)
         val credentials = Credentials(hashedPassword = hashedPassword, salt = salt)
 
-        every { db.save(credentials) } returns credentials
+        every { repository.save(credentials) } returns credentials
 
         val result = service.createCredentials(password, user)
-        verify(exactly = 1) { db.save(credentials) }
+        verify(exactly = 1) { repository.save(credentials) }
         Assertions.assertEquals(credentials, result)
     }
 }

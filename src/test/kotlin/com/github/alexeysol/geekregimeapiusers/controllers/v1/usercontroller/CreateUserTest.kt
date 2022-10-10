@@ -1,14 +1,13 @@
 package com.github.alexeysol.geekregimeapiusers.controllers.v1.usercontroller
 
-import com.github.alexeysol.geekregimeapicommons.constants.ApiResourceExceptionCode
-import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceAlreadyExistsException
+import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceException
 import com.github.alexeysol.geekregimeapicommons.utils.Json
 import com.github.alexeysol.geekregimeapicommons.utils.TestUtils
-import com.github.alexeysol.geekregimeapiusers.createUserDto
-import com.github.alexeysol.geekregimeapiusers.sources.ApiUsersSourceResolver
+import com.github.alexeysol.geekregimeapiusers.testutils.createUserDto
 import com.github.alexeysol.geekregimeapiusers.models.dtos.CreateUserDto
 import com.github.alexeysol.geekregimeapiusers.models.entities.User
 import com.github.alexeysol.geekregimeapiusers.models.dtos.CreateOrUpdateDetailsDto
+import com.github.alexeysol.geekregimeapiusers.utils.sources.ApiUsersSource
 import io.mockk.every
 import org.hamcrest.CoreMatchers
 import org.hamcrest.MatcherAssert
@@ -23,8 +22,8 @@ import java.util.*
 
 class CreateUserTest(
     @Autowired mockMvc: MockMvc,
-    @Autowired sourceResolver: ApiUsersSourceResolver
-) : BaseUserControllerTest(mockMvc, sourceResolver) {
+    @Autowired source: ApiUsersSource
+) : BaseUserControllerTest(mockMvc, source) {
     @Test
     fun givenDtoIsValidButWithoutPassword_whenCreateUser_thenReturnsUserDtoWithStatus200() {
         val email = "mark@mail.com"
@@ -33,16 +32,16 @@ class CreateUserTest(
         val createUserDto = CreateUserDto(email = email)
         val userDto = createUserDto(email = email, createdAt = now, updatedAt = now)
 
-        every { userService.userAlreadyExists(email) } returns false
-        every { userMapper.fromCreateUserDtoToUser(createUserDto) } returns user
-        every { userService.createUser(user) } returns user
-        every { userMapper.fromUserToUserDto(user) } returns userDto
+        every { service.userAlreadyExists(email) } returns false
+        every { mapper.fromCreateUserDtoToUser(createUserDto) } returns user
+        every { service.createUser(user) } returns user
+        every { mapper.fromUserToUserDto(user) } returns userDto
 
         mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createUserDto))
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
             .andExpect { result ->
-                Assertions.assertEquals(result.response.contentAsString, Json.stringify(userDto))
+                Assertions.assertEquals(Json.stringify(userDto), result.response.contentAsString)
             }
     }
 
@@ -59,16 +58,16 @@ class CreateUserTest(
         )
         val userDto = createUserDto(email = email, createdAt = now, updatedAt = now)
 
-        every { userService.userAlreadyExists(email) } returns false
-        every { userMapper.fromCreateUserDtoToUser(createUserDto) } returns user
-        every { userService.createUser(user, password = password) } returns user
-        every { userMapper.fromUserToUserDto(user) } returns userDto
+        every { service.userAlreadyExists(email) } returns false
+        every { mapper.fromCreateUserDtoToUser(createUserDto) } returns user
+        every { service.createUser(user, password = password) } returns user
+        every { mapper.fromUserToUserDto(user) } returns userDto
 
         mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createUserDto))
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
             .andExpect { result ->
-                Assertions.assertEquals(result.response.contentAsString, Json.stringify(userDto))
+                Assertions.assertEquals(Json.stringify(userDto), result.response.contentAsString)
             }
     }
 
@@ -171,18 +170,12 @@ class CreateUserTest(
         val existingEmail = "already-exists@mail.com"
         val createUserDto = CreateUserDto(email = existingEmail)
 
-        every { userService.userAlreadyExists(existingEmail) } returns true
+        every { service.userAlreadyExists(existingEmail) } returns true
 
         mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createUserDto))
             .andExpect(MockMvcResultMatchers.status().isConflict)
             .andExpect { result ->
-                Assertions.assertTrue(result.resolvedException is ResourceAlreadyExistsException)
-            }
-            .andExpect { result ->
-                MatcherAssert.assertThat(
-                    result.resolvedException?.message,
-                    CoreMatchers.containsString(ApiResourceExceptionCode.ALREADY_EXISTS.toString())
-                )
+                Assertions.assertTrue(result.resolvedException is ResourceException)
             }
     }
 }

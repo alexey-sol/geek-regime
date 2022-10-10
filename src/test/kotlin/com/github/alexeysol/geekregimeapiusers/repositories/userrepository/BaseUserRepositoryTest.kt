@@ -11,5 +11,5 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
 @AutoConfigureTestEntityManager
 abstract class BaseUserRepositoryTest(
     protected val entityManager: TestEntityManager,
-    protected val userRepository: UserRepository
+    protected val repository: UserRepository
 )

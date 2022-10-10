@@ -10,10 +10,10 @@ import org.springframework.data.domain.Pageable
 
 abstract class BaseUserServiceTest {
     private val credentialsRepository: CredentialsRepository = mockk()
-    protected val userRepository: UserRepository = mockk()
+    protected val repository: UserRepository = mockk()
 
     private val credentialsService = CredentialsService(credentialsRepository)
-    protected val userService = UserService(userRepository, credentialsService)
+    protected val service = UserService(repository, credentialsService)
 
     private val pageableConverterStub = PageableConverter("", "")
     protected val pageableStub: Pageable = pageableConverterStub.pageable

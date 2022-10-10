@@ -9,8 +9,8 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager
 
 class RemoveUserByIdTest(
     @Autowired entityManager: TestEntityManager,
-    @Autowired userRepository: UserRepository
-) : BaseUserRepositoryTest(entityManager, userRepository) {
+    @Autowired repository: UserRepository
+) : BaseUserRepositoryTest(entityManager, repository) {
     @Test
     fun givenUserExists_whenRemoveUserById_thenReturnsDeletedRowCount1() {
         val deletedRowCount = 1
@@ -19,7 +19,7 @@ class RemoveUserByIdTest(
         entityManager.persist(user)
         entityManager.flush()
 
-        val result = userRepository.removeUserById(userId)
+        val result = repository.removeUserById(userId)
         Assertions.assertEquals(deletedRowCount, result)
     }
 
@@ -28,7 +28,7 @@ class RemoveUserByIdTest(
         val deletedRowCount = 0
         val absentUserId = 10L
 
-        val result = userRepository.removeUserById(absentUserId)
+        val result = repository.removeUserById(absentUserId)
         Assertions.assertEquals(deletedRowCount, result)
     }
 }

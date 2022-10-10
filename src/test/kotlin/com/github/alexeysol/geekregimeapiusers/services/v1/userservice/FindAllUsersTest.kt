@@ -14,10 +14,10 @@ class FindAllUsersTest : BaseUserServiceTest() {
         val users = listOf(User(), User())
         val userPage: Page<User> = PageImpl(users, pageableStub, users.size.toLong())
 
-        every { userRepository.findAllUsers(pageableStub) } returns userPage
+        every { repository.findAllUsers(pageableStub) } returns userPage
 
-        val result = userService.findAllUsers(pageableStub)
-        verify(exactly = 1) { userRepository.findAllUsers(pageableStub) }
+        val result = service.findAllUsers(pageableStub)
+        verify(exactly = 1) { repository.findAllUsers(pageableStub) }
         Assertions.assertEquals(userPage, result)
     }
 
@@ -25,10 +25,10 @@ class FindAllUsersTest : BaseUserServiceTest() {
     fun usersDontExist_whenFindAllUsers_thenReturnsEmptyList() {
         val emptyUserPage: Page<User> = PageImpl(listOf(), pageableStub, 0)
 
-        every { userRepository.findAllUsers(pageableStub) } returns emptyUserPage
+        every { repository.findAllUsers(pageableStub) } returns emptyUserPage
 
-        val result = userService.findAllUsers(pageableStub)
-        verify(exactly = 1) { userRepository.findAllUsers(pageableStub) }
+        val result = service.findAllUsers(pageableStub)
+        verify(exactly = 1) { repository.findAllUsers(pageableStub) }
         Assertions.assertEquals(emptyUserPage, result)
     }
 }

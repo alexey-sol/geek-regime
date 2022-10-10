@@ -11,10 +11,10 @@ class CreateUserTest : BaseUserServiceTest() {
     fun givenDto_whenCreateUser_thenReturnsUser() {
         val user = User(email = "mark@mail.com")
 
-        every { userRepository.save(user) } returns user
+        every { repository.save(user) } returns user
 
-        val result = userService.createUser(user)
-        verify(exactly = 1) { userRepository.save(user) }
+        val result = service.createUser(user)
+        verify(exactly = 1) { repository.save(user) }
         Assertions.assertEquals(user, result)
     }
 }

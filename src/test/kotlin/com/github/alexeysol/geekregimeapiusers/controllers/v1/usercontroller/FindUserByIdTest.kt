@@ -1,14 +1,11 @@
 package com.github.alexeysol.geekregimeapiusers.controllers.v1.usercontroller
 
-import com.github.alexeysol.geekregimeapicommons.constants.ApiResourceExceptionCode
-import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException
+import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceException
 import com.github.alexeysol.geekregimeapicommons.utils.Json
-import com.github.alexeysol.geekregimeapiusers.createUserDto
-import com.github.alexeysol.geekregimeapiusers.sources.ApiUsersSourceResolver
+import com.github.alexeysol.geekregimeapiusers.testutils.createUserDto
 import com.github.alexeysol.geekregimeapiusers.models.entities.User
+import com.github.alexeysol.geekregimeapiusers.utils.sources.ApiUsersSource
 import io.mockk.every
-import org.hamcrest.CoreMatchers
-import org.hamcrest.MatcherAssert
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
@@ -23,22 +20,22 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 @AutoConfigureMockMvc
 class FindUserByIdTest(
     @Autowired mockMvc: MockMvc,
-    @Autowired sourceResolver: ApiUsersSourceResolver
-) : BaseUserControllerTest(mockMvc, sourceResolver) {
+    @Autowired source: ApiUsersSource
+) : BaseUserControllerTest(mockMvc, source) {
     @Test
     fun givenUserExists_whenFindUserById_thenReturnsUserWithStatus200() {
         val userId = 1L
         val user = User(id = userId, email = "mark@mail.com")
         val userDto = createUserDto(id = userId, email = "mark@mail.com")
 
-        every { userService.findUserById(userId) } returns user
-        every { userMapper.fromUserToUserDto(user) } returns userDto
+        every { service.findUserById(userId) } returns user
+        every { mapper.fromUserToUserDto(user) } returns userDto
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl(userId)))
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
             .andExpect { result ->
-                Assertions.assertEquals(result.response.contentAsString, Json.stringify(userDto))
+                Assertions.assertEquals(Json.stringify(userDto), result.response.contentAsString)
             }
     }
 
@@ -46,18 +43,12 @@ class FindUserByIdTest(
     fun givenUserDoesntExist_whenFindUserById_thenReturnsStatus404() {
         val absentUserId = 10L
 
-        every { userService.findUserById(absentUserId) } returns null
+        every { service.findUserById(absentUserId) } returns null
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl(absentUserId)))
             .andExpect(MockMvcResultMatchers.status().isNotFound)
             .andExpect { result ->
-                Assertions.assertTrue(result.resolvedException is ResourceNotFoundException)
-            }
-            .andExpect { result ->
-                MatcherAssert.assertThat(
-                    result.resolvedException?.message,
-                    CoreMatchers.containsString(ApiResourceExceptionCode.NOT_FOUND.toString())
-                )
+                Assertions.assertTrue(result.resolvedException is ResourceException)
             }
     }
 }

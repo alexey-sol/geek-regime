@@ -18,10 +18,10 @@ class FindAllUsersByIdTest : BaseUserServiceTest() {
         val users = listOf(User(id = userId), User(id = userId2))
         val userPage: Page<User> = PageImpl(users, pageableStub, users.size.toLong())
 
-        every { userRepository.findAllUsersById(userIds, pageableStub) } returns userPage
+        every { repository.findAllUsersById(userIds, pageableStub) } returns userPage
 
-        val result = userService.findAllUsersById(userIds, pageableStub)
-        verify(exactly = 1) { userRepository.findAllUsersById(userIds, pageableStub) }
+        val result = service.findAllUsersById(userIds, pageableStub)
+        verify(exactly = 1) { repository.findAllUsersById(userIds, pageableStub) }
         Assertions.assertEquals(userPage, result)
     }
 
@@ -33,10 +33,10 @@ class FindAllUsersByIdTest : BaseUserServiceTest() {
 
         val emptyUserPage: Page<User> = PageImpl(listOf(), pageableStub, 0)
 
-        every { userRepository.findAllUsersById(userIds, pageableStub) } returns emptyUserPage
+        every { repository.findAllUsersById(userIds, pageableStub) } returns emptyUserPage
 
-        val result = userService.findAllUsersById(userIds, pageableStub)
-        verify(exactly = 1) { userRepository.findAllUsersById(userIds, pageableStub) }
+        val result = service.findAllUsersById(userIds, pageableStub)
+        verify(exactly = 1) { repository.findAllUsersById(userIds, pageableStub) }
         Assertions.assertEquals(emptyUserPage, result)
     }
 }

@@ -12,10 +12,10 @@ class FindUserByIdTest : BaseUserServiceTest() {
         val userId = 1L
         val user = User(email = "mark@mail.com")
 
-        every { userRepository.findUserById(userId) } returns user
+        every { repository.findUserById(userId) } returns user
 
-        val result = userService.findUserById(userId)
-        verify(exactly = 1) { userRepository.findUserById(userId) }
+        val result = service.findUserById(userId)
+        verify(exactly = 1) { repository.findUserById(userId) }
         Assertions.assertEquals(user, result)
     }
 
@@ -23,10 +23,10 @@ class FindUserByIdTest : BaseUserServiceTest() {
     fun givenUserDoesntExist_whenFindUserById_thenReturnsNull() {
         val absentUserId = 10L
 
-        every { userRepository.findUserById(absentUserId) } returns null
+        every { repository.findUserById(absentUserId) } returns null
 
-        val result = userService.findUserById(absentUserId)
-        verify(exactly = 1) { userRepository.findUserById(absentUserId) }
+        val result = service.findUserById(absentUserId)
+        verify(exactly = 1) { repository.findUserById(absentUserId) }
         Assertions.assertEquals(null, result)
     }
 }

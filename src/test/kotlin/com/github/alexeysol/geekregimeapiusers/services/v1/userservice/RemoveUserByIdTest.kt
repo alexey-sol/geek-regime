@@ -1,6 +1,6 @@
 package com.github.alexeysol.geekregimeapiusers.services.v1.userservice
 
-import com.github.alexeysol.geekregimeapicommons.constants.DefaultValueConstants
+import com.github.alexeysol.geekregimeapicommons.constants.DefaultsConstants
 import io.mockk.every
 import io.mockk.verify
 import org.junit.jupiter.api.Test
@@ -12,10 +12,10 @@ class RemoveUserByIdTest : BaseUserServiceTest() {
         val userId = 3L
         val deletedRowCount = 1
 
-        every { userRepository.removeUserById(userId) } returns deletedRowCount
+        every { repository.removeUserById(userId) } returns deletedRowCount
 
-        val result = userService.removeUserById(userId)
-        verify(exactly = 1) { userRepository.removeUserById(userId) }
+        val result = service.removeUserById(userId)
+        verify(exactly = 1) { repository.removeUserById(userId) }
         Assertions.assertEquals(userId, result)
     }
 
@@ -24,10 +24,10 @@ class RemoveUserByIdTest : BaseUserServiceTest() {
         val absentUserId = 10L
         val deletedRowCount = 0
 
-        every { userRepository.removeUserById(absentUserId) } returns deletedRowCount
+        every { repository.removeUserById(absentUserId) } returns deletedRowCount
 
-        val result = userService.removeUserById(absentUserId)
-        verify(exactly = 1) { userRepository.removeUserById(absentUserId) }
-        Assertions.assertEquals(DefaultValueConstants.NOT_FOUND_BY_ID, result)
+        val result = service.removeUserById(absentUserId)
+        verify(exactly = 1) { repository.removeUserById(absentUserId) }
+        Assertions.assertEquals(DefaultsConstants.NOT_FOUND_BY_ID, result)
     }
 }

@@ -1,4 +1,4 @@
-package com.github.alexeysol.geekregimeapiusers
+package com.github.alexeysol.geekregimeapiusers.testutils
 
 import com.github.alexeysol.geekregimeapicommons.constants.Gender
 import com.github.alexeysol.geekregimeapicommons.models.dtos.UserDetailsDto

@@ -19,7 +19,7 @@ data class UpdateUserDto(
     @field:Valid
     val details: CreateOrUpdateDetailsDto? = CreateOrUpdateDetailsDto(),
 ) {
-    @AssertTrue(message = "Old password and new password may not go separately")
+    @AssertTrue(message = "Old password and new password must be present both")
     private fun isValid(): Boolean {
         oldPassword ?: newPassword ?: return true
 

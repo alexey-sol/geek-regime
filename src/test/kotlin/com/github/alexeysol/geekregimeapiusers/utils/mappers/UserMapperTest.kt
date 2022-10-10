@@ -11,14 +11,14 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class UserMapperTest(@Autowired val userMapper: UserMapper) {
+class UserMapperTest(@Autowired val mapper: UserMapper) {
     @Test
     fun givenValidUsers_whenFromUserListToUserDtoList_thenReturnsUserDtoList() {
         val email = "mark@mail.com"
         val email2 = "boobuntu@mail.com"
         val users = listOf(User(email = email), User(email = email2))
 
-        val result = userMapper.fromUserListToUserDtoList(users)
+        val result = mapper.fromUserListToUserDtoList(users)
         Assertions.assertEquals(users.size, result.size)
         Assertions.assertEquals(email, result[0].email)
         Assertions.assertEquals(email2, result[1].email)
@@ -30,7 +30,7 @@ class UserMapperTest(@Autowired val userMapper: UserMapper) {
         val name = "Mark"
         val user = User(email = email, details = Details(name = name))
 
-        val result = userMapper.fromUserToUserDto(user)
+        val result = mapper.fromUserToUserDto(user)
         Assertions.assertEquals(email, result.email)
         Assertions.assertEquals(name, result.details?.name)
     }
@@ -46,7 +46,7 @@ class UserMapperTest(@Autowired val userMapper: UserMapper) {
             details = CreateOrUpdateDetailsDto(name = name)
         )
 
-        val result = userMapper.fromCreateUserDtoToUser(createUserDto)
+        val result = mapper.fromCreateUserDtoToUser(createUserDto)
         Assertions.assertEquals(email, result.email)
         Assertions.assertEquals(name, result.details?.name)
     }
@@ -62,7 +62,7 @@ class UserMapperTest(@Autowired val userMapper: UserMapper) {
         )
         val user = User(email = email, details = Details(name = oldName))
 
-        val result = userMapper.fromUpdateUserDtoToUser(updateUserDto, user)
+        val result = mapper.fromUpdateUserDtoToUser(updateUserDto, user)
         Assertions.assertEquals(email, result.email)
         Assertions.assertEquals(newName, result.details?.name)
     }
@@ -78,7 +78,7 @@ class UserMapperTest(@Autowired val userMapper: UserMapper) {
         )
         val user = User(email = oldEmail)
 
-        val result = userMapper.fromUpdateUserDtoToUser(updateUserDto, user)
+        val result = mapper.fromUpdateUserDtoToUser(updateUserDto, user)
         Assertions.assertEquals(newEmail, result.email)
         Assertions.assertEquals(newName, result.details?.name)
     }
@@ -98,8 +98,16 @@ class UserMapperTest(@Autowired val userMapper: UserMapper) {
             details = Details(name = oldName)
         )
 
-        val result = userMapper.fromUpdateUserDtoToUser(updateUserDto, user)
+        val result = mapper.fromUpdateUserDtoToUser(updateUserDto, user)
         Assertions.assertEquals(oldEmail, result.email)
         Assertions.assertEquals(oldName, result.details?.name)
+    }
+
+    @Test
+    fun whenFromIdToDeletionResultDto_thenReturnsDto() {
+        val userId = 1L
+
+        val result = mapper.fromIdToDeletionResultDto(userId)
+        Assertions.assertEquals(userId, result.id)
     }
 }
