@@ -1,6 +1,5 @@
 package com.github.alexeysol.geekregimeapicommons.utils.converters;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.github.alexeysol.geekregimeapicommons.constants.DefaultValueConstants;
 import com.github.alexeysol.geekregimeapicommons.exceptions.BadRequestException;
 import com.github.alexeysol.geekregimeapicommons.models.dtos.PagingDto;
@@ -80,13 +79,7 @@ public class PageableConverter {
             return value;
         }
 
-        try {
-            value = Optional.of(Json.parse(queryJson, valueType));
-        } catch (JsonProcessingException e) {
-            e.printStackTrace();
-        }
-
-        return value;
+        return Optional.of(Json.parse(queryJson, valueType));
     }
 
     private void assertSortByFieldIsValid(String field) throws IllegalArgumentException {

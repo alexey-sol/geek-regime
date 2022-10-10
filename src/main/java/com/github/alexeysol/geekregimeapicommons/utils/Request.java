@@ -12,7 +12,6 @@ import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
@@ -35,25 +34,69 @@ public class Request {
         return url;
     }
 
-    public Request get() throws URISyntaxException {
-        httpRequest = HttpRequest.newBuilder()
-            .uri(new URI(url))
-            .header("Content-Type", CONTENT_TYPE)
-            .timeout(Duration.of(TIMEOUT_IN_SEC, SECONDS))
-            .GET()
+    public Request get() {
+        httpRequest = buildRequest().GET().build();
+        return this;
+    }
+
+    public Request delete() {
+        httpRequest = buildRequest().DELETE().build();
+        return this;
+    }
+
+    public Request post() {
+        return post("");
+    }
+
+    public Request post(String body) {
+        return method("POST", body);
+    }
+
+    public Request patch() {
+        return patch("");
+    }
+
+    public Request patch(String body) {
+        return method("PATCH", body);
+    }
+
+    private Request method(String method, String body) {
+        httpRequest = buildRequest()
+            .method(method, getBodyPublisher(body))
             .build();
 
         return this;
     }
 
-    public String getResult() throws InterruptedException, ExecutionException {
-        Assert.notNull(httpRequest, "No built request; build request first");
+    private HttpRequest.Builder buildRequest() {
+        try {
+            return HttpRequest.newBuilder()
+                .uri(new URI(url))
+                .header("Content-Type", CONTENT_TYPE)
+                .timeout(Duration.of(TIMEOUT_IN_SEC, SECONDS));
+        } catch (URISyntaxException exception) {
+            throw new RuntimeException(exception);
+        }
+    }
 
-        CompletableFuture<HttpResponse<String>> response = HttpClient.newBuilder()
-            .build()
-            .sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString());
+    private HttpRequest.BodyPublisher getBodyPublisher(String body) {
+        return (body.isEmpty())
+            ? HttpRequest.BodyPublishers.noBody()
+            : HttpRequest.BodyPublishers.ofString(body);
+    }
 
-        return response.get().body();
+    public String getResult() {
+        try {
+            Assert.notNull(httpRequest, "No built request; build request first");
+
+            CompletableFuture<HttpResponse<String>> response = HttpClient.newBuilder()
+                .build()
+                .sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString());
+
+            return response.get().body();
+        } catch (InterruptedException | ExecutionException exception) {
+            throw new RuntimeException(exception);
+        }
     }
 
     public Request addPathVariable(long pathVariable) {
@@ -66,18 +109,18 @@ public class Request {
 
         String path = String.format("/%s", pathVariable);
         url += path;
+
         return this;
     }
 
     public Request addQueryParams(Pair<String, ?> keyValuePair) {
         Assert.isNull(httpRequest, "Request is already built; add query params before making request");
 
-        List<String> itemsAsString = new ArrayList<>();
         String key = keyValuePair.key();
         String encodedValue = encode(String.valueOf(keyValuePair.value()));
-        itemsAsString.add(String.format("%s=%s", key, encodedValue));
 
-        String queryParams = getQueryParams(itemsAsString);
+        String queryParam = String.format("%s=%s", key, encodedValue);
+        String queryParams = getQueryParams(List.of(queryParam));
         url += queryParams;
 
         return this;

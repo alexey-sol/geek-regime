@@ -6,11 +6,9 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import com.github.alexeysol.geekregimeapicommons.exceptions.BadRequestException;
-import com.github.alexeysol.geekregimeapicommons.exceptions.BaseResourceException;
-import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceAlreadyExistsException;
-import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException;
+import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Map;
 
@@ -24,25 +22,31 @@ public class Json {
         return objectMapper;
     }
 
-    public static <Content> Content parse(
-        String json,
-        Class<Content> valueType
-    ) throws JsonProcessingException, BaseResourceException {
-        assertJsonIsNotApiException(json);
-        return objectMapper.readValue(json, valueType);
+    public static <Content> Content parse(String json, Class<Content> valueType) {
+        try {
+            assertJsonIsNotApiException(json);
+            return objectMapper.readValue(json, valueType);
+        } catch (JsonProcessingException exception) {
+            throw new RuntimeException(exception);
+        }
     }
 
-    public static <Content> Content parse(
-        String json,
-        TypeReference<Content> valueTypeRef
-    ) throws JsonProcessingException {
-        assertJsonIsNotApiException(json);
-        return objectMapper.readValue(json, valueTypeRef);
+    public static <Content> Content parse(String json, TypeReference<Content> valueTypeRef) {
+        try {
+            assertJsonIsNotApiException(json);
+            return objectMapper.readValue(json, valueTypeRef);
+        } catch (JsonProcessingException exception) {
+            throw new RuntimeException(exception);
+        }
     }
 
-    public static Map<String, Object> parse(String json) throws JsonProcessingException {
-        assertJsonIsNotApiException(json);
-        return readMap(json);
+    public static Map<String, Object> parse(String json) {
+        try {
+            assertJsonIsNotApiException(json);
+            return readMap(json);
+        } catch (JsonProcessingException exception) {
+            throw new RuntimeException(exception);
+        }
     }
 
     static public <Value> String stringify(Value obj) {
@@ -53,29 +57,20 @@ public class Json {
         }
     }
 
-    private static void assertJsonIsNotApiException(String json) throws JsonProcessingException,
-        BaseResourceException {
-
+    private static void assertJsonIsNotApiException(String json) throws JsonProcessingException {
         Map<String, Object> map = readMap(json);
-        ExceptionCheck check = new ExceptionCheck(map);
-        String message = check.getMessageIfExists();
+        ExceptionMapReader reader = new ExceptionMapReader(map);
+        String message = reader.getMessage().orElse("");
 
         try {
-            Assert.isTrue(!check.isApiException(), message);
+            Assert.isTrue(!reader.isApiException(), message);
         } catch (IllegalArgumentException exception) {
-            if (check.isNotFoundException()) {
-                throw new ResourceNotFoundException(message);
-            } else if (check.isAlreadyExistsException()) {
-                throw new ResourceAlreadyExistsException(message);
-            } else {
-                throw new BadRequestException(message);
-            }
+            HttpStatus status = reader.getStatus().orElse(HttpStatus.INTERNAL_SERVER_ERROR);
+            throw new ResponseStatusException(status, message);
         }
     }
 
-    private static Map<String, Object> readMap(
-        String json
-    ) throws JsonProcessingException {
+    private static Map<String, Object> readMap(String json) throws JsonProcessingException {
         ObjectReader reader = objectMapper.readerFor(Map.class);
         return reader.readValue(json);
     }
