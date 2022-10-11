@@ -2,6 +2,7 @@ package com.github.alexeysol.geekregimeapiusers.controllers.v1
 
 import com.github.alexeysol.geekregimeapicommons.constants.DefaultsConstants
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceException
+import com.github.alexeysol.geekregimeapicommons.models.ErrorDetail
 import com.github.alexeysol.geekregimeapicommons.models.dtos.DeletionResultDto
 import com.github.alexeysol.geekregimeapicommons.models.dtos.UserDto
 import com.github.alexeysol.geekregimeapicommons.utils.converters.PageableConverter
@@ -11,7 +12,6 @@ import com.github.alexeysol.geekregimeapiusers.models.dtos.UpdateUserDto
 import com.github.alexeysol.geekregimeapiusers.services.v1.UserService
 import com.github.alexeysol.geekregimeapiusers.utils.assertPasswordsMatchIfNeeded
 import com.github.alexeysol.geekregimeapiusers.utils.mappers.UserMapper
-import com.github.alexeysol.geekregimeapiusers.utils.sources.ApiUsersSource
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.http.HttpStatus
@@ -32,11 +32,8 @@ private val sortByUserFields: List<String> = listOf("createdAt", "details.name",
 @Validated
 class UserController(
     val service: UserService,
-    val mapper: UserMapper,
-    source: ApiUsersSource
+    val mapper: UserMapper
 ) {
-    private val resource = source.resource
-
     @GetMapping
     fun findAllUsers(
         @RequestParam ids: List<Long>?,
@@ -57,7 +54,7 @@ class UserController(
     @GetMapping("{id}")
     fun findUserById(@PathVariable id: Long): UserDto {
         val user = service.findUserById(id)
-            ?: throw ResourceException(HttpStatus.NOT_FOUND, ID_FIELD, resource)
+            ?: throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD))
 
         return mapper.fromUserToUserDto(user)
     }
@@ -65,7 +62,7 @@ class UserController(
     @PostMapping
     fun createUser(@RequestBody @Valid dto: CreateUserDto): UserDto {
         if (service.userAlreadyExists(dto.email)) {
-            throw ResourceException(HttpStatus.CONFLICT, EMAIL_FIELD, resource)
+            throw ResourceException(ErrorDetail(ErrorDetail.Code.ALREADY_EXISTS, EMAIL_FIELD))
         }
 
         val user = mapper.fromCreateUserDtoToUser(dto)
@@ -80,17 +77,17 @@ class UserController(
     ): UserDto {
         dto.email?.let {
             if (service.userAlreadyExists(it)) {
-                throw ResourceException(HttpStatus.CONFLICT, EMAIL_FIELD, resource)
+                throw ResourceException(ErrorDetail(ErrorDetail.Code.ALREADY_EXISTS, EMAIL_FIELD))
             }
         }
 
         val user = service.findUserById(id)
-            ?: throw ResourceException(HttpStatus.NOT_FOUND, ID_FIELD, resource)
+            ?: throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD))
 
         try {
             assertPasswordsMatchIfNeeded(dto.oldPassword, dto.newPassword, user.credentials)
         } catch (exception: IllegalArgumentException) {
-            throw ResourceException(HttpStatus.FORBIDDEN, OLD_PASSWORD_FIELD, resource)
+            throw ResourceException(ErrorDetail(ErrorDetail.Code.MISMATCH, OLD_PASSWORD_FIELD))
         }
 
         val entity = mapper.fromUpdateUserDtoToUser(dto, user)
@@ -104,7 +101,7 @@ class UserController(
         val isNotFound = result == DefaultsConstants.NOT_FOUND_BY_ID
 
         if (isNotFound) {
-            throw ResourceException(HttpStatus.NOT_FOUND, ID_FIELD, resource)
+            throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD))
         }
 
         return mapper.fromIdToDeletionResultDto(id)

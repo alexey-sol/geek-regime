@@ -76,7 +76,7 @@ class CreateUserTest(
         val createUserDto = CreateUserDto(email = "is-this-even-email")
 
         mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createUserDto))
-            .andExpect(MockMvcResultMatchers.status().isBadRequest)
+            .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity)
             .andExpect { result ->
                 Assertions.assertTrue(result.resolvedException is MethodArgumentNotValidException)
             }
@@ -94,7 +94,7 @@ class CreateUserTest(
         val createUserDto = CreateUserDto(email = "mark@mail.com", details = createOrUpdateDetailsDto)
 
         mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createUserDto))
-            .andExpect(MockMvcResultMatchers.status().isBadRequest)
+            .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity)
             .andExpect { result ->
                 Assertions.assertTrue(result.resolvedException is MethodArgumentNotValidException)
             }
@@ -111,7 +111,7 @@ class CreateUserTest(
         val createUserDto = CreateUserDto(email = "mark@mail.com", password = "")
 
         mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createUserDto))
-            .andExpect(MockMvcResultMatchers.status().isBadRequest)
+            .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity)
             .andExpect { result ->
                 Assertions.assertTrue(result.resolvedException is MethodArgumentNotValidException)
             }
@@ -132,7 +132,7 @@ class CreateUserTest(
         )
 
         mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createUserDto))
-            .andExpect(MockMvcResultMatchers.status().isBadRequest)
+            .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity)
             .andExpect { result ->
                 Assertions.assertTrue(result.resolvedException is MethodArgumentNotValidException)
             }
@@ -153,7 +153,7 @@ class CreateUserTest(
         )
 
         mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createUserDto))
-            .andExpect(MockMvcResultMatchers.status().isBadRequest)
+            .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity)
             .andExpect { result ->
                 Assertions.assertTrue(result.resolvedException is MethodArgumentNotValidException)
             }

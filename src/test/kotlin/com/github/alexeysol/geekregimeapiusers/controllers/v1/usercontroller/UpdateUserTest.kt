@@ -54,7 +54,7 @@ class UpdateUserTest(
         val updateUserDto = UpdateUserDto(email = "is-this-even-email")
 
         mockMvc.perform(TestUtils.mockPatchRequest(getUrl(userId), updateUserDto))
-            .andExpect(MockMvcResultMatchers.status().isBadRequest)
+            .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity)
             .andExpect { result ->
                 Assertions.assertTrue(result.resolvedException is MethodArgumentNotValidException)
             }
@@ -76,7 +76,7 @@ class UpdateUserTest(
         )
 
         mockMvc.perform(TestUtils.mockPatchRequest(getUrl(userId), updateUserDto))
-            .andExpect(MockMvcResultMatchers.status().isBadRequest)
+            .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity)
             .andExpect { result ->
                 Assertions.assertTrue(result.resolvedException is MethodArgumentNotValidException)
             }
