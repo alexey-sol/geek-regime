@@ -1,5 +1,6 @@
 package com.github.alexeysol.geekregimeapiposts.utils.mappers;
 
+import com.github.alexeysol.geekregimeapicommons.models.dtos.DeletionResultDto;
 import com.github.alexeysol.geekregimeapicommons.models.dtos.RawPostDto;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.*;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
@@ -11,8 +12,8 @@ import java.util.*;
 
 @Component
 public class PostMapper extends BasePostMapper {
-    public PostMapper(ModelMapper modelMapper, PostService postService) {
-        super(modelMapper, postService);
+    public PostMapper(ModelMapper modelMapper, PostService service) {
+        super(modelMapper, service);
     }
 
     public List<RawPostDto> fromPostListToRawPostDtoList(List<Post> posts) {
@@ -32,5 +33,9 @@ public class PostMapper extends BasePostMapper {
     public Post mapUpdatePostDtoToPost(UpdatePostDto dto, Post post) {
         modelMapper.map(dto, post);
         return post;
+    }
+
+    public DeletionResultDto fromIdToDeletionResultDto(long id) {
+        return new DeletionResultDto(id);
     }
 }

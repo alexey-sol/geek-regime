@@ -3,7 +3,7 @@ package com.github.alexeysol.geekregimeapiposts.controllers.v1.postcontroller;
 import com.github.alexeysol.geekregimeapicommons.models.dtos.RawPostDto;
 import com.github.alexeysol.geekregimeapicommons.utils.Json;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
-import com.github.alexeysol.geekregimeapiposts.utils.sources.ApiPostsSourceResolver;
+import com.github.alexeysol.geekregimeapiposts.utils.sources.ApiPostsSource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +20,9 @@ import static org.mockito.Mockito.when;
 public class FindPostBySlugTest extends BasePostControllerTest {
     public FindPostBySlugTest(
         @Autowired MockMvc mockMvc,
-        @Autowired ApiPostsSourceResolver sourceResolver
+        @Autowired ApiPostsSource source
     ) {
-        super(mockMvc, sourceResolver);
+        super(mockMvc, source);
     }
 
     @Test

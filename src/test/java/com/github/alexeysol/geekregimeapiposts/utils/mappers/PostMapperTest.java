@@ -1,5 +1,6 @@
 package com.github.alexeysol.geekregimeapiposts.utils.mappers;
 
+import com.github.alexeysol.geekregimeapicommons.models.dtos.DeletionResultDto;
 import com.github.alexeysol.geekregimeapicommons.models.dtos.RawPostDto;
 import com.github.alexeysol.geekregimeapicommons.models.dtos.UserDto;
 import com.github.alexeysol.geekregimeapiposts.constants.PostConstants;
@@ -168,6 +169,14 @@ public class PostMapperTest {
         Assertions.assertEquals(newTitle, result.getTitle());
         Assertions.assertEquals(oldBody, result.getBody());
         Assertions.assertNotEquals(newBody, result.getBody());
+    }
+
+    @Test
+    public void whenFromIdToDeletionResultDto_thenReturnsDto() {
+        long postId = 1L;
+
+        DeletionResultDto result = postMapper.fromIdToDeletionResultDto(postId);
+        Assertions.assertEquals(postId, result.getId());
     }
 
     private String getExpectedExcerptStart(String body) {

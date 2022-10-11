@@ -1,10 +1,9 @@
 package com.github.alexeysol.geekregimeapiposts.controllers.v1;
 
-import com.github.alexeysol.geekregimeapicommons.constants.ApiResource;
-import com.github.alexeysol.geekregimeapicommons.constants.DefaultValueConstants;
-import com.github.alexeysol.geekregimeapicommons.exceptions.BaseResourceException;
-import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException;
-import com.github.alexeysol.geekregimeapicommons.models.Pair;
+import com.github.alexeysol.geekregimeapicommons.constants.DefaultsConstants;
+import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceException;
+import com.github.alexeysol.geekregimeapicommons.models.ErrorDetail;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.DeletionResultDto;
 import com.github.alexeysol.geekregimeapicommons.models.dtos.RawPostDto;
 import com.github.alexeysol.geekregimeapicommons.utils.converters.PageableConverter;
 import com.github.alexeysol.geekregimeapiposts.constants.PathConstants;
@@ -13,10 +12,10 @@ import com.github.alexeysol.geekregimeapiposts.models.dtos.UpdatePostDto;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.services.v1.PostService;
 import com.github.alexeysol.geekregimeapiposts.utils.mappers.PostMapper;
-import org.modelmapper.MappingException;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -30,16 +29,19 @@ import java.util.*;
 )
 @Validated
 public class PostController {
+    private static final String ID_FIELD = "id";
+    private static final String SLUG_FIELD = "slug";
+
     private final List<String> sortByUserFields = List.of(
         "author.details.name", "author.email", "createdAt", "id", "slug", "title", "updatedAt"
     );
 
-    private final PostService postService;
-    private final PostMapper postMapper;
+    private final PostService service;
+    private final PostMapper mapper;
 
-    PostController(PostService postService, PostMapper postMapper) {
-        this.postService = postService;
-        this.postMapper = postMapper;
+    PostController(PostService service, PostMapper mapper) {
+        this.service = service;
+        this.mapper = mapper;
     }
 
     @GetMapping
@@ -53,35 +55,35 @@ public class PostController {
             sortByUserFields
         );
 
-        Pageable pageable = pageableConverter.getPageable();
-        Page<Post> postsPage = postService.findAllPosts(pageable);
-        List<RawPostDto> rawPostDtoList = postMapper.fromPostListToRawPostDtoList(postsPage.getContent());
+        Pageable pageable;
+
+        try {
+            pageable = pageableConverter.getPageable();
+        } catch (IllegalArgumentException exception) {
+            throw new ResourceException(HttpStatus.UNPROCESSABLE_ENTITY, exception.getMessage());
+        }
+
+        Page<Post> postsPage = service.findAllPosts(pageable);
+        List<RawPostDto> rawPostDtoList = mapper.fromPostListToRawPostDtoList(postsPage.getContent());
         return new PageImpl<>(rawPostDtoList, pageable, postsPage.getTotalElements());
     }
 
     @GetMapping("{slug}")
-    RawPostDto findPostBySlug(@PathVariable String slug) throws BaseResourceException {
-        Optional<Post> post = postService.findPostBySlug(slug);
+    RawPostDto findPostBySlug(@PathVariable String slug) {
+        Optional<Post> optionalPost = service.findPostBySlug(slug);
 
-        if (post.isEmpty()) {
-            throw new ResourceNotFoundException(ApiResource.POST, new Pair<>("slug", slug));
+        if (optionalPost.isEmpty()) {
+            throw new ResourceException(new ErrorDetail(ErrorDetail.Code.ABSENT, SLUG_FIELD));
         }
 
-        return postMapper.fromPostToRawPostDto(post.get());
+        return mapper.fromPostToRawPostDto(optionalPost.get());
     }
 
     @PostMapping
-    RawPostDto createPost(@RequestBody @Valid CreatePostDto dto) throws Throwable {
-        Post post = postMapper.fromCreatePostDtoToPost(dto);
-        Post createdPost = postService.savePost(post);
-
-        try {
-            return postMapper.fromPostToRawPostDto(createdPost);
-        } catch (MappingException exception) {
-            Throwable cause = exception.getCause();
-            cleanUpIfNeeded(cause, createdPost.getId());
-            throw cause;
-        }
+    RawPostDto createPost(@RequestBody @Valid CreatePostDto dto) {
+        Post post = mapper.fromCreatePostDtoToPost(dto);
+        Post createdPost = service.savePost(post);
+        return mapper.fromPostToRawPostDto(createdPost);
     }
 
     @PatchMapping("{id}")
@@ -89,34 +91,26 @@ public class PostController {
         @PathVariable long id,
         @RequestBody @Valid UpdatePostDto dto
     ) {
-        Optional<Post> optionalPost = postService.findPostById(id);
+        Optional<Post> optionalPost = service.findPostById(id);
 
         if (optionalPost.isEmpty()) {
-            throw new ResourceNotFoundException(ApiResource.POST, id);
+            throw new ResourceException(new ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD));
         }
 
-        Post post = postMapper.mapUpdatePostDtoToPost(dto, optionalPost.get());
-        Post updatedPost = postService.savePost(post);
-        return postMapper.fromPostToRawPostDto(updatedPost);
+        Post post = mapper.mapUpdatePostDtoToPost(dto, optionalPost.get());
+        Post updatedPost = service.savePost(post);
+        return mapper.fromPostToRawPostDto(updatedPost);
     }
 
     @DeleteMapping("{id}")
-    long removePostById(@PathVariable long id) throws BaseResourceException {
-        long result = postService.removePostById(id);
-        boolean isNotFound = result == DefaultValueConstants.NOT_FOUND_BY_ID;
+    DeletionResultDto removePostById(@PathVariable long id) {
+        long result = service.removePostById(id);
+        boolean isNotFound = result == DefaultsConstants.NOT_FOUND_BY_ID;
 
         if (isNotFound) {
-            throw new ResourceNotFoundException(ApiResource.POST, id);
+            throw new ResourceException(new ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD));
         }
 
-        return result;
-    }
-
-    private void cleanUpIfNeeded(Throwable exception, long postId) {
-        // If there are issues with referenced resources (for example, the post's author doesn't
-        // exist), delete the post.
-        if (exception instanceof BaseResourceException) {
-            postService.removePostById(postId);
-        }
+        return mapper.fromIdToDeletionResultDto(id);
     }
 }

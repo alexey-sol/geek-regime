@@ -11,11 +11,11 @@ import org.modelmapper.spi.MappingContext;
 
 public abstract class BasePostMapper {
     protected final ModelMapper modelMapper;
-    protected final PostService postService;
+    protected final PostService service;
 
-    public BasePostMapper(ModelMapper modelMapper, PostService postService) {
+    public BasePostMapper(ModelMapper modelMapper, PostService service) {
         this.modelMapper = modelMapper;
-        this.postService = postService;
+        this.service = service;
         init(modelMapper);
     }
 
@@ -27,7 +27,7 @@ public abstract class BasePostMapper {
 
         modelMapper.typeMap(CreatePostDto.class, Post.class)
             .addMappings(mapper -> {
-                mapper.using(new TitleToSlugConverter(postService))
+                mapper.using(new TitleToSlugConverter(service))
                     .map(CreatePostDto::getTitle, Post::setSlug);
 
                 mapper.using(new BodyToExcerptConverter())
@@ -36,7 +36,7 @@ public abstract class BasePostMapper {
 
         modelMapper.typeMap(UpdatePostDto.class, Post.class)
             .addMappings(mapper -> {
-                mapper.using(new TitleToSlugConverter(postService))
+                mapper.using(new TitleToSlugConverter(service))
                     .map(UpdatePostDto::getTitle, Post::setSlug);
 
                 mapper.using(new BodyToExcerptConverter())

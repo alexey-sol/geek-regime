@@ -1,6 +1,6 @@
 package com.github.alexeysol.geekregimeapiposts.services.v1;
 
-import com.github.alexeysol.geekregimeapicommons.constants.DefaultValueConstants;
+import com.github.alexeysol.geekregimeapicommons.constants.DefaultsConstants;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.repositories.PostRepository;
 import org.springframework.data.domain.*;
@@ -11,41 +11,41 @@ import java.util.Optional;
 
 @Service
 public class PostService {
-    private final PostRepository db;
+    private final PostRepository repository;
 
-    public PostService(PostRepository db) {
-        this.db = db;
+    public PostService(PostRepository repository) {
+        this.repository = repository;
     }
 
     public Page<Post> findAllPosts(Pageable pageable) {
-        return db.findAll(pageable);
+        return repository.findAll(pageable);
     }
 
     public Optional<Post> findPostById(long id) {
-        return db.findById(id);
+        return repository.findById(id);
     }
 
     public Optional<Post> findPostBySlug(String slug) {
-        return Optional.ofNullable(db.findPostBySlug(slug));
+        return Optional.ofNullable(repository.findPostBySlug(slug));
     }
 
     @Transactional
     public Post savePost(Post post) {
-        return db.save(post);
+        return repository.save(post);
     }
 
     public long removePostById(long id) {
-        int deletedRowCount = db.removePostById(id);
+        int deletedRowCount = repository.removePostById(id);
         boolean postIsDeleted = deletedRowCount > 0;
 
         if (postIsDeleted) {
             return id;
         }
 
-        return DefaultValueConstants.NOT_FOUND_BY_ID;
+        return DefaultsConstants.NOT_FOUND_BY_ID;
     }
 
     public boolean postAlreadyExists(String slug) {
-        return db.existsPostBySlug(slug);
+        return repository.existsPostBySlug(slug);
     }
 }

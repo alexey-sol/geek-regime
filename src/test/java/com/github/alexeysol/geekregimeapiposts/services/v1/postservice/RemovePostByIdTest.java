@@ -1,6 +1,6 @@
 package com.github.alexeysol.geekregimeapiposts.services.v1.postservice;
 
-import com.github.alexeysol.geekregimeapicommons.constants.DefaultValueConstants;
+import com.github.alexeysol.geekregimeapicommons.constants.DefaultsConstants;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -26,6 +26,6 @@ public class RemovePostByIdTest extends BasePostServiceTest {
         when(postRepository.removePostById(absentPostId)).thenReturn(deletedRowCount);
 
         long result = postService.removePostById(absentPostId);
-        Assertions.assertEquals(DefaultValueConstants.NOT_FOUND_BY_ID, result);
+        Assertions.assertEquals(DefaultsConstants.NOT_FOUND_BY_ID, result);
     }
 }

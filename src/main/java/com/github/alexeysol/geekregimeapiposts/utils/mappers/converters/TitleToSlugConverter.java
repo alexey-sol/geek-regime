@@ -5,10 +5,10 @@ import com.github.alexeysol.geekregimeapiposts.utils.Slug;
 import org.modelmapper.AbstractConverter;
 
 public class TitleToSlugConverter extends AbstractConverter<String, String> {
-    protected final PostService postService;
+    private final PostService service;
 
-    public TitleToSlugConverter(PostService postService) {
-        this.postService = postService;
+    public TitleToSlugConverter(PostService service) {
+        this.service = service;
     }
 
     @Override
@@ -19,7 +19,7 @@ public class TitleToSlugConverter extends AbstractConverter<String, String> {
     private String generateSlug(String title) {
         String slug = Slug.generateSlug(title);
 
-        if (postService.postAlreadyExists(slug)) {
+        if (service.postAlreadyExists(slug)) {
             slug += Slug.getSuffix();
         }
 

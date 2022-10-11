@@ -1,19 +1,18 @@
 package com.github.alexeysol.geekregimeapiposts.controllers.v1.postcontroller;
 
-import com.github.alexeysol.geekregimeapicommons.constants.ApiResource;
-import com.github.alexeysol.geekregimeapicommons.constants.ApiResourceExceptionCode;
-import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceNotFoundException;
+import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceException;
 import com.github.alexeysol.geekregimeapicommons.models.dtos.RawPostDto;
 import com.github.alexeysol.geekregimeapicommons.utils.Json;
 import com.github.alexeysol.geekregimeapicommons.utils.TestUtils;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.UpdatePostDto;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
-import com.github.alexeysol.geekregimeapiposts.utils.sources.ApiPostsSourceResolver;
+import com.github.alexeysol.geekregimeapiposts.utils.sources.ApiPostsSource;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
@@ -28,9 +27,9 @@ import static org.mockito.Mockito.when;
 public class UpdatePostTest extends BasePostControllerTest {
     public UpdatePostTest(
         @Autowired MockMvc mockMvc,
-        @Autowired ApiPostsSourceResolver sourceResolver
+        @Autowired ApiPostsSource source
     ) {
-        super(mockMvc, sourceResolver);
+        super(mockMvc, source);
     }
 
     @Test
@@ -67,17 +66,13 @@ public class UpdatePostTest extends BasePostControllerTest {
         UpdatePostDto updatePostDto = createUpdatePostDto("Test Post", "Hello World");
 
         when(postService.findPostById(absentId))
-            .thenThrow(new ResourceNotFoundException(ApiResource.POST, absentId));
+            .thenThrow(new ResourceException(HttpStatus.NOT_FOUND, "whuh?"));
 
         mockMvc.perform(TestUtils.mockPatchRequest(getUrl(absentId), updatePostDto))
             .andExpect(MockMvcResultMatchers.status().isNotFound())
             .andExpect(result ->
-                Assertions.assertTrue(result.getResolvedException() instanceof ResourceNotFoundException)
-            )
-            .andExpect(result -> MatcherAssert.assertThat(
-                Objects.requireNonNull(result.getResolvedException()).getMessage(),
-                CoreMatchers.containsString(ApiResourceExceptionCode.NOT_FOUND.toString())
-            ));
+                Assertions.assertTrue(result.getResolvedException() instanceof ResourceException)
+            );
     }
 
     @Test
@@ -89,7 +84,7 @@ public class UpdatePostTest extends BasePostControllerTest {
         UpdatePostDto updatePostDto = createUpdatePostDto("Test Post", invalidBody);
 
         mockMvc.perform(TestUtils.mockPatchRequest(getUrl(postId), updatePostDto))
-            .andExpect(MockMvcResultMatchers.status().isBadRequest())
+            .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity())
             .andExpect(result ->
                 Assertions.assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException)
             )
