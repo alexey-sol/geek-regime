@@ -1,14 +1,13 @@
 package com.github.alexeysol.geekregimeapiposts.utils.sources;
 
-import com.github.alexeysol.geekregimeapicommons.models.ApiPath;
-import com.github.alexeysol.geekregimeapicommons.models.BaseUrl;
+import com.github.alexeysol.geekregimeapicommons.models.sources.ActiveProfile;
+import com.github.alexeysol.geekregimeapicommons.models.sources.ApiPath;
+import com.github.alexeysol.geekregimeapicommons.models.sources.BaseUrl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ApiPostsSource implements ApiPath, BaseUrl {
-    private static final String PRODUCTION_PROFILE = "prod";
-
+public class ApiPostsSource implements ApiPath, BaseUrl, ActiveProfile {
     @Value("${spring.profiles.active}")
     private String activeProfile;
 
@@ -21,16 +20,17 @@ public class ApiPostsSource implements ApiPath, BaseUrl {
     @Value("${api-posts.resource}")
     private String resource;
 
-    public boolean isProduction() { // TODO new interfaces for isProduction and stuff?
-        return PRODUCTION_PROFILE.equals(activeProfile);
-    }
-
     public String getBaseUrl() {
         return baseUrl;
     }
 
     public String getApiPath(int version) {
         return formatApiPath(apiPrefix, version, resource);
+    }
+
+    @Override
+    public String getActiveProfile() {
+        return activeProfile;
     }
 
     public String getResource() {
