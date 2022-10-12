@@ -1,10 +1,10 @@
 package com.github.alexeysol.geekregimeapicommons.models.dtos;
 
-import com.github.alexeysol.geekregimeapicommons.constants.DefaultValueConstants;
+import com.github.alexeysol.geekregimeapicommons.constants.DefaultsConstants;
 import org.springframework.data.domain.Sort.Direction;
 
 public class SortByDto {
-    private final String DEFAULT_FIELD = DefaultValueConstants.PRIMARY_KEY_NAME;
+    private final String DEFAULT_FIELD = DefaultsConstants.PRIMARY_KEY_NAME;
     private final Direction DEFAULT_DIRECTION = Direction.DESC;
 
     private String field = DEFAULT_FIELD;

@@ -1,4 +1,4 @@
-package com.github.alexeysol.geekregimeapicommons.models;
+package com.github.alexeysol.geekregimeapicommons.models.sources;
 
 public interface ApiPath {
     String getApiPath(int version);

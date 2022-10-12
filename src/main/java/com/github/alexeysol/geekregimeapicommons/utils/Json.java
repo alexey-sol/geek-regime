@@ -6,9 +6,7 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.Map;
 
@@ -24,7 +22,6 @@ public class Json {
 
     public static <Content> Content parse(String json, Class<Content> valueType) {
         try {
-            assertJsonIsNotApiException(json);
             return objectMapper.readValue(json, valueType);
         } catch (JsonProcessingException exception) {
             throw new RuntimeException(exception);
@@ -33,7 +30,6 @@ public class Json {
 
     public static <Content> Content parse(String json, TypeReference<Content> valueTypeRef) {
         try {
-            assertJsonIsNotApiException(json);
             return objectMapper.readValue(json, valueTypeRef);
         } catch (JsonProcessingException exception) {
             throw new RuntimeException(exception);
@@ -42,8 +38,8 @@ public class Json {
 
     public static Map<String, Object> parse(String json) {
         try {
-            assertJsonIsNotApiException(json);
-            return readMap(json);
+            ObjectReader reader = objectMapper.readerFor(Map.class);
+            return reader.readValue(json);
         } catch (JsonProcessingException exception) {
             throw new RuntimeException(exception);
         }
@@ -57,21 +53,12 @@ public class Json {
         }
     }
 
-    private static void assertJsonIsNotApiException(String json) throws JsonProcessingException {
-        Map<String, Object> map = readMap(json);
-        ExceptionMapReader reader = new ExceptionMapReader(map);
-        String message = reader.getMessage().orElse("");
+    public static void assertJsonIsNotApiException(String json) {
+        final String ASSERT_MESSAGE = "JSON is a serialized API exception";
 
-        try {
-            Assert.isTrue(!reader.isApiException(), message);
-        } catch (IllegalArgumentException exception) {
-            HttpStatus status = reader.getStatus().orElse(HttpStatus.INTERNAL_SERVER_ERROR);
-            throw new ResponseStatusException(status, message);
-        }
-    }
+        Map<String, Object> map = parse(json);
+        ResponseBodyCheck<Object> check = new ResponseBodyCheck<>(map);
 
-    private static Map<String, Object> readMap(String json) throws JsonProcessingException {
-        ObjectReader reader = objectMapper.readerFor(Map.class);
-        return reader.readValue(json);
+        Assert.isTrue(!check.isApiException(), ASSERT_MESSAGE);
     }
 }

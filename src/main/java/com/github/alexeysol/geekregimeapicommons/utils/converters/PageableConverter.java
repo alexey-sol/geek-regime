@@ -1,7 +1,6 @@
 package com.github.alexeysol.geekregimeapicommons.utils.converters;
 
-import com.github.alexeysol.geekregimeapicommons.constants.DefaultValueConstants;
-import com.github.alexeysol.geekregimeapicommons.exceptions.BadRequestException;
+import com.github.alexeysol.geekregimeapicommons.constants.DefaultsConstants;
 import com.github.alexeysol.geekregimeapicommons.models.dtos.PagingDto;
 import com.github.alexeysol.geekregimeapicommons.models.dtos.SortByDto;
 import com.github.alexeysol.geekregimeapicommons.utils.Json;
@@ -17,7 +16,7 @@ public class PageableConverter {
     private static final String INVALID_SORT_BY_FIELD_TEMPLATE = "Sort by field value must be " +
         "one of: %s";
     private static final List<String> DEFAULT_SORT_BY_FIELDS = List.of(
-        DefaultValueConstants.PRIMARY_KEY_NAME
+        DefaultsConstants.PRIMARY_KEY_NAME
     );
 
     private final String pagingJson;
@@ -34,26 +33,22 @@ public class PageableConverter {
         this.sortByFields = sortByFields;
     }
 
-    public Pageable getPageable() throws BadRequestException {
-        try {
-            Sort sort = sortByJsonToSortObject();
+    public Pageable getPageable() throws IllegalArgumentException {
+        Sort sort = sortByJsonToSortObject();
 
-            PagingDto pagingDto = queryJsonToValue(
-                pagingJson,
-                PagingDto.class
-            ).orElse(new PagingDto());
+        PagingDto pagingDto = queryJsonToValue(
+            pagingJson,
+            PagingDto.class
+        ).orElse(new PagingDto());
 
-            return PageRequest.of(
-                pagingDto.getPage(),
-                pagingDto.getSize(),
-                sort
-            );
-        } catch (IllegalArgumentException exception) {
-            throw new BadRequestException(exception.getMessage());
-        }
+        return PageRequest.of(
+            pagingDto.getPage(),
+            pagingDto.getSize(),
+            sort
+        );
     }
 
-    private Sort sortByJsonToSortObject() throws IllegalArgumentException {
+    private Sort sortByJsonToSortObject() {
         SortByDto sortByDto = queryJsonToValue(
             sortByJson,
             SortByDto.class
@@ -82,11 +77,10 @@ public class PageableConverter {
         return Optional.of(Json.parse(queryJson, valueType));
     }
 
-    private void assertSortByFieldIsValid(String field) throws IllegalArgumentException {
-        String message;
-
+    private void assertSortByFieldIsValid(String field) {
         if (!sortByFields.contains(field)) {
-            message = String.format(INVALID_SORT_BY_FIELD_TEMPLATE, sortByFields);
+            String joinedFields = String.join(", ", sortByFields);
+            String message = String.format(INVALID_SORT_BY_FIELD_TEMPLATE, joinedFields);
             throw new IllegalArgumentException(message);
         }
     }
