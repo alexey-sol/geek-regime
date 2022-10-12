@@ -11,18 +11,14 @@ import org.springframework.util.Assert;
 import java.util.Map;
 
 public class Json {
-    private static final ObjectMapper objectMapper = new ObjectMapper()
+    private static final ObjectMapper mapper = new ObjectMapper()
         .findAndRegisterModules()
         .configure(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES, false)
         .disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
-    public ObjectMapper getObjectMapper() {
-        return objectMapper;
-    }
-
     public static <Content> Content parse(String json, Class<Content> valueType) {
         try {
-            return objectMapper.readValue(json, valueType);
+            return mapper.readValue(json, valueType);
         } catch (JsonProcessingException exception) {
             throw new RuntimeException(exception);
         }
@@ -30,7 +26,7 @@ public class Json {
 
     public static <Content> Content parse(String json, TypeReference<Content> valueTypeRef) {
         try {
-            return objectMapper.readValue(json, valueTypeRef);
+            return mapper.readValue(json, valueTypeRef);
         } catch (JsonProcessingException exception) {
             throw new RuntimeException(exception);
         }
@@ -38,7 +34,7 @@ public class Json {
 
     public static Map<String, Object> parse(String json) {
         try {
-            ObjectReader reader = objectMapper.readerFor(Map.class);
+            ObjectReader reader = mapper.readerFor(Map.class);
             return reader.readValue(json);
         } catch (JsonProcessingException exception) {
             throw new RuntimeException(exception);
@@ -47,7 +43,7 @@ public class Json {
 
     static public <Value> String stringify(Value obj) {
         try {
-            return objectMapper.writeValueAsString(obj);
+            return mapper.writeValueAsString(obj);
         } catch (Exception exception) {
             throw new RuntimeException(exception);
         }

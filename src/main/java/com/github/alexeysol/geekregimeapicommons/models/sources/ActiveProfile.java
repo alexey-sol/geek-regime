@@ -6,7 +6,7 @@ public interface ActiveProfile {
     String getActiveProfile();
 
     default boolean isProduction() {
-        String prodProfile = Profile.PROD.getValue();
+        String prodProfile = Profile.PROD.value();
         return prodProfile.equals(getActiveProfile());
     }
 }

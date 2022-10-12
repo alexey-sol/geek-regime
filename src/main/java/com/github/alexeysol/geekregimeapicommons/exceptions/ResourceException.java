@@ -35,6 +35,6 @@ public class ResourceException extends ResponseStatusException {
     public ErrorDetail.View getDetail() {
         return (Objects.isNull(detail))
             ? null
-            : new ErrorDetail.View(detail.getCode().getValue(), detail.getField());
+            : new ErrorDetail.View(detail.getCode().value(), detail.getField());
     }
 }

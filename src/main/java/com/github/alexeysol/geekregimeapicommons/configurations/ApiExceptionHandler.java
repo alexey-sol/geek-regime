@@ -1,6 +1,6 @@
 package com.github.alexeysol.geekregimeapicommons.configurations;
 
-import com.github.alexeysol.geekregimeapicommons.exceptions.ApiException;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.ApiExceptionDto;
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceException;
 import com.github.alexeysol.geekregimeapicommons.models.ErrorDetail;
 import org.jetbrains.annotations.NotNull;
@@ -35,7 +35,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         List<ErrorDetail.View> details = createDetails(exception);
         String trace = createTrace(exception);
 
-        ApiException body = createBody(status, message, details, trace);
+        ApiExceptionDto body = createBody(status, message, details, trace);
 
         return handleExceptionInternal(exception, body, new HttpHeaders(), status, request);
     }
@@ -71,7 +71,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         List<ErrorDetail.View> details = createDetails(exception);
         String trace = createTrace(exception);
 
-        ApiException body = createBody(newStatus, message, details, trace);
+        ApiExceptionDto body = createBody(newStatus, message, details, trace);
 
         return handleExceptionInternal(exception, body, headers, newStatus, request);
     }
@@ -103,13 +103,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return Arrays.toString(throwable.getStackTrace());
     }
 
-    private ApiException createBody(
+    private ApiExceptionDto createBody(
         HttpStatus status,
         String message,
         List<ErrorDetail.View> details,
         String trace
     ) {
-        return new ApiException(
+        return new ApiExceptionDto(
             status.value(),
             resource,
             message,
