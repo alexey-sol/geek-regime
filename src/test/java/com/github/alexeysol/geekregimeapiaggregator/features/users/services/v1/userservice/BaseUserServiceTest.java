@@ -2,7 +2,7 @@ package com.github.alexeysol.geekregimeapiaggregator.features.users.services.v1.
 
 import com.github.alexeysol.geekregimeapiaggregator.features.users.services.v1.UserService;
 import com.github.alexeysol.geekregimeapiaggregator.shared.constants.PathConstants;
-import com.github.alexeysol.geekregimeapiaggregator.shared.utils.sources.ApiUsersSourceResolver;
+import com.github.alexeysol.geekregimeapiaggregator.shared.utils.sources.ApiUsersSource;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.MappingBuilder;
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
@@ -24,10 +24,10 @@ public abstract class BaseUserServiceTest {
     static WireMockServer wireMockServer = new WireMockServer();
 
     private String apiV1Path;
-    protected ApiUsersSourceResolver apiUsersSourceResolver;
+    protected ApiUsersSource source;
 
     @SpyBean
-    protected UserService userService;
+    protected UserService service;
 
     @BeforeAll
     public static void beforeAll() {
@@ -40,7 +40,7 @@ public abstract class BaseUserServiceTest {
 
     @BeforeEach
     public void beforeEach() {
-        userService.setApiUsersUrl(getTestBaseUrl());
+        service.setApiUsersUrl(getTestBaseUrl());
     }
 
     @AfterAll
@@ -54,10 +54,10 @@ public abstract class BaseUserServiceTest {
     }
 
     public BaseUserServiceTest(
-        ApiUsersSourceResolver apiUsersSourceResolver
+        ApiUsersSource source
     ) {
-        this.apiUsersSourceResolver = apiUsersSourceResolver;
-        this.apiV1Path = apiUsersSourceResolver.getApiPath(PathConstants.V1);
+        this.source = source;
+        this.apiV1Path = source.getApiPath(PathConstants.V1);
     }
 
     protected String getTestBaseUrl() {

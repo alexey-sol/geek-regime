@@ -1,12 +1,12 @@
 package com.github.alexeysol.geekregimeapiaggregator.shared.utils.sources;
 
-import com.github.alexeysol.geekregimeapicommons.models.ApiPath;
-import com.github.alexeysol.geekregimeapicommons.models.BaseUrl;
+import com.github.alexeysol.geekregimeapicommons.models.sources.ApiPath;
+import com.github.alexeysol.geekregimeapicommons.models.sources.BaseUrl;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class ApiPostsSourceResolver implements ApiPath, BaseUrl {
+public class ApiPostsSource implements ApiPath, BaseUrl {
     @Value("${api-posts.base-url}")
     private String baseUrl;
 

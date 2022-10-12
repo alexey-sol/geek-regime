@@ -2,7 +2,8 @@ package com.github.alexeysol.geekregimeapiaggregator.features.posts.services.v1;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.alexeysol.geekregimeapiaggregator.shared.constants.PathConstants;
-import com.github.alexeysol.geekregimeapiaggregator.shared.utils.sources.ApiPostsSourceResolver;
+import com.github.alexeysol.geekregimeapiaggregator.shared.utils.sources.ApiPostsSource;
+import com.github.alexeysol.geekregimeapicommons.exceptions.SerializedApiException;
 import com.github.alexeysol.geekregimeapicommons.models.BasicPage;
 import com.github.alexeysol.geekregimeapicommons.models.Pair;
 import com.github.alexeysol.geekregimeapicommons.models.dtos.DeletionResultDto;
@@ -15,10 +16,10 @@ import java.util.Optional;
 
 @Service
 public class PostService {
-    private final ApiPostsSourceResolver sourceResolver;
+    private final ApiPostsSource source;
 
-    public PostService(ApiPostsSourceResolver sourceResolver) {
-        this.sourceResolver = sourceResolver;
+    public PostService(ApiPostsSource source) {
+        this.source = source;
     }
 
     public BasicPage<RawPostDto> findAllPosts(
@@ -30,47 +31,73 @@ public class PostService {
         paging.ifPresent(value -> request.addQueryParams(new Pair<>("paging", value)));
         sortBy.ifPresent(value -> request.addQueryParams(new Pair<>("sortBy", value)));
 
-        String postsPageJson = request.get().getResult();
-        return Json.parse(postsPageJson, new TypeReference<>() {});
+        String json = request.get().getResult();
+
+        try {
+            Json.assertJsonIsNotApiException(json);
+            return Json.parse(json, new TypeReference<>() {});
+        } catch (IllegalArgumentException exception) {
+            throw new SerializedApiException(json);
+        }
     }
 
     public RawPostDto findPostBySlug(String slug) {
-        String postJson = new Request(getApiPostsUrl())
+        String json = new Request(getApiPostsUrl())
             .addPathVariable(slug)
             .get()
             .getResult();
 
-        return Json.parse(postJson, RawPostDto.class);
+        try {
+            Json.assertJsonIsNotApiException(json);
+            return Json.parse(json, RawPostDto.class);
+        } catch (IllegalArgumentException exception) {
+            throw new SerializedApiException(json);
+        }
     }
 
     public RawPostDto createPost(String dto) {
-        String postJson = new Request(getApiPostsUrl())
+        String json = new Request(getApiPostsUrl())
             .post(dto)
             .getResult();
 
-        return Json.parse(postJson, RawPostDto.class);
+        try {
+            Json.assertJsonIsNotApiException(json);
+            return Json.parse(json, RawPostDto.class);
+        } catch (IllegalArgumentException exception) {
+            throw new SerializedApiException(json);
+        }
     }
 
     public RawPostDto updatePost(long id, String dto) {
-        String postJson = new Request(getApiPostsUrl())
+        String json = new Request(getApiPostsUrl())
             .addPathVariable(id)
             .patch(dto)
             .getResult();
 
-        return Json.parse(postJson, RawPostDto.class);
+        try {
+            Json.assertJsonIsNotApiException(json);
+            return Json.parse(json, RawPostDto.class);
+        } catch (IllegalArgumentException exception) {
+            throw new SerializedApiException(json);
+        }
     }
 
     public DeletionResultDto removePostById(long id) {
-        String deletedPostIdJson = new Request(getApiPostsUrl())
+        String json = new Request(getApiPostsUrl())
             .addPathVariable(id)
             .delete()
             .getResult();
 
-        return Json.parse(deletedPostIdJson, DeletionResultDto.class);
+        try {
+            Json.assertJsonIsNotApiException(json);
+            return Json.parse(json, DeletionResultDto.class);
+        } catch (IllegalArgumentException exception) {
+            throw new SerializedApiException(json);
+        }
     }
 
     private String getApiPostsUrl() {
-        String apiPath = sourceResolver.getApiPath(PathConstants.V1);
-        return sourceResolver.getBaseUrl() + apiPath;
+        String apiPath = source.getApiPath(PathConstants.V1);
+        return source.getBaseUrl() + apiPath;
     }
 }

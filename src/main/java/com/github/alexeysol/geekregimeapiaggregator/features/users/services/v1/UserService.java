@@ -2,14 +2,14 @@ package com.github.alexeysol.geekregimeapiaggregator.features.users.services.v1;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.alexeysol.geekregimeapiaggregator.shared.constants.PathConstants;
-import com.github.alexeysol.geekregimeapiaggregator.shared.utils.sources.ApiUsersSourceResolver;
+import com.github.alexeysol.geekregimeapiaggregator.shared.utils.sources.ApiUsersSource;
+import com.github.alexeysol.geekregimeapicommons.exceptions.SerializedApiException;
 import com.github.alexeysol.geekregimeapicommons.models.BasicPage;
 import com.github.alexeysol.geekregimeapicommons.models.Pair;
 import com.github.alexeysol.geekregimeapicommons.models.dtos.UserDto;
 import com.github.alexeysol.geekregimeapicommons.utils.Json;
 import com.github.alexeysol.geekregimeapicommons.utils.Request;
 import org.springframework.stereotype.Service;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
 
@@ -17,10 +17,10 @@ import java.util.List;
 public class UserService {
     private String apiUsersBaseUrl = "";
 
-    private final ApiUsersSourceResolver sourceResolver;
+    private final ApiUsersSource source;
 
-    public UserService(ApiUsersSourceResolver sourceResolver) {
-        this.sourceResolver = sourceResolver;
+    public UserService(ApiUsersSource source) {
+        this.source = source;
     }
 
     public void setApiUsersUrl(String apiUsersBaseUrl) {
@@ -28,50 +28,39 @@ public class UserService {
     }
 
     public List<UserDto> findAllUsers(List<Long> ids) {
-        List<UserDto> users;
-
-        try {
             Request request = new Request(getApiUsersUrl());
-
             String idsAsString = Request.QueryUtils.toQueryListAsString(ids);
-            String usersPageJson = request.addQueryParams(new Pair<>("ids", idsAsString))
+            String json = request.addQueryParams(new Pair<>("ids", idsAsString))
                 .get()
                 .getResult();
 
-            BasicPage<UserDto> usersPage = Json.parse(usersPageJson, new TypeReference<>() {});
-            users = usersPage.getContent();
+        try {
+            Json.assertJsonIsNotApiException(json);
+            BasicPage<UserDto> usersPage = Json.parse(json, new TypeReference<>() {});
+            return usersPage.getContent();
         } catch (IllegalArgumentException exception) {
-            throw exception;
-        } catch (Exception exception) {
-            throw new RuntimeException(exception.getMessage());
+            throw new SerializedApiException(json);
         }
-
-        return users;
     }
 
     public UserDto findUserById(long id) {
-        UserDto user;
+        Request request = new Request(getApiUsersUrl());
+        String json = request.addPathVariable(id)
+            .get()
+            .getResult();
 
         try {
-            Request request = new Request(getApiUsersUrl());
-            String userJson = request.addPathVariable(id)
-                .get()
-                .getResult();
-
-            user = Json.parse(userJson, UserDto.class);
-        } catch (IllegalArgumentException | ResponseStatusException exception) {
-            throw exception;
-        } catch (Exception exception) {
-            throw new RuntimeException(exception.getMessage());
+            Json.assertJsonIsNotApiException(json);
+            return Json.parse(json, UserDto.class);
+        } catch (IllegalArgumentException exception) {
+            throw new SerializedApiException(json);
         }
-
-        return user;
     }
 
     private String getApiUsersUrl() {
-        String apiPath = sourceResolver.getApiPath(PathConstants.V1);
+        String apiPath = source.getApiPath(PathConstants.V1);
         String baseUrl = (apiUsersBaseUrl.isEmpty())
-            ? sourceResolver.getBaseUrl()
+            ? source.getBaseUrl()
             : apiUsersBaseUrl;
 
         return baseUrl + apiPath;
