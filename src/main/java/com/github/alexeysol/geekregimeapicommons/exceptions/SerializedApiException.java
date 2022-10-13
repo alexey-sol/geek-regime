@@ -10,7 +10,7 @@ import com.github.alexeysol.geekregimeapicommons.utils.converters.MapConverter;
 import java.util.List;
 import java.util.Map;
 
-public class SerializedApiException extends Exception {
+public class SerializedApiException extends RuntimeException {
     // Expects serialized ApiExceptionDto as an argument.
     public SerializedApiException(String dtoJson) {
         super(dtoJson);

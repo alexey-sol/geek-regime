@@ -1,4 +1,4 @@
-package com.github.alexeysol.geekregimeapicommons.utils;
+package com.github.alexeysol.geekregimeapicommons.utils.http;
 
 import com.github.alexeysol.geekregimeapicommons.models.Pair;
 import org.springframework.util.Assert;
@@ -19,9 +19,6 @@ import java.util.concurrent.ExecutionException;
 import static java.time.temporal.ChronoUnit.SECONDS;
 
 public class Request {
-    private final int TIMEOUT_IN_SEC = 10;
-    private final String CONTENT_TYPE = "application/json";
-
     private String url;
     private HttpRequest httpRequest = null;
     private boolean hasQueryParams = false;
@@ -69,7 +66,11 @@ public class Request {
     }
 
     private HttpRequest.Builder buildRequest() {
+        final int TIMEOUT_IN_SEC = 10;
+        final String CONTENT_TYPE = "application/json";
+
         try {
+
             return HttpRequest.newBuilder()
                 .uri(new URI(url))
                 .header("Content-Type", CONTENT_TYPE)
@@ -85,15 +86,14 @@ public class Request {
             : HttpRequest.BodyPublishers.ofString(body);
     }
 
-    public String getResult() {
+    public HttpResponse<String> getResult() {
         try {
             Assert.notNull(httpRequest, "No built request; build request first");
 
-            CompletableFuture<HttpResponse<String>> response = HttpClient.newBuilder()
+            return HttpClient.newBuilder()
                 .build()
-                .sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString());
-
-            return response.get().body();
+                .sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString())
+                .get();
         } catch (InterruptedException | ExecutionException exception) {
             throw new RuntimeException(exception);
         }

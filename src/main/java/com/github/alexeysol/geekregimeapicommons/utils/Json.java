@@ -6,7 +6,6 @@ import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.ObjectReader;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import org.springframework.util.Assert;
 
 import java.util.Map;
 
@@ -47,14 +46,5 @@ public class Json {
         } catch (Exception exception) {
             throw new RuntimeException(exception);
         }
-    }
-
-    public static void assertJsonIsNotApiException(String json) {
-        final String ASSERT_MESSAGE = "JSON is a serialized API exception";
-
-        Map<String, Object> map = parse(json);
-        ResponseBodyCheck<Object> check = new ResponseBodyCheck<>(map);
-
-        Assert.isTrue(!check.isApiException(), ASSERT_MESSAGE);
     }
 }
