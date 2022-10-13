@@ -7,16 +7,16 @@ import com.github.alexeysol.geekregimeapicommons.exceptions.SerializedApiExcepti
 import com.github.alexeysol.geekregimeapicommons.models.BasicPage;
 import com.github.alexeysol.geekregimeapicommons.models.Pair;
 import com.github.alexeysol.geekregimeapicommons.models.dtos.UserDto;
-import com.github.alexeysol.geekregimeapicommons.utils.Json;
-import com.github.alexeysol.geekregimeapicommons.utils.Request;
+import com.github.alexeysol.geekregimeapicommons.utils.http.Request;
+import com.github.alexeysol.geekregimeapicommons.utils.http.ResponseReader;
 import org.springframework.stereotype.Service;
 
+import java.net.http.HttpResponse;
 import java.util.List;
 
 @Service
 public class UserService {
     private String apiUsersBaseUrl = "";
-
     private final ApiUsersSource source;
 
     public UserService(ApiUsersSource source) {
@@ -28,32 +28,32 @@ public class UserService {
     }
 
     public List<UserDto> findAllUsers(List<Long> ids) {
-            Request request = new Request(getApiUsersUrl());
-            String idsAsString = Request.QueryUtils.toQueryListAsString(ids);
-            String json = request.addQueryParams(new Pair<>("ids", idsAsString))
-                .get()
-                .getResult();
+        Request request = new Request(getApiUsersUrl());
+        String idsAsString = Request.QueryUtils.toQueryListAsString(ids);
+
+        HttpResponse<String> response = request.addQueryParams(new Pair<>("ids", idsAsString))
+            .get()
+            .getResult();
 
         try {
-            Json.assertJsonIsNotApiException(json);
-            BasicPage<UserDto> usersPage = Json.parse(json, new TypeReference<>() {});
-            return usersPage.getContent();
+            return new ResponseReader(response)
+                .content(new TypeReference<BasicPage<UserDto>>() {})
+                .getContent();
         } catch (IllegalArgumentException exception) {
-            throw new SerializedApiException(json);
+            throw new SerializedApiException(response.body());
         }
     }
 
     public UserDto findUserById(long id) {
         Request request = new Request(getApiUsersUrl());
-        String json = request.addPathVariable(id)
+        HttpResponse<String> response = request.addPathVariable(id)
             .get()
             .getResult();
 
         try {
-            Json.assertJsonIsNotApiException(json);
-            return Json.parse(json, UserDto.class);
+            return new ResponseReader(response).content(UserDto.class);
         } catch (IllegalArgumentException exception) {
-            throw new SerializedApiException(json);
+            throw new SerializedApiException(response.body());
         }
     }
 

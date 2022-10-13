@@ -25,6 +25,7 @@ public class FindAllUsersTest extends BaseUserServiceTest {
         long userId2 = 2L;
 
         ResponseDefinitionBuilder responseToReturn = aResponse()
+            .withStatus(HttpStatus.OK.value())
             .withBodyFile(getJsonPath("getAllUsers", HttpStatus.OK));
 
         wireMockServer.stubFor(getApiUsersMappingBuilder(responseToReturn));

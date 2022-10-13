@@ -23,6 +23,7 @@ public class FindUserByIdTest extends BaseUserServiceTest {
         long userId = 1L;
 
         ResponseDefinitionBuilder responseToReturn = aResponse()
+            .withStatus(HttpStatus.OK.value())
             .withBodyFile(getJsonPath("getUser", HttpStatus.OK));
 
         wireMockServer.stubFor(getApiUsersMappingBuilder(responseToReturn, userId));
@@ -41,6 +42,7 @@ public class FindUserByIdTest extends BaseUserServiceTest {
         long absentId = 10L;
 
         ResponseDefinitionBuilder responseToReturn = aResponse()
+            .withStatus(HttpStatus.NOT_FOUND.value())
             .withBodyFile(getJsonPath("getUser", HttpStatus.NOT_FOUND));
 
         wireMockServer.stubFor(getApiUsersMappingBuilder(responseToReturn, absentId));

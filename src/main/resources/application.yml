@@ -9,13 +9,11 @@ server:
 
 api-posts:
     base-url: http://${API_POSTS_HOST}:${API_POSTS_PORT}
-    port: ${API_POSTS_PORT}
     prefix: ${API_POSTS_PREFIX:api}
     resource: ${API_POSTS_RESOURCE:posts}
 
 api-users:
     base-url: http://${API_USERS_HOST}:${API_USERS_PORT}
-    port: ${API_USERS_PORT}
     prefix: ${API_USERS_PREFIX:api}
     resource: ${API_USERS_RESOURCE:users}
 

@@ -1,8 +1,7 @@
 {
-  "timestamp": "2022-08-12T18:50:59.238+00:00",
-  "status": 404,
-  "error": "Not Found",
-  "trace": "",
-  "message": "USER/NOT_FOUND/id=10",
-  "path": "/api/v1/users/10"
+    "status": 404,
+    "resource": "posts",
+    "message": "Error is caused by value provided in following field: slug",
+    "timestamp": "2022-10-13T16:15:40.751Z",
+    "trace": null
 }
