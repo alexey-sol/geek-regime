@@ -28,10 +28,12 @@ public class PostService {
     ) {
         Request request = new Request(getApiPostsUrl());
 
-        paging.ifPresent(value -> request.addQueryParams(new Pair<>("paging", value)));
-        sortBy.ifPresent(value -> request.addQueryParams(new Pair<>("sortBy", value)));
+        paging.ifPresent(json -> request.addQueryParam("paging", json));
+        sortBy.ifPresent(json -> request.addQueryParam("sortBy", json));
 
-        HttpResponse<String> response = request.get().getResult();
+        HttpResponse<String> response = request.GET()
+            .send()
+            .join();
 
         try {
             return new ResponseReader(response).content(new TypeReference<>() {});
@@ -43,8 +45,9 @@ public class PostService {
     public RawPostDto findPostBySlug(String slug) {
         HttpResponse<String> response = new Request(getApiPostsUrl())
             .addPathVariable(slug)
-            .get()
-            .getResult();
+            .GET()
+            .send()
+            .join();
 
         try {
             return new ResponseReader(response).content(RawPostDto.class);
@@ -55,8 +58,9 @@ public class PostService {
 
     public RawPostDto createPost(String dto) {
         HttpResponse<String> response = new Request(getApiPostsUrl())
-            .post(dto)
-            .getResult();
+            .POST(dto)
+            .send()
+            .join();
 
         try {
             return new ResponseReader(response).content(RawPostDto.class);
@@ -68,8 +72,9 @@ public class PostService {
     public RawPostDto updatePost(long id, String dto) {
         HttpResponse<String> response = new Request(getApiPostsUrl())
             .addPathVariable(id)
-            .patch(dto)
-            .getResult();
+            .PATCH(dto)
+            .send()
+            .join();
 
         try {
             return new ResponseReader(response).content(RawPostDto.class);
@@ -81,8 +86,9 @@ public class PostService {
     public DeletionResultDto removePostById(long id) {
         HttpResponse<String> response = new Request(getApiPostsUrl())
             .addPathVariable(id)
-            .delete()
-            .getResult();
+            .DELETE()
+            .send()
+            .join();
 
         try {
             return new ResponseReader(response).content(DeletionResultDto.class);

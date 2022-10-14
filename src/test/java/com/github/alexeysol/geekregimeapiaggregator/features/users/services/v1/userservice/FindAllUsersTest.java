@@ -13,9 +13,7 @@ import java.util.List;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 public class FindAllUsersTest extends BaseUserServiceTest {
-    public FindAllUsersTest(
-        @Autowired ApiUsersSource source
-    ) {
+    public FindAllUsersTest(@Autowired ApiUsersSource source) {
         super(source);
     }
 

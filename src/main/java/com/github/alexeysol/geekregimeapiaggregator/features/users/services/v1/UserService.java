@@ -5,7 +5,6 @@ import com.github.alexeysol.geekregimeapiaggregator.shared.constants.PathConstan
 import com.github.alexeysol.geekregimeapiaggregator.shared.utils.sources.ApiUsersSource;
 import com.github.alexeysol.geekregimeapicommons.exceptions.SerializedApiException;
 import com.github.alexeysol.geekregimeapicommons.models.BasicPage;
-import com.github.alexeysol.geekregimeapicommons.models.Pair;
 import com.github.alexeysol.geekregimeapicommons.models.dtos.UserDto;
 import com.github.alexeysol.geekregimeapicommons.utils.http.Request;
 import com.github.alexeysol.geekregimeapicommons.utils.http.ResponseReader;
@@ -29,11 +28,11 @@ public class UserService {
 
     public List<UserDto> findAllUsers(List<Long> ids) {
         Request request = new Request(getApiUsersUrl());
-        String idsAsString = Request.QueryUtils.toQueryListAsString(ids);
 
-        HttpResponse<String> response = request.addQueryParams(new Pair<>("ids", idsAsString))
-            .get()
-            .getResult();
+        HttpResponse<String> response = request.addQueryParam("ids", ids)
+            .GET()
+            .send()
+            .join();
 
         try {
             return new ResponseReader(response)
@@ -47,8 +46,9 @@ public class UserService {
     public UserDto findUserById(long id) {
         Request request = new Request(getApiUsersUrl());
         HttpResponse<String> response = request.addPathVariable(id)
-            .get()
-            .getResult();
+            .GET()
+            .send()
+            .join();
 
         try {
             return new ResponseReader(response).content(UserDto.class);

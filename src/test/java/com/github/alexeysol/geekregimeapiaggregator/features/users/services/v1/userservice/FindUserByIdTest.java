@@ -12,9 +12,7 @@ import org.springframework.http.HttpStatus;
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 public class FindUserByIdTest extends BaseUserServiceTest {
-    public FindUserByIdTest(
-        @Autowired ApiUsersSource source
-    ) {
+    public FindUserByIdTest(@Autowired ApiUsersSource source) {
         super(source);
     }
 
