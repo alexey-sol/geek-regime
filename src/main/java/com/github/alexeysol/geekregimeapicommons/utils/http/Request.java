@@ -1,26 +1,22 @@
 package com.github.alexeysol.geekregimeapicommons.utils.http;
 
-import com.github.alexeysol.geekregimeapicommons.models.Pair;
+import com.github.alexeysol.geekregimeapicommons.utils.converters.HttpQueryConverter;
 import org.springframework.util.Assert;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URLEncoder;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
-import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
 
 import static java.time.temporal.ChronoUnit.SECONDS;
 
 public class Request {
     private String url;
-    private HttpRequest httpRequest = null;
+    private HttpRequest httpRequest;
     private boolean hasQueryParams = false;
 
     public Request(String url) {
@@ -31,30 +27,32 @@ public class Request {
         return url;
     }
 
-    public Request get() {
-        httpRequest = buildRequest().GET().build();
-        return this;
+    public Request GET() {
+        return method("GET");
     }
 
-    public Request delete() {
-        httpRequest = buildRequest().DELETE().build();
-        return this;
+    public Request DELETE() {
+        return method("DELETE");
     }
 
-    public Request post() {
-        return post("");
+    public Request POST() {
+        return POST("");
     }
 
-    public Request post(String body) {
+    public Request POST(String body) {
         return method("POST", body);
     }
 
-    public Request patch() {
-        return patch("");
+    public Request PATCH() {
+        return PATCH("");
     }
 
-    public Request patch(String body) {
+    public Request PATCH(String body) {
         return method("PATCH", body);
+    }
+
+    private Request method(String method) {
+        return method(method, "");
     }
 
     private Request method(String method, String body) {
@@ -86,17 +84,12 @@ public class Request {
             : HttpRequest.BodyPublishers.ofString(body);
     }
 
-    public HttpResponse<String> getResult() {
-        try {
-            Assert.notNull(httpRequest, "No built request; build request first");
+    public CompletableFuture<HttpResponse<String>> send() {
+        Assert.notNull(httpRequest, "No built request; build request first");
 
-            return HttpClient.newBuilder()
-                .build()
-                .sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString())
-                .get();
-        } catch (InterruptedException | ExecutionException exception) {
-            throw new RuntimeException(exception);
-        }
+        return HttpClient.newBuilder()
+            .build()
+            .sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString());
     }
 
     public Request addPathVariable(long pathVariable) {
@@ -113,51 +106,26 @@ public class Request {
         return this;
     }
 
-    public Request addQueryParams(Pair<String, ?> keyValuePair) {
+    public Request addQueryParam(String key, List<?> value) {
+        String valueAsQueryString = HttpQueryConverter.toListAsString(value);
+        return addQueryParam(key, valueAsQueryString);
+    }
+
+    public Request addQueryParam(String key, long value) {
+        String valueAsString = String.valueOf(value);
+        return addQueryParam(key, valueAsString);
+    }
+
+    public Request addQueryParam(String key, String value) {
         Assert.isNull(httpRequest, "Request is already built; add query params before making request");
 
-        String key = keyValuePair.key();
-        String encodedValue = encode(String.valueOf(keyValuePair.value()));
-
-        String queryParam = String.format("%s=%s", key, encodedValue);
-        String queryParams = getQueryParams(List.of(queryParam));
-        url += queryParams;
-
+        url += getQueryParam(key, value);
         return this;
     }
 
-    private String encode(String value) {
-        try {
-            return URLEncoder.encode(value, StandardCharsets.UTF_8.toString());
-        } catch (UnsupportedEncodingException exception) {
-            return value;
-        }
-    }
-
-    private String getQueryParams(List<String> items) {
-        StringBuilder queryParams = new StringBuilder();
-
-        for (String item : items) {
-            char separator = (hasQueryParams) ? '&' : '?';
-            queryParams.append(separator);
-            queryParams.append(item);
-            hasQueryParams = true;
-        }
-
-        return queryParams.toString();
-    }
-
-    public static class QueryUtils {
-        public static String toQueryListAsString(List<?> list) {
-            return toQueryListAsString(list, ",");
-        }
-
-        private static String toQueryListAsString(List<?> list, String delimiter) {
-            List<String> stringList = list.stream()
-                .map(String::valueOf)
-                .toList();
-
-            return String.join(delimiter, stringList);
-        }
+    private String getQueryParam(String key, String value) {
+        String queryParam = HttpQueryConverter.toParam(key, value, hasQueryParams);
+        hasQueryParams = true;
+        return queryParam;
     }
 }

@@ -25,7 +25,7 @@ public class ResponseReader {
     }
 
     private void assertIsSuccessful() {
-        final String ASSERT_MESSAGE = "Response has a failure status";
+        final String ASSERT_MESSAGE = "Response is not successful";
         Assert.isTrue(isSuccessful(), ASSERT_MESSAGE);
     }
 
