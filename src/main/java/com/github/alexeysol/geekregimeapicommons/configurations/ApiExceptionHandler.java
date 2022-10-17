@@ -31,11 +31,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         WebRequest request
     ) {
         HttpStatus status = exception.getStatus();
+        String description = request.getDescription(false);
         String message = createMessage(exception);
         List<ErrorDetail.View> details = createDetails(exception);
         String trace = createTrace(exception);
 
-        ApiExceptionDto body = createBody(status, message, details, trace);
+        ApiExceptionDto body = createBody(status, description, message, details, trace);
 
         return handleExceptionInternal(exception, body, new HttpHeaders(), status, request);
     }
@@ -67,11 +68,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         @NotNull WebRequest request
     ) {
         HttpStatus newStatus = HttpStatus.UNPROCESSABLE_ENTITY;
+        String description = request.getDescription(false);
         String message = createMessage(exception);
         List<ErrorDetail.View> details = createDetails(exception);
         String trace = createTrace(exception);
 
-        ApiExceptionDto body = createBody(newStatus, message, details, trace);
+        ApiExceptionDto body = createBody(newStatus, description, message, details, trace);
 
         return handleExceptionInternal(exception, body, headers, newStatus, request);
     }
@@ -105,12 +107,21 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 
     private ApiExceptionDto createBody(
         HttpStatus status,
+        String description,
         String message,
         List<ErrorDetail.View> details,
         String trace
     ) {
+        final String URI_PREFIX = "uri=";
+        String descriptionWithoutPrefix = description.split(URI_PREFIX)[1];
+
+        String path = (Objects.nonNull(descriptionWithoutPrefix))
+            ? descriptionWithoutPrefix
+            : description;
+
         return new ApiExceptionDto(
             status.value(),
+            path,
             resource,
             message,
             details,

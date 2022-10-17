@@ -38,6 +38,15 @@ public class SerializedApiException extends RuntimeException {
             return this;
         }
 
+        public Builder buildPath() {
+            String path = (rawData.containsKey("path"))
+                ? String.valueOf(rawData.get("path"))
+                : null;
+
+            result.setPath(path);
+            return this;
+        }
+
         public Builder buildResource() {
             String resource = (rawData.containsKey("resource"))
                 ? String.valueOf(rawData.get("resource"))
@@ -87,6 +96,7 @@ public class SerializedApiException extends RuntimeException {
 
         public Builder buildAll() {
             return buildStatus()
+                .buildPath()
                 .buildResource()
                 .buildMessage()
                 .buildDetails()

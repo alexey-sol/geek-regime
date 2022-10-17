@@ -10,6 +10,7 @@ import java.util.List;
 @AllArgsConstructor
 public class ApiExceptionDto {
     private int status;
+    private String path;
     private String resource;
     private String message;
     private List<ErrorDetail.View> details;
