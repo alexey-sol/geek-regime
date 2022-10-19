@@ -25,7 +25,9 @@ module.exports = {
     ],
     rules: {
         "@typescript-eslint/no-shadow": ["error"],
+        "@typescript-eslint/no-empty-function": "error",
         "@typescript-eslint/no-unused-vars": "error",
+        "@typescript-eslint/no-useless-constructor": "error",
         "class-methods-use-this": "off",
         "implicit-arrow-linebreak": "off",
         "import/extensions": ["error", "ignorePackages", {
@@ -47,9 +49,7 @@ module.exports = {
             code: 100,
         }],
         "no-console": "off",
-        "no-empty-function": ["error", {
-            allow: ["constructors"],
-        }],
+        "no-empty-function": "off",
         "no-param-reassign": ["error", {
             props: false,
         }],

@@ -5,6 +5,7 @@ import { useContainer } from "class-validator";
 import { NestExpressApplication } from "@nestjs/platform-express";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import { getUseContainerOptions, ProxyMiddlewareOptions } from "@/app/app.utils";
+import { ApiExceptionFilter } from "@/exceptions/exceptions.filters";
 import { AppModule } from "./app/app.module";
 
 async function bootstrap() {
@@ -16,6 +17,7 @@ async function bootstrap() {
     const apiGatewayPort = configService.get<number>("apiGateway.port");
 
     useContainer(app.select(AppModule), getUseContainerOptions());
+    app.useGlobalFilters(new ApiExceptionFilter());
     app.useGlobalPipes(new ValidationPipe(validationOptions));
     app.setGlobalPrefix(apiGatewayPrefix);
 

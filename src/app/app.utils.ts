@@ -3,7 +3,7 @@ import { ConfigService } from "@nestjs/config";
 import { Options } from "http-proxy-middleware";
 import { ProxyMiddlewareOptionsConfig } from "@/app/app.types";
 import { Request } from "express";
-import { ResourceNotFoundException } from "@/exceptions";
+import { NotFoundException } from "@nestjs/common";
 import * as constants from "./app.const";
 
 export const getUseContainerOptions = () => ({
@@ -12,7 +12,7 @@ export const getUseContainerOptions = () => ({
 
 const defaultRoot = process.cwd();
 
-export const getServeStaticModuleOptions = (
+export const createServeStaticModuleOptions = (
     apiGatewayPrefix: string,
     root = defaultRoot,
 ) => [{
@@ -22,11 +22,12 @@ export const getServeStaticModuleOptions = (
 }];
 
 export class ProxyMiddlewareOptions {
-    private readonly TARGET_URL = "http://localhost";
+    private readonly targetUrl = "http://localhost";
     private readonly config: ProxyMiddlewareOptionsConfig;
 
     constructor(private readonly configService: ConfigService) {
         this.config = {
+            apiAggregatorBaseUrl: configService.get<string>("apiAggregator.baseUrl"),
             apiGatewayPrefix: configService.get<string>("apiGateway.prefix"),
             apiPostsBaseUrl: configService.get<string>("apiPosts.baseUrl"),
             apiPostsResource: configService.get<string>("apiPosts.resource"),
@@ -41,9 +42,8 @@ export class ProxyMiddlewareOptions {
 
     getResult = (): Options => ({
         changeOrigin: true,
-        onProxyReq: async (proxyReq, req, res) =>
-            proxyReq, // TODO check auth token when accessing private routes
-        target: this.TARGET_URL,
+        onProxyReq: async (proxyReq) => proxyReq,
+        target: this.targetUrl,
         router: this.getRouter,
     });
 
@@ -57,7 +57,7 @@ export class ProxyMiddlewareOptions {
             return proxyRoute;
         }
 
-        throw new ResourceNotFoundException(req.url, resource);
+        throw new NotFoundException(`Cannot ${req.method} ${req.url}`);
     };
 
     private getResourceFromApiPath = (apiPath: string) => {
@@ -70,7 +70,7 @@ export class ProxyMiddlewareOptions {
     };
 
     private getProxyTable = () => ({
-        [`/${this.config.apiPostsResource}`]: this.config.apiPostsBaseUrl,
+        [`/${this.config.apiPostsResource}`]: this.config.apiAggregatorBaseUrl,
         [`/${this.config.apiUsersResource}`]: this.config.apiUsersBaseUrl,
     });
 }
