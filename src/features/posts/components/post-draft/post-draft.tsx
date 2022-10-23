@@ -6,14 +6,14 @@ import { useTranslation } from "react-i18next";
 import ReactQuill from "react-quill";
 import { useCreatePostMutation, useUpdatePostByIdMutation } from "@/features/posts/services/api";
 import { PostDto } from "@/features/posts/models/dtos";
+import { useNavigate } from "react-router";
 import {
     BodyEditorStyled,
     BodyEditorWrapStyled,
     ControlsWrapStyled,
     PostDraftStyled,
     TitleInputStyled,
-} from "./post-draft.style";
-import {useNavigate} from "react-router";
+} from "./style";
 
 export type PostDraftProps = {
     post?: Post;

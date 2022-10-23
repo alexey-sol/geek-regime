@@ -1,5 +1,5 @@
 import React, { ReactNode } from "react";
-import { MainInnerStyled, MainStyled } from "./main.style";
+import { MainInnerStyled, MainStyled } from "./style";
 
 export type MainProps = {
     children: ReactNode;

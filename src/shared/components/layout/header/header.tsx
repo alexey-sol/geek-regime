@@ -2,7 +2,7 @@ import React from "react";
 import { Typography } from "@/shared/components/typography";
 import { Language } from "@/shared/const";
 import { useLanguage } from "@/shared/utils/language";
-import { HeaderInnerStyled, HeaderStyle } from "./header.style";
+import { HeaderInnerStyled, HeaderStyled } from "./style";
 
 const mapLanguageToTitle: Record<string, string> = {
     [Language.EN]: "En",
@@ -13,7 +13,7 @@ export const Header = () => {
     const { setLanguage } = useLanguage();
 
     return (
-        <HeaderStyle>
+        <HeaderStyled>
             <HeaderInnerStyled>
                 <Typography>Geek Regime</Typography>
 
@@ -29,6 +29,6 @@ export const Header = () => {
                     ))}
                 </section>
             </HeaderInnerStyled>
-        </HeaderStyle>
+        </HeaderStyled>
     );
 };

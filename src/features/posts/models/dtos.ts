@@ -5,14 +5,10 @@ export type PostDto = HasId & {
     author: UserDto;
     body: string;
     createdAt: string;
+    excerpt: string;
     slug: string;
     title: string;
     updatedAt: string;
-
-    // TODO
-    // body -> displayBody
-    // +rawBody
-    // +excerpt
 };
 
 export type CreatePostDto = Pick<PostDto, "title" | "body"> & {

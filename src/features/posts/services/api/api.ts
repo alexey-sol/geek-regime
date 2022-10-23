@@ -2,11 +2,11 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { fromPageDtoToPostsPage } from "@/features/posts/utils/converters";
 import { PageDto } from "@/shared/types/models";
 import { PostDto, PostsPage } from "@/features/posts/models/dtos";
-import { CreatePostArg, GetAllPostsArg, UpdatePostByIdArg } from "./api.types";
+import { CreatePostArg, GetAllPostsArg, UpdatePostByIdArg } from "./types";
 import {
     postsBaseUrl as baseUrl,
     transformGetAllPostsArg,
-} from "./api.utils";
+} from "./utils";
 
 export const postsApi = createApi({
     reducerPath: "postsApi",

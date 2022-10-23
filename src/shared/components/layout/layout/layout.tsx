@@ -5,7 +5,7 @@ import { Footer } from "@/shared/components/layout/footer";
 import { Main } from "../main";
 import { Navbar } from "../navbar";
 import { Header } from "../header";
-import { LayoutStyled } from "./layout.style";
+import { LayoutStyled } from "./style";
 
 export type LayoutProps = {
     children: ReactNode;

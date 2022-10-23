@@ -9,6 +9,7 @@ export class Post {
     constructor(
         public body: string,
         public createdAt: string,
+        public excerpt: string,
         public id: number,
         public slug: string,
         public title: string,

@@ -4,6 +4,10 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import { Language, NodeEnv } from "@/shared/const";
 import { appConfig } from "@/config/app";
 import {
+    en as enSessionTranslations,
+    ru as ruSessionTranslations,
+} from "@/features/session/resources/translations";
+import {
     en as enSharedTranslations,
     ru as ruSharedTranslations,
 } from "@/shared/resources/translations";
@@ -22,12 +26,14 @@ i18n.use(LanguageDetector)
         resources: {
             [Language.EN]: {
                 translation: {
+                    ...enSessionTranslations,
                     ...enSharedTranslations,
                     ...enPostsTranslations,
                 },
             },
             [Language.RU]: {
                 translation: {
+                    ...ruSessionTranslations,
                     ...ruSharedTranslations,
                     ...ruPostsTranslations,
                 },

@@ -22,6 +22,9 @@ export const theme = {
         header: {
             // height: "4rem",
         },
+        overlay: {
+            zIndex: 10,
+        },
     },
     fonts: {
         normal: "Roboto, Helvetica, Arial, sans-serif",

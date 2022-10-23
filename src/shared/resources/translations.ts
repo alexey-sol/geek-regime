@@ -1,4 +1,17 @@
 export const en = {
+    dialog: {
+        closeButton: {
+            title: "Close",
+        },
+    },
+    navbar: {
+        profileButton: {
+            title: "Account",
+        },
+        searchButton: {
+            title: "Search",
+        },
+    },
     paging: {
         leapButton: {
             toEnd: {
@@ -22,6 +35,19 @@ export const en = {
 };
 
 export const ru = {
+    dialog: {
+        closeButton: {
+            title: "Закрыть",
+        },
+    },
+    navbar: {
+        profileButton: {
+            title: "Учетная запись",
+        },
+        searchButton: {
+            title: "Поиск",
+        },
+    },
     paging: {
         leapButton: {
             toEnd: {

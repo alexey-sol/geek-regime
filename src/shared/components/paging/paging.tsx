@@ -11,7 +11,7 @@ import {
     PagingStyled,
     LeapButtonStyled,
     LeapButtonsWrapStyled,
-} from "@/shared/components/paging/paging.style";
+} from "@/shared/components/paging/style";
 import { Typography } from "@/shared/components/typography";
 import { useTranslation } from "react-i18next";
 

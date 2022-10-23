@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-export const HeaderStyle = styled.header`
+export const HeaderStyled = styled.header`
     ${({ theme }) => theme.mixins.gridLayout}
     background-color: ${({ theme }) => theme.colors.primary};
 `;

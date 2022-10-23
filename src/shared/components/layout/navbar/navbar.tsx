@@ -1,7 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Typography } from "@/shared/components/typography";
-import { NavbarStyled, ListStyled, NavbarInnerStyled } from "./navbar.style";
+import { ProfileIconButton, SearchIconButton } from "@/shared/components/icon-button";
+import {NavbarStyled, ListStyled, NavbarInnerStyled, ActionsStyled} from "./style";
+import {ProfileAction} from "@/shared/components/layout/navbar/profile-action";
 
 export const Navbar = () => {
     const isWithinSpace = true;
@@ -16,15 +18,17 @@ export const Navbar = () => {
                     </ListStyled>
                 )}
 
-                <section>Profile</section>
+                <ActionsStyled>
+                    <section>Spaces</section>
 
-                <section>Search</section>
+                    <section>
+                        <Link to="">Add new space</Link>
+                    </section>
 
-                <section>Spaces</section>
+                    <SearchIconButton onClick={() => console.log("Search")} />
 
-                <section>
-                    <Link to="">Add new space</Link>
-                </section>
+                    <ProfileAction />
+                </ActionsStyled>
             </NavbarInnerStyled>
         </NavbarStyled>
     );

@@ -22,7 +22,7 @@ export const en = {
         },
     },
     post: {
-        createdAt: "Create at:",
+        createdAt: "Created at:",
         updatedAt: "Updated at:",
     },
 };

@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { TypographyStyled } from "@/shared/components/typography/typography.style";
+import { TypographyStyled } from "@/shared/components/typography/style";
 
 const disabledButtonOpacity = 0.3;
 

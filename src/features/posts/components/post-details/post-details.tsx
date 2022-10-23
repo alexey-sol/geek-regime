@@ -5,7 +5,7 @@ import differenceInMonths from "date-fns/differenceInMonths";
 import { useLanguage } from "@/shared/utils/language";
 import { Link } from "react-router-dom";
 import { path } from "@/shared/const";
-import { PostDetailsStyled } from "./post-details.style";
+import { PostDetailsStyled } from "./style";
 
 export type PostDetailsProps = {
     post: Post;
