@@ -4,6 +4,7 @@ import { Post } from "@/features/posts/models/entities";
 import { Link } from "react-router-dom";
 import { path } from "@/shared/const";
 import styled from "styled-components";
+import { TypographyStyled } from "@/shared/components/typography/style";
 import { PostOverviewStyled } from "./style";
 
 export type PostOverviewProps = {
@@ -13,12 +14,10 @@ export type PostOverviewProps = {
 const lineHeight = 1.2;
 const lineCount = 2;
 
-export const TitleStyled = styled(Typography)`
+export const TitleStyled = styled(TypographyStyled)`
     overflow-x: hidden;
     white-space: nowrap;
     text-overflow: ellipsis;
-    font-size: ${({ theme }) => theme.fontSizes.large};
-    font-weight: bold;
 `;
 
 export const ExcerptStyled = styled(Typography)`
@@ -38,7 +37,7 @@ export const PostOverview = ({ post }: PostOverviewProps) => (
     <PostOverviewStyled>
         <Link to={`/${path.POSTS}/${post.slug}`}>
             <section>
-                <TitleStyled>{post.title}</TitleStyled>
+                <TitleStyled as="h2">{post.title}</TitleStyled>
                 <ExcerptStyled>{post.excerpt}</ExcerptStyled>
             </section>
         </Link>

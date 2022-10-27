@@ -1,15 +1,35 @@
 export const en = {
-    signUp: {
+    oauth: {
+        providers: {
+            yandex: {
+                consentScreen: {
+                    title: "Signing in via Yandex",
+                },
+                name: "Yandex",
+            },
+        },
+    },
+    signIn: {
         dialog: {
-            title: "Sign Up",
+            title: "Signing In",
         },
     },
 };
 
 export const ru = {
-    signUp: {
+    oauth: {
+        providers: {
+            yandex: {
+                consentScreen: {
+                    title: "Вход с помощью Яндекса",
+                },
+                name: "Яндекс",
+            },
+        },
+    },
+    signIn: {
         dialog: {
-            title: "Регистрация",
+            title: "Вход",
         },
     },
 };

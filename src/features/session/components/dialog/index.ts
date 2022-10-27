@@ -1,1 +1,1 @@
-export { SignUpDialog } from "./sign-up-dialog";
+export { SignInDialog } from "./sign-in-dialog";

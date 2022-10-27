@@ -1,12 +1,14 @@
 import { mixins } from "@/shared/style/mixins";
 
 const greyDarkestColor = "#232323";
+const whiteColor = "#ffffff";
 
 export const theme = {
     colors: {
-        primary: "orange",
-        secondary: "cadetblue",
-        tertiary: "lightgray",
+        primary: "#ffd275",
+        secondary: "#87666c",
+        tertiary: "#be6361",
+        quaternary: "#663939",
         greyDarkest: greyDarkestColor,
         greyDarken: "#636363",
         greyDark: "#818181",
@@ -16,7 +18,7 @@ export const theme = {
         greyLightest: "#f8f8f8",
         orange: "#ffd275",
         pink: "#be6361",
-        white: "#ffffff",
+        white: whiteColor,
     },
     components: {
         header: {
@@ -31,6 +33,7 @@ export const theme = {
     },
     fontColors: {
         normal: greyDarkestColor,
+        white: whiteColor,
     },
     fontSizes: {
         small: "1.4rem",

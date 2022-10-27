@@ -30,9 +30,9 @@ export const Typography = ({
         <TypographyStyled
             as={as}
             className={className}
-            color={color}
             font={font}
-            size={size}
+            fontColor={color}
+            fontSize={size}
         >
             {text}
         </TypographyStyled>

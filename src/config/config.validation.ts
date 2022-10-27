@@ -44,4 +44,10 @@ export const envSchema = Joi.object({
         .string()
         .valid(NodeEnv.DEVELOPMENT, NodeEnv.PRODUCTION, NodeEnv.TEST)
         .default(NodeEnv.DEVELOPMENT),
+    YANDEX_CLIENT_ID: Joi
+        .string()
+        .required(),
+    YANDEX_OAUTH_URL: Joi
+        .string()
+        .default("https://oauth.yandex.ru/authorize"),
 });

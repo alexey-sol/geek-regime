@@ -6,4 +6,6 @@ export const appConfig = {
     nodeEnv: process.env.NODE_ENV,
     apiPostsResource: process.env.API_POSTS_RESOURCE,
     apiUsersResource: process.env.API_USERS_RESOURCE,
+    yandexOauthUrl: process.env.YANDEX_OAUTH_URL,
+    yandexClientId: process.env.YANDEX_CLIENT_ID,
 };

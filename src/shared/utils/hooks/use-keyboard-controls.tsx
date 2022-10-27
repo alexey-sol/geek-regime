@@ -18,8 +18,10 @@ export const useKeyboardControls = ({
 }: UseKeyboardControlsArgs): void => {
     useEffect(() => {
         const makeElementActiveIfPossible = () => {
-            if (activeElementRef.current) {
-                activeElementRef.current.focus();
+            const { current } = activeElementRef;
+
+            if (current) {
+                current.focus();
             }
         };
 

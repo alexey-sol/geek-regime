@@ -1,6 +1,6 @@
 import React, { useCallback, useState } from "react";
 import { ProfileIconButton } from "@/shared/components/icon-button";
-import { SignUpDialog } from "@/features/session/components/dialog";
+import { SignInDialog } from "@/features/session/components/dialog";
 
 export const ProfileAction = () => {
     const [showSignUpDialog, setShowSignUpDialog] = useState(false);
@@ -12,7 +12,7 @@ export const ProfileAction = () => {
             <ProfileIconButton onClick={toggleSignUpDialog} />
 
             {showSignUpDialog && (
-                <SignUpDialog onClose={toggleSignUpDialog} />
+                <SignInDialog onClose={toggleSignUpDialog} />
             )}
         </>
     );
