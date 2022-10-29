@@ -2,7 +2,7 @@ import { Gender } from "@/features/users/types";
 import { HasId } from "@/shared/types/models";
 
 export type UserDetailsDto = {
-    name?: string;
+    name: string;
     image: null;
     gender?: Gender;
 };

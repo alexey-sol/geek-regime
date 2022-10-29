@@ -1,25 +1,37 @@
-import { Type } from "class-transformer";
+import { Expose, Type } from "class-transformer";
 import { formatTimestamp } from "@/shared/utils/formatters/date";
 import { User } from "@/features/users/models/entities";
+import { sanitize } from "dompurify";
 
 export class Post {
     @Type(() => User)
     public author: User;
 
     constructor(
-        public body: string,
-        public createdAt: string,
-        public excerpt: string,
         public id: number,
-        public slug: string,
-        public title: string,
+        public createdAt: string,
         public updatedAt: string,
+        public title: string,
+        public body: string,
+        public excerpt: string,
+        public slug: string,
         author: User,
     ) {
         this.author = author;
     }
 
-    getFormattedCreatedAt = (language?: string) => formatTimestamp(this.createdAt, language);
+    @Expose()
+    get formattedCreatedAt() {
+        return formatTimestamp(this.createdAt);
+    }
 
-    getFormattedUpdatedAt = (language?: string) => formatTimestamp(this.updatedAt, language);
+    @Expose()
+    get formattedUpdatedAt() {
+        return formatTimestamp(this.updatedAt);
+    }
+
+    @Expose()
+    get sanitizedBody() {
+        return sanitize(this.body);
+    }
 }

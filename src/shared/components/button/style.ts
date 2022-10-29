@@ -4,6 +4,7 @@ import styled, {
     FlattenInterpolation,
     ThemeProps,
 } from "styled-components";
+import { Link } from "react-router-dom";
 import { ButtonStyledProps } from "./types";
 
 const mapVariationToCss: Record<
@@ -41,14 +42,19 @@ export const ButtonStyled = styled.button<ButtonStyledProps>`
     justify-content: center;
     align-items: center;
     width: ${({ isStretched }) => (isStretched ? "100%" : "auto")};
-    padding: 1rem 3rem;
+    padding: 1rem 2rem;
     user-select: none;
     transition: background-color 100ms ease;
     cursor: pointer;
-    ${({ variation }) => mapVariationToCss[variation]}
+    ${({ variation }) => mapVariationToCss[variation]};
 
     &:disabled {
         opacity: 0.5;
         cursor: default;
     }
+`;
+
+export const LinkStyled = styled(Link)`
+    display: inline-block;
+    width: fit-content;
 `;

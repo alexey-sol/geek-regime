@@ -14,6 +14,8 @@ import {
     PostDraftStyled,
     TitleInputStyled,
 } from "./style";
+import {Divider} from "@/shared/components/divider";
+import {Button} from "@/shared/components/button";
 
 export type PostDraftProps = {
     post?: Post;
@@ -89,13 +91,13 @@ export const PostDraft = ({ post }: PostDraftProps) => {
             </BodyEditorWrapStyled>
 
             <ControlsWrapStyled>
-                <button onClick={savePost} type="button">
+                <Button onClick={savePost}>
                     {savePostButtonTitle}
-                </button>
+                </Button>
 
-                <button onClick={goBack} type="button">
+                <Button onClick={goBack} variation="dark">
                     {t("draft.controls.cancelButton.title")}
-                </button>
+                </Button>
             </ControlsWrapStyled>
         </PostDraftStyled>
     );

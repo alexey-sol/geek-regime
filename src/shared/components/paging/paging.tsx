@@ -36,8 +36,8 @@ export const Paging = ({
     size = defaults.PAGING_SIZE,
     totalItems,
 }: PagingProps) => {
-    const { t } = useTranslation();
     const navigate = useNavigate();
+    const { t } = useTranslation();
 
     const lastPage = Math.ceil(totalItems / size);
     const visiblePages = (pageNeighbours * 2) + 1;
@@ -117,7 +117,9 @@ export const Paging = ({
                             title={`${t("paging.leapButton.toStart.title")} 1`}
                             type="button"
                         >
-                            <Typography i18nKey="paging.leapButton.toStart.text" size="small" />
+                            <Typography fontSize="small">
+                                {t("paging.leapButton.toStart.text")}
+                            </Typography>
                         </LeapButtonStyled>
                     </li>
 
@@ -128,7 +130,9 @@ export const Paging = ({
                             title={`${t("paging.leapButton.toEnd.title")} ${lastPage}`}
                             type="button"
                         >
-                            <Typography i18nKey="paging.leapButton.toEnd.text" size="small" />
+                            <Typography fontSize="small">
+                                {t("paging.leapButton.toEnd.text")}
+                            </Typography>
                         </LeapButtonStyled>
                     </li>
                 </LeapButtonsWrapStyled>
@@ -142,7 +146,7 @@ export const Paging = ({
                         title={t("paging.stepButton.previous.title")}
                         type="button"
                     >
-                        <Typography size="larger">&laquo;</Typography>
+                        <Typography fontSize="larger">&laquo;</Typography>
                     </StepButtonStyled>
                 </section>
 
@@ -157,7 +161,7 @@ export const Paging = ({
                         title={t("paging.stepButton.next.title")}
                         type="button"
                     >
-                        <Typography size="larger">&raquo;</Typography>
+                        <Typography fontSize="larger">&raquo;</Typography>
                     </StepButtonStyled>
                 </section>
             </StepButtonsWrapStyled>

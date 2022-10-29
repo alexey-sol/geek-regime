@@ -10,6 +10,9 @@ export const en = {
             createPostButton: {
                 title: "Publish",
             },
+            editPostButton: {
+                title: "Edit",
+            },
             removePostButton: {
                 title: "Remove",
             },
@@ -38,6 +41,9 @@ export const ru = {
             },
             createPostButton: {
                 title: "Опубликовать",
+            },
+            editPostButton: {
+                title: "Редактировать",
             },
             removePostButton: {
                 title: "Удалить",

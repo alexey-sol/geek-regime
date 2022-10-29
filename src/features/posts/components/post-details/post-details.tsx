@@ -3,41 +3,54 @@ import { Typography } from "@/shared/components/typography";
 import { Post } from "@/features/posts/models/entities";
 import differenceInMonths from "date-fns/differenceInMonths";
 import { useLanguage } from "@/shared/utils/language";
-import { Link } from "react-router-dom";
 import { path } from "@/shared/const";
-import { PostDetailsStyled } from "./style";
+import { useTranslation } from "react-i18next";
+import { LinkButton } from "@/shared/components/button";
+import { ContentStyled, InfoStyled, PostDetailsStyled } from "./style";
 
 export type PostDetailsProps = {
     post: Post;
 };
 
 export const PostDetails = ({ post }: PostDetailsProps) => {
+    const { t } = useTranslation();
     const { language } = useLanguage();
     const createdMonthsAgo = differenceInMonths(new Date(post.createdAt), new Date());
     const relativeTimeFormat = new Intl.RelativeTimeFormat(language);
+    const createdMonthsAgoText = relativeTimeFormat.format(createdMonthsAgo, "months");
 
+    const bodyHtml = { __html: post.sanitizedBody };
     const updatePostPath = `/${path.POSTS}/${post.slug}/${path.UPDATE}`;
+
+    const hasUpdates = post.createdAt !== post.updatedAt;
 
     return (
         <PostDetailsStyled>
             <section>
-                <Typography as="h2">{post.title}</Typography>
-                <Typography>{post.body}</Typography>
+                <Typography>{post.author.details.name}</Typography>
             </section>
 
-            <section>
-                <Typography i18nKey="post.createdAt" />
-                <Typography>
-                    {post.getFormattedCreatedAt()}
-                    {relativeTimeFormat.format(createdMonthsAgo, "months")}
+            <ContentStyled>
+                <Typography variation="caption">{post.title}</Typography>
+                <Typography dangerouslySetInnerHTML={bodyHtml} />
+            </ContentStyled>
+
+            <InfoStyled>
+                <Typography variation="hint">
+                    {`${t("post.createdAt")} ${post.formattedCreatedAt} (${createdMonthsAgoText})`}
                 </Typography>
 
-                <Typography i18nKey="post.updatedAt" />
-                <Typography>{post.getFormattedUpdatedAt()}</Typography>
-            </section>
+                {hasUpdates && (
+                    <Typography variation="hint">
+                        {`${t("post.updatedAt")} ${post.formattedUpdatedAt}`}
+                    </Typography>
+                )}
+            </InfoStyled>
 
             <section>
-                <Link to={updatePostPath}>Edit</Link>
+                <LinkButton to={updatePostPath}>
+                    {t("draft.controls.editPostButton.title")}
+                </LinkButton>
             </section>
         </PostDetailsStyled>
     );

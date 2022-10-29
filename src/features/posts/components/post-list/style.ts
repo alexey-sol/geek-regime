@@ -1,9 +1,17 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+
+const columnCss = css`
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+`;
 
 export const PostListStyled = styled.section``;
 
 export const ListStyled = styled.ul`
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
+    ${columnCss};
+`;
+
+export const ListItemStyled = styled.li`
+    ${columnCss};
 `;

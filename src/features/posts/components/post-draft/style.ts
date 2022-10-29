@@ -8,6 +8,7 @@ export const PostDraftStyled = styled.section`
     grid-template-rows: auto 1fr auto;
     width: 100%;
     height: 100%;
+    row-gap: 2rem;
 `;
 
 export const TitleInputStyled = styled.input`
@@ -51,5 +52,6 @@ export const BodyEditorStyled = styled(ReactQuill)`
 
 export const ControlsWrapStyled = styled.section`
     display: flex;
-    padding: 1.5rem 1.5rem 0;
+    padding: 0 1.5rem;
+    gap: 1rem;
 `;

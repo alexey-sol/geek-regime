@@ -12,15 +12,21 @@ export const PostListViewStyled = styled.section`
     justify-content: space-between;
 `;
 
+export const InnerStyled = styled.section`
+    padding-bottom: ${({ theme }) => theme.components.main.paddingY};
+`;
+
 export const PostListView = () => {
     const { isLoading, options, setPage } = usePostsPagingContext();
     const { page, size, totalItems } = options;
 
     return (
         <PostListViewStyled>
-            {isLoading
-                ? "loading..."
-                : <PostList />}
+            <InnerStyled>
+                {isLoading
+                    ? "loading..."
+                    : <PostList />}
+            </InnerStyled>
 
             <Paging
                 page={page}

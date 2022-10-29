@@ -2,8 +2,10 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Typography } from "@/shared/components/typography";
 import { ProfileIconButton, SearchIconButton } from "@/shared/components/icon-button";
-import {NavbarStyled, ListStyled, NavbarInnerStyled, ActionsStyled} from "./style";
-import {ProfileAction} from "@/shared/components/layout/navbar/profile-action";
+import { ProfileAction } from "@/shared/components/layout/navbar/profile-action";
+import {
+    NavbarStyled, ListStyled, NavbarInnerStyled, ActionsStyled,
+} from "./style";
 
 export const Navbar = () => {
     const isWithinSpace = true;

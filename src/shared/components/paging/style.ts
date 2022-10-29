@@ -6,7 +6,6 @@ const disabledButtonOpacity = 0.3;
 export const PagingStyled = styled.nav`
     display: flex;
     width: fit-content;
-    padding: 2rem 0;
     flex-direction: column;
     align-self: center;
     row-gap: 0.5rem;

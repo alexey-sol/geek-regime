@@ -27,4 +27,9 @@ export const mixins = {
             grid-column: 6 / span 3;
         }
     `,
+    oneLineText: css`
+        overflow-x: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+    `,
 };

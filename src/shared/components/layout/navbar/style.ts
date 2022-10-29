@@ -4,7 +4,9 @@ export const NavbarStyled = styled.nav`
     ${({ theme }) => theme.mixins.gridLayout}
     position: sticky;
     top: 0;
-    background-color: ${({ theme }) => theme.colors.tertiary};
+    z-index: ${({ theme }) => theme.components.overlay.zIndex};
+    background-color: ${({ theme }) => theme.colors.white};
+    box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
 `;
 
 export const NavbarInnerStyled = styled.section`
