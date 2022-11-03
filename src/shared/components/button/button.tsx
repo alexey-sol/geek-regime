@@ -9,7 +9,7 @@ export const Button = ({
     children,
     isStretched = false,
     type = "button",
-    variation = "light",
+    variation = "primary",
     ...rest
 }: ButtonProps) => (
     <ButtonStyled
@@ -18,7 +18,7 @@ export const Button = ({
         variation={variation}
         {...rest}
     >
-        <Typography fontColor={(variation === "dark") ? "white" : "normal"}>
+        <Typography fontColor="inherit" fontSize="small">
             {children}
         </Typography>
     </ButtonStyled>

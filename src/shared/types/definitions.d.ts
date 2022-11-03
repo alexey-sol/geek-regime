@@ -9,7 +9,6 @@ declare module "styled-components" {
         colors: theme["colors"];
         components: theme["components"];
         fonts: theme["fonts"];
-        fontColors: theme["fontColors"];
         fontSizes: theme["fontSizes"];
         mixins: theme["mixins"];
     }

@@ -7,6 +7,7 @@ import ReactQuill from "react-quill";
 import { useCreatePostMutation, useUpdatePostByIdMutation } from "@/features/posts/services/api";
 import { PostDto } from "@/features/posts/models/dtos";
 import { useNavigate } from "react-router";
+import { Button } from "@/shared/components/button";
 import {
     BodyEditorStyled,
     BodyEditorWrapStyled,
@@ -14,8 +15,6 @@ import {
     PostDraftStyled,
     TitleInputStyled,
 } from "./style";
-import {Divider} from "@/shared/components/divider";
-import {Button} from "@/shared/components/button";
 
 export type PostDraftProps = {
     post?: Post;
@@ -83,19 +82,19 @@ export const PostDraft = ({ post }: PostDraftProps) => {
 
             <BodyEditorWrapStyled>
                 <BodyEditorStyled
+                    editorRef={bodyEditorRef}
                     onChange={setDraftBody}
                     placeholder={t("draft.body.placeholder")}
-                    ref={bodyEditorRef}
                     value={draftBody}
                 />
             </BodyEditorWrapStyled>
 
             <ControlsWrapStyled>
-                <Button onClick={savePost}>
+                <Button variation="secondary" onClick={savePost}>
                     {savePostButtonTitle}
                 </Button>
 
-                <Button onClick={goBack} variation="dark">
+                <Button onClick={goBack}>
                     {t("draft.controls.cancelButton.title")}
                 </Button>
             </ControlsWrapStyled>

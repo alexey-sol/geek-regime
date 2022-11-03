@@ -12,7 +12,7 @@ const mapVariationToCss: Record<
         font-weight: bold;
     `,
     hint: css`
-        color: ${({ theme }) => theme.fontColors.grey};
+        color: ${({ theme }) => theme.colors.greyDarken};
         font-size: ${({ theme }) => theme.fontSizes.small};
     `,
     normal: css`
@@ -22,7 +22,7 @@ const mapVariationToCss: Record<
 
 export const TypographyStyled = styled.p<TypographyStyledProps>`
     font-family: ${({ theme }) => theme.fonts.normal};
-    color: ${({ theme }) => theme.fontColors.normal};
+    color: ${({ theme }) => theme.colors.greyDarkest};
 
     ${({ variation = "normal" }) => mapVariationToCss[variation]};
 
@@ -31,10 +31,10 @@ export const TypographyStyled = styled.p<TypographyStyledProps>`
     `)};
 
     ${({ theme, fontColor }) => (fontColor && css`
-        color: ${theme.fontColors[fontColor]};
+        color: ${theme.colors[fontColor]};
     `)};
 
     ${({ theme, fontSize }) => (fontSize && css`
-        size: ${theme.fontSizes[fontSize]};
+        font-size: ${theme.fontSizes[fontSize]};
     `)};
 `;

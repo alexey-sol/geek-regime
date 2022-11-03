@@ -9,8 +9,5 @@ export const useLanguage = () => {
     const language = getLanguage();
     const setLanguage = (lang: string) => i18n.changeLanguage(lang);
 
-    return {
-        language,
-        setLanguage,
-    };
+    return { language, setLanguage };
 };

@@ -1,4 +1,5 @@
 import React, {
+    AriaRole,
     MouseEventHandler,
     ReactNode,
     useCallback,
@@ -25,7 +26,7 @@ export type OverlayProps = {
     container?: Element;
     disableCloseOnClick?: boolean;
     onClose: () => void;
-    role?: string;
+    role?: AriaRole;
 };
 
 export const Overlay = ({

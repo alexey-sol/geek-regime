@@ -5,6 +5,7 @@ export const NavbarStyled = styled.nav`
     position: sticky;
     top: 0;
     z-index: ${({ theme }) => theme.components.overlay.zIndex};
+    min-height: ${({ theme }) => theme.components.navbar.minHeight};
     background-color: ${({ theme }) => theme.colors.white};
     box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
 `;
@@ -22,4 +23,5 @@ export const ListStyled = styled.ul`
 
 export const ActionsStyled = styled.section`
     display: flex;
+    padding: 0 0.5rem;
 `;

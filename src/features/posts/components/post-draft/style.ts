@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
+
+import { Editor } from "./editor";
 
 export const PostDraftStyled = styled.section`
     position: relative;
@@ -20,33 +20,18 @@ export const TitleInputStyled = styled.input`
 
 export const BodyEditorWrapStyled = styled.section`
     position: relative;
-
 `;
 
-export const BodyEditorStyled = styled(ReactQuill)`
+export const BodyEditorStyled = styled(Editor)`
     position: absolute;
     top: 0;
     bottom: 0;
     width: 100%;
-    overflow-y: hidden;
-
-    .ql-container {
-        height: 100%;
-        border: none !important;
-    }
-
-    .ql-toolbar {
-        border: none !important;
-    }
 
     .ql-editor {
-        overflow-y: auto;
+        overflow-y: scroll;
         font-family: ${({ theme }) => theme.fonts.normal};
         font-size: ${({ theme }) => theme.fontSizes.normal};
-
-        &.ql-blank::before{
-            font-style: normal;
-        }
     }
 `;
 

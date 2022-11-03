@@ -1,21 +1,20 @@
 import React, { useEffect } from "react";
 
-type EventType = "keydown" | "keyup" | "keypress";
 type Handler = () => void;
 
 type UseKeyboardControlsArgs = {
     activeElementRef: React.RefObject<HTMLElement>;
-    eventType?: EventType;
+    keyboardEvent?: "keydown" | "keyup" | "keypress";
     onAction?: Handler;
     onCancel?: Handler;
 };
 
 export const useKeyboardControls = ({
     activeElementRef,
-    eventType = "keydown",
+    keyboardEvent = "keydown",
     onAction,
     onCancel,
-}: UseKeyboardControlsArgs): void => {
+}: UseKeyboardControlsArgs) => {
     useEffect(() => {
         const makeElementActiveIfPossible = () => {
             const { current } = activeElementRef;
@@ -53,10 +52,10 @@ export const useKeyboardControls = ({
             }
         };
 
-        document.addEventListener(eventType, handleKeyboardEvent);
+        document.addEventListener(keyboardEvent, handleKeyboardEvent);
 
-        return (): void => {
-            document.removeEventListener(eventType, handleKeyboardEvent);
+        return () => {
+            document.removeEventListener(keyboardEvent, handleKeyboardEvent);
         };
-    }, [activeElementRef, eventType, onAction, onCancel]);
+    }, [activeElementRef, keyboardEvent, onAction, onCancel]);
 };

@@ -1,4 +1,4 @@
 export type ButtonStyledProps = {
     isStretched: boolean;
-    variation: "light" | "dark" | "transparent";
+    variation: "plain" | "primary" | "secondary";
 };

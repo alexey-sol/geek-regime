@@ -20,7 +20,7 @@ export const PagingButtonStyled = styled.button<{ active?: boolean }>(
         border-radius: 0.4rem;
         justify-content: center;
         align-items: center;
-        background-color: ${active ? theme.colors.pink : "transparent"};
+        background-color: ${active ? theme.colors.primary : "transparent"};
         user-select: none;
         cursor: pointer;
         transition: border-color 100ms ease, color 120ms ease;
@@ -31,7 +31,7 @@ export const PagingButtonStyled = styled.button<{ active?: boolean }>(
 
         &:hover {
             border-color: transparent;
-            background-color: ${theme.colors.orange};
+            background-color: ${theme.colors.secondary};
     
             ${TypographyStyled} {
                 color: ${theme.colors.white};

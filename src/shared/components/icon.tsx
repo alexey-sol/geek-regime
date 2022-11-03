@@ -1,6 +1,6 @@
 import React from "react";
 
-const defaultSize = 24;
+const defaultSize = 20;
 
 export type IconProps = {
     color?: string;

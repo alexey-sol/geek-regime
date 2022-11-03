@@ -2,10 +2,7 @@ import { appConfig } from "@/config/app";
 import { getApiPath } from "@/shared/utils/formatters/api-path";
 import { GetAllPostsArg } from "./types";
 
-const {
-    apiPostsResource = "posts",
-    apiPrefix = "api",
-} = appConfig;
+const { apiPostsResource, apiPrefix } = appConfig;
 
 const pageOffset = 1;
 const apiVersion = 1;

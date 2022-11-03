@@ -1,34 +1,45 @@
-import React from "react";
-import { Typography } from "@/shared/components/typography";
-import { Language } from "@/shared/const";
+import React, { useRef, useState } from "react";
 import { useLanguage } from "@/shared/utils/language";
-import { HeaderInnerStyled, HeaderStyled } from "./style";
-
-const mapLanguageToTitle: Record<string, string> = {
-    [Language.EN]: "En",
-    [Language.RU]: "Ru",
-};
+import { appConfig } from "@/config/app";
+import { getLanguageTitle } from "@/shared/components/layout/header/utils";
+import { AppTitle } from "./app-title";
+import {
+    HeaderInnerStyled,
+    HeaderStyled,
+    LanguageSwitchStyled,
+    LanguageSwitchWrapStyled,
+} from "./style";
+import { LanguageSwitchDropdown } from "./language-switch-dropdown";
 
 export const Header = () => {
-    const { setLanguage } = useLanguage();
+    const { language } = useLanguage();
+
+    const languageSwitchRef = useRef<HTMLElement>(null);
+    const [showLanguageSwitchDropdown, setShowLanguageSwitchDropdown] = useState(false);
+
+    const switchLanguageSwitchDropdown = () => setShowLanguageSwitchDropdown((show) => !show);
 
     return (
         <HeaderStyled>
             <HeaderInnerStyled>
-                <Typography>Geek Regime</Typography>
+                <AppTitle title={appConfig.appName} />
 
-                <section>
-                    {Object.keys(mapLanguageToTitle).map((language) => (
-                        <button
-                            key={language}
-                            type="submit"
-                            onClick={() => setLanguage(language)}
-                        >
-                            <Typography>{mapLanguageToTitle[language]}</Typography>
-                        </button>
-                    ))}
-                </section>
+                <LanguageSwitchWrapStyled ref={languageSwitchRef}>
+                    <LanguageSwitchStyled
+                        onClick={switchLanguageSwitchDropdown}
+                        variation="plain"
+                    >
+                        {getLanguageTitle(language)}
+                    </LanguageSwitchStyled>
+                </LanguageSwitchWrapStyled>
             </HeaderInnerStyled>
+
+            {showLanguageSwitchDropdown && (
+                <LanguageSwitchDropdown
+                    anchorRef={languageSwitchRef}
+                    onClose={switchLanguageSwitchDropdown}
+                />
+            )}
         </HeaderStyled>
     );
 };
