@@ -5,65 +5,129 @@ import styled, {
     ThemeProps,
 } from "styled-components";
 import { Link } from "react-router-dom";
+import { TypographyStyled } from "@/shared/components/typography/style";
+import { BaseIconStyled } from "@/shared/components/icon/style";
+import { Color } from "@/shared/types/theme";
 import { ButtonStyledProps } from "./types";
 
+const paddingY = "1rem";
+const plainBorderWidth = "1px";
+
+const getBgColorCss = (bgColor: Color, bhColorOnHover: Color) => css`
+    background-color: ${bgColor};
+
+    &:not(:disabled):hover {
+        background-color: ${bhColorOnHover};
+    }
+`;
+
 const mapVariationToCss: Record<
-    ButtonStyledProps["variation"],
+    NonNullable<ButtonStyledProps["variation"]>,
     FlattenInterpolation<ThemeProps<DefaultTheme>>
 > = {
     plain: css`
-        border: 1px solid ${({ theme }) => theme.colors.primary};
-        background-color: transparent;
-        color: ${({ theme }) => theme.colors.primary};
-        transition: none;
-        
-        &:disabled {
-            color: ${({ theme }) => theme.colors.primary};
-        }
+        ${({ theme }) => css`
+            padding-top: calc(${paddingY} - ${plainBorderWidth});
+            padding-bottom: calc(${paddingY} - ${plainBorderWidth});
+            border: ${plainBorderWidth} solid ${theme.colors.primary};
+            color: ${theme.colors.primary};
+            ${getBgColorCss(theme.colors.white, theme.colors.orangeDark)}
 
-        &:not(:disabled):hover {
-            border-color: ${({ theme }) => theme.colors.orangeDark};
-            background-color: ${({ theme }) => theme.colors.orangeDark};
-            color: ${({ theme }) => theme.colors.white};
-        }
+            ${BaseIconStyled} {
+                fill: ${theme.colors.primary};
+            }
+
+            &:disabled {
+                color: ${theme.colors.primary};
+            }
+
+            &:not(:disabled):hover {
+                border-color: ${theme.colors.orangeDark};
+                color: ${theme.colors.white};
+
+                ${BaseIconStyled} {
+                    fill: ${theme.colors.white};
+                }
+            }
+        `};
     `,
     primary: css`
-        background-color: ${({ theme }) => theme.colors.primary};
-
-        &:not(:disabled):hover {
-            background-color: ${({ theme }) => theme.colors.purpleLight};
-        }
+        ${({ theme }) => getBgColorCss(theme.colors.primary, theme.colors.purpleLight)}};
     `,
     secondary: css`
-        background-color: ${({ theme }) => theme.colors.secondary};
+        ${({ theme }) => getBgColorCss(theme.colors.secondary, theme.colors.orangeDark)};
+    `,
+    transparent: css`
+      ${({ theme }) => css`
+            padding: 0;
+            background-color: transparent;
+            color: ${theme.colors.primary};
+            text-decoration: underline;
+            text-decoration-style: dashed;
+            text-underline-offset: 0.2rem;
 
-        &:not(:disabled):hover {
-            background-color: ${({ theme }) => theme.colors.orangeDark};
-        }
+            ${BaseIconStyled} {
+                fill: ${theme.colors.primary};
+            };
+
+            &:disabled {
+                color: ${theme.colors.primary};
+            }
+
+            &:not(:disabled):hover {
+                color: ${theme.colors.secondary};
+
+                ${BaseIconStyled} {
+                    fill: ${theme.colors.secondary};
+                };
+            }
+        `};
     `,
 };
 
-export const ButtonStyled = styled.button<ButtonStyledProps>`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: ${({ isStretched }) => (isStretched ? "100%" : "auto")};
-    padding: 1rem 2rem;
-    border: none;
-    border-radius: 0.3rem;
-    user-select: none;
-    color: ${({ theme }) => theme.colors.white};
-    cursor: pointer;
-    transition: background-color 100ms ease;
+export const ButtonStyled = styled.button<ButtonStyledProps>(
+    ({
+        theme,
+        isStretched = false,
+        variation = "primary",
+    }) => css`
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        column-gap: 0.5rem;
+        width: ${isStretched ? "100%" : "auto"};
+        height: fit-content;
+        padding: ${paddingY} 2rem;
+        border: none;
+        border-radius: 0.3rem;
+        user-select: none;
+        color: ${theme.colors.white};
+        cursor: pointer;
+        transition:
+            border-color ${theme.durations.fast} ease,
+            background-color ${theme.durations.fast} ease, 
+            color ${theme.durations.fast} ease,
+            fill ${theme.durations.fast} ease,
+            opacity ${theme.durations.normal} ease;
 
-    &:disabled {
-        opacity: 0.5;
-        color: ${({ theme }) => theme.colors.white};
-        cursor: default;
-    }
+        ${TypographyStyled} {
+            overflow-x: hidden;
+            text-overflow: ellipsis;
+        }
 
-    ${({ variation }) => mapVariationToCss[variation]};
-`;
+        ${BaseIconStyled} {
+            fill: ${theme.colors.white};
+        }
+
+        &:disabled {
+            opacity: 0.5;
+            color: ${theme.colors.white};
+            cursor: default;
+        }
+
+        ${mapVariationToCss[variation]};
+    `,
+);
 
 export const LinkStyled = styled(Link)`
     display: inline-block;

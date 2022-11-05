@@ -11,8 +11,8 @@ export const AppTitle = ({ title, to = "/" }: TitleProps) => (
     <TitleLinkStyled to={to}>
         <Typography
             font="logo"
-            fontColor="white"
-            fontSize="larger"
+            color="white"
+            size="larger"
         >
             {title}
         </Typography>

@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
 import { TypographyStyled } from "@/shared/components/typography/style";
-import {Button} from "@/shared/components/button";
 
 export const HeaderStyled = styled.header`
     ${({ theme }) => theme.mixins.gridLayout};
@@ -18,7 +17,7 @@ export const HeaderInnerStyled = styled.section`
 
 export const TitleLinkStyled = styled(Link)`
     ${TypographyStyled} {
-        transition: color 100ms ease;
+        transition: color ${({ theme }) => theme.durations.normal} ease;
     }
 
     :hover {
@@ -26,19 +25,4 @@ export const TitleLinkStyled = styled(Link)`
             color: ${({ theme }) => theme.colors.orangeLighten};
         }
     }
-`;
-
-export const LanguageSwitchWrapStyled = styled.section`
-    position: relative;
-    display: flex;
-    align-items: center;
-    height: 100%;
-`;
-
-export const LanguageSwitchStyled = styled(Button)`
-    height: 100%;
-    padding-right: 0.5rem;
-    padding-left: 0.5rem;
-    border-radius: 0;
-    color: ${({ theme }) => theme.colors.white};
 `;

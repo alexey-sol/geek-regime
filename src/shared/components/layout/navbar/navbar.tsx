@@ -4,7 +4,7 @@ import { Typography } from "@/shared/components/typography";
 import { SearchIconButton } from "@/shared/components/icon-button";
 import { ProfileAction } from "@/shared/components/layout/navbar/profile-action";
 import {
-    NavbarStyled, ListStyled, NavbarInnerStyled, ActionsStyled,
+    NavbarStyled, ListStyled, NavbarInnerStyled, ActionsWrapStyled,
 } from "./style";
 
 export const Navbar = () => {
@@ -20,7 +20,7 @@ export const Navbar = () => {
                     </ListStyled>
                 )}
 
-                <ActionsStyled>
+                <ActionsWrapStyled>
                     <section>Spaces</section>
 
                     <section>
@@ -30,7 +30,7 @@ export const Navbar = () => {
                     <SearchIconButton onClick={() => console.log("Search")} />
 
                     <ProfileAction />
-                </ActionsStyled>
+                </ActionsWrapStyled>
             </NavbarInnerStyled>
         </NavbarStyled>
     );

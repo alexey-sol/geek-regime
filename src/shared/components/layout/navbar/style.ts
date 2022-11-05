@@ -21,7 +21,6 @@ export const ListStyled = styled.ul`
     display: flex;
 `;
 
-export const ActionsStyled = styled.section`
+export const ActionsWrapStyled = styled.section`
     display: flex;
-    padding: 0 0.5rem;
 `;

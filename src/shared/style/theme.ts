@@ -19,8 +19,11 @@ export const theme = {
         orange: orangeColor,
         orangeLight: "#fccba4",
         orangeLighten: "#ffe7d4",
+        purpleDark: "#453545",
+        purpleDarker: "#372a37",
         purple: purpleColor,
         purpleLight: "#856088",
+        purpleLighter: "#99739c",
         white: "#ffffff",
     },
     components: {
@@ -37,11 +40,18 @@ export const theme = {
             zIndex: 10,
         },
     },
+    durations: {
+        fast: "50ms",
+        normal: "100ms",
+        slow: "150ms",
+    },
     fonts: {
+        inherit: "inherit",
         logo: "Bree Serif, Helvetica, Arial, sans-serif",
         normal: "Roboto, Helvetica, Arial, sans-serif",
     },
-    fontSizes: {
+    mixins,
+    sizes: {
         inherit: "inherit",
         smallest: "1rem",
         smaller: "1.2rem",
@@ -51,5 +61,4 @@ export const theme = {
         larger: "2rem",
         largest: "2.2rem",
     },
-    mixins,
 };

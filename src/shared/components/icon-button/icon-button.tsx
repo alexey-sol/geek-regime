@@ -1,5 +1,5 @@
 import React from "react";
-import {CloseIcon, ProfileIcon, SearchIcon} from "@/shared/components/icon";
+import { CloseIcon, ProfileIcon, SearchIcon } from "@/shared/components/icon";
 import { t } from "i18next";
 import { BaseIconButton, BaseIconButtonProps } from "./base-icon-button";
 

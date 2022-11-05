@@ -7,12 +7,10 @@ import { useKeyboardControls } from "@/shared/utils/hooks/use-keyboard-controls"
 import { BaseDropdownStyled } from "./style";
 import { BaseDropdownStyledProps } from "./types";
 
-type Handler = () => void;
-
 export type BaseDropdownProps = BaseDropdownStyledProps & {
     children: ReactNode;
     mouseEvent?: "click" | "mouseup" | "mousedown";
-    onClose: Handler;
+    onClose: () => void;
     role?: AriaRole;
 };
 

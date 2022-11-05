@@ -1,46 +1,40 @@
 import styled, { css } from "styled-components";
-import { TypographyStyled } from "@/shared/components/typography/style";
+import { Button } from "@/shared/components/button";
 
-const disabledButtonOpacity = 0.3;
+const gap = "0.5rem";
 
 export const PagingStyled = styled.nav`
     display: flex;
     width: fit-content;
     flex-direction: column;
     align-self: center;
-    row-gap: 0.5rem;
+    row-gap: ${gap};
 `;
 
-export const PagingButtonStyled = styled.button<{ active?: boolean }>(
+export const PagingButtonStyled = styled(Button)<{ active?: boolean }>(
     ({ active, theme }) => css`
         display: flex;
         min-width: 4rem;
         min-height: 4rem;
-        border: 1px solid ${active ? "transparent" : theme.colors.greyLight};
-        border-radius: 0.4rem;
-        justify-content: center;
-        align-items: center;
+        padding: 0;
         background-color: ${active ? theme.colors.primary : "transparent"};
-        user-select: none;
-        cursor: pointer;
-        transition: border-color 100ms ease, color 120ms ease;
-      
-        ${TypographyStyled} {
-            color: ${active && theme.colors.white};
-        }
+        color: ${theme.colors.greyDarkest};
+
+        ${!active && css`
+            border: 1px solid ${theme.colors.greyLight};
+        `};
+
+        ${active && css`
+            color: ${theme.colors.white};
+        `};
 
         &:hover {
             border-color: transparent;
-            background-color: ${theme.colors.secondary};
-    
-            ${TypographyStyled} {
-                color: ${theme.colors.white};
-            }
+            color: ${theme.colors.white};
         }
 
         &:disabled {
-            pointer-events: none;
-            opacity: ${disabledButtonOpacity};
+            color: ${theme.colors.primary};
         }
     `,
 );
@@ -49,36 +43,23 @@ export const LeapButtonsWrapStyled = styled.ul`
     display: flex;
     width: 100%;
     padding: 0;
-    margin: 0 0 0.5rem 0;
+    margin: 0 0 ${gap} 0;
     justify-content: space-between;
 `;
 
-export const LeapButtonStyled = styled.button`
-    border: 0;
-    padding: 0;
-    background-color: transparent;
-    user-select: none;
-    cursor: pointer;
-    transition: opacity 100ms ease;
-
-    &:hover {
-        opacity: 0.6;
-    }
-
-    &:disabled {
-        pointer-events: none;
-        opacity: ${disabledButtonOpacity};
-    }
+export const LeapButtonStyled = styled(Button)`
+    text-decoration: none;
 `;
 
 export const StepButtonsWrapStyled = styled.section`
     display: flex;
     justify-content: center;
     align-items: center;
+    gap: ${gap};
 `;
 
 export const StepButtonStyled = styled(PagingButtonStyled)`
-    border: 0;
+    border: none;
 `;
 
 export const PageNumbersWrapStyled = styled.ul`
@@ -87,5 +68,5 @@ export const PageNumbersWrapStyled = styled.ul`
     margin: 0;
     justify-content: center;
     flex-wrap: wrap;
-    gap: 0.5rem;
+    gap: ${gap};
 `;

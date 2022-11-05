@@ -1,6 +1,7 @@
 import React from "react";
 
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 import { defaults } from "@/shared/const";
 import { range } from "@/shared/utils/helpers/range";
 import {
@@ -11,9 +12,7 @@ import {
     PagingStyled,
     LeapButtonStyled,
     LeapButtonsWrapStyled,
-} from "@/shared/components/paging/style";
-import { Typography } from "@/shared/components/typography";
-import { useTranslation } from "react-i18next";
+} from "./style";
 
 const maxPageCountWithoutLeapButtons = 2;
 
@@ -45,8 +44,9 @@ export const Paging = ({
     const leftmostVisiblePage = page - pageNeighbours;
     const rightmostVisiblePage = page + pageNeighbours;
 
-    const hasLeftSpill = leftmostVisiblePage > 1;
-    const hasRightSpill = rightmostVisiblePage < lastPage;
+    const hasSpills = lastPage > visiblePages;
+    const hasLeftSpill = hasSpills && leftmostVisiblePage > 1;
+    const hasRightSpill = hasSpills && rightmostVisiblePage < lastPage;
 
     const handlePageChange = (selectedPage: number) => {
         if (selectedPage === page) {
@@ -99,9 +99,9 @@ export const Paging = ({
             <PagingButtonStyled
                 active={pageNumber === page}
                 onClick={() => goToPage(pageNumber)}
-                type="button"
+                variation="secondary"
             >
-                <Typography>{pageNumber}</Typography>
+                {pageNumber}
             </PagingButtonStyled>
         </li>
     ));
@@ -115,11 +115,9 @@ export const Paging = ({
                             disabled={!hasLeftSpill}
                             onClick={toStartPage}
                             title={`${t("paging.leapButton.toStart.title")} 1`}
-                            type="button"
+                            variation="transparent"
                         >
-                            <Typography fontSize="small">
-                                {t("paging.leapButton.toStart.text")}
-                            </Typography>
+                            {t("paging.leapButton.toStart.text")}
                         </LeapButtonStyled>
                     </li>
 
@@ -128,11 +126,9 @@ export const Paging = ({
                             disabled={!hasRightSpill}
                             onClick={toLastPage}
                             title={`${t("paging.leapButton.toEnd.title")} ${lastPage}`}
-                            type="button"
+                            variation="transparent"
                         >
-                            <Typography fontSize="small">
-                                {t("paging.leapButton.toEnd.text")}
-                            </Typography>
+                            {t("paging.leapButton.toEnd.text")}
                         </LeapButtonStyled>
                     </li>
                 </LeapButtonsWrapStyled>
@@ -143,10 +139,11 @@ export const Paging = ({
                     <StepButtonStyled
                         disabled={isStartPage}
                         onClick={toPreviousPage}
+                        size="larger"
                         title={t("paging.stepButton.previous.title")}
-                        type="button"
+                        variation="secondary"
                     >
-                        <Typography fontSize="larger">&laquo;</Typography>
+                        &laquo;
                     </StepButtonStyled>
                 </section>
 
@@ -158,10 +155,11 @@ export const Paging = ({
                     <StepButtonStyled
                         disabled={isLastPage}
                         onClick={toNextPage}
+                        size="larger"
                         title={t("paging.stepButton.next.title")}
-                        type="button"
+                        variation="secondary"
                     >
-                        <Typography fontSize="larger">&raquo;</Typography>
+                        &raquo;
                     </StepButtonStyled>
                 </section>
             </StepButtonsWrapStyled>

@@ -1,4 +1,4 @@
-import {InvalidConfigError} from "@/shared/utils/errors";
+import { InvalidConfigError } from "@/shared/utils/errors";
 
 const config = {
     apiPrefix: process.env.API_GATEWAY_PREFIX ?? "api",

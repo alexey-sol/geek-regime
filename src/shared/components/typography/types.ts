@@ -1,8 +1,6 @@
-import { Color, Font, FontSize } from "@/shared/types/theme";
+import { Font, HasColor, HasSize } from "@/shared/types/theme";
 
-export type TypographyStyledProps = {
+export type TypographyStyledProps = Partial<HasColor> & Partial<HasSize> & {
     font?: Font;
-    fontColor?: Color;
-    fontSize?: FontSize;
     variation?: "normal" | "caption" | "hint";
 };

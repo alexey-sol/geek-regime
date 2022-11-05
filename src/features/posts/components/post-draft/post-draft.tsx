@@ -1,5 +1,9 @@
 import React, {
-    useCallback, useEffect, useMemo, useRef, useState,
+    useCallback,
+    useEffect,
+    useMemo,
+    useRef,
+    useState,
 } from "react";
 import { Post } from "@/features/posts/models/entities";
 import { useTranslation } from "react-i18next";
@@ -90,7 +94,7 @@ export const PostDraft = ({ post }: PostDraftProps) => {
             </BodyEditorWrapStyled>
 
             <ControlsWrapStyled>
-                <Button variation="secondary" onClick={savePost}>
+                <Button onClick={savePost} variation="secondary">
                     {savePostButtonTitle}
                 </Button>
 

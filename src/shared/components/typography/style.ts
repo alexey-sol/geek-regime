@@ -1,40 +1,50 @@
 import styled, {
     css, DefaultTheme, FlattenInterpolation, ThemeProps,
 } from "styled-components";
-import { TypographyStyledProps } from "@/shared/components/typography/types";
+import { TypographyStyledProps } from "./types";
 
 const mapVariationToCss: Record<
     NonNullable<TypographyStyledProps["variation"]>,
     FlattenInterpolation<ThemeProps<DefaultTheme>>
 > = {
     caption: css`
-        font-size: ${({ theme }) => theme.fontSizes.large};
+        font-size: ${({ theme }) => theme.sizes.large};
         font-weight: bold;
     `,
     hint: css`
-        color: ${({ theme }) => theme.colors.greyDarken};
-        font-size: ${({ theme }) => theme.fontSizes.small};
+        ${({ theme }) => css`
+            color: ${theme.colors.greyDarken};
+            font-size: ${theme.sizes.small};
+        `};
     `,
     normal: css`
-        font-size: ${({ theme }) => theme.fontSizes.normal};
+        font-size: ${({ theme }) => theme.sizes.normal};
     `,
 };
 
 export const TypographyStyled = styled.p<TypographyStyledProps>`
-    font-family: ${({ theme }) => theme.fonts.normal};
-    color: ${({ theme }) => theme.colors.greyDarkest};
+    ${({
+        theme,
+        color,
+        font,
+        size,
+        variation = "normal",
+    }) => css`
+        font-family: ${theme.fonts.normal};
+        color: ${theme.colors.greyDarkest};
 
-    ${({ variation = "normal" }) => mapVariationToCss[variation]};
+        ${mapVariationToCss[variation]};
 
-    ${({ theme, font }) => (font && css`
-        font-family: ${theme.fonts[font]};
-    `)};
+        ${font && css`
+            font-family: ${theme.fonts[font]};
+        `};
 
-    ${({ theme, fontColor }) => (fontColor && css`
-        color: ${theme.colors[fontColor]};
-    `)};
+        ${color && css`
+            color: ${theme.colors[color]};
+        `};
 
-    ${({ theme, fontSize }) => (fontSize && css`
-        font-size: ${theme.fontSizes[fontSize]};
-    `)};
+        ${size && css`
+            font-size: ${theme.sizes[size]};
+        `};
+    `};
 `;

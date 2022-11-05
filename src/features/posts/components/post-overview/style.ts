@@ -22,7 +22,7 @@ export const ExcerptStyled = styled(Typography)`
     position: relative;
     display: -webkit-box;
     max-width: 100%;
-    max-height: calc(${({ theme }) => theme.fontSizes.normal} * ${lineCount} * ${lineHeight});
+    max-height: calc(${({ theme }) => theme.sizes.normal} * ${lineCount} * ${lineHeight});
     line-height: ${lineHeight};
     overflow: hidden;
     word-wrap: break-word;

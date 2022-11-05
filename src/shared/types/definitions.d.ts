@@ -8,8 +8,9 @@ declare module "styled-components" {
     export interface DefaultTheme {
         colors: theme["colors"];
         components: theme["components"];
+        durations: theme["durations"];
         fonts: theme["fonts"];
-        fontSizes: theme["fontSizes"];
         mixins: theme["mixins"];
+        sizes: theme["sizes"];
     }
 }
