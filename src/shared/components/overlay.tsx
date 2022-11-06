@@ -23,7 +23,7 @@ const OverlayStyled = styled.section`
 export type OverlayProps = {
     children: ReactNode;
     className?: string;
-    container?: Element;
+    container?: HTMLElement;
     disableCloseOnClick?: boolean;
     onClose: () => void;
     role?: AriaRole;

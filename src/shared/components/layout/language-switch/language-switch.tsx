@@ -1,22 +1,9 @@
 import React, { useRef, useState } from "react";
-import styled from "styled-components";
 import { useLanguage } from "@/shared/utils/language";
-import { GlobeIcon } from "@/shared/components/icon";
+import { I18nIconButton } from "@/shared/components/icon-button";
 import { getLanguageTitle } from "./utils";
-import { SwitchButton } from "./switch-button";
 import { LanguageDropdown } from "./language-dropdown";
-
-export const LanguageSwitchStyled = styled.section`
-    position: relative;
-    display: flex;
-    align-items: center;
-    min-width: 8rem;
-    height: 100%;
-`;
-
-export const SwitchButtonStyled = styled(SwitchButton)`
-     background-color: ${({ theme }) => theme.colors.purpleDark};
-`;
+import { LanguageSwitchStyled } from "./style";
 
 export const LanguageSwitch = () => {
     const { language } = useLanguage();
@@ -27,9 +14,11 @@ export const LanguageSwitch = () => {
 
     return (
         <LanguageSwitchStyled ref={languageSwitchRef}>
-            <SwitchButtonStyled icon={GlobeIcon} onClick={toggleDropdown}>
-                {getLanguageTitle(language)}
-            </SwitchButtonStyled>
+            <I18nIconButton
+                onClick={toggleDropdown}
+                title={getLanguageTitle(language)}
+                variation="light"
+            />
 
             {showDropdown && (
                 <LanguageDropdown

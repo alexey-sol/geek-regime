@@ -4,35 +4,33 @@ import styled, {
     FlattenInterpolation,
     ThemeProps,
 } from "styled-components";
-import { BaseDropdownStyledProps } from "@/shared/components/base-dropdown/types";
+import { BaseDropdownStyledProps } from "./types";
 
-const mapVariationToCss: Record<
-    NonNullable<BaseDropdownStyledProps["variation"]>,
+const mapPositionToCss: Record<
+    NonNullable<BaseDropdownStyledProps["position"]>,
     FlattenInterpolation<ThemeProps<DefaultTheme>>
 > = {
-    plain: css`
-        background-color: ${({ theme }) => theme.colors.white};
+    "bottom-center": css`
+        top: 100%;
+        left: 50%;
+        transform: translateX(-50%);
     `,
-    primary: css`
-        background-color: ${({ theme }) => theme.colors.primary};
+    "bottom-right": css`
+        top: 100%;
+        right: 0;
     `,
 };
 
 export const BaseDropdownStyled = styled.section<BaseDropdownStyledProps>`
-    position: absolute;
-    z-index: ${({ theme }) => theme.components.overlay.zIndex + 1};
-    border-radius: 0.3rem;
-    outline: none;
-
-    ${({ anchorRef, position = "bottom" }) => {
-        const { current } = anchorRef ?? {};
-        const topValue = current?.offsetHeight && (`${current.offsetHeight}px` || "100%");
-
-        return (position === "bottom") && css`
-            top: ${topValue};
-            right: 0;
-        `;
-    }};
-
-    ${({ variation = "plain" }) => mapVariationToCss[variation]};
+    ${({
+        theme,
+        position = "bottom-right",
+    }) => css`
+        position: absolute;
+        z-index: ${theme.components.overlay.zIndex + 1};
+        width: fit-content;
+        border-radius: 0.3rem;
+        outline: none;
+        ${mapPositionToCss[position]}};
+    `};
 `;

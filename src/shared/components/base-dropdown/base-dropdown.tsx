@@ -52,7 +52,7 @@ export const BaseDropdown = ({
 
     const container = anchorRef?.current || document.body;
 
-    const dropdownElem = (
+    const dropdownElement = (
         <BaseDropdownStyled
             anchorRef={anchorRef}
             ref={elementRef}
@@ -64,5 +64,5 @@ export const BaseDropdown = ({
         </BaseDropdownStyled>
     );
 
-    return ReactDOM.createPortal(dropdownElem, container);
+    return ReactDOM.createPortal(dropdownElement, container);
 };

@@ -7,7 +7,7 @@ import { ListItemStyled, ListStyled, PostListStyled } from "./style";
 export const PostList = () => {
     const { items } = usePostsPagingContext();
 
-    const postOverviewElems = items.map((post, index) => (
+    const postOverviewElements = items.map((post, index) => (
         <ListItemStyled key={post.id}>
             {index > 0 && <Divider />}
             <PostOverview post={post} />
@@ -17,7 +17,7 @@ export const PostList = () => {
     return (
         <PostListStyled>
             <ListStyled>
-                {postOverviewElems}
+                {postOverviewElements}
             </ListStyled>
         </PostListStyled>
     );

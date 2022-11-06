@@ -5,6 +5,9 @@ export const en = {
         },
     },
     navbar: {
+        i18nButton: {
+            title: "Select language",
+        },
         profileButton: {
             title: "Account",
         },
@@ -41,6 +44,9 @@ export const ru = {
         },
     },
     navbar: {
+        i18nButton: {
+            title: "Выбрать язык",
+        },
         profileButton: {
             title: "Учетная запись",
         },

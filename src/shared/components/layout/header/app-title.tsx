@@ -10,8 +10,8 @@ export type TitleProps = {
 export const AppTitle = ({ title, to = "/" }: TitleProps) => (
     <TitleLinkStyled to={to}>
         <Typography
-            font="logo"
             color="white"
+            font="logo"
             size="larger"
         >
             {title}

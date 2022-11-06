@@ -1,32 +1,43 @@
 import React from "react";
-import { CloseIcon, ProfileIcon, SearchIcon } from "@/shared/components/icon";
+import {
+    CloseIcon,
+    I18nIcon,
+    ProfileIcon,
+    SearchIcon,
+} from "@/shared/components/icon";
 import { t } from "i18next";
 import { BaseIconButton, BaseIconButtonProps } from "./base-icon-button";
 
-export type IconButtonProps = Pick<BaseIconButtonProps, "onClick">;
+export type IconButtonProps = Pick<BaseIconButtonProps, "onClick" | "title" | "variation">;
 
-export const CloseIconButton = ({ onClick }: IconButtonProps) => (
+export const CloseIconButton = ({ title, ...rest }: IconButtonProps) => (
     <BaseIconButton
         icon={CloseIcon}
-        onClick={onClick}
-        title={t("dialog.closeButton.title")}
+        title={title ?? t("dialog.closeButton.title")}
+        {...rest}
     />
 );
 
-export const ProfileIconButton = ({ onClick, username }: IconButtonProps & {
-    username?: string;
-}) => (
+export const I18nIconButton = ({ title, ...rest }: IconButtonProps) => (
+    <BaseIconButton
+        icon={I18nIcon}
+        title={title ?? t("dialog.i18nButton.title")}
+        {...rest}
+    />
+);
+
+export const ProfileIconButton = ({ title, ...rest }: IconButtonProps) => (
     <BaseIconButton
         icon={ProfileIcon}
-        onClick={onClick}
-        title={username ?? t("navbar.profileButton.title")}
+        title={title ?? t("navbar.profileButton.title")}
+        {...rest}
     />
 );
 
-export const SearchIconButton = ({ onClick }: IconButtonProps) => (
+export const SearchIconButton = ({ title, ...rest }: IconButtonProps) => (
     <BaseIconButton
         icon={SearchIcon}
-        onClick={onClick}
-        title={t("navbar.searchButton.title")}
+        title={title ?? t("navbar.searchButton.title")}
+        {...rest}
     />
 );

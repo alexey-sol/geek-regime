@@ -13,11 +13,11 @@ import { ButtonStyledProps } from "./types";
 const paddingY = "1rem";
 const plainBorderWidth = "1px";
 
-const getBgColorCss = (bgColor: Color, bhColorOnHover: Color) => css`
+const getBgColorCss = (bgColor: Color, bgColorOnHover: Color) => css`
     background-color: ${bgColor};
 
     &:not(:disabled):hover {
-        background-color: ${bhColorOnHover};
+        background-color: ${bgColorOnHover};
     }
 `;
 

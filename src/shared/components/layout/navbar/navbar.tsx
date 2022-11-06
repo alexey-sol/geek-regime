@@ -2,9 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Typography } from "@/shared/components/typography";
 import { SearchIconButton } from "@/shared/components/icon-button";
-import { ProfileAction } from "@/shared/components/layout/navbar/profile-action";
+import { ProfileAction } from "./profile-action";
 import {
-    NavbarStyled, ListStyled, NavbarInnerStyled, ActionsWrapStyled,
+    ActionsWrapStyled,
+    ListStyled,
+    NavbarInnerStyled,
+    NavbarStyled,
 } from "./style";
 
 export const Navbar = () => {

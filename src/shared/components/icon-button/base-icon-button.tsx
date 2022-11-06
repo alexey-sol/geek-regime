@@ -1,24 +1,21 @@
 import React, { ComponentType } from "react";
 import { IconProps } from "@/shared/components/icon";
 import { IconButtonStyled } from "./style";
+import { BaseIconButtonStyledProps } from "./types";
 
-export type BaseIconButtonProps = IconProps & {
+export type BaseIconButtonProps = IconProps & BaseIconButtonStyledProps & {
     icon: ComponentType<IconProps>;
     onClick: () => void;
     title?: string;
 };
 
 export const BaseIconButton = ({
+    color,
     icon: Icon,
-    onClick,
-    title,
+    size,
     ...rest
 }: BaseIconButtonProps) => (
-    <IconButtonStyled
-        onClick={onClick}
-        role="button"
-        title={title}
-    >
-        <Icon {...rest} />
+    <IconButtonStyled role="button" {...rest}>
+        <Icon color={color} size={size} />
     </IconButtonStyled>
 );
