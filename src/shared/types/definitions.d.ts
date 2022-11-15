@@ -6,6 +6,7 @@ declare module "*.module.scss";
 
 declare module "styled-components" {
     export interface DefaultTheme {
+        breakpoints: theme["breakpoints"];
         colors: theme["colors"];
         components: theme["components"];
         durations: theme["durations"];

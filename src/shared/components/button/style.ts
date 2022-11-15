@@ -103,12 +103,15 @@ export const ButtonStyled = styled.button<ButtonStyledProps>(
         user-select: none;
         color: ${theme.colors.white};
         cursor: pointer;
-        transition:
-            border-color ${theme.durations.fast} ease,
-            background-color ${theme.durations.fast} ease, 
-            color ${theme.durations.fast} ease,
-            fill ${theme.durations.fast} ease,
-            opacity ${theme.durations.normal} ease;
+
+        &:hover {
+            transition:
+                border-color ${theme.durations.fast} ease,
+                background-color ${theme.durations.fast} ease, 
+                color ${theme.durations.fast} ease,
+                fill ${theme.durations.fast} ease,
+                opacity ${theme.durations.normal} ease;
+        }
 
         ${TypographyStyled} {
             overflow-x: hidden;

@@ -28,13 +28,15 @@ export const Button = ({
         type={type}
         {...rest}
     >
-        <Typography
-            color={color}
-            font={font}
-            size={size}
-        >
-            {children}
-        </Typography>
+        {children && (
+            <Typography
+                color={color}
+                font={font}
+                size={size}
+            >
+                {children}
+            </Typography>
+        )}
 
         {Icon && <Icon size={size} />}
     </ButtonStyled>

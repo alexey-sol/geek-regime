@@ -17,15 +17,16 @@ export const PagingButtonStyled = styled(Button)<{ active?: boolean }>(
         min-width: 4rem;
         min-height: 4rem;
         padding: 0;
-        background-color: ${active ? theme.colors.primary : "transparent"};
         color: ${theme.colors.greyDarkest};
-
-        ${!active && css`
-            border: 1px solid ${theme.colors.greyLight};
-        `};
 
         ${active && css`
             color: ${theme.colors.white};
+            background-color: ${theme.colors.primary};
+        `};
+
+        ${!active && css`
+            border: 1px solid ${theme.colors.greyLight};
+            background-color: transparent;
         `};
 
         &:hover {
@@ -48,7 +49,7 @@ export const LeapButtonsWrapStyled = styled.ul`
 `;
 
 export const LeapButtonStyled = styled(Button)`
-    text-decoration: none;
+    text-decoration-style: dotted;
 `;
 
 export const StepButtonsWrapStyled = styled.section`
@@ -69,4 +70,13 @@ export const PageNumbersWrapStyled = styled.ul`
     justify-content: center;
     flex-wrap: wrap;
     gap: ${gap};
+`;
+
+export const SpillStyled = styled(PagingButtonStyled)`
+    pointer-events: none;
+    border-color: transparent;
+
+    &:before {
+        content: "\\2026";
+    }
 `;

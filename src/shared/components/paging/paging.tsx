@@ -1,30 +1,24 @@
-import React from "react";
+import React, { ReactNode, useCallback, useMemo } from "react";
 
-import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 import { defaults } from "@/shared/const";
-import { range } from "@/shared/utils/helpers/range";
+import { usePagingData } from "@/shared/components/paging/hooks";
+import { UsePagingDataArgs } from "@/shared/components/paging/types";
 import {
     StepButtonsWrapStyled,
     StepButtonStyled,
     PageNumbersWrapStyled,
     PagingButtonStyled,
     PagingStyled,
+    SpillStyled,
     LeapButtonStyled,
     LeapButtonsWrapStyled,
 } from "./style";
 
-const maxPageCountWithoutLeapButtons = 2;
+const startPage = defaults.PAGING_PAGE;
+const minPageCountToShowSpills = 3;
 
-export type PagingProps = {
-    page?: number;
-    pageNeighbours?: number;
-    pathPrefix?: string;
-    qs?: string;
-    setPage: any;
-    size?: number;
-    totalItems: number;
-};
+export type PagingProps = Partial<UsePagingDataArgs> & Pick<UsePagingDataArgs, "setPage">;
 
 export const Paging = ({
     page = defaults.PAGING_PAGE,
@@ -33,82 +27,98 @@ export const Paging = ({
     qs = "",
     setPage,
     size = defaults.PAGING_SIZE,
-    totalItems,
+    totalItems = 0,
 }: PagingProps) => {
-    const navigate = useNavigate();
     const { t } = useTranslation();
 
-    const lastPage = Math.ceil(totalItems / size);
-    const visiblePages = (pageNeighbours * 2) + 1;
+    const {
+        goToPage,
+        hasLeftSpill,
+        hasRightSpill,
+        isMinifiedView,
+        lastPage,
+        pagesRange,
+    } = usePagingData({
+        page,
+        pageNeighbours,
+        pathPrefix,
+        qs,
+        setPage,
+        size,
+        totalItems,
+    });
 
-    const leftmostVisiblePage = page - pageNeighbours;
-    const rightmostVisiblePage = page + pageNeighbours;
-
-    const hasSpills = lastPage > visiblePages;
-    const hasLeftSpill = hasSpills && leftmostVisiblePage > 1;
-    const hasRightSpill = hasSpills && rightmostVisiblePage < lastPage;
-
-    const handlePageChange = (selectedPage: number) => {
-        if (selectedPage === page) {
-            return;
-        }
-
-        const path = (!qs && selectedPage === 1)
-            ? `${pathPrefix}/`
-            : `${pathPrefix}/page-${selectedPage}${qs}`;
-
-        setPage(selectedPage);
-        navigate(path);
-    };
-
-    const goToPage = (selectedPage: number) => {
-        handlePageChange(Math.max(0, Math.min(selectedPage, lastPage)));
-    };
-
-    const getPagesRange = () => {
-        const pagesBeforePivot = (hasLeftSpill) ? pageNeighbours : page - 1;
-        const pagesAfterPivot = visiblePages - pagesBeforePivot - 1;
-
-        const shouldOffsetLeftNeighbours = pageNeighbours * 2 > lastPage - leftmostVisiblePage;
-        const absentRightNeighbours = page - lastPage + pageNeighbours;
-
-        const leftmostVisiblePageWithOffset = (shouldOffsetLeftNeighbours)
-            ? leftmostVisiblePage - absentRightNeighbours
-            : leftmostVisiblePage;
-
-        const startNumber = Math.max(1, leftmostVisiblePageWithOffset);
-        const endNumber = Math.min(lastPage, page + pagesAfterPivot);
-
-        return range(startNumber, endNumber);
-    };
-
-    const pagesRange = getPagesRange();
-
-    const isStartPage = page === 1;
+    const hasLeapButtons = minPageCountToShowSpills <= lastPage;
+    const isStartPage = page === startPage;
     const isLastPage = page === lastPage;
 
-    const toPreviousPage = () => goToPage(page - 1);
-    const toNextPage = () => goToPage(page + 1);
-    const toStartPage = () => goToPage(1);
-    const toLastPage = () => goToPage(lastPage);
+    const toPreviousPage = useCallback(() => goToPage(page - 1), [goToPage, page]);
+    const toNextPage = useCallback(() => goToPage(page + 1), [goToPage, page]);
+    const toStartPage = useCallback(() => goToPage(startPage), [goToPage]);
+    const toLastPage = useCallback(() => goToPage(lastPage), [goToPage, lastPage]);
 
-    const shouldShowLeapButtons = maxPageCountWithoutLeapButtons < lastPage;
+    const pageNumberItems = useMemo(() => {
+        const items: ReactNode[] = [];
 
-    const pageNumberItems = pagesRange.map((pageNumber) => (
-        <li key={pageNumber}>
-            <PagingButtonStyled
-                active={pageNumber === page}
-                onClick={() => goToPage(pageNumber)}
-                variation="secondary"
-            >
-                {pageNumber}
-            </PagingButtonStyled>
-        </li>
-    ));
+        if (hasLeftSpill && !isMinifiedView) {
+            items.push(
+                <React.Fragment key={startPage}>
+                    <li>
+                        <PagingButtonStyled
+                            active={isStartPage}
+                            onClick={toStartPage}
+                            variation="secondary"
+                        >
+                            {startPage}
+                        </PagingButtonStyled>
+                    </li>
+
+                    <li><SpillStyled /></li>
+                </React.Fragment>,
+            );
+        }
+
+        pagesRange.forEach((pageNumber) => items.push(
+            <li key={pageNumber}>
+                <PagingButtonStyled
+                    active={pageNumber === page}
+                    onClick={() => goToPage(pageNumber)}
+                    variation="secondary"
+                >
+                    {pageNumber}
+                </PagingButtonStyled>
+            </li>,
+        ));
+
+        if (hasRightSpill && !isMinifiedView) {
+            items.push(
+                <React.Fragment key={lastPage}>
+                    <li><SpillStyled /></li>
+
+                    <li key={lastPage}>
+                        <PagingButtonStyled
+                            active={isLastPage}
+                            onClick={toLastPage}
+                            variation="secondary"
+                        >
+                            {lastPage}
+                        </PagingButtonStyled>
+                    </li>
+                </React.Fragment>,
+            );
+        }
+
+        return items;
+    }, [goToPage, hasLeftSpill, hasRightSpill, isLastPage, isMinifiedView, isStartPage,
+        lastPage, page, pagesRange, toLastPage, toStartPage]);
+
+    if (totalItems === 0) {
+        return null;
+    }
 
     return (
         <PagingStyled>
-            {shouldShowLeapButtons && (
+            {isMinifiedView && hasLeapButtons && (
                 <LeapButtonsWrapStyled>
                     <li>
                         <LeapButtonStyled
