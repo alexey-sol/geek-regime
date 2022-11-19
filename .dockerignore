@@ -1,2 +1,6 @@
+.nyc_output
+.idea
+.vscode
+coverage
 node_modules
 npm-debug.log

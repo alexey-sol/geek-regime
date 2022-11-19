@@ -1,12 +1,16 @@
+import path from "path";
+
 import webpack from "webpack";
 import { Configuration as WebpackDevServerConfiguration } from "webpack-dev-server";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import { merge } from "webpack-merge";
-import path from "path";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import coreConfig from "./webpack.core";
-import { envConfig } from "./src/config/env";
-import { getStyleRule } from "./webpack.utils";
+
+import coreConfig from "./core";
+import { env } from "./utils/env";
+import { getStyleRule } from "./utils/rules";
+
+const cwd = process.cwd();
 
 interface ResultConfiguration extends webpack.Configuration {
     devServer?: WebpackDevServerConfiguration;
@@ -24,7 +28,12 @@ const config: ResultConfiguration = merge(coreConfig, {
         ],
     },
     plugins: [
-        new ForkTsCheckerWebpackPlugin({ async: false }),
+        new ForkTsCheckerWebpackPlugin({
+            async: false,
+            typescript: {
+                configFile: path.join("config", "tsconfig.json")
+            },
+        }),
         new MiniCssExtractPlugin({
             filename: "[name].css",
             chunkFilename: "[id].css",
@@ -33,21 +42,21 @@ const config: ResultConfiguration = merge(coreConfig, {
     devtool: "inline-source-map",
     devServer: {
         client: {
-            webSocketURL: envConfig.webSocketUrl, // [1]
+            webSocketURL: env.webSocketUrl, // [1]
         },
         compress: true,
         devMiddleware: {
             writeToDisk: false,
         },
         historyApiFallback: true, // [2]
-        host: envConfig.clientHost,
+        host: env.clientHost,
         hot: true,
-        port: envConfig.clientPort,
+        port: env.clientPort,
         proxy: {
-            [`/${envConfig.apiPrefix}`]: envConfig.apiUrl,
+            [`/${env.apiPrefix}`]: env.apiUrl,
         },
         static: {
-            directory: path.join(__dirname, "src", "public"),
+            directory: path.join(cwd, "src", "public"),
         },
     },
 });

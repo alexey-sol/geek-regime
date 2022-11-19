@@ -1,6 +1,6 @@
 import * as Joi from "joi";
 
-import { NodeEnv } from "@/shared/types/env";
+import { NodeEnv } from "../../../src/shared/types/env";
 
 const development: NodeEnv = "development";
 const production: NodeEnv = "production";

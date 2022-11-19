@@ -1,1 +1,1 @@
-export type NodeEnv = NodeJS.ProcessEnv["NODE_ENV"];
+export type NodeEnv = NodeJS.ProcessEnv["NODE_ENV"] | undefined;

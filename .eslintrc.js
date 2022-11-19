@@ -17,7 +17,7 @@ module.exports = {
     overrides: [
         {
             files: [
-                "*.ts",
+                "config/**/*.ts",
                 "src/features/**/views/*",
                 "src/features/**/slice/middlewares.ts",
             ],

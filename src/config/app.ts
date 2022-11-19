@@ -2,7 +2,7 @@ import { InvalidConfigError } from "@/shared/utils/errors";
 
 const config = {
     apiPostsResource: process.env.API_POSTS_RESOURCE,
-    apiPrefix: process.env.API_GATEWAY_PREFIX ?? "api",
+    apiPrefix: process.env.API_GATEWAY_PREFIX,
     apiUrlExternal: `http://${process.env.API_GATEWAY_HOST_EXTERNAL}:${
         process.env.API_GATEWAY_PORT_EXTERNAL}`,
     apiUsersResource: process.env.API_USERS_RESOURCE,
@@ -21,7 +21,7 @@ const isAppConfig = (item: unknown): item is AppConfig => item instanceof Object
     && Object.values(item).every((value) => value !== undefined);
 
 if (!isAppConfig(config)) {
-    throw new InvalidConfigError("App config contains undefined values");
+    throw new InvalidConfigError("Config contains undefined values");
 }
 
 export const appConfig = config;

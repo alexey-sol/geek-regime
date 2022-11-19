@@ -2,7 +2,8 @@
     "compilerOptions": {
         "allowJs": true,
         "allowSyntheticDefaultImports": true,
-        "baseUrl": "./",
+        "alwaysStrict": true,
+        "baseUrl": "../",
         "esModuleInterop": true,
         "experimentalDecorators": true,
         "forceConsistentCasingInFileNames": true,
@@ -12,17 +13,24 @@
         "module": "commonjs",
         "moduleResolution": "node",
         "noEmit": true,
+        "noFallthroughCasesInSwitch": true,
         "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
         "paths": {
             "@/*": ["./src/*"]
         },
+        "removeComments": true,
         "resolveJsonModule": true,
         "skipLibCheck": true,
         "strict": true,
+        "strictFunctionTypes": true,
+        "strictNullChecks": true,
         "sourceMap": true,
         "target": "es6",
-        "types": ["react/next", "react-dom/next"]
+        "types": ["react/next", "react-dom/next"],
+        "useUnknownInCatchVariables": true
     },
-    "exclude": ["node_modules", "dist"],
-    "include": ["webpack.*.ts", "src"]
+    "exclude": ["../node_modules", "../build", "../dist"],
+    "include": ["**/*.ts", "../src"]
 }

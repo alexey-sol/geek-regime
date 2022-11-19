@@ -2,22 +2,22 @@ export default {
     bail: Infinity,
     clearMocks: true,
     collectCoverageFrom: [
-        "src/**/*.{ts,tsx}",
-        "!src/**/style.{ts,tsx}",
-        "!src/**/const.{ts,tsx}",
-        "!**/*.d.ts",
-        "!**/index.{ts,tsx}",
-        "!**/node_modules/**",
+        "<rootDir>/src/**/*.{ts,tsx}",
+        "!<rootDir>",
     ],
     globals: {
+        "babel-jest": {
+            babelrcFile: "babel.config.js",
+        },
         "ts-jest": {
-            isolatedModules: true,
+            tsconfig: "<rootDir>/config/tsconfig.json",
         },
     },
     moduleNameMapper: {
         "^@/(.*)": "<rootDir>/src/$1",
     },
     preset: "ts-jest/presets/js-with-ts",
+    rootDir: "../",
     setupFilesAfterEnv: ["<rootDir>/src/test/setup.tsx"],
     testEnvironment: "jsdom",
     testMatch: ["<rootDir>/src/**/?(*.)+(spec|test).[jt]s?(x)"],
@@ -26,7 +26,7 @@ export default {
         ".+\\.(svg|css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "<rootDir>/src/test/mocks/file-mock.js",
     },
     transformIgnorePatterns: [
-        "node_modules/(?!(lodash-es|@popperjs)/)",
+        "<rootDir>/node_modules/(?!(lodash-es|@popperjs)/)",
     ],
     verbose: true,
 };

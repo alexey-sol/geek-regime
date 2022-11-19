@@ -6,13 +6,15 @@ import webpack from "webpack";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
 
-import coreConfig from "./webpack.core";
-import { getStyleRule } from "./webpack.utils";
+import coreConfig from "./core";
+import { getStyleRule } from "./utils/rules";
+
+const cwd = process.cwd();
 
 const config: webpack.Configuration = merge(coreConfig, {
     mode: "production",
     output: {
-        path: path.resolve(__dirname, "dist"),
+        path: path.resolve(cwd, "dist"),
         filename: "[name].[contenthash].js",
         publicPath: "/",
     },
