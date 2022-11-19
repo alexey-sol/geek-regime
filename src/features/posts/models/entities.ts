@@ -1,22 +1,28 @@
-import { Expose, Type } from "class-transformer";
-import { formatTimestamp } from "@/shared/utils/formatters/date";
-import { User } from "@/features/users/models/entities";
+import { Expose, Transform, Type } from "class-transformer";
 import { sanitize } from "dompurify";
 
+import { formatTimestamp } from "@/shared/utils/formatters/date";
+import { User } from "@/features/users/models/entities";
+
 export class Post {
+    @Expose()
+    @Transform(({ value }) => sanitize(value))
+    public body: string;
+
     @Type(() => User)
     public author: User;
 
     constructor(
         public id: number,
-        public createdAt: string,
-        public updatedAt: string,
         public title: string,
-        public body: string,
         public excerpt: string,
         public slug: string,
+        public createdAt: string,
+        public updatedAt: string,
+        body: string,
         author: User,
     ) {
+        this.body = body;
         this.author = author;
     }
 
@@ -28,10 +34,5 @@ export class Post {
     @Expose()
     get formattedUpdatedAt() {
         return formatTimestamp(this.updatedAt);
-    }
-
-    @Expose()
-    get sanitizedBody() {
-        return sanitize(this.body);
     }
 }

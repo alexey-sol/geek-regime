@@ -10,7 +10,7 @@ import styled from "styled-components";
 
 const OverlayStyled = styled.section`
     position: fixed;
-    z-index: ${({ theme }) => theme.components.overlay.zIndex};
+    z-index: ${({ theme }) => theme.zIndex.modal};
     top: 0;
     display: flex;
     justify-content: center;

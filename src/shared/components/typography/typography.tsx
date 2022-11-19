@@ -1,4 +1,5 @@
 import React, { HTMLAttributes } from "react";
+
 import { TypographyStyledProps } from "./types";
 import { TypographyStyled } from "./style";
 

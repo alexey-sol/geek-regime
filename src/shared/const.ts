@@ -3,12 +3,6 @@ export enum Language {
     RU = "ru"
 }
 
-export enum NodeEnv {
-    DEVELOPMENT = "development",
-    PRODUCTION = "production",
-    TEST = "test",
-}
-
 export const defaults = {
     PAGING_PAGE: 1,
     PAGING_SIZE: 20,

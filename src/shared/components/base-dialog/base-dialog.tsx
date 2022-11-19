@@ -1,8 +1,10 @@
 import React, { ReactNode, useRef } from "react";
+
 import { Overlay } from "@/shared/components/overlay";
 import { useKeyboardControls } from "@/shared/utils/hooks/use-keyboard-controls";
 import { Typography } from "@/shared/components/typography";
 import { CloseIconButton } from "@/shared/components/icon-button";
+
 import { DialogStyled, HeaderStyled } from "./style";
 
 export type BaseDialogProps = {

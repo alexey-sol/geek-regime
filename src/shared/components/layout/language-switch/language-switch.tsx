@@ -1,6 +1,8 @@
 import React, { useRef, useState } from "react";
+
 import { useLanguage } from "@/shared/utils/language";
 import { I18nIconButton } from "@/shared/components/icon-button";
+
 import { getLanguageTitle } from "./utils";
 import { LanguageDropdown } from "./language-dropdown";
 import { LanguageSwitchStyled } from "./style";

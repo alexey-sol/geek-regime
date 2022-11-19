@@ -1,15 +1,10 @@
-import styled, {
-    css,
-    DefaultTheme,
-    FlattenInterpolation,
-    ThemeProps,
-} from "styled-components";
+import styled, { css } from "styled-components";
+
+import { MapKeyToCss } from "@/shared/types/theme";
+
 import { BaseDropdownStyledProps } from "./types";
 
-const mapPositionToCss: Record<
-    NonNullable<BaseDropdownStyledProps["position"]>,
-    FlattenInterpolation<ThemeProps<DefaultTheme>>
-> = {
+const mapPositionToCss: MapKeyToCss<NonNullable<BaseDropdownStyledProps["position"]>> = {
     "bottom-center": css`
         top: 100%;
         left: 50%;
@@ -27,7 +22,7 @@ export const BaseDropdownStyled = styled.section<BaseDropdownStyledProps>`
         position = "bottom-right",
     }) => css`
         position: absolute;
-        z-index: ${theme.components.overlay.zIndex + 1};
+        z-index: ${theme.zIndex.modal};
         width: fit-content;
         border-radius: 0.3rem;
         outline: none;

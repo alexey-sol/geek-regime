@@ -1,4 +1,5 @@
 import React, { Component, ReactNode } from "react";
+
 import { Typography } from "@/shared/components/typography";
 
 export type ErrorBoundaryProps = {

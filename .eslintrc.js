@@ -2,6 +2,7 @@ module.exports = {
     env: {
         browser: true,
         es2021: true,
+        jest: true,
     },
     extends: [
         "airbnb",
@@ -9,12 +10,14 @@ module.exports = {
     ],
     globals: {
         JSX: true,
+        NodeJS: true,
         React: true,
     },
+    ignorePatterns: ["build/*", "dist/*", "node_modules/*"],
     overrides: [
         {
             files: [
-                "webpack.*.ts",
+                "*.ts",
                 "src/features/**/views/*",
                 "src/features/**/slice/middlewares.ts",
             ],
@@ -32,8 +35,8 @@ module.exports = {
         sourceType: "module",
     },
     plugins: [
-        "react",
         "@typescript-eslint",
+        "react",
         "unicorn",
     ],
     rules: {
@@ -50,10 +53,18 @@ module.exports = {
             ts: "never",
             tsx: "never",
         }],
+        "import/first": ["warn", "absolute-first"],
+        "import/newline-after-import": "warn",
         "import/no-extraneous-dependencies": ["error", {
             devDependencies: true,
         }],
         "import/no-default-export": "error",
+        "import/order": ["warn", {
+            groups: [
+                "builtin", "external", "internal", "parent", "sibling", "index",
+            ],
+            "newlines-between": "always",
+        }],
         "import/prefer-default-export": "off",
         indent: ["error", 4],
         "linebreak-style": ["error", "unix"],
@@ -64,7 +75,6 @@ module.exports = {
         "max-len": ["error", {
             code: 100,
         }],
-        "no-console": "off",
         "no-empty-function": "off",
         "no-param-reassign": ["error", {
             props: false,

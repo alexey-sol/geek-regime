@@ -1,14 +1,11 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import logger from "redux-logger";
-import { sessionReducer } from "@/features/session/slice/slice";
-import { appConfig } from "@/config/app";
-import { NodeEnv } from "@/shared/const";
 import { setupListeners } from "@reduxjs/toolkit/query";
 
+import { sessionReducer } from "@/features/session/slice/slice";
 import sessionMiddlewares from "@/features/session/slice/middlewares";
 import { postsApi } from "@/features/posts/services/api";
-
-const isProduction = appConfig.nodeEnv === NodeEnv.PRODUCTION;
+import { isProduction } from "@/shared/helpers/env";
 
 const rootReducer = combineReducers({
     [postsApi.reducerPath]: postsApi.reducer,
@@ -22,7 +19,7 @@ export const store = configureStore({
     middleware: (getDefaultMiddleware) => getDefaultMiddleware()
         .concat(sessionMiddlewares)
         .concat(logger),
-    devTools: !isProduction,
+    devTools: !isProduction(),
 });
 
 setupListeners(store.dispatch);

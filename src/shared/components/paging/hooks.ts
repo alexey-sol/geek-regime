@@ -1,11 +1,16 @@
 import {
-    useCallback, useEffect, useMemo, useState,
+    useCallback,
+    useEffect,
+    useMemo,
+    useState,
 } from "react";
 import { useNavigate } from "react-router";
+import { useTheme } from "styled-components";
+
 import { range } from "@/shared/utils/helpers/range";
 import { defaults } from "@/shared/const";
 import { useWindowSize } from "@/shared/utils/hooks/use-window-size";
-import { useTheme } from "styled-components";
+
 import { UsePagingDataArgs } from "./types";
 
 const startPage = defaults.PAGING_PAGE;

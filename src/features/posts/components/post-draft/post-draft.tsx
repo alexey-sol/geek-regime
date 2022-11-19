@@ -5,13 +5,15 @@ import React, {
     useRef,
     useState,
 } from "react";
-import { Post } from "@/features/posts/models/entities";
 import { useTranslation } from "react-i18next";
 import ReactQuill from "react-quill";
+import { useNavigate } from "react-router";
+
+import { Post } from "@/features/posts/models/entities";
 import { useCreatePostMutation, useUpdatePostByIdMutation } from "@/features/posts/services/api";
 import { PostDto } from "@/features/posts/models/dtos";
-import { useNavigate } from "react-router";
 import { Button } from "@/shared/components/button";
+
 import {
     BodyEditorStyled,
     BodyEditorWrapStyled,

@@ -1,8 +1,7 @@
 import styled, { css } from "styled-components";
-import { Typography } from "@/shared/components/typography";
 
-const lineHeight = 1.2;
-const lineCount = 2;
+import { Typography } from "@/shared/components/typography";
+import { mixins } from "@/shared/style/mixins";
 
 const columnCss = css`
     display: flex;
@@ -14,21 +13,8 @@ export const PostOverviewStyled = styled.article`
     ${columnCss};
 `;
 
-export const OneLineTextStyled = styled(Typography)`
-    ${({ theme }) => theme.mixins.oneLineText};
-`;
-
-export const ExcerptStyled = styled(Typography)`
-    position: relative;
-    display: -webkit-box;
-    max-width: 100%;
-    max-height: calc(${({ theme }) => theme.sizes.normal} * ${lineCount} * ${lineHeight});
-    line-height: ${lineHeight};
-    overflow: hidden;
-    word-wrap: break-word;
-    text-overflow: ellipsis;
-    -webkit-line-clamp: 2;
-    -webkit-box-orient: vertical;
+export const TwoLineTextStyled = styled(Typography)`
+    ${mixins.twoLineText};
 `;
 
 export const BodyStyled = styled.section`

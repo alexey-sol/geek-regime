@@ -1,5 +1,7 @@
 import React from "react";
+
 import { useLanguage } from "@/shared/utils/language";
+
 import { getFilteredLanguages, getLanguageTitle } from "./utils";
 import { LanguageDropdownStyled, SwitchButtonStyled, SwitchListStyled } from "./style";
 

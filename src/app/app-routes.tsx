@@ -1,5 +1,6 @@
 import React, { lazy } from "react";
 import { Route, Routes } from "react-router-dom";
+
 import { path } from "@/shared/const";
 
 const PostCreateView = lazy(() => import("@/features/posts/views/post-create-view"));

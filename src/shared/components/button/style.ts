@@ -1,19 +1,16 @@
-import styled, {
-    css,
-    DefaultTheme,
-    FlattenInterpolation,
-    ThemeProps,
-} from "styled-components";
+import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
+
 import { TypographyStyled } from "@/shared/components/typography/style";
 import { BaseIconStyled } from "@/shared/components/icon/style";
-import { Color } from "@/shared/types/theme";
+import { ColorValue, MapKeyToCss } from "@/shared/types/theme";
+
 import { ButtonStyledProps } from "./types";
 
 const paddingY = "1rem";
 const plainBorderWidth = "1px";
 
-const getBgColorCss = (bgColor: Color, bgColorOnHover: Color) => css`
+const getBgColorCss = (bgColor: ColorValue, bgColorOnHover: ColorValue) => css`
     background-color: ${bgColor};
 
     &:not(:disabled):hover {
@@ -21,10 +18,7 @@ const getBgColorCss = (bgColor: Color, bgColorOnHover: Color) => css`
     }
 `;
 
-const mapVariationToCss: Record<
-    NonNullable<ButtonStyledProps["variation"]>,
-    FlattenInterpolation<ThemeProps<DefaultTheme>>
-> = {
+const mapVariationToCss: MapKeyToCss<NonNullable<ButtonStyledProps["variation"]>> = {
     plain: css`
         ${({ theme }) => css`
             padding-top: calc(${paddingY} - ${plainBorderWidth});

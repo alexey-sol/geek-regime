@@ -1,4 +1,5 @@
 import styled from "styled-components";
+
 import { TypographyStyled } from "@/shared/components/typography/style";
 
 export const DialogStyled = styled.section`

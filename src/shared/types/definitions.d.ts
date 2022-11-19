@@ -4,14 +4,16 @@ import "styled-components";
 
 declare module "*.module.scss";
 
-declare module "styled-components" {
-    export interface DefaultTheme {
-        breakpoints: theme["breakpoints"];
-        colors: theme["colors"];
-        components: theme["components"];
-        durations: theme["durations"];
-        fonts: theme["fonts"];
-        mixins: theme["mixins"];
-        sizes: theme["sizes"];
+declare global {
+    namespace NodeJS {
+        interface ProcessEnv {
+            NODE_ENV: "development" | "production" | "test";
+        }
     }
+}
+
+type AppTheme = typeof theme;
+
+declare module "styled-components" {
+    interface DefaultTheme extends AppTheme {}
 }

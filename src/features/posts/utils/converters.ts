@@ -1,6 +1,7 @@
+import { plainToClass } from "class-transformer";
+
 import { Post } from "@/features/posts/models/entities";
 import { PageDto } from "@/shared/types/models";
-import { plainToClass } from "class-transformer";
 import { PostDto, PostsPage } from "@/features/posts/models/dtos";
 
 export const fromPageDtoToPostsPage = (response: PageDto<PostDto[]>): PostsPage => ({

@@ -1,6 +1,8 @@
 import React, { ReactNode } from "react";
 import { useTheme } from "styled-components";
+
 import { HasColor, HasSize } from "@/shared/types/theme";
+
 import { BaseIconStyled } from "./style";
 
 export type IconProps = Partial<HasColor> & Partial<HasSize>;

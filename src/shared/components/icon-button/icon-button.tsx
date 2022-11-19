@@ -1,11 +1,13 @@
 import React from "react";
+import { t } from "i18next";
+
 import {
     CloseIcon,
     I18nIcon,
     ProfileIcon,
     SearchIcon,
 } from "@/shared/components/icon";
-import { t } from "i18next";
+
 import { BaseIconButton, BaseIconButtonProps } from "./base-icon-button";
 
 export type IconButtonProps = Pick<BaseIconButtonProps, "onClick" | "title" | "variation">;

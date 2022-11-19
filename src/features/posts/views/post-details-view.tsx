@@ -1,7 +1,8 @@
 import React from "react";
+import { useParams } from "react-router";
+
 import { PostDetails } from "@/features/posts/components/post-details";
 import { useGetPostBySlugQuery } from "@/features/posts/services/api";
-import { useParams } from "react-router";
 import { fromPostDtoToEntity } from "@/features/posts/utils/converters";
 
 export const PostDetailsView = () => {

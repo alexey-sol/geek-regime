@@ -1,5 +1,7 @@
 import React from "react";
+
 import { Typography } from "@/shared/components/typography";
+
 import { TitleLinkStyled } from "./style";
 
 export type TitleProps = {

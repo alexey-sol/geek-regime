@@ -1,7 +1,7 @@
-import { mixins } from "@/shared/style/mixins";
-
 const purpleColor = "#564256";
 const orangeColor = "#fc814a";
+
+const headerMinHeight = "4rem";
 
 export const theme = {
     breakpoints: {
@@ -35,17 +35,17 @@ export const theme = {
         white: "#ffffff",
     },
     components: {
+        footer: {
+            paddingY: "2rem",
+        },
         header: {
-            minHeight: "4rem",
+            minHeight: headerMinHeight,
         },
         main: {
             paddingY: "4rem",
         },
         navbar: {
-            minHeight: "4rem",
-        },
-        overlay: {
-            zIndex: 10,
+            minHeight: headerMinHeight,
         },
     },
     durations: {
@@ -58,7 +58,6 @@ export const theme = {
         logo: "Bree Serif, Helvetica, Arial, sans-serif",
         normal: "Roboto, Helvetica, Arial, sans-serif",
     },
-    mixins,
     sizes: {
         inherit: "inherit",
         smallest: "1rem",
@@ -69,4 +68,8 @@ export const theme = {
         larger: "2rem",
         largest: "2.2rem",
     },
-};
+    zIndex: {
+        modal: 10,
+        navbar: 9,
+    },
+} as const;

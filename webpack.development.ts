@@ -4,7 +4,6 @@ import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import { merge } from "webpack-merge";
 import path from "path";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import { NodeEnv } from "./src/shared/const";
 import coreConfig from "./webpack.core";
 import { envConfig } from "./src/config/env";
 import { getStyleRule } from "./webpack.utils";
@@ -14,14 +13,14 @@ interface ResultConfiguration extends webpack.Configuration {
 }
 
 const config: ResultConfiguration = merge(coreConfig, {
-    mode: NodeEnv.DEVELOPMENT,
+    mode: "development",
     output: {
         publicPath: "/",
     },
     module: {
         rules: [
-            getStyleRule({ mode: NodeEnv.DEVELOPMENT, modules: true }),
-            getStyleRule({ mode: NodeEnv.DEVELOPMENT, modules: false }),
+            getStyleRule({ mode: "development", modules: true }),
+            getStyleRule({ mode: "development", modules: false }),
         ],
     },
     plugins: [

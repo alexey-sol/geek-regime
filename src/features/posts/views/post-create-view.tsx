@@ -1,6 +1,7 @@
 import React from "react";
-import { PostDraft } from "@/features/posts/components/post-draft";
 import styled from "styled-components";
+
+import { PostDraft } from "@/features/posts/components/post-draft";
 
 export const PostCreateViewStyled = styled.section`
     height: 100%;

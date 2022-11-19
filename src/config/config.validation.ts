@@ -1,5 +1,10 @@
 import * as Joi from "joi";
-import { NodeEnv } from "../shared/const";
+
+import { NodeEnv } from "@/shared/types/env";
+
+const development: NodeEnv = "development";
+const production: NodeEnv = "production";
+const test: NodeEnv = "test";
 
 // Each environment variable used either in Webpack config or in runtime, should
 // be listed in the schema below.
@@ -42,8 +47,8 @@ export const envSchema = Joi.object({
         .default("auto://0.0.0.0:0/ws"),
     NODE_ENV: Joi
         .string()
-        .valid(NodeEnv.DEVELOPMENT, NodeEnv.PRODUCTION, NodeEnv.TEST)
-        .default(NodeEnv.DEVELOPMENT),
+        .valid(development, production, test)
+        .default(production),
     YANDEX_CLIENT_ID: Joi
         .string()
         .required(),

@@ -1,9 +1,10 @@
 import React from "react";
-import { useGetPostBySlugQuery } from "@/features/posts/services/api";
 import { useParams } from "react-router";
+import styled from "styled-components";
+
+import { useGetPostBySlugQuery } from "@/features/posts/services/api";
 import { fromPostDtoToEntity } from "@/features/posts/utils/converters";
 import { PostDraft } from "@/features/posts/components/post-draft";
-import styled from "styled-components";
 
 export const PostUpdateViewStyled = styled.section`
     height: 100%;

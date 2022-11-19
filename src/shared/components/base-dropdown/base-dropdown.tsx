@@ -4,6 +4,7 @@ import React, {
 import ReactDOM from "react-dom";
 
 import { useKeyboardControls } from "@/shared/utils/hooks/use-keyboard-controls";
+
 import { BaseDropdownStyled } from "./style";
 import { BaseDropdownStyledProps } from "./types";
 

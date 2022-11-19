@@ -19,7 +19,7 @@ export const PostDetails = ({ post }: PostDetailsProps) => {
     const relativeTimeFormat = new Intl.RelativeTimeFormat(language);
     const createdMonthsAgoText = relativeTimeFormat.format(createdMonthsAgo, "months");
 
-    const bodyHtml = { __html: post.sanitizedBody };
+    const bodyHtml = { __html: post.body };
     const updatePostPath = `/${path.POSTS}/${post.slug}/${path.UPDATE}`;
 
     const hasUpdates = post.createdAt !== post.updatedAt;

@@ -1,4 +1,5 @@
 import { t } from "i18next";
+
 import { appConfig } from "@/config/app";
 
 abstract class OauthConsentScreen {

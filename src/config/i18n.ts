@@ -1,8 +1,8 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
-import { Language, NodeEnv } from "@/shared/const";
-import { appConfig } from "@/config/app";
+
+import { Language } from "@/shared/const";
 import {
     en as enSessionTranslations,
     ru as ruSessionTranslations,
@@ -15,13 +15,12 @@ import {
     en as enPostsTranslations,
     ru as ruPostsTranslations,
 } from "@/features/posts/resources/translations";
-
-const isProduction = appConfig.nodeEnv === NodeEnv.PRODUCTION;
+import { isProduction } from "@/shared/helpers/env";
 
 i18n.use(LanguageDetector)
     .use(initReactI18next)
     .init({
-        debug: !isProduction,
+        debug: !isProduction(),
         fallbackLng: Language.EN,
         resources: {
             [Language.EN]: {

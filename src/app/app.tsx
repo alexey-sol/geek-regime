@@ -1,5 +1,7 @@
 import React from "react";
+
 import { Layout } from "@/shared/components/layout";
+
 import { withProviders } from "./providers";
 import { AppRoutes } from "./app-routes";
 

@@ -1,8 +1,10 @@
 import React, { ButtonHTMLAttributes } from "react";
+
 import { Typography } from "@/shared/components/typography";
 import { TypographyStyledProps } from "@/shared/components/typography/types";
 import { BaseIconButtonProps } from "@/shared/components/icon-button";
 import { HasColor, HasSize } from "@/shared/types/theme";
+
 import { ButtonStyledProps } from "./types";
 import { ButtonStyled, LinkStyled } from "./style";
 
@@ -24,10 +26,7 @@ export const Button = ({
     type = "button",
     ...rest
 }: ButtonProps) => (
-    <ButtonStyled
-        type={type}
-        {...rest}
-    >
+    <ButtonStyled type={type} {...rest}>
         {children && (
             <Typography
                 color={color}

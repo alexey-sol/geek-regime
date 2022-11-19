@@ -1,7 +1,10 @@
 import React from "react";
+
 import { appConfig } from "@/config/app";
-import { AppTitle } from "./app-title";
+
 import { LanguageSwitch } from "../language-switch";
+
+import { AppTitle } from "./app-title";
 import { HeaderInnerStyled, HeaderStyled } from "./style";
 
 export const Header = () => (

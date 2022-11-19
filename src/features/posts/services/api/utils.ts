@@ -1,5 +1,6 @@
 import { appConfig } from "@/config/app";
 import { getApiPath } from "@/shared/utils/formatters/api-path";
+
 import { GetAllPostsArg } from "./types";
 
 const { apiPostsResource, apiPrefix } = appConfig;

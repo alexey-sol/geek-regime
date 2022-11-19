@@ -1,5 +1,7 @@
 import React, { ComponentType } from "react";
+
 import { IconProps } from "@/shared/components/icon";
+
 import { IconButtonStyled } from "./style";
 import { BaseIconButtonStyledProps } from "./types";
 

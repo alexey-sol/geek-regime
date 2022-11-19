@@ -1,7 +1,8 @@
 import React from "react";
+import styled from "styled-components";
+
 import { PostList } from "@/features/posts/components/post-list";
 import { Paging } from "@/shared/components/paging";
-import styled from "styled-components";
 import { PostsPagingProvider, usePostsPagingContext } from "@/features/posts/contexts/posts-paging";
 import { path } from "@/shared/const";
 

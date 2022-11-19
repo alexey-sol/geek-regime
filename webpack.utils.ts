@@ -1,6 +1,7 @@
 import webpack from "webpack";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import { NodeEnv } from "./src/shared/const";
+
+import { NodeEnv } from "./src/shared/types/env";
 
 const getStyleLoader = (isProduction: boolean): webpack.RuleSetUseItem =>
     (isProduction ? MiniCssExtractPlugin.loader : "style-loader");
@@ -37,7 +38,7 @@ export const getStyleRule = ({ mode, modules }: {
     mode: NodeEnv;
     modules: boolean;
 }): webpack.RuleSetRule => {
-    const isProduction = mode === NodeEnv.PRODUCTION;
+    const isProduction = mode === "production";
     const moduleExtRegExp = /\.module.(css|s[ac]ss)$/i;
     const extRegExp = /\.(css|s[ac]ss)$/i;
 

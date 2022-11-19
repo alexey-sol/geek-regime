@@ -1,11 +1,18 @@
-import { theme } from "@/shared/style/theme";
+import { DefaultTheme, FlattenInterpolation, ThemeProps } from "styled-components";
 
-export type Color = keyof typeof theme["colors"];
+export type Color = keyof DefaultTheme["colors"];
 
-export type Font = keyof typeof theme["fonts"];
+export type ColorValue = DefaultTheme["colors"][Color];
 
-export type Size = keyof typeof theme["sizes"];
+export type Font = keyof DefaultTheme["fonts"];
+
+export type Size = keyof DefaultTheme["sizes"];
 
 export type HasColor = { color: Color };
 
 export type HasSize = { size: Size };
+
+export type MapKeyToCss<Key extends string> = Record<
+    Key,
+    FlattenInterpolation<ThemeProps<DefaultTheme>>
+>;

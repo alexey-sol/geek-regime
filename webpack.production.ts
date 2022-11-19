@@ -1,15 +1,16 @@
+import path from "path";
+
 import { CleanWebpackPlugin } from "clean-webpack-plugin";
 import { merge } from "webpack-merge";
-import path from "path";
 import webpack from "webpack";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import CssMinimizerPlugin from "css-minimizer-webpack-plugin";
-import { NodeEnv } from "./src/shared/const";
+
 import coreConfig from "./webpack.core";
 import { getStyleRule } from "./webpack.utils";
 
 const config: webpack.Configuration = merge(coreConfig, {
-    mode: NodeEnv.PRODUCTION,
+    mode: "production",
     output: {
         path: path.resolve(__dirname, "dist"),
         filename: "[name].[contenthash].js",
@@ -17,8 +18,8 @@ const config: webpack.Configuration = merge(coreConfig, {
     },
     module: {
         rules: [
-            getStyleRule({ mode: NodeEnv.PRODUCTION, modules: true }),
-            getStyleRule({ mode: NodeEnv.PRODUCTION, modules: false }),
+            getStyleRule({ mode: "production", modules: true }),
+            getStyleRule({ mode: "production", modules: false }),
         ],
     },
     plugins: [

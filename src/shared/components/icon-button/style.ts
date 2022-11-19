@@ -1,14 +1,11 @@
-import styled, {
-    css,
-    DefaultTheme,
-    FlattenInterpolation,
-    ThemeProps,
-} from "styled-components";
+import styled, { css } from "styled-components";
+
 import { BaseIconStyled } from "@/shared/components/icon/style";
-import { Color } from "@/shared/types/theme";
+import { ColorValue, MapKeyToCss } from "@/shared/types/theme";
+
 import { BaseIconButtonStyledProps } from "./types";
 
-const getFillCss = (fill: Color, fillOnHover: Color) => css`
+const getFillCss = (fill: ColorValue, fillOnHover: ColorValue) => css`
     ${BaseIconStyled} {
         fill: ${fill};
     }
@@ -20,10 +17,7 @@ const getFillCss = (fill: Color, fillOnHover: Color) => css`
     }
 `;
 
-const mapVariationToCss: Record<
-    NonNullable<BaseIconButtonStyledProps["variation"]>,
-    FlattenInterpolation<ThemeProps<DefaultTheme>>
-> = {
+const mapVariationToCss: MapKeyToCss<NonNullable<BaseIconButtonStyledProps["variation"]>> = {
     light: css`
         ${({ theme }) => getFillCss(theme.colors.white, theme.colors.orangeLighten)}};
     `,

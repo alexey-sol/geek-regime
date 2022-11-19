@@ -1,12 +1,14 @@
 import styled from "styled-components";
 
+import { mixins } from "@/shared/style/mixins";
+
 export const FooterStyled = styled.footer`
-    ${({ theme }) => theme.mixins.gridLayout}
     background-color: ${({ theme }) => theme.colors.secondary};
 `;
 
 export const FooterInnerStyled = styled.section`
-    ${({ theme }) => theme.mixins.gridLayoutInner}
-    padding: 1rem 0;
+    ${mixins.layoutRowInner};
+    padding-top: ${({ theme }) => theme.components.footer.paddingY};
+    padding-bottom: ${({ theme }) => theme.components.footer.paddingY};
     background-color: ${({ theme }) => theme.colors.secondary};
 `;

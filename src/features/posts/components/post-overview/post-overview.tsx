@@ -1,13 +1,14 @@
 import React from "react";
-import { Post } from "@/features/posts/models/entities";
 import { Link } from "react-router-dom";
+
+import { Post } from "@/features/posts/models/entities";
 import { path } from "@/shared/const";
+
 import {
     BodyStyled,
-    ExcerptStyled,
     InfoContainerStyled,
-    OneLineTextStyled,
     PostOverviewStyled,
+    TwoLineTextStyled,
 } from "./style";
 
 export type PostOverviewProps = {
@@ -21,19 +22,19 @@ export const PostOverview = ({ post }: PostOverviewProps) => {
         <PostOverviewStyled>
             <Link to={`/${path.POSTS}/${post.slug}`}>
                 <BodyStyled>
-                    <OneLineTextStyled
+                    <TwoLineTextStyled
                         title={post.title}
                         variation="caption"
                     >
                         {post.title}
-                    </OneLineTextStyled>
+                    </TwoLineTextStyled>
 
-                    <ExcerptStyled>{post.excerpt}</ExcerptStyled>
+                    <TwoLineTextStyled>{post.excerpt}</TwoLineTextStyled>
                 </BodyStyled>
             </Link>
 
             <InfoContainerStyled>
-                <OneLineTextStyled>{postInfo}</OneLineTextStyled>
+                <TwoLineTextStyled>{postInfo}</TwoLineTextStyled>
             </InfoContainerStyled>
         </PostOverviewStyled>
     );

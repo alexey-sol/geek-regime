@@ -1,10 +1,13 @@
 import "@/shared/style/style.scss";
 import React, { ReactNode } from "react";
+
 import { ErrorBoundary } from "@/shared/components/error-boundary";
 import { Footer } from "@/shared/components/layout/footer";
+
 import { Main } from "../main";
 import { Navbar } from "../navbar";
 import { Header } from "../header";
+
 import { LayoutStyled } from "./style";
 
 export type LayoutProps = {

@@ -1,12 +1,10 @@
-import styled, {
-    css, DefaultTheme, FlattenInterpolation, ThemeProps,
-} from "styled-components";
+import styled, { css } from "styled-components";
+
+import { MapKeyToCss } from "@/shared/types/theme";
+
 import { TypographyStyledProps } from "./types";
 
-const mapVariationToCss: Record<
-    NonNullable<TypographyStyledProps["variation"]>,
-    FlattenInterpolation<ThemeProps<DefaultTheme>>
-> = {
+const mapVariationToCss: MapKeyToCss<NonNullable<TypographyStyledProps["variation"]>> = {
     caption: css`
         font-size: ${({ theme }) => theme.sizes.large};
         font-weight: bold;
@@ -32,7 +30,6 @@ export const TypographyStyled = styled.p<TypographyStyledProps>`
     }) => css`
         font-family: ${theme.fonts.normal};
         color: ${theme.colors.greyDarkest};
-
         ${mapVariationToCss[variation]};
 
         ${font && css`

@@ -1,11 +1,13 @@
 import styled from "styled-components";
 
+import { mixins } from "@/shared/style/mixins";
+
 export const MainStyled = styled.main`
-    ${({ theme }) => theme.mixins.gridLayout};
     background-color: ${({ theme }) => theme.colors.white};
 `;
 
 export const MainInnerStyled = styled.section`
-    ${({ theme }) => theme.mixins.gridLayoutInner};
-    padding: ${({ theme }) => theme.components.main.paddingY} 0;
+    ${mixins.layoutRowInner};
+    padding-top: ${({ theme }) => theme.components.main.paddingY};
+    padding-bottom: ${({ theme }) => theme.components.main.paddingY};
 `;

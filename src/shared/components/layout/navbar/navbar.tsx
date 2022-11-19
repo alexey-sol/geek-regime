@@ -1,7 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
+
 import { Typography } from "@/shared/components/typography";
 import { SearchIconButton } from "@/shared/components/icon-button";
+
 import { ProfileAction } from "./profile-action";
 import {
     ActionsWrapStyled,

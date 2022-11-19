@@ -1,21 +1,24 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+
 import { TypographyStyled } from "@/shared/components/typography/style";
+import { mixins } from "@/shared/style/mixins";
 
 export const HeaderStyled = styled.header`
-    ${({ theme }) => theme.mixins.gridLayout};
     min-height: ${({ theme }) => theme.components.header.minHeight};
     background-color: ${({ theme }) => theme.colors.primary};
 `;
 
 export const HeaderInnerStyled = styled.section`
-    ${({ theme }) => theme.mixins.gridLayoutInner}
+    ${mixins.layoutRowInner};
     display: flex;
     justify-content: space-between;
-    align-items: center;
 `;
 
 export const TitleLinkStyled = styled(Link)`
+    display: flex;
+    align-items: center;
+
     ${TypographyStyled} {
         transition: color ${({ theme }) => theme.durations.normal} ease;
     }
