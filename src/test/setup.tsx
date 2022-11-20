@@ -7,7 +7,7 @@ import { render, RenderOptions, RenderResult } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 
-import { theme } from "@/shared/style/theme";
+import { theme } from "@/app/style/theme";
 import { store } from "@/app/store";
 
 jest.mock("@/config/app", () => ({

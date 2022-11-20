@@ -7,9 +7,9 @@ import {
 } from "react";
 
 import { defaults } from "@/shared/const";
-import { Post } from "@/features/posts/models/entities";
 import { useGetAllPostsQuery } from "@/features/posts/services/api";
 import { fromPostDtoToEntity } from "@/features/posts/utils/converters";
+import type { Post } from "@/features/posts/models/entities";
 
 export const useOptions = () => {
     const params = useParams();

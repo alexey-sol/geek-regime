@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { mixins } from "@/shared/style/mixins";
+import { mixins } from "@/app/style/mixins";
 
 export const MainStyled = styled.main`
     background-color: ${({ theme }) => theme.colors.white};

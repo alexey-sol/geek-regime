@@ -1,11 +1,13 @@
 import React from "react";
-import { Typography } from "@/shared/components/typography";
-import { Post } from "@/features/posts/models/entities";
 import differenceInMonths from "date-fns/differenceInMonths";
+import { useTranslation } from "react-i18next";
+
+import { LinkButton } from "@/shared/components/button";
+import { Typography } from "@/shared/components/typography";
 import { useLanguage } from "@/shared/utils/language";
 import { path } from "@/shared/const";
-import { useTranslation } from "react-i18next";
-import { LinkButton } from "@/shared/components/button";
+import type { Post } from "@/features/posts/models/entities";
+
 import { ContentStyled, InfoStyled, PostDetailsStyled } from "./style";
 
 export type PostDetailsProps = {

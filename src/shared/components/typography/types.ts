@@ -1,4 +1,4 @@
-import { Font, HasColor, HasSize } from "@/shared/types/theme";
+import type { Font, HasColor, HasSize } from "@/shared/types/theme";
 
 export type TypographyStyledProps = Partial<HasColor> & Partial<HasSize> & {
     font?: Font;

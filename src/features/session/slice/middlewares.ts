@@ -1,6 +1,6 @@
 import { Middleware } from "@reduxjs/toolkit";
 
-import { RootState } from "@/app/store";
+import type { RootState } from "@/app/store";
 
 // TODO
 export const mapper: Middleware<unknown, RootState> = ({ dispatch, getState }) =>

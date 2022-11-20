@@ -1,14 +1,15 @@
 import React, { ButtonHTMLAttributes } from "react";
 
-import { Typography } from "@/shared/components/typography";
-import { TypographyStyledProps } from "@/shared/components/typography/types";
-import { BaseIconButtonProps } from "@/shared/components/icon-button";
 import { HasColor, HasSize } from "@/shared/types/theme";
 
-import { ButtonStyledProps } from "./types";
-import { ButtonStyled, LinkStyled } from "./style";
+import { BaseIconButtonProps } from "../icon-button";
+import { Typography } from "../typography";
+import type { TypographyStyledProps } from "../typography/types";
 
-const inherit = "inherit";
+import { ButtonStyled, LinkStyled } from "./style";
+import type { ButtonStyledProps } from "./types";
+
+const INHERIT = "inherit";
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement>
     & ButtonStyledProps
@@ -19,8 +20,8 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement>
 
 export const Button = ({
     children,
-    color = inherit,
-    font = inherit,
+    color = INHERIT,
+    font = INHERIT,
     icon: Icon,
     size = "small",
     type = "button",

@@ -1,8 +1,8 @@
 import React, { ReactNode, useMemo } from "react";
 
 import { getUseContextOrThrowError } from "@/shared/utils/helpers/context";
-import { Post } from "@/features/posts/models/entities";
-import { PagingOptions } from "@/shared/types/models";
+import type { PagingOptions } from "@/shared/types/models";
+import type { Post } from "@/features/posts/models/entities";
 
 import { useItems, useOptions } from "./utils";
 

@@ -1,5 +1,6 @@
-import { Gender } from "@/features/users/types";
-import { HasId } from "@/shared/types/models";
+import type { HasId } from "@/shared/types/models";
+
+export type Gender = "FEMALE" | "MALE";
 
 export type UserDetailsDto = {
     name: string;

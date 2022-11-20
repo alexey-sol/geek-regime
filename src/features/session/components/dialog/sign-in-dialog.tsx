@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 
-import { BaseDialog } from "@/shared/components/base-dialog/base-dialog";
+import { BaseDialog } from "@/shared/components/base-dialog";
 import { YandexConsentScreen } from "@/features/session/utils/oauth-consent-screen";
 import { Button } from "@/shared/components/button";
 

@@ -1,12 +1,15 @@
 import React, {
-    AriaRole, ReactNode, useEffect, useRef,
+    AriaRole,
+    ReactNode,
+    useEffect,
+    useRef,
 } from "react";
 import ReactDOM from "react-dom";
 
 import { useKeyboardControls } from "@/shared/utils/hooks/use-keyboard-controls";
 
 import { BaseDropdownStyled } from "./style";
-import { BaseDropdownStyledProps } from "./types";
+import type { BaseDropdownStyledProps } from "./types";
 
 export type BaseDropdownProps = BaseDropdownStyledProps & {
     children: ReactNode;

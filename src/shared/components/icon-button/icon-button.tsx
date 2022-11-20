@@ -8,7 +8,7 @@ import {
     SearchIcon,
 } from "@/shared/components/icon";
 
-import { BaseIconButton, BaseIconButtonProps } from "./base-icon-button";
+import { BaseIconButton, type BaseIconButtonProps } from "./base-icon-button";
 
 export type IconButtonProps = Pick<BaseIconButtonProps, "onClick" | "title" | "variation">;
 

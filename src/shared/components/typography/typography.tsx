@@ -1,6 +1,6 @@
 import React, { HTMLAttributes } from "react";
 
-import { TypographyStyledProps } from "./types";
+import type { TypographyStyledProps } from "./types";
 import { TypographyStyled } from "./style";
 
 export type TypographyProps = HTMLAttributes<Omit<HTMLParagraphElement, "color">>

@@ -1,7 +1,7 @@
 import React, { ReactNode } from "react";
 import { useTheme } from "styled-components";
 
-import { HasColor, HasSize } from "@/shared/types/theme";
+import type { HasColor, HasSize } from "@/shared/types/theme";
 
 import { BaseIconStyled } from "./style";
 
@@ -19,14 +19,14 @@ export const BaseIcon = ({
     viewBox,
 }: BaseIconProps) => {
     const theme = useTheme();
-    const cssSize = theme.sizes[size];
+    const cssSizeValue = theme.sizes[size];
 
     return (
         <BaseIconStyled
             color={color}
-            height={cssSize}
+            height={cssSizeValue}
             viewBox={viewBox}
-            width={cssSize}
+            width={cssSizeValue}
         >
             {children}
         </BaseIconStyled>

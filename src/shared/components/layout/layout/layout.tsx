@@ -1,4 +1,4 @@
-import "@/shared/style/style.scss";
+import "@/app/style/style.scss";
 import React, { ReactNode } from "react";
 
 import { ErrorBoundary } from "@/shared/components/error-boundary";

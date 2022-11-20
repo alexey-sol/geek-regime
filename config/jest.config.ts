@@ -9,9 +9,6 @@ export default {
         "babel-jest": {
             babelrcFile: "babel.config.js",
         },
-        "ts-jest": {
-            tsconfig: "<rootDir>/config/tsconfig.json",
-        },
     },
     moduleNameMapper: {
         "^@/(.*)": "<rootDir>/src/$1",
@@ -22,6 +19,7 @@ export default {
     testEnvironment: "jsdom",
     testMatch: ["<rootDir>/src/**/?(*.)+(spec|test).[jt]s?(x)"],
     transform: {
+        "^.+\\.tsx?$": ["ts-jest", { tsconfig: "<rootDir>/tsconfig.json" }],
         // eslint-disable-next-line
         ".+\\.(svg|css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": "<rootDir>/src/test/mocks/file-mock.js",
     },

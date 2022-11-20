@@ -1,7 +1,7 @@
 import path from "path";
 
 import webpack from "webpack";
-import { Configuration as WebpackDevServerConfiguration } from "webpack-dev-server";
+import { Configuration as DevServerConfiguration } from "webpack-dev-server";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import { merge } from "webpack-merge";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
@@ -12,11 +12,11 @@ import { getStyleRule } from "./utils/rules";
 
 const cwd = process.cwd();
 
-interface ResultConfiguration extends webpack.Configuration {
-    devServer?: WebpackDevServerConfiguration;
+interface DevelopmentConfiguration extends webpack.Configuration {
+    devServer?: DevServerConfiguration;
 }
 
-const config: ResultConfiguration = merge(coreConfig, {
+const config: DevelopmentConfiguration = merge(coreConfig, {
     mode: "development",
     output: {
         publicPath: "/",
@@ -31,7 +31,7 @@ const config: ResultConfiguration = merge(coreConfig, {
         new ForkTsCheckerWebpackPlugin({
             async: false,
             typescript: {
-                configFile: path.join("config", "tsconfig.json")
+                configFile: "tsconfig.json",
             },
         }),
         new MiniCssExtractPlugin({

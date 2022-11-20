@@ -1,7 +1,7 @@
 import React from "react";
 import { ThemeProvider } from "styled-components";
 
-import { theme } from "@/shared/style/theme";
+import { theme } from "@/app/style/theme";
 
 export const withTheme = (component: () => JSX.Element) => () => (
     <ThemeProvider theme={theme}>

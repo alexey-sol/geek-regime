@@ -1,5 +1,5 @@
-import { HasId, PagingOptions } from "@/shared/types/models";
-import { CreatePostDto, UpdatePostDto } from "@/features/posts/models/dtos";
+import type { HasId, PagingOptions } from "@/shared/types/models";
+import type { CreatePostDto, UpdatePostDto } from "@/features/posts/models/dtos";
 
 export type GetAllPostsArg = Pick<PagingOptions, "page" | "size">;
 

@@ -1,14 +1,15 @@
 import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 
-import { TypographyStyled } from "@/shared/components/typography/style";
-import { BaseIconStyled } from "@/shared/components/icon/style";
-import { ColorValue, MapKeyToCss } from "@/shared/types/theme";
+import type { ColorValue, MapKeyToCss } from "@/shared/types/theme";
 
-import { ButtonStyledProps } from "./types";
+import { TypographyStyled } from "../typography/style";
+import { BaseIconStyled } from "../icon/style";
 
-const paddingY = "1rem";
-const plainBorderWidth = "1px";
+import type { ButtonStyledProps } from "./types";
+
+const PADDING_Y = "1rem";
+const PLAIN_BORDER_WIDTH = "1px";
 
 const getBgColorCss = (bgColor: ColorValue, bgColorOnHover: ColorValue) => css`
     background-color: ${bgColor};
@@ -21,9 +22,9 @@ const getBgColorCss = (bgColor: ColorValue, bgColorOnHover: ColorValue) => css`
 const mapVariationToCss: MapKeyToCss<NonNullable<ButtonStyledProps["variation"]>> = {
     plain: css`
         ${({ theme }) => css`
-            padding-top: calc(${paddingY} - ${plainBorderWidth});
-            padding-bottom: calc(${paddingY} - ${plainBorderWidth});
-            border: ${plainBorderWidth} solid ${theme.colors.primary};
+            padding-top: calc(${PADDING_Y} - ${PLAIN_BORDER_WIDTH});
+            padding-bottom: calc(${PADDING_Y} - ${PLAIN_BORDER_WIDTH});
+            border: ${PLAIN_BORDER_WIDTH} solid ${theme.colors.primary};
             color: ${theme.colors.primary};
             ${getBgColorCss(theme.colors.white, theme.colors.orangeDark)}
 
@@ -91,7 +92,7 @@ export const ButtonStyled = styled.button<ButtonStyledProps>(
         column-gap: 0.5rem;
         width: ${isStretched ? "100%" : "auto"};
         height: fit-content;
-        padding: ${paddingY} 2rem;
+        padding: ${PADDING_Y} 2rem;
         border: none;
         border-radius: 0.3rem;
         user-select: none;

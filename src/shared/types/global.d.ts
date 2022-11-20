@@ -1,4 +1,4 @@
-import { theme } from "@/shared/style/theme";
+import { theme } from "@/app/style/theme";
 
 import "styled-components";
 
@@ -7,7 +7,7 @@ declare module "*.module.scss";
 declare global {
     namespace NodeJS {
         interface ProcessEnv {
-            NODE_ENV: "development" | "production" | "test";
+            NODE_ENV?: "development" | "production" | "test";
         }
     }
 }

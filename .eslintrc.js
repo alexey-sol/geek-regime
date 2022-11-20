@@ -13,7 +13,7 @@ module.exports = {
         NodeJS: true,
         React: true,
     },
-    ignorePatterns: ["build/*", "dist/*", "node_modules/*"],
+    ignorePatterns: ["build/*", "coverage/*", "dist/*", "node_modules/*"],
     overrides: [
         {
             files: [

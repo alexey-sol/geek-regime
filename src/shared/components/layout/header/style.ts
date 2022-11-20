@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 import { TypographyStyled } from "@/shared/components/typography/style";
-import { mixins } from "@/shared/style/mixins";
+import { mixins } from "@/app/style/mixins";
 
 export const HeaderStyled = styled.header`
     min-height: ${({ theme }) => theme.components.header.minHeight};

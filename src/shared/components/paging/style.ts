@@ -2,14 +2,14 @@ import styled, { css } from "styled-components";
 
 import { Button } from "@/shared/components/button";
 
-const gap = "0.5rem";
+const GAP = "0.5rem";
 
 export const PagingStyled = styled.nav`
     display: flex;
     width: fit-content;
     flex-direction: column;
     align-self: center;
-    row-gap: ${gap};
+    row-gap: ${GAP};
 `;
 
 export const PagingButtonStyled = styled(Button)<{ active?: boolean }>(
@@ -45,7 +45,7 @@ export const LeapButtonsWrapStyled = styled.ul`
     display: flex;
     width: 100%;
     padding: 0;
-    margin: 0 0 ${gap} 0;
+    margin: 0 0 ${GAP} 0;
     justify-content: space-between;
 `;
 
@@ -57,7 +57,7 @@ export const StepButtonsWrapStyled = styled.section`
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: ${gap};
+    gap: ${GAP};
 `;
 
 export const StepButtonStyled = styled(PagingButtonStyled)`
@@ -70,7 +70,7 @@ export const PageNumbersWrapStyled = styled.ul`
     margin: 0;
     justify-content: center;
     flex-wrap: wrap;
-    gap: ${gap};
+    gap: ${GAP};
 `;
 
 export const SpillStyled = styled(PagingButtonStyled)`

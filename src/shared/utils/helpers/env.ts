@@ -1,5 +1,6 @@
 import { appConfig } from "@/config/app";
-import { NodeEnv } from "@/shared/types/env";
+
+type NodeEnv = NodeJS.ProcessEnv["NODE_ENV"];
 
 export const isProduction = (nodeEnv: NodeEnv = appConfig.nodeEnv) =>
     nodeEnv === "production";

@@ -5,7 +5,7 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 import { sessionReducer } from "@/features/session/slice/slice";
 import sessionMiddlewares from "@/features/session/slice/middlewares";
 import { postsApi } from "@/features/posts/services/api";
-import { isProduction } from "@/shared/helpers/env";
+import { isProduction } from "@/shared/utils/helpers/env";
 
 const rootReducer = combineReducers({
     [postsApi.reducerPath]: postsApi.reducer,

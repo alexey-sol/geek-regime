@@ -1,6 +1,6 @@
 import { Type } from "class-transformer";
 
-import { Gender } from "@/features/users/types";
+import type { Gender } from "./dtos";
 
 export class UserDetails {
     constructor(

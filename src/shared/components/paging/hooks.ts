@@ -11,9 +11,9 @@ import { range } from "@/shared/utils/helpers/range";
 import { defaults } from "@/shared/const";
 import { useWindowSize } from "@/shared/utils/hooks/use-window-size";
 
-import { UsePagingDataArgs } from "./types";
+import type { UsePagingDataArgs } from "./types";
 
-const startPage = defaults.PAGING_PAGE;
+const START_PAGE = defaults.PAGING_PAGE;
 
 enum SpillElements {
     DEFAULT = 2,
@@ -59,7 +59,7 @@ export const usePagingData = ({
             return;
         }
 
-        const path = (!qs && selectedPage === startPage)
+        const path = (!qs && selectedPage === START_PAGE)
             ? `${pathPrefix}/`
             : `${pathPrefix}/page-${selectedPage}${qs}`;
 
@@ -75,7 +75,7 @@ export const usePagingData = ({
             ? leftmostVisiblePage - absentRightNeighbours
             : leftmostVisiblePage;
 
-        const startNumber = Math.max(startPage, resultLeftmostPage);
+        const startNumber = Math.max(START_PAGE, resultLeftmostPage);
 
         return (hasLeftSpill)
             ? startNumber + spillElements

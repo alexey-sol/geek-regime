@@ -1,8 +1,8 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { Post } from "@/features/posts/models/entities";
 import { path } from "@/shared/const";
+import type { Post } from "@/features/posts/models/entities";
 
 import {
     BodyStyled,

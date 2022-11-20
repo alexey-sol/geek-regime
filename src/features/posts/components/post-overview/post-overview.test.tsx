@@ -1,32 +1,32 @@
 import React from "react";
 
 import { render, screen } from "@/test/setup";
-import { PostDto } from "@/features/posts/models/dtos";
 import { fromPostDtoToEntity } from "@/features/posts/utils/converters";
 import { path } from "@/shared/const";
+import type { PostDto } from "@/features/posts/models/dtos";
 
 import { PostOverview } from "./post-overview";
 
-const timestamp = "2022-02-01T07:20:00.000Z";
-const title = "Title";
-const excerpt = "Excerpt";
+const TIMESTAMP = "2022-02-01T07:20:00.000Z";
+const TITLE = "Title";
+const EXCERPT = "Excerpt";
 
 const postDto: PostDto = {
     id: 1,
-    title,
-    excerpt,
-    createdAt: timestamp,
-    updatedAt: timestamp,
+    title: TITLE,
+    excerpt: EXCERPT,
+    createdAt: TIMESTAMP,
+    updatedAt: TIMESTAMP,
     slug: "title",
     body: "Body",
     author: {
         id: 1,
         email: "mark@gmail.com",
-        createdAt: timestamp,
-        updatedAt: timestamp,
+        createdAt: TIMESTAMP,
+        updatedAt: TIMESTAMP,
         details: {
-            createdAt: timestamp,
-            updatedAt: timestamp,
+            createdAt: TIMESTAMP,
+            updatedAt: TIMESTAMP,
             image: null,
             name: "Mark",
             gender: "MALE",
@@ -40,8 +40,8 @@ describe("PostOverview", () => {
     it("should render title and excerpt from provided post", () => {
         render(<PostOverview post={post} />);
 
-        screen.getByText(title);
-        screen.getByText(excerpt);
+        screen.getByText(TITLE);
+        screen.getByText(EXCERPT);
     });
 
     it("should construct and render concise post info", () => {

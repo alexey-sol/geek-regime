@@ -1,4 +1,4 @@
-import { HasId } from "@/shared/types/models";
+import type { HasId } from "@/shared/types/models";
 
 export const getMapIdToEntity = <
     Key extends number | string,

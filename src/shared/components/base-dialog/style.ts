@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { TypographyStyled } from "@/shared/components/typography/style";
+import { TypographyStyled } from "../typography/style";
 
 export const DialogStyled = styled.section`
     display: flex;

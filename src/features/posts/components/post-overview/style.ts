@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
 
 import { Typography } from "@/shared/components/typography";
-import { mixins } from "@/shared/style/mixins";
+import { mixins } from "@/app/style/mixins";
 
 const columnCss = css`
     display: flex;

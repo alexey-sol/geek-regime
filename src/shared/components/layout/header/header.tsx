@@ -2,8 +2,7 @@ import React from "react";
 
 import { appConfig } from "@/config/app";
 
-import { LanguageSwitch } from "../language-switch";
-
+import { LanguageSwitch } from "./language-switch";
 import { AppTitle } from "./app-title";
 import { HeaderInnerStyled, HeaderStyled } from "./style";
 

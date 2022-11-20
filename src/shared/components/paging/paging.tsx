@@ -2,9 +2,8 @@ import React, { ReactNode, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { defaults } from "@/shared/const";
-import { usePagingData } from "@/shared/components/paging/hooks";
-import { UsePagingDataArgs } from "@/shared/components/paging/types";
 
+import { usePagingData } from "./hooks";
 import {
     StepButtonsWrapStyled,
     StepButtonStyled,
@@ -15,14 +14,15 @@ import {
     LeapButtonStyled,
     LeapButtonsWrapStyled,
 } from "./style";
+import type { UsePagingDataArgs } from "./types";
 
-const startPage = defaults.PAGING_PAGE;
-const minPageCountToShowSpills = 3;
+const START_PAGE = defaults.PAGING_PAGE;
+const MIN_PAGE_COUNT_TO_SHOW_SPILLS = 3;
 
 export type PagingProps = Partial<UsePagingDataArgs> & Pick<UsePagingDataArgs, "setPage">;
 
 export const Paging = ({
-    page = defaults.PAGING_PAGE,
+    page = START_PAGE,
     pageNeighbours = 4,
     pathPrefix = "",
     qs = "",
@@ -49,13 +49,13 @@ export const Paging = ({
         totalItems,
     });
 
-    const hasLeapButtons = minPageCountToShowSpills <= lastPage;
-    const isStartPage = page === startPage;
+    const hasLeapButtons = MIN_PAGE_COUNT_TO_SHOW_SPILLS <= lastPage;
+    const isStartPage = page === START_PAGE;
     const isLastPage = page === lastPage;
 
     const toPreviousPage = useCallback(() => goToPage(page - 1), [goToPage, page]);
     const toNextPage = useCallback(() => goToPage(page + 1), [goToPage, page]);
-    const toStartPage = useCallback(() => goToPage(startPage), [goToPage]);
+    const toStartPage = useCallback(() => goToPage(START_PAGE), [goToPage]);
     const toLastPage = useCallback(() => goToPage(lastPage), [goToPage, lastPage]);
 
     const pageNumberItems = useMemo(() => {
@@ -63,14 +63,14 @@ export const Paging = ({
 
         if (hasLeftSpill && !isMinifiedView) {
             items.push(
-                <React.Fragment key={startPage}>
+                <React.Fragment key={START_PAGE}>
                     <li>
                         <PagingButtonStyled
                             active={isStartPage}
                             onClick={toStartPage}
                             variation="secondary"
                         >
-                            {startPage}
+                            {START_PAGE}
                         </PagingButtonStyled>
                     </li>
 

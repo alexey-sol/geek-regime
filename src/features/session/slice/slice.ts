@@ -1,8 +1,8 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { User } from "@/features/users/models/entities";
+import type { User } from "@/features/users/models/entities";
 
-import { SessionState } from "./types";
+import type { SessionState } from "./types";
 
 const initialState: SessionState = {
     user: undefined,

@@ -9,10 +9,10 @@ import { useTranslation } from "react-i18next";
 import ReactQuill from "react-quill";
 import { useNavigate } from "react-router";
 
-import { Post } from "@/features/posts/models/entities";
 import { useCreatePostMutation, useUpdatePostByIdMutation } from "@/features/posts/services/api";
-import { PostDto } from "@/features/posts/models/dtos";
 import { Button } from "@/shared/components/button";
+import type { PostDto } from "@/features/posts/models/dtos";
+import type { Post } from "@/features/posts/models/entities";
 
 import {
     BodyEditorStyled,

@@ -1,6 +1,6 @@
 import React, { Component, ReactNode } from "react";
 
-import { Typography } from "@/shared/components/typography";
+import { Typography } from "../typography";
 
 export type ErrorBoundaryProps = {
     children: ReactNode;

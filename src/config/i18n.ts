@@ -15,7 +15,7 @@ import {
     en as enPostsTranslations,
     ru as ruPostsTranslations,
 } from "@/features/posts/resources/translations";
-import { isProduction } from "@/shared/helpers/env";
+import { isProduction } from "@/shared/utils/helpers/env";
 
 i18n.use(LanguageDetector)
     .use(initReactI18next)

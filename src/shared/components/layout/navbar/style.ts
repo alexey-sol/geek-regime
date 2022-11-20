@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { mixins } from "@/shared/style/mixins";
+import { mixins } from "@/app/style/mixins";
 
 export const NavbarStyled = styled.nav`
     position: sticky;

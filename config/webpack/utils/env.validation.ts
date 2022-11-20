@@ -1,10 +1,10 @@
 import * as Joi from "joi";
 
-import { NodeEnv } from "../../../src/shared/types/env";
+type NodeEnv = NodeJS.ProcessEnv["NODE_ENV"];
 
-const development: NodeEnv = "development";
-const production: NodeEnv = "production";
-const test: NodeEnv = "test";
+const DEVELOPMENT: NodeEnv = "development";
+const PRODUCTION: NodeEnv = "production";
+const TEST: NodeEnv = "test";
 
 // Each environment variable used either in Webpack config or in runtime, should
 // be listed in the schema below.
@@ -47,8 +47,8 @@ export const envSchema = Joi.object({
         .default("auto://0.0.0.0:0/ws"),
     NODE_ENV: Joi
         .string()
-        .valid(development, production, test)
-        .default(production),
+        .valid(DEVELOPMENT, PRODUCTION, TEST)
+        .default(PRODUCTION),
     YANDEX_CLIENT_ID: Joi
         .string()
         .required(),

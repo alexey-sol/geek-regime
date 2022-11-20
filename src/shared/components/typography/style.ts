@@ -1,8 +1,8 @@
 import styled, { css } from "styled-components";
 
-import { MapKeyToCss } from "@/shared/types/theme";
+import type { MapKeyToCss } from "@/shared/types/theme";
 
-import { TypographyStyledProps } from "./types";
+import type { TypographyStyledProps } from "./types";
 
 const mapVariationToCss: MapKeyToCss<NonNullable<TypographyStyledProps["variation"]>> = {
     caption: css`
