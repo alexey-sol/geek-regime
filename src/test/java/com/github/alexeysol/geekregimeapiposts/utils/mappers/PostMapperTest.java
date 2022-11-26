@@ -106,7 +106,7 @@ public class PostMapperTest {
         when(postService.postAlreadyExists(slug)).thenReturn(true);
 
         Post result = postMapper.fromCreatePostDtoToPost(createPostDto);
-        Assertions.assertNotEquals(title.length(), result.getSlug().length());
+        Assertions.assertNotEquals(slug, result.getSlug());
     }
 
     @Test
@@ -126,14 +126,30 @@ public class PostMapperTest {
         String oldTitle = "Test Post";
         Post oldPost = createPost(oldTitle, null);
 
-        String newSlug = "new-title";
+        String slug = "new-title";
         UpdatePostDto updatePostDto = createUpdatePostDto("New Title", null);
 
         when(postService.findPostById(postId)).thenReturn(Optional.of(oldPost));
-        when(postService.postAlreadyExists(newSlug)).thenReturn(true);
+        when(postService.postAlreadyExists(slug)).thenReturn(true);
 
         Post result = postMapper.mapUpdatePostDtoToPost(updatePostDto, oldPost);
-        Assertions.assertNotEquals(oldTitle.length(), result.getSlug().length());
+        Assertions.assertNotEquals(slug, result.getSlug());
+    }
+
+    @Test
+    public void givenSameTitle_whenMapUpdatePostDtoToPost_thenReturnsPostWithSameSlug() {
+        long postId = 1L;
+        String title = "Test Post";
+        String slug = "test-post";
+        Post oldPost = createPost(title, null, slug);
+
+        UpdatePostDto updatePostDto = createUpdatePostDto(title, null);
+
+        when(postService.findPostById(postId)).thenReturn(Optional.of(oldPost));
+        when(postService.postAlreadyExists(slug)).thenReturn(true);
+
+        Post result = postMapper.mapUpdatePostDtoToPost(updatePostDto, oldPost);
+        Assertions.assertEquals(slug, result.getSlug());
     }
 
     @Test
@@ -152,7 +168,7 @@ public class PostMapperTest {
     }
 
     @Test
-    public void givenDtoHasNulls_whenMapUpdatePostDtoToPost_thenReturnsPostWithNotAppliedNulls() {
+    public void givenDtoHasNulls_whenMapUpdatePostDtoToPost_thenReturnsPostWithSkippedNulls() {
         long postId = 1L;
         String oldBody = "Hello World";
         String slug = "test-post";

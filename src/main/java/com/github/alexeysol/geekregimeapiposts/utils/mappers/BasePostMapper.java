@@ -9,6 +9,8 @@ import com.github.alexeysol.geekregimeapiposts.utils.mappers.converters.TitleToS
 import org.modelmapper.ModelMapper;
 import org.modelmapper.spi.MappingContext;
 
+import java.util.Objects;
+
 public abstract class BasePostMapper {
     protected final ModelMapper modelMapper;
     protected final PostService service;
@@ -36,11 +38,20 @@ public abstract class BasePostMapper {
 
         modelMapper.typeMap(UpdatePostDto.class, Post.class)
             .addMappings(mapper -> {
-                mapper.using(new TitleToSlugConverter(service))
+                mapper.when(this::shouldUpdateSlug)
+                    .using(new TitleToSlugConverter(service))
                     .map(UpdatePostDto::getTitle, Post::setSlug);
 
                 mapper.using(new BodyToExcerptConverter())
                     .map(UpdatePostDto::getBody, Post::setExcerpt);
             });
+    }
+
+    private boolean shouldUpdateSlug(MappingContext<Object, Object> context) {
+        String title = (String) context.getSource();
+        Post post = (Post) context.getParent().getDestination();
+
+        boolean hasRequiredValues = Objects.nonNull(title) && Objects.nonNull(post);
+        return hasRequiredValues && !title.equals(post.getTitle());
     }
 }
