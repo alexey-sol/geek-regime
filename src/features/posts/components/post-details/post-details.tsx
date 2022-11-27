@@ -33,17 +33,17 @@ export const PostDetails = ({ post }: PostDetailsProps) => {
             </section>
 
             <ContentStyled>
-                <Typography variation="caption">{post.title}</Typography>
+                <Typography view="caption">{post.title}</Typography>
                 <Typography dangerouslySetInnerHTML={bodyHtml} />
             </ContentStyled>
 
             <InfoStyled>
-                <Typography variation="hint">
+                <Typography view="hint">
                     {`${t("post.createdAt")} ${post.formattedCreatedAt} (${createdMonthsAgoText})`}
                 </Typography>
 
                 {hasUpdates && (
-                    <Typography variation="hint">
+                    <Typography view="hint">
                         {`${t("post.updatedAt")} ${post.formattedUpdatedAt}`}
                     </Typography>
                 )}

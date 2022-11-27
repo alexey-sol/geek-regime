@@ -1,18 +1,13 @@
-import React, {
-    AriaRole,
-    ReactNode,
-    useEffect,
-    useRef,
-} from "react";
+import React, { AriaRole, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 
 import { useKeyboardControls } from "@/shared/utils/hooks/use-keyboard-controls";
+import type { HasChildren } from "@/shared/types/props";
 
 import { BaseDropdownStyled } from "./style";
 import type { BaseDropdownStyledProps } from "./types";
 
-export type BaseDropdownProps = BaseDropdownStyledProps & {
-    children: ReactNode;
+export type BaseDropdownProps = BaseDropdownStyledProps & HasChildren & {
     mouseEvent?: "click" | "mouseup" | "mousedown";
     onClose: () => void;
     role?: AriaRole;
@@ -35,7 +30,7 @@ export const BaseDropdown = ({
             }
 
             const clickedOutside = !elementRef.current.contains(target)
-                && !anchorRef?.current?.contains(target);
+                || !anchorRef?.current?.contains(target);
 
             if (clickedOutside) {
                 onClose();

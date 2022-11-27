@@ -19,7 +19,7 @@ export const SignInDialog = ({ onClose }: SignInDialogProps) => {
 
     return (
         <BaseDialog onClose={onClose} title={t("signIn.dialog.title")}>
-            <Button onClick={openWindowToSignInViaYandex} variation="secondary">
+            <Button onClick={openWindowToSignInViaYandex} view="secondary">
                 {t("oauth.providers.yandex.name")}
             </Button>
         </BaseDialog>

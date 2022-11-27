@@ -1,15 +1,15 @@
 import React from "react";
 
 import { PostOverview } from "@/features/posts/components/post-overview";
-import { usePostsPagingContext } from "@/features/posts/contexts/posts-paging";
 import { Divider } from "@/shared/components/divider";
+import { usePostsPage } from "@/features/posts/utils/hooks/use-posts-page";
 
 import { ListItemStyled, ListStyled, PostListStyled } from "./style";
 
 export const PostList = () => {
-    const { items } = usePostsPagingContext();
+    const { posts } = usePostsPage();
 
-    const postOverviewElements = items.map((post, index) => (
+    const postOverviewElements = posts.map((post, index) => (
         <ListItemStyled key={post.id}>
             {index > 0 && <Divider />}
             <PostOverview post={post} />

@@ -1,27 +1,26 @@
 import { css } from "styled-components";
 
-const layoutRowInnerPaddingX = "3rem";
-const lineHeight = 1.2;
-const twoLines = 2;
+const LAYOUT_ROW_INNER_PADDING_X = "3rem";
+const TWO_LINES = 2;
 
 export const mixins = {
-    layoutRowInner: css`
+    getLayoutRowInner: () => css`
         min-width: 10rem;
         max-width: 100rem;
         height: 100%;
-        padding-right: ${layoutRowInnerPaddingX};
-        padding-left: ${layoutRowInnerPaddingX};
+        padding-right: ${LAYOUT_ROW_INNER_PADDING_X};
+        padding-left: ${LAYOUT_ROW_INNER_PADDING_X};
         margin: 0 auto;
     `,
-    oneLineText: css`
+    getOneLineText: () => css`
         overflow-x: hidden;
         white-space: nowrap;
         text-overflow: ellipsis;
     `,
-    twoLineText: css`
+    getTwoLineText: (lineHeight: string) => css`
         display: -webkit-box;
         max-width: 100%;
-        max-height: calc(${({ theme }) => theme.sizes.normal} * ${twoLines} * ${lineHeight});
+        max-height: calc(${lineHeight} * ${TWO_LINES});
         line-height: ${lineHeight};
         overflow: hidden;
         word-wrap: break-word;

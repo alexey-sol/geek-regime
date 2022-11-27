@@ -8,9 +8,7 @@ export type Font = keyof DefaultTheme["fonts"];
 
 export type Size = keyof DefaultTheme["sizes"];
 
-export type HasColor = { color: Color };
-
-export type HasSize = { size: Size };
+export type SizeValue = DefaultTheme["sizes"][Size];
 
 export type MapKeyToCss<Key extends string> = Record<
     Key,

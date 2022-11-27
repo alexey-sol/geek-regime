@@ -12,7 +12,7 @@ export const NavbarStyled = styled.nav`
 `;
 
 export const NavbarInnerStyled = styled.section`
-    ${mixins.layoutRowInner};
+    ${mixins.getLayoutRowInner()};
     display: flex;
     justify-content: space-between;
     align-items: center;

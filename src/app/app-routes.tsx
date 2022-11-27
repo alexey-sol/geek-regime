@@ -13,8 +13,8 @@ export const AppRoutes = () => (
         <Route index element={<div>Home</div>} />
         <Route path={path.POSTS}>
             <Route index element={<PostListView />} />
-            <Route path={path.CREATE} element={<PostCreateView />} />
             <Route path={`${path.PAGE}-:page`} element={<PostListView />} />
+            <Route path={path.CREATE} element={<PostCreateView />} />
             <Route path=":slug">
                 <Route index element={<PostDetailsView />} />
                 <Route path={path.UPDATE} element={<PostUpdateView />} />

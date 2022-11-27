@@ -1,10 +1,10 @@
-import React, { Component, ReactNode } from "react";
+import React, { Component } from "react";
+
+import type { HasChildren } from "@/shared/types/props";
 
 import { Typography } from "../typography";
 
-export type ErrorBoundaryProps = {
-    children: ReactNode;
-};
+export type ErrorBoundaryProps = HasChildren;
 
 export type ErrorBoundaryState = {
     error: Error | null;

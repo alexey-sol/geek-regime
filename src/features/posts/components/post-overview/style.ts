@@ -13,8 +13,8 @@ export const PostOverviewStyled = styled.article`
     ${columnCss};
 `;
 
-export const TwoLineTextStyled = styled(Typography)`
-    ${mixins.twoLineText};
+export const TwoLineTextStyled = styled(Typography)<Partial<{ lineHeight?: string; }>>`
+    ${({ theme, lineHeight }) => lineHeight && mixins.getTwoLineText(lineHeight)};
 `;
 
 export const BodyStyled = styled.section`

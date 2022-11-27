@@ -3,7 +3,6 @@ import { Middleware } from "@reduxjs/toolkit";
 import type { RootState } from "@/app/store";
 
 // TODO
-export const mapper: Middleware<unknown, RootState> = ({ dispatch, getState }) =>
-    (next) => (action): unknown => next(action);
-
-export default [mapper];
+export const sessionMiddlewares: Middleware<unknown, RootState>[] = [
+    ({ dispatch, getState }) => (next) => (action): unknown => next(action),
+];

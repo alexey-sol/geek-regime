@@ -1,12 +1,13 @@
 import React, {
     AriaRole,
     MouseEventHandler,
-    ReactNode,
     useCallback,
     useRef,
 } from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
+
+import type { HasChildren } from "@/shared/types/props";
 
 const OverlayStyled = styled.section`
     position: fixed;
@@ -20,8 +21,7 @@ const OverlayStyled = styled.section`
     background-color: rgba(0, 0, 0, 20%);
 `;
 
-export type OverlayProps = {
-    children: ReactNode;
+export type OverlayProps = HasChildren & {
     className?: string;
     container?: HTMLElement;
     disableCloseOnClick?: boolean;

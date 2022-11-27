@@ -1,27 +1,22 @@
-import React from "react";
-import { useParams } from "react-router";
+import React, { memo } from "react";
 
 import { PostDetails } from "@/features/posts/components/post-details";
-import { useGetPostBySlugQuery } from "@/features/posts/services/api";
-import { fromPostDtoToEntity } from "@/features/posts/utils/converters";
+import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 
 export const PostDetailsView = () => {
-    const params = useParams();
-    const { data, isLoading } = useGetPostBySlugQuery(params.slug ?? "");
+    const { post, isPending } = useActivePost();
 
-    if (!params.slug || !data) {
-        return null; // TODO 404
+    if (!post) {
+        return null;
     }
-
-    const post = fromPostDtoToEntity(data);
 
     return (
         <section>
-            {isLoading
-                ? "loading..."
-                : <PostDetails post={post} />}
+            {isPending && "loading..."}
+            <PostDetails post={post} />
         </section>
     );
 };
 
-export default PostDetailsView;
+// eslint-disable-next-line import/no-default-export
+export default memo(() => <PostDetailsView />);

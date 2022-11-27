@@ -26,7 +26,7 @@ export const LanguageDropdown = ({ anchorRef, onClose }: LanguageDropdownProps) 
                         isStretched
                         size="smaller"
                         onClick={handleClick}
-                        variation="secondary"
+                        view="secondary"
                     >
                         {getLanguageTitle(lang)}
                     </SwitchButtonStyled>

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 
 import { PostDraft } from "@/features/posts/components/post-draft";
@@ -13,4 +13,5 @@ export const PostCreateView = () => (
     </PostCreateViewStyled>
 );
 
-export default PostCreateView;
+// eslint-disable-next-line import/no-default-export
+export default memo(() => <PostCreateView />);

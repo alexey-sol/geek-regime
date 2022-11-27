@@ -2,6 +2,7 @@ import { appConfig } from "@/config/app";
 import { getApiPath } from "@/shared/utils/formatters/api-path";
 
 import type { GetAllPostsArg } from "./types";
+import * as constants from "./const";
 
 const { apiPostsResource, apiPrefix } = appConfig;
 
@@ -22,3 +23,8 @@ export const transformGetAllPostsArg = (arg?: GetAllPostsArg): string | undefine
 
     return undefined;
 };
+
+export const createTag = (id: string | number = constants.TAG_LIST_ID) => ({
+    id,
+    type: constants.POSTS_TAG_TYPE,
+});

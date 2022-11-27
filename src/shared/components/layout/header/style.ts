@@ -10,7 +10,7 @@ export const HeaderStyled = styled.header`
 `;
 
 export const HeaderInnerStyled = styled.section`
-    ${mixins.layoutRowInner};
+    ${mixins.getLayoutRowInner()};
     display: flex;
     justify-content: space-between;
 `;

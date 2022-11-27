@@ -14,18 +14,6 @@ module.exports = {
         React: true,
     },
     ignorePatterns: ["build/*", "coverage/*", "dist/*", "node_modules/*"],
-    overrides: [
-        {
-            files: [
-                "config/**/*.ts",
-                "src/features/**/views/*",
-                "src/features/**/slice/middlewares.ts",
-            ],
-            rules: {
-                "import/no-default-export": "off",
-            },
-        },
-    ],
     parser: "@typescript-eslint/parser",
     parserOptions: {
         ecmaFeatures: {
@@ -43,6 +31,7 @@ module.exports = {
         "@typescript-eslint/member-delimiter-style": "warn",
         "@typescript-eslint/no-shadow": ["error"],
         "@typescript-eslint/no-empty-function": "error",
+        "@typescript-eslint/no-redeclare": "error",
         "@typescript-eslint/no-unused-vars": "error",
         "@typescript-eslint/no-useless-constructor": "error",
         "@typescript-eslint/semi": "warn",
@@ -79,6 +68,7 @@ module.exports = {
         "no-param-reassign": ["error", {
             props: false,
         }],
+        "no-redeclare": "off",
         "no-restricted-exports": ["error", {
             restrictedNamedExports: [],
         }],

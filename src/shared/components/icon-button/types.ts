@@ -1,3 +1,3 @@
 export type BaseIconButtonStyledProps = {
-    variation?: "primary" | "light";
+    view?: "primary" | "white";
 };

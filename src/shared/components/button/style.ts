@@ -19,72 +19,64 @@ const getBgColorCss = (bgColor: ColorValue, bgColorOnHover: ColorValue) => css`
     }
 `;
 
-const mapVariationToCss: MapKeyToCss<NonNullable<ButtonStyledProps["variation"]>> = {
-    plain: css`
-        ${({ theme }) => css`
-            padding-top: calc(${PADDING_Y} - ${PLAIN_BORDER_WIDTH});
-            padding-bottom: calc(${PADDING_Y} - ${PLAIN_BORDER_WIDTH});
-            border: ${PLAIN_BORDER_WIDTH} solid ${theme.colors.primary};
-            color: ${theme.colors.primary};
-            ${getBgColorCss(theme.colors.white, theme.colors.orangeDark)}
+const mapViewToCss: MapKeyToCss<NonNullable<ButtonStyledProps["view"]>> = {
+    plain: css(({ theme: { colors } }) => css`
+        padding-top: calc(${PADDING_Y} - ${PLAIN_BORDER_WIDTH});
+        padding-bottom: calc(${PADDING_Y} - ${PLAIN_BORDER_WIDTH});
+        border: ${PLAIN_BORDER_WIDTH} solid ${colors.primary};
+        color: ${colors.primary};
+        ${getBgColorCss(colors.white, colors.orangeDark)}
+
+        ${BaseIconStyled} {
+            fill: ${colors.primary};
+        }
+
+        &:disabled {
+            color: ${colors.primary};
+        }
+
+        &:not(:disabled):hover {
+            border-color: ${colors.orangeDark};
+            color: ${colors.white};
 
             ${BaseIconStyled} {
-                fill: ${theme.colors.primary};
+                fill: ${colors.white};
             }
+        }
+    `),
+    primary: css(({ theme }) => getBgColorCss(theme.colors.primary, theme.colors.purpleLight)),
+    secondary: css(({ theme }) => getBgColorCss(theme.colors.secondary, theme.colors.orangeDark)),
+    transparent: css(({ theme: { colors } }) => css`
+        padding: 0;
+        background-color: transparent;
+        color: ${colors.primary};
+        text-decoration: underline;
+        text-decoration-style: dashed;
+        text-underline-offset: 0.2rem;
 
-            &:disabled {
-                color: ${theme.colors.primary};
-            }
+        ${BaseIconStyled} {
+            fill: ${colors.primary};
+        };
 
-            &:not(:disabled):hover {
-                border-color: ${theme.colors.orangeDark};
-                color: ${theme.colors.white};
+        &:disabled {
+            color: ${colors.primary};
+        }
 
-                ${BaseIconStyled} {
-                    fill: ${theme.colors.white};
-                }
-            }
-        `};
-    `,
-    primary: css`
-        ${({ theme }) => getBgColorCss(theme.colors.primary, theme.colors.purpleLight)}};
-    `,
-    secondary: css`
-        ${({ theme }) => getBgColorCss(theme.colors.secondary, theme.colors.orangeDark)};
-    `,
-    transparent: css`
-      ${({ theme }) => css`
-            padding: 0;
-            background-color: transparent;
-            color: ${theme.colors.primary};
-            text-decoration: underline;
-            text-decoration-style: dashed;
-            text-underline-offset: 0.2rem;
+        &:not(:disabled):hover {
+            color: ${colors.secondary};
 
             ${BaseIconStyled} {
-                fill: ${theme.colors.primary};
+                fill: ${colors.secondary};
             };
-
-            &:disabled {
-                color: ${theme.colors.primary};
-            }
-
-            &:not(:disabled):hover {
-                color: ${theme.colors.secondary};
-
-                ${BaseIconStyled} {
-                    fill: ${theme.colors.secondary};
-                };
-            }
-        `};
-    `,
+        }
+    `),
 };
 
 export const ButtonStyled = styled.button<ButtonStyledProps>(
     ({
         theme,
         isStretched = false,
-        variation = "primary",
+        view = "primary",
     }) => css`
         display: flex;
         justify-content: center;
@@ -123,7 +115,7 @@ export const ButtonStyled = styled.button<ButtonStyledProps>(
             cursor: default;
         }
 
-        ${mapVariationToCss[variation]};
+        ${mapViewToCss[view]};
     `,
 );
 

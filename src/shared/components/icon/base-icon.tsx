@@ -1,14 +1,13 @@
-import React, { ReactNode } from "react";
+import React from "react";
 import { useTheme } from "styled-components";
 
-import type { HasColor, HasSize } from "@/shared/types/theme";
+import type { HasChildren, HasColor, HasSize } from "@/shared/types/props";
 
 import { BaseIconStyled } from "./style";
 
 export type IconProps = Partial<HasColor> & Partial<HasSize>;
 
-export type BaseIconProps = IconProps & {
-    children: ReactNode;
+export type BaseIconProps = IconProps & HasChildren & {
     viewBox: string;
 };
 

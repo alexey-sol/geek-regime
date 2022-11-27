@@ -9,10 +9,10 @@ import { useTranslation } from "react-i18next";
 import ReactQuill from "react-quill";
 import { useNavigate } from "react-router";
 
-import { useCreatePostMutation, useUpdatePostByIdMutation } from "@/features/posts/services/api";
 import { Button } from "@/shared/components/button";
 import type { PostDto } from "@/features/posts/models/dtos";
 import type { Post } from "@/features/posts/models/entities";
+import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 
 import {
     BodyEditorStyled,
@@ -27,37 +27,27 @@ export type PostDraftProps = {
 };
 
 export const PostDraft = ({ post }: PostDraftProps) => {
+    const { savePost } = useActivePost();
+
     const initialTitleValue = post?.title ?? "";
     const initialBodyValue = post?.body ?? "";
     const [draftTitle, setDraftTitle] = useState<string>(initialTitleValue);
     const [draftBody, setDraftBody] = useState<string>(initialBodyValue);
     const bodyEditorRef = useRef<ReactQuill>(null);
 
-    const [createPost, createPostResponse] = useCreatePostMutation();
-    const [updatePostById, updatePostResponse] = useUpdatePostByIdMutation();
-
-    const isLoading = createPostResponse.isLoading || updatePostResponse.isLoading;
-
     const navigate = useNavigate();
     const goBack = () => navigate(-1);
 
     const { t } = useTranslation();
 
-    const draftData: Pick<PostDto, "title" | "body"> = useMemo(() => ({
+    const values: Pick<PostDto, "title" | "body"> = useMemo(() => ({
         title: draftTitle,
         body: draftBody,
     }), [draftBody, draftTitle]);
 
-    const savePost = useCallback(() => ((post?.id)
-        ? updatePostById({
-            id: post.id,
-            ...draftData,
-        })
-        : createPost({
-            spaceId: 1, // TODO hardcoded
-            userId: 1,
-            ...draftData,
-        })), [createPost, draftData, post?.id, updatePostById]);
+    const handleClickOnSaveButton = useCallback(() => {
+        savePost(values);
+    }, [savePost, values]);
 
     const savePostButtonTitle = post
         ? t("draft.controls.updatePostButton.title")
@@ -96,7 +86,7 @@ export const PostDraft = ({ post }: PostDraftProps) => {
             </BodyEditorWrapStyled>
 
             <ControlsWrapStyled>
-                <Button onClick={savePost} variation="secondary">
+                <Button onClick={handleClickOnSaveButton} view="secondary">
                     {savePostButtonTitle}
                 </Button>
 

@@ -1,4 +1,9 @@
-import React, { ReactNode, useCallback, useMemo } from "react";
+import React, {
+    memo,
+    ReactNode,
+    useCallback,
+    useMemo,
+} from "react";
 import { useTranslation } from "react-i18next";
 
 import { defaults } from "@/shared/const";
@@ -19,14 +24,13 @@ import type { UsePagingDataArgs } from "./types";
 const START_PAGE = defaults.PAGING_PAGE;
 const MIN_PAGE_COUNT_TO_SHOW_SPILLS = 3;
 
-export type PagingProps = Partial<UsePagingDataArgs> & Pick<UsePagingDataArgs, "setPage">;
+export type PagingProps = Partial<UsePagingDataArgs>;
 
-export const Paging = ({
+export const Paging = memo(({
     page = START_PAGE,
     pageNeighbours = 4,
     pathPrefix = "",
     qs = "",
-    setPage,
     size = defaults.PAGING_SIZE,
     totalItems = 0,
 }: PagingProps) => {
@@ -44,7 +48,6 @@ export const Paging = ({
         pageNeighbours,
         pathPrefix,
         qs,
-        setPage,
         size,
         totalItems,
     });
@@ -68,7 +71,7 @@ export const Paging = ({
                         <PagingButtonStyled
                             active={isStartPage}
                             onClick={toStartPage}
-                            variation="secondary"
+                            view="secondary"
                         >
                             {START_PAGE}
                         </PagingButtonStyled>
@@ -84,7 +87,7 @@ export const Paging = ({
                 <PagingButtonStyled
                     active={pageNumber === page}
                     onClick={() => goToPage(pageNumber)}
-                    variation="secondary"
+                    view="secondary"
                 >
                     {pageNumber}
                 </PagingButtonStyled>
@@ -100,7 +103,7 @@ export const Paging = ({
                         <PagingButtonStyled
                             active={isLastPage}
                             onClick={toLastPage}
-                            variation="secondary"
+                            view="secondary"
                         >
                             {lastPage}
                         </PagingButtonStyled>
@@ -126,7 +129,7 @@ export const Paging = ({
                             disabled={!hasLeftSpill}
                             onClick={toStartPage}
                             title={`${t("paging.leapButton.toStart.title")} 1`}
-                            variation="transparent"
+                            view="transparent"
                         >
                             {t("paging.leapButton.toStart.text")}
                         </LeapButtonStyled>
@@ -137,7 +140,7 @@ export const Paging = ({
                             disabled={!hasRightSpill}
                             onClick={toLastPage}
                             title={`${t("paging.leapButton.toEnd.title")} ${lastPage}`}
-                            variation="transparent"
+                            view="transparent"
                         >
                             {t("paging.leapButton.toEnd.text")}
                         </LeapButtonStyled>
@@ -152,7 +155,7 @@ export const Paging = ({
                         onClick={toPreviousPage}
                         size="larger"
                         title={t("paging.stepButton.previous.title")}
-                        variation="secondary"
+                        view="secondary"
                     >
                         &laquo;
                     </StepButtonStyled>
@@ -168,7 +171,7 @@ export const Paging = ({
                         onClick={toNextPage}
                         size="larger"
                         title={t("paging.stepButton.next.title")}
-                        variation="secondary"
+                        view="secondary"
                     >
                         &raquo;
                     </StepButtonStyled>
@@ -176,4 +179,4 @@ export const Paging = ({
             </StepButtonsWrapStyled>
         </PagingStyled>
     );
-};
+});

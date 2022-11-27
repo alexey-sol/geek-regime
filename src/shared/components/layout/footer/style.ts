@@ -7,7 +7,7 @@ export const FooterStyled = styled.footer`
 `;
 
 export const FooterInnerStyled = styled.section`
-    ${mixins.layoutRowInner};
+    ${mixins.getLayoutRowInner()};
     padding-top: ${({ theme }) => theme.components.footer.paddingY};
     padding-bottom: ${({ theme }) => theme.components.footer.paddingY};
     background-color: ${({ theme }) => theme.colors.secondary};

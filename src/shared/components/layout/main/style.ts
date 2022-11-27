@@ -7,7 +7,7 @@ export const MainStyled = styled.main`
 `;
 
 export const MainInnerStyled = styled.section`
-    ${mixins.layoutRowInner};
+    ${mixins.getLayoutRowInner()};
     padding-top: ${({ theme }) => theme.components.main.paddingY};
     padding-bottom: ${({ theme }) => theme.components.main.paddingY};
 `;

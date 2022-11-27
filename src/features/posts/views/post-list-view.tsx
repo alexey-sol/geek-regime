@@ -1,10 +1,10 @@
-import React from "react";
+import React, { memo } from "react";
 import styled from "styled-components";
 
 import { PostList } from "@/features/posts/components/post-list";
 import { Paging } from "@/shared/components/paging";
-import { PostsPagingProvider, usePostsPagingContext } from "@/features/posts/contexts/posts-paging";
 import { path } from "@/shared/const";
+import { usePostsPage } from "@/features/posts/utils/hooks/use-posts-page";
 
 export const PostListViewStyled = styled.section`
     display: flex;
@@ -18,22 +18,20 @@ export const InnerStyled = styled.section`
 `;
 
 export const PostListView = () => {
-    const { isLoading, options, setPage } = usePostsPagingContext();
-    const { page, size, totalItems } = options;
+    const { isPending, pagingOptions } = usePostsPage();
+    const { page, size, totalItems } = pagingOptions;
 
     return (
         <PostListViewStyled>
             <InnerStyled>
-                {isLoading
-                    ? "loading..."
-                    : <PostList />}
+                {isPending && "loading"}
+                <PostList />
             </InnerStyled>
 
             <Paging
                 page={page}
                 pathPrefix={`/${path.POSTS}`}
                 qs=""
-                setPage={setPage}
                 size={size}
                 totalItems={totalItems}
             />
@@ -41,8 +39,5 @@ export const PostListView = () => {
     );
 };
 
-export default () => (
-    <PostsPagingProvider>
-        <PostListView />
-    </PostsPagingProvider>
-);
+// eslint-disable-next-line import/no-default-export
+export default memo(() => <PostListView />);

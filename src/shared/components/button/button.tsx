@@ -1,6 +1,6 @@
 import React, { ButtonHTMLAttributes } from "react";
 
-import { HasColor, HasSize } from "@/shared/types/theme";
+import { HasColor, HasSize } from "@/shared/types/props";
 
 import { BaseIconButtonProps } from "../icon-button";
 import { Typography } from "../typography";

@@ -1,9 +1,7 @@
-export type UsePagingDataArgs = {
-    page: number;
+import { PagingOptions } from "@/shared/types/models";
+
+export type UsePagingDataArgs = PagingOptions & {
     pageNeighbours: number;
     pathPrefix: string;
     qs: string;
-    setPage: (page: number) => void;
-    size: number;
-    totalItems: number;
 };

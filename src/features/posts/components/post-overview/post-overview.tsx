@@ -10,6 +10,8 @@ import {
     PostOverviewStyled,
     TwoLineTextStyled,
 } from "./style";
+import { OverviewTitle } from "./overview-title";
+import { OverviewExcerpt } from "./overview-excerpt";
 
 export type PostOverviewProps = {
     post: Post;
@@ -22,14 +24,8 @@ export const PostOverview = ({ post }: PostOverviewProps) => {
         <PostOverviewStyled>
             <Link to={`/${path.POSTS}/${post.slug}`}>
                 <BodyStyled>
-                    <TwoLineTextStyled
-                        title={post.title}
-                        variation="caption"
-                    >
-                        {post.title}
-                    </TwoLineTextStyled>
-
-                    <TwoLineTextStyled>{post.excerpt}</TwoLineTextStyled>
+                    <OverviewTitle title={post.title} />
+                    <OverviewExcerpt excerpt={post.excerpt} />
                 </BodyStyled>
             </Link>
 

@@ -19,7 +19,7 @@ export const LanguageSwitch = () => {
             <I18nIconButton
                 onClick={toggleDropdown}
                 title={getLanguageTitle(language)}
-                variation="light"
+                view="white"
             />
 
             {showDropdown && (

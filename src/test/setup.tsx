@@ -1,7 +1,7 @@
 import "@testing-library/jest-dom";
 import "reflect-metadata";
 
-import React, { ReactElement, ReactNode } from "react";
+import React, { ReactElement } from "react";
 import { Provider } from "react-redux";
 import { render, RenderOptions, RenderResult } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
@@ -9,12 +9,13 @@ import { ThemeProvider } from "styled-components";
 
 import { theme } from "@/app/style/theme";
 import { store } from "@/app/store";
+import type { HasChildren } from "@/shared/types/props";
 
 jest.mock("@/config/app", () => ({
     appConfig: {},
 }));
 
-const Container = ({ children }: { children: ReactNode }): JSX.Element => (
+const Container = ({ children }: HasChildren): JSX.Element => (
     <Provider store={store}>
         <BrowserRouter>
             <ThemeProvider theme={theme}>

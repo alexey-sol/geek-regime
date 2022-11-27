@@ -25,7 +25,6 @@ export const usePagingData = ({
     pageNeighbours = 4,
     pathPrefix = "",
     qs = "",
-    setPage,
     size = defaults.PAGING_SIZE,
     totalItems,
 }: UsePagingDataArgs) => {
@@ -63,9 +62,8 @@ export const usePagingData = ({
             ? `${pathPrefix}/`
             : `${pathPrefix}/page-${selectedPage}${qs}`;
 
-        setPage(selectedPage);
         navigate(path);
-    }, [navigate, page, pathPrefix, qs, setPage]);
+    }, [navigate, page, pathPrefix, qs]);
 
     const getStartNumber = useCallback(() => {
         const shouldOffsetLeftNeighbours = pageNeighbours * 2 > lastPage - leftmostVisiblePage;

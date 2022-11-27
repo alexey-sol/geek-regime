@@ -8,12 +8,12 @@ export type TypographyProps = HTMLAttributes<Omit<HTMLParagraphElement, "color">
 
 export const Typography = ({
     children,
-    variation,
+    view,
     ...rest
 }: TypographyProps) => (
     <TypographyStyled
-        as={variation === "caption" ? "h2" : "p"}
-        variation={variation}
+        as={view === "caption" ? "h2" : "p"}
+        view={view}
         {...rest}
     >
         {children}

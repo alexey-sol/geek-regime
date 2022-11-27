@@ -1,10 +1,10 @@
-import React, { ReactNode } from "react";
+import React from "react";
+
+import type { HasChildren } from "@/shared/types/props";
 
 import { MainInnerStyled, MainStyled } from "./style";
 
-export type MainProps = {
-    children: ReactNode;
-};
+export type MainProps = HasChildren;
 
 export const Main = ({ children }: MainProps) => (
     <MainStyled>

@@ -4,17 +4,15 @@ import type { MapKeyToCss } from "@/shared/types/theme";
 
 import type { TypographyStyledProps } from "./types";
 
-const mapVariationToCss: MapKeyToCss<NonNullable<TypographyStyledProps["variation"]>> = {
+const mapViewToCss: MapKeyToCss<NonNullable<TypographyStyledProps["view"]>> = {
     caption: css`
         font-size: ${({ theme }) => theme.sizes.large};
         font-weight: bold;
     `,
-    hint: css`
-        ${({ theme }) => css`
-            color: ${theme.colors.greyDarken};
-            font-size: ${theme.sizes.small};
-        `};
-    `,
+    hint: css(({ theme }) => css`
+        color: ${theme.colors.greyDarken};
+        font-size: ${theme.sizes.small};
+    `),
     normal: css`
         font-size: ${({ theme }) => theme.sizes.normal};
     `,
@@ -26,11 +24,11 @@ export const TypographyStyled = styled.p<TypographyStyledProps>`
         color,
         font,
         size,
-        variation = "normal",
+        view = "normal",
     }) => css`
         font-family: ${theme.fonts.normal};
         color: ${theme.colors.greyDarkest};
-        ${mapVariationToCss[variation]};
+        ${mapViewToCss[view]};
 
         ${font && css`
             font-family: ${theme.fonts[font]};
