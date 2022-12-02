@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 
-import { path } from "@/shared/const";
+import { paths } from "@/shared/const";
 import type { Post } from "@/features/posts/models/entities";
 
 import {
@@ -22,7 +22,7 @@ export const PostOverview = ({ post }: PostOverviewProps) => {
 
     return (
         <PostOverviewStyled>
-            <Link to={`/${path.POSTS}/${post.slug}`}>
+            <Link to={`/${paths.POSTS}/${post.slug}`}>
                 <BodyStyled>
                     <OverviewTitle title={post.title} />
                     <OverviewExcerpt excerpt={post.excerpt} />

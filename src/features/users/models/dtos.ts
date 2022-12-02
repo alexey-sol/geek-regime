@@ -1,4 +1,4 @@
-import type { HasId } from "@/shared/types/models";
+import type { HasId } from "@/shared/types/props";
 
 export type Gender = "FEMALE" | "MALE";
 

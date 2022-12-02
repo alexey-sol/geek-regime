@@ -1,9 +1,9 @@
 import { createGlobalStyle } from "styled-components";
 
-import { resourcesStyle } from "./resources";
 import { resetStyle } from "./reset";
 
+import "./resources.scss";
+
 export const GlobalStyle = createGlobalStyle`
-    ${resourcesStyle};
     ${resetStyle};
 `;

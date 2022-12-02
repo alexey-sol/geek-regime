@@ -9,14 +9,22 @@ import {
     useUpdatePostByIdMutation,
 } from "@/features/posts/services/api";
 
-import { isCreatePostOnSaveArg } from "./utils";
+import { getPathToDetails, isCreatePostOnSaveArg } from "./utils";
 import type { CreatePostOnSaveArg, UpdatePostOnSaveArg, UseActivePostResult } from "./types";
+
+const ONE_STEP_BACK = -1;
 
 export const useActivePost = (): UseActivePostResult => {
     const navigate = useNavigate();
     const { slug } = useParams();
 
-    const { data, isFetching } = useGetPostBySlugQuery(slug ?? skipToken);
+    const { isFetching, post } = useGetPostBySlugQuery(slug ?? skipToken, {
+        selectFromResult: (result) => ({
+            isFetching: result.isFetching,
+            post: result.data && fromPostDtoToEntity(result.data),
+        }),
+    });
+
     const [createPost, resultOfCreate] = useCreatePostMutation();
     const [updatePostById, resultOfUpdate] = useUpdatePostByIdMutation();
 
@@ -24,12 +32,12 @@ export const useActivePost = (): UseActivePostResult => {
 
     useEffect(() => {
         const navigateToDetails = () => {
-            const hasNewSlug = slugAfterSaving !== slug;
+            const hasNewSlug = slugAfterSaving && slugAfterSaving !== slug;
 
             if (hasNewSlug) {
-                navigate(`/posts/${slugAfterSaving}`);
+                navigate(getPathToDetails(slugAfterSaving));
             } else {
-                navigate(-1);
+                navigate(ONE_STEP_BACK);
             }
         };
 
@@ -39,7 +47,6 @@ export const useActivePost = (): UseActivePostResult => {
         }
     }, [navigate, slugAfterSaving, slug]);
 
-    const post = useMemo(() => data && fromPostDtoToEntity(data), [data]);
     const id = post?.id;
 
     function save(arg: CreatePostOnSaveArg): void;

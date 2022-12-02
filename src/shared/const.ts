@@ -12,7 +12,7 @@ export const dom = {
     ROOT_ELEMENT_ID: "root",
 };
 
-export const path = {
+export const paths = {
     CREATE: "create",
     PAGE: "page",
     POSTS: "posts",

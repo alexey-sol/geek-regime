@@ -1,8 +1,8 @@
-import { Middleware } from "@reduxjs/toolkit";
+import type { Middleware } from "@reduxjs/toolkit";
 
-import type { RootState } from "@/app/store";
+import type { RootReducer } from "@/app/store";
 
 // TODO
-export const sessionMiddlewares: Middleware<unknown, RootState>[] = [
+export const sessionMiddlewares: Middleware<unknown, RootReducer>[] = [
     ({ dispatch, getState }) => (next) => (action): unknown => next(action),
 ];

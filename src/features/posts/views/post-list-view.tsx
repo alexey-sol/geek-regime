@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { PostList } from "@/features/posts/components/post-list";
 import { Paging } from "@/shared/components/paging";
-import { path } from "@/shared/const";
+import { paths } from "@/shared/const";
 import { usePostsPage } from "@/features/posts/utils/hooks/use-posts-page";
 
 export const PostListViewStyled = styled.section`
@@ -30,7 +30,7 @@ export const PostListView = () => {
 
             <Paging
                 page={page}
-                pathPrefix={`/${path.POSTS}`}
+                pathPrefix={`/${paths.POSTS}`}
                 qs=""
                 size={size}
                 totalItems={totalItems}

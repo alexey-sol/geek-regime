@@ -1,18 +1,19 @@
 import React, {
+    ChangeEventHandler,
     useCallback,
     useEffect,
     useMemo,
     useRef,
     useState,
 } from "react";
-import { useTranslation } from "react-i18next";
 import ReactQuill from "react-quill";
+import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 
 import { Button } from "@/shared/components/button";
-import type { PostDto } from "@/features/posts/models/dtos";
-import type { Post } from "@/features/posts/models/entities";
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
+import type { CreatePostOnSaveArg } from "@/features/posts/utils/hooks/types";
+import type { Post } from "@/features/posts/models/entities";
 
 import {
     BodyEditorStyled,
@@ -27,23 +28,36 @@ export type PostDraftProps = {
 };
 
 export const PostDraft = ({ post }: PostDraftProps) => {
+    const bodyEditorRef = useRef<ReactQuill>(null);
+
     const { savePost } = useActivePost();
 
-    const initialTitleValue = post?.title ?? "";
-    const initialBodyValue = post?.body ?? "";
-    const [draftTitle, setDraftTitle] = useState<string>(initialTitleValue);
-    const [draftBody, setDraftBody] = useState<string>(initialBodyValue);
-    const bodyEditorRef = useRef<ReactQuill>(null);
+    const { t } = useTranslation();
 
     const navigate = useNavigate();
     const goBack = () => navigate(-1);
 
-    const { t } = useTranslation();
+    const { body = "", title = "" } = post ?? {};
+    const initialValues: CreatePostOnSaveArg = useMemo(() => ({ body, title }), [body, title]);
+    const [values, setValues] = useState<CreatePostOnSaveArg>(initialValues);
 
-    const values: Pick<PostDto, "title" | "body"> = useMemo(() => ({
-        title: draftTitle,
-        body: draftBody,
-    }), [draftBody, draftTitle]);
+    const handleBodyChange = useCallback((newBody: string) => {
+        setValues((oldValues) => ({
+            ...oldValues,
+            body: newBody,
+        }));
+    }, []);
+
+    const handleTitleChange: ChangeEventHandler<HTMLInputElement> = useCallback(({ target }) => {
+        if (!(target instanceof HTMLInputElement)) {
+            return;
+        }
+
+        setValues((oldValues) => ({
+            ...oldValues,
+            title: target.value,
+        }));
+    }, []);
 
     const handleClickOnSaveButton = useCallback(() => {
         savePost(values);
@@ -71,17 +85,17 @@ export const PostDraft = ({ post }: PostDraftProps) => {
     return (
         <PostDraftStyled>
             <TitleInputStyled
-                value={draftTitle}
-                onChange={({ target }) => setDraftTitle(target.value)}
+                value={values.title}
+                onChange={handleTitleChange}
                 placeholder={t("draft.title.placeholder")}
             />
 
             <BodyEditorWrapStyled>
                 <BodyEditorStyled
                     editorRef={bodyEditorRef}
-                    onChange={setDraftBody}
+                    onChange={handleBodyChange}
                     placeholder={t("draft.body.placeholder")}
-                    value={draftBody}
+                    value={values.body}
                 />
             </BodyEditorWrapStyled>
 

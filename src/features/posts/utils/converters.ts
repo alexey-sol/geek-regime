@@ -1,7 +1,7 @@
 import { plainToClass } from "class-transformer";
 
 import { Post } from "@/features/posts/models/entities";
-import type { PageDto } from "@/shared/types/models";
+import type { PageDto } from "@/shared/models/dtos";
 import type { PostDto, PostsPage } from "@/features/posts/models/dtos";
 
 export const fromPageDtoToPostsPage = (response: PageDto<PostDto[]>): PostsPage => ({
@@ -12,4 +12,7 @@ export const fromPageDtoToPostsPage = (response: PageDto<PostDto[]>): PostsPage 
     },
 });
 
-export const fromPostDtoToEntity = (post: PostDto): Post => plainToClass(Post, post);
+export const fromPostDtoToEntity = (dto: PostDto): Post => plainToClass(Post, dto);
+
+export const fromPostDtoListToEntities = (dtoList: PostDto[]): Post[] =>
+    dtoList.map((dto) => fromPostDtoToEntity(dto));

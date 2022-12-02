@@ -1,12 +1,11 @@
 import { combineReducers, configureStore } from "@reduxjs/toolkit";
-import logger from "redux-logger";
 import { setupListeners } from "@reduxjs/toolkit/query";
 
 import { isProduction } from "@/shared/utils/helpers/env";
 import { postsApi } from "@/features/posts/services/api";
 import { postsReducer } from "@/features/posts/slice";
-import { sessionMiddlewares } from "@/features/session/slice/middlewares";
 import { sessionReducer } from "@/features/session/slice";
+import { sessionMiddlewares } from "@/features/session/slice/middlewares";
 
 const rootReducer = combineReducers({
     [postsApi.reducerPath]: postsApi.reducer,
@@ -14,17 +13,18 @@ const rootReducer = combineReducers({
     session: sessionReducer,
 });
 
-export type RootState = ReturnType<typeof rootReducer>;
-
 export const store = configureStore({
     devTools: !isProduction(),
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware()
         .concat(postsApi.middleware)
-        .concat(sessionMiddlewares)
-        .concat(logger),
-});
+        .concat(sessionMiddlewares),
+} as const);
 
 setupListeners(store.dispatch);
+
+export type RootReducer = ReturnType<typeof rootReducer>;
+
+export type RootState = ReturnType<typeof store.getState>;
 
 export type AppDispatch = typeof store.dispatch;

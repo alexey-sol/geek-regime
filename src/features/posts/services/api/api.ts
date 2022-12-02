@@ -2,10 +2,9 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 import * as constants from "@/features/posts/services/api/const";
 import { fromPageDtoToPostsPage } from "@/features/posts/utils/converters";
-import { getPagingOptions } from "@/features/posts/slice/selectors";
+import { selectPagingOptions } from "@/features/posts/slice/selectors";
 import type { PostDto, PostsPage } from "@/features/posts/models/dtos";
-import type { PageDto } from "@/shared/types/models";
-import type { RootState } from "@/app/store";
+import type { PageDto } from "@/shared/models/dtos";
 
 import {
     createTag,
@@ -69,7 +68,7 @@ export const postsApi = createApi({
                 url: `${id}`,
             }),
             async onQueryStarted({ id }, { dispatch, queryFulfilled, getState }) {
-                const { page, size } = getPagingOptions(getState() as RootState); // TODO assertion
+                const { page, size } = selectPagingOptions(getState());
                 const pagingArg: types.GetAllPostsArg = { page, size };
                 const { data } = await queryFulfilled;
 

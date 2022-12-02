@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { LinkButton } from "@/shared/components/button";
 import { Typography } from "@/shared/components/typography";
 import { useLanguage } from "@/shared/utils/language";
-import { path } from "@/shared/const";
+import { paths } from "@/shared/const";
 import type { Post } from "@/features/posts/models/entities";
 
 import { ContentStyled, InfoStyled, PostDetailsStyled } from "./style";
@@ -22,7 +22,7 @@ export const PostDetails = ({ post }: PostDetailsProps) => {
     const createdMonthsAgoText = relativeTimeFormat.format(createdMonthsAgo, "months");
 
     const bodyHtml = { __html: post.body };
-    const updatePostPath = `/${path.POSTS}/${post.slug}/${path.UPDATE}`;
+    const updatePostPath = `/${paths.POSTS}/${post.slug}/${paths.UPDATE}`;
 
     const hasUpdates = post.createdAt !== post.updatedAt;
 

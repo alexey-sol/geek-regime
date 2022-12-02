@@ -1,20 +1,20 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { useParams } from "react-router";
 
-import type { Post } from "@/features/posts/models/entities";
-import type { PagingOptions } from "@/shared/types/models";
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
-import { getPagingOptions } from "@/features/posts/slice/selectors";
+import { selectPagingOptions } from "@/features/posts/slice/selectors";
 import { setPagingOptions } from "@/features/posts/slice";
-import { defaults } from "@/shared/const";
-import { GetAllPostsArg } from "@/features/posts/services/api/types";
+import { fromPostDtoListToEntities } from "@/features/posts/utils/converters";
 import { useGetAllPostsQuery } from "@/features/posts/services/api";
-import { fromPostDtoToEntity } from "@/features/posts/utils/converters";
+import { defaults } from "@/shared/const";
+import type { PagingOptions } from "@/shared/models/entities";
+import type { Post } from "@/features/posts/models/entities";
+import type { GetAllPostsArg } from "@/features/posts/services/api/types";
 
 const usePagingOptions = () => {
     const params = useParams();
 
-    const defaultPagingOptions = useAppSelector(getPagingOptions);
+    const initialOptions = useAppSelector(selectPagingOptions);
 
     const dispatch = useAppDispatch();
     const onSetPagingOptions = useCallback((options: Partial<PagingOptions>) => {
@@ -28,8 +28,8 @@ const usePagingOptions = () => {
         ? +params.page
         : defaults.PAGING_PAGE;
 
-    const pagingOptions = useMemo(() =>
-        ({ ...defaultPagingOptions, page }), [defaultPagingOptions, page]);
+    const pagingOptions: PagingOptions = useMemo(() =>
+        ({ ...initialOptions, page }), [initialOptions, page]);
 
     useEffect(() => {
         onSetPagingOptions({ page });
@@ -41,7 +41,7 @@ const usePagingOptions = () => {
     }), [pagingOptions, setTotalItems]);
 };
 
-type UsePostsApiArg = Omit<ReturnType<typeof usePagingOptions>, "setPage">;
+type UsePostsApiArg = ReturnType<typeof usePagingOptions>;
 
 const usePostsApi = ({ pagingOptions, setTotalItems }: UsePostsApiArg) => {
     const { page, size } = pagingOptions;
@@ -50,24 +50,17 @@ const usePostsApi = ({ pagingOptions, setTotalItems }: UsePostsApiArg) => {
     const { data, isFetching } = useGetAllPostsQuery(pagingArg);
 
     const totalItems = data?.options.totalItems ?? pagingOptions.totalItems;
-    const postDtoList = useMemo(() => data?.items ?? [], [data?.items]);
 
     useEffect(() => {
         setTotalItems(totalItems);
     }, [totalItems, setTotalItems]);
 
-    const posts = useMemo(() => {
-        const hasPosts = Object.keys(postDtoList).length > 0;
+    const posts = useMemo(() => fromPostDtoListToEntities(data?.items ?? []), [data?.items]);
 
-        return (hasPosts)
-            ? postDtoList.map((postDto) => fromPostDtoToEntity(postDto))
-            : [];
-    }, [postDtoList]);
-
-    return {
+    return useMemo(() => ({
         isPending: isFetching,
         posts,
-    };
+    }), [isFetching, posts]);
 };
 
 type UsePostsPageResult = {
@@ -82,7 +75,7 @@ export const usePostsPage = (): UsePostsPageResult => {
 
     return useMemo(() => ({
         isPending,
-        posts,
         pagingOptions,
+        posts,
     }), [isPending, pagingOptions, posts]);
 };

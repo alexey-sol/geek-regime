@@ -2,7 +2,7 @@ import React from "react";
 
 import { render, screen } from "@/test/setup";
 import { fromPostDtoToEntity } from "@/features/posts/utils/converters";
-import { path } from "@/shared/const";
+import { paths } from "@/shared/const";
 import type { PostDto } from "@/features/posts/models/dtos";
 
 import { PostOverview } from "./post-overview";
@@ -56,6 +56,6 @@ describe("PostOverview", () => {
         render(<PostOverview post={post} />);
 
         const linkElement = screen.getByRole("link");
-        expect(linkElement).toHaveAttribute("href", `/${path.POSTS}/${post.slug}`);
+        expect(linkElement).toHaveAttribute("href", `/${paths.POSTS}/${post.slug}`);
     });
 });

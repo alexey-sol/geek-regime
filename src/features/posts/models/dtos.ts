@@ -1,4 +1,5 @@
-import type { HasId, Page } from "@/shared/types/models";
+import type { HasId } from "@/shared/types/props";
+import type { Page } from "@/shared/models/entities";
 import type { UserDto } from "@/features/users/models/dtos";
 
 export type PostDto = HasId & {
