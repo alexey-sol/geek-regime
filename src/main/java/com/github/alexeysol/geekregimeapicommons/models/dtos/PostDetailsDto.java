@@ -6,6 +6,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
-public class PostDto extends RawPostDto {
-    private UserDto author;
+public class PostDetailsDto extends PostPreviewDto {
+    protected String body;
 }
