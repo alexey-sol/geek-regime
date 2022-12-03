@@ -1,9 +1,10 @@
 package com.github.alexeysol.geekregimeapiposts.controllers.v1.postcontroller;
 
-import com.github.alexeysol.geekregimeapicommons.models.dtos.RawPostDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.PostPreviewDto;
 import com.github.alexeysol.geekregimeapicommons.utils.TestUtils;
 import com.github.alexeysol.geekregimeapicommons.utils.converters.PageableConverter;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
+import com.github.alexeysol.geekregimeapiposts.testutils.Factories;
 import com.github.alexeysol.geekregimeapiposts.utils.sources.ApiPostsSource;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -20,7 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static com.github.alexeysol.geekregimeapiposts.testutils.Factories.createPost;
-import static com.github.alexeysol.geekregimeapiposts.testutils.Factories.createRawPostDto;
 import static org.mockito.Mockito.when;
 
 public class FindAllPosts extends BasePostControllerTest {
@@ -41,11 +41,15 @@ public class FindAllPosts extends BasePostControllerTest {
         List<Post> posts = List.of(createPost(), createPost(), createPost());
         Page<Post> postPage = new PageImpl<>(posts, pageableStub, posts.size());
 
-        List<RawPostDto> rawPostDtoList = List.of(createRawPostDto(), createRawPostDto(), createRawPostDto());
-        Page<RawPostDto> rawPostDtoPage = new PageImpl<>(rawPostDtoList, pageableStub, rawPostDtoList.size());
+        List<PostPreviewDto> previewDtoList = List.of(
+            Factories.createPreviewDto(),
+            Factories.createPreviewDto(),
+            Factories.createPreviewDto()
+        );
+        Page<PostPreviewDto> previewDtoPage = new PageImpl<>(previewDtoList, pageableStub, previewDtoList.size());
 
         when(postService.findAllPosts(Mockito.any(Pageable.class))).thenReturn(postPage);
-        when(postMapper.fromPostListToRawPostDtoList(posts)).thenReturn(rawPostDtoList);
+        when(postMapper.fromPostListToPostPreviewDtoList(posts)).thenReturn(previewDtoList);
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl()))
             .andExpect(MockMvcResultMatchers.status().isOk())
@@ -54,7 +58,7 @@ public class FindAllPosts extends BasePostControllerTest {
             .andExpect(MockMvcResultMatchers.jsonPath("$.content").isNotEmpty())
             .andExpect(result -> {
                 String contentAsString = result.getResponse().getContentAsString();
-                TestUtils.responseContentEqualsProvidedPage(rawPostDtoPage, contentAsString);
+                TestUtils.responseContentEqualsProvidedPage(previewDtoPage, contentAsString);
             });
     }
 
@@ -65,11 +69,11 @@ public class FindAllPosts extends BasePostControllerTest {
         List<Post> emptyPostList = List.of();
         Page<Post> emptyPostPage = new PageImpl<>(new ArrayList<>(), pageableStub, 0);
 
-        List<RawPostDto> emptyPostDtoList = List.of();
-        Page<RawPostDto> emptyPostDtoPage = new PageImpl<>(new ArrayList<>(), pageableStub, 0);
+        List<PostPreviewDto> emptyDtoList = List.of();
+        Page<PostPreviewDto> emptyDtoPage = new PageImpl<>(new ArrayList<>(), pageableStub, 0);
 
         when(postService.findAllPosts(Mockito.any(Pageable.class))).thenReturn(emptyPostPage);
-        when(postMapper.fromPostListToRawPostDtoList(emptyPostList)).thenReturn(emptyPostDtoList);
+        when(postMapper.fromPostListToPostPreviewDtoList(emptyPostList)).thenReturn(emptyDtoList);
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl()))
             .andExpect(MockMvcResultMatchers.status().isOk())
@@ -78,7 +82,7 @@ public class FindAllPosts extends BasePostControllerTest {
             .andExpect(MockMvcResultMatchers.jsonPath("$.content").isEmpty())
             .andExpect(result -> {
                 String contentAsString = result.getResponse().getContentAsString();
-                TestUtils.responseContentEqualsProvidedPage(emptyPostDtoPage, contentAsString);
+                TestUtils.responseContentEqualsProvidedPage(emptyDtoPage, contentAsString);
             });
     }
 }

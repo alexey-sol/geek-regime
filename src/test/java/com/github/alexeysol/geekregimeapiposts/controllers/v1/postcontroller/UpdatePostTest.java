@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregimeapiposts.controllers.v1.postcontroller;
 
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceException;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.RawPostDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.PostDetailsDto;
 import com.github.alexeysol.geekregimeapicommons.utils.Json;
 import com.github.alexeysol.geekregimeapicommons.utils.TestUtils;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.UpdatePostDto;
@@ -41,18 +41,18 @@ public class UpdatePostTest extends BasePostControllerTest {
         String body = "Hello World";
         Post post = createPost(1L, 1L, title, body);
         UpdatePostDto updatePostDto = createUpdatePostDto(title, body);
-        RawPostDto rawPostDto = createRawPostDto(title, body);
+        PostDetailsDto detailsDto = createDetailsDto(title, body);
 
         when(postService.findPostById(postId)).thenReturn(Optional.of(post));
         when(postMapper.mapUpdatePostDtoToPost(updatePostDto, post)).thenReturn(post);
         when(postService.savePost(post)).thenReturn(post);
-        when(postMapper.fromPostToRawPostDto(post)).thenReturn(rawPostDto);
+        when(postMapper.fromPostToPostDetailsDto(post)).thenReturn(detailsDto);
 
         mockMvc.perform(TestUtils.mockPatchRequest(getUrl(postId), updatePostDto))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(result -> {
-                String expected = Json.stringify(rawPostDto);
+                String expected = Json.stringify(detailsDto);
                 String actual = result.getResponse().getContentAsString();
                 Assertions.assertEquals(expected, actual);
             });

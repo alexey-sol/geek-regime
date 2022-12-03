@@ -4,7 +4,8 @@ import com.github.alexeysol.geekregimeapicommons.constants.DefaultsConstants;
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceException;
 import com.github.alexeysol.geekregimeapicommons.models.ErrorDetail;
 import com.github.alexeysol.geekregimeapicommons.models.dtos.DeletionResultDto;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.RawPostDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.PostDetailsDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.PostPreviewDto;
 import com.github.alexeysol.geekregimeapicommons.utils.converters.PageableConverter;
 import com.github.alexeysol.geekregimeapiposts.constants.PathConstants;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.CreatePostDto;
@@ -45,7 +46,7 @@ public class PostController {
     }
 
     @GetMapping
-    Page<RawPostDto> findAllPosts(
+    Page<PostPreviewDto> findAllPosts(
         @RequestParam Optional<String> paging,
         @RequestParam Optional<String> sortBy
     ) {
@@ -64,30 +65,30 @@ public class PostController {
         }
 
         Page<Post> postsPage = service.findAllPosts(pageable);
-        List<RawPostDto> rawPostDtoList = mapper.fromPostListToRawPostDtoList(postsPage.getContent());
-        return new PageImpl<>(rawPostDtoList, pageable, postsPage.getTotalElements());
+        List<PostPreviewDto> dtoList = mapper.fromPostListToPostPreviewDtoList(postsPage.getContent());
+        return new PageImpl<>(dtoList, pageable, postsPage.getTotalElements());
     }
 
     @GetMapping("{slug}")
-    RawPostDto findPostBySlug(@PathVariable String slug) {
+    PostDetailsDto findPostBySlug(@PathVariable String slug) {
         Optional<Post> optionalPost = service.findPostBySlug(slug);
 
         if (optionalPost.isEmpty()) {
             throw new ResourceException(new ErrorDetail(ErrorDetail.Code.ABSENT, SLUG_FIELD));
         }
 
-        return mapper.fromPostToRawPostDto(optionalPost.get());
+        return mapper.fromPostToPostDetailsDto(optionalPost.get());
     }
 
     @PostMapping
-    RawPostDto createPost(@RequestBody @Valid CreatePostDto dto) {
+    PostDetailsDto createPost(@RequestBody @Valid CreatePostDto dto) {
         Post post = mapper.fromCreatePostDtoToPost(dto);
         Post createdPost = service.savePost(post);
-        return mapper.fromPostToRawPostDto(createdPost);
+        return mapper.fromPostToPostDetailsDto(createdPost);
     }
 
     @PatchMapping("{id}")
-    RawPostDto updatePost(
+    PostDetailsDto updatePost(
         @PathVariable long id,
         @RequestBody @Valid UpdatePostDto dto
     ) {
@@ -99,7 +100,7 @@ public class PostController {
 
         Post post = mapper.mapUpdatePostDtoToPost(dto, optionalPost.get());
         Post updatedPost = service.savePost(post);
-        return mapper.fromPostToRawPostDto(updatedPost);
+        return mapper.fromPostToPostDetailsDto(updatedPost);
     }
 
     @DeleteMapping("{id}")

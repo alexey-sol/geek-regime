@@ -1,6 +1,7 @@
 package com.github.alexeysol.geekregimeapiposts.utils.mappers;
 
-import com.github.alexeysol.geekregimeapicommons.models.dtos.RawPostDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.PostDetailsDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.PostPreviewDto;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.*;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.services.v1.PostService;
@@ -22,10 +23,15 @@ public abstract class BasePostMapper {
     }
 
     private void init(ModelMapper modelMapper) {
-        modelMapper.createTypeMap(Post.class, RawPostDto.class)
+        modelMapper.createTypeMap(Post.class, PostDetailsDto.class)
             .addMappings(mapper -> mapper
                 .using(MappingContext::getSource)
-                .map(Post::getUserId, RawPostDto::setAuthorId));
+                .map(Post::getUserId, PostDetailsDto::setAuthorId));
+
+        modelMapper.createTypeMap(Post.class, PostPreviewDto.class)
+            .addMappings(mapper -> mapper
+                .using(MappingContext::getSource)
+                .map(Post::getUserId, PostPreviewDto::setAuthorId));
 
         modelMapper.typeMap(CreatePostDto.class, Post.class)
             .addMappings(mapper -> {

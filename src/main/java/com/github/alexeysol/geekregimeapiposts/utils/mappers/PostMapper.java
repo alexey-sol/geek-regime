@@ -1,7 +1,8 @@
 package com.github.alexeysol.geekregimeapiposts.utils.mappers;
 
 import com.github.alexeysol.geekregimeapicommons.models.dtos.DeletionResultDto;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.RawPostDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.PostDetailsDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.PostPreviewDto;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.*;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.services.v1.PostService;
@@ -16,14 +17,18 @@ public class PostMapper extends BasePostMapper {
         super(modelMapper, service);
     }
 
-    public List<RawPostDto> fromPostListToRawPostDtoList(List<Post> posts) {
+    public List<PostPreviewDto> fromPostListToPostPreviewDtoList(List<Post> posts) {
         return posts.stream()
-            .map(this::fromPostToRawPostDto)
+            .map(this::fromPostToPostPreviewDto)
             .toList();
     }
 
-    public RawPostDto fromPostToRawPostDto(Post post) {
-        return modelMapper.map(post, RawPostDto.class);
+    public PostPreviewDto fromPostToPostPreviewDto(Post post) {
+        return modelMapper.map(post, PostPreviewDto.class);
+    }
+
+    public PostDetailsDto fromPostToPostDetailsDto(Post post) {
+        return modelMapper.map(post, PostDetailsDto.class);
     }
 
     public Post fromCreatePostDtoToPost(CreatePostDto dto) {

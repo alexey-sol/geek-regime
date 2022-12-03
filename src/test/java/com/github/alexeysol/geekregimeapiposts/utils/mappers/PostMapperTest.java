@@ -1,7 +1,8 @@
 package com.github.alexeysol.geekregimeapiposts.utils.mappers;
 
 import com.github.alexeysol.geekregimeapicommons.models.dtos.DeletionResultDto;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.RawPostDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.PostDetailsDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.PostPreviewDto;
 import com.github.alexeysol.geekregimeapicommons.models.dtos.UserDto;
 import com.github.alexeysol.geekregimeapiposts.constants.PostConstants;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.*;
@@ -32,43 +33,43 @@ public class PostMapperTest {
     }
 
     @Test
-    public void whenFromPostListToRawPostDtoList_thenReturnsRawPostDtoListWithMappedFields() {
+    public void whenFromPostListToPostPreviewDtoList_thenReturnsPostPreviewDtoListWithMappedFields() {
         String title = "Test Post";
-        String body = "Hello World";
+        String excerpt = "Hello World";
         String slug = "test-post";
         long userId = 1L;
         long spaceId = 5L;
-        Post post = createPost(userId, spaceId, title, body, null, slug);
+        Post post = createPost(userId, spaceId, title, null, excerpt, slug);
 
         UserDto author = new UserDto();
         author.setId(userId);
 
         String title2 = "Der Titel";
-        String body2 = "Der Something";
+        String excerpt2 = "Der Something";
         String slug2 = "another-test-post";
         long userId2 = 2L;
         long spaceId2 = 5L;
-        Post post2 = createPost(userId2, spaceId2, title2, body2, null, slug2);
+        Post post2 = createPost(userId2, spaceId2, title2, null, excerpt2, slug2);
 
         UserDto author2 = new UserDto();
         author2.setId(userId2);
 
         List<Post> posts = List.of(post, post2);
 
-        List<RawPostDto> result = postMapper.fromPostListToRawPostDtoList(posts);
+        List<PostPreviewDto> result = postMapper.fromPostListToPostPreviewDtoList(posts);
         Assertions.assertEquals(posts.size(), result.size());
         Assertions.assertEquals(title, result.get(0).getTitle());
-        Assertions.assertEquals(body, result.get(0).getBody());
+        Assertions.assertEquals(excerpt, result.get(0).getExcerpt());
         Assertions.assertEquals(slug, result.get(0).getSlug());
         Assertions.assertEquals(userId, result.get(0).getAuthorId());
         Assertions.assertEquals(title2, result.get(1).getTitle());
-        Assertions.assertEquals(body2, result.get(1).getBody());
+        Assertions.assertEquals(excerpt2, result.get(1).getExcerpt());
         Assertions.assertEquals(slug2, result.get(1).getSlug());
         Assertions.assertEquals(userId2, result.get(1).getAuthorId());
     }
 
     @Test
-    public void whenFromPostToRawPostDto_thenReturnsRawPostDtoWithMappedFields() {
+    public void whenFromPostToPostDetailsDto_thenReturnsPostDetailsDtoWithMappedFields() {
         String title = "Test Post";
         String body = "Hello World";
         String slug = "test-post";
@@ -79,7 +80,7 @@ public class PostMapperTest {
         UserDto userDto = new UserDto();
         userDto.setId(userId);
 
-        RawPostDto result = postMapper.fromPostToRawPostDto(post);
+        PostDetailsDto result = postMapper.fromPostToPostDetailsDto(post);
         Assertions.assertEquals(title, result.getTitle());
         Assertions.assertEquals(body, result.getBody());
         Assertions.assertEquals(slug, result.getSlug());

@@ -1,6 +1,7 @@
 package com.github.alexeysol.geekregimeapiposts.testutils;
 
-import com.github.alexeysol.geekregimeapicommons.models.dtos.RawPostDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.PostDetailsDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.PostPreviewDto;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.CreatePostDto;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.UpdatePostDto;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
@@ -44,15 +45,26 @@ public class Factories {
         return post;
     }
 
-    public static RawPostDto createRawPostDto() {
-        return createRawPostDto(null, null);
+    public static PostDetailsDto createDetailsDto() {
+        return createDetailsDto(null, null);
     }
 
-    public static RawPostDto createRawPostDto(String title, String body) {
-        RawPostDto post = new RawPostDto();
-        post.setTitle(title);
-        post.setBody(body);
-        return post;
+    public static PostDetailsDto createDetailsDto(String title, String body) {
+        PostDetailsDto dto = new PostDetailsDto();
+        dto.setTitle(title);
+        dto.setBody(body);
+        return dto;
+    }
+
+    public static PostPreviewDto createPreviewDto() {
+        return createPreviewDto(null, null);
+    }
+
+    public static PostPreviewDto createPreviewDto(String title, String excerpt) {
+        PostPreviewDto dto = new PostPreviewDto();
+        dto.setTitle(title);
+        dto.setExcerpt(excerpt);
+        return dto;
     }
 
     public static CreatePostDto createCreatePostDto(

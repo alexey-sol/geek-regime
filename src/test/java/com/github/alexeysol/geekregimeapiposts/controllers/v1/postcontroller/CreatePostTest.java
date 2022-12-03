@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregimeapiposts.controllers.v1.postcontroller;
 
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceException;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.RawPostDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.PostDetailsDto;
 import com.github.alexeysol.geekregimeapicommons.utils.Json;
 import com.github.alexeysol.geekregimeapicommons.utils.TestUtils;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.CreatePostDto;
@@ -42,17 +42,17 @@ public class CreatePostTest extends BasePostControllerTest {
 
         Post post = createPost(userId, spaceId, title, body);
         CreatePostDto createPostDto = createCreatePostDto(userId, spaceId, title, body);
-        RawPostDto rawPostDto = createRawPostDto(title, body);
+        PostDetailsDto detailsDto = createDetailsDto(title, body);
 
         when(postMapper.fromCreatePostDtoToPost(createPostDto)).thenReturn(post);
         when(postService.savePost(post)).thenReturn(post);
-        when(postMapper.fromPostToRawPostDto(post)).thenReturn(rawPostDto);
+        when(postMapper.fromPostToPostDetailsDto(post)).thenReturn(detailsDto);
 
         mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createPostDto))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(result -> {
-                String expected = Json.stringify(rawPostDto);
+                String expected = Json.stringify(detailsDto);
                 String actual = result.getResponse().getContentAsString();
                 Assertions.assertEquals(expected, actual);
             });
@@ -90,7 +90,7 @@ public class CreatePostTest extends BasePostControllerTest {
 
         when(postMapper.fromCreatePostDtoToPost(createPostDto)).thenReturn(post);
         when(postService.savePost(post)).thenReturn(post);
-        when(postMapper.fromPostToRawPostDto(post))
+        when(postMapper.fromPostToPostDetailsDto(post))
             .thenThrow(new ResourceException(HttpStatus.NOT_FOUND, "huh?"));
 
         mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createPostDto))
