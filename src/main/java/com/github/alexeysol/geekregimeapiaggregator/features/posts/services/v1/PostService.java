@@ -5,9 +5,9 @@ import com.github.alexeysol.geekregimeapiaggregator.shared.constants.PathConstan
 import com.github.alexeysol.geekregimeapiaggregator.shared.utils.sources.ApiPostsSource;
 import com.github.alexeysol.geekregimeapicommons.exceptions.SerializedApiException;
 import com.github.alexeysol.geekregimeapicommons.models.BasicPage;
-import com.github.alexeysol.geekregimeapicommons.models.Pair;
 import com.github.alexeysol.geekregimeapicommons.models.dtos.DeletionResultDto;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.RawPostDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.PostDetailsDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.PostPreviewDto;
 import com.github.alexeysol.geekregimeapicommons.utils.http.Request;
 import com.github.alexeysol.geekregimeapicommons.utils.http.ResponseReader;
 import org.springframework.stereotype.Service;
@@ -22,7 +22,7 @@ public class PostService {
         this.source = source;
     }
 
-    public BasicPage<RawPostDto> findAllPosts(
+    public BasicPage<PostPreviewDto> findAllPosts(
         Optional<String> paging,
         Optional<String> sortBy
     ) {
@@ -42,7 +42,7 @@ public class PostService {
         }
     }
 
-    public RawPostDto findPostBySlug(String slug) {
+    public PostDetailsDto findPostBySlug(String slug) {
         HttpResponse<String> response = new Request(getApiPostsUrl())
             .addPathVariable(slug)
             .GET()
@@ -50,26 +50,26 @@ public class PostService {
             .join();
 
         try {
-            return new ResponseReader(response).content(RawPostDto.class);
+            return new ResponseReader(response).content(PostDetailsDto.class);
         } catch (IllegalArgumentException exception) {
             throw new SerializedApiException(response.body());
         }
     }
 
-    public RawPostDto createPost(String dto) {
+    public PostDetailsDto createPost(String dto) {
         HttpResponse<String> response = new Request(getApiPostsUrl())
             .POST(dto)
             .send()
             .join();
 
         try {
-            return new ResponseReader(response).content(RawPostDto.class);
+            return new ResponseReader(response).content(PostDetailsDto.class);
         } catch (IllegalArgumentException exception) {
             throw new SerializedApiException(response.body());
         }
     }
 
-    public RawPostDto updatePost(long id, String dto) {
+    public PostDetailsDto updatePost(long id, String dto) {
         HttpResponse<String> response = new Request(getApiPostsUrl())
             .addPathVariable(id)
             .PATCH(dto)
@@ -77,7 +77,7 @@ public class PostService {
             .join();
 
         try {
-            return new ResponseReader(response).content(RawPostDto.class);
+            return new ResponseReader(response).content(PostDetailsDto.class);
         } catch (IllegalArgumentException exception) {
             throw new SerializedApiException(response.body());
         }

@@ -2,8 +2,10 @@ package com.github.alexeysol.geekregimeapiaggregator.features.posts.utils.mapper
 
 import com.github.alexeysol.geekregimeapiaggregator.features.posts.services.v1.PostService;
 import com.github.alexeysol.geekregimeapiaggregator.features.users.services.v1.UserService;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.PostDto;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.RawPostDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.PostDetailsDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.PostDetailsView;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.PostPreviewDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.PostPreviewView;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -15,13 +17,13 @@ public class PostMapper extends BasePostMapper {
         super(modelMapper, postService, userService);
     }
 
-    public PostDto fromRawPostDtoToPostDto(RawPostDto rawPostDto) {
-        return modelMapper.map(rawPostDto, PostDto.class);
+    public PostDetailsView fromPostDetailsDtoToView(PostDetailsDto postDto) {
+        return modelMapper.map(postDto, PostDetailsView.class);
     }
 
-    public List<PostDto> fromRawPostDtoListToPostDtoList(List<RawPostDto> rawPostDtoList) {
-        RawPostDtoList dtoList = new RawPostDtoList();
-        dtoList.setList(rawPostDtoList);
-        return modelMapper.map(dtoList, PostDtoList.class).getList();
+    public List<PostPreviewView> fromPostPreviewDtoListToViewList(List<PostPreviewDto> previewDtoList) {
+        PreviewDtoList dtoList = new PreviewDtoList();
+        dtoList.setList(previewDtoList);
+        return modelMapper.map(dtoList, PreviewViewList.class).getList();
     }
 }

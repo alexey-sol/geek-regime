@@ -5,9 +5,7 @@ import com.github.alexeysol.geekregimeapiaggregator.features.posts.services.v1.P
 import com.github.alexeysol.geekregimeapiaggregator.features.posts.utils.mappers.PostMapper;
 import com.github.alexeysol.geekregimeapicommons.exceptions.SerializedApiException;
 import com.github.alexeysol.geekregimeapicommons.models.BasicPage;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.DeletionResultDto;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.PostDto;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.RawPostDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.*;
 import org.modelmapper.MappingException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -30,41 +28,41 @@ public class PostController {
     }
 
     @GetMapping
-    BasicPage<PostDto> findAllPosts(
+    BasicPage<PostPreviewView> findAllPosts(
         @RequestParam Optional<String> paging,
         @RequestParam Optional<String> sortBy
     ) {
-        BasicPage<RawPostDto> page = service.findAllPosts(paging, sortBy);
-        List<PostDto> postDtoList = mapper.fromRawPostDtoListToPostDtoList(page.getContent());
-        return page.convertContent(postDtoList);
+        BasicPage<PostPreviewDto> page = service.findAllPosts(paging, sortBy);
+        List<PostPreviewView> viewList = mapper.fromPostPreviewDtoListToViewList(page.getContent());
+        return page.convertContent(viewList);
     }
 
     @GetMapping("{slug}")
-    PostDto findPostBySlug(@PathVariable String slug) {
-        RawPostDto rawPostDto = service.findPostBySlug(slug);
-        return mapper.fromRawPostDtoToPostDto(rawPostDto);
+    PostDetailsView findPostBySlug(@PathVariable String slug) {
+        PostDetailsDto detailsDto = service.findPostBySlug(slug);
+        return mapper.fromPostDetailsDtoToView(detailsDto);
     }
 
     @PostMapping
-    PostDto createPost(@RequestBody String dto) throws Throwable {
-        RawPostDto createdPost = service.createPost(dto);
+    PostDetailsView createPost(@RequestBody String dto) throws Throwable {
+        PostDetailsDto detailsDto = service.createPost(dto);
 
         try {
-            return mapper.fromRawPostDtoToPostDto(createdPost);
+            return mapper.fromPostDetailsDtoToView(detailsDto);
         } catch (MappingException exception) {
             Throwable cause = exception.getCause();
-            cleanUpIfNeeded(cause, createdPost.getId());
+            cleanUpIfNeeded(cause, detailsDto.getId());
             throw cause;
         }
     }
 
     @PatchMapping("{id}")
-    PostDto updatePost(
+    PostDetailsView updatePost(
         @PathVariable long id,
         @RequestBody String dto
     ) {
-        RawPostDto updatePost = service.updatePost(id, dto);
-        return mapper.fromRawPostDtoToPostDto(updatePost);
+        PostDetailsDto updatePost = service.updatePost(id, dto);
+        return mapper.fromPostDetailsDtoToView(updatePost);
     }
 
     @DeleteMapping("{id}")
