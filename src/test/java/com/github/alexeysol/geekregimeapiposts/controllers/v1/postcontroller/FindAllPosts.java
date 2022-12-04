@@ -1,10 +1,9 @@
 package com.github.alexeysol.geekregimeapiposts.controllers.v1.postcontroller;
 
-import com.github.alexeysol.geekregimeapicommons.models.dtos.PostPreviewDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.posts.PostPreviewDto;
 import com.github.alexeysol.geekregimeapicommons.utils.TestUtils;
 import com.github.alexeysol.geekregimeapicommons.utils.converters.PageableConverter;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
-import com.github.alexeysol.geekregimeapiposts.testutils.Factories;
 import com.github.alexeysol.geekregimeapiposts.utils.sources.ApiPostsSource;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -20,7 +19,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.ArrayList;
 import java.util.List;
 
-import static com.github.alexeysol.geekregimeapiposts.testutils.Factories.createPost;
 import static org.mockito.Mockito.when;
 
 public class FindAllPosts extends BasePostControllerTest {
@@ -38,14 +36,11 @@ public class FindAllPosts extends BasePostControllerTest {
     public void allPostsExist_whenFindAllPosts_thenReturnsPageContainingFullDtoListWithStatus200()
         throws Exception {
 
-        List<Post> posts = List.of(createPost(), createPost(), createPost());
+        List<Post> posts = List.of(new Post(), new Post(), new Post());
         Page<Post> postPage = new PageImpl<>(posts, pageableStub, posts.size());
 
-        List<PostPreviewDto> previewDtoList = List.of(
-            Factories.createPreviewDto(),
-            Factories.createPreviewDto(),
-            Factories.createPreviewDto()
-        );
+        List<PostPreviewDto> previewDtoList = List.of(new PostPreviewDto(), new PostPreviewDto(),
+            new PostPreviewDto());
         Page<PostPreviewDto> previewDtoPage = new PageImpl<>(previewDtoList, pageableStub, previewDtoList.size());
 
         when(postService.findAllPosts(Mockito.any(Pageable.class))).thenReturn(postPage);

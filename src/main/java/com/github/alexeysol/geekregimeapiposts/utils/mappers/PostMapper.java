@@ -1,8 +1,8 @@
 package com.github.alexeysol.geekregimeapiposts.utils.mappers;
 
-import com.github.alexeysol.geekregimeapicommons.models.dtos.DeletionResultDto;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.PostDetailsDto;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.PostPreviewDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.posts.PostDetailsDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.posts.PostPreviewDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.shared.HasIdDto;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.*;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.services.v1.PostService;
@@ -40,7 +40,7 @@ public class PostMapper extends BasePostMapper {
         return post;
     }
 
-    public DeletionResultDto fromIdToDeletionResultDto(long id) {
-        return new DeletionResultDto(id);
+    public HasIdDto fromIdToHasIdDto(long id) {
+        return new HasIdDto(id);
     }
 }

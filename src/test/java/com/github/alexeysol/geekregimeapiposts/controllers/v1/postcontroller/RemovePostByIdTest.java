@@ -2,7 +2,7 @@ package com.github.alexeysol.geekregimeapiposts.controllers.v1.postcontroller;
 
 import com.github.alexeysol.geekregimeapicommons.constants.DefaultsConstants;
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceException;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.DeletionResultDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.shared.HasIdDto;
 import com.github.alexeysol.geekregimeapicommons.utils.Json;
 import com.github.alexeysol.geekregimeapiposts.utils.sources.ApiPostsSource;
 import org.junit.jupiter.api.Assertions;
@@ -23,14 +23,14 @@ public class RemovePostByIdTest extends BasePostControllerTest {
     }
 
     @Test
-    public void givenPostExists_whenRemovePostById_thenReturnsDeletionResultDtoWithStatus200()
+    public void givenPostExists_whenRemovePostById_thenReturnsResultDtoWithStatus200()
         throws Exception {
 
         long postId = 1L;
-        DeletionResultDto resultDto = new DeletionResultDto(postId);
+        HasIdDto resultDto = new HasIdDto(postId);
 
         when(postService.removePostById(postId)).thenReturn(postId);
-        when(postMapper.fromIdToDeletionResultDto(postId)).thenReturn(resultDto);
+        when(postMapper.fromIdToHasIdDto(postId)).thenReturn(resultDto);
 
         mockMvc.perform(MockMvcRequestBuilders.delete(getUrl(postId)))
             .andExpect(MockMvcResultMatchers.status().isOk())

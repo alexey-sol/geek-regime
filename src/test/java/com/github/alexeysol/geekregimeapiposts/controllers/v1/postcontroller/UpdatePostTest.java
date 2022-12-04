@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregimeapiposts.controllers.v1.postcontroller;
 
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceException;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.PostDetailsDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.posts.PostDetailsDto;
 import com.github.alexeysol.geekregimeapicommons.utils.Json;
 import com.github.alexeysol.geekregimeapicommons.utils.TestUtils;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.UpdatePostDto;
@@ -21,7 +21,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 import java.util.Objects;
 import java.util.Optional;
 
-import static com.github.alexeysol.geekregimeapiposts.testutils.Factories.*;
 import static org.mockito.Mockito.when;
 
 public class UpdatePostTest extends BasePostControllerTest {
@@ -37,11 +36,20 @@ public class UpdatePostTest extends BasePostControllerTest {
         throws Exception {
 
         long postId = 1L;
-        String title = "Test Post";
-        String body = "Hello World";
-        Post post = createPost(1L, 1L, title, body);
-        UpdatePostDto updatePostDto = createUpdatePostDto(title, body);
-        PostDetailsDto detailsDto = createDetailsDto(title, body);
+        Post post = Post.builder()
+            .userId(1L)
+            .spaceId(1L)
+            .title("Test Post")
+            .body("Hello World")
+            .build();
+        UpdatePostDto updatePostDto = UpdatePostDto.builder()
+            .title(post.getTitle())
+            .body(post.getBody())
+            .build();
+        PostDetailsDto detailsDto = PostDetailsDto.builder()
+            .title(post.getTitle())
+            .body(post.getBody())
+            .build();
 
         when(postService.findPostById(postId)).thenReturn(Optional.of(post));
         when(postMapper.mapUpdatePostDtoToPost(updatePostDto, post)).thenReturn(post);
@@ -63,7 +71,10 @@ public class UpdatePostTest extends BasePostControllerTest {
         throws Exception {
 
         long absentId = 10L;
-        UpdatePostDto updatePostDto = createUpdatePostDto("Test Post", "Hello World");
+        UpdatePostDto updatePostDto = UpdatePostDto.builder()
+            .title("Test Post")
+            .body("Hello World")
+            .build();
 
         when(postService.findPostById(absentId))
             .thenThrow(new ResourceException(HttpStatus.NOT_FOUND, "whuh?"));
@@ -81,7 +92,10 @@ public class UpdatePostTest extends BasePostControllerTest {
 
         long postId = 1L;
         String invalidBody = "";
-        UpdatePostDto updatePostDto = createUpdatePostDto("Test Post", invalidBody);
+        UpdatePostDto updatePostDto = UpdatePostDto.builder()
+            .title("Test Post")
+            .body(invalidBody)
+            .build();
 
         mockMvc.perform(TestUtils.mockPatchRequest(getUrl(postId), updatePostDto))
             .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity())

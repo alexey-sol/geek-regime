@@ -2,10 +2,10 @@ package com.github.alexeysol.geekregimeapiposts.controllers.v1;
 
 import com.github.alexeysol.geekregimeapicommons.constants.DefaultsConstants;
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceException;
-import com.github.alexeysol.geekregimeapicommons.models.ErrorDetail;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.DeletionResultDto;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.PostDetailsDto;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.PostPreviewDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.posts.PostDetailsDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.posts.PostPreviewDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.shared.HasIdDto;
+import com.github.alexeysol.geekregimeapicommons.models.exceptions.ErrorDetail;
 import com.github.alexeysol.geekregimeapicommons.utils.converters.PageableConverter;
 import com.github.alexeysol.geekregimeapiposts.constants.PathConstants;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.CreatePostDto;
@@ -104,7 +104,7 @@ public class PostController {
     }
 
     @DeleteMapping("{id}")
-    DeletionResultDto removePostById(@PathVariable long id) {
+    HasIdDto removePostById(@PathVariable long id) {
         long result = service.removePostById(id);
         boolean isNotFound = result == DefaultsConstants.NOT_FOUND_BY_ID;
 
@@ -112,6 +112,6 @@ public class PostController {
             throw new ResourceException(new ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD));
         }
 
-        return mapper.fromIdToDeletionResultDto(id);
+        return mapper.fromIdToHasIdDto(id);
     }
 }

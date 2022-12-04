@@ -2,9 +2,7 @@ package com.github.alexeysol.geekregimeapiposts.models.entities;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.alexeysol.geekregimeapiposts.constants.DatabaseConstants;
-import lombok.AccessLevel;
-import lombok.Data;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -18,6 +16,9 @@ import java.util.Date;
 @Table(name = DatabaseConstants.POSTS_TABLE)
 @EntityListeners(AuditingEntityListener.class)
 @Data
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class Post {
     @Column(nullable = false)
     @Id

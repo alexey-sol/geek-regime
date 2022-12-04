@@ -1,9 +1,8 @@
 package com.github.alexeysol.geekregimeapiposts.controllers.v1.postcontroller;
 
-import com.github.alexeysol.geekregimeapicommons.models.dtos.PostDetailsDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.posts.PostDetailsDto;
 import com.github.alexeysol.geekregimeapicommons.utils.Json;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
-import com.github.alexeysol.geekregimeapiposts.testutils.Factories;
 import com.github.alexeysol.geekregimeapiposts.utils.sources.ApiPostsSource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,7 +13,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Optional;
 
-import static com.github.alexeysol.geekregimeapiposts.testutils.Factories.createPost;
 import static org.mockito.Mockito.when;
 
 public class FindPostBySlugTest extends BasePostControllerTest {
@@ -29,15 +27,16 @@ public class FindPostBySlugTest extends BasePostControllerTest {
     public void givenPostAndAuthorExist_whenFindPostBySlug_thenReturnsDtoWithStatus200()
         throws Exception {
 
-        String postSlug = "test-post";
-        Post post = createPost();
-        post.setUserId(1L);
-        PostDetailsDto detailsDto = Factories.createDetailsDto();
+        Post post = Post.builder()
+            .userId(1L)
+            .slug("test-post")
+            .build();
+        PostDetailsDto detailsDto = new PostDetailsDto();
 
-        when(postService.findPostBySlug(postSlug)).thenReturn(Optional.of(post));
+        when(postService.findPostBySlug(post.getSlug())).thenReturn(Optional.of(post));
         when(postMapper.fromPostToPostDetailsDto(post)).thenReturn(detailsDto);
 
-        mockMvc.perform(MockMvcRequestBuilders.get(getUrl(postSlug)))
+        mockMvc.perform(MockMvcRequestBuilders.get(getUrl(post.getSlug())))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(result -> {
                 String expected = Json.stringify(detailsDto);

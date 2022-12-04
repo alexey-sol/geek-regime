@@ -1,10 +1,12 @@
 package com.github.alexeysol.geekregimeapiposts.models.dtos;
 
+import lombok.Builder;
 import lombok.Data;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 @Data
+@Builder
 public class CreatePostDto {
     @Min(value = 1, message = "User ID is required and must be greater than 0")
     private long userId;

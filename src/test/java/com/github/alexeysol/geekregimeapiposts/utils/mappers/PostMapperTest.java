@@ -1,9 +1,8 @@
 package com.github.alexeysol.geekregimeapiposts.utils.mappers;
 
-import com.github.alexeysol.geekregimeapicommons.models.dtos.DeletionResultDto;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.PostDetailsDto;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.PostPreviewDto;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.UserDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.posts.PostDetailsDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.posts.PostPreviewDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.shared.HasIdDto;
 import com.github.alexeysol.geekregimeapiposts.constants.PostConstants;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.*;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
@@ -17,7 +16,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import java.util.List;
 import java.util.Optional;
 
-import static com.github.alexeysol.geekregimeapiposts.testutils.Factories.*;
 import static org.mockito.Mockito.when;
 
 @SpringBootTest
@@ -34,63 +32,60 @@ public class PostMapperTest {
 
     @Test
     public void whenFromPostListToPostPreviewDtoList_thenReturnsPostPreviewDtoListWithMappedFields() {
-        String title = "Test Post";
-        String excerpt = "Hello World";
-        String slug = "test-post";
-        long userId = 1L;
-        long spaceId = 5L;
-        Post post = createPost(userId, spaceId, title, null, excerpt, slug);
-
-        UserDto author = new UserDto();
-        author.setId(userId);
-
-        String title2 = "Der Titel";
-        String excerpt2 = "Der Something";
-        String slug2 = "another-test-post";
-        long userId2 = 2L;
-        long spaceId2 = 5L;
-        Post post2 = createPost(userId2, spaceId2, title2, null, excerpt2, slug2);
-
-        UserDto author2 = new UserDto();
-        author2.setId(userId2);
-
+        Post post = Post.builder()
+            .userId(1L)
+            .spaceId(5L)
+            .title("Test Post")
+            .excerpt("Hello World")
+            .slug("test-post")
+            .build();
+        Post post2 = Post.builder()
+            .userId(2L)
+            .spaceId(5L)
+            .title("Der Titel")
+            .excerpt("Der Something")
+            .slug("der-titel")
+            .build();
         List<Post> posts = List.of(post, post2);
 
         List<PostPreviewDto> result = postMapper.fromPostListToPostPreviewDtoList(posts);
         Assertions.assertEquals(posts.size(), result.size());
-        Assertions.assertEquals(title, result.get(0).getTitle());
-        Assertions.assertEquals(excerpt, result.get(0).getExcerpt());
-        Assertions.assertEquals(slug, result.get(0).getSlug());
-        Assertions.assertEquals(userId, result.get(0).getAuthorId());
-        Assertions.assertEquals(title2, result.get(1).getTitle());
-        Assertions.assertEquals(excerpt2, result.get(1).getExcerpt());
-        Assertions.assertEquals(slug2, result.get(1).getSlug());
-        Assertions.assertEquals(userId2, result.get(1).getAuthorId());
+        Assertions.assertEquals(post.getTitle(), result.get(0).getTitle());
+        Assertions.assertEquals(post.getExcerpt(), result.get(0).getExcerpt());
+        Assertions.assertEquals(post.getSlug(), result.get(0).getSlug());
+        Assertions.assertEquals(post.getUserId(), result.get(0).getAuthorId());
+        Assertions.assertEquals(post2.getTitle(), result.get(1).getTitle());
+        Assertions.assertEquals(post2.getExcerpt(), result.get(1).getExcerpt());
+        Assertions.assertEquals(post2.getSlug(), result.get(1).getSlug());
+        Assertions.assertEquals(post2.getUserId(), result.get(1).getAuthorId());
     }
 
     @Test
     public void whenFromPostToPostDetailsDto_thenReturnsPostDetailsDtoWithMappedFields() {
-        String title = "Test Post";
-        String body = "Hello World";
-        String slug = "test-post";
-        long userId = 1L;
-        long spaceId = 5L;
-        Post post = createPost(userId, spaceId, title, body, null, slug);
-
-        UserDto userDto = new UserDto();
-        userDto.setId(userId);
+        Post post = Post.builder()
+            .userId(1L)
+            .spaceId(5L)
+            .title("Test Post")
+            .body("Hello World")
+            .slug("test-post")
+            .build();
 
         PostDetailsDto result = postMapper.fromPostToPostDetailsDto(post);
-        Assertions.assertEquals(title, result.getTitle());
-        Assertions.assertEquals(body, result.getBody());
-        Assertions.assertEquals(slug, result.getSlug());
-        Assertions.assertEquals(userId, result.getAuthorId());
+        Assertions.assertEquals(post.getTitle(), result.getTitle());
+        Assertions.assertEquals(post.getBody(), result.getBody());
+        Assertions.assertEquals(post.getSlug(), result.getSlug());
+        Assertions.assertEquals(post.getUserId(), result.getAuthorId());
     }
 
     @Test
     public void whenFromCreatePostDtoToPost_thenReturnsPostWithGeneratedSlug() {
+        CreatePostDto createPostDto = CreatePostDto.builder()
+            .userId(1L)
+            .spaceId(1L)
+            .title("Test Post")
+            .body("Hello World")
+            .build();
         String slug = "test-post";
-        CreatePostDto createPostDto = createCreatePostDto(1L, 1L, "Test Post", "Hello World");
 
         when(postService.postAlreadyExists(slug)).thenReturn(false);
 
@@ -100,9 +95,13 @@ public class PostMapperTest {
 
     @Test
     public void givenSlugExists_whenFromCreatePostDtoToPost_thenReturnsPostWithModifiedSlug() {
-        String title = "Test Post";
+        CreatePostDto createPostDto = CreatePostDto.builder()
+            .userId(1L)
+            .spaceId(1L)
+            .title("Test Post")
+            .body("Hello World")
+            .build();
         String slug = "test-post";
-        CreatePostDto createPostDto = createCreatePostDto(1L, 1L, title, "Hello World");
 
         when(postService.postAlreadyExists(slug)).thenReturn(true);
 
@@ -112,23 +111,28 @@ public class PostMapperTest {
 
     @Test
     public void whenFromCreatePostDtoToPost_thenReturnsPostWithGeneratedExcerpt() {
-        String title = "Test Post";
-        String body = "Hello World";
-        CreatePostDto createPostDto = createCreatePostDto(1L, 1L, title, body);
+        CreatePostDto createPostDto = CreatePostDto.builder()
+            .userId(1L)
+            .spaceId(1L)
+            .title("Test Post")
+            .body("Hello World")
+            .build();
 
         Post result = postMapper.fromCreatePostDtoToPost(createPostDto);
-        String expectedExcerptStart = getExpectedExcerptStart(body);
+        String expectedExcerptStart = getExpectedExcerptStart(createPostDto.getBody());
         Assertions.assertTrue(result.getExcerpt().startsWith(expectedExcerptStart));
     }
 
     @Test
     public void givenNewTitle_whenMapUpdatePostDtoToPost_thenReturnsPostWithModifiedSlug() {
         long postId = 1L;
-        String oldTitle = "Test Post";
-        Post oldPost = createPost(oldTitle, null);
-
+        Post oldPost = Post.builder()
+            .title("Old Title")
+            .build();
+        UpdatePostDto updatePostDto = UpdatePostDto.builder()
+            .title("New Title")
+            .build();
         String slug = "new-title";
-        UpdatePostDto updatePostDto = createUpdatePostDto("New Title", null);
 
         when(postService.findPostById(postId)).thenReturn(Optional.of(oldPost));
         when(postService.postAlreadyExists(slug)).thenReturn(true);
@@ -140,11 +144,15 @@ public class PostMapperTest {
     @Test
     public void givenSameTitle_whenMapUpdatePostDtoToPost_thenReturnsPostWithSameSlug() {
         long postId = 1L;
-        String title = "Test Post";
+        Post oldPost = Post.builder()
+            .title("Test Post")
+            .slug("test-post")
+            .build();
         String slug = "test-post";
-        Post oldPost = createPost(title, null, slug);
 
-        UpdatePostDto updatePostDto = createUpdatePostDto(title, null);
+        UpdatePostDto updatePostDto = UpdatePostDto.builder()
+            .title(oldPost.getTitle())
+            .build();
 
         when(postService.findPostById(postId)).thenReturn(Optional.of(oldPost));
         when(postService.postAlreadyExists(slug)).thenReturn(true);
@@ -156,15 +164,18 @@ public class PostMapperTest {
     @Test
     public void givenNewBody_whenMapUpdatePostDtoToPost_thenReturnsPostWithModifiedExcerpt() {
         long postId = 1L;
-        Post oldPost = createPost("Test Post", "Hello World");
-
-        String newBody = "Oh hi Mark";
-        UpdatePostDto updatePostDto = createUpdatePostDto(null, newBody);
+        Post oldPost = Post.builder()
+            .title("Test Post")
+            .body("Hello World")
+            .build();
+        UpdatePostDto updatePostDto = UpdatePostDto.builder()
+            .body("Oh hi Mark")
+            .build();
 
         when(postService.findPostById(postId)).thenReturn(Optional.of(oldPost));
 
         Post result = postMapper.mapUpdatePostDtoToPost(updatePostDto, oldPost);
-        String exptectedExcerptStart = getExpectedExcerptStart(newBody);
+        String exptectedExcerptStart = getExpectedExcerptStart(updatePostDto.getBody());
         Assertions.assertTrue(result.getExcerpt().startsWith(exptectedExcerptStart));
     }
 
@@ -173,11 +184,17 @@ public class PostMapperTest {
         long postId = 1L;
         String oldBody = "Hello World";
         String slug = "test-post";
-        Post oldPost = createPost("Test Post", oldBody);
+        Post oldPost = Post.builder()
+            .title("Test Post")
+            .body(oldBody)
+            .build();
 
         String newTitle = "Hello!";
         String newBody = null;
-        UpdatePostDto updatePostDto = createUpdatePostDto(newTitle, newBody);
+        UpdatePostDto updatePostDto = UpdatePostDto.builder()
+            .title(newTitle)
+            .body(newBody)
+            .build();
 
         when(postService.findPostById(postId)).thenReturn(Optional.of(oldPost));
         when(postService.postAlreadyExists(slug)).thenReturn(false);
@@ -189,10 +206,10 @@ public class PostMapperTest {
     }
 
     @Test
-    public void whenFromIdToDeletionResultDto_thenReturnsDto() {
+    public void whenFromIdToHasIdDto_thenReturnsDto() {
         long postId = 1L;
 
-        DeletionResultDto result = postMapper.fromIdToDeletionResultDto(postId);
+        HasIdDto result = postMapper.fromIdToHasIdDto(postId);
         Assertions.assertEquals(postId, result.getId());
     }
 

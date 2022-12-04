@@ -7,8 +7,6 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
-import static com.github.alexeysol.geekregimeapiposts.testutils.Factories.createPost;
-
 public class FindPostBySlugTest extends BasePostRepositoryTest {
     public FindPostBySlugTest(
         @Autowired TestEntityManager entityManager,
@@ -19,12 +17,16 @@ public class FindPostBySlugTest extends BasePostRepositoryTest {
 
     @Test
     public void givenPostExists_whenFindPostBySlug_thenReturnsPost() {
-        String slug = "test-post";
-        Post post = createPost("Test Post", "Hello World", "Test Post", slug);
+        Post post = Post.builder()
+            .title("Test Post")
+            .body("Hello World")
+            .excerpt("Test Post")
+            .slug("test-post")
+            .build();
         entityManager.persist(post);
         entityManager.flush();
 
-        Post result = postRepository.findPostBySlug(slug);
+        Post result = postRepository.findPostBySlug(post.getSlug());
         Assertions.assertEquals(post, result);
     }
 

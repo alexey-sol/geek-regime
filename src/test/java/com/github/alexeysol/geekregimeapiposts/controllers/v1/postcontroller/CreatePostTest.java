@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregimeapiposts.controllers.v1.postcontroller;
 
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceException;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.PostDetailsDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.posts.PostDetailsDto;
 import com.github.alexeysol.geekregimeapicommons.utils.Json;
 import com.github.alexeysol.geekregimeapicommons.utils.TestUtils;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.CreatePostDto;
@@ -20,7 +20,6 @@ import org.springframework.web.bind.MethodArgumentNotValidException;
 
 import java.util.Objects;
 
-import static com.github.alexeysol.geekregimeapiposts.testutils.Factories.*;
 import static org.mockito.Mockito.when;
 
 public class CreatePostTest extends BasePostControllerTest {
@@ -35,14 +34,22 @@ public class CreatePostTest extends BasePostControllerTest {
     public void givenDtoIsValid_whenCreatePost_thenReturnsDtoWithStatus200()
         throws Exception {
 
-        long userId = 1L;
-        long spaceId = 1L;
-        String title = "Test Post";
-        String body = "Hello World";
-
-        Post post = createPost(userId, spaceId, title, body);
-        CreatePostDto createPostDto = createCreatePostDto(userId, spaceId, title, body);
-        PostDetailsDto detailsDto = createDetailsDto(title, body);
+        Post post = Post.builder()
+            .userId(1L)
+            .spaceId(1L)
+            .title("Test Post")
+            .body("Hello World")
+            .build();
+        CreatePostDto createPostDto = CreatePostDto.builder()
+            .userId(post.getUserId())
+            .spaceId(post.getSpaceId())
+            .title(post.getTitle())
+            .body(post.getBody())
+            .build();
+        PostDetailsDto detailsDto = PostDetailsDto.builder()
+            .title(post.getTitle())
+            .body(post.getBody())
+            .build();
 
         when(postMapper.fromCreatePostDtoToPost(createPostDto)).thenReturn(post);
         when(postService.savePost(post)).thenReturn(post);
@@ -63,7 +70,12 @@ public class CreatePostTest extends BasePostControllerTest {
         throws Exception {
 
         String invalidTitle = "";
-        CreatePostDto createPostDto = createCreatePostDto(1L, 1L, invalidTitle, "Hello World");
+        CreatePostDto createPostDto = CreatePostDto.builder()
+            .userId(1L)
+            .spaceId(1L)
+            .title(invalidTitle)
+            .body("Hello World")
+            .build();
 
         mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createPostDto))
             .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity())
@@ -81,12 +93,18 @@ public class CreatePostTest extends BasePostControllerTest {
         throws Exception {
 
         long absentUserId = 10L;
-        long spaceId = 1L;
-        String title = "Test Post";
-        String body = "Hello World";
-
-        Post post = createPost(absentUserId, spaceId, title, body);
-        CreatePostDto createPostDto = createCreatePostDto(absentUserId, spaceId, title, body);
+        Post post = Post.builder()
+            .userId(absentUserId)
+            .spaceId(1L)
+            .title("Test Post")
+            .body("Hello World")
+            .build();
+        CreatePostDto createPostDto = CreatePostDto.builder()
+            .userId(post.getUserId())
+            .spaceId(post.getSpaceId())
+            .title(post.getTitle())
+            .body(post.getBody())
+            .build();
 
         when(postMapper.fromCreatePostDtoToPost(createPostDto)).thenReturn(post);
         when(postService.savePost(post)).thenReturn(post);
