@@ -84,7 +84,7 @@ class UserMapperTest(@Autowired val mapper: UserMapper) {
     }
 
     @Test
-    fun givenDtoHasNulls_whenFromUpdateUserDtoToUser_thenReturnsUserWithNotAppliedNulls() {
+    fun givenDtoHasNulls_whenFromUpdateUserDtoToUser_thenReturnsUserWithSkippedNulls() {
         val oldEmail = "mark@mail.com"
         val newEmail = null
         val oldName = "Mark"
@@ -104,10 +104,10 @@ class UserMapperTest(@Autowired val mapper: UserMapper) {
     }
 
     @Test
-    fun whenFromIdToDeletionResultDto_thenReturnsDto() {
+    fun whenFromIdToBaseMutationResultDto_thenReturnsDto() {
         val userId = 1L
 
-        val result = mapper.fromIdToDeletionResultDto(userId)
+        val result = mapper.fromIdToHasIdDto(userId)
         Assertions.assertEquals(userId, result.id)
     }
 }

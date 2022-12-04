@@ -2,7 +2,7 @@ package com.github.alexeysol.geekregimeapiusers.controllers.v1.usercontroller
 
 import com.github.alexeysol.geekregimeapicommons.constants.DefaultsConstants
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceException
-import com.github.alexeysol.geekregimeapicommons.models.dtos.DeletionResultDto
+import com.github.alexeysol.geekregimeapicommons.models.dtos.shared.HasIdDto
 import com.github.alexeysol.geekregimeapicommons.utils.Json
 import com.github.alexeysol.geekregimeapiusers.utils.sources.ApiUsersSource
 import io.mockk.every
@@ -22,12 +22,12 @@ class RemoveUserByIdTest(
     @Autowired source: ApiUsersSource
 ) : BaseUserControllerTest(mockMvc, source) {
     @Test
-    fun givenUserExists_whenRemoveUserById_thenReturnsDeletionResultDtoWithStatus200() {
+    fun givenUserExists_whenRemoveUserById_thenReturnsResultDtoWithStatus200() {
         val userId = 1L
-        val resultDto = DeletionResultDto(userId)
+        val resultDto = HasIdDto(userId)
 
         every { service.removeUserById(userId) } returns userId
-        every { mapper.fromIdToDeletionResultDto(userId) } returns resultDto
+        every { mapper.fromIdToHasIdDto(userId) } returns resultDto
 
         mockMvc.perform(MockMvcRequestBuilders.delete(getUrl(userId)))
             .andExpect(MockMvcResultMatchers.status().isOk)

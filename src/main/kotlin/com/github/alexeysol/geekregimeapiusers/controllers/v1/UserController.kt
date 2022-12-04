@@ -2,9 +2,9 @@ package com.github.alexeysol.geekregimeapiusers.controllers.v1
 
 import com.github.alexeysol.geekregimeapicommons.constants.DefaultsConstants
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceException
-import com.github.alexeysol.geekregimeapicommons.models.ErrorDetail
-import com.github.alexeysol.geekregimeapicommons.models.dtos.DeletionResultDto
-import com.github.alexeysol.geekregimeapicommons.models.dtos.UserDto
+import com.github.alexeysol.geekregimeapicommons.models.dtos.shared.HasIdDto
+import com.github.alexeysol.geekregimeapicommons.models.dtos.users.UserDto
+import com.github.alexeysol.geekregimeapicommons.models.exceptions.ErrorDetail
 import com.github.alexeysol.geekregimeapicommons.utils.converters.PageableConverter
 import com.github.alexeysol.geekregimeapiusers.constants.PathConstants
 import com.github.alexeysol.geekregimeapiusers.models.dtos.CreateUserDto
@@ -14,7 +14,6 @@ import com.github.alexeysol.geekregimeapiusers.utils.assertPasswordsMatchIfNeede
 import com.github.alexeysol.geekregimeapiusers.utils.mappers.UserMapper
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
-import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import javax.validation.Valid
@@ -96,7 +95,7 @@ class UserController(
     }
 
     @DeleteMapping("{id}")
-    fun removeUserById(@PathVariable id: Long): DeletionResultDto {
+    fun removeUserById(@PathVariable id: Long): HasIdDto {
         val result = service.removeUserById(id)
         val isNotFound = result == DefaultsConstants.NOT_FOUND_BY_ID
 
@@ -104,6 +103,6 @@ class UserController(
             throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD))
         }
 
-        return mapper.fromIdToDeletionResultDto(id)
+        return mapper.fromIdToHasIdDto(id)
     }
 }

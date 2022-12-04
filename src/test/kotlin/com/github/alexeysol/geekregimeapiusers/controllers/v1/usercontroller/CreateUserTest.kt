@@ -1,9 +1,9 @@
 package com.github.alexeysol.geekregimeapiusers.controllers.v1.usercontroller
 
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceException
+import com.github.alexeysol.geekregimeapicommons.models.dtos.users.UserDto
 import com.github.alexeysol.geekregimeapicommons.utils.Json
 import com.github.alexeysol.geekregimeapicommons.utils.TestUtils
-import com.github.alexeysol.geekregimeapiusers.testutils.createUserDto
 import com.github.alexeysol.geekregimeapiusers.models.dtos.CreateUserDto
 import com.github.alexeysol.geekregimeapiusers.models.entities.User
 import com.github.alexeysol.geekregimeapiusers.models.dtos.CreateOrUpdateDetailsDto
@@ -30,7 +30,11 @@ class CreateUserTest(
         val now = Date()
         val user = User(email = email, createdAt = now, updatedAt = now)
         val createUserDto = CreateUserDto(email = email)
-        val userDto = createUserDto(email = email, createdAt = now, updatedAt = now)
+        val userDto = UserDto.builder()
+            .email(email)
+            .createdAt(now)
+            .updatedAt(now)
+            .build()
 
         every { service.userAlreadyExists(email) } returns false
         every { mapper.fromCreateUserDtoToUser(createUserDto) } returns user
@@ -56,7 +60,11 @@ class CreateUserTest(
             password = password,
             confirmPassword = password
         )
-        val userDto = createUserDto(email = email, createdAt = now, updatedAt = now)
+        val userDto = UserDto.builder()
+            .email(email)
+            .createdAt(now)
+            .updatedAt(now)
+            .build()
 
         every { service.userAlreadyExists(email) } returns false
         every { mapper.fromCreateUserDtoToUser(createUserDto) } returns user

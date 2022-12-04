@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregimeapiusers.utils.mappers
 
-import com.github.alexeysol.geekregimeapicommons.models.dtos.DeletionResultDto
-import com.github.alexeysol.geekregimeapicommons.models.dtos.UserDto
+import com.github.alexeysol.geekregimeapicommons.models.dtos.shared.HasIdDto
+import com.github.alexeysol.geekregimeapicommons.models.dtos.users.UserDto
 import com.github.alexeysol.geekregimeapiusers.models.dtos.CreateUserDto
 import com.github.alexeysol.geekregimeapiusers.models.dtos.UpdateUserDto
 import com.github.alexeysol.geekregimeapiusers.models.entities.User
@@ -28,5 +28,5 @@ class UserMapper(private val modelMapper: ModelMapper) {
         return user
     }
 
-    fun fromIdToDeletionResultDto(id: Long): DeletionResultDto = DeletionResultDto(id)
+    fun fromIdToHasIdDto(id: Long): HasIdDto = HasIdDto(id)
 }

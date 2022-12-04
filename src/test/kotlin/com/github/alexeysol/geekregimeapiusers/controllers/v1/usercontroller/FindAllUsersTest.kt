@@ -1,9 +1,8 @@
 package com.github.alexeysol.geekregimeapiusers.controllers.v1.usercontroller
 
-import com.github.alexeysol.geekregimeapicommons.models.dtos.UserDto
+import com.github.alexeysol.geekregimeapicommons.models.dtos.users.UserDto
 import com.github.alexeysol.geekregimeapicommons.utils.TestUtils
 import com.github.alexeysol.geekregimeapicommons.utils.converters.PageableConverter
-import com.github.alexeysol.geekregimeapiusers.testutils.createUserDto
 import com.github.alexeysol.geekregimeapiusers.models.entities.User
 import com.github.alexeysol.geekregimeapiusers.utils.sources.ApiUsersSource
 import io.mockk.every
@@ -70,7 +69,13 @@ class FindAllUsersTest(
         val users = listOf(User(id = userId), User(id = userId2))
         val userPage: Page<User> = PageImpl(users, pageableStub, users.size.toLong())
 
-        val userDtoList = listOf(createUserDto(id = userId), createUserDto(id = userId2))
+        val userDto = UserDto.builder()
+            .id(userId)
+            .build()
+        val userDto2 = UserDto.builder()
+            .id(userId2)
+            .build()
+        val userDtoList = listOf(userDto, userDto2)
         val userDtoPage = PageImpl(userDtoList, pageableStub, userDtoList.size.toLong());
 
         every { service.findAllUsersById(userIds, pageableStub) } returns userPage
@@ -98,7 +103,10 @@ class FindAllUsersTest(
         val users = listOf(User(id = userId))
         val userPage: Page<User> = PageImpl(users, pageableStub, users.size.toLong())
 
-        val userDtoList = listOf(createUserDto(id = userId))
+        val userDto = UserDto.builder()
+            .id(userId)
+            .build()
+        val userDtoList = listOf(userDto)
         val userDtoPage = PageImpl(userDtoList, pageableStub, userDtoList.size.toLong());
 
         every { service.findAllUsersById(userIds, pageableStub) } returns userPage
