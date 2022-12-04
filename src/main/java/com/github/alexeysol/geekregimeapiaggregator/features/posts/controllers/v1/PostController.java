@@ -4,8 +4,12 @@ import com.github.alexeysol.geekregimeapiaggregator.features.posts.constants.Pos
 import com.github.alexeysol.geekregimeapiaggregator.features.posts.services.v1.PostService;
 import com.github.alexeysol.geekregimeapiaggregator.features.posts.utils.mappers.PostMapper;
 import com.github.alexeysol.geekregimeapicommons.exceptions.SerializedApiException;
-import com.github.alexeysol.geekregimeapicommons.models.BasicPage;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.*;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.posts.PostDetailsDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.posts.PostDetailsView;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.posts.PostPreviewDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.posts.PostPreviewView;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.shared.HasIdDto;
+import com.github.alexeysol.geekregimeapicommons.models.utils.BasicPage;
 import org.modelmapper.MappingException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -66,7 +70,7 @@ public class PostController {
     }
 
     @DeleteMapping("{id}")
-    DeletionResultDto removePostById(@PathVariable long id) {
+    HasIdDto removePostById(@PathVariable long id) {
         return service.removePostById(id);
     }
 

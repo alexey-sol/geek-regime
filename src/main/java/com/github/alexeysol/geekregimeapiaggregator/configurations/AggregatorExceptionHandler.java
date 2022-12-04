@@ -2,7 +2,7 @@ package com.github.alexeysol.geekregimeapiaggregator.configurations;
 
 import com.github.alexeysol.geekregimeapicommons.constants.DefaultsConstants;
 import com.github.alexeysol.geekregimeapicommons.exceptions.SerializedApiException;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.ApiExceptionDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.shared.ApiExceptionDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

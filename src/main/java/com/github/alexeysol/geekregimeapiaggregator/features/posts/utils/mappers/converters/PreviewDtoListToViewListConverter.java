@@ -1,9 +1,9 @@
 package com.github.alexeysol.geekregimeapiaggregator.features.posts.utils.mappers.converters;
 
 import com.github.alexeysol.geekregimeapiaggregator.features.users.services.v1.UserService;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.PostPreviewDto;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.PostPreviewView;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.UserDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.posts.PostPreviewDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.posts.PostPreviewView;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.users.UserDto;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 

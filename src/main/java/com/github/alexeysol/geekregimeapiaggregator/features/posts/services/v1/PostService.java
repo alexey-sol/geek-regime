@@ -4,10 +4,10 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.alexeysol.geekregimeapiaggregator.shared.constants.PathConstants;
 import com.github.alexeysol.geekregimeapiaggregator.shared.utils.sources.ApiPostsSource;
 import com.github.alexeysol.geekregimeapicommons.exceptions.SerializedApiException;
-import com.github.alexeysol.geekregimeapicommons.models.BasicPage;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.DeletionResultDto;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.PostDetailsDto;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.PostPreviewDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.posts.PostDetailsDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.posts.PostPreviewDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.shared.HasIdDto;
+import com.github.alexeysol.geekregimeapicommons.models.utils.BasicPage;
 import com.github.alexeysol.geekregimeapicommons.utils.http.Request;
 import com.github.alexeysol.geekregimeapicommons.utils.http.ResponseReader;
 import org.springframework.stereotype.Service;
@@ -83,7 +83,7 @@ public class PostService {
         }
     }
 
-    public DeletionResultDto removePostById(long id) {
+    public HasIdDto removePostById(long id) {
         HttpResponse<String> response = new Request(getApiPostsUrl())
             .addPathVariable(id)
             .DELETE()
@@ -91,7 +91,7 @@ public class PostService {
             .join();
 
         try {
-            return new ResponseReader(response).content(DeletionResultDto.class);
+            return new ResponseReader(response).content(HasIdDto.class);
         } catch (IllegalArgumentException exception) {
             throw new SerializedApiException(response.body());
         }

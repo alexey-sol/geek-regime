@@ -3,10 +3,10 @@ package com.github.alexeysol.geekregimeapiaggregator.features.posts.utils.mapper
 import com.github.alexeysol.geekregimeapiaggregator.features.posts.services.v1.PostService;
 import com.github.alexeysol.geekregimeapiaggregator.features.posts.utils.mappers.converters.PreviewDtoListToViewListConverter;
 import com.github.alexeysol.geekregimeapiaggregator.features.users.services.v1.UserService;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.PostDetailsDto;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.PostDetailsView;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.PostPreviewDto;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.PostPreviewView;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.posts.PostDetailsDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.posts.PostDetailsView;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.posts.PostPreviewDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.posts.PostPreviewView;
 import org.modelmapper.ModelMapper;
 
 import java.util.List;

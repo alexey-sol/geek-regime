@@ -2,7 +2,7 @@ package com.github.alexeysol.geekregimeapiaggregator.features.users.services.v1.
 
 import com.github.alexeysol.geekregimeapiaggregator.shared.utils.sources.ApiUsersSource;
 import com.github.alexeysol.geekregimeapicommons.exceptions.SerializedApiException;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.UserDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.users.UserDto;
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
