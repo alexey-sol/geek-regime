@@ -1,8 +1,8 @@
 package com.github.alexeysol.geekregimeapicommons.utils.converters;
 
 import com.github.alexeysol.geekregimeapicommons.constants.DefaultsConstants;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.PagingDto;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.SortByDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.query.PagingDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.query.SortByDto;
 import com.github.alexeysol.geekregimeapicommons.utils.Json;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

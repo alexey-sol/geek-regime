@@ -1,4 +1,4 @@
-package com.github.alexeysol.geekregimeapicommons.models.dtos;
+package com.github.alexeysol.geekregimeapicommons.models.dtos.query;
 
 import com.github.alexeysol.geekregimeapicommons.constants.DefaultsConstants;
 import org.springframework.data.domain.Sort.Direction;

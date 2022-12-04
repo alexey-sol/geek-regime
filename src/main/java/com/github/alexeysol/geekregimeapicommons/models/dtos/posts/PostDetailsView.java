@@ -1,13 +1,16 @@
-package com.github.alexeysol.geekregimeapicommons.models.dtos;
+package com.github.alexeysol.geekregimeapicommons.models.dtos.posts;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.users.UserDto;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
-@Data
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
-@EqualsAndHashCode(callSuper = true)
 @JsonIgnoreProperties({ "authorId" })
 public class PostDetailsView extends PostDetailsDto {
+    @Getter
+    @Setter
     private UserDto author;
 }

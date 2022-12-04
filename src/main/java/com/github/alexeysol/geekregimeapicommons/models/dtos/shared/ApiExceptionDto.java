@@ -1,6 +1,6 @@
-package com.github.alexeysol.geekregimeapicommons.models.dtos;
+package com.github.alexeysol.geekregimeapicommons.models.dtos.shared;
 
-import com.github.alexeysol.geekregimeapicommons.models.ErrorDetail;
+import com.github.alexeysol.geekregimeapicommons.models.exceptions.ErrorDetail;
 import lombok.*;
 
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.github.alexeysol.geekregimeapicommons.models.dtos;
+package com.github.alexeysol.geekregimeapicommons.models.dtos.query;
 
 public class PagingDto {
     private final int DEFAULT_SIZE = 10;

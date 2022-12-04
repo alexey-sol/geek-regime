@@ -1,8 +1,10 @@
-package com.github.alexeysol.geekregimeapicommons.models.dtos;
+package com.github.alexeysol.geekregimeapicommons.models.dtos.posts;
 
 import lombok.*;
+import lombok.experimental.SuperBuilder;
 
 @Data
+@SuperBuilder
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)

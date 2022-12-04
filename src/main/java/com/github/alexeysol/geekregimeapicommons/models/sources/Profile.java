@@ -1,4 +1,4 @@
-package com.github.alexeysol.geekregimeapicommons.models;
+package com.github.alexeysol.geekregimeapicommons.models.sources;
 
 public enum Profile {
     DEV("dev"),

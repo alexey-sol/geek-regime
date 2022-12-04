@@ -1,6 +1,6 @@
 package com.github.alexeysol.geekregimeapicommons.exceptions;
 
-import com.github.alexeysol.geekregimeapicommons.models.ErrorDetail;
+import com.github.alexeysol.geekregimeapicommons.models.exceptions.ErrorDetail;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.server.ResponseStatusException;
 

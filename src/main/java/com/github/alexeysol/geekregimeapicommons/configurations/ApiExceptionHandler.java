@@ -1,8 +1,8 @@
 package com.github.alexeysol.geekregimeapicommons.configurations;
 
-import com.github.alexeysol.geekregimeapicommons.models.dtos.ApiExceptionDto;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.shared.ApiExceptionDto;
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceException;
-import com.github.alexeysol.geekregimeapicommons.models.ErrorDetail;
+import com.github.alexeysol.geekregimeapicommons.models.exceptions.ErrorDetail;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;

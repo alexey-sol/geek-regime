@@ -1,8 +1,8 @@
 package com.github.alexeysol.geekregimeapicommons.exceptions;
 
 import com.github.alexeysol.geekregimeapicommons.constants.DefaultsConstants;
-import com.github.alexeysol.geekregimeapicommons.models.ErrorDetail;
-import com.github.alexeysol.geekregimeapicommons.models.dtos.ApiExceptionDto;
+import com.github.alexeysol.geekregimeapicommons.models.exceptions.ErrorDetail;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.shared.ApiExceptionDto;
 import com.github.alexeysol.geekregimeapicommons.utils.Json;
 import com.github.alexeysol.geekregimeapicommons.utils.ObjectCasting;
 import com.github.alexeysol.geekregimeapicommons.utils.converters.MapConverter;
