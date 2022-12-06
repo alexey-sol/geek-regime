@@ -5,7 +5,8 @@ import {
     ExceptionFilter,
     HttpException,
 } from "@nestjs/common";
-import { ApiExceptionBody } from "@/exceptions/exceptions.types";
+
+import type { ApiExceptionBody } from "@/exceptions/types";
 
 @Catch(HttpException)
 export class ApiExceptionFilter implements ExceptionFilter {

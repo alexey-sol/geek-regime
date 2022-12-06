@@ -5,4 +5,4 @@ export type ApiExceptionBody = {
     path: string;
     status: HttpStatus;
     timestamp: string;
-}
+};

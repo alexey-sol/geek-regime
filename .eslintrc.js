@@ -6,6 +6,10 @@ module.exports = {
     extends: [
         "airbnb-base",
     ],
+    globals: {
+        NodeJS: true,
+    },
+    ignorePatterns: ["build/*", "coverage/*", "dist/*", "node_modules/*"],
     overrides: [
         {
             files: ["**/*.test.ts", "**/*-test.ts"],
@@ -24,22 +28,36 @@ module.exports = {
         "unicorn",
     ],
     rules: {
+        "@typescript-eslint/member-delimiter-style": "warn",
         "@typescript-eslint/no-shadow": ["error"],
         "@typescript-eslint/no-empty-function": "error",
+        "@typescript-eslint/no-redeclare": "error",
         "@typescript-eslint/no-unused-vars": "error",
         "@typescript-eslint/no-useless-constructor": "error",
+        "@typescript-eslint/semi": "warn",
         "class-methods-use-this": "off",
         "implicit-arrow-linebreak": "off",
         "import/extensions": ["error", "ignorePackages", {
             js: "never",
             ts: "never",
         }],
+        "import/first": ["warn", "absolute-first"],
+        "import/newline-after-import": "warn",
         "import/no-extraneous-dependencies": ["error", {
             devDependencies: true,
         }],
         "import/no-default-export": "error",
+        "import/order": ["warn", {
+            groups: [
+                "builtin", "external", "internal", "parent", "sibling", "index",
+            ],
+            "newlines-between": "always",
+        }],
         "import/prefer-default-export": "off",
-        indent: ["error", 4],
+        indent: ["error", 4, {
+            SwitchCase: 1,
+            ignoredNodes: ["PropertyDefinition"],
+        }],
         "linebreak-style": ["error", "unix"],
         "lines-between-class-members": ["error", "always", {
             exceptAfterSingleLine: true,
@@ -48,20 +66,19 @@ module.exports = {
         "max-len": ["error", {
             code: 100,
         }],
-        "no-console": "off",
         "no-empty-function": "off",
         "no-param-reassign": ["error", {
             props: false,
         }],
+        "no-redeclare": "off",
         "no-restricted-exports": ["error", {
             restrictedNamedExports: [],
         }],
         "no-shadow": "off",
-        "no-unused-vars": ["error", {
-            args: "none",
-        }],
+        "no-unused-vars": "off",
         "no-useless-constructor": "off",
         quotes: ["error", "double"],
+        semi: "off",
         "unicorn/filename-case": ["error", {
             case: "kebabCase",
         }],
