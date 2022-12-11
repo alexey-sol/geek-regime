@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregimeapicommons.utils.http;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.github.alexeysol.geekregimeapicommons.utils.Json;
+import com.github.alexeysol.geekregimeapicommons.utils.parsers.Json;
 import org.springframework.http.HttpStatus;
 import org.springframework.util.Assert;
 

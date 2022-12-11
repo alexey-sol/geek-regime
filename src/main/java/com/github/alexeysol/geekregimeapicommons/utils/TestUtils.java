@@ -1,5 +1,6 @@
 package com.github.alexeysol.geekregimeapicommons.utils;
 
+import com.github.alexeysol.geekregimeapicommons.utils.parsers.Json;
 import com.jayway.jsonpath.JsonPath;
 import org.junit.jupiter.api.Assertions;
 import org.springframework.data.domain.Page;

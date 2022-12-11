@@ -1,4 +1,4 @@
-package com.github.alexeysol.geekregimeapicommons.utils;
+package com.github.alexeysol.geekregimeapicommons.utils.parsers;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;

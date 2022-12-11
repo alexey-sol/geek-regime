@@ -1,45 +1,43 @@
 package com.github.alexeysol.geekregimeapicommons.utils.converters;
 
-import com.github.alexeysol.geekregimeapicommons.constants.DefaultsConstants;
+import com.github.alexeysol.geekregimeapicommons.constants.Defaults;
 import com.github.alexeysol.geekregimeapicommons.models.dtos.query.PagingDto;
 import com.github.alexeysol.geekregimeapicommons.models.dtos.query.SortByDto;
-import com.github.alexeysol.geekregimeapicommons.utils.Json;
+import com.github.alexeysol.geekregimeapicommons.utils.parsers.Json;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 public class PageableConverter {
-    private static final String INVALID_SORT_BY_FIELD_TEMPLATE = "Sort by field value must be " +
-        "one of: %s";
+    private static final String INVALID_SORT_BY_FIELD_TEMPLATE = "Found unexpected sortBy " +
+        "field value: %s. Sorting is allowed by one of these fields: %s";
     private static final List<String> DEFAULT_SORT_BY_FIELDS = List.of(
-        DefaultsConstants.PRIMARY_KEY_NAME
+        Defaults.PRIMARY_KEY_NAME
     );
 
     private final String pagingJson;
     private final String sortByJson;
-    private final List<String> sortByFields;
+    private final List<String> sortableFields;
 
     public PageableConverter(String pagingJson, String sortByJson) {
         this(pagingJson, sortByJson, DEFAULT_SORT_BY_FIELDS);
     }
 
-    public PageableConverter(String pagingJson, String sortByJson, List<String> sortByFields) {
+    public PageableConverter(String pagingJson, String sortByJson, List<String> sortableFields) {
         this.pagingJson = Objects.requireNonNullElse(pagingJson, "");
         this.sortByJson = Objects.requireNonNullElse(sortByJson, "");
-        this.sortByFields = sortByFields;
+        this.sortableFields = sortableFields;
     }
 
     public Pageable getPageable() throws IllegalArgumentException {
         Sort sort = sortByJsonToSortObject();
 
-        PagingDto pagingDto = queryJsonToValue(
-            pagingJson,
-            PagingDto.class
-        ).orElse(new PagingDto());
+        PagingDto pagingDto = (pagingJson.isEmpty())
+            ? new PagingDto()
+            : Json.parse(pagingJson, PagingDto.class);
 
         return PageRequest.of(
             pagingDto.getPage(),
@@ -49,10 +47,9 @@ public class PageableConverter {
     }
 
     private Sort sortByJsonToSortObject() {
-        SortByDto sortByDto = queryJsonToValue(
-            sortByJson,
-            SortByDto.class
-        ).orElse(new SortByDto());
+        SortByDto sortByDto = (sortByJson.isEmpty())
+            ? new SortByDto()
+            : Json.parse(sortByJson, SortByDto.class);
 
         assertSortByFieldIsValid(sortByDto.getField());
 
@@ -64,24 +61,15 @@ public class PageableConverter {
             : sort.descending();
     }
 
-    private static <Value> Optional<Value> queryJsonToValue(
-        String queryJson,
-        Class<Value> valueType
-    ) {
-        Optional<Value> value = Optional.empty();
-
-        if (queryJson.isEmpty()) {
-            return value;
-        }
-
-        return Optional.of(Json.parse(queryJson, valueType));
-    }
-
     private void assertSortByFieldIsValid(String field) {
-        if (!sortByFields.contains(field)) {
-            String joinedFields = String.join(", ", sortByFields);
-            String message = String.format(INVALID_SORT_BY_FIELD_TEMPLATE, joinedFields);
+        if (!sortableFields.contains(field)) {
+            String message = getAssertionMessage(field);
             throw new IllegalArgumentException(message);
         }
+    }
+
+    private String getAssertionMessage(String invalidField) {
+        String joinedFields = String.join(", ", sortableFields);
+        return String.format(INVALID_SORT_BY_FIELD_TEMPLATE, invalidField, joinedFields);
     }
 }

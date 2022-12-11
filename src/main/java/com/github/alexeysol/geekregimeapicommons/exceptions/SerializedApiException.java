@@ -1,9 +1,9 @@
 package com.github.alexeysol.geekregimeapicommons.exceptions;
 
-import com.github.alexeysol.geekregimeapicommons.constants.DefaultsConstants;
+import com.github.alexeysol.geekregimeapicommons.constants.Defaults;
 import com.github.alexeysol.geekregimeapicommons.models.exceptions.ErrorDetail;
 import com.github.alexeysol.geekregimeapicommons.models.dtos.shared.ApiExceptionDto;
-import com.github.alexeysol.geekregimeapicommons.utils.Json;
+import com.github.alexeysol.geekregimeapicommons.utils.parsers.Json;
 import com.github.alexeysol.geekregimeapicommons.utils.ObjectCasting;
 import com.github.alexeysol.geekregimeapicommons.utils.converters.MapConverter;
 
@@ -32,7 +32,7 @@ public class SerializedApiException extends RuntimeException {
         public Builder buildStatus() {
             int status = (rawData.containsKey("status"))
                 ? Integer.parseInt(String.valueOf(rawData.get("status")))
-                : DefaultsConstants.API_EXCEPTION_HTTP_STATUS.value();
+                : Defaults.API_EXCEPTION_HTTP_STATUS.value();
 
             result.setStatus(status);
             return this;
