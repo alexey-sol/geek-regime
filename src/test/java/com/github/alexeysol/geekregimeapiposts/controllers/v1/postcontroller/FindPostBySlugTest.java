@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregimeapiposts.controllers.v1.postcontroller;
 
 import com.github.alexeysol.geekregimeapicommons.models.dtos.posts.PostDetailsDto;
-import com.github.alexeysol.geekregimeapicommons.utils.Json;
+import com.github.alexeysol.geekregimeapicommons.utils.parsers.Json;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.utils.sources.ApiPostsSource;
 import org.junit.jupiter.api.Assertions;

@@ -1,9 +1,9 @@
 package com.github.alexeysol.geekregimeapiposts.controllers.v1.postcontroller;
 
-import com.github.alexeysol.geekregimeapicommons.constants.DefaultsConstants;
+import com.github.alexeysol.geekregimeapicommons.constants.Defaults;
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceException;
 import com.github.alexeysol.geekregimeapicommons.models.dtos.shared.HasIdDto;
-import com.github.alexeysol.geekregimeapicommons.utils.Json;
+import com.github.alexeysol.geekregimeapicommons.utils.parsers.Json;
 import com.github.alexeysol.geekregimeapiposts.utils.sources.ApiPostsSource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -47,7 +47,7 @@ public class RemovePostByIdTest extends BasePostControllerTest {
 
         long absentPostId = 10L;
 
-        when(postService.removePostById(absentPostId)).thenReturn(DefaultsConstants.NOT_FOUND_BY_ID);
+        when(postService.removePostById(absentPostId)).thenReturn(Defaults.NOT_FOUND_BY_ID);
 
         mockMvc.perform(MockMvcRequestBuilders.delete(getUrl(absentPostId)))
             .andExpect(MockMvcResultMatchers.status().isNotFound())

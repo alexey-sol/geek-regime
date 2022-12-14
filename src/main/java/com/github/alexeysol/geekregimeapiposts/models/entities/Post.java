@@ -3,6 +3,8 @@ package com.github.alexeysol.geekregimeapiposts.models.entities;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.github.alexeysol.geekregimeapiposts.constants.DatabaseConstants;
 import lombok.*;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.FullTextField;
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.Indexed;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -13,6 +15,7 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
+@Indexed
 @Table(name = DatabaseConstants.POSTS_TABLE)
 @EntityListeners(AuditingEntityListener.class)
 @Data
@@ -38,6 +41,7 @@ public class Post {
     private long spaceId;
 
     @Column(nullable = false)
+    @FullTextField
     @NotEmpty(message = "Title is required and must not be blank")
     private String title;
 
@@ -46,6 +50,7 @@ public class Post {
     private String body;
 
     @Column(nullable = false, columnDefinition = "TEXT")
+    @FullTextField
     @NotEmpty(message = "Excerpt is required and must not be blank")
     private String excerpt;
 

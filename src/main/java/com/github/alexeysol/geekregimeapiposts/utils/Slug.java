@@ -6,7 +6,9 @@ import net.bytebuddy.utility.RandomString;
 
 public class Slug {
     public static String generateSlug(String title) {
-        final Slugify slugify = new Slugify().withTransliterator(true);
+        final Slugify slugify = Slugify.builder()
+            .transliterator(true)
+            .build();
         String slug = slugify.slugify(title);
 
         return (slug.isEmpty())

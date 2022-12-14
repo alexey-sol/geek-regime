@@ -7,7 +7,7 @@ import org.mockito.Mockito;
 
 import static org.mockito.Mockito.when;
 
-public class CreatePostTest extends BasePostServiceTest {
+public class SavePostTest extends BasePostServiceTest {
     @Test
     public void givenPostExists_whenSavePost_thenReturnsPost() {
         Post post = Post.builder()

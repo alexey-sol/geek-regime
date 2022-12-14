@@ -19,10 +19,11 @@
 	<version>0.0.1-SNAPSHOT</version>
 
 	<name>geek-regime-api-posts</name>
-	<description>Geek Regime: Service for managing users' posts</description>
+	<description>Geek Regime: Service managing posts</description>
 
 	<properties>
 		<java.version>17</java.version>
+		<hibernate.search.version>6.1.7.Final</hibernate.search.version>
 	</properties>
 
 	<dependencies>
@@ -34,7 +35,6 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
-
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-devtools</artifactId>
@@ -69,18 +69,23 @@
 		<dependency>
 			<groupId>com.github.slugify</groupId>
 			<artifactId>slugify</artifactId>
-			<version>2.5</version>
+			<version>3.0.2</version>
 		</dependency>
 		<dependency>
-			<groupId>org.jsoup</groupId>
-			<artifactId>jsoup</artifactId>
-			<version>1.15.3</version>
+			<groupId>com.ibm.icu</groupId>
+			<artifactId>icu4j</artifactId>
+			<version>72.1</version>
 		</dependency>
 		<dependency>
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 			<version>2.1.214</version>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.hibernate.search</groupId>
+			<artifactId>hibernate-search-backend-lucene</artifactId>
+			<version>${hibernate.search.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.github.tomakehurst</groupId>

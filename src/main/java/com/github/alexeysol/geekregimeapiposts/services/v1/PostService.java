@@ -1,15 +1,20 @@
 package com.github.alexeysol.geekregimeapiposts.services.v1;
 
-import com.github.alexeysol.geekregimeapicommons.constants.DefaultsConstants;
+import com.github.alexeysol.geekregimeapicommons.constants.Defaults;
+import com.github.alexeysol.geekregimeapicommons.models.dtos.query.SearchByDto;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.repositories.PostRepository;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.validation.annotation.Validated;
 
+import javax.validation.Valid;
+import java.util.List;
 import java.util.Optional;
 
 @Service
+@Validated
 public class PostService {
     private final PostRepository repository;
 
@@ -19,6 +24,16 @@ public class PostService {
 
     public Page<Post> findAllPosts(Pageable pageable) {
         return repository.findAll(pageable);
+    }
+
+    public Page<Post> searchPosts(@Valid SearchByDto searchByDto, Pageable pageable) {
+        String term = searchByDto.getTerm();
+        List<String> fields = searchByDto.getFields();
+        int limit = searchByDto.getLimit();
+
+        List<Post> posts = repository.searchBy(term, fields, limit);
+
+        return new PageImpl(posts, pageable, posts.size());
     }
 
     public Optional<Post> findPostById(long id) {
@@ -42,7 +57,7 @@ public class PostService {
             return id;
         }
 
-        return DefaultsConstants.NOT_FOUND_BY_ID;
+        return Defaults.NOT_FOUND_BY_ID;
     }
 
     public boolean postAlreadyExists(String slug) {

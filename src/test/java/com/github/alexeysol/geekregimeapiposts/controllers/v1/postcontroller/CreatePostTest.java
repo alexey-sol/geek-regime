@@ -2,8 +2,8 @@ package com.github.alexeysol.geekregimeapiposts.controllers.v1.postcontroller;
 
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceException;
 import com.github.alexeysol.geekregimeapicommons.models.dtos.posts.PostDetailsDto;
-import com.github.alexeysol.geekregimeapicommons.utils.Json;
 import com.github.alexeysol.geekregimeapicommons.utils.TestUtils;
+import com.github.alexeysol.geekregimeapicommons.utils.parsers.Json;
 import com.github.alexeysol.geekregimeapiposts.models.dtos.CreatePostDto;
 import com.github.alexeysol.geekregimeapiposts.models.entities.Post;
 import com.github.alexeysol.geekregimeapiposts.utils.sources.ApiPostsSource;
