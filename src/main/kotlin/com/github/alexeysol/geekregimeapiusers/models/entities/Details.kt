@@ -6,6 +6,7 @@ import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 import com.github.alexeysol.geekregimeapiusers.constants.DatabaseConstants
 import lombok.ToString
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.*
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
@@ -20,6 +21,7 @@ import javax.validation.constraints.Size
 @ToString(exclude = ["user"])
 data class Details(
     @Column(length = 255)
+    @FullTextField
     @field:Size(min = 1, message = "Name must not be blank")
     var name: String? = null,
 

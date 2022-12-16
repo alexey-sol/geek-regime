@@ -2,7 +2,7 @@ package com.github.alexeysol.geekregimeapiusers.controllers.v1.usercontroller
 
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceException
 import com.github.alexeysol.geekregimeapicommons.models.dtos.users.UserDto
-import com.github.alexeysol.geekregimeapicommons.utils.Json
+import com.github.alexeysol.geekregimeapicommons.utils.parsers.Json
 import com.github.alexeysol.geekregimeapicommons.utils.TestUtils
 import com.github.alexeysol.geekregimeapiusers.models.dtos.UpdateUserDto
 import com.github.alexeysol.geekregimeapiusers.models.entities.Credentials

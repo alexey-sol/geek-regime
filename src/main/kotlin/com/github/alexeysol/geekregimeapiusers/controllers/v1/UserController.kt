@@ -1,11 +1,12 @@
 package com.github.alexeysol.geekregimeapiusers.controllers.v1
 
-import com.github.alexeysol.geekregimeapicommons.constants.DefaultsConstants
+import com.github.alexeysol.geekregimeapicommons.constants.Defaults
 import com.github.alexeysol.geekregimeapicommons.exceptions.ResourceException
 import com.github.alexeysol.geekregimeapicommons.models.dtos.shared.HasIdDto
 import com.github.alexeysol.geekregimeapicommons.models.dtos.users.UserDto
 import com.github.alexeysol.geekregimeapicommons.models.exceptions.ErrorDetail
 import com.github.alexeysol.geekregimeapicommons.utils.converters.PageableConverter
+import com.github.alexeysol.geekregimeapicommons.utils.converters.SearchableConverter
 import com.github.alexeysol.geekregimeapiusers.constants.PathConstants
 import com.github.alexeysol.geekregimeapiusers.models.dtos.CreateUserDto
 import com.github.alexeysol.geekregimeapiusers.models.dtos.UpdateUserDto
@@ -14,14 +15,17 @@ import com.github.alexeysol.geekregimeapiusers.utils.assertPasswordsMatchIfNeede
 import com.github.alexeysol.geekregimeapiusers.utils.mappers.UserMapper
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
+import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
+import javax.validation.ConstraintViolationException
 import javax.validation.Valid
 
 private const val EMAIL_FIELD = "email"
 private const val ID_FIELD = "id"
 private const val OLD_PASSWORD_FIELD = "oldPassword"
-private val sortByUserFields: List<String> = listOf("createdAt", "details.name", "email", "id")
+private val sortableFields: List<String> = listOf("createdAt", "details.name", "email", "id")
+private val searchableFields: List<String> = listOf("details.name")
 
 @RestController
 @RequestMapping(
@@ -37,17 +41,28 @@ class UserController(
     fun findAllUsers(
         @RequestParam ids: List<Long>?,
         @RequestParam paging: String?,
-        @RequestParam sortBy: String?
+        @RequestParam sortBy: String?,
+        @RequestParam searchBy: String?
     ): Page<UserDto> {
-        val pageableConverter = PageableConverter(paging, sortBy, sortByUserFields)
-        val pageable = pageableConverter.pageable
+        val pageableConverter = PageableConverter(paging, sortBy, sortableFields)
+        val searchableConverter = SearchableConverter(searchBy, searchableFields)
 
-        val usersPage =
-            if (ids === null) service.findAllUsers(pageable)
-            else service.findAllUsersById(ids, pageable)
+        try {
+            val pageable = pageableConverter.pageable
+            val searchByDto = searchableConverter.value
 
-        val userDtoList = mapper.fromUserListToUserDtoList(usersPage.content);
-        return PageImpl(userDtoList, pageable, usersPage.totalElements)
+            val usersPage =
+                if (ids !== null) service.findAllUsersById(ids, pageable)
+                else if (searchByDto !== null) service.searchUsers(searchByDto, pageable)
+                else service.findAllUsers(pageable)
+
+            val userDtoList = mapper.fromUserListToUserDtoList(usersPage.content);
+            return PageImpl(userDtoList, pageable, usersPage.totalElements)
+        } catch (exception: IllegalArgumentException) {
+            throw ResourceException(HttpStatus.UNPROCESSABLE_ENTITY, exception.message);
+        } catch (exception: ConstraintViolationException) {
+            throw ResourceException(HttpStatus.UNPROCESSABLE_ENTITY, exception.message);
+        }
     }
 
     @GetMapping("{id}")
@@ -97,7 +112,7 @@ class UserController(
     @DeleteMapping("{id}")
     fun removeUserById(@PathVariable id: Long): HasIdDto {
         val result = service.removeUserById(id)
-        val isNotFound = result == DefaultsConstants.NOT_FOUND_BY_ID
+        val isNotFound = result == Defaults.NOT_FOUND_BY_ID
 
         if (isNotFound) {
             throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD))

@@ -2,6 +2,7 @@ package com.github.alexeysol.geekregimeapiusers.models.entities
 
 import com.fasterxml.jackson.annotation.JsonProperty
 import com.github.alexeysol.geekregimeapiusers.constants.DatabaseConstants
+import org.hibernate.search.mapper.pojo.mapping.definition.annotation.*
 import org.springframework.data.annotation.CreatedDate
 import org.springframework.data.annotation.LastModifiedDate
 import org.springframework.data.jpa.domain.support.AuditingEntityListener
@@ -12,6 +13,7 @@ import javax.validation.constraints.Email
 import javax.validation.constraints.NotEmpty
 
 @Entity
+@Indexed
 @Table(name = DatabaseConstants.USERS_TABLE)
 @EntityListeners(AuditingEntityListener::class)
 data class User(
@@ -35,6 +37,8 @@ data class User(
     var updatedAt: Date? = Date(),
 
     @PrimaryKeyJoinColumn
+    @IndexedEmbedded
+    @AssociationInverseSide(inversePath = ObjectPath(PropertyValue(propertyName = "user")))
     @OneToOne(mappedBy = "user", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     @field:Valid
     var details: Details? = null,

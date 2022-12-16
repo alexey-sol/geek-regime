@@ -1,18 +1,18 @@
 package com.github.alexeysol.geekregimeapiusers.repositories
 
+import com.github.alexeysol.geekregimeapicommons.utils.search.SearchableRepository
 import com.github.alexeysol.geekregimeapiusers.models.entities.User
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
-import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 import javax.transaction.Transactional
 
 private const val COUNT_USERS_QUERY = "SELECT COUNT(u) FROM User u"
 
 @Repository
-interface UserRepository : CrudRepository<User, Long> {
+interface UserRepository : SearchableRepository<User, Long> {
     @Query(
         "SELECT u FROM User u LEFT JOIN FETCH u.details LEFT JOIN FETCH u.credentials",
         countQuery = COUNT_USERS_QUERY

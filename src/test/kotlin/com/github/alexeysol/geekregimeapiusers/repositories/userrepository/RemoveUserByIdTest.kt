@@ -14,12 +14,11 @@ class RemoveUserByIdTest(
     @Test
     fun givenUserExists_whenRemoveUserById_thenReturnsDeletedRowCount1() {
         val deletedRowCount = 1
-        val userId = 1L
         val user = User(email = "mark@mail.com")
         entityManager.persist(user)
         entityManager.flush()
 
-        val result = repository.removeUserById(userId)
+        val result = repository.removeUserById(user.id!!)
         Assertions.assertEquals(deletedRowCount, result)
     }
 

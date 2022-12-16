@@ -11,6 +11,10 @@ spring:
             hibernate:
                 auto_quote_keyword: true
                 dialect: org.hibernate.dialect.PostgreSQLDialect
+                search:
+                    backend:
+                        type: lucene
+                        directory.root: ./data/index
     profiles:
         active: prod
 
