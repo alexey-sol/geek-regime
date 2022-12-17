@@ -34,9 +34,10 @@ public class PostController {
     @GetMapping
     BasicPage<PostPreviewView> findAllPosts(
         @RequestParam Optional<String> paging,
-        @RequestParam Optional<String> sortBy
+        @RequestParam Optional<String> sortBy,
+        @RequestParam Optional<String> searchBy
     ) {
-        BasicPage<PostPreviewDto> page = service.findAllPosts(paging, sortBy);
+        BasicPage<PostPreviewDto> page = service.findAllPosts(paging, sortBy, searchBy);
         List<PostPreviewView> viewList = mapper.fromPostPreviewDtoListToViewList(page.getContent());
         return page.convertContent(viewList);
     }

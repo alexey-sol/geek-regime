@@ -24,12 +24,14 @@ public class PostService {
 
     public BasicPage<PostPreviewDto> findAllPosts(
         Optional<String> paging,
-        Optional<String> sortBy
+        Optional<String> sortBy,
+        Optional<String> searchBy
     ) {
         Request request = new Request(getApiPostsUrl());
 
         paging.ifPresent(json -> request.addQueryParam("paging", json));
         sortBy.ifPresent(json -> request.addQueryParam("sortBy", json));
+        searchBy.ifPresent(json -> request.addQueryParam("searchBy", json));
 
         HttpResponse<String> response = request.GET()
             .send()
