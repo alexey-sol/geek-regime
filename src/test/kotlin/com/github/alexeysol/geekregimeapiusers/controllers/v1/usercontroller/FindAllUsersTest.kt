@@ -3,6 +3,7 @@ package com.github.alexeysol.geekregimeapiusers.controllers.v1.usercontroller
 import com.github.alexeysol.geekregimeapicommons.models.dtos.users.UserDto
 import com.github.alexeysol.geekregimeapicommons.utils.TestUtils
 import com.github.alexeysol.geekregimeapicommons.utils.converters.PageableConverter
+import com.github.alexeysol.geekregimeapiusers.models.entities.Details
 import com.github.alexeysol.geekregimeapiusers.models.entities.User
 import com.github.alexeysol.geekregimeapiusers.utils.sources.ApiUsersSource
 import io.mockk.every
@@ -24,7 +25,10 @@ class FindAllUsersTest(
 
     @Test
     fun allUsersExist_whenFindAllUsers_thenReturnsUserDtoListWithStatus200() {
-        val users = listOf(User(), User())
+        val users = listOf(
+            User(details = defaultDetails),
+            User(details = defaultDetails)
+        )
         val userPage: Page<User> = PageImpl(users, pageableStub, users.size.toLong())
 
         val userDtoList = listOf(UserDto(), UserDto())
@@ -66,7 +70,10 @@ class FindAllUsersTest(
         val userId2 = 2L
         val userIds = listOf(userId, userId2)
 
-        val users = listOf(User(id = userId), User(id = userId2))
+        val users = listOf(
+            User(id = userId, details = defaultDetails),
+            User(id = userId2, details = defaultDetails)
+        )
         val userPage: Page<User> = PageImpl(users, pageableStub, users.size.toLong())
 
         val userDto = UserDto.builder()
@@ -100,7 +107,7 @@ class FindAllUsersTest(
         val absentUserId2 = 11L
         val userIds = listOf(userId, absentUserId, absentUserId2)
 
-        val users = listOf(User(id = userId))
+        val users = listOf(User(id = userId, details = defaultDetails))
         val userPage: Page<User> = PageImpl(users, pageableStub, users.size.toLong())
 
         val userDto = UserDto.builder()

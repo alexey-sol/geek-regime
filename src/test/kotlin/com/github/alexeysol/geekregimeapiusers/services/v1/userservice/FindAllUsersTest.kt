@@ -11,7 +11,10 @@ import org.springframework.data.domain.PageImpl
 class FindAllUsersTest : BaseUserServiceTest() {
     @Test
     fun usersExist_whenFindAllUsers_thenReturnsUserList() {
-        val users = listOf(User(), User())
+        val users = listOf(
+            User(details = defaultDetails),
+            User(details = defaultDetails)
+        )
         val userPage: Page<User> = PageImpl(users, pageableStub, users.size.toLong())
 
         every { repository.findAllUsers(pageableStub) } returns userPage

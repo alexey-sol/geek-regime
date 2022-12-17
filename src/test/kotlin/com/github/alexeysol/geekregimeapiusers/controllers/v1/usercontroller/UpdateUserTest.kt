@@ -30,7 +30,12 @@ class UpdateUserTest(
         val userId = 1L
         val email = "mark@mail.com"
         val now = Date()
-        val user = User(email = email, createdAt = now, updatedAt = now)
+        val user = User(
+            email = email,
+            createdAt = now,
+            updatedAt = now,
+            details = defaultDetails
+        )
         val updateUserDto = UpdateUserDto(email = email)
         val userDto = UserDto.builder()
             .email(email)
@@ -98,7 +103,6 @@ class UpdateUserTest(
         val email = "mark@mail.com"
         val name = "Mark"
         val invalidOldPassword = "abba"
-        val details = Details(name = name)
         val credentials = Credentials(
             userId = userId,
             hashedPassword = ByteArray(1),
@@ -109,7 +113,11 @@ class UpdateUserTest(
             oldPassword = invalidOldPassword,
             newPassword = "abbath"
         )
-        val user = User(email = email, details = details, credentials = credentials)
+        val user = User(
+            email = email,
+            details = Details(name = name),
+            credentials = credentials
+        )
 
         every { service.userAlreadyExists(email) } returns false
         every { service.findUserById(userId) } returns user

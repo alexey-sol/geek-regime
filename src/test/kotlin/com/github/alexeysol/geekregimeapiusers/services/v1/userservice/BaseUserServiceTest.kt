@@ -1,6 +1,7 @@
 package com.github.alexeysol.geekregimeapiusers.services.v1.userservice
 
 import com.github.alexeysol.geekregimeapicommons.utils.converters.PageableConverter
+import com.github.alexeysol.geekregimeapiusers.models.entities.Details
 import com.github.alexeysol.geekregimeapiusers.repositories.CredentialsRepository
 import com.github.alexeysol.geekregimeapiusers.repositories.UserRepository
 import com.github.alexeysol.geekregimeapiusers.services.v1.CredentialsService
@@ -17,4 +18,6 @@ abstract class BaseUserServiceTest {
 
     private val pageableConverterStub = PageableConverter("", "")
     protected val pageableStub: Pageable = pageableConverterStub.pageable
+
+    protected val defaultDetails = Details(name = "For we are many")
 }

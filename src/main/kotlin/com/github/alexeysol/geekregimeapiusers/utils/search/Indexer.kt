@@ -10,6 +10,10 @@ import javax.persistence.EntityManager
 @Transactional
 @Component
 class Indexer(private val entityManager: EntityManager) {
+    companion object {
+        private const val THREAD_COUNT = 4
+    }
+
     fun indexPersistedData(indexClassName: String?) {
         try {
             val searchSession: SearchSession = Search.session(entityManager)
@@ -23,9 +27,5 @@ class Indexer(private val entityManager: EntityManager) {
         } catch (exception: InterruptedException) {
             throw RuntimeException(exception)
         }
-    }
-
-    companion object {
-        private const val THREAD_COUNT = 4
     }
 }

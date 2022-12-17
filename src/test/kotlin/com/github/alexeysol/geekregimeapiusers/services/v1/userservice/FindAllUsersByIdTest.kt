@@ -15,7 +15,10 @@ class FindAllUsersByIdTest : BaseUserServiceTest() {
         val userId2 = 2L
         val userIds = listOf(userId, userId2)
 
-        val users = listOf(User(id = userId), User(id = userId2))
+        val users = listOf(
+            User(id = userId, details = defaultDetails),
+            User(id = userId2, details = defaultDetails)
+        )
         val userPage: Page<User> = PageImpl(users, pageableStub, users.size.toLong())
 
         every { repository.findAllUsersById(userIds, pageableStub) } returns userPage

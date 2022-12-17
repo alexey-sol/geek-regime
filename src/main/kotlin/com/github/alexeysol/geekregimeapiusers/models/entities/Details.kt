@@ -13,6 +13,7 @@ import org.springframework.data.jpa.domain.support.AuditingEntityListener
 import java.util.*
 import javax.persistence.*
 import javax.validation.Valid
+import javax.validation.constraints.NotEmpty
 import javax.validation.constraints.Size
 
 @Entity
@@ -22,8 +23,8 @@ import javax.validation.constraints.Size
 data class Details(
     @Column(length = 255)
     @FullTextField
-    @field:Size(min = 1, message = "Name must not be blank")
-    var name: String? = null,
+    @field:NotEmpty(message = "Name is required and must not be blank")
+    var name: String?,
 
     @Column(length = 255)
     @field:Size(min = 1, message = "Image must not be blank")

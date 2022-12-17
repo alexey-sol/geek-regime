@@ -10,7 +10,7 @@ class FindUserByIdTest : BaseUserServiceTest() {
     @Test
     fun givenUserExist_whenFindUserById_thenReturnsUser() {
         val userId = 1L
-        val user = User(email = "mark@mail.com")
+        val user = User(email = "mark@mail.com", details = defaultDetails)
 
         every { repository.findUserById(userId) } returns user
 

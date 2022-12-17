@@ -6,7 +6,8 @@ import com.github.alexeysol.geekregimeapicommons.utils.parsers.Json
 import com.github.alexeysol.geekregimeapicommons.utils.TestUtils
 import com.github.alexeysol.geekregimeapiusers.models.dtos.CreateUserDto
 import com.github.alexeysol.geekregimeapiusers.models.entities.User
-import com.github.alexeysol.geekregimeapiusers.models.dtos.CreateOrUpdateDetailsDto
+import com.github.alexeysol.geekregimeapiusers.models.dtos.CreateDetailsDto
+import com.github.alexeysol.geekregimeapiusers.models.entities.Details
 import com.github.alexeysol.geekregimeapiusers.utils.sources.ApiUsersSource
 import io.mockk.every
 import org.hamcrest.CoreMatchers
@@ -27,9 +28,18 @@ class CreateUserTest(
     @Test
     fun givenDtoIsValidButWithoutPassword_whenCreateUser_thenReturnsUserDtoWithStatus200() {
         val email = "mark@mail.com"
+        val name = "Mark"
         val now = Date()
-        val user = User(email = email, createdAt = now, updatedAt = now)
-        val createUserDto = CreateUserDto(email = email)
+        val user = User(
+            email = email,
+            createdAt = now,
+            updatedAt = now,
+            details = Details(name = name)
+        )
+        val createUserDto = CreateUserDto(
+            email = email,
+            details = CreateDetailsDto(name = name)
+        )
         val userDto = UserDto.builder()
             .email(email)
             .createdAt(now)
@@ -52,13 +62,20 @@ class CreateUserTest(
     @Test
     fun givenDtoHasMatchingPasswordAndConfirmPassword_whenCreateUser_thenReturnsUserDtoWithStatus200() {
         val email = "mark@mail.com"
+        val name = "Mark"
         val password = "123"
         val now = Date()
-        val user = User(email = email, createdAt = now, updatedAt = now)
+        val user = User(
+            email = email,
+            createdAt = now,
+            updatedAt = now,
+            details = Details(name = name)
+        )
         val createUserDto = CreateUserDto(
             email = email,
             password = password,
-            confirmPassword = password
+            confirmPassword = password,
+            details = CreateDetailsDto(name = name)
         )
         val userDto = UserDto.builder()
             .email(email)
@@ -81,7 +98,10 @@ class CreateUserTest(
 
     @Test
     fun givenDtoHasInvalidEmail_whenCreateUser_thenReturnsStatus400() {
-        val createUserDto = CreateUserDto(email = "is-this-even-email")
+        val createUserDto = CreateUserDto(
+            email = "is-this-even-email",
+            details = CreateDetailsDto(name = "Mark")
+        )
 
         mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createUserDto))
             .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity)
@@ -98,8 +118,10 @@ class CreateUserTest(
 
     @Test
     fun givenDtoHasBlankNameInDetails_whenCreateUser_thenReturnsStatus400() {
-        val createOrUpdateDetailsDto = CreateOrUpdateDetailsDto(name = "")
-        val createUserDto = CreateUserDto(email = "mark@mail.com", details = createOrUpdateDetailsDto)
+        val createUserDto = CreateUserDto(
+            email = "mark@mail.com",
+            details = CreateDetailsDto(name = "")
+        )
 
         mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createUserDto))
             .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity)
@@ -116,7 +138,11 @@ class CreateUserTest(
 
     @Test
     fun givenDtoHasBlankPassword_whenCreateUser_thenReturnsStatus400() {
-        val createUserDto = CreateUserDto(email = "mark@mail.com", password = "")
+        val createUserDto = CreateUserDto(
+            email = "mark@mail.com",
+            password = "",
+            details = CreateDetailsDto(name = "Mark")
+        )
 
         mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createUserDto))
             .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity)
@@ -136,7 +162,8 @@ class CreateUserTest(
         val createUserDto = CreateUserDto(
             email = "mark@mail.com",
             password = "123",
-            confirmPassword = null
+            confirmPassword = null,
+            details = CreateDetailsDto(name = "Mark")
         )
 
         mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createUserDto))
@@ -157,7 +184,8 @@ class CreateUserTest(
         val createUserDto = CreateUserDto(
             email = "mark@mail.com",
             password = "123",
-            confirmPassword = "321"
+            confirmPassword = "321",
+            details = CreateDetailsDto(name = "Mark")
         )
 
         mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createUserDto))
@@ -176,7 +204,10 @@ class CreateUserTest(
     @Test
     fun givenDtoHasEmailThatAlreadyExists_whenCreateUser_thenReturnsStatus409() {
         val existingEmail = "already-exists@mail.com"
-        val createUserDto = CreateUserDto(email = existingEmail)
+        val createUserDto = CreateUserDto(
+            email = existingEmail,
+            details = CreateDetailsDto(name = "Mark"),
+        )
 
         every { service.userAlreadyExists(existingEmail) } returns true
 

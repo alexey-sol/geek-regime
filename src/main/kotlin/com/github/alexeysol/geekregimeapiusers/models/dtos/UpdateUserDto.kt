@@ -17,12 +17,12 @@ data class UpdateUserDto(
     val newPassword: String? = null,
 
     @field:Valid
-    val details: CreateOrUpdateDetailsDto? = CreateOrUpdateDetailsDto(),
+    val details: UpdateDetailsDto? = UpdateDetailsDto(),
 ) {
-    @AssertTrue(message = "Old password and new password must be present both")
+    @AssertTrue(message = "If old password is provided, new password is required")
     private fun isValid(): Boolean {
         oldPassword ?: newPassword ?: return true
 
-        return oldPassword != null && newPassword != null
+        return newPassword != null;
     }
 }

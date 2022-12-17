@@ -1,8 +1,6 @@
 package com.github.alexeysol.geekregimeapiusers.utils.mappers
 
-import com.github.alexeysol.geekregimeapiusers.models.dtos.CreateOrUpdateDetailsDto
-import com.github.alexeysol.geekregimeapiusers.models.dtos.CreateUserDto
-import com.github.alexeysol.geekregimeapiusers.models.dtos.UpdateUserDto
+import com.github.alexeysol.geekregimeapiusers.models.dtos.*
 import com.github.alexeysol.geekregimeapiusers.models.entities.Details
 import com.github.alexeysol.geekregimeapiusers.models.entities.User
 import org.junit.jupiter.api.Assertions
@@ -16,7 +14,9 @@ class UserMapperTest(@Autowired val mapper: UserMapper) {
     fun givenValidUsers_whenFromUserListToUserDtoList_thenReturnsUserDtoList() {
         val email = "mark@mail.com"
         val email2 = "boobuntu@mail.com"
-        val users = listOf(User(email = email), User(email = email2))
+        val user = User(email = email, details = Details(name = "Boe"))
+        val user2 = User(email = email2, details = Details(name = "Moe"))
+        val users = listOf(user, user2)
 
         val result = mapper.fromUserListToUserDtoList(users)
         Assertions.assertEquals(users.size, result.size)
@@ -43,7 +43,7 @@ class UserMapperTest(@Autowired val mapper: UserMapper) {
         val createUserDto = CreateUserDto(
             email = email,
             password = password,
-            details = CreateOrUpdateDetailsDto(name = name)
+            details = CreateDetailsDto(name = name)
         )
 
         val result = mapper.fromCreateUserDtoToUser(createUserDto)
@@ -58,7 +58,7 @@ class UserMapperTest(@Autowired val mapper: UserMapper) {
         val newName = "Oh Hi Mark"
         val updateUserDto = UpdateUserDto(
             email = email,
-            details = CreateOrUpdateDetailsDto(name = newName)
+            details = UpdateDetailsDto(name = newName)
         )
         val user = User(email = email, details = Details(name = oldName))
 
@@ -71,12 +71,16 @@ class UserMapperTest(@Autowired val mapper: UserMapper) {
     fun givenDtoHasDetailsButEntityDoesnt_whenFromUpdateUserDtoToUser_thenReturnsUpdatedUser() {
         val oldEmail = "mark@mail.com"
         val newEmail = "oh.hi.mark@mail.com"
+        val oldName = "Boe"
         val newName = "Oh Hi Mark"
         val updateUserDto = UpdateUserDto(
             email = newEmail,
-            details = CreateOrUpdateDetailsDto(name = newName)
+            details = UpdateDetailsDto(name = newName)
         )
-        val user = User(email = oldEmail)
+        val user = User(
+            email = oldEmail,
+            details = Details(name = oldName)
+        )
 
         val result = mapper.fromUpdateUserDtoToUser(updateUserDto, user)
         Assertions.assertEquals(newEmail, result.email)
@@ -91,7 +95,7 @@ class UserMapperTest(@Autowired val mapper: UserMapper) {
         val newName = null
         val updateUserDto = UpdateUserDto(
             email = newEmail,
-            details = CreateOrUpdateDetailsDto(name = newName)
+            details = UpdateDetailsDto(name = newName)
         )
         val user = User(
             email = oldEmail,

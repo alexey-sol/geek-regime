@@ -1,10 +1,7 @@
 package com.github.alexeysol.geekregimeapiusers.models.dtos
 
 import javax.validation.Valid
-import javax.validation.constraints.AssertTrue
-import javax.validation.constraints.Email
-import javax.validation.constraints.NotEmpty
-import javax.validation.constraints.Size
+import javax.validation.constraints.*
 
 data class CreateUserDto(
     @field:NotEmpty(message = "Email is required and must not be blank")
@@ -17,8 +14,9 @@ data class CreateUserDto(
     @field:Size(min = 1, message = "Confirm password must not be blank")
     val confirmPassword: String? = null,
 
+    @field:NotNull(message = "Details is required")
     @field:Valid
-    val details: CreateOrUpdateDetailsDto? = null,
+    val details: CreateDetailsDto?,
 ) {
     @AssertTrue(message = "Password and confirm password must match")
     private fun isValid(): Boolean {

@@ -2,6 +2,7 @@ package com.github.alexeysol.geekregimeapiusers.services.v1
 
 import com.github.alexeysol.geekregimeapiusers.repositories.CredentialsRepository
 import com.github.alexeysol.geekregimeapiusers.models.entities.Credentials
+import com.github.alexeysol.geekregimeapiusers.models.entities.Details
 import com.github.alexeysol.geekregimeapiusers.models.entities.User
 import com.github.alexeysol.geekregimeapiusers.utils.Security
 import io.mockk.every
@@ -16,7 +17,7 @@ class CredentialsServiceTest {
 
     @Test
     fun givenDto_whenCreateCredentials_thenReturnsCredentials() {
-        val user = User(email = "mark@mail.com")
+        val user = User(email = "mark@mail.com", details = Details(name = "Mark"))
         val password = "123"
         val salt = Security.generateSalt()
         val hashedPassword = Security.generateHash(password, salt)

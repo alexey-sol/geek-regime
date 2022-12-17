@@ -11,6 +11,7 @@ import javax.persistence.*
 import javax.validation.Valid
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotEmpty
+import javax.validation.constraints.NotNull
 
 @Entity
 @Indexed
@@ -40,8 +41,9 @@ data class User(
     @IndexedEmbedded
     @AssociationInverseSide(inversePath = ObjectPath(PropertyValue(propertyName = "user")))
     @OneToOne(mappedBy = "user", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    @field:NotNull(message = "Details is required")
     @field:Valid
-    var details: Details? = null,
+    var details: Details?,
 
     @PrimaryKeyJoinColumn
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)

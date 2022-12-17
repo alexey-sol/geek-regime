@@ -26,7 +26,7 @@ class FindUserByIdTest(
     fun givenUserExists_whenFindUserById_thenReturnsUserWithStatus200() {
         val userId = 1L
         val email = "mark@mail.com"
-        val user = User(id = userId, email = "mark@mail.com")
+        val user = User(id = userId, email = "mark@mail.com", details = defaultDetails)
         val userDto = UserDto.builder()
             .id(userId)
             .email(email)

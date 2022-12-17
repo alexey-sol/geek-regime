@@ -1,5 +1,6 @@
 package com.github.alexeysol.geekregimeapiusers.repositories.userrepository
 
+import com.github.alexeysol.geekregimeapiusers.models.entities.Details
 import com.github.alexeysol.geekregimeapiusers.models.entities.User
 import com.github.alexeysol.geekregimeapiusers.repositories.UserRepository
 import org.junit.jupiter.api.Assertions
@@ -14,7 +15,9 @@ class RemoveUserByIdTest(
     @Test
     fun givenUserExists_whenRemoveUserById_thenReturnsDeletedRowCount1() {
         val deletedRowCount = 1
-        val user = User(email = "mark@mail.com")
+        val details = Details(name = "Mark")
+        val user = User(email = "mark@mail.com", details = details)
+        details.setUser(user)
         entityManager.persist(user)
         entityManager.flush()
 

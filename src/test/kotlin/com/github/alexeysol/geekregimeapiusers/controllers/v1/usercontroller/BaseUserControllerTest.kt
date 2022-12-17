@@ -1,6 +1,7 @@
 package com.github.alexeysol.geekregimeapiusers.controllers.v1.usercontroller
 
 import com.github.alexeysol.geekregimeapiusers.constants.PathConstants
+import com.github.alexeysol.geekregimeapiusers.models.entities.Details
 import com.github.alexeysol.geekregimeapiusers.services.v1.UserService
 import com.github.alexeysol.geekregimeapiusers.utils.mappers.UserMapper
 import com.github.alexeysol.geekregimeapiusers.utils.sources.ApiUsersSource
@@ -24,6 +25,9 @@ abstract class BaseUserControllerTest(
     lateinit var mapper: UserMapper
 
     protected val apiV1Path = source.getApiPath(PathConstants.V1)
+
+    protected val defaultDetails = Details(name = "This user is not important to such an extent " +
+        "that they have no own details")
 
     protected fun getUrl(): String = apiV1Path
 
