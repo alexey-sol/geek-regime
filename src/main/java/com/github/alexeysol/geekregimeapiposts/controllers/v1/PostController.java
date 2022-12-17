@@ -38,7 +38,6 @@ public class PostController {
 
     private final List<String> sortableFields = List.of("createdAt", "id", "slug", "title",
         "updatedAt");
-
     private final List<String> searchableFields = List.of("title", "excerpt");
 
     private final PostService service;
@@ -58,13 +57,13 @@ public class PostController {
         PageableConverter pageableConverter = new PageableConverter(paging, sortBy, sortableFields);
         SearchableConverter searchableConverter = new SearchableConverter(searchBy, searchableFields);
 
-        SearchByDto searchByDto;
         Pageable pageable;
+        SearchByDto searchByDto;
         Page<Post> postsPage;
 
         try {
-            searchByDto = searchableConverter.getValue();
             pageable = pageableConverter.getPageable();
+            searchByDto = searchableConverter.getValue();
 
             postsPage = (Objects.nonNull(searchByDto))
                 ? service.searchPosts(searchByDto, pageable)

@@ -40,6 +40,10 @@ public abstract class BasePostMapper {
 
                 mapper.using(new BodyToExcerptConverter())
                     .map(CreatePostDto::getBody, Post::setExcerpt);
+
+                mapper
+                    .using(MappingContext::getSource)
+                    .map(CreatePostDto::getAuthorId, Post::setUserId);
             });
 
         modelMapper.typeMap(UpdatePostDto.class, Post.class)

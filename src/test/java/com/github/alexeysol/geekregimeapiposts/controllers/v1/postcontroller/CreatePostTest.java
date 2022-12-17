@@ -41,7 +41,7 @@ public class CreatePostTest extends BasePostControllerTest {
             .body("Hello World")
             .build();
         CreatePostDto createPostDto = CreatePostDto.builder()
-            .userId(post.getUserId())
+            .authorId(post.getUserId())
             .spaceId(post.getSpaceId())
             .title(post.getTitle())
             .body(post.getBody())
@@ -71,7 +71,7 @@ public class CreatePostTest extends BasePostControllerTest {
 
         String invalidTitle = "";
         CreatePostDto createPostDto = CreatePostDto.builder()
-            .userId(1L)
+            .authorId(1L)
             .spaceId(1L)
             .title(invalidTitle)
             .body("Hello World")
@@ -100,7 +100,7 @@ public class CreatePostTest extends BasePostControllerTest {
             .body("Hello World")
             .build();
         CreatePostDto createPostDto = CreatePostDto.builder()
-            .userId(post.getUserId())
+            .authorId(post.getUserId())
             .spaceId(post.getSpaceId())
             .title(post.getTitle())
             .body(post.getBody())

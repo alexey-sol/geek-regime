@@ -80,7 +80,7 @@ public class PostMapperTest {
     @Test
     public void whenFromCreatePostDtoToPost_thenReturnsPostWithGeneratedSlug() {
         CreatePostDto createPostDto = CreatePostDto.builder()
-            .userId(1L)
+            .authorId(1L)
             .spaceId(1L)
             .title("Test Post")
             .body("Hello World")
@@ -96,7 +96,7 @@ public class PostMapperTest {
     @Test
     public void givenSlugExists_whenFromCreatePostDtoToPost_thenReturnsPostWithModifiedSlug() {
         CreatePostDto createPostDto = CreatePostDto.builder()
-            .userId(1L)
+            .authorId(1L)
             .spaceId(1L)
             .title("Test Post")
             .body("Hello World")
@@ -112,7 +112,7 @@ public class PostMapperTest {
     @Test
     public void whenFromCreatePostDtoToPost_thenReturnsPostWithGeneratedExcerpt() {
         CreatePostDto createPostDto = CreatePostDto.builder()
-            .userId(1L)
+            .authorId(1L)
             .spaceId(1L)
             .title("Test Post")
             .body("Hello World")
