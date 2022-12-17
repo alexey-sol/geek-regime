@@ -13,7 +13,7 @@ import java.util.Objects;
 
 public class PageableConverter {
     private static final String INVALID_SORT_BY_FIELD_TEMPLATE = "Found unexpected sortBy " +
-        "field value: %s. Sorting is allowed by one of these fields: %s";
+        "field value: %s. Value must be one of: %s";
     private static final List<String> DEFAULT_SORT_BY_FIELDS = List.of(
         Defaults.PRIMARY_KEY_NAME
     );
@@ -33,20 +33,24 @@ public class PageableConverter {
     }
 
     public Pageable getPageable() throws IllegalArgumentException {
-        Sort sort = sortByJsonToSortObject();
+        try {
+            Sort sort = sortByJsonToSortObject();
 
-        PagingDto pagingDto = (pagingJson.isEmpty())
-            ? new PagingDto()
-            : Json.parse(pagingJson, PagingDto.class);
+            PagingDto pagingDto = (pagingJson.isEmpty())
+                ? new PagingDto()
+                : Json.parse(pagingJson, PagingDto.class);
 
-        return PageRequest.of(
-            pagingDto.getPage(),
-            pagingDto.getSize(),
-            sort
-        );
+            return PageRequest.of(
+                pagingDto.getPage(),
+                pagingDto.getSize(),
+                sort
+            );
+        } catch (RuntimeException exception) {
+            throw new IllegalArgumentException(exception.getCause());
+        }
     }
 
-    private Sort sortByJsonToSortObject() {
+    private Sort sortByJsonToSortObject() throws IllegalArgumentException {
         SortByDto sortByDto = (sortByJson.isEmpty())
             ? new SortByDto()
             : Json.parse(sortByJson, SortByDto.class);
@@ -61,7 +65,7 @@ public class PageableConverter {
             : sort.descending();
     }
 
-    private void assertSortByFieldIsValid(String field) {
+    private void assertSortByFieldIsValid(String field) throws IllegalArgumentException {
         if (!sortableFields.contains(field)) {
             String message = getAssertionMessage(field);
             throw new IllegalArgumentException(message);

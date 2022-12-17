@@ -10,5 +10,6 @@ public class SortByDto {
     private final static Direction DEFAULT_DIRECTION = Direction.DESC;
 
     private String field = DEFAULT_FIELD;
+
     private Direction direction = DEFAULT_DIRECTION;
 }

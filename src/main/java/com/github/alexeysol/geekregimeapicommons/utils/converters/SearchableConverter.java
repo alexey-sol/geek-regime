@@ -8,7 +8,9 @@ import java.util.Objects;
 
 public class SearchableConverter {
     private static final String INVALID_SORT_BY_FIELD_TEMPLATE = "Found unexpected value(s) in " +
-        "searchBy fields: %s. Searchable fields are: %s";
+        "searchBy fields: %s. Valid values are: %s";
+    private static final String EMPTY_FIELD_LIST_MESSAGE = "Fields list in searchBy may not be " +
+        "empty";
 
     private final String searchByJson;
     private final List<String> searchableFields;
@@ -23,14 +25,22 @@ public class SearchableConverter {
             return null;
         }
 
-        SearchByDto searchByDto = Json.parse(searchByJson, SearchByDto.class);
+        try {
+            SearchByDto searchByDto = Json.parse(searchByJson, SearchByDto.class);
 
-        assertSearchByFieldsIsValid(searchByDto.getFields());
+            assertSearchByFieldsIsValid(searchByDto.getFields());
 
-        return searchByDto;
+            return searchByDto;
+        } catch (RuntimeException exception) {
+            throw new IllegalArgumentException(exception.getMessage());
+        }
     }
 
-    private void assertSearchByFieldsIsValid(List<String> fields) {
+    private void assertSearchByFieldsIsValid(List<String> fields) throws IllegalArgumentException {
+        if (fields.isEmpty()) {
+            throw new IllegalArgumentException(EMPTY_FIELD_LIST_MESSAGE);
+        }
+
         List<String> invalidFields = fields.stream()
             .distinct()
             .filter(item -> !searchableFields.contains(item))
