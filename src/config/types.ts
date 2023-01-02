@@ -1,15 +1,12 @@
-import type { ConfigService } from "@nestjs/config";
-
-import * as configs from "./config";
-import * as constants from "./const";
+import * as cfg from "./config";
+import * as cns from "./const";
 
 export type AppConfig = {
-    [constants.API_AGGREGATOR]: ReturnType<typeof configs.apiAggregatorConfig>;
-    [constants.API_GATEWAY]: ReturnType<typeof configs.apiGatewayConfig>;
-    [constants.API_POSTS]: ReturnType<typeof configs.apiPostsConfig>;
-    [constants.API_USERS]: ReturnType<typeof configs.apiUsersConfig>;
-    [constants.CLIENT_WEB]: ReturnType<typeof configs.clientWebConfig>;
-    [constants.VALIDATION_PIPE]: ReturnType<typeof configs.validationPipeConfig>;
+    [cns.AUTH]: ReturnType<typeof cfg.authConfig>;
+    [cns.API_AGGREGATOR]: ReturnType<typeof cfg.apiAggregatorConfig>;
+    [cns.API_GATEWAY]: ReturnType<typeof cfg.apiGatewayConfig>;
+    [cns.API_POSTS]: ReturnType<typeof cfg.apiPostsConfig>;
+    [cns.API_USERS]: ReturnType<typeof cfg.apiUsersConfig>;
+    [cns.CLIENT_WEB]: ReturnType<typeof cfg.clientWebConfig>;
+    [cns.VALIDATION_PIPE]: ReturnType<typeof cfg.validationPipeConfig>;
 };
-
-export type AppConfigService = ConfigService<AppConfig, true>;

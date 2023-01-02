@@ -66,6 +66,9 @@ module.exports = {
         "max-len": ["error", {
             code: 100,
         }],
+        "no-else-return": ["error", {
+            allowElseIf: true,
+        }],
         "no-empty-function": "off",
         "no-param-reassign": ["error", {
             props: false,

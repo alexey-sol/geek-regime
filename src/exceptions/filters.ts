@@ -1,27 +1,19 @@
-import { Request, Response } from "express";
-import {
-    ArgumentsHost,
-    Catch,
-    ExceptionFilter,
-    HttpException,
-} from "@nestjs/common";
+import { Response } from "express";
+import { Catch, HttpStatus } from "@nestjs/common";
+import { AxiosError } from "axios";
+import type { ArgumentsHost, ExceptionFilter } from "@nestjs/common";
 
-import type { ApiExceptionBody } from "@/exceptions/types";
+const DEFAULT_ERROR_STATUS = HttpStatus.INTERNAL_SERVER_ERROR;
 
-@Catch(HttpException)
+// Rethrows errors that we get from services.
+@Catch(AxiosError)
 export class ApiExceptionFilter implements ExceptionFilter {
-    catch(exception: HttpException, host: ArgumentsHost) {
+    catch(exception: AxiosError, host: ArgumentsHost) {
         const ctx = host.switchToHttp();
-        const response = ctx.getResponse<Response<ApiExceptionBody>>();
-        const request = ctx.getRequest<Request>();
-        const status = exception.getStatus();
+        const response = ctx.getResponse<Response<unknown>>();
 
-        response.status(status)
-            .json({
-                status,
-                path: request.url,
-                message: exception.message,
-                timestamp: new Date().toISOString(),
-            });
+        const status = exception.response?.status ?? DEFAULT_ERROR_STATUS;
+        const data = exception.response?.data;
+        response.status(status).json(data);
     }
 }

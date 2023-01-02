@@ -51,6 +51,11 @@ class EnvironmentVariables {
     @IsNotEmpty()
     API_USERS_HOST: string;
 
+    @IsString()
+    @IsNotEmpty()
+    @Optional()
+    API_USERS_PREFIX: string = "api";
+
     @IsInt()
     API_USERS_PORT: number;
 
@@ -69,7 +74,7 @@ class EnvironmentVariables {
     @IsString()
     @IsNotEmpty()
     @Optional()
-    JWT_EXPIRES_IN: string = "7d";
+    JWT_EXPIRES_IN: string = "1d";
 
     @IsString()
     @IsNotEmpty()
