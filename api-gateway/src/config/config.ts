@@ -66,7 +66,7 @@ export class AppProxyMiddleware {
     }), AppProxyMiddleware.resourcesToIgnore);
 
     private getRouter = (req: Request) => {
-        const resource = getResource(req.url);
+        const resource = getResource(req.path);
         const proxyTable = this.getProxyTable();
         const proxyTableKey = `/${resource}`;
         const proxyRoute = proxyTable[proxyTableKey];
@@ -75,7 +75,7 @@ export class AppProxyMiddleware {
             return proxyRoute;
         }
 
-        throw new NotFoundException(`Cannot ${req.method} ${req.url}`);
+        throw new NotFoundException(`Cannot ${req.method} ${req.path}`);
     };
 
     private getProxyTable = () => {

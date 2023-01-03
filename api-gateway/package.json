@@ -1,7 +1,7 @@
 {
-    "name": "geek-regime-api-gateway",
+    "name": "api-gateway",
     "version": "0.0.1",
-    "description": "Geek Regime: API gateway managing security and proxying to other backend services",
+    "description": "API gateway managing security and proxying to other backend services",
     "author": "Alexey Soloviev",
     "private": true,
     "license": "UNLICENSED",
