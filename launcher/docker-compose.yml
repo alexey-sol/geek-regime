@@ -1,0 +1,132 @@
+version: "3.9"
+
+services:
+    api-gateway:
+        restart: always
+        ports:
+            - ${API_GATEWAY_PORT_EXTERNAL}:${API_GATEWAY_PORT}
+        depends_on:
+            - api-users
+            - api-posts
+        networks:
+            - geek-regime-internal
+            - geek-regime-external
+        environment:
+            - API_GATEWAY_HOST_EXTERNAL
+            - API_GATEWAY_PORT
+            - API_GATEWAY_PORT_EXTERNAL
+            - API_GATEWAY_PREFIX
+            - API_POSTS_HOST
+            - API_POSTS_PORT
+            - API_POSTS_RESOURCE
+            - API_USERS_HOST
+            - API_USERS_PORT
+            - API_USERS_RESOURCE
+            - CLIENT_WEB_HOST_EXTERNAL
+            - CLIENT_WEB_PORT_EXTERNAL
+            - JWT_EXPIRES_IN
+            - JWT_SECRET
+            - NODE_ENV
+
+    api-commons:
+        image: eggziom/geek-regime-api-commons
+        restart: "no"
+        build:
+            context: ../geek-regime-api-commons
+            dockerfile: $PWD/builder/api-commons/Dockerfile
+        volumes:
+            - ../geek-regime-api-commons:/api-commons
+
+    api-users:
+        restart: always
+        ports:
+            - ${API_USERS_PORT_EXTERNAL}:${API_USERS_PORT}
+        depends_on:
+            - db-users
+        networks:
+            - geek-regime-internal
+        environment:
+            - API_USERS_PORT
+            - API_USERS_PREFIX
+            - API_USERS_RESOURCE
+            - DB_USERS_HOST
+            - DB_USERS_NAME
+            - DB_USERS_PASSWORD
+            - DB_USERS_PORT
+            - DB_USERS_USER
+
+    api-posts:
+        restart: always
+        ports:
+            - ${API_POSTS_PORT_EXTERNAL}:${API_POSTS_PORT}
+        depends_on:
+            - db-posts
+            - api-users
+        networks:
+            - geek-regime-internal
+        environment:
+            - API_POSTS_HOST
+            - API_POSTS_PORT
+            - API_USERS_HOST
+            - API_USERS_PORT
+            - API_USERS_PREFIX
+            - API_USERS_RESOURCE
+            - DB_POSTS_HOST
+            - DB_POSTS_NAME
+            - DB_POSTS_PASSWORD
+            - DB_POSTS_PORT
+            - DB_POSTS_USER
+
+    db-users:
+        image: postgres:14.3-alpine
+        restart: always
+        ports:
+            - ${DB_USERS_PORT_EXTERNAL}:${DB_USERS_PORT}
+        networks:
+            - geek-regime-internal
+        environment:
+            - PGDATA=${DB_USERS_DATA_PATH}
+            - POSTGRES_DB=${DB_USERS_NAME}
+            - POSTGRES_PASSWORD=${DB_USERS_PASSWORD}
+            - POSTGRES_USER=${DB_USERS_USER}
+
+    db-posts:
+        image: postgres:14.3-alpine
+        restart: always
+        ports:
+            - ${DB_POSTS_PORT_EXTERNAL}:${DB_POSTS_PORT}
+        networks:
+            - geek-regime-internal
+        environment:
+            - PGDATA=${DB_POSTS_DATA_PATH}
+            - POSTGRES_DB=${DB_POSTS_NAME}
+            - POSTGRES_PASSWORD=${DB_POSTS_PASSWORD}
+            - POSTGRES_USER=${DB_POSTS_USER}
+
+    client-web:
+        restart: always
+        ports:
+            - ${CLIENT_WEB_PORT_EXTERNAL}:${CLIENT_WEB_PORT}
+        depends_on:
+            - api-gateway
+        networks:
+            - geek-regime-external
+        environment:
+            - API_GATEWAY_HOST
+            - API_GATEWAY_HOST_EXTERNAL
+            - API_GATEWAY_PORT
+            - API_GATEWAY_PORT_EXTERNAL
+            - API_GATEWAY_PREFIX
+            - API_POSTS_RESOURCE
+            - API_USERS_RESOURCE
+            - APP_NAME
+            - CLIENT_WEB_HOST
+            - CLIENT_WEB_PORT
+            - CLIENT_WEB_PORT_EXTERNAL
+            - CLIENT_WEB_WEBSOCKET_URL
+            - NODE_ENV
+
+networks:
+    geek-regime-internal:
+    geek-regime-external:
+        driver: bridge

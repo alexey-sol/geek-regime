@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+    api-gateway:
+        container_name: geek-regime-api-gateway_prod
+        build:
+            context: ../geek-regime-api-gateway
+            dockerfile: $PWD/builder/api-gateway/Dockerfile.production
+        command: npm start
+        volumes:
+            - ../geek-regime-client-web/dist:/public
