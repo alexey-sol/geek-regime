@@ -13,8 +13,8 @@ spring:
                 dialect: org.hibernate.dialect.PostgreSQLDialect
                 search:
                     backend:
+                        lucene_version: 8.11.1
                         type: lucene
-                        directory.root: ./data/index # TODO find a better place
     profiles:
         active: prod
 
@@ -41,6 +41,9 @@ spring:
                 hbm2ddl:
                     import_files: import.sql
                     import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
+                search:
+                    backend:
+                        directory.type: local-heap
         show-sql: true
     sql:
         init:
@@ -55,6 +58,10 @@ spring:
     jpa:
         hibernate:
             ddl-auto: update
+        properties:
+            search:
+                backend:
+                    directory.root: ${API_POSTS_SEARCH_DATA_PATH:data/index}
         show-sql: false
 
 server:
