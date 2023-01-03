@@ -30,6 +30,8 @@ class UserService(val repository: UserRepository, val credentialsService: Creden
 
     fun findUserById(id: Long): User? = repository.findUserById(id)
 
+    fun findUserByEmail(email: String): User? = repository.findUserByEmail(email)
+
     @Transactional
     fun createUser(user: User, password: String? = null): User {
         repository.save(user)

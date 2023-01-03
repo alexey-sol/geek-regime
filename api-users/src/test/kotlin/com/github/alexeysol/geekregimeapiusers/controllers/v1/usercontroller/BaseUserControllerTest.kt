@@ -32,4 +32,6 @@ abstract class BaseUserControllerTest(
     protected fun getUrl(): String = apiV1Path
 
     protected fun getUrl(id: Long): String = String.format("%s/%d", apiV1Path, id)
+
+    protected fun getUrl(email: String): String = String.format("%s/%s", apiV1Path, email)
 }

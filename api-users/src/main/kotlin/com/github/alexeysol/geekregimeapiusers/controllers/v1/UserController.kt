@@ -8,9 +8,11 @@ import com.github.alexeysol.geekregimeapicommons.models.exceptions.ErrorDetail
 import com.github.alexeysol.geekregimeapicommons.utils.converters.PageableConverter
 import com.github.alexeysol.geekregimeapicommons.utils.converters.SearchableConverter
 import com.github.alexeysol.geekregimeapiusers.constants.PathConstants
+import com.github.alexeysol.geekregimeapiusers.models.dtos.AuthDto
 import com.github.alexeysol.geekregimeapiusers.models.dtos.CreateUserDto
 import com.github.alexeysol.geekregimeapiusers.models.dtos.UpdateUserDto
 import com.github.alexeysol.geekregimeapiusers.services.v1.UserService
+import com.github.alexeysol.geekregimeapiusers.utils.assertPassword
 import com.github.alexeysol.geekregimeapiusers.utils.assertPasswordsMatchIfNeeded
 import com.github.alexeysol.geekregimeapiusers.utils.mappers.UserMapper
 import org.springframework.data.domain.Page
@@ -24,6 +26,8 @@ import javax.validation.Valid
 private const val EMAIL_FIELD = "email"
 private const val ID_FIELD = "id"
 private const val OLD_PASSWORD_FIELD = "oldPassword"
+private const val PASSWORD_FIELD = "password"
+
 private val sortableFields: List<String> = listOf("createdAt", "details.name", "email", "id")
 private val searchableFields: List<String> = listOf("details.name")
 
@@ -37,6 +41,19 @@ class UserController(
     val service: UserService,
     val mapper: UserMapper
 ) {
+    @PostMapping("auth")
+    fun authenticate(@RequestBody @Valid dto: AuthDto): UserDto {
+        val user = dto.email?.let { service.findUserByEmail(it) }
+            ?: throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT, EMAIL_FIELD))
+
+        try {
+            assertPassword(dto.password, user.credentials);
+            return mapper.fromUserToUserDto(user);
+        } catch (exception: IllegalArgumentException) {
+            throw ResourceException(ErrorDetail(ErrorDetail.Code.MISMATCH, PASSWORD_FIELD))
+        }
+    }
+
     @GetMapping
     fun findAllUsers(
         @RequestParam ids: List<Long>?,
@@ -65,10 +82,17 @@ class UserController(
         }
     }
 
-    @GetMapping("{id}")
-    fun findUserById(@PathVariable id: Long): UserDto {
-        val user = service.findUserById(id)
-            ?: throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD))
+    @GetMapping("{idOrEmail}")
+    fun findUserByIdOrEmail(@PathVariable idOrEmail: String): UserDto {
+        val assumeId = idOrEmail.toLongOrNull(10) !== null;
+
+        val user = if (assumeId) {
+            service.findUserById(idOrEmail.toLong())
+                ?: throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD))
+        } else {
+            service.findUserByEmail(idOrEmail)
+                ?: throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT, EMAIL_FIELD))
+        }
 
         return mapper.fromUserToUserDto(user)
     }

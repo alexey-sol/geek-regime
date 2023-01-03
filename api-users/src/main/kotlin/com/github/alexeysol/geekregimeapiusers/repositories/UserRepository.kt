@@ -33,6 +33,13 @@ interface UserRepository : SearchableRepository<User, Long> {
     )
     fun findUserById(id: Long): User?
 
+    @Query(
+        "SELECT u FROM User u LEFT JOIN FETCH u.details LEFT JOIN FETCH u.credentials " +
+            "WHERE u.email = :email",
+        countQuery = COUNT_USERS_QUERY
+    )
+    fun findUserByEmail(email: String): User?
+
     @Query("DELETE FROM User u WHERE u.id = :id")
     @Transactional
     @Modifying

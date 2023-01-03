@@ -2,6 +2,12 @@ package com.github.alexeysol.geekregimeapiusers.utils
 
 import com.github.alexeysol.geekregimeapiusers.models.entities.Credentials
 
+fun assertPassword(password: String?, credentials: Credentials?) {
+    if (password === null || credentials === null || !passwordsMatch(password, credentials)) {
+        throw IllegalArgumentException();
+    }
+}
+
 fun assertPasswordsMatchIfNeeded(
     oldPassword: String?,
     newPassword: String?,
@@ -21,12 +27,12 @@ fun assertPasswordsMatchIfNeeded(
     }
 }
 
-private fun passwordsMatch(password: String?, oldCredentials: Credentials): Boolean {
+private fun passwordsMatch(password: String?, credentials: Credentials): Boolean {
     if (password === null) {
         return false
     }
 
-    val newHash = Security.generateHash(password, oldCredentials.salt)
-    val oldHash = oldCredentials.hashedPassword
+    val newHash = Security.generateHash(password, credentials.salt)
+    val oldHash = credentials.hashedPassword
     return newHash.contentEquals(oldHash)
 }

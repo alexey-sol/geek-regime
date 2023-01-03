@@ -18,12 +18,12 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class FindUserByIdTest(
+class FindUserByIdOrEmailTest(
     @Autowired mockMvc: MockMvc,
     @Autowired source: ApiUsersSource
 ) : BaseUserControllerTest(mockMvc, source) {
     @Test
-    fun givenUserExists_whenFindUserById_thenReturnsUserWithStatus200() {
+    fun givenUserWithProvidedIdExists_whenFindUserByIdOrEmail_thenReturnsUserWithStatus200() {
         val userId = 1L
         val email = "mark@mail.com"
         val user = User(id = userId, email = "mark@mail.com", details = defaultDetails)
@@ -44,7 +44,28 @@ class FindUserByIdTest(
     }
 
     @Test
-    fun givenUserDoesntExist_whenFindUserById_thenReturnsStatus404() {
+    fun givenUserWithProvidedEmailExists_whenFindUserByIdOrEmail_thenReturnsUserWithStatus200() {
+        val userId = 1L
+        val email = "mark@mail.com"
+        val user = User(id = 1L, email = "mark@mail.com", details = defaultDetails)
+        val userDto = UserDto.builder()
+            .id(userId)
+            .email(email)
+            .build()
+
+        every { service.findUserByEmail(email) } returns user
+        every { mapper.fromUserToUserDto(user) } returns userDto
+
+        mockMvc.perform(MockMvcRequestBuilders.get(getUrl(email)))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect { result ->
+                Assertions.assertEquals(Json.stringify(userDto), result.response.contentAsString)
+            }
+    }
+
+    @Test
+    fun givenUserDoesntExist_whenFindUserByIdOrEmail_thenReturnsStatus404() {
         val absentUserId = 10L
 
         every { service.findUserById(absentUserId) } returns null

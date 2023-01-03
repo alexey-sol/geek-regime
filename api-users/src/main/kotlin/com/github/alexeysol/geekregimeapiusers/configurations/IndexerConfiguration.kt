@@ -10,7 +10,8 @@ import org.springframework.context.annotation.Configuration
 class IndexerConfiguration {
     @Bean
     fun buildIndex(indexer: Indexer): ApplicationRunner {
-        return ApplicationRunner { args: ApplicationArguments? ->
-            indexer.indexPersistedData("com.github.alexeysol.geekregimeapiusers.models.entities.User") }
+        return ApplicationRunner {
+            indexer.indexPersistedData("com.github.alexeysol.geekregimeapiusers.models.entities.User")
+        }
     }
 }
