@@ -6,12 +6,25 @@ services:
         ports:
             - ${API_GATEWAY_PORT_DEBUG}:${API_GATEWAY_PORT_DEBUG}
         build:
-            context: ../geek-regime-api-gateway
+            context: ../api-gateway
             dockerfile: $PWD/builder/api-gateway/Dockerfile.development
         command: npm run start:debug
         volumes:
-            - ../geek-regime-api-gateway:/app
-          # - /app/node_modules
+            - ../api-gateway:/app
+            # - /app/node_modules
+
+    api-aggregator:
+        container_name: geek-regime-api-aggregator_dev
+        build:
+            context: ../
+            dockerfile: $PWD/builder/jvm/Dockerfile
+            args:
+                API_COMMONS_VERSION: ${API_COMMONS_VERSION} # [1]
+                DOCKER_NAMESPACE: ${DOCKER_NAMESPACE}
+                REPOSITORY: api-aggregator
+        command: mvn spring-boot:run -D spring-boot.run.profiles=dev
+        volumes:
+            - ../api-aggregator:/app
 
     api-users:
         container_name: geek-regime-api-users_dev
@@ -20,10 +33,9 @@ services:
             dockerfile: $PWD/builder/jvm/Dockerfile
             args:
                 API_COMMONS_VERSION: ${API_COMMONS_VERSION} # [1]
-                REPOSITORY: geek-regime-api-users
+                DOCKER_NAMESPACE: ${DOCKER_NAMESPACE}
+                REPOSITORY: api-users
         command: mvn spring-boot:run -D spring-boot.run.profiles=dev
-        volumes:
-            - ../geek-regime-api-users:/app
 
     api-posts:
         container_name: geek-regime-api-posts_dev
@@ -32,10 +44,9 @@ services:
             dockerfile: $PWD/builder/jvm/Dockerfile
             args:
                 API_COMMONS_VERSION: ${API_COMMONS_VERSION} # [1]
-                REPOSITORY: geek-regime-api-posts
+                DOCKER_NAMESPACE: ${DOCKER_NAMESPACE}
+                REPOSITORY: api-posts
         command: mvn spring-boot:run -D spring-boot.run.profiles=dev
-        volumes:
-            - ../geek-regime-api-posts:/app
 
     db-users:
         container_name: geek-regime-db-users_dev
@@ -50,13 +61,13 @@ services:
     client-web:
         container_name: geek-regime-client-web_dev
         build:
-            context: ../geek-regime-client-web
+            context: ../client-web
             dockerfile: $PWD/builder/client-web/Dockerfile.development
         command: npm start
         volumes:
-            - ../geek-regime-client-web:/app
+            - ../client-web:/app
+            # - /app/node_modules
         tty: true
-        # - /app/node_modules
 
 volumes:
     db-posts-data_dev:

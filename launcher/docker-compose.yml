@@ -6,12 +6,15 @@ services:
         ports:
             - ${API_GATEWAY_PORT_EXTERNAL}:${API_GATEWAY_PORT}
         depends_on:
+            - api-aggregator
             - api-users
             - api-posts
         networks:
             - geek-regime-internal
             - geek-regime-external
         environment:
+            - API_AGGREGATOR_HOST
+            - API_AGGREGATOR_PORT
             - API_GATEWAY_HOST_EXTERNAL
             - API_GATEWAY_PORT
             - API_GATEWAY_PORT_EXTERNAL
@@ -21,6 +24,7 @@ services:
             - API_POSTS_RESOURCE
             - API_USERS_HOST
             - API_USERS_PORT
+            - API_USERS_PREFIX
             - API_USERS_RESOURCE
             - CLIENT_WEB_HOST_EXTERNAL
             - CLIENT_WEB_PORT_EXTERNAL
@@ -28,14 +32,24 @@ services:
             - JWT_SECRET
             - NODE_ENV
 
-    api-commons:
-        image: eggziom/geek-regime-api-commons
-        restart: "no"
-        build:
-            context: ../geek-regime-api-commons
-            dockerfile: $PWD/builder/api-commons/Dockerfile
-        volumes:
-            - ../geek-regime-api-commons:/api-commons
+    api-aggregator:
+        restart: always
+        ports:
+            - ${API_AGGREGATOR_PORT_EXTERNAL}:${API_AGGREGATOR_PORT}
+        depends_on:
+            - api-users
+            - api-posts
+        networks:
+            - geek-regime-internal
+        environment:
+            - API_POSTS_HOST
+            - API_POSTS_PORT
+            - API_POSTS_PREFIX
+            - API_POSTS_RESOURCE
+            - API_USERS_HOST
+            - API_USERS_PORT
+            - API_USERS_PREFIX
+            - API_USERS_RESOURCE
 
     api-users:
         restart: always
@@ -49,11 +63,14 @@ services:
             - API_USERS_PORT
             - API_USERS_PREFIX
             - API_USERS_RESOURCE
+            - API_USERS_SEARCH_DATA_PATH
             - DB_USERS_HOST
             - DB_USERS_NAME
             - DB_USERS_PASSWORD
             - DB_USERS_PORT
             - DB_USERS_USER
+        volumes:
+            - ../api-users:/app
 
     api-posts:
         restart: always
@@ -67,15 +84,16 @@ services:
         environment:
             - API_POSTS_HOST
             - API_POSTS_PORT
-            - API_USERS_HOST
-            - API_USERS_PORT
-            - API_USERS_PREFIX
-            - API_USERS_RESOURCE
+            - API_POSTS_PREFIX
+            - API_POSTS_RESOURCE
+            - API_POSTS_SEARCH_DATA_PATH
             - DB_POSTS_HOST
             - DB_POSTS_NAME
             - DB_POSTS_PASSWORD
             - DB_POSTS_PORT
             - DB_POSTS_USER
+        volumes:
+            - ../api-posts:/app
 
     db-users:
         image: postgres:14.3-alpine
@@ -125,6 +143,8 @@ services:
             - CLIENT_WEB_PORT_EXTERNAL
             - CLIENT_WEB_WEBSOCKET_URL
             - NODE_ENV
+            - YANDEX_CLIENT_ID
+            - YANDEX_OAUTH_URL
 
 networks:
     geek-regime-internal:

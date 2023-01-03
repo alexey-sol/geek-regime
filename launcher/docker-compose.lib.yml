@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+    api-commons:
+        image: ${DOCKER_NAMESPACE}/${DOCKER_API_COMMONS_REPOSITORY}:${API_COMMONS_VERSION}
+        restart: "no"
+        build:
+            context: ../api-commons
+            dockerfile: $PWD/builder/api-commons/Dockerfile
+        volumes:
+            - ../api-commons:/api-commons

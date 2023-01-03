@@ -1,7 +1,7 @@
 {
-    "name": "geek-regime-launcher",
+    "name": "launcher",
     "version": "0.0.1",
-    "description": "Geek Regime: Project launcher",
+    "description": "Project launcher",
     "author": "Alexey Soloviev",
     "private": true,
     "license": "UNLICENSED",
@@ -9,6 +9,7 @@
         "dev:up": "docker-compose -f docker-compose.yml -f docker-compose.development.yml up",
         "dev:down": "docker-compose -f docker-compose.yml -f docker-compose.development.yml down",
         "local:up": "docker-compose -f docker-compose.yml -f docker-compose.development.yml up db-users db-posts",
-        "local:down": "npm run dev:down"
+        "local:down": "npm run dev:down",
+        "api-commons:build": "docker-compose -f docker-compose.lib.yml build --no-cache api-commons"
     }
 }

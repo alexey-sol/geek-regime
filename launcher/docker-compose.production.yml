@@ -4,8 +4,21 @@ services:
     api-gateway:
         container_name: geek-regime-api-gateway_prod
         build:
-            context: ../geek-regime-api-gateway
+            context: ../api-gateway
             dockerfile: $PWD/builder/api-gateway/Dockerfile.production
         command: npm start
         volumes:
-            - ../geek-regime-client-web/dist:/public
+            - ../client-web/dist:/public
+
+    api-users:
+        volumes:
+            - api-users-search-data_prod:${API_POSTS_SEARCH_DATA_PATH}
+
+    api-posts:
+        volumes:
+            - api-posts-search-data_prod:${API_POSTS_SEARCH_DATA_PATH}
+
+volumes:
+    api-posts-search-data_prod:
+    api-users-search-data_prod:
+        driver: local
