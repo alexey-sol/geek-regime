@@ -1,0 +1,7 @@
+{
+    "status": 404,
+    "resource": "posts",
+    "message": "Error is caused by value provided in following field: slug",
+    "timestamp": "2022-10-13T16:15:40.751Z",
+    "trace": null
+}
