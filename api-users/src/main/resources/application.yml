@@ -1,0 +1,61 @@
+spring:
+    config:
+        import: optional:file:.env[.properties]
+    datasource:
+        url: jdbc:postgresql://${DB_USERS_HOST}:${DB_USERS_PORT}/${DB_USERS_NAME}
+        username: ${DB_USERS_USER}
+        password: ${DB_USERS_PASSWORD}
+    jpa:
+        generate-ddl: true
+        properties:
+            hibernate:
+                auto_quote_keyword: true
+                dialect: org.hibernate.dialect.PostgreSQLDialect
+                search:
+                    backend:
+                        type: lucene
+                        directory.root: ./data/index
+    profiles:
+        active: prod
+
+server:
+    port: ${API_USERS_PORT:3001}
+
+api-users:
+    prefix: ${API_USERS_PREFIX:api}
+    resource: ${API_USERS_RESOURCE:users}
+
+---
+
+spring:
+    config:
+        activate:
+            on-profile: dev
+    jpa:
+        hibernate:
+            ddl-auto: create
+        properties:
+            hibernate:
+                format_sql: true
+                hbm2ddl:
+                    import_files: import.sql
+                    import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
+        show-sql: true
+    sql:
+        init:
+            mode: always
+
+---
+
+spring:
+    config:
+        activate:
+            on-profile: prod
+    jpa:
+        hibernate:
+            ddl-auto: update
+        show-sql: false
+
+server:
+    error:
+        include-stacktrace: on_param
