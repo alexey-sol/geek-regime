@@ -1,10 +1,10 @@
 import { plainToClass } from "class-transformer";
 
-import { Post } from "@/features/posts/models/entities";
+import { PostDetails, PostPreview } from "@/features/posts/models/entities";
 import type { PageDto } from "@/shared/models/dtos";
-import type { PostDto, PostsPage } from "@/features/posts/models/dtos";
+import type { PostDetailsDto, PostPreviewDto, PostsPage } from "@/features/posts/models/dtos";
 
-export const fromPageDtoToPostsPage = (response: PageDto<PostDto[]>): PostsPage => ({
+export const fromPageDtoToPostsPage = (response: PageDto<PostPreviewDto[]>): PostsPage => ({
     items: response.content,
     options: {
         size: response.size,
@@ -12,7 +12,11 @@ export const fromPageDtoToPostsPage = (response: PageDto<PostDto[]>): PostsPage 
     },
 });
 
-export const fromPostDtoToEntity = (dto: PostDto): Post => plainToClass(Post, dto);
+export const fromPostDetailsDtoToEntity = (dto: PostDetailsDto): PostDetails =>
+    plainToClass(PostDetails, dto);
 
-export const fromPostDtoListToEntities = (dtoList: PostDto[]): Post[] =>
-    dtoList.map((dto) => fromPostDtoToEntity(dto));
+export const fromPostPreviewDtoToEntity = (dto: PostPreviewDto): PostPreview =>
+    plainToClass(PostPreview, dto);
+
+export const fromPostPreviewDtoListToEntities = (dtoList: PostPreviewDto[]): PostPreview[] =>
+    dtoList.map((dto) => fromPostPreviewDtoToEntity(dto));

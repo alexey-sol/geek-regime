@@ -4,11 +4,7 @@ import { sanitize } from "dompurify";
 import { formatTimestamp } from "@/shared/utils/formatters/date";
 import { User } from "@/features/users/models/entities";
 
-export class Post {
-    @Expose()
-    @Transform(({ value }) => sanitize(value))
-    public body: string;
-
+export class PostPreview {
     @Type(() => User)
     public author: User;
 
@@ -19,20 +15,36 @@ export class Post {
         public slug: string,
         public createdAt: string,
         public updatedAt: string,
-        body: string,
         author: User,
     ) {
-        this.body = body;
         this.author = author;
     }
 
-    @Expose()
     get formattedCreatedAt() {
         return formatTimestamp(this.createdAt);
     }
 
-    @Expose()
     get formattedUpdatedAt() {
         return formatTimestamp(this.updatedAt);
+    }
+}
+
+export class PostDetails extends PostPreview {
+    @Expose()
+    @Transform(({ value }) => sanitize(value))
+    public body: string;
+
+    constructor(
+        id: number,
+        title: string,
+        excerpt: string,
+        slug: string,
+        createdAt: string,
+        updatedAt: string,
+        author: User,
+        body: string,
+    ) {
+        super(id, title, excerpt, slug, createdAt, updatedAt, author);
+        this.body = body;
     }
 }

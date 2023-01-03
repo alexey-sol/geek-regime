@@ -2,7 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { paths } from "@/shared/const";
-import type { Post } from "@/features/posts/models/entities";
+import type { PostPreview } from "@/features/posts/models/entities";
 
 import {
     BodyStyled,
@@ -14,7 +14,7 @@ import { OverviewTitle } from "./overview-title";
 import { OverviewExcerpt } from "./overview-excerpt";
 
 export type PostOverviewProps = {
-    post: Post;
+    post: PostPreview;
 };
 
 export const PostOverview = ({ post }: PostOverviewProps) => {

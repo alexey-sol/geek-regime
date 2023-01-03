@@ -13,7 +13,7 @@ import { useNavigate } from "react-router";
 import { Button } from "@/shared/components/button";
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import type { CreatePostOnSaveArg } from "@/features/posts/utils/hooks/types";
-import type { Post } from "@/features/posts/models/entities";
+import type { PostDetails } from "@/features/posts/models/entities";
 
 import {
     BodyEditorStyled,
@@ -24,7 +24,7 @@ import {
 } from "./style";
 
 export type PostDraftProps = {
-    post?: Post;
+    post?: PostDetails;
 };
 
 export const PostDraft = ({ post }: PostDraftProps) => {

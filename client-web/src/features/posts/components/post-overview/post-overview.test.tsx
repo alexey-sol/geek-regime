@@ -1,9 +1,9 @@
 import React from "react";
 
 import { render, screen } from "@/test/setup";
-import { fromPostDtoToEntity } from "@/features/posts/utils/converters";
+import { fromPostPreviewDtoToEntity } from "@/features/posts/utils/converters";
 import { paths } from "@/shared/const";
-import type { PostDto } from "@/features/posts/models/dtos";
+import type { PostPreviewDto } from "@/features/posts/models/dtos";
 
 import { PostOverview } from "./post-overview";
 
@@ -11,14 +11,13 @@ const TIMESTAMP = "2022-02-01T07:20:00.000Z";
 const TITLE = "Title";
 const EXCERPT = "Excerpt";
 
-const postDto: PostDto = {
+const previewDto: PostPreviewDto = {
     id: 1,
     title: TITLE,
     excerpt: EXCERPT,
     createdAt: TIMESTAMP,
     updatedAt: TIMESTAMP,
     slug: "title",
-    body: "Body",
     author: {
         id: 1,
         email: "mark@gmail.com",
@@ -34,7 +33,7 @@ const postDto: PostDto = {
     },
 };
 
-const post = fromPostDtoToEntity(postDto);
+const post = fromPostPreviewDtoToEntity(previewDto);
 
 describe("PostOverview", () => {
     it("should render title and excerpt from provided post", () => {

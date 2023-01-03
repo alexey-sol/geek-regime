@@ -35,6 +35,7 @@ module.exports = {
         "@typescript-eslint/no-unused-vars": "error",
         "@typescript-eslint/no-useless-constructor": "error",
         "@typescript-eslint/semi": "warn",
+        "class-methods-use-this": "off",
         "implicit-arrow-linebreak": "off",
         "import/extensions": ["error", "ignorePackages", {
             js: "never",
@@ -55,7 +56,10 @@ module.exports = {
             "newlines-between": "always",
         }],
         "import/prefer-default-export": "off",
-        indent: ["error", 4],
+        indent: ["error", 4, {
+            SwitchCase: 1,
+            ignoredNodes: ["PropertyDefinition"],
+        }],
         "linebreak-style": ["error", "unix"],
         "lines-between-class-members": ["error", "always", {
             exceptAfterSingleLine: true,
@@ -63,6 +67,9 @@ module.exports = {
         "max-classes-per-file": "off",
         "max-len": ["error", {
             code: 100,
+        }],
+        "no-else-return": ["error", {
+            allowElseIf: true,
         }],
         "no-empty-function": "off",
         "no-param-reassign": ["error", {

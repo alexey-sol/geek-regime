@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo } from "react";
 import { useNavigate, useParams } from "react-router";
 import { skipToken } from "@reduxjs/toolkit/query";
 
-import { fromPostDtoToEntity } from "@/features/posts/utils/converters";
+import { fromPostDetailsDtoToEntity } from "@/features/posts/utils/converters";
 import {
     useCreatePostMutation,
     useGetPostBySlugQuery,
@@ -18,10 +18,10 @@ export const useActivePost = (): UseActivePostResult => {
     const navigate = useNavigate();
     const { slug } = useParams();
 
-    const { isFetching, post } = useGetPostBySlugQuery(slug ?? skipToken, {
-        selectFromResult: (result) => ({
-            isFetching: result.isFetching,
-            post: result.data && fromPostDtoToEntity(result.data),
+    const selectedFromGet = useGetPostBySlugQuery(slug ?? skipToken, {
+        selectFromResult: ({ isFetching, data }) => ({
+            isFetching,
+            post: data && fromPostDetailsDtoToEntity(data),
         }),
     });
 
@@ -47,6 +47,7 @@ export const useActivePost = (): UseActivePostResult => {
         }
     }, [navigate, slugAfterSaving, slug]);
 
+    const { isFetching, post } = selectedFromGet;
     const id = post?.id;
 
     function save(arg: CreatePostOnSaveArg): void;

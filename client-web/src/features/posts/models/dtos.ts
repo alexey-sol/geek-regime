@@ -2,9 +2,8 @@ import type { HasId } from "@/shared/types/props";
 import type { Page } from "@/shared/models/entities";
 import type { UserDto } from "@/features/users/models/dtos";
 
-export type PostDto = HasId & {
+export type PostPreviewDto = HasId & {
     author: UserDto;
-    body: string;
     createdAt: string;
     excerpt: string;
     slug: string;
@@ -12,11 +11,15 @@ export type PostDto = HasId & {
     updatedAt: string;
 };
 
-export type CreatePostDto = Pick<PostDto, "title" | "body"> & {
+export type PostDetailsDto = HasId & PostPreviewDto & {
+    body: string;
+};
+
+export type CreatePostDto = Pick<PostDetailsDto, "title" | "body"> & {
     spaceId: number;
     userId: number;
 };
 
-export type UpdatePostDto = Partial<Pick<PostDto, "title" | "body">>;
+export type UpdatePostDto = Partial<Pick<PostDetailsDto, "title" | "body">>;
 
-export type PostsPage = Page<PostDto[]>;
+export type PostsPage = Page<PostPreviewDto[]>;

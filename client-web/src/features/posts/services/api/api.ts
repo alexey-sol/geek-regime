@@ -3,7 +3,7 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import * as constants from "@/features/posts/services/api/const";
 import { fromPageDtoToPostsPage } from "@/features/posts/utils/converters";
 import { selectPagingOptions } from "@/features/posts/slice/selectors";
-import type { PostDto, PostsPage } from "@/features/posts/models/dtos";
+import type { PostPreviewDto, PostDetailsDto, PostsPage } from "@/features/posts/models/dtos";
 import type { PageDto } from "@/shared/models/dtos";
 
 import {
@@ -18,7 +18,7 @@ export const postsApi = createApi({
     tagTypes: [constants.POSTS_TAG_TYPE],
     baseQuery: fetchBaseQuery({ baseUrl }),
     endpoints: (builder) => ({
-        createPost: builder.mutation<PostDto, types.CreatePostArg>({
+        createPost: builder.mutation<PostDetailsDto, types.CreatePostArg>({
             query: (body) => ({
                 body,
                 method: "POST",
@@ -40,8 +40,8 @@ export const postsApi = createApi({
                 params: { paging: transformGetAllPostsArg(paging) },
                 url: "",
             }),
-            transformResponse: (response: PageDto<PostDto[]>): Promise<PostsPage> | PostsPage =>
-                fromPageDtoToPostsPage(response),
+            transformResponse: (response: PageDto<PostPreviewDto[]>): Promise<PostsPage>
+                | PostsPage => fromPageDtoToPostsPage(response),
             providesTags: (result) => {
                 const tag = createTag();
 
@@ -50,7 +50,7 @@ export const postsApi = createApi({
                     : [tag];
             },
         }),
-        getPostBySlug: builder.query<PostDto, types.GetPostBySlugArg>({
+        getPostBySlug: builder.query<PostDetailsDto, types.GetPostBySlugArg>({
             query: (slug) => slug,
             providesTags: (result, error, id) => [createTag(id)],
         }),
@@ -61,7 +61,7 @@ export const postsApi = createApi({
             }),
             invalidatesTags: (result, error, id) => [createTag(id)],
         }),
-        updatePostById: builder.mutation<PostDto, types.UpdatePostByIdArg>({
+        updatePostById: builder.mutation<PostDetailsDto, types.UpdatePostByIdArg>({
             query: ({ id, ...body }) => ({
                 body,
                 method: "PATCH",
