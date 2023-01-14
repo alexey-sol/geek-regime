@@ -14,7 +14,7 @@ export const AppTitle = ({ title, to = "/" }: TitleProps) => (
         <Typography
             color="white"
             font="logo"
-            size="larger"
+            fontSize="larger"
         >
             {title}
         </Typography>

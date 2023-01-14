@@ -23,8 +23,8 @@ export const LanguageDropdown = ({ anchorRef, onClose }: LanguageDropdownProps) 
             return (
                 <li key={lang}>
                     <SwitchButtonStyled
+                        fontSize="smaller"
                         isStretched
-                        size="smaller"
                         onClick={handleClick}
                         view="secondary"
                     >

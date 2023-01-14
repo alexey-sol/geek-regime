@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import { BaseIconStyled } from "@/shared/components/icon/style";
 import type { ColorValue, MapKeyToCss } from "@/shared/types/theme";
 
-import type { BaseIconButtonStyledProps } from "./types";
+import type { BaseIconButtonStyledProps } from "./base-icon-button";
 
 const getFillCss = (fill: ColorValue, fillOnHover: ColorValue) => css`
     ${BaseIconStyled} {

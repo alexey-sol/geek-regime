@@ -1,6 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import * as constants from "@/features/posts/services/api/const";
+import * as cn from "@/features/posts/services/api/const";
 import { fromPageDtoToPostsPage } from "@/features/posts/utils/converters";
 import { selectPagingOptions } from "@/features/posts/slice/selectors";
 import type { PostPreviewDto, PostDetailsDto, PostsPage } from "@/features/posts/models/dtos";
@@ -11,14 +11,14 @@ import {
     postsBaseUrl as baseUrl,
     transformGetAllPostsArg,
 } from "./utils";
-import type * as types from "./types";
+import type * as tp from "./types";
 
 export const postsApi = createApi({
     reducerPath: "postsApi",
-    tagTypes: [constants.POSTS_TAG_TYPE],
+    tagTypes: [cn.POSTS_TAG_TYPE],
     baseQuery: fetchBaseQuery({ baseUrl }),
     endpoints: (builder) => ({
-        createPost: builder.mutation<PostDetailsDto, types.CreatePostArg>({
+        createPost: builder.mutation<PostDetailsDto, tp.CreatePostArg>({
             query: (body) => ({
                 body,
                 method: "POST",
@@ -35,7 +35,7 @@ export const postsApi = createApi({
                 }
             },
         }),
-        getAllPosts: builder.query<PostsPage, types.GetAllPostsArg>({
+        getAllPosts: builder.query<PostsPage, tp.GetAllPostsArg>({
             query: (paging) => ({
                 params: { paging: transformGetAllPostsArg(paging) },
                 url: "",
@@ -50,18 +50,18 @@ export const postsApi = createApi({
                     : [tag];
             },
         }),
-        getPostBySlug: builder.query<PostDetailsDto, types.GetPostBySlugArg>({
+        getPostBySlug: builder.query<PostDetailsDto, tp.GetPostBySlugArg>({
             query: (slug) => slug,
             providesTags: (result, error, id) => [createTag(id)],
         }),
-        removePostById: builder.mutation<number, types.RemovePostByIdArg>({
+        removePostById: builder.mutation<number, tp.RemovePostByIdArg>({
             query: (id) => ({
                 method: "DELETE",
                 url: `${id}`,
             }),
             invalidatesTags: (result, error, id) => [createTag(id)],
         }),
-        updatePostById: builder.mutation<PostDetailsDto, types.UpdatePostByIdArg>({
+        updatePostById: builder.mutation<PostDetailsDto, tp.UpdatePostByIdArg>({
             query: ({ id, ...body }) => ({
                 body,
                 method: "PATCH",
@@ -69,7 +69,7 @@ export const postsApi = createApi({
             }),
             async onQueryStarted({ id }, { dispatch, queryFulfilled, getState }) {
                 const { page, size } = selectPagingOptions(getState());
-                const pagingArg: types.GetAllPostsArg = { page, size };
+                const pagingArg: tp.GetAllPostsArg = { page, size };
                 const { data } = await queryFulfilled;
 
                 if (data) {

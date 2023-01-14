@@ -1,20 +1,24 @@
 import styled, { css } from "styled-components";
 
-import type { MapKeyToCss } from "@/shared/types/theme";
+import type { Font, MapKeyToCss } from "@/shared/types/theme";
+import type { HasColor, HasFontSize } from "@/shared/types/props";
 
-import type { TypographyStyledProps } from "./types";
+export type TypographyStyledProps = Partial<HasColor> & Partial<HasFontSize> & {
+    font?: Font;
+    view?: "normal" | "caption" | "hint";
+};
 
 const mapViewToCss: MapKeyToCss<NonNullable<TypographyStyledProps["view"]>> = {
     caption: css`
-        font-size: ${({ theme }) => theme.sizes.large};
+        font-size: ${({ theme }) => theme.fontSizes.large};
         font-weight: bold;
     `,
     hint: css(({ theme }) => css`
         color: ${theme.colors.greyDarken};
-        font-size: ${theme.sizes.small};
+        font-size: ${theme.fontSizes.small};
     `),
     normal: css`
-        font-size: ${({ theme }) => theme.sizes.normal};
+        font-size: ${({ theme }) => theme.fontSizes.normal};
     `,
 };
 
@@ -23,7 +27,7 @@ export const TypographyStyled = styled.p<TypographyStyledProps>`
         theme,
         color,
         font,
-        size,
+        fontSize,
         view = "normal",
     }) => css`
         font-family: ${theme.fonts.normal};
@@ -38,8 +42,8 @@ export const TypographyStyled = styled.p<TypographyStyledProps>`
             color: ${theme.colors[color]};
         `};
 
-        ${size && css`
-            font-size: ${theme.sizes[size]};
+        ${fontSize && css`
+            font-size: ${theme.fontSizes[fontSize]};
         `};
     `};
 `;

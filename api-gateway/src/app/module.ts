@@ -1,25 +1,30 @@
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { Module } from "@nestjs/common";
 import { ServeStaticModule } from "@nestjs/serve-static";
+import { APP_FILTER } from "@nestjs/core";
 
-import * as cfg from "@/config";
 import { createServeStaticModuleOptions } from "@/app/utils";
 import { validate } from "@/config/utils/validation";
 import { AuthModule } from "@/auth/module";
+import { ProcessConfigService } from "@/config/service";
+import * as cg from "@/config";
 import type { AppConfig } from "@/config/types";
+
+import { ApiExceptionFilter, HttpExceptionFilter } from "./handlers/exception.filters";
 
 @Module({
     imports: [
         ConfigModule.forRoot({
             isGlobal: true,
             load: [
-                cfg.authConfig,
-                cfg.apiAggregatorConfig,
-                cfg.apiGatewayConfig,
-                cfg.apiPostsConfig,
-                cfg.apiUsersConfig,
-                cfg.clientWebConfig,
-                cfg.validationPipeConfig,
+                cg.authConfig,
+                cg.apiAggregatorConfig,
+                cg.apiGatewayConfig,
+                cg.apiPostsConfig,
+                cg.apiUsersConfig,
+                cg.clientWebConfig,
+                cg.processConfig,
+                cg.validationPipeConfig,
             ],
             validate,
         }),
@@ -31,6 +36,17 @@ import type { AppConfig } from "@/config/types";
             },
         }),
         AuthModule,
+    ],
+    providers: [
+        ProcessConfigService,
+        {
+            provide: APP_FILTER,
+            useClass: ApiExceptionFilter,
+        },
+        {
+            provide: APP_FILTER,
+            useClass: HttpExceptionFilter,
+        },
     ],
 })
 export class AppModule {}

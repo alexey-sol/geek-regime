@@ -3,19 +3,10 @@ import { initReactI18next } from "react-i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 
 import { Language } from "@/shared/const";
-import {
-    en as enSessionTranslations,
-    ru as ruSessionTranslations,
-} from "@/features/session/resources/translations";
-import {
-    en as enSharedTranslations,
-    ru as ruSharedTranslations,
-} from "@/shared/resources/translations";
-import {
-    en as enPostsTranslations,
-    ru as ruPostsTranslations,
-} from "@/features/posts/resources/translations";
 import { isProduction } from "@/shared/utils/helpers/env";
+import { en as enAuth, ru as ruAuth } from "@/features/auth/resources/translations";
+import { en as enShared, ru as ruShared } from "@/shared/resources/translations";
+import { en as enPosts, ru as ruPosts } from "@/features/posts/resources/translations";
 
 i18n.use(LanguageDetector)
     .use(initReactI18next)
@@ -25,16 +16,16 @@ i18n.use(LanguageDetector)
         resources: {
             [Language.EN]: {
                 translation: {
-                    ...enSessionTranslations,
-                    ...enSharedTranslations,
-                    ...enPostsTranslations,
+                    ...enAuth,
+                    ...enShared,
+                    ...enPosts,
                 },
             },
             [Language.RU]: {
                 translation: {
-                    ...ruSessionTranslations,
-                    ...ruSharedTranslations,
-                    ...ruPostsTranslations,
+                    ...ruAuth,
+                    ...ruShared,
+                    ...ruPosts,
                 },
             },
         },

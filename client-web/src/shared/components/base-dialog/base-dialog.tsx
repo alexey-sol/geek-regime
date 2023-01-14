@@ -6,9 +6,9 @@ import { Overlay } from "../overlay";
 import { Typography } from "../typography";
 import { CloseIconButton } from "../icon-button";
 
-import { DialogStyled, HeaderStyled } from "./style";
+import { BaseDialogStyled, HeaderStyled, type BaseDialogStyledProps } from "./style";
 
-export type BaseDialogProps = {
+export type BaseDialogProps = BaseDialogStyledProps & {
     children?: ReactNode;
     onAction?: () => void;
     onClose: () => void;
@@ -20,19 +20,19 @@ export const BaseDialog = ({
     onAction,
     onClose,
     title,
+    ...rest
 }: BaseDialogProps) => {
     const elementRef = useRef<HTMLElement>(null);
-    const onCloseIfNoOnActionProvided = onAction || onClose;
 
     useKeyboardControls({
         activeElementRef: elementRef,
-        onAction: onCloseIfNoOnActionProvided,
+        onAction,
         onCancel: onClose,
     });
 
     return (
         <Overlay onClose={onClose}>
-            <DialogStyled ref={elementRef} tabIndex={0}>
+            <BaseDialogStyled ref={elementRef} tabIndex={0} {...rest}>
                 <HeaderStyled>
                     {title && (
                         <Typography>{title}</Typography>
@@ -42,7 +42,7 @@ export const BaseDialog = ({
                 </HeaderStyled>
 
                 <section>{children}</section>
-            </DialogStyled>
+            </BaseDialogStyled>
         </Overlay>
     );
 };

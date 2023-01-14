@@ -1,6 +1,6 @@
 import path from "path";
 
-import * as cns from "./const";
+import * as ct from "./const";
 
 export const getUseContainerOptions = () => ({
     fallbackOnErrors: true, // [1]
@@ -13,8 +13,8 @@ export const createServeStaticModuleOptions = (
     root = defaultRoot,
 ) => [{
     exclude: [`/${apiGatewayPrefix}*`],
-    rootPath: path.join(root, "..", cns.PUBLIC_DIR),
-    serveRoot: `/${cns.PUBLIC_DIR}`,
+    rootPath: path.join(root, "..", ct.PUBLIC_DIR),
+    serveRoot: `/${ct.PUBLIC_DIR}`,
 }];
 
 // [1]. Allows to inject dependencies into @ValidatorConstraint as described here:

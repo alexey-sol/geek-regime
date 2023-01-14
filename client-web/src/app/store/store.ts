@@ -2,23 +2,24 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 
 import { isProduction } from "@/shared/utils/helpers/env";
+import { authMiddlewares } from "@/features/auth/slice/middlewares";
 import { postsApi } from "@/features/posts/services/api";
 import { postsReducer } from "@/features/posts/slice";
-import { sessionReducer } from "@/features/session/slice";
-import { sessionMiddlewares } from "@/features/session/slice/middlewares";
+import { authApi } from "@/features/auth/services/api";
 
 const rootReducer = combineReducers({
+    [authApi.reducerPath]: authApi.reducer,
     [postsApi.reducerPath]: postsApi.reducer,
     posts: postsReducer,
-    session: sessionReducer,
 });
 
 export const store = configureStore({
     devTools: !isProduction(),
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware()
+        .concat(authApi.middleware)
         .concat(postsApi.middleware)
-        .concat(sessionMiddlewares),
+        .concat(authMiddlewares),
 } as const);
 
 setupListeners(store.dispatch);

@@ -58,7 +58,7 @@ export const theme = {
         logo: "Bree Serif, Helvetica, Arial, sans-serif",
         normal: "Roboto, Helvetica, Arial, sans-serif",
     },
-    sizes: {
+    fontSizes: {
         inherit: "inherit",
         smallest: "1rem",
         smaller: "1.2rem",

@@ -1,20 +1,19 @@
 import React, { ButtonHTMLAttributes } from "react";
 
-import { HasColor, HasSize } from "@/shared/types/props";
+import type { HasColor, HasFontSize } from "@/shared/types/props";
+import type { TypographyStyledProps } from "@/shared/components/typography/style";
 
-import { BaseIconButtonProps } from "../icon-button";
 import { Typography } from "../typography";
-import type { TypographyStyledProps } from "../typography/types";
+import type { BaseIconButtonProps } from "../icon-button";
 
-import { ButtonStyled, LinkStyled } from "./style";
-import type { ButtonStyledProps } from "./types";
+import { ButtonStyled, LinkStyled, type ButtonStyledProps } from "./style";
 
 const INHERIT = "inherit";
 
 export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement>
     & ButtonStyledProps
     & Partial<HasColor>
-    & Partial<HasSize>
+    & Partial<HasFontSize>
     & Partial<Pick<TypographyStyledProps, "font">>
     & Partial<Pick<BaseIconButtonProps, "icon">>;
 
@@ -22,8 +21,8 @@ export const Button = ({
     children,
     color = INHERIT,
     font = INHERIT,
+    fontSize = "small",
     icon: Icon,
-    size = "small",
     type = "button",
     ...rest
 }: ButtonProps) => (
@@ -32,13 +31,13 @@ export const Button = ({
             <Typography
                 color={color}
                 font={font}
-                size={size}
+                fontSize={fontSize}
             >
                 {children}
             </Typography>
         )}
 
-        {Icon && <Icon size={size} />}
+        {Icon && <Icon fontSize={fontSize} />}
     </ButtonStyled>
 );
 

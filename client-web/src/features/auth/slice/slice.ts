@@ -2,26 +2,27 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 import type { User } from "@/features/users/models/entities";
 
-export type SessionState = {
+export type AuthState = {
     user?: User;
 };
 
-const initialState: SessionState = {
+const initialState: AuthState = {
     user: undefined,
 };
 
-export const sessionSlice = createSlice({
-    name: "session",
+// TODO don't need
+export const authSlice = createSlice({
+    name: "auth",
     initialState,
     reducers: {
         setUser: (state, {
-            payload: user
+            payload: user,
         }: PayloadAction<User>) => {
             state.user = user;
         },
     },
 });
 
-export const { setUser } = sessionSlice.actions;
+export const { setUser } = authSlice.actions;
 
-export const sessionReducer = sessionSlice.reducer;
+export const authReducer = authSlice.reducer;

@@ -3,7 +3,10 @@ import React, { ComponentType } from "react";
 import type { IconProps } from "@/shared/components/icon";
 
 import { IconButtonStyled } from "./style";
-import type { BaseIconButtonStyledProps } from "./types";
+
+export type BaseIconButtonStyledProps = {
+    view?: "primary" | "white";
+};
 
 export type BaseIconButtonProps = IconProps & BaseIconButtonStyledProps & {
     icon: ComponentType<IconProps>;
@@ -13,11 +16,11 @@ export type BaseIconButtonProps = IconProps & BaseIconButtonStyledProps & {
 
 export const BaseIconButton = ({
     color,
+    fontSize,
     icon: Icon,
-    size,
     ...rest
 }: BaseIconButtonProps) => (
     <IconButtonStyled role="button" {...rest}>
-        <Icon color={color} size={size} />
+        <Icon color={color} fontSize={fontSize} />
     </IconButtonStyled>
 );

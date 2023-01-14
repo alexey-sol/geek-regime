@@ -7,8 +7,8 @@ import type { HasId } from "@/shared/types/props";
 @Injectable()
 export class AuthService {
     constructor(
-        private usersService: UsersService,
-        private jwtService: JwtService,
+        private readonly usersService: UsersService,
+        private readonly jwtService: JwtService,
     ) {}
 
     getProfile = async (id: number) => this.usersService.findUserById(id);

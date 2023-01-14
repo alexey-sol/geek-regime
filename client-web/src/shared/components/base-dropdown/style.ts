@@ -1,8 +1,14 @@
 import styled, { css } from "styled-components";
+import React from "react";
 
 import type { MapKeyToCss } from "@/shared/types/theme";
 
-import type { BaseDropdownStyledProps } from "./types";
+import type { ElementPosition } from "./types";
+
+export type BaseDropdownStyledProps = {
+    anchorRef?: React.RefObject<HTMLElement>;
+    position?: ElementPosition;
+};
 
 const mapPositionToCss: MapKeyToCss<NonNullable<BaseDropdownStyledProps["position"]>> = {
     "bottom-center": css`

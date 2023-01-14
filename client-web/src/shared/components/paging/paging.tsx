@@ -152,8 +152,8 @@ export const Paging = memo(({
                 <section>
                     <StepButtonStyled
                         disabled={isStartPage}
+                        fontSize="larger"
                         onClick={toPreviousPage}
-                        size="larger"
                         title={t("paging.stepButton.previous.title")}
                         view="secondary"
                     >
@@ -168,8 +168,8 @@ export const Paging = memo(({
                 <section>
                     <StepButtonStyled
                         disabled={isLastPage}
+                        fontSize="larger"
                         onClick={toNextPage}
-                        size="larger"
                         title={t("paging.stepButton.next.title")}
                         view="secondary"
                     >

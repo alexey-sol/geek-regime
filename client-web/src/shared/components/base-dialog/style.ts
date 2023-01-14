@@ -2,10 +2,19 @@ import styled from "styled-components";
 
 import { TypographyStyled } from "../typography/style";
 
-export const DialogStyled = styled.section`
+export type BaseDialogStyledProps = {
+    width?: "auto";
+};
+
+const mapWidthToCssValue: Record<NonNullable<BaseDialogStyledProps["width"]>, string> = {
+    auto: "auto",
+};
+
+export const BaseDialogStyled = styled.section<BaseDialogStyledProps>`
     display: flex;
     flex-direction: column;
-    width: 60rem;
+    min-width: ${({ width = "auto" }) => mapWidthToCssValue[width]};
+    max-width: 100%;
     padding: 2rem;
     background-color: ${({ theme }) => theme.colors.white};
     outline: none;

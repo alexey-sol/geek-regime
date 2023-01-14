@@ -1,6 +1,6 @@
 import React from "react";
 
-import type { Size } from "@/shared/types/theme";
+import type { FontSize } from "@/shared/types/theme";
 import { useTypography } from "@/shared/utils/hooks/use-typography";
 
 import { TwoLineTextStyled } from "./style";
@@ -10,13 +10,13 @@ export type OverviewCaptionProps = {
 };
 
 export const OverviewTitle = ({ title }: OverviewCaptionProps) => {
-    const size: Size = "large";
-    const { lineHeight } = useTypography({ size });
+    const fontSize: FontSize = "large";
+    const { lineHeight } = useTypography({ fontSize });
 
     return (
         <TwoLineTextStyled
+            fontSize={fontSize}
             lineHeight={lineHeight}
-            size={size}
             title={title}
             view="caption"
         >

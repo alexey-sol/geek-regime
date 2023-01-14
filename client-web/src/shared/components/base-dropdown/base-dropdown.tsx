@@ -2,10 +2,10 @@ import React, { AriaRole, useEffect, useRef } from "react";
 import ReactDOM from "react-dom";
 
 import { useKeyboardControls } from "@/shared/utils/hooks/use-keyboard-controls";
+import { getRootElement } from "@/shared/utils/helpers/dom";
 import type { HasChildren } from "@/shared/types/props";
 
-import { BaseDropdownStyled } from "./style";
-import type { BaseDropdownStyledProps } from "./types";
+import { BaseDropdownStyled, type BaseDropdownStyledProps } from "./style";
 
 export type BaseDropdownProps = BaseDropdownStyledProps & HasChildren & {
     mouseEvent?: "click" | "mouseup" | "mousedown";
@@ -49,7 +49,7 @@ export const BaseDropdown = ({
         onCancel: onClose,
     });
 
-    const container = anchorRef?.current || document.body;
+    const container = anchorRef?.current ?? getRootElement();
 
     const dropdownElement = (
         <BaseDropdownStyled

@@ -6,10 +6,13 @@ import type { ColorValue, MapKeyToCss } from "@/shared/types/theme";
 import { TypographyStyled } from "../typography/style";
 import { BaseIconStyled } from "../icon/style";
 
-import type { ButtonStyledProps } from "./types";
-
 const PADDING_Y = "1rem";
 const PLAIN_BORDER_WIDTH = "1px";
+
+export type ButtonStyledProps = {
+    isStretched?: boolean;
+    view?: "primary" | "secondary" | "plain" | "transparent";
+};
 
 const getBgColorCss = (bgColor: ColorValue, bgColorOnHover: ColorValue) => css`
     background-color: ${bgColor};

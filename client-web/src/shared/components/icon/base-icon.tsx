@@ -1,11 +1,11 @@
 import React from "react";
 import { useTheme } from "styled-components";
 
-import type { HasChildren, HasColor, HasSize } from "@/shared/types/props";
+import type { HasChildren, HasColor, HasFontSize } from "@/shared/types/props";
 
 import { BaseIconStyled } from "./style";
 
-export type IconProps = Partial<HasColor> & Partial<HasSize>;
+export type IconProps = Partial<HasColor> & Partial<HasFontSize>;
 
 export type BaseIconProps = IconProps & HasChildren & {
     viewBox: string;
@@ -14,18 +14,18 @@ export type BaseIconProps = IconProps & HasChildren & {
 export const BaseIcon = ({
     children,
     color,
-    size = "normal",
+    fontSize = "normal",
     viewBox,
 }: BaseIconProps) => {
     const theme = useTheme();
-    const cssSizeValue = theme.sizes[size];
+    const cssFontSizeValue = theme.fontSizes[fontSize];
 
     return (
         <BaseIconStyled
             color={color}
-            height={cssSizeValue}
+            height={cssFontSizeValue}
             viewBox={viewBox}
-            width={cssSizeValue}
+            width={cssFontSizeValue}
         >
             {children}
         </BaseIconStyled>

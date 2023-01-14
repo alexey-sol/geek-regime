@@ -7,7 +7,7 @@ import { ConfigService } from "@nestjs/config";
 import { AppConfig } from "@/config/types";
 import type { HasId } from "@/shared/types/props";
 
-import * as cns from "../const";
+import * as ct from "../const";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {
@@ -27,10 +27,10 @@ export class JwtStrategy extends PassportStrategy(Strategy) {
     }
 
     private static extractJwt(req: Request): string | null {
-        const hasToken = req.cookies && cns.AUTH_TOKEN_KEY in req.cookies;
+        const hasToken = req.cookies && ct.AUTH_TOKEN_KEY in req.cookies;
 
         return (hasToken)
-            ? req.cookies[cns.AUTH_TOKEN_KEY]
+            ? req.cookies[ct.AUTH_TOKEN_KEY]
             : null;
     }
 }

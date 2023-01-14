@@ -28,4 +28,10 @@ export const mixins = {
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
     `,
+    shrinkLabel: () => css`
+        position: absolute;
+        top: -1.4rem;
+        color: ${({ theme }) => theme.colors.grey};
+        font-size: ${({ theme }) => theme.fontSizes.smaller};
+    `,
 } as const;

@@ -7,6 +7,7 @@ import React, {
 import ReactDOM from "react-dom";
 import styled from "styled-components";
 
+import { getRootElement } from "@/shared/utils/helpers/dom";
 import type { HasChildren } from "@/shared/types/props";
 
 const OverlayStyled = styled.section`
@@ -58,5 +59,7 @@ export const Overlay = ({
         </OverlayStyled>
     );
 
-    return ReactDOM.createPortal(overlayElement, container || document.body);
+    const resultContainer = container ?? getRootElement();
+
+    return ReactDOM.createPortal(overlayElement, resultContainer);
 };

@@ -8,10 +8,10 @@ import { AuthService } from "@/auth/service";
 import { AppConfig } from "@/config/types";
 import type { AuthRequest } from "@/auth/types";
 
-import * as cns from "./const";
 import { JwtAuthGuard, LocalAuthGuard } from "./guards";
+import * as ct from "./const";
 
-@Controller(`v*/${cns.AUTH_ROUTE}`)
+@Controller(`v*/${ct.AUTH_ROUTE}`)
 export class AuthController {
     constructor(
         private readonly authService: AuthService,
@@ -19,7 +19,7 @@ export class AuthController {
     ) {}
 
     @UseGuards(LocalAuthGuard)
-    @Post("signIn")
+    @Post("sign-in")
     async signIn(
         @Req() req: AuthRequest,
         @Res({ passthrough: true }) res: Response,
@@ -28,13 +28,14 @@ export class AuthController {
         // (or throws unauthorized exception).
         const userId = req.user.id;
         const { accessToken } = this.authService.signIn(userId);
+        const profile = this.authService.getProfile(userId);
 
         this.setAuthCookie(res, accessToken);
-        return { id: userId };
+        return profile;
     }
 
     private setAuthCookie(res: Response, accessToken: string) {
-        res.cookie(cns.AUTH_TOKEN_KEY, accessToken, {
+        res.cookie(ct.AUTH_TOKEN_KEY, accessToken, {
             httpOnly: true,
             maxAge: this.getMaxAge(),
         });
@@ -53,14 +54,14 @@ export class AuthController {
         return dayInMs;
     }
 
-    @Post("signOut")
+    @Post("sign-out")
     async signOut(@Res({ passthrough: true }) res: Response) {
         AuthController.resetAuthCookie(res);
         return true;
     }
 
     private static resetAuthCookie(res: Response) {
-        res.clearCookie(cns.AUTH_TOKEN_KEY);
+        res.clearCookie(ct.AUTH_TOKEN_KEY);
     }
 
     @UseGuards(JwtAuthGuard)

@@ -22,7 +22,7 @@ export const en = {
                 title: "To page",
             },
             toStart: {
-                text: "To start",
+                text: "To start", // TODO inconsistency with text / title. Maybe "tooltip"?
                 title: "To page",
             },
         },

@@ -18,8 +18,8 @@ export class UsersService {
         private readonly httpService: HttpService,
         private readonly configService: ConfigService<AppConfig, true>,
     ) {
-        const apiUsersCfg = this.configService.get("apiUsers", { infer: true });
-        this.apiPath = getUsersApiPath(apiUsersCfg);
+        const apiUsersCg = this.configService.get("apiUsers", { infer: true });
+        this.apiPath = getUsersApiPath(apiUsersCg);
     }
 
     async findUserById(id: number): Promise<HasId> {

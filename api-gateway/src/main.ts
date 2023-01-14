@@ -6,7 +6,6 @@ import cookieParser from "cookie-parser";
 import type { NestExpressApplication } from "@nestjs/platform-express";
 
 import { getUseContainerOptions } from "@/app/utils";
-import { ApiExceptionFilter } from "@/exceptions/filters";
 import { AppProxyMiddleware } from "@/config";
 import type { AppConfig } from "@/config/types";
 
@@ -20,7 +19,6 @@ async function bootstrap() {
     const apiGatewayConfig = configService.get("apiGateway", { infer: true });
 
     useContainer(app.select(AppModule), getUseContainerOptions());
-    app.useGlobalFilters(new ApiExceptionFilter());
     app.useGlobalPipes(new ValidationPipe(validationPipeConfig));
     app.setGlobalPrefix(apiGatewayConfig.prefix);
     app.use(cookieParser());

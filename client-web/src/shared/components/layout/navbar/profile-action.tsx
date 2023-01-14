@@ -1,19 +1,28 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import { ProfileIconButton } from "@/shared/components/icon-button";
-import { SignInDialog } from "@/features/session/components/dialog";
+import { SignInDialog } from "@/features/auth/components/dialog";
+import { useAuthContext } from "@/features/auth/contexts/auth";
 
 export const ProfileAction = () => {
-    const [showSignUpDialog, setShowSignUpDialog] = useState(false);
+    const { profile } = useAuthContext();
 
-    const toggleSignUpDialog = useCallback(() => setShowSignUpDialog(((show) => !show)), []);
+    const [showSignInDialog, setShowSignInDialog] = useState(false);
+
+    const toggleSignInDialog = useCallback(() => setShowSignInDialog(((show) => !show)), []);
+
+    useEffect(() => {
+        if (profile) {
+            setShowSignInDialog(false);
+        }
+    }, [profile]);
 
     return (
         <>
-            <ProfileIconButton onClick={toggleSignUpDialog} />
+            <ProfileIconButton onClick={toggleSignInDialog} />
 
-            {showSignUpDialog && (
-                <SignInDialog onClose={toggleSignUpDialog} />
+            {showSignInDialog && (
+                <SignInDialog onClose={toggleSignInDialog} />
             )}
         </>
     );

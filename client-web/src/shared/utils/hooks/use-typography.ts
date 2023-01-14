@@ -1,20 +1,20 @@
 import { useTheme } from "styled-components";
 
-import type { HasSize } from "@/shared/types/props";
-import type { Size } from "@/shared/types/theme";
+import type { HasFontSize } from "@/shared/types/props";
+import type { FontSize } from "@/shared/types/theme";
 
 const NORMAL_LINE_HEIGHT_COEF = 1.4;
 
-const mapSizeToLineHeightCoef: Partial<Record<Size, number>> = { // [1]
+const mapSizeToLineHeightCoef: Partial<Record<FontSize, number>> = { // [1]
     large: 1.2,
     normal: NORMAL_LINE_HEIGHT_COEF,
 };
 
-export const useTypography = ({ size = "normal" }: HasSize) => {
+export const useTypography = ({ fontSize = "normal" }: HasFontSize) => {
     const theme = useTheme();
 
-    const lineHeightCoef = mapSizeToLineHeightCoef[size] ?? NORMAL_LINE_HEIGHT_COEF;
-    const lineHeightAsNumber = parseFloat(theme.sizes[size]) * lineHeightCoef;
+    const lineHeightCoef = mapSizeToLineHeightCoef[fontSize] ?? NORMAL_LINE_HEIGHT_COEF;
+    const lineHeightAsNumber = parseFloat(theme.fontSizes[fontSize]) * lineHeightCoef;
     const lineHeight = `${lineHeightAsNumber}rem`;
 
     return { lineHeight };

@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Size } from "@/shared/types/theme";
+import { FontSize } from "@/shared/types/theme";
 import { useTypography } from "@/shared/utils/hooks/use-typography";
 
 import { TwoLineTextStyled } from "./style";
@@ -10,13 +10,13 @@ export type OverviewExcerptProps = {
 };
 
 export const OverviewExcerpt = ({ excerpt }: OverviewExcerptProps) => {
-    const size: Size = "normal";
-    const { lineHeight } = useTypography({ size });
+    const fontSize: FontSize = "normal";
+    const { lineHeight } = useTypography({ fontSize });
 
     return (
         <TwoLineTextStyled
+            fontSize={fontSize}
             lineHeight={lineHeight}
-            size={size}
         >
             {excerpt}
         </TwoLineTextStyled>
