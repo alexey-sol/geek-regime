@@ -1,4 +1,10 @@
 export const en = {
+    profile: {
+        actions: {
+            profile: "Profile",
+            signOut: "Sign out",
+        },
+    },
     signIn: {
         local: {
             actionButton: {
@@ -33,6 +39,12 @@ export const en = {
 };
 
 export const ru = {
+    profile: {
+        actions: {
+            profile: "Профиль",
+            signOut: "Выйти",
+        },
+    },
     signIn: {
         local: {
             actionButton: {

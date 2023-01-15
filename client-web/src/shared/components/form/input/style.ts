@@ -17,7 +17,7 @@ export const LabelStyled = styled.span<{ hasValue?: boolean }>(
         font-family: ${theme.fonts.normal};
         font-size: ${theme.fontSizes.small};
         transition: ${theme.durations.slow} ease;
-        ${hasValue && mixins.shrinkLabel()};
+        ${hasValue && mixins.getShrinkLabel()};
     `,
 );
 
@@ -37,7 +37,7 @@ export const InputStyled = styled.input(
 
         &:-webkit-autofill {
             & + ${LabelStyled} {
-                ${mixins.shrinkLabel()};
+                ${mixins.getShrinkLabel()};
             }
         }
 

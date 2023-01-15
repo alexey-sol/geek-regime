@@ -9,7 +9,7 @@ export const authApi = createApi({
     reducerPath: "authApi",
     baseQuery: fetchBaseQuery({ baseUrl }),
     endpoints: (builder) => ({
-        getProfile: builder.query<UserDetailsDto, undefined>({
+        getProfile: builder.query<UserDetailsDto, void>({
             query: () => ({
                 url: "profile",
             }),
@@ -21,10 +21,17 @@ export const authApi = createApi({
                 url: "sign-in",
             }),
         }),
+        signOut: builder.mutation<boolean, void>({
+            query: () => ({
+                method: "POST",
+                url: "sign-out",
+            }),
+        }),
     }),
 });
 
 export const {
     useGetProfileQuery,
     useSignInMutation,
+    useSignOutMutation,
 } = authApi;

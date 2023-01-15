@@ -8,7 +8,7 @@ export const NavbarStyled = styled.nav`
     z-index: ${({ theme }) => theme.zIndex.navbar};
     min-height: ${({ theme }) => theme.components.navbar.minHeight};
     background-color: ${({ theme }) => theme.colors.white};
-    box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
+    ${mixins.getWrapShadow()};
 `;
 
 export const NavbarInnerStyled = styled.section`
@@ -19,9 +19,5 @@ export const NavbarInnerStyled = styled.section`
 `;
 
 export const ListStyled = styled.ul`
-    display: flex;
-`;
-
-export const ActionsWrapStyled = styled.section`
     display: flex;
 `;

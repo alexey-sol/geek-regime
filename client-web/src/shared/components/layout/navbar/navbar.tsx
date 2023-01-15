@@ -2,15 +2,13 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 import { Typography } from "@/shared/components/typography";
-import { SearchIconButton } from "@/shared/components/icon-button";
 
-import { ProfileAction } from "./profile-action";
 import {
-    ActionsWrapStyled,
     ListStyled,
     NavbarInnerStyled,
     NavbarStyled,
 } from "./style";
+import { NavbarMenu } from "./navbar-menu";
 
 export const Navbar = () => {
     const isWithinSpace = true;
@@ -25,17 +23,7 @@ export const Navbar = () => {
                     </ListStyled>
                 )}
 
-                <ActionsWrapStyled>
-                    <section>Spaces</section>
-
-                    <section>
-                        <Link to="">Add new space</Link>
-                    </section>
-
-                    <SearchIconButton onClick={() => console.log("Search")} />
-
-                    <ProfileAction />
-                </ActionsWrapStyled>
+                <NavbarMenu />
             </NavbarInnerStyled>
         </NavbarStyled>
     );

@@ -1,14 +1,13 @@
-import React, { FormEvent, FormEventHandler, useRef } from "react";
+import React, { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Form, Formik, type FormikProps } from "formik";
 
 import { BaseDialog } from "@/shared/components/base-dialog";
-import { YandexConsentScreen } from "@/features/auth/utils/oauth-consent-screen";
 import { Button } from "@/shared/components/button";
 import { FormInput } from "@/shared/components/form/form-input";
 import { Typography } from "@/shared/components/typography";
-import { useAuthContext } from "@/features/auth/contexts/auth";
 import { getSignInSchema } from "@/features/auth/utils/validation/schemas";
+import { useSignInDialogData } from "@/features/auth/components/sign-in-dialog/utils";
 import type { SignInArg } from "@/features/auth/services/api/types";
 
 import * as cn from "./const";
@@ -25,25 +24,13 @@ export type SignInDialogProps = {
 export const SignInDialog = ({ onClose }: SignInDialogProps) => {
     const formRef = useRef<FormikProps<SignInArg>>(null);
     const { t } = useTranslation();
-    const { isPending, signIn } = useAuthContext();
 
-    const openWindowToSignInViaYandex = () => {
-        const consentScreen = new YandexConsentScreen();
-        consentScreen.openWindow();
-    };
-
-    const handleChangeWrapper = (event: FormEvent, cb: FormEventHandler) => {
-        // TODO show notification on error
-        cb(event);
-    };
-
-    const handleAction = () => {
-        const values = formRef.current?.values;
-
-        if (values) {
-            signIn(values);
-        }
-    };
+    const {
+        handleAction,
+        handleChangeWrap,
+        isPending,
+        openWindowToSignInViaYandex,
+    } = useSignInDialogData({ formRef });
 
     return (
         <BaseDialog
@@ -54,7 +41,7 @@ export const SignInDialog = ({ onClose }: SignInDialogProps) => {
             <Formik
                 innerRef={formRef}
                 initialValues={initialValues}
-                onSubmit={signIn}
+                onSubmit={handleAction}
                 validateOnChange
                 validationSchema={getSignInSchema()}
             >
@@ -63,14 +50,14 @@ export const SignInDialog = ({ onClose }: SignInDialogProps) => {
                         <FormInput
                             label={t("signIn.local.fields.email")}
                             name={cn.EMAIL_NAME}
-                            onChange={(event) => handleChangeWrapper(event, handleChange)}
+                            onChange={(event) => handleChangeWrap(event, handleChange)}
                             type="text"
                         />
 
                         <FormInput
                             label={t("signIn.local.fields.password")}
                             name={cn.PASSWORD_NAME}
-                            onChange={(event) => handleChangeWrapper(event, handleChange)}
+                            onChange={(event) => handleChangeWrap(event, handleChange)}
                             type="password"
                         />
 

@@ -28,10 +28,13 @@ export const mixins = {
         -webkit-line-clamp: 2;
         -webkit-box-orient: vertical;
     `,
-    shrinkLabel: () => css`
+    getShrinkLabel: () => css`
         position: absolute;
         top: -1.4rem;
         color: ${({ theme }) => theme.colors.grey};
         font-size: ${({ theme }) => theme.fontSizes.smaller};
+    `,
+    getWrapShadow: () => css`
+        box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;
     `,
 } as const;
