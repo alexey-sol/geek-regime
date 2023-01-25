@@ -28,3 +28,8 @@ export const HeaderStyled = styled.section`
         flex: 1;
     }
 `;
+
+export const ControlsWrap = styled.section`
+    display: flex;
+    column-gap: 1rem;
+`;

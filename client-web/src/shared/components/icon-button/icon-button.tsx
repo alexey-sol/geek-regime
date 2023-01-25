@@ -3,6 +3,7 @@ import { t } from "i18next";
 
 import {
     CloseIcon,
+    GoBackIcon,
     I18nIcon,
     ProfileIcon,
     SearchIcon,
@@ -20,10 +21,18 @@ export const CloseIconButton = ({ title, ...rest }: IconButtonProps) => (
     />
 );
 
+export const GoBackIconButton = ({ title, ...rest }: IconButtonProps) => (
+    <BaseIconButton
+        icon={GoBackIcon}
+        title={title ?? t("dialog.goBackButton.title")}
+        {...rest}
+    />
+);
+
 export const I18nIconButton = ({ title, ...rest }: IconButtonProps) => (
     <BaseIconButton
         icon={I18nIcon}
-        title={title ?? t("dialog.i18nButton.title")}
+        title={title ?? t("navbar.i18nButton.title")}
         {...rest}
     />
 );

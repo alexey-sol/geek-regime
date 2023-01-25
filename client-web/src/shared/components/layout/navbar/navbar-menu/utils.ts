@@ -6,40 +6,40 @@ import { useAuthContext } from "@/features/auth/contexts/auth";
 
 export type ProfileItemData = {
     handleClick: () => void;
+    showAuthDialog: boolean;
     showProfileDropdown: boolean;
-    showSignInDialog: boolean;
 };
 
 export const useProfileItemData = (): ProfileItemData => {
     const { profile } = useAuthContext();
     const isAuthorized = Boolean(profile);
 
-    const [showSignInDialog, setShowSignInDialog] = useState(false);
+    const [showAuthDialog, setShowAuthDialog] = useState(false);
     const [showProfileDropdown, setShowProfileDropdown] = useState(false);
 
     const toggleShowProfileDropdown = useCallback(() =>
         setShowProfileDropdown(((show) => !show)), []);
-    const toggleShowSignInDialog = useCallback(() =>
-        setShowSignInDialog(((show) => !show)), []);
+    const toggleShowAuthDialog = useCallback(() =>
+        setShowAuthDialog(((show) => !show)), []);
 
     const handleClick = useMemo(
         () => (isAuthorized
             ? toggleShowProfileDropdown
-            : toggleShowSignInDialog),
-        [isAuthorized, toggleShowProfileDropdown, toggleShowSignInDialog],
+            : toggleShowAuthDialog),
+        [isAuthorized, toggleShowProfileDropdown, toggleShowAuthDialog],
     );
 
     useEffect(() => {
-        if (profile) {
-            setShowSignInDialog(false);
+        if (isAuthorized) {
+            setShowAuthDialog(false);
         } else {
             setShowProfileDropdown(false);
         }
-    }, [profile]);
+    }, [isAuthorized]);
 
     return useMemo(() => ({
         handleClick,
+        showAuthDialog,
         showProfileDropdown,
-        showSignInDialog,
-    }), [handleClick, showProfileDropdown, showSignInDialog]);
+    }), [handleClick, showProfileDropdown, showAuthDialog]);
 };

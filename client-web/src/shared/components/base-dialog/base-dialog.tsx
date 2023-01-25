@@ -4,14 +4,20 @@ import { useKeyboardControls } from "@/shared/utils/hooks/use-keyboard-controls"
 
 import { Overlay } from "../overlay";
 import { Typography } from "../typography";
-import { CloseIconButton } from "../icon-button";
+import { CloseIconButton, GoBackIconButton } from "../icon-button";
 
-import { BaseDialogStyled, HeaderStyled, type BaseDialogStyledProps } from "./style";
+import {
+    BaseDialogStyled,
+    HeaderStyled,
+    ControlsWrap,
+    type BaseDialogStyledProps,
+} from "./style";
 
 export type BaseDialogProps = BaseDialogStyledProps & {
     children?: ReactNode;
     onAction?: () => void;
     onClose: () => void;
+    onGoBack?: () => void;
     title?: string;
 };
 
@@ -19,6 +25,7 @@ export const BaseDialog = ({
     children,
     onAction,
     onClose,
+    onGoBack,
     title,
     ...rest
 }: BaseDialogProps) => {
@@ -38,7 +45,11 @@ export const BaseDialog = ({
                         <Typography>{title}</Typography>
                     )}
 
-                    <CloseIconButton onClick={onClose} />
+                    <ControlsWrap>
+                        {onGoBack && <GoBackIconButton onClick={onGoBack} />}
+                        <CloseIconButton onClick={onClose} />
+                    </ControlsWrap>
+
                 </HeaderStyled>
 
                 <section>{children}</section>

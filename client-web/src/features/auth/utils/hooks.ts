@@ -6,19 +6,21 @@ import {
     useGetProfileQuery,
     useSignInMutation,
     useSignOutMutation,
-} from "@/features/auth/services/api/api";
+    useSignUpMutation,
+} from "@/features/auth/services/api";
 import { fromUserDetailsDtoToEntity } from "@/features/users/utils/converters";
 import type { UserDetails } from "@/features/users/models/entities";
-import type { SignInArg } from "@/features/auth/services/api/types";
+import type { SignInDto, SignUpDto } from "@/features/users/models/dtos";
 
-export type UseAuthResult = {
+export type UseAuthApiResult = {
     isPending: boolean;
     profile?: UserDetails;
-    signIn: (arg: SignInArg) => void;
+    signIn: (arg: SignInDto) => void;
     signOut: () => void;
+    signUp: (arg: SignUpDto) => void;
 };
 
-export const useAuth = (): UseAuthResult => {
+export const useAuthApi = (): UseAuthApiResult => {
     const dispatch = useAppDispatch();
     const resetAuthState = useCallback(() => dispatch(authApi.util.resetApiState()), [dispatch]);
 
@@ -40,19 +42,30 @@ export const useAuth = (): UseAuthResult => {
 
     const [signOut, signOutResult] = useSignOutMutation();
 
+    const [signUp, signUpResult] = useSignUpMutation({
+        selectFromResult: ({ data, error, isLoading }) => ({
+            error,
+            isLoading,
+            profile: data && fromUserDetailsDtoToEntity(data),
+        }),
+    });
+
     const isPending = getProfileResult.isFetching
         || signInResult.isLoading
-        || signOutResult.isLoading;
+        || signOutResult.isLoading
+        || signUpResult.isLoading;
 
     useEffect(() => {
-        if (signOutResult.data) {
+        const signedOut = Boolean(signOutResult.data);
+
+        if (signedOut) {
             resetAuthState();
         }
-    }, [dispatch, resetAuthState, signInResult, signOutResult.data]);
+    }, [resetAuthState, signOutResult.data]);
 
     const profile = useMemo(
-        () => getProfileResult.profile ?? signInResult.profile,
-        [getProfileResult.profile, signInResult.profile],
+        () => getProfileResult.profile ?? signInResult.profile ?? signUpResult.profile,
+        [getProfileResult.profile, signInResult.profile, signUpResult.profile],
     );
 
     return useMemo(() => ({
@@ -60,5 +73,6 @@ export const useAuth = (): UseAuthResult => {
         profile,
         signIn,
         signOut,
-    }), [isPending, profile, signIn, signOut]);
+        signUp,
+    }), [isPending, profile, signIn, signOut, signUp]);
 };

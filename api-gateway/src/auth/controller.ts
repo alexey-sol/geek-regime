@@ -1,5 +1,5 @@
 import {
-    Controller, Req, Post, UseGuards, Get, Res,
+    Controller, Req, Post, UseGuards, Get, Res, Body,
 } from "@nestjs/common";
 import { Response } from "express";
 import { ConfigService } from "@nestjs/config";
@@ -27,7 +27,20 @@ export class AuthController {
         // LocalStrategy's validate method gets called; it attaches "user" to request
         // (or throws unauthorized exception).
         const userId = req.user.id;
-        const { accessToken } = this.authService.signIn(userId);
+        return this.signTokenAndGetProfile(res, userId);
+    }
+
+    @Post("sign-up")
+    async signUp(
+        @Body() dto: unknown,
+        @Res({ passthrough: true }) res: Response,
+    ) {
+        const user = await this.authService.createUser(dto);
+        return this.signTokenAndGetProfile(res, user.id);
+    }
+
+    private signTokenAndGetProfile(res: Response, userId: number) {
+        const { accessToken } = this.authService.signToken(userId);
         const profile = this.authService.getProfile(userId);
 
         this.setAuthCookie(res, accessToken);

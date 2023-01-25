@@ -1,47 +1,40 @@
-import React, { useRef } from "react";
+import React, { memo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Form, Formik, type FormikProps } from "formik";
 
-import { BaseDialog } from "@/shared/components/base-dialog";
 import { Button } from "@/shared/components/button";
 import { FormInput } from "@/shared/components/form/form-input";
 import { Typography } from "@/shared/components/typography";
 import { getSignInSchema } from "@/features/auth/utils/validation/schemas";
-import { useSignInDialogData } from "@/features/auth/components/sign-in-dialog/utils";
-import type { SignInArg } from "@/features/auth/services/api/types";
+import type { SignInDto } from "@/features/users/models/dtos";
+import type { MemoizedAuthForm } from "@/features/auth/types";
 
+import { TransparentButtonStyled } from "./style";
+import { useSignInFormData } from "./utils";
 import * as cn from "./const";
 
-const initialValues: SignInArg = {
+const initialValues: SignInDto = {
     email: "",
     password: "",
 };
 
-export type SignInDialogProps = {
-    onClose: () => void;
-};
-
-export const SignInDialog = ({ onClose }: SignInDialogProps) => {
-    const formRef = useRef<FormikProps<SignInArg>>(null);
+export const SignInForm: MemoizedAuthForm = memo(({ goTo }) => {
+    const formRef = useRef<FormikProps<SignInDto>>(null);
     const { t } = useTranslation();
 
     const {
-        handleAction,
         handleChangeWrap,
+        handleSubmit,
         isPending,
         openWindowToSignInViaYandex,
-    } = useSignInDialogData({ formRef });
+    } = useSignInFormData({ formRef });
 
     return (
-        <BaseDialog
-            onAction={handleAction}
-            onClose={onClose}
-            title={t("signIn.wrap.title")}
-        >
+        <section>
             <Formik
                 innerRef={formRef}
                 initialValues={initialValues}
-                onSubmit={handleAction}
+                onSubmit={handleSubmit}
                 validateOnChange
                 validationSchema={getSignInSchema()}
             >
@@ -72,12 +65,24 @@ export const SignInDialog = ({ onClose }: SignInDialogProps) => {
             </Formik>
 
             <Typography>
-                А еще можно войти с помощью таких сервисов:
+                {t("signIn.signUp.suggestion.preface")}
+
+                <TransparentButtonStyled
+                    fontSize="normal"
+                    view="transparent"
+                    onClick={() => goTo("sign-up")}
+                >
+                    {t("signIn.signUp.suggestion.link")}
+                </TransparentButtonStyled>
+            </Typography>
+
+            <Typography>
+                {t("signIn.oauth.suggestion.preface")}
             </Typography>
 
             <Button onClick={openWindowToSignInViaYandex} view="secondary">
                 {t("signIn.oauth.providers.yandex.name")}
             </Button>
-        </BaseDialog>
+        </section>
     );
-};
+});

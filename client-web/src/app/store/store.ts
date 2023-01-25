@@ -2,10 +2,10 @@ import { combineReducers, configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
 
 import { isProduction } from "@/shared/utils/helpers/env";
+import { authApi } from "@/features/auth/services/api";
 import { authMiddlewares } from "@/features/auth/slice/middlewares";
 import { postsApi } from "@/features/posts/services/api";
 import { postsReducer } from "@/features/posts/slice";
-import { authApi } from "@/features/auth/services/api";
 
 const rootReducer = combineReducers({
     [authApi.reducerPath]: authApi.reducer,

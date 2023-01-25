@@ -5,7 +5,7 @@ import type { Request, RequestHandler } from "express";
 
 import { NodeEnv } from "@/shared/const";
 import { getResource } from "@/shared/utils/url";
-import * as authConst from "@/auth/const";
+import * as authCn from "@/auth/const";
 import type { AppConfig } from "@/config/types";
 
 import { unless } from "./utils/handlers";
@@ -58,7 +58,7 @@ export const validationPipeConfig = registerAs("validationPipe", () => {
 
 export class AppProxyMiddleware {
     private static readonly targetUrl = "http://localhost";
-    private static readonly resourcesToIgnore = [authConst.AUTH_ROUTE];
+    private static readonly resourcesToIgnore = [authCn.AUTH_ROUTE];
 
     constructor(private readonly configService: ConfigService<AppConfig, true>) {}
 

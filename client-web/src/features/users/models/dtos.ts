@@ -14,3 +14,12 @@ export type UserDto = HasId & {
     email: string;
     updatedAt: string;
 };
+
+export type SignInDto = {
+    email: string;
+    password: string;
+};
+
+export type SignUpDto = SignInDto & {
+    details: Required<Pick<UserDetailsDto, "name">>;
+};

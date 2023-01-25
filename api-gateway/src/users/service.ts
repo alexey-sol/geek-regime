@@ -1,11 +1,11 @@
-import { Injectable } from "@nestjs/common";
-import { HttpService } from "@nestjs/axios";
-import { firstValueFrom, map } from "rxjs";
 import { ConfigService } from "@nestjs/config";
+import { HttpService } from "@nestjs/axios";
+import { Injectable } from "@nestjs/common";
+import { firstValueFrom, map } from "rxjs";
 
 import { AppConfig } from "@/config/types";
 import { getUsersApiPath } from "@/users/api";
-import * as authConst from "@/auth/const";
+import * as authCn from "@/auth/const";
 import type { AuthenticateDto } from "@/users/models/dtos";
 import type { HasId } from "@/shared/types/props";
 import type { ResponseDataGetter } from "@/shared/types/api";
@@ -20,6 +20,14 @@ export class UsersService {
     ) {
         const apiUsersCg = this.configService.get("apiUsers", { infer: true });
         this.apiPath = getUsersApiPath(apiUsersCg);
+    }
+
+    async createUser(dto: unknown): Promise<HasId> {
+        return firstValueFrom(
+            this.httpService
+                .post(this.apiPath, dto)
+                .pipe(this.getData<HasId>()),
+        );
     }
 
     async findUserById(id: number): Promise<HasId> {
@@ -42,7 +50,7 @@ export class UsersService {
         );
     }
 
-    private getAuthenticateApiPath = () => `${this.apiPath}/${authConst.AUTH_ROUTE}`;
+    private getAuthenticateApiPath = () => `${this.apiPath}/${authCn.AUTH_ROUTE}`;
 
     private getData: ResponseDataGetter = () => map((res) => res.data);
 }

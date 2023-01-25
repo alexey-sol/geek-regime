@@ -32,6 +32,10 @@ export const BodyEditorStyled = styled(Editor)`
         overflow-y: scroll;
         font-family: ${({ theme }) => theme.fonts.normal};
         font-size: ${({ theme }) => theme.fontSizes.normal};
+
+        &.ql-blank::before{
+            font-style: normal;
+        }
     }
 `;
 

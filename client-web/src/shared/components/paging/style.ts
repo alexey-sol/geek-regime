@@ -50,7 +50,16 @@ export const LeapButtonsWrapStyled = styled.ul`
 `;
 
 export const LeapButtonStyled = styled(Button)`
+    color: ${({ theme }) => theme.colors.primary};
     text-decoration-style: dotted;
+
+    &:disabled {
+        color: ${({ theme }) => theme.colors.primary};
+    }
+
+    &:not(:disabled):hover {
+        color: ${({ theme }) => theme.colors.secondary};
+    }
 `;
 
 export const StepButtonsWrapStyled = styled.section`

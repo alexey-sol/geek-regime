@@ -11,6 +11,8 @@ export class AuthService {
         private readonly jwtService: JwtService,
     ) {}
 
+    createUser = async (dto: unknown) => this.usersService.createUser(dto);
+
     getProfile = async (id: number) => this.usersService.findUserById(id);
 
     validateUser = async (email: string, password: string): Promise<HasId | null> => {
@@ -18,7 +20,7 @@ export class AuthService {
         return user ?? null;
     };
 
-    signIn = (userId: HasId["id"]) => ({
+    signToken = (userId: HasId["id"]) => ({
         accessToken: this.jwtService.sign({ sub: userId }),
     });
 }

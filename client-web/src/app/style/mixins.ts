@@ -1,5 +1,7 @@
 import { css } from "styled-components";
 
+import { BaseIconStyled } from "@/shared/components/icon/style";
+
 const LAYOUT_ROW_INNER_PADDING_X = "3rem";
 const TWO_LINES = 2;
 
@@ -12,6 +14,32 @@ export const mixins = {
         padding-left: ${LAYOUT_ROW_INNER_PADDING_X};
         margin: 0 auto;
     `,
+    getLinkDecoration: () => css(
+        ({ theme }) => css`
+            color: ${theme.colors.secondary};
+            text-decoration: underline dashed;
+            text-underline-offset: 0.2rem;
+            transition:
+                color ${theme.durations.fast} ease,
+                fill ${theme.durations.fast} ease;
+
+            ${BaseIconStyled} {
+                fill: ${theme.colors.secondary};
+            };
+
+            &:disabled {
+                color: ${theme.colors.secondary};
+            }
+
+            &:not(:disabled):hover {
+                color: ${theme.colors.orangeDark};
+
+                ${BaseIconStyled} {
+                    fill: ${theme.colors.orangeDark};
+                };
+            }
+        `,
+    ),
     getOneLineText: () => css`
         overflow-x: hidden;
         white-space: nowrap;

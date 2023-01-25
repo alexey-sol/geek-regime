@@ -2,8 +2,8 @@ import React, { useRef } from "react";
 
 import { ProfileDropdown } from "@/features/auth/components/profile-dropdown";
 import { ProfileIconButton } from "@/shared/components/icon-button";
-import { SignInDialog } from "@/features/auth/components/sign-in-dialog";
 import { useProfileItemData } from "@/shared/components/layout/navbar/navbar-menu/utils";
+import { AuthDialog } from "@/features/auth/components/auth-dialog";
 
 import { ProfileItemStyled } from "./style";
 
@@ -12,8 +12,8 @@ export const ProfileItem = () => {
 
     const {
         handleClick,
+        showAuthDialog,
         showProfileDropdown,
-        showSignInDialog,
     } = useProfileItemData();
 
     return (
@@ -24,8 +24,8 @@ export const ProfileItem = () => {
                 <ProfileDropdown anchorRef={profileItemRef} onClose={handleClick} />
             )}
 
-            {showSignInDialog && (
-                <SignInDialog onClose={handleClick} />
+            {showAuthDialog && (
+                <AuthDialog onClose={handleClick} />
             )}
         </ProfileItemStyled>
     );

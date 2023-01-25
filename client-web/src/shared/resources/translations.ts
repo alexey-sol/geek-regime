@@ -3,6 +3,9 @@ export const en = {
         closeButton: {
             title: "Close",
         },
+        goBackButton: {
+            title: "Go back",
+        },
     },
     navbar: {
         i18nButton: {
@@ -41,6 +44,9 @@ export const ru = {
     dialog: {
         closeButton: {
             title: "Закрыть",
+        },
+        goBackButton: {
+            title: "Назад",
         },
     },
     navbar: {

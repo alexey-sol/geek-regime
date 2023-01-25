@@ -60,7 +60,7 @@ class CreateUserTest(
     }
 
     @Test
-    fun givenDtoHasMatchingPasswordAndConfirmPassword_whenCreateUser_thenReturnsUserDtoWithStatus200() {
+    fun givenDtoHasPassword_whenCreateUser_thenReturnsUserDtoWithStatus200() {
         val email = "mark@mail.com"
         val name = "Mark"
         val password = "123"
@@ -74,7 +74,6 @@ class CreateUserTest(
         val createUserDto = CreateUserDto(
             email = email,
             password = password,
-            confirmPassword = password,
             details = CreateDetailsDto(name = name)
         )
         val userDto = UserDto.builder()
@@ -141,50 +140,6 @@ class CreateUserTest(
         val createUserDto = CreateUserDto(
             email = "mark@mail.com",
             password = "",
-            details = CreateDetailsDto(name = "Mark")
-        )
-
-        mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createUserDto))
-            .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity)
-            .andExpect { result ->
-                Assertions.assertTrue(result.resolvedException is MethodArgumentNotValidException)
-            }
-            .andExpect { result ->
-                MatcherAssert.assertThat(
-                    result.resolvedException?.message,
-                    CoreMatchers.containsString(VALIDATION_FAILED_MESSAGE)
-                )
-            }
-    }
-
-    @Test
-    fun givenDtoHasIncompletePasswordInfo_whenCreateUser_thenReturnsStatus400() {
-        val createUserDto = CreateUserDto(
-            email = "mark@mail.com",
-            password = "123",
-            confirmPassword = null,
-            details = CreateDetailsDto(name = "Mark")
-        )
-
-        mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createUserDto))
-            .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity)
-            .andExpect { result ->
-                Assertions.assertTrue(result.resolvedException is MethodArgumentNotValidException)
-            }
-            .andExpect { result ->
-                MatcherAssert.assertThat(
-                    result.resolvedException?.message,
-                    CoreMatchers.containsString(VALIDATION_FAILED_MESSAGE)
-                )
-            }
-    }
-
-    @Test
-    fun givenDtoHasNotMatchingPasswordAndConfirmPassword_whenCreateUser_thenReturnsStatus400() {
-        val createUserDto = CreateUserDto(
-            email = "mark@mail.com",
-            password = "123",
-            confirmPassword = "321",
             details = CreateDetailsDto(name = "Mark")
         )
 

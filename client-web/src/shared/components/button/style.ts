@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
 
+import { mixins } from "@/app/style/mixins";
 import type { ColorValue, MapKeyToCss } from "@/shared/types/theme";
 
 import { TypographyStyled } from "../typography/style";
@@ -49,30 +50,11 @@ const mapViewToCss: MapKeyToCss<NonNullable<ButtonStyledProps["view"]>> = {
     `),
     primary: css(({ theme }) => getBgColorCss(theme.colors.primary, theme.colors.purpleLight)),
     secondary: css(({ theme }) => getBgColorCss(theme.colors.secondary, theme.colors.orangeDark)),
-    transparent: css(({ theme: { colors } }) => css`
+    transparent: css`
         padding: 0;
         background-color: transparent;
-        color: ${colors.primary};
-        text-decoration: underline;
-        text-decoration-style: dashed;
-        text-underline-offset: 0.2rem;
-
-        ${BaseIconStyled} {
-            fill: ${colors.primary};
-        };
-
-        &:disabled {
-            color: ${colors.primary};
-        }
-
-        &:not(:disabled):hover {
-            color: ${colors.secondary};
-
-            ${BaseIconStyled} {
-                fill: ${colors.secondary};
-            };
-        }
-    `),
+        ${mixins.getLinkDecoration()};
+    `,
 };
 
 export const ButtonStyled = styled.button<ButtonStyledProps>(
