@@ -2,11 +2,11 @@ import React, { memo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Form, Formik, type FormikProps } from "formik";
 
-import { Button } from "@/shared/components/button";
 import { FormInput } from "@/shared/components/form/form-input";
 import { getSignUpSchema } from "@/features/auth/utils/validation/schemas";
 import type { MemoizedAuthForm } from "@/features/auth/types";
 
+import { ButtonStyled, SignUpFormStyled } from "./style";
 import { useSignUpFormData, type SignUpValues } from "./utils";
 import * as cn from "./const";
 
@@ -17,7 +17,7 @@ const initialValues: SignUpValues = {
     password: "",
 };
 
-export const SignUpForm: MemoizedAuthForm = memo(({ goTo }) => {
+export const SignUpForm: MemoizedAuthForm = memo(() => {
     const formRef = useRef<FormikProps<SignUpValues>>(null);
     const { t } = useTranslation();
 
@@ -28,7 +28,7 @@ export const SignUpForm: MemoizedAuthForm = memo(({ goTo }) => {
     } = useSignUpFormData({ formRef });
 
     return (
-        <section>
+        <SignUpFormStyled>
             <Formik
                 innerRef={formRef}
                 initialValues={initialValues}
@@ -66,16 +66,16 @@ export const SignUpForm: MemoizedAuthForm = memo(({ goTo }) => {
                             type="text"
                         />
 
-                        <Button
+                        <ButtonStyled
                             disabled={isPending || Object.keys(errors).length > 0}
                             isStretched
                             type="submit"
                         >
                             {t("signUp.actionButton.title")}
-                        </Button>
+                        </ButtonStyled>
                     </Form>
                 )}
             </Formik>
-        </section>
+        </SignUpFormStyled>
     );
 });

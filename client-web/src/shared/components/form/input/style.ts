@@ -1,10 +1,11 @@
 import styled, { css } from "styled-components";
 
 import { mixins } from "@/app/style/mixins";
+import { Typography } from "@/shared/components/typography";
 
 export const InputWrapStyled = styled.section`
     position: relative;
-    margin: 3rem 0;
+    padding-bottom: 2rem;
 `;
 
 export const LabelStyled = styled.span<{ hasValue?: boolean }>(
@@ -29,6 +30,7 @@ export const InputStyled = styled.input(
         padding: 1rem 1rem 1rem 0.5rem;
         border: none;
         border-bottom: 1px solid ${theme.colors.greyDarken};
+        margin-top: 2rem;
         outline: none;
         background-color: ${theme.colors.white};
         color: ${theme.colors.greyDarken};
@@ -49,12 +51,15 @@ export const InputStyled = styled.input(
     `,
 );
 
-export const HintStyled = styled.span(
-    ({ theme }) => css`
+export const HintWrapStyled = styled.section<{ isVisible?: boolean }>(
+    ({ isVisible = false }) => css`
+        visibility: ${isVisible ? 1 : 0};
+    `,
+);
+
+export const HintStyled = styled(Typography)(
+    () => css`
         position: absolute;
         padding-top: 0.5rem;
-        color: red; // TODO color
-        font-family: ${theme.fonts.normal};
-        font-size: ${theme.fontSizes.small};
     `,
 );

@@ -3,7 +3,6 @@ import { css } from "styled-components";
 import { BaseIconStyled } from "@/shared/components/icon/style";
 
 const LAYOUT_ROW_INNER_PADDING_X = "3rem";
-const TWO_LINES = 2;
 
 export const mixins = {
     getLayoutRowInner: () => css`
@@ -45,20 +44,20 @@ export const mixins = {
         white-space: nowrap;
         text-overflow: ellipsis;
     `,
-    getTwoLineText: (lineHeight: string) => css`
+    getLineClampText: (lineCount: number, lineHeight: string) => css`
         display: -webkit-box;
         max-width: 100%;
-        max-height: calc(${lineHeight} * ${TWO_LINES});
+        max-height: calc(${lineHeight} * ${lineCount});
         line-height: ${lineHeight};
         overflow: hidden;
         word-wrap: break-word;
         text-overflow: ellipsis;
-        -webkit-line-clamp: 2;
+        -webkit-line-clamp: ${lineCount};
         -webkit-box-orient: vertical;
     `,
     getShrinkLabel: () => css`
         position: absolute;
-        top: -1.4rem;
+        top: -1.2rem;
         color: ${({ theme }) => theme.colors.grey};
         font-size: ${({ theme }) => theme.fontSizes.smaller};
     `,

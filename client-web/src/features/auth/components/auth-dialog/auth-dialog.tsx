@@ -1,46 +1,31 @@
-import React, { useState } from "react";
-import { useTranslation } from "react-i18next";
+import React, { useCallback } from "react";
 
 import { BaseDialog } from "@/shared/components/base-dialog";
-import { SignInForm } from "@/features/auth/components/sign-in-form";
-import { SignUpForm } from "@/features/auth/components/sign-up-form";
-import type { AuthForm, AuthView, MemoizedAuthForm } from "@/features/auth/types";
+import { useAuthDialogData } from "@/features/auth/components/auth-dialog/utils";
 
-const INITIAL_VIEW: AuthView = "sign-in";
+import { DialogBodyStyled } from "./style";
 
 export type AuthDialogProps = {
     onClose: () => void;
 };
 
 export const AuthDialog = ({ onClose }: AuthDialogProps) => {
-    const { t } = useTranslation();
+    const { Form, goTo, title } = useAuthDialogData();
 
-    const [view, setView] = useState<AuthView>(INITIAL_VIEW);
-
-    let Form: AuthForm | MemoizedAuthForm;
-    let titleKey: string;
-    let handleGoBack: (() => void) | undefined;
-
-    switch (view) {
-        case "sign-up":
-            Form = SignUpForm;
-            titleKey = "signUp.wrap.title";
-            handleGoBack = () => setView("sign-in");
-            break;
-        case INITIAL_VIEW:
-        default:
-            Form = SignInForm;
-            titleKey = "signIn.wrap.title";
-            break;
-    }
+    const handleGoBack = useCallback(() => {
+        goTo("sign-in");
+    }, [goTo]);
 
     return (
         <BaseDialog
             onClose={onClose}
             onGoBack={handleGoBack}
-            title={t(titleKey)}
+            title={title}
+            width="narrow"
         >
-            <Form goTo={setView} />
+            <DialogBodyStyled>
+                <Form goTo={goTo} />
+            </DialogBodyStyled>
         </BaseDialog>
     );
 };

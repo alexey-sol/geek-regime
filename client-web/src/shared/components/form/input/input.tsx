@@ -1,7 +1,8 @@
-import React, { type HTMLProps, useRef } from "react";
+import React, { useRef, type HTMLProps } from "react";
 
 import {
     HintStyled,
+    HintWrapStyled,
     InputStyled,
     InputWrapStyled,
     LabelStyled,
@@ -38,11 +39,11 @@ export const Input = ({
                 </LabelStyled>
             )}
 
-            {hint && (
-                <HintStyled ref={hintElementRef}>
+            <HintWrapStyled isVisible={Boolean(hint)} ref={hintElementRef}>
+                <HintStyled color="orange" fontSize="smaller">
                     {hint}
                 </HintStyled>
-            )}
+            </HintWrapStyled>
         </InputWrapStyled>
     );
 };

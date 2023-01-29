@@ -3,19 +3,20 @@ import styled from "styled-components";
 import { TypographyStyled } from "../typography/style";
 
 export type BaseDialogStyledProps = {
-    width?: "auto";
+    width?: "auto" | "normal" | "narrow";
 };
 
 const mapWidthToCssValue: Record<NonNullable<BaseDialogStyledProps["width"]>, string> = {
     auto: "auto",
+    narrow: "40rem",
+    normal: "60rem",
 };
 
 export const BaseDialogStyled = styled.section<BaseDialogStyledProps>`
     display: flex;
     flex-direction: column;
-    min-width: ${({ width = "auto" }) => mapWidthToCssValue[width]};
-    max-width: 100%;
-    padding: 2rem;
+    width: ${({ width = "auto" }) => mapWidthToCssValue[width]};
+    padding: 3rem;
     background-color: ${({ theme }) => theme.colors.white};
     outline: none;
 `;

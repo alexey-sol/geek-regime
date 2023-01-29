@@ -40,7 +40,7 @@ export const en = {
     },
     signUp: {
         actionButton: {
-            title: "Sign up!",
+            title: "Sign up",
         },
         fields: {
             confirmPassword: "Confirm password",
@@ -54,7 +54,7 @@ export const en = {
     },
     validation: {
         errors: {
-            confirmPasswordEmpty: "Input password here too",
+            confirmPasswordEmpty: "Confirm password",
             emailEmpty: "Specify email",
             emailInvalid: "Specify valid email",
             nameEmpty: "Specify name",
@@ -108,7 +108,7 @@ export const ru = {
     },
     signUp: {
         actionButton: {
-            title: "Зарегистрироваться!",
+            title: "Зарегистрироваться",
         },
         fields: {
             confirmPassword: "Пароль еще раз",

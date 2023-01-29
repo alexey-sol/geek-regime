@@ -3,6 +3,8 @@ import styled, { css } from "styled-components";
 import { Typography } from "@/shared/components/typography";
 import { mixins } from "@/app/style/mixins";
 
+const TWO_LINES = 2;
+
 const columnCss = css`
     display: flex;
     flex-direction: column;
@@ -14,7 +16,7 @@ export const PostOverviewStyled = styled.article`
 `;
 
 export const TwoLineTextStyled = styled(Typography)<{ lineHeight?: string }>`
-    ${({ lineHeight }) => lineHeight && mixins.getTwoLineText(lineHeight)};
+    ${({ lineHeight }) => lineHeight && mixins.getLineClampText(TWO_LINES, lineHeight)};
 `;
 
 export const BodyStyled = styled.section`

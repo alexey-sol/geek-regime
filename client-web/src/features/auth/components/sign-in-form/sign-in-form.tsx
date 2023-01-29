@@ -1,4 +1,4 @@
-import React, { memo, useRef } from "react";
+import React, { memo, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Form, Formik, type FormikProps } from "formik";
 
@@ -9,7 +9,7 @@ import { getSignInSchema } from "@/features/auth/utils/validation/schemas";
 import type { SignInDto } from "@/features/users/models/dtos";
 import type { MemoizedAuthForm } from "@/features/auth/types";
 
-import { TransparentButtonStyled } from "./style";
+import { ButtonStyled, SignInFormStyled, TransparentButtonStyled } from "./style";
 import { useSignInFormData } from "./utils";
 import * as cn from "./const";
 
@@ -29,8 +29,14 @@ export const SignInForm: MemoizedAuthForm = memo(({ goTo }) => {
         openWindowToSignInViaYandex,
     } = useSignInFormData({ formRef });
 
+    const goToSignUp = useCallback(() => {
+        if (goTo) {
+            goTo("sign-up");
+        }
+    }, [goTo]);
+
     return (
-        <section>
+        <SignInFormStyled>
             <Formik
                 innerRef={formRef}
                 initialValues={initialValues}
@@ -54,12 +60,13 @@ export const SignInForm: MemoizedAuthForm = memo(({ goTo }) => {
                             type="password"
                         />
 
-                        <Button
+                        <ButtonStyled
                             disabled={isPending || Object.keys(errors).length > 0}
+                            isStretched
                             type="submit"
                         >
                             {t("signIn.local.actionButton.title")}
-                        </Button>
+                        </ButtonStyled>
                     </Form>
                 )}
             </Formik>
@@ -70,7 +77,7 @@ export const SignInForm: MemoizedAuthForm = memo(({ goTo }) => {
                 <TransparentButtonStyled
                     fontSize="normal"
                     view="transparent"
-                    onClick={() => goTo("sign-up")}
+                    onClick={goToSignUp}
                 >
                     {t("signIn.signUp.suggestion.link")}
                 </TransparentButtonStyled>
@@ -80,9 +87,13 @@ export const SignInForm: MemoizedAuthForm = memo(({ goTo }) => {
                 {t("signIn.oauth.suggestion.preface")}
             </Typography>
 
-            <Button onClick={openWindowToSignInViaYandex} view="secondary">
+            <Button
+                isStretched
+                onClick={openWindowToSignInViaYandex}
+                view="secondary"
+            >
                 {t("signIn.oauth.providers.yandex.name")}
             </Button>
-        </section>
+        </SignInFormStyled>
     );
 });
