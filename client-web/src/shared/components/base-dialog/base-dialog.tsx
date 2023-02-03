@@ -32,7 +32,7 @@ export const BaseDialog = ({
     const elementRef = useRef<HTMLElement>(null);
 
     useKeyboardControls({
-        activeElementRef: elementRef,
+        elementRef,
         onAction,
         onCancel: onClose,
     });

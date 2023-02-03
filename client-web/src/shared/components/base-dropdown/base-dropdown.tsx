@@ -45,7 +45,7 @@ export const BaseDropdown = ({
     }, [anchorRef, mouseEvent, onClose]);
 
     useKeyboardControls({
-        activeElementRef: elementRef,
+        elementRef,
         onCancel: onClose,
     });
 

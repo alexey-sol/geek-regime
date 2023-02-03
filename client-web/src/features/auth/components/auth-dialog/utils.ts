@@ -10,6 +10,7 @@ const INITIAL_VIEW: AuthView = "sign-in";
 export type AuthDialogData = {
     Form: AuthForm | MemoizedAuthForm;
     goTo: (view: AuthView) => void;
+    handleGoBack?: () => void;
     title: string;
 };
 
@@ -19,7 +20,7 @@ export const useAuthDialogData = (): AuthDialogData => {
 
     let Form: AuthForm | MemoizedAuthForm;
     let titleKey: string;
-    let handleGoBack: (() => void) | undefined;
+    let handleGoBack: AuthDialogData["handleGoBack"] | undefined;
 
     switch (view) {
         case "sign-up":

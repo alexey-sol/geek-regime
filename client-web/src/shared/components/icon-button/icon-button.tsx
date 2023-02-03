@@ -11,7 +11,7 @@ import {
 
 import { BaseIconButton, type BaseIconButtonProps } from "./base-icon-button";
 
-export type IconButtonProps = Pick<BaseIconButtonProps, "onClick" | "title" | "view">;
+export type IconButtonProps = Pick<BaseIconButtonProps, "fontSize" | "onClick" | "title" | "view">;
 
 export const CloseIconButton = ({ title, ...rest }: IconButtonProps) => (
     <BaseIconButton

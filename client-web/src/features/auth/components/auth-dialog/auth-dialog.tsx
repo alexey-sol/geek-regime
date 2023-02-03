@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React from "react";
 
 import { BaseDialog } from "@/shared/components/base-dialog";
 import { useAuthDialogData } from "@/features/auth/components/auth-dialog/utils";
@@ -10,11 +10,12 @@ export type AuthDialogProps = {
 };
 
 export const AuthDialog = ({ onClose }: AuthDialogProps) => {
-    const { Form, goTo, title } = useAuthDialogData();
-
-    const handleGoBack = useCallback(() => {
-        goTo("sign-in");
-    }, [goTo]);
+    const {
+        Form,
+        goTo,
+        handleGoBack,
+        title,
+    } = useAuthDialogData();
 
     return (
         <BaseDialog

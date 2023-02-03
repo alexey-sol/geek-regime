@@ -23,6 +23,7 @@ export const theme = {
         greyLight: "#d1d1d1",
         greyLighten: "#e8e8e8",
         greyLightest: "#f8f8f8",
+        green: "lightgreen",
         orangeDark: "#e25b30",
         orange: orangeColor,
         orangeLight: "#fccba4",
@@ -32,7 +33,9 @@ export const theme = {
         purple: purpleColor,
         purpleLight: "#856088",
         purpleLighter: "#99739c",
+        red: "indianred",
         white: "#ffffff",
+        yellow: "lightyellow",
     },
     components: {
         footer: {

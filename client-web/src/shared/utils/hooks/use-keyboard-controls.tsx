@@ -1,23 +1,24 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
+
+import type { HasElementRef } from "@/shared/types/props";
 
 type Handler = () => void;
 
-type UseKeyboardControlsArgs = {
-    activeElementRef: React.RefObject<HTMLElement>;
+type UseKeyboardControlsArgs = HasElementRef & {
     keyboardEvent?: "keydown" | "keyup" | "keypress";
     onAction?: Handler;
     onCancel?: Handler;
 };
 
 export const useKeyboardControls = ({
-    activeElementRef,
+    elementRef,
     keyboardEvent = "keydown",
     onAction,
     onCancel,
 }: UseKeyboardControlsArgs) => {
     useEffect(() => {
         const makeElementActiveIfPossible = () => {
-            const { current } = activeElementRef;
+            const { current } = elementRef;
 
             if (current) {
                 current.focus();
@@ -29,7 +30,7 @@ export const useKeyboardControls = ({
         // If the passed element is a container like div, it also should have tabIndex = 0
         // prop in order to turn active.
         makeElementActiveIfPossible();
-    }, [activeElementRef]);
+    }, [elementRef]);
 
     useEffect(() => {
         const mapKeysToHandlers: Partial<Record<string, Handler>> = {
@@ -38,7 +39,7 @@ export const useKeyboardControls = ({
         };
 
         const handleKeyboardEvent = ({ key, target }: KeyboardEvent) => {
-            const { current } = activeElementRef;
+            const { current } = elementRef;
             const handler = mapKeysToHandlers[key];
 
             if (!current || !(target instanceof HTMLElement)) {
@@ -58,5 +59,5 @@ export const useKeyboardControls = ({
         return () => {
             document.removeEventListener(keyboardEvent, handleKeyboardEvent);
         };
-    }, [activeElementRef, keyboardEvent, onAction, onCancel]);
+    }, [elementRef, keyboardEvent, onAction, onCancel]);
 };
