@@ -2,7 +2,6 @@ import React, { memo, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Form, Formik, type FormikProps } from "formik";
 
-import { Button } from "@/shared/components/button";
 import { FormInput } from "@/shared/components/form/form-input";
 import { Typography } from "@/shared/components/typography";
 import { getSignInSchema } from "@/features/auth/utils/validation/schemas";
@@ -46,19 +45,21 @@ export const SignInForm: MemoizedAuthForm = memo(({ goTo }) => {
             >
                 {({ errors, handleChange }) => (
                     <Form>
-                        <FormInput
-                            label={t("signIn.local.fields.email")}
-                            name={cn.EMAIL_NAME}
-                            onChange={(event) => handleChangeWrap(event, handleChange)}
-                            type="text"
-                        />
+                        <section>
+                            <FormInput
+                                label={t("signIn.local.fields.email")}
+                                name={cn.EMAIL_NAME}
+                                onChange={(event) => handleChangeWrap(event, handleChange)}
+                                type="text"
+                            />
 
-                        <FormInput
-                            label={t("signIn.local.fields.password")}
-                            name={cn.PASSWORD_NAME}
-                            onChange={(event) => handleChangeWrap(event, handleChange)}
-                            type="password"
-                        />
+                            <FormInput
+                                label={t("signIn.local.fields.password")}
+                                name={cn.PASSWORD_NAME}
+                                onChange={(event) => handleChangeWrap(event, handleChange)}
+                                type="password"
+                            />
+                        </section>
 
                         <ButtonStyled
                             disabled={isPending || Object.keys(errors).length > 0}
@@ -71,29 +72,33 @@ export const SignInForm: MemoizedAuthForm = memo(({ goTo }) => {
                 )}
             </Formik>
 
-            <Typography>
-                {t("signIn.signUp.suggestion.preface")}
+            <section>
+                <Typography>
+                    {t("signIn.signUp.suggestion.preface")}
 
-                <TransparentButtonStyled
-                    fontSize="normal"
-                    view="transparent"
-                    onClick={goToSignUp}
+                    <TransparentButtonStyled
+                        fontSize="normal"
+                        view="transparent"
+                        onClick={goToSignUp}
+                    >
+                        {t("signIn.signUp.suggestion.link")}
+                    </TransparentButtonStyled>
+                </Typography>
+            </section>
+
+            <section>
+                <Typography>
+                    {t("signIn.oauth.suggestion.preface")}
+                </Typography>
+
+                <ButtonStyled
+                    isStretched
+                    onClick={openWindowToSignInViaYandex}
+                    view="secondary"
                 >
-                    {t("signIn.signUp.suggestion.link")}
-                </TransparentButtonStyled>
-            </Typography>
-
-            <Typography>
-                {t("signIn.oauth.suggestion.preface")}
-            </Typography>
-
-            <Button
-                isStretched
-                onClick={openWindowToSignInViaYandex}
-                view="secondary"
-            >
-                {t("signIn.oauth.providers.yandex.name")}
-            </Button>
+                    {t("signIn.oauth.providers.yandex.name")}
+                </ButtonStyled>
+            </section>
         </SignInFormStyled>
     );
 });

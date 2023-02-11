@@ -20,6 +20,7 @@ export const uiSlice = createSlice({
         setPopup: (state, {
             payload: popup,
         }: PayloadAction<PopupArg>) => {
+            uiSlice.actions.resetPopup();
             state.popup = popup;
         },
     },

@@ -12,4 +12,6 @@ export type HasColor = { color: Color };
 
 export type HasFontSize = { fontSize: FontSize };
 
+export type HasHttpStatus = { status: number };
+
 export type HasElementRef = { elementRef: React.RefObject<HTMLElement> };

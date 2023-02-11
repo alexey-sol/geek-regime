@@ -3,7 +3,7 @@ import { setupListeners } from "@reduxjs/toolkit/query";
 
 import { isProduction } from "@/shared/utils/helpers/env";
 import { authApi } from "@/features/auth/services/api";
-import { authMiddlewares } from "@/features/auth/slice/middlewares";
+import { authListener } from "@/features/auth/slice/middlewares";
 import { postsApi } from "@/features/posts/services/api";
 import { postsReducer } from "@/features/posts/slice";
 import { uiReducer } from "@/features/ui/slice";
@@ -19,9 +19,9 @@ export const store = configureStore({
     devTools: !isProduction(),
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware()
+        .prepend(authListener.middleware)
         .concat(authApi.middleware)
-        .concat(postsApi.middleware)
-        .concat(authMiddlewares),
+        .concat(postsApi.middleware),
 } as const);
 
 setupListeners(store.dispatch);

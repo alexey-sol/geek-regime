@@ -7,11 +7,12 @@ import type { HasChildren } from "@/shared/types/props";
 
 import { BaseDropdownStyled, type BaseDropdownStyledProps } from "./style";
 
-export type BaseDropdownProps = BaseDropdownStyledProps & HasChildren & {
-    mouseEvent?: "click" | "mouseup" | "mousedown";
-    onClose: () => void;
-    role?: AriaRole;
-};
+export type BaseDropdownProps = Pick<BaseDropdownStyledProps, "anchorRef" | "position">
+    & HasChildren & {
+        mouseEvent?: "click" | "mouseup" | "mousedown";
+        onClose: () => void;
+        role?: AriaRole;
+    };
 
 export const BaseDropdown = ({
     anchorRef,

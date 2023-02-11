@@ -4,9 +4,9 @@ import { Button } from "@/shared/components/button";
 
 export const SignInFormStyled = styled.section`
     display: flex;
+    justify-content: space-between;
     flex-direction: column;
     width: 100%;
-    row-gap: 2rem;
 `;
 
 export const TransparentButtonStyled = styled(Button)`
@@ -14,5 +14,5 @@ export const TransparentButtonStyled = styled(Button)`
 `;
 
 export const ButtonStyled = styled(Button)`
-    margin-top: 2rem;
+    margin-top: 1rem;
 `;

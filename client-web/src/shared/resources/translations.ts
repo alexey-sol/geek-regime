@@ -1,4 +1,10 @@
 export const en = {
+    common: {
+        query: {
+            success: "Done",
+            unknownError: "Something went wrong",
+        },
+    },
     dialog: {
         closeButton: {
             title: "Close",
@@ -41,6 +47,12 @@ export const en = {
 };
 
 export const ru = {
+    common: {
+        query: {
+            success: "Готово",
+            unknownError: "Что-то пошло не так",
+        },
+    },
     dialog: {
         closeButton: {
             title: "Закрыть",

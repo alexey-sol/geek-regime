@@ -23,6 +23,7 @@
         "dompurify": "2.4.0",
         "dotenv": "16.0.1",
         "formik": "2.2.9",
+        "http-status": "1.6.2",
         "i18next": "21.9.2",
         "i18next-browser-languagedetector": "6.1.5",
         "joi": "17.6.0",

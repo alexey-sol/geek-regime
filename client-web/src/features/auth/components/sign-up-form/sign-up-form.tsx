@@ -1,12 +1,12 @@
 import React, { memo, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Form, Formik, type FormikProps } from "formik";
+import { Formik, type FormikProps } from "formik";
 
 import { FormInput } from "@/shared/components/form/form-input";
 import { getSignUpSchema } from "@/features/auth/utils/validation/schemas";
 import type { MemoizedAuthForm } from "@/features/auth/types";
 
-import { ButtonStyled, SignUpFormStyled } from "./style";
+import { ButtonStyled, FormStyled, SignUpFormStyled } from "./style";
 import { useSignUpFormData, type SignUpValues } from "./utils";
 import * as cn from "./const";
 
@@ -37,34 +37,36 @@ export const SignUpForm: MemoizedAuthForm = memo(() => {
                 validationSchema={getSignUpSchema()}
             >
                 {({ errors, handleChange }) => (
-                    <Form>
-                        <FormInput
-                            label={t("signUp.fields.email")}
-                            name={cn.EMAIL_NAME}
-                            onChange={(event) => handleChangeWrap(event, handleChange)}
-                            type="text"
-                        />
+                    <FormStyled>
+                        <section>
+                            <FormInput
+                                label={t("signUp.fields.email")}
+                                name={cn.EMAIL_NAME}
+                                onChange={(event) => handleChangeWrap(event, handleChange)}
+                                type="text"
+                            />
 
-                        <FormInput
-                            label={t("signUp.fields.password")}
-                            name={cn.PASSWORD_NAME}
-                            onChange={(event) => handleChangeWrap(event, handleChange)}
-                            type="password"
-                        />
+                            <FormInput
+                                label={t("signUp.fields.password")}
+                                name={cn.PASSWORD_NAME}
+                                onChange={(event) => handleChangeWrap(event, handleChange)}
+                                type="password"
+                            />
 
-                        <FormInput
-                            label={t("signUp.fields.confirmPassword")}
-                            name={cn.CONFIRM_PASSWORD_NAME}
-                            onChange={(event) => handleChangeWrap(event, handleChange)}
-                            type="password"
-                        />
+                            <FormInput
+                                label={t("signUp.fields.confirmPassword")}
+                                name={cn.CONFIRM_PASSWORD_NAME}
+                                onChange={(event) => handleChangeWrap(event, handleChange)}
+                                type="password"
+                            />
 
-                        <FormInput
-                            label={t("signUp.fields.name")}
-                            name={cn.USERNAME_NAME}
-                            onChange={(event) => handleChangeWrap(event, handleChange)}
-                            type="text"
-                        />
+                            <FormInput
+                                label={t("signUp.fields.name")}
+                                name={cn.USERNAME_NAME}
+                                onChange={(event) => handleChangeWrap(event, handleChange)}
+                                type="text"
+                            />
+                        </section>
 
                         <ButtonStyled
                             disabled={isPending || Object.keys(errors).length > 0}
@@ -73,7 +75,7 @@ export const SignUpForm: MemoizedAuthForm = memo(() => {
                         >
                             {t("signUp.actionButton.title")}
                         </ButtonStyled>
-                    </Form>
+                    </FormStyled>
                 )}
             </Formik>
         </SignUpFormStyled>
