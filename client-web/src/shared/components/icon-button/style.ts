@@ -1,25 +1,14 @@
 import styled, { css } from "styled-components";
 
 import { BaseIconStyled } from "@/shared/components/icon/style";
-import type { ColorValue, MapKeyToCss } from "@/shared/types/theme";
+import { mixins } from "@/app/style/mixins";
+import type { MapKeyToCss } from "@/shared/types/theme";
 
 import type { BaseIconButtonStyledProps } from "./base-icon-button";
 
-const getFillCss = (fill: ColorValue, fillOnHover: ColorValue) => css`
-    ${BaseIconStyled} {
-        fill: ${fill};
-    }
-
-    &:hover {
-        ${BaseIconStyled} {
-            fill: ${fillOnHover};
-        }
-    }
-`;
-
 const mapViewToCss: MapKeyToCss<NonNullable<BaseIconButtonStyledProps["view"]>> = {
-    primary: css(({ theme }) => getFillCss(theme.colors.primary, theme.colors.secondary)),
-    white: css(({ theme }) => getFillCss(theme.colors.white, theme.colors.orangeLighten)),
+    primary: css(({ theme }) => mixins.getIconFill(theme.colors.primary, theme.colors.secondary)),
+    white: css(({ theme }) => mixins.getIconFill(theme.colors.white, theme.colors.orangeLighten)),
 };
 
 export const IconButtonStyled = styled.button<BaseIconButtonStyledProps>(

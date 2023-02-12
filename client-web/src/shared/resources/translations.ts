@@ -1,8 +1,8 @@
 export const en = {
     common: {
         query: {
+            error: "Something went wrong",
             success: "Done",
-            unknownError: "Something went wrong",
         },
     },
     dialog: {
@@ -49,8 +49,8 @@ export const en = {
 export const ru = {
     common: {
         query: {
+            error: "Что-то пошло не так",
             success: "Готово",
-            unknownError: "Что-то пошло не так",
         },
     },
     dialog: {

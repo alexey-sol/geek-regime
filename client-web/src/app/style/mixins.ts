@@ -1,10 +1,22 @@
 import { css } from "styled-components";
 
 import { BaseIconStyled } from "@/shared/components/icon/style";
+import type { ColorValue } from "@/shared/types/theme";
 
 const LAYOUT_ROW_INNER_PADDING_X = "3rem";
 
 export const mixins = {
+    getIconFill: (fill: ColorValue, fillOnHover = fill) => css`
+        ${BaseIconStyled} {
+            fill: ${fill};
+        }
+
+        &:hover {
+            ${BaseIconStyled} {
+                fill: ${fillOnHover};
+            }
+        }
+    `,
     getLayoutRowInner: () => css`
         min-width: 10rem;
         max-width: 100rem;
@@ -57,7 +69,7 @@ export const mixins = {
     `,
     getShrinkLabel: () => css`
         position: absolute;
-        top: -1.2rem;
+        top: -1.4rem;
         color: ${({ theme }) => theme.colors.grey};
         font-size: ${({ theme }) => theme.fontSizes.smaller};
     `,

@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 
 import { TypographyStyled } from "@/shared/components/typography/style";
+import { mixins } from "@/app/style/mixins";
 import type { PopupArg } from "@/features/ui/models/entities";
 import type { MapKeyToCss } from "@/shared/types/theme";
 
@@ -10,18 +11,24 @@ const MARGIN = "1rem";
 
 const mapViewToCss: MapKeyToCss<NonNullable<PopupStyledProps["view"]>> = {
     failure: css(({ theme: { colors } }) => css`
-        background-color: ${colors.red};
+        background-color: ${colors.redLighten};
+        border: 1px solid ${colors.redLight};
+        ${mixins.getIconFill(colors.red)};
     `),
     success: css(({ theme: { colors } }) => css`
         background-color: ${colors.green};
+        border: 1px solid ${colors.greenDark};
+        ${mixins.getIconFill(colors.greenDarken)};
     `),
     warning: css(({ theme: { colors } }) => css`
-        background-color: ${colors.yellow};
+        background-color: ${colors.orangeLighten};
+        border: 1px solid ${colors.orangeLight};
+        ${mixins.getIconFill(colors.orange)};
     `),
 };
 
 export const PopupStyled = styled.section<PopupStyledProps>`
-    position: absolute;
+    position: fixed;
     z-index: ${({ theme }) => theme.zIndex.modal};
     top: ${MARGIN};
     right: ${MARGIN};

@@ -29,7 +29,7 @@ const mapViewToCss: MapKeyToCss<NonNullable<ButtonStyledProps["view"]>> = {
         padding-bottom: calc(${PADDING_Y} - ${PLAIN_BORDER_WIDTH});
         border: ${PLAIN_BORDER_WIDTH} solid ${colors.primary};
         color: ${colors.primary};
-        ${getBgColorCss(colors.white, colors.orangeDark)}
+        ${getBgColorCss(colors.white, colors.orangeDark)};
 
         ${BaseIconStyled} {
             fill: ${colors.primary};
@@ -48,7 +48,7 @@ const mapViewToCss: MapKeyToCss<NonNullable<ButtonStyledProps["view"]>> = {
             }
         }
     `),
-    primary: css(({ theme }) => getBgColorCss(theme.colors.primary, theme.colors.purpleLight)),
+    primary: css(({ theme }) => getBgColorCss(theme.colors.purpleLight, theme.colors.primary)),
     secondary: css(({ theme }) => getBgColorCss(theme.colors.secondary, theme.colors.orangeDark)),
     transparent: css`
         padding: 0;
@@ -66,7 +66,7 @@ export const ButtonStyled = styled.button<ButtonStyledProps>(
         display: flex;
         justify-content: center;
         align-items: center;
-        column-gap: 0.5rem;
+        column-gap: 1rem;
         width: ${isStretched ? "100%" : "auto"};
         height: fit-content;
         padding: ${PADDING_Y} 2rem;
@@ -78,10 +78,10 @@ export const ButtonStyled = styled.button<ButtonStyledProps>(
 
         &:hover {
             transition:
-                border-color ${theme.durations.fast} ease,
-                background-color ${theme.durations.fast} ease, 
-                color ${theme.durations.fast} ease,
-                fill ${theme.durations.fast} ease,
+                border-color ${theme.durations.normal} ease,
+                background-color ${theme.durations.normal} ease, 
+                color ${theme.durations.normal} ease,
+                fill ${theme.durations.normal} ease,
                 opacity ${theme.durations.normal} ease;
         }
 
@@ -95,7 +95,7 @@ export const ButtonStyled = styled.button<ButtonStyledProps>(
         }
 
         &:disabled {
-            opacity: 0.5;
+            opacity: 0.8;
             color: ${theme.colors.white};
             cursor: default;
         }

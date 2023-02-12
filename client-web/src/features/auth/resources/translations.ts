@@ -16,7 +16,7 @@ export const en = {
             },
         },
         query: {
-            notFoundOrForbiddenError: "User doesn't exist or password is invalid",
+            forbiddenOrNotFoundError: "User doesn't exist or password is invalid",
         },
         oauth: {
             providers: {
@@ -91,7 +91,7 @@ export const ru = {
             },
         },
         query: {
-            notFoundOrForbiddenError: "Пользователь не найден или указан неверный пароль",
+            forbiddenOrNotFoundError: "Пользователь не найден или указан неверный пароль",
         },
         oauth: {
             providers: {

@@ -1,4 +1,4 @@
-const purpleColor = "#564256";
+const purpleColor = "#655a7c";
 const orangeColor = "#fc814a";
 
 const headerMinHeight = "4rem";
@@ -16,6 +16,7 @@ export const theme = {
         inherit: "inherit",
         primary: purpleColor,
         secondary: orangeColor,
+        blue: "#afc1d6",
         greyDarkest: "#3a3238",
         greyDarken: "#4b5358",
         greyDark: "#727072",
@@ -23,7 +24,9 @@ export const theme = {
         greyLight: "#d1d1d1",
         greyLighten: "#e8e8e8",
         greyLightest: "#f8f8f8",
-        green: "lightgreen",
+        greenDarken: "#5da196",
+        greenDark: "#85c7bc",
+        green: "#cef9f2",
         orangeDark: "#e25b30",
         orange: orangeColor,
         orangeLight: "#fccba4",
@@ -31,9 +34,11 @@ export const theme = {
         purpleDark: "#453545",
         purpleDarker: "#372a37",
         purple: purpleColor,
-        purpleLight: "#856088",
-        purpleLighter: "#99739c",
-        red: "indianred",
+        purpleLight: "#9078a2",
+        purpleLighten: "#b1a0bd",
+        red: "#fe4a49",
+        redLight: "#fe9291",
+        redLighten: "#fec8c8",
         white: "#ffffff",
         yellow: "lightyellow",
     },
