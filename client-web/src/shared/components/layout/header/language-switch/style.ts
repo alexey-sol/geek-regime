@@ -15,11 +15,15 @@ export const LanguageDropdownStyled = styled(BaseDropdown)`
     background-color: ${({ theme }) => theme.colors.primary};
 `;
 
-export const SwitchListStyled = styled.ul`
-    padding: 0 0 0.5rem;
-`;
-
 export const SwitchButtonStyled = styled(Button)`
     border-radius: 0;
     background-color: ${({ theme }) => theme.colors.primary};
+
+    &:not(:disabled):hover {
+        background-color: ${({ theme }) => theme.colors.purpleLight};
+    }
+
+    &:last-of-type {
+        border-radius: 0 0 0.3rem 0.3rem;
+    }
 `;

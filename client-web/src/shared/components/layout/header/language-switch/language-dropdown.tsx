@@ -3,7 +3,7 @@ import React from "react";
 import { useLanguage } from "@/shared/utils/language";
 
 import { getFilteredLanguages, getLanguageTitle } from "./utils";
-import { LanguageDropdownStyled, SwitchButtonStyled, SwitchListStyled } from "./style";
+import { LanguageDropdownStyled, SwitchButtonStyled } from "./style";
 
 export type LanguageDropdownProps = {
     anchorRef?: React.RefObject<HTMLElement>;
@@ -26,7 +26,6 @@ export const LanguageDropdown = ({ anchorRef, onClose }: LanguageDropdownProps) 
                         fontSize="smaller"
                         isStretched
                         onClick={handleClick}
-                        view="secondary"
                     >
                         {getLanguageTitle(lang)}
                     </SwitchButtonStyled>
@@ -40,9 +39,9 @@ export const LanguageDropdown = ({ anchorRef, onClose }: LanguageDropdownProps) 
             onClose={onClose}
             position="bottom-center"
         >
-            <SwitchListStyled>
+            <ul>
                 {items}
-            </SwitchListStyled>
+            </ul>
         </LanguageDropdownStyled>
     );
 };

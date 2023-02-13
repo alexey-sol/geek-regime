@@ -1,8 +1,8 @@
 import path from "path";
 
+import { config as dotenvConfig } from "dotenv";
 import webpack from "webpack";
 import HtmlWebpackPlugin from "html-webpack-plugin";
-import { config as dotenvConfig } from "dotenv";
 import DotenvWebpack from "dotenv-webpack";
 
 dotenvConfig({ path: ".env" });

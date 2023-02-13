@@ -67,7 +67,7 @@ export const ButtonStyled = styled.button<ButtonStyledProps>(
         justify-content: center;
         align-items: center;
         column-gap: 1rem;
-        width: ${isStretched ? "100%" : "auto"};
+        width: ${isStretched ? "100%" : "fit-content"};
         height: fit-content;
         padding: ${PADDING_Y} 2rem;
         border: none;

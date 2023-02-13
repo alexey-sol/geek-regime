@@ -14,6 +14,14 @@ module.exports = {
         React: true,
     },
     ignorePatterns: ["build/*", "coverage/*", "dist/*", "node_modules/*"],
+    overrides: [
+        {
+            files: ["config/**", "*.stories.*"],
+            rules: {
+                "import/no-default-export": "off",
+            },
+        },
+    ],
     parser: "@typescript-eslint/parser",
     parserOptions: {
         ecmaFeatures: {

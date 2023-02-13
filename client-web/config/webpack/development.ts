@@ -1,10 +1,10 @@
 import path from "path";
 
-import webpack from "webpack";
-import { Configuration as DevServerConfiguration } from "webpack-dev-server";
-import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import { merge } from "webpack-merge";
+import webpack from "webpack";
+import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
+import type { Configuration as DevServerConfiguration } from "webpack-dev-server";
 
 import coreConfig from "./core";
 import { env } from "./utils/env";
