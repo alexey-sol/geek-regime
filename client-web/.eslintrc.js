@@ -21,6 +21,13 @@ module.exports = {
                 "import/no-default-export": "off",
             },
         },
+        {
+            files: ["*.spec.*", "*.test.*"],
+            rules: {
+                "@typescript-eslint/no-empty-function": "off",
+                "no-multi-str": "off",
+            },
+        },
     ],
     parser: "@typescript-eslint/parser",
     parserOptions: {

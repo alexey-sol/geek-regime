@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 
 import { defaults } from "@/shared/const";
 
-import { usePagingData } from "./hooks";
+import { usePagingData } from "./utils";
 import {
     StepButtonsWrapStyled,
     StepButtonStyled,
@@ -19,6 +19,7 @@ import {
     LeapButtonStyled,
     LeapButtonsWrapStyled,
 } from "./style";
+import * as cn from "./const";
 import type { UsePagingDataArgs } from "./types";
 
 const START_PAGE = defaults.PAGING_PAGE;
@@ -70,6 +71,7 @@ export const Paging = memo(({
                     <li>
                         <PagingButtonStyled
                             active={isStartPage}
+                            aria-label={cn.ARIA_LABEL_START_PAGE}
                             onClick={toStartPage}
                             view="secondary"
                         >
@@ -86,6 +88,8 @@ export const Paging = memo(({
             <li key={pageNumber}>
                 <PagingButtonStyled
                     active={pageNumber === page}
+                    aria-current={pageNumber === page ? "page" : undefined}
+                    aria-label={cn.ARIA_LABEL_PAGE_NUMBER}
                     onClick={() => goToPage(pageNumber)}
                     view="secondary"
                 >
@@ -99,9 +103,10 @@ export const Paging = memo(({
                 <React.Fragment key={lastPage}>
                     <li><SpillStyled /></li>
 
-                    <li key={lastPage}>
+                    <li>
                         <PagingButtonStyled
                             active={isLastPage}
+                            aria-label={cn.ARIA_LABEL_LAST_PAGE}
                             onClick={toLastPage}
                             view="secondary"
                         >
@@ -121,11 +126,12 @@ export const Paging = memo(({
     }
 
     return (
-        <PagingStyled>
+        <PagingStyled aria-label={cn.ARIA_LABEL_PAGING}>
             {isMinifiedView && hasLeapButtons && (
                 <LeapButtonsWrapStyled>
                     <li>
                         <LeapButtonStyled
+                            aria-label={cn.ARIA_LABEL_START_PAGE}
                             disabled={!hasLeftSpill}
                             onClick={toStartPage}
                             title={`${t("paging.leapButton.toStart.title")} 1`}
@@ -137,6 +143,7 @@ export const Paging = memo(({
 
                     <li>
                         <LeapButtonStyled
+                            aria-label={cn.ARIA_LABEL_LAST_PAGE}
                             disabled={!hasRightSpill}
                             onClick={toLastPage}
                             title={`${t("paging.leapButton.toEnd.title")} ${lastPage}`}
@@ -151,6 +158,7 @@ export const Paging = memo(({
             <StepButtonsWrapStyled>
                 <section>
                     <StepButtonStyled
+                        aria-label={cn.ARIA_LABEL_PREVIOUS_PAGE}
                         disabled={isStartPage}
                         fontSize="larger"
                         onClick={toPreviousPage}
@@ -167,6 +175,7 @@ export const Paging = memo(({
 
                 <section>
                     <StepButtonStyled
+                        aria-label={cn.ARIA_LABEL_NEXT_PAGE}
                         disabled={isLastPage}
                         fontSize="larger"
                         onClick={toNextPage}

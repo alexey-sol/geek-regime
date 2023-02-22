@@ -1,4 +1,4 @@
-import React, { ComponentType } from "react";
+import React, { type ButtonHTMLAttributes, ComponentType } from "react";
 
 import type { IconProps } from "@/shared/components/icon";
 
@@ -8,11 +8,15 @@ export type BaseIconButtonStyledProps = {
     view?: "primary" | "white";
 };
 
-export type BaseIconButtonProps = IconProps & BaseIconButtonStyledProps & {
-    icon: ComponentType<IconProps>;
-    onClick: () => void;
-    title?: string;
-};
+export type BaseIconButtonProps = IconProps
+    & BaseIconButtonStyledProps
+    & Pick<ButtonHTMLAttributes<HTMLButtonElement>, "aria-label">
+    & {
+        disabled?: boolean;
+        icon: ComponentType<IconProps>;
+        onClick: () => void;
+        title?: string;
+    };
 
 export const BaseIconButton = ({
     color,

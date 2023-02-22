@@ -5,3 +5,12 @@ export type UsePagingDataArgs = PagingOptions & {
     pathPrefix: string;
     qs: string;
 };
+
+export type PagingData = {
+    goToPage: (selectedPage: number) => void;
+    hasLeftSpill: boolean;
+    hasRightSpill: boolean;
+    isMinifiedView: boolean;
+    lastPage: number;
+    pagesRange: number[];
+};

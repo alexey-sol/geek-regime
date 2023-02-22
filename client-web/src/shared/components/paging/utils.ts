@@ -11,11 +11,11 @@ import { range } from "@/shared/utils/helpers/range";
 import { defaults } from "@/shared/const";
 import { useWindowSize } from "@/shared/utils/hooks/use-window-size";
 
-import type { UsePagingDataArgs } from "./types";
+import type { PagingData, UsePagingDataArgs } from "./types";
 
 const START_PAGE = defaults.PAGING_PAGE;
 
-enum SpillElements {
+enum SpillCount {
     DEFAULT = 2,
     NONE = 0
 }
@@ -27,8 +27,8 @@ export const usePagingData = ({
     qs = "",
     size = defaults.PAGING_SIZE,
     totalItems,
-}: UsePagingDataArgs) => {
-    const [spillElements, setSpillElements] = useState(SpillElements.DEFAULT);
+}: UsePagingDataArgs): PagingData => {
+    const [spillCount, setSpillCount] = useState(SpillCount.DEFAULT);
 
     const theme = useTheme();
     const navigate = useNavigate();
@@ -38,9 +38,9 @@ export const usePagingData = ({
     const isMinifiedView = windowSize.width < largeScreenWidth;
 
     useEffect(() => {
-        setSpillElements((isMinifiedView)
-            ? SpillElements.NONE
-            : SpillElements.DEFAULT);
+        setSpillCount((isMinifiedView)
+            ? SpillCount.NONE
+            : SpillCount.DEFAULT);
     }, [isMinifiedView]);
 
     const lastPage = Math.ceil(totalItems / size);
@@ -53,7 +53,7 @@ export const usePagingData = ({
     const hasLeftSpill = hasSpills && leftmostVisiblePage > 1;
     const hasRightSpill = hasSpills && rightmostVisiblePage < lastPage;
 
-    const goToPage = useCallback((selectedPage: number) => {
+    const goToPage = useCallback<PagingData["goToPage"]>((selectedPage) => {
         if (selectedPage === page) {
             return;
         }
@@ -76,9 +76,9 @@ export const usePagingData = ({
         const startNumber = Math.max(START_PAGE, resultLeftmostPage);
 
         return (hasLeftSpill)
-            ? startNumber + spillElements
+            ? startNumber + spillCount
             : startNumber;
-    }, [hasLeftSpill, lastPage, leftmostVisiblePage, page, pageNeighbours, spillElements]);
+    }, [hasLeftSpill, lastPage, leftmostVisiblePage, page, pageNeighbours, spillCount]);
 
     const getEndNumber = useCallback(() => {
         const pagesBeforePivot = (hasLeftSpill) ? pageNeighbours : page - 1;
@@ -89,10 +89,10 @@ export const usePagingData = ({
         const endNumber = Math.min(lastPage, resultRightmostPage);
 
         return (hasRightSpill)
-            ? endNumber - spillElements
+            ? endNumber - spillCount
             : endNumber;
     }, [hasLeftSpill, hasRightSpill, lastPage, page, pageNeighbours, visiblePages,
-        spillElements]);
+        spillCount]);
 
     const getPagesRange = useCallback(() =>
         range(getStartNumber(), getEndNumber()), [getEndNumber, getStartNumber]);

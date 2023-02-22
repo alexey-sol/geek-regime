@@ -11,7 +11,7 @@ const TIMESTAMP = "2022-02-01T07:20:00.000Z";
 const TITLE = "Title";
 const EXCERPT = "Excerpt";
 
-const previewDto: PostPreviewDto = {
+const PREVIEW_DTO: PostPreviewDto = {
     id: 1,
     title: TITLE,
     excerpt: EXCERPT,
@@ -33,28 +33,28 @@ const previewDto: PostPreviewDto = {
     },
 };
 
-const post = fromPostPreviewDtoToEntity(previewDto);
+const POST = fromPostPreviewDtoToEntity(PREVIEW_DTO);
 
-describe("PostOverview", () => {
-    it("should render title and excerpt from provided post", () => {
-        render(<PostOverview post={post} />);
+describe("Posts/PostOverview", () => {
+    it("renders title and excerpt from provided post", () => {
+        render(<PostOverview post={POST} />);
 
         screen.getByText(TITLE);
         screen.getByText(EXCERPT);
     });
 
-    it("should construct and render concise post info", () => {
-        const postInfo = `${post.author.details.name} – ${post.formattedCreatedAt}`;
+    it("creates and renders concise post info", () => {
+        const postInfo = `${POST.author.details.name} – ${POST.formattedCreatedAt}`;
 
-        render(<PostOverview post={post} />);
+        render(<PostOverview post={POST} />);
 
         screen.getByText(postInfo);
     });
 
-    it("should render link with path containing slug from provided list", () => {
-        render(<PostOverview post={post} />);
+    it("renders link containing slug from provided post", () => {
+        render(<PostOverview post={POST} />);
 
-        const linkElement = screen.getByRole("link");
-        expect(linkElement).toHaveAttribute("href", `/${paths.POSTS}/${post.slug}`);
+        const link = screen.getByRole("link");
+        expect(link).toHaveAttribute("href", `/${paths.POSTS}/${POST.slug}`);
     });
 });
