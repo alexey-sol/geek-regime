@@ -1,4 +1,4 @@
-import React, { ReactNode, useRef } from "react";
+import React, { type FC, ReactNode, useRef } from "react";
 
 import { useKeyboardControls } from "@/shared/utils/hooks/use-keyboard-controls";
 
@@ -21,14 +21,14 @@ export type BaseDialogProps = BaseDialogStyledProps & {
     title?: string;
 };
 
-export const BaseDialog = ({
+export const BaseDialog: FC<BaseDialogProps> = ({
     children,
     onAction,
     onClose,
     onGoBack,
     title,
     ...rest
-}: BaseDialogProps) => {
+}) => {
     const elementRef = useRef<HTMLElement>(null);
 
     useKeyboardControls({

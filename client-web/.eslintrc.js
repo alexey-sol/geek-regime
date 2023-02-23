@@ -16,7 +16,7 @@ module.exports = {
     ignorePatterns: ["build/*", "coverage/*", "dist/*", "node_modules/*"],
     overrides: [
         {
-            files: ["config/**", "*.stories.*"],
+            files: ["config/**", "*.stories.*", "**/views/**"],
             rules: {
                 "import/no-default-export": "off",
             },
@@ -46,6 +46,7 @@ module.exports = {
         "@typescript-eslint/member-delimiter-style": "warn",
         "@typescript-eslint/no-shadow": ["error"],
         "@typescript-eslint/no-empty-function": "error",
+        "@typescript-eslint/explicit-module-boundary-types": "error",
         "@typescript-eslint/no-redeclare": "error",
         "@typescript-eslint/no-unused-vars": "error",
         "@typescript-eslint/no-useless-constructor": "error",

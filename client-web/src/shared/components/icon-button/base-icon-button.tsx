@@ -1,4 +1,8 @@
-import React, { type ButtonHTMLAttributes, ComponentType } from "react";
+import React, {
+    type ButtonHTMLAttributes,
+    type ComponentType,
+    type FC,
+} from "react";
 
 import type { IconProps } from "@/shared/components/icon";
 
@@ -18,12 +22,12 @@ export type BaseIconButtonProps = IconProps
         title?: string;
     };
 
-export const BaseIconButton = ({
+export const BaseIconButton: FC<BaseIconButtonProps> = ({
     color,
     fontSize,
     icon: Icon,
     ...rest
-}: BaseIconButtonProps) => (
+}) => (
     <IconButtonStyled role="button" {...rest}>
         <Icon color={color} fontSize={fontSize} />
     </IconButtonStyled>

@@ -1,8 +1,8 @@
 import React, {
     memo,
-    ReactNode,
     useCallback,
     useMemo,
+    type ReactNode,
 } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -20,12 +20,12 @@ import {
     LeapButtonsWrapStyled,
 } from "./style";
 import * as cn from "./const";
-import type { UsePagingDataArgs } from "./types";
+import type { UsePagingDataArg } from "./types";
 
 const START_PAGE = defaults.PAGING_PAGE;
 const MIN_PAGE_COUNT_TO_SHOW_SPILLS = 3;
 
-export type PagingProps = Partial<UsePagingDataArgs>;
+export type PagingProps = Partial<UsePagingDataArg>;
 
 export const Paging = memo(({
     page = START_PAGE,

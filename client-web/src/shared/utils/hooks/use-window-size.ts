@@ -1,7 +1,12 @@
 import { useEffect, useState } from "react";
 import debounce from "lodash.debounce";
 
-const getWindowSize = () => {
+export type UseWindowSizeResult = {
+    width: number;
+    height: number;
+};
+
+const getWindowSize = (): UseWindowSizeResult => {
     const {
         innerWidth: width,
         innerHeight: height,
@@ -10,7 +15,7 @@ const getWindowSize = () => {
     return { width, height };
 };
 
-export function useWindowSize(delayInMs = 0) {
+export const useWindowSize = (delayInMs = 0): UseWindowSizeResult => {
     const [windowSize, setWindowSize] = useState(getWindowSize());
 
     useEffect(() => {
@@ -28,4 +33,4 @@ export function useWindowSize(delayInMs = 0) {
     }, [delayInMs]);
 
     return windowSize;
-}
+};

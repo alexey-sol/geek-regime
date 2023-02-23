@@ -10,7 +10,11 @@ const mapSizeToLineHeightCoef: Partial<Record<FontSize, number>> = { // [1]
     normal: NORMAL_LINE_HEIGHT_COEF,
 };
 
-export const useTypography = ({ fontSize = "normal" }: HasFontSize) => {
+export type UseTypographyResult = {
+    lineHeight: string;
+};
+
+export const useTypography = ({ fontSize = "normal" }: HasFontSize): UseTypographyResult => {
     const theme = useTheme();
 
     const lineHeightCoef = mapSizeToLineHeightCoef[fontSize] ?? NORMAL_LINE_HEIGHT_COEF;

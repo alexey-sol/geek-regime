@@ -49,7 +49,7 @@ export const ContainerStyled = styled.section<{ width: Breakpoint}>`
 `;
 
 export const decorators = [
-    (StoryComponent: Story, context: StoryContext) => (
+    (StoryComponent: Story, context: StoryContext): JSX.Element => (
         <ThemeProvider theme={theme}>
             <GlobalStyle />
 

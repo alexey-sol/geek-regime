@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type FC } from "react";
 import { t } from "i18next";
 
 import {
@@ -14,7 +14,7 @@ import * as cn from "./const";
 
 export type IconButtonProps = Pick<BaseIconButtonProps, "fontSize" | "onClick" | "title" | "view">;
 
-export const CloseIconButton = ({ title, ...rest }: IconButtonProps) => (
+export const CloseIconButton: FC<IconButtonProps> = ({ title, ...rest }) => (
     <BaseIconButton
         aria-label={cn.ARIA_LABEL_CLOSE}
         icon={CloseIcon}
@@ -23,7 +23,7 @@ export const CloseIconButton = ({ title, ...rest }: IconButtonProps) => (
     />
 );
 
-export const GoBackIconButton = ({ title, ...rest }: IconButtonProps) => (
+export const GoBackIconButton: FC<IconButtonProps> = ({ title, ...rest }) => (
     <BaseIconButton
         aria-label={cn.ARIA_LABEL_GO_BACK}
         icon={GoBackIcon}
@@ -32,7 +32,7 @@ export const GoBackIconButton = ({ title, ...rest }: IconButtonProps) => (
     />
 );
 
-export const I18nIconButton = ({ title, ...rest }: IconButtonProps) => (
+export const I18nIconButton: FC<IconButtonProps> = ({ title, ...rest }) => (
     <BaseIconButton
         aria-label={cn.ARIA_LABEL_I18N}
         icon={I18nIcon}
@@ -41,7 +41,7 @@ export const I18nIconButton = ({ title, ...rest }: IconButtonProps) => (
     />
 );
 
-export const ProfileIconButton = ({ title, ...rest }: IconButtonProps) => (
+export const ProfileIconButton: FC<IconButtonProps> = ({ title, ...rest }) => (
     <BaseIconButton
         aria-label={cn.ARIA_LABEL_PROFILE}
         icon={ProfileIcon}
@@ -50,7 +50,7 @@ export const ProfileIconButton = ({ title, ...rest }: IconButtonProps) => (
     />
 );
 
-export const SearchIconButton = ({ title, ...rest }: IconButtonProps) => (
+export const SearchIconButton: FC<IconButtonProps> = ({ title, ...rest }) => (
     <BaseIconButton
         aria-label={cn.ARIA_LABEL_SEARCH}
         icon={SearchIcon}

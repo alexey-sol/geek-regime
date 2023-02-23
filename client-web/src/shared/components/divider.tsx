@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type FC } from "react";
 import styled from "styled-components";
 
 const DividerStyled = styled.hr`
@@ -7,6 +7,6 @@ const DividerStyled = styled.hr`
     border-bottom: 1px solid ${({ theme }) => theme.colors.greyLighten};
 `;
 
-export const Divider = () => (
+export const Divider: FC = () => (
     <DividerStyled />
 );

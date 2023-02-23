@@ -1,4 +1,4 @@
-import React, { type SVGAttributes } from "react";
+import React, { type FC, type SVGAttributes } from "react";
 import { useTheme } from "styled-components";
 
 import type { HasChildren, HasColor, HasFontSize } from "@/shared/types/props";
@@ -9,12 +9,12 @@ export type IconProps = Partial<HasColor> & Partial<HasFontSize>;
 
 export type BaseIconProps = SVGAttributes<SVGSVGElement> & IconProps & HasChildren;
 
-export const BaseIcon = ({
+export const BaseIcon: FC<BaseIconProps> = ({
     children,
     color,
     fontSize = "normal",
     ...rest
-}: BaseIconProps) => {
+}) => {
     const theme = useTheme();
     const cssFontSizeValue = theme.fontSizes[fontSize];
 

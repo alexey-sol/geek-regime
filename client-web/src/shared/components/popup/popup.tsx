@@ -1,11 +1,11 @@
-import React, { useRef } from "react";
+import React, { type FC, useRef } from "react";
 import ReactDOM from "react-dom";
 
 import { CloseIconButton } from "@/shared/components/icon-button";
 import { Typography } from "@/shared/components/typography";
 import { getRootElement } from "@/shared/utils/helpers/dom";
 import { usePopupData } from "@/shared/components/popup/utils";
-import type { PopupArg } from "@/features/ui/models/entities";
+import type { PopupArg } from "@/features/feedback/models/entities";
 
 import { PopupStyled } from "./style";
 
@@ -14,12 +14,12 @@ export type PopupProps = Pick<PopupArg, "message" | "view"> & {
     onClose: () => void;
 };
 
-export const Popup = ({
+export const Popup: FC<PopupProps> = ({
     durationMs = 10000,
     message,
     onClose,
     ...rest
-}: PopupProps) => {
+}) => {
     const elementRef = useRef<HTMLElement>(null);
 
     usePopupData({

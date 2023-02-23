@@ -1,10 +1,11 @@
 import React, {
-    ChangeEventHandler,
     useCallback,
     useEffect,
     useMemo,
     useRef,
     useState,
+    type ChangeEventHandler,
+    type FC,
 } from "react";
 import ReactQuill from "react-quill";
 import { useTranslation } from "react-i18next";
@@ -27,7 +28,7 @@ export type PostDraftProps = {
     post?: PostDetails;
 };
 
-export const PostDraft = ({ post }: PostDraftProps) => {
+export const PostDraft: FC<PostDraftProps> = ({ post }) => {
     const bodyEditorRef = useRef<ReactQuill>(null);
 
     const { savePost } = useActivePost();

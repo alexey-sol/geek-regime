@@ -1,4 +1,4 @@
-import React, { ButtonHTMLAttributes } from "react";
+import React, { ButtonHTMLAttributes, FC } from "react";
 
 import type { HasColor, HasFontSize } from "@/shared/types/props";
 import type { TypographyStyledProps } from "@/shared/components/typography/style";
@@ -17,7 +17,7 @@ export type ButtonProps = ButtonHTMLAttributes<HTMLButtonElement>
     & Partial<Pick<TypographyStyledProps, "font">>
     & Partial<Pick<BaseIconButtonProps, "icon">>;
 
-export const Button = ({
+export const Button: FC<ButtonProps> = ({
     children,
     color = INHERIT,
     font = INHERIT,
@@ -25,7 +25,7 @@ export const Button = ({
     icon: Icon,
     type = "button",
     ...rest
-}: ButtonProps) => (
+}) => (
     <ButtonStyled type={type} {...rest}>
         {children && (
             <Typography
@@ -41,9 +41,7 @@ export const Button = ({
     </ButtonStyled>
 );
 
-export const LinkButton = (
-    { to, ...rest }: ButtonProps & { to: string },
-) => (
+export const LinkButton: FC<ButtonProps & { to: string }> = ({ to, ...rest }) => (
     <LinkStyled to={to}>
         <Button {...rest} />
     </LinkStyled>

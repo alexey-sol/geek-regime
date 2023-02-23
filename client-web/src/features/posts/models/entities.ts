@@ -20,11 +20,11 @@ export class PostPreview {
         this.author = author;
     }
 
-    get formattedCreatedAt() {
+    get formattedCreatedAt(): string {
         return formatTimestamp(this.createdAt);
     }
 
-    get formattedUpdatedAt() {
+    get formattedUpdatedAt(): string {
         return formatTimestamp(this.updatedAt);
     }
 }

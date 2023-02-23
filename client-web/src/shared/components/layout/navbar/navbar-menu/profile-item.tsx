@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { type FC, useRef } from "react";
 
 import { ProfileDropdown } from "@/features/auth/components/profile-dropdown";
 import { ProfileIconButton } from "@/shared/components/icon-button";
@@ -7,7 +7,7 @@ import { AuthDialog } from "@/features/auth/components/auth-dialog";
 
 import { ProfileItemStyled } from "./style";
 
-export const ProfileItem = () => {
+export const ProfileItem: FC = () => {
     const profileItemRef = useRef<HTMLElement>(null);
 
     const {

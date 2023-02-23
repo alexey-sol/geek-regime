@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type FC } from "react";
 
 import type { FontSize } from "@/shared/types/theme";
 import { useTypography } from "@/shared/utils/hooks/use-typography";
@@ -9,7 +9,7 @@ export type OverviewCaptionProps = {
     title: string;
 };
 
-export const OverviewTitle = ({ title }: OverviewCaptionProps) => {
+export const OverviewTitle: FC<OverviewCaptionProps> = ({ title }) => {
     const fontSize: FontSize = "large";
     const { lineHeight } = useTypography({ fontSize });
 

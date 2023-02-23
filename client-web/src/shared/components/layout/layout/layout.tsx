@@ -1,6 +1,5 @@
-import React from "react";
+import React, { type FC } from "react";
 
-import { ErrorBoundary } from "@/shared/components/error-boundary";
 import { Footer } from "@/shared/components/layout/footer";
 import { Popup } from "@/shared/components/popup";
 import { useLayoutData } from "@/shared/components/layout/layout/utils";
@@ -12,7 +11,7 @@ import { Header } from "../header";
 
 import { LayoutStyled } from "./style";
 
-export const Layout = ({ children }: HasChildren) => {
+export const Layout: FC<HasChildren> = ({ children }) => {
     const { popup, resetPopup } = useLayoutData();
 
     return (
@@ -20,13 +19,13 @@ export const Layout = ({ children }: HasChildren) => {
             <Header />
             <Navbar />
             <Main>
-                <ErrorBoundary>
-                    {children}
-                </ErrorBoundary>
+                {children}
             </Main>
             <Footer />
 
-            {popup && <Popup {...popup} onClose={resetPopup} />}
+            {popup && (
+                <Popup onClose={resetPopup} {...popup} />
+            )}
         </LayoutStyled>
     );
 };

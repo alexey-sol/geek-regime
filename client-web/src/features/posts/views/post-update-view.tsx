@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { type FC, memo } from "react";
 import styled from "styled-components";
 
 import { PostDraft } from "@/features/posts/components/post-draft";
@@ -8,7 +8,7 @@ export const PostUpdateViewStyled = styled.section`
     height: 100%;
 `;
 
-export const PostUpdateView = () => {
+export const PostUpdateView: FC = () => {
     const { isPending, post } = useActivePost();
 
     return (
@@ -20,5 +20,4 @@ export const PostUpdateView = () => {
     );
 };
 
-// eslint-disable-next-line import/no-default-export
 export default memo(() => <PostUpdateView />);

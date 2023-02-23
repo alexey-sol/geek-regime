@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type FC } from "react";
 import { Link } from "react-router-dom";
 
 import { SearchIconButton } from "@/shared/components/icon-button";
@@ -6,7 +6,7 @@ import { SearchIconButton } from "@/shared/components/icon-button";
 import { NavbarMenuStyled } from "./style";
 import { ProfileItem } from "./profile-item";
 
-export const NavbarMenu = () => (
+export const NavbarMenu: FC = () => (
     <NavbarMenuStyled>
         <section>Spaces</section>
 

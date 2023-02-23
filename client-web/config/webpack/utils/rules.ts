@@ -25,7 +25,7 @@ const getPostCssLoader = (isProduction: boolean): webpack.RuleSetUseItem => ({
     },
 });
 
-const getSassLoader = (isProduction: boolean) => ({
+const getSassLoader = (isProduction: boolean): webpack.RuleSetUseItem => ({
     loader: "sass-loader",
     options: {
         sourceMap: !isProduction,

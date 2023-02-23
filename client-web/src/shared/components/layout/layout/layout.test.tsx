@@ -1,7 +1,7 @@
 import React from "react";
 
 import { render, screen } from "@/test/setup";
-import type { PopupArg } from "@/features/ui/models/entities";
+import type { PopupArg } from "@/features/feedback/models/entities";
 
 import { Layout } from "./layout";
 import * as ut from "./utils";

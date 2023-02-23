@@ -1,4 +1,9 @@
-import React, { AriaRole, useEffect, useRef } from "react";
+import React, {
+    useEffect,
+    useRef,
+    type AriaRole,
+    type FC,
+} from "react";
 import ReactDOM from "react-dom";
 
 import { useKeyboardControls } from "@/shared/utils/hooks/use-keyboard-controls";
@@ -8,20 +13,21 @@ import type { HasChildren } from "@/shared/types/props";
 import { BaseDropdownStyled, type BaseDropdownStyledProps } from "./style";
 
 export type BaseDropdownProps = Pick<BaseDropdownStyledProps, "anchorRef" | "position">
-    & HasChildren & {
+    & HasChildren
+    & {
         mouseEvent?: "click" | "mouseup" | "mousedown";
         onClose: () => void;
         role?: AriaRole;
     };
 
-export const BaseDropdown = ({
+export const BaseDropdown: FC<BaseDropdownProps> = ({
     anchorRef,
     children,
     mouseEvent = "click",
     onClose,
     role = "dialog",
     ...rest
-}: BaseDropdownProps) => {
+}) => {
     const elementRef = useRef<HTMLElement>(null);
 
     useEffect(() => {

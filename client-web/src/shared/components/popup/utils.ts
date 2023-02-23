@@ -6,7 +6,7 @@ import type { HasElementRef } from "@/shared/types/props";
 
 export type UsePopupDataArg = HasElementRef & Pick<PopupProps, "durationMs" | "onClose">;
 
-export const usePopupData = ({ durationMs, elementRef, onClose }: UsePopupDataArg) => {
+export const usePopupData = ({ durationMs, elementRef, onClose }: UsePopupDataArg): void => {
     const timerIdRef = useRef<number>(0);
 
     useKeyboardControls({

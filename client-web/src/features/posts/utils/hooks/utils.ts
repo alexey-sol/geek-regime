@@ -11,4 +11,4 @@ export const isCreatePostOnSaveArg = (value: unknown): value is CreatePostOnSave
     return typeof record.title === "string" && typeof record.body === "string";
 };
 
-export const getPathToDetails = (slug: string) => `/${paths.POSTS}/${slug}`;
+export const getPathToDetails = (slug: string): string => `/${paths.POSTS}/${slug}`;

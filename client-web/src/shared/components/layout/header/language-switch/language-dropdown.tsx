@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type FC } from "react";
 
 import { useLanguage } from "@/shared/utils/language";
 
@@ -10,7 +10,7 @@ export type LanguageDropdownProps = {
     onClose: () => void;
 };
 
-export const LanguageDropdown = ({ anchorRef, onClose }: LanguageDropdownProps) => {
+export const LanguageDropdown: FC<LanguageDropdownProps> = ({ anchorRef, onClose }) => {
     const { language, setLanguage } = useLanguage();
 
     const items = getFilteredLanguages(language)

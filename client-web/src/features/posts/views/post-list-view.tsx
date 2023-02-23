@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React, { type FC, memo } from "react";
 import styled from "styled-components";
 
 import { PostList } from "@/features/posts/components/post-list";
@@ -17,7 +17,7 @@ export const InnerStyled = styled.section`
     padding-bottom: ${({ theme }) => theme.components.main.paddingY};
 `;
 
-export const PostListView = () => {
+export const PostListView: FC = () => {
     const { isPending, pagingOptions } = usePostsPage();
     const { page, size, totalItems } = pagingOptions;
 
@@ -39,5 +39,4 @@ export const PostListView = () => {
     );
 };
 
-// eslint-disable-next-line import/no-default-export
 export default memo(() => <PostListView />);

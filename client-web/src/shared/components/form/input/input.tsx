@@ -1,4 +1,4 @@
-import React, { useRef, type HTMLProps } from "react";
+import React, { useRef, type HTMLProps, type FC } from "react";
 
 import {
     HintStyled,
@@ -14,14 +14,14 @@ export type InputProps = Omit<HTMLProps<HTMLInputElement>, "as" | "ref"> & {
     name: string;
 };
 
-export const Input = ({
+export const Input: FC<InputProps> = ({
     hint,
     label,
     name,
     onChange,
     value,
     ...rest
-}: InputProps) => {
+}) => {
     const hintElementRef = useRef(null);
 
     return (

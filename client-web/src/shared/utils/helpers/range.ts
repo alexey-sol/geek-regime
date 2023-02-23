@@ -1,4 +1,4 @@
-export const range = (from: number, to: number, step = 1) => {
+export const range = (from: number, to: number, step = 1): number[] => {
     const result = [];
     let count = from;
 

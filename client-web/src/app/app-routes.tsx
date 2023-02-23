@@ -1,4 +1,4 @@
-import React, { lazy } from "react";
+import React, { type FC, lazy } from "react";
 import { Route, Routes } from "react-router-dom";
 
 import { paths } from "@/shared/const";
@@ -8,7 +8,7 @@ const PostDetailsView = lazy(() => import("@/features/posts/views/post-details-v
 const PostListView = lazy(() => import("@/features/posts/views/post-list-view"));
 const PostUpdateView = lazy(() => import("@/features/posts/views/post-update-view"));
 
-export const AppRoutes = () => (
+export const AppRoutes: FC = () => (
     <Routes>
         <Route index element={<div>Home</div>} />
         <Route path={paths.POSTS}>

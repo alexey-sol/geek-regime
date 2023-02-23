@@ -1,9 +1,14 @@
 import { useTranslation } from "react-i18next";
 import i18next from "i18next";
 
-export const getLanguage = () => i18next.language;
+export const getLanguage = (): string => i18next.language;
 
-export const useLanguage = () => {
+export type UseLanguageResult = {
+    language: string;
+    setLanguage: (lang: string) => ReturnType<typeof i18next.changeLanguage>;
+};
+
+export const useLanguage = (): UseLanguageResult => {
     const { i18n } = useTranslation();
 
     const language = getLanguage();

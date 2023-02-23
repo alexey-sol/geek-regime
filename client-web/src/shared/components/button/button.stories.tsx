@@ -47,13 +47,13 @@ export default {
     },
 } as Meta<ButtonProps>;
 
-export const ByView: Story<ButtonProps> = (args) => (
+export const ByView: Story<ButtonProps> = (arg) => (
     <>
         {views.map((view) => (
             <Button
                 key={view}
                 view={view}
-                {...args}
+                {...arg}
             >
                 {getButtonTitle(view)}
             </Button>
@@ -61,14 +61,14 @@ export const ByView: Story<ButtonProps> = (args) => (
     </>
 );
 
-export const ByViewWithIcon: Story<ButtonProps> = (args) => (
+export const ByViewWithIcon: Story<ButtonProps> = (arg) => (
     <>
         {views.map((view) => (
             <Button
                 key={view}
                 icon={SearchIcon}
                 view={view}
-                {...args}
+                {...arg}
             >
                 {getButtonTitle(view)}
             </Button>

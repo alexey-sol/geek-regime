@@ -1,3 +1,4 @@
 import { dom } from "@/shared/const";
 
-export const getRootElement = () => document.getElementById(dom.ROOT_ELEMENT_ID) ?? document.body;
+export const getRootElement = (): HTMLElement =>
+    document.getElementById(dom.ROOT_ELEMENT_ID) ?? document.body;

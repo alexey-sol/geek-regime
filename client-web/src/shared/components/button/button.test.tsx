@@ -26,7 +26,7 @@ describe("Shared/Button", () => {
 
     test("renders icon", () => {
         const iconStub = "icon-stub";
-        const Icon = () => <svg>{iconStub}</svg>
+        const Icon = () => <svg>{iconStub}</svg>;
 
         render(<Button icon={Icon}>{TITLE}</Button>);
 

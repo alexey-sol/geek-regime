@@ -11,7 +11,7 @@ import { range } from "@/shared/utils/helpers/range";
 import { defaults } from "@/shared/const";
 import { useWindowSize } from "@/shared/utils/hooks/use-window-size";
 
-import type { PagingData, UsePagingDataArgs } from "./types";
+import type { PagingData, UsePagingDataArg } from "./types";
 
 const START_PAGE = defaults.PAGING_PAGE;
 
@@ -27,7 +27,7 @@ export const usePagingData = ({
     qs = "",
     size = defaults.PAGING_SIZE,
     totalItems,
-}: UsePagingDataArgs): PagingData => {
+}: UsePagingDataArg): PagingData => {
     const [spillCount, setSpillCount] = useState(SpillCount.DEFAULT);
 
     const theme = useTheme();

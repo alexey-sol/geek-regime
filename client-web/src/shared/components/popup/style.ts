@@ -2,7 +2,7 @@ import styled, { css } from "styled-components";
 
 import { TypographyStyled } from "@/shared/components/typography/style";
 import { mixins } from "@/app/style/mixins";
-import type { PopupArg } from "@/features/ui/models/entities";
+import type { PopupArg } from "@/features/feedback/models/entities";
 import type { MapKeyToCss } from "@/shared/types/theme";
 
 export type PopupStyledProps = Pick<PopupArg, "view">;

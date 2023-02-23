@@ -1,6 +1,6 @@
-import React from "react";
+import React, { type FC } from "react";
 
-export const Loader = () => (
+export const Loader: FC = () => (
     <div>
         Loading...
     </div>

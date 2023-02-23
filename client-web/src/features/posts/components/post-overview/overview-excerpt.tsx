@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type FC } from "react";
 
 import { FontSize } from "@/shared/types/theme";
 import { useTypography } from "@/shared/utils/hooks/use-typography";
@@ -9,7 +9,7 @@ export type OverviewExcerptProps = {
     excerpt: string;
 };
 
-export const OverviewExcerpt = ({ excerpt }: OverviewExcerptProps) => {
+export const OverviewExcerpt: FC<OverviewExcerptProps> = ({ excerpt }) => {
     const fontSize: FontSize = "normal";
     const { lineHeight } = useTypography({ fontSize });
 

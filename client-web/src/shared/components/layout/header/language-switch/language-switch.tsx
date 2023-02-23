@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { type FC, useRef, useState } from "react";
 
 import { useLanguage } from "@/shared/utils/language";
 import { I18nIconButton } from "@/shared/components/icon-button";
@@ -7,7 +7,7 @@ import { getLanguageTitle } from "./utils";
 import { LanguageDropdown } from "./language-dropdown";
 import { LanguageSwitchStyled } from "./style";
 
-export const LanguageSwitch = () => {
+export const LanguageSwitch: FC = () => {
     const { language } = useLanguage();
     const languageSwitchRef = useRef<HTMLElement>(null);
     const [showDropdown, setShowDropdown] = useState(false);

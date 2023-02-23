@@ -2,7 +2,7 @@ import React from "react";
 
 import { fireEvent, render, screen } from "@/test/setup";
 
-import { BaseIconButton, BaseIconButtonProps } from "./base-icon-button";
+import { BaseIconButton, type BaseIconButtonProps } from "./base-icon-button";
 
 const ICON_STUB = "icon-stub";
 const Icon = () => <svg>{ICON_STUB}</svg>;

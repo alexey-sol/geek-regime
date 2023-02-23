@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type FC } from "react";
 import differenceInMonths from "date-fns/differenceInMonths";
 import { useTranslation } from "react-i18next";
 
@@ -14,7 +14,7 @@ export type PostDetailsProps = {
     post: en.PostDetails;
 };
 
-export const PostDetails = ({ post }: PostDetailsProps) => {
+export const PostDetails: FC<PostDetailsProps> = ({ post }) => {
     const { t } = useTranslation();
     const { language } = useLanguage();
     const createdMonthsAgo = differenceInMonths(new Date(post.createdAt), new Date());

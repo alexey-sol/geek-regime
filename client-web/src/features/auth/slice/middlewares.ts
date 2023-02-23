@@ -3,9 +3,9 @@ import { t } from "i18next";
 import httpStatus from "http-status";
 
 import { authApi } from "@/features/auth/services/api";
-import { createFailurePopupArg, createSuccessPopupArg } from "@/features/ui/slice/utils";
+import { createFailurePopupArg, createSuccessPopupArg } from "@/features/feedback/slice/utils";
 import { hasHttpStatus } from "@/shared/utils/guards";
-import { setPopup } from "@/features/ui/slice";
+import { setPopup } from "@/features/feedback/slice";
 
 const { signIn, signUp } = authApi.endpoints;
 

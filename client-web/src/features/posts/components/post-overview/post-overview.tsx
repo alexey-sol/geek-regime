@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type FC } from "react";
 import { Link } from "react-router-dom";
 
 import { paths } from "@/shared/const";
@@ -17,7 +17,7 @@ export type PostOverviewProps = {
     post: PostPreview;
 };
 
-export const PostOverview = ({ post }: PostOverviewProps) => {
+export const PostOverview: FC<PostOverviewProps> = ({ post }) => {
     const postInfo = `${post.author.details.name} – ${post.formattedCreatedAt}`;
 
     return (

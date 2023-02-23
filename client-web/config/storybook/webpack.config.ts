@@ -4,7 +4,7 @@ import webpack from "webpack";
 
 import { getStyleRule } from "../webpack/utils/rules";
 
-export default ({ config }: { config: webpack.Configuration }) => {
+export default ({ config }: { config: webpack.Configuration }): webpack.Configuration => {
     config.resolve!.alias = {
         "@": path.resolve(__dirname, "..", "..", "src"),
     };

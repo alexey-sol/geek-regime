@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type FC } from "react";
 import { Link } from "react-router-dom";
 
 import { Typography } from "@/shared/components/typography";
@@ -10,7 +10,7 @@ import {
 } from "./style";
 import { NavbarMenu } from "./navbar-menu";
 
-export const Navbar = () => {
+export const Navbar: FC = () => {
     const isWithinSpace = true;
 
     return (

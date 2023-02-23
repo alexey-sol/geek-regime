@@ -1,8 +1,9 @@
 import React, {
-    AriaRole,
-    MouseEventHandler,
     useCallback,
     useRef,
+    type AriaRole,
+    type FC,
+    type MouseEventHandler,
 } from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
@@ -30,14 +31,14 @@ export type OverlayProps = HasChildren & {
     role?: AriaRole;
 };
 
-export const Overlay = ({
+export const Overlay: FC<OverlayProps> = ({
     children,
     className,
     container,
     disableCloseOnClick = false,
     onClose,
     role,
-}: OverlayProps) => {
+}) => {
     const rootRef = useRef<HTMLElement>(null);
 
     const handleMouseDownOnRoot: MouseEventHandler<HTMLElement> = useCallback(({ target }) => {

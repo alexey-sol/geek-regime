@@ -8,4 +8,4 @@ export const formatTimestamp = (
     timestamp: string,
     language = getLanguage(),
     options = defaultOptions,
-) => new Intl.DateTimeFormat(language, options).format(new Date(timestamp));
+): string => new Intl.DateTimeFormat(language, options).format(new Date(timestamp));

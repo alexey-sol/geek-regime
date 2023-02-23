@@ -1,8 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import * as cn from "@/features/posts/services/api/const";
 import { fromPageDtoToPostsPage } from "@/features/posts/utils/converters";
 import { selectPagingOptions } from "@/features/posts/slice/selectors";
+import * as cn from "@/features/posts/services/api/const";
 import type { PostPreviewDto, PostDetailsDto, PostsPage } from "@/features/posts/models/dtos";
 import type { PageDto } from "@/shared/models/dtos";
 

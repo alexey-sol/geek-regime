@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type FC } from "react";
 
 import { BaseDialog } from "@/shared/components/base-dialog";
 import { useAuthDialogData } from "@/features/auth/components/auth-dialog/utils";
@@ -9,7 +9,7 @@ export type AuthDialogProps = {
     onClose: () => void;
 };
 
-export const AuthDialog = ({ onClose }: AuthDialogProps) => {
+export const AuthDialog: FC<AuthDialogProps> = ({ onClose }) => {
     const {
         Form,
         goTo,

@@ -1,4 +1,4 @@
-import { PopupArg } from "@/features/ui/models/entities";
+import { PopupArg } from "@/features/feedback/models/entities";
 
 export const createSuccessPopupArg = (message: PopupArg["message"]): PopupArg => ({
     message,

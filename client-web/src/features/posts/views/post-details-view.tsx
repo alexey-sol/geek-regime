@@ -1,9 +1,9 @@
-import React, { memo } from "react";
+import React, { type FC, memo } from "react";
 
 import { PostDetails } from "@/features/posts/components/post-details";
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 
-export const PostDetailsView = () => {
+export const PostDetailsView: FC = () => {
     const { post, isPending } = useActivePost();
 
     if (!post) {
@@ -18,5 +18,4 @@ export const PostDetailsView = () => {
     );
 };
 
-// eslint-disable-next-line import/no-default-export
 export default memo(() => <PostDetailsView />);

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type FC } from "react";
 
 import { PostOverview } from "@/features/posts/components/post-overview";
 import { Divider } from "@/shared/components/divider";
@@ -6,7 +6,7 @@ import { usePostsPage } from "@/features/posts/utils/hooks/use-posts-page";
 
 import { ListItemStyled, ListStyled, PostListStyled } from "./style";
 
-export const PostList = () => {
+export const PostList: FC = () => {
     const { posts } = usePostsPage();
 
     const postOverviewElements = posts.map((post, index) => (

@@ -3,7 +3,9 @@ import { t } from "i18next";
 
 import * as cn from "@/features/auth/components/sign-up-form/const";
 
-export const getSignInSchema = () => yup.object({
+type Schema = ReturnType<typeof yup.object>;
+
+export const getSignInSchema = (): Schema => yup.object({
     email: yup.string()
         .required(t("errors.validation.emailEmpty"))
         .email(t("errors.validation.emailInvalid")),
@@ -11,7 +13,7 @@ export const getSignInSchema = () => yup.object({
         .required(t("errors.validation.passwordEmpty")),
 });
 
-export const getSignUpSchema = () => yup.object({
+export const getSignUpSchema = (): Schema => yup.object({
     confirmPassword: yup.string()
         .oneOf([yup.ref(cn.PASSWORD_NAME)], t("errors.validation.passwordsNotMatch"))
         .required(t("errors.validation.confirmPasswordEmpty")),

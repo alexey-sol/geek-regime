@@ -19,12 +19,10 @@ export const postsSlice = createSlice({
     name: "posts",
     initialState,
     reducers: {
-        setPagingOptions: (state, {
-            payload: options,
-        }: PayloadAction<Partial<PagingOptions>>) => {
+        setPagingOptions: (state, action: PayloadAction<Partial<PagingOptions>>) => {
             state.pagingOptions = {
                 ...state.pagingOptions,
-                ...options,
+                ...action.payload,
             };
         },
     },

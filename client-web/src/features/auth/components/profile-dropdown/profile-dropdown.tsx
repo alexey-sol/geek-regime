@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type FC } from "react";
 import { useTranslation } from "react-i18next";
 
 import { useAuthContext } from "@/features/auth/contexts/auth";
@@ -10,7 +10,7 @@ export type ProfileDropdownProps = {
     onClose: () => void;
 };
 
-export const ProfileDropdown = ({ anchorRef, onClose }: ProfileDropdownProps) => {
+export const ProfileDropdown: FC<ProfileDropdownProps> = ({ anchorRef, onClose }) => {
     const { t } = useTranslation();
 
     const { isPending, signOut } = useAuthContext();

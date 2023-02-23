@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import "reflect-metadata";
 import "whatwg-fetch";
 
-import React, { ReactElement } from "react";
+import React, { type ReactElement } from "react";
 import { Provider } from "react-redux";
 import { render, RenderOptions, RenderResult } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
@@ -21,6 +21,7 @@ jest.mock("react-i18next", () => ({
     useTranslation: () => ({
         t: (str: string) => str,
         i18n: {
+            // eslint-disable-next-line @typescript-eslint/no-empty-function
             changeLanguage: () => new Promise(() => {}),
         },
     }),

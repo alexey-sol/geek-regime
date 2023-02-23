@@ -1,6 +1,6 @@
-import { PagingOptions } from "@/shared/models/entities";
+import type { PagingOptions } from "@/shared/models/entities";
 
-export type UsePagingDataArgs = PagingOptions & {
+export type UsePagingDataArg = PagingOptions & {
     pageNeighbours: number;
     pathPrefix: string;
     qs: string;

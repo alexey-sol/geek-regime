@@ -1,9 +1,9 @@
 import { useCallback, useMemo } from "react";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
-import { resetPopup } from "@/features/ui/slice";
-import { selectPopup } from "@/features/ui/slice/selectors";
-import type { PopupArg } from "@/features/ui/models/entities";
+import { resetPopup } from "@/features/feedback/slice";
+import { selectPopup } from "@/features/feedback/slice/selectors";
+import type { PopupArg } from "@/features/feedback/models/entities";
 
 export type LayoutData = {
     popup?: PopupArg;

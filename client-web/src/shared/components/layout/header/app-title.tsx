@@ -1,4 +1,4 @@
-import React from "react";
+import React, { type FC } from "react";
 
 import { Typography } from "@/shared/components/typography";
 
@@ -9,7 +9,7 @@ export type TitleProps = {
     to?: string;
 };
 
-export const AppTitle = ({ title, to = "/" }: TitleProps) => (
+export const AppTitle: FC<TitleProps> = ({ title, to = "/" }) => (
     <TitleLinkStyled to={to}>
         <Typography
             color="white"

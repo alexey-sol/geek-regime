@@ -4,7 +4,7 @@ import type { HasElementRef } from "@/shared/types/props";
 
 type Handler = () => void;
 
-type UseKeyboardControlsArgs = HasElementRef & {
+type UseKeyboardControlsArg = HasElementRef & {
     keyboardEvent?: "keydown" | "keyup" | "keypress";
     onAction?: Handler;
     onCancel?: Handler;
@@ -15,7 +15,7 @@ export const useKeyboardControls = ({
     keyboardEvent = "keydown",
     onAction,
     onCancel,
-}: UseKeyboardControlsArgs) => {
+}: UseKeyboardControlsArg): void => {
     useEffect(() => {
         const makeElementActiveIfPossible = () => {
             const { current } = elementRef;

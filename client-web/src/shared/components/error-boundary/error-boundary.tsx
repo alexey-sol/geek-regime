@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React, { Component, ReactNode } from "react";
 
 import type { HasChildren } from "@/shared/types/props";
 
@@ -15,11 +15,11 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
         error: null,
     };
 
-    static getDerivedStateFromError(error: Error) {
+    static getDerivedStateFromError(error: Error): { error: Error } {
         return { error };
     }
 
-    static renderErrorMessage() {
+    static renderErrorMessage(): ReactNode {
         return ( // TODO
             <Typography>
                 Простите, на странице что-то поломалось.
@@ -27,11 +27,11 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
         );
     }
 
-    componentDidCatch(error: Error) {
+    componentDidCatch(error: Error): void {
         console.error(error);
     }
 
-    render() {
+    render(): ReactNode {
         const { error } = this.state;
         const { children } = this.props;
 
