@@ -47,14 +47,14 @@ export const SignInForm: MemoizedAuthForm = memo(({ goTo }) => {
                     <Form>
                         <section>
                             <FormInput
-                                label={t("signIn.local.fields.email")}
+                                label={t("auth.signIn.local.fields.email")}
                                 name={cn.EMAIL_NAME}
                                 onChange={(event) => handleChangeWrap(event, handleChange)}
                                 type="text"
                             />
 
                             <FormInput
-                                label={t("signIn.local.fields.password")}
+                                label={t("auth.signIn.local.fields.password")}
                                 name={cn.PASSWORD_NAME}
                                 onChange={(event) => handleChangeWrap(event, handleChange)}
                                 type="password"
@@ -66,7 +66,7 @@ export const SignInForm: MemoizedAuthForm = memo(({ goTo }) => {
                             isStretched
                             type="submit"
                         >
-                            {t("signIn.local.actionButton.title")}
+                            {t("auth.signIn.local.actionButton.title")}
                         </ButtonStyled>
                     </Form>
                 )}
@@ -74,21 +74,21 @@ export const SignInForm: MemoizedAuthForm = memo(({ goTo }) => {
 
             <section>
                 <Typography>
-                    {t("signIn.signUp.suggestion.preface")}
+                    {t("auth.signIn.signUp.suggestion.preface")}
 
                     <TransparentButtonStyled
                         fontSize="normal"
                         view="transparent"
                         onClick={goToSignUp}
                     >
-                        {t("signIn.signUp.suggestion.link")}
+                        {t("auth.signIn.signUp.suggestion.link")}
                     </TransparentButtonStyled>
                 </Typography>
             </section>
 
             <section>
                 <Typography>
-                    {t("signIn.oauth.suggestion.preface")}
+                    {t("auth.signIn.oauth.suggestion.preface")}
                 </Typography>
 
                 <ButtonStyled
@@ -96,7 +96,7 @@ export const SignInForm: MemoizedAuthForm = memo(({ goTo }) => {
                     onClick={openWindowToSignInViaYandex}
                     view="secondary"
                 >
-                    {t("signIn.oauth.providers.yandex.name")}
+                    {t("auth.signIn.oauth.providers.yandex.name")}
                 </ButtonStyled>
             </section>
         </SignInFormStyled>

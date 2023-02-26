@@ -4,17 +4,17 @@ import ReactDOM from "react-dom";
 import { CloseIconButton } from "@/shared/components/icon-button";
 import { Typography } from "@/shared/components/typography";
 import { getRootElement } from "@/shared/utils/helpers/dom";
-import { usePopupData } from "@/shared/components/popup/utils";
-import type { PopupArg } from "@/features/feedback/models/entities";
+import { useNotificationData } from "@/shared/components/notification/utils";
+import type { NotificationArg } from "@/features/feedback/models/entities";
 
-import { PopupStyled } from "./style";
+import { NotificationStyled } from "./style";
 
-export type PopupProps = Pick<PopupArg, "message" | "view"> & {
+export type NotificationProps = Pick<NotificationArg, "message" | "view"> & {
     durationMs?: number;
     onClose: () => void;
 };
 
-export const Popup: FC<PopupProps> = ({
+export const Notification: FC<NotificationProps> = ({
     durationMs = 10000,
     message,
     onClose,
@@ -22,7 +22,7 @@ export const Popup: FC<PopupProps> = ({
 }) => {
     const elementRef = useRef<HTMLElement>(null);
 
-    usePopupData({
+    useNotificationData({
         durationMs,
         elementRef,
         onClose,
@@ -30,15 +30,15 @@ export const Popup: FC<PopupProps> = ({
 
     const container = getRootElement();
 
-    const popupElement = (
-        <PopupStyled ref={elementRef} {...rest}>
+    const notificationElement = (
+        <NotificationStyled ref={elementRef} {...rest}>
             <Typography>
                 {message}
             </Typography>
 
             <CloseIconButton fontSize="smaller" onClick={onClose} />
-        </PopupStyled>
+        </NotificationStyled>
     );
 
-    return ReactDOM.createPortal(popupElement, container);
+    return ReactDOM.createPortal(notificationElement, container);
 };

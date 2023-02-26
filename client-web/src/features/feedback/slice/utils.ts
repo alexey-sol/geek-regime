@@ -1,16 +1,18 @@
-import { PopupArg } from "@/features/feedback/models/entities";
+import type { NotificationArg } from "@/features/feedback/models/entities";
 
-export const createSuccessPopupArg = (message: PopupArg["message"]): PopupArg => ({
+type CreateNotificationArg = (message: NotificationArg["message"]) => NotificationArg;
+
+export const createSuccessNotificationArg: CreateNotificationArg = (message) => ({
     message,
     view: "success",
 });
 
-export const createFailurePopupArg = (message: PopupArg["message"]): PopupArg => ({
+export const createFailureNotificationArg: CreateNotificationArg = (message) => ({
     message,
     view: "failure",
 });
 
-export const createWarningPopupArg = (message: PopupArg["message"]): PopupArg => ({
+export const createWarningNotificationArg: CreateNotificationArg = (message) => ({
     message,
     view: "warning",
 });

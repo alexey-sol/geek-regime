@@ -1,9 +1,12 @@
 import React, { type FC } from "react";
 
 import { useLanguage } from "@/shared/utils/language";
+import type { ElementPosition } from "@/shared/components/base-popup";
 
 import { getFilteredLanguages, getLanguageTitle } from "./utils";
 import { LanguageDropdownStyled, SwitchButtonStyled } from "./style";
+
+const DROPDOWN_POSITION: ElementPosition = ["center", "bottom"];
 
 export type LanguageDropdownProps = {
     anchorRef?: React.RefObject<HTMLElement>;
@@ -37,7 +40,7 @@ export const LanguageDropdown: FC<LanguageDropdownProps> = ({ anchorRef, onClose
         <LanguageDropdownStyled
             anchorRef={anchorRef}
             onClose={onClose}
-            position="bottom-center"
+            position={DROPDOWN_POSITION}
         >
             <ul>
                 {items}

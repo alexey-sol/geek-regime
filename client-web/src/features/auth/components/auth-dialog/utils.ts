@@ -25,13 +25,13 @@ export const useAuthDialogData = (): AuthDialogData => {
     switch (view) {
         case "sign-up":
             Form = SignUpForm;
-            titleKey = "signUp.wrap.title";
+            titleKey = "auth.signUp.title";
             handleGoBack = () => setView("sign-in");
             break;
         case INITIAL_VIEW:
         default:
             Form = SignInForm;
-            titleKey = "signIn.wrap.title";
+            titleKey = "auth.signIn.title";
             break;
     }
 

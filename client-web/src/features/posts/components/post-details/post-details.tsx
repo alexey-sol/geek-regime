@@ -39,19 +39,20 @@ export const PostDetails: FC<PostDetailsProps> = ({ post }) => {
 
             <InfoStyled>
                 <Typography view="hint">
-                    {`${t("post.createdAt")} ${post.formattedCreatedAt} (${createdMonthsAgoText})`}
+                    {`${t("posts.post.createdAt")} ${post.formattedCreatedAt}`
+                        + ` (${createdMonthsAgoText})`}
                 </Typography>
 
                 {hasUpdates && (
                     <Typography view="hint">
-                        {`${t("post.updatedAt")} ${post.formattedUpdatedAt}`}
+                        {`${t("posts.post.updatedAt")} ${post.formattedUpdatedAt}`}
                     </Typography>
                 )}
             </InfoStyled>
 
             <section>
                 <LinkButton to={updatePostPath}>
-                    {t("draft.controls.editPostButton.title")}
+                    {t("posts.draft.actions.editPostButton.title")}
                 </LinkButton>
             </section>
         </PostDetailsStyled>

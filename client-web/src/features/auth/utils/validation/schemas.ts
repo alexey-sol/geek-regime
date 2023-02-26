@@ -7,23 +7,23 @@ type Schema = ReturnType<typeof yup.object>;
 
 export const getSignInSchema = (): Schema => yup.object({
     email: yup.string()
-        .required(t("errors.validation.emailEmpty"))
-        .email(t("errors.validation.emailInvalid")),
+        .required(t("auth.errors.validation.emailEmpty"))
+        .email(t("auth.errors.validation.emailInvalid")),
     password: yup.string()
-        .required(t("errors.validation.passwordEmpty")),
+        .required(t("auth.errors.validation.passwordEmpty")),
 });
 
 export const getSignUpSchema = (): Schema => yup.object({
     confirmPassword: yup.string()
-        .oneOf([yup.ref(cn.PASSWORD_NAME)], t("errors.validation.passwordsNotMatch"))
-        .required(t("errors.validation.confirmPasswordEmpty")),
+        .oneOf([yup.ref(cn.PASSWORD_NAME)], t("auth.errors.validation.passwordsNotMatch"))
+        .required(t("auth.errors.validation.confirmPasswordEmpty")),
     email: yup.string()
-        .required(t("errors.validation.emailEmpty"))
-        .email(t("errors.validation.emailInvalid")),
+        .required(t("auth.errors.validation.emailEmpty"))
+        .email(t("auth.errors.validation.emailInvalid")),
     name: yup.string()
-        .required(t("errors.validation.nameEmpty"))
-        .min(3, t("errors.validation.nameTooShort"))
-        .max(30, t("errors.validation.nameTooLong")),
+        .required(t("auth.errors.validation.nameEmpty"))
+        .min(3, t("auth.errors.validation.nameTooShort"))
+        .max(30, t("auth.errors.validation.nameTooLong")),
     password: yup.string()
-        .required(t("errors.validation.passwordEmpty")),
+        .required(t("auth.errors.validation.passwordEmpty")),
 });

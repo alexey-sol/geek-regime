@@ -65,8 +65,8 @@ export const PostDraft: FC<PostDraftProps> = ({ post }) => {
     }, [savePost, values]);
 
     const savePostButtonTitle = post
-        ? t("draft.controls.updatePostButton.title")
-        : t("draft.controls.createPostButton.title");
+        ? t("posts.draft.actions.updatePostButton.title")
+        : t("posts.draft.actions.createPostButton.title");
 
     useEffect(() => {
         const focusOnDraftBodyIfPossible = () => {
@@ -88,14 +88,14 @@ export const PostDraft: FC<PostDraftProps> = ({ post }) => {
             <TitleInputStyled
                 value={values.title}
                 onChange={handleTitleChange}
-                placeholder={t("draft.title.placeholder")}
+                placeholder={t("posts.draft.title.placeholder")}
             />
 
             <BodyEditorWrapStyled>
                 <BodyEditorStyled
                     editorRef={bodyEditorRef}
                     onChange={handleBodyChange}
-                    placeholder={t("draft.body.placeholder")}
+                    placeholder={t("posts.draft.body.placeholder")}
                     value={values.body}
                 />
             </BodyEditorWrapStyled>
@@ -106,7 +106,7 @@ export const PostDraft: FC<PostDraftProps> = ({ post }) => {
                 </Button>
 
                 <Button onClick={goBack}>
-                    {t("draft.controls.cancelButton.title")}
+                    {t("posts.draft.actions.cancelButton.title")}
                 </Button>
             </ControlsWrapStyled>
         </PostDraftStyled>

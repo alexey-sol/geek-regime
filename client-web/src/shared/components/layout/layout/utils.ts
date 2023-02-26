@@ -1,25 +1,25 @@
 import { useCallback, useMemo } from "react";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
-import { resetPopup } from "@/features/feedback/slice";
-import { selectPopup } from "@/features/feedback/slice/selectors";
-import type { PopupArg } from "@/features/feedback/models/entities";
+import { resetNotification } from "@/features/feedback/slice";
+import { selectNotification } from "@/features/feedback/slice/selectors";
+import type { NotificationArg } from "@/features/feedback/models/entities";
 
 export type LayoutData = {
-    popup?: PopupArg;
-    resetPopup: () => void;
+    notification?: NotificationArg;
+    resetNotification: () => void;
 };
 
 export const useLayoutData = (): LayoutData => {
     const dispatch = useAppDispatch();
-    const onResetPopup = useCallback(() => {
-        dispatch(resetPopup());
+    const onResetNotification = useCallback(() => {
+        dispatch(resetNotification());
     }, [dispatch]);
 
-    const popup = useAppSelector(selectPopup);
+    const notification = useAppSelector(selectNotification);
 
     return useMemo(() => ({
-        popup,
-        resetPopup: onResetPopup,
-    }), [onResetPopup, popup]);
+        notification,
+        resetNotification: onResetNotification,
+    }), [onResetNotification, notification]);
 };

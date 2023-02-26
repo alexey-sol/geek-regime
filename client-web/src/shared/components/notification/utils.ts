@@ -1,12 +1,17 @@
 import { useEffect, useRef } from "react";
 
 import { useKeyboardControls } from "@/shared/utils/hooks/use-keyboard-controls";
-import type { PopupProps } from "@/shared/components/popup/popup";
+import type { NotificationProps } from "@/shared/components/notification";
 import type { HasElementRef } from "@/shared/types/props";
 
-export type UsePopupDataArg = HasElementRef & Pick<PopupProps, "durationMs" | "onClose">;
+export type UseNotificationDataArg = HasElementRef
+    & Pick<NotificationProps, "durationMs" | "onClose">;
 
-export const usePopupData = ({ durationMs, elementRef, onClose }: UsePopupDataArg): void => {
+export const useNotificationData = ({
+    durationMs,
+    elementRef,
+    onClose,
+}: UseNotificationDataArg): void => {
     const timerIdRef = useRef<number>(0);
 
     useKeyboardControls({

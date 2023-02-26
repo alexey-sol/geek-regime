@@ -18,7 +18,7 @@ export const CloseIconButton: FC<IconButtonProps> = ({ title, ...rest }) => (
     <BaseIconButton
         aria-label={cn.ARIA_LABEL_CLOSE}
         icon={CloseIcon}
-        title={title ?? t("dialog.closeButton.title")}
+        title={title ?? t("shared.dialog.closeButton.tooltip")}
         {...rest}
     />
 );
@@ -27,7 +27,7 @@ export const GoBackIconButton: FC<IconButtonProps> = ({ title, ...rest }) => (
     <BaseIconButton
         aria-label={cn.ARIA_LABEL_GO_BACK}
         icon={GoBackIcon}
-        title={title ?? t("dialog.goBackButton.title")}
+        title={title ?? t("shared.dialog.goBackButton.tooltip")}
         {...rest}
     />
 );
@@ -36,7 +36,7 @@ export const I18nIconButton: FC<IconButtonProps> = ({ title, ...rest }) => (
     <BaseIconButton
         aria-label={cn.ARIA_LABEL_I18N}
         icon={I18nIcon}
-        title={title ?? t("navbar.i18nButton.title")}
+        title={title ?? t("shared.navbar.i18nButton.tooltip")}
         {...rest}
     />
 );
@@ -45,7 +45,7 @@ export const ProfileIconButton: FC<IconButtonProps> = ({ title, ...rest }) => (
     <BaseIconButton
         aria-label={cn.ARIA_LABEL_PROFILE}
         icon={ProfileIcon}
-        title={title ?? t("navbar.profileButton.title")}
+        title={title ?? t("shared.navbar.profileButton.tooltip")}
         {...rest}
     />
 );
@@ -54,7 +54,7 @@ export const SearchIconButton: FC<IconButtonProps> = ({ title, ...rest }) => (
     <BaseIconButton
         aria-label={cn.ARIA_LABEL_SEARCH}
         icon={SearchIcon}
-        title={title ?? t("navbar.searchButton.title")}
+        title={title ?? t("shared.navbar.searchButton.tooltip")}
         {...rest}
     />
 );

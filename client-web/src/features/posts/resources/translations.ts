@@ -1,63 +1,67 @@
 export const en = {
-    draft: {
-        body: {
-            placeholder: "And here's what you wanna say",
+    posts: {
+        draft: {
+            actions: {
+                cancelButton: {
+                    title: "Dismiss",
+                },
+                createPostButton: {
+                    title: "Publish",
+                },
+                editPostButton: {
+                    title: "Edit",
+                },
+                removePostButton: {
+                    title: "Remove",
+                },
+                updatePostButton: {
+                    title: "Save",
+                },
+            },
+            body: {
+                placeholder: "And here's what you wanna say",
+            },
+            title: {
+                placeholder: "Here's a title",
+            },
         },
-        controls: {
-            cancelButton: {
-                title: "Dismiss",
-            },
-            createPostButton: {
-                title: "Publish",
-            },
-            editPostButton: {
-                title: "Edit",
-            },
-            removePostButton: {
-                title: "Remove",
-            },
-            updatePostButton: {
-                title: "Save",
-            },
+        post: {
+            createdAt: "Created at:",
+            updatedAt: "Updated at:",
         },
-        title: {
-            placeholder: "Here's a title",
-        },
-    },
-    post: {
-        createdAt: "Created at:",
-        updatedAt: "Updated at:",
     },
 };
 
 export const ru = {
-    draft: {
-        body: {
-            placeholder: "А здесь то, что вы хотите сказать",
+    posts: {
+        draft: {
+            actions: {
+                cancelButton: {
+                    title: "Отменить",
+                },
+                createPostButton: {
+                    title: "Опубликовать",
+                },
+                editPostButton: {
+                    title: "Редактировать",
+                },
+                removePostButton: {
+                    title: "Удалить",
+                },
+                updatePostButton: {
+                    title: "Сохранить",
+                },
+            },
+            body: {
+                placeholder: "А здесь то, что вы хотите сказать",
+            },
+            title: {
+                placeholder: "Здесь заголовок",
+            },
         },
-        controls: {
-            cancelButton: {
-                title: "Отменить",
-            },
-            createPostButton: {
-                title: "Опубликовать",
-            },
-            editPostButton: {
-                title: "Редактировать",
-            },
-            removePostButton: {
-                title: "Удалить",
-            },
-            updatePostButton: {
-                title: "Сохранить",
-            },
+        post: {
+            createdAt: "Создано:",
+            updatedAt: "Обновлено:",
         },
-        title: {
-            placeholder: "Здесь заголовок",
-        },
-    },
-    post: {
-        createdAt: "Создано:",
-        updatedAt: "Обновлено:",
     },
 };

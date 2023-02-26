@@ -2,14 +2,14 @@ import styled, { css } from "styled-components";
 
 import { TypographyStyled } from "@/shared/components/typography/style";
 import { mixins } from "@/app/style/mixins";
-import type { PopupArg } from "@/features/feedback/models/entities";
+import type { NotificationArg } from "@/features/feedback/models/entities";
 import type { MapKeyToCss } from "@/shared/types/theme";
 
-export type PopupStyledProps = Pick<PopupArg, "view">;
+export type NotificationStyledProps = Pick<NotificationArg, "view">;
 
 const MARGIN = "1rem";
 
-const mapViewToCss: MapKeyToCss<NonNullable<PopupStyledProps["view"]>> = {
+const mapViewToCss: MapKeyToCss<NonNullable<NotificationStyledProps["view"]>> = {
     failure: css(({ theme: { colors } }) => css`
         background-color: ${colors.redLighten};
         border: 1px solid ${colors.redLight};
@@ -27,7 +27,7 @@ const mapViewToCss: MapKeyToCss<NonNullable<PopupStyledProps["view"]>> = {
     `),
 };
 
-export const PopupStyled = styled.section<PopupStyledProps>`
+export const NotificationStyled = styled.section<NotificationStyledProps>`
     position: fixed;
     z-index: ${({ theme }) => theme.zIndex.modal};
     top: ${MARGIN};

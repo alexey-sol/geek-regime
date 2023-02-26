@@ -1,29 +1,29 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
-import type { PopupArg } from "@/features/feedback/models/entities";
+import type { NotificationArg } from "@/features/feedback/models/entities";
 
 export type FeedbackState = {
-    popup?: PopupArg;
+    notification?: NotificationArg;
 };
 
 const initialState: FeedbackState = {
-    popup: undefined,
+    notification: undefined,
 };
 
 export const feedbackSlice = createSlice({
     name: "feedback",
     initialState,
     reducers: {
-        resetPopup: (state) => {
-            state.popup = initialState.popup;
+        resetNotification: (state) => {
+            state.notification = initialState.notification;
         },
-        setPopup: (state, action: PayloadAction<PopupArg>) => {
-            feedbackSlice.actions.resetPopup();
-            state.popup = action.payload;
+        setNotification: (state, action: PayloadAction<NotificationArg>) => {
+            feedbackSlice.actions.resetNotification();
+            state.notification = action.payload;
         },
     },
 });
 
-export const { resetPopup, setPopup } = feedbackSlice.actions;
+export const { resetNotification, setNotification } = feedbackSlice.actions;
 
 export const feedbackReducer = feedbackSlice.reducer;

@@ -6,13 +6,12 @@ import React, {
 } from "react";
 import ReactDOM from "react-dom";
 
+import { BasePopup, type BasePopupStyledProps } from "@/shared/components/base-popup";
 import { useKeyboardControls } from "@/shared/utils/hooks/use-keyboard-controls";
 import { getRootElement } from "@/shared/utils/helpers/dom";
 import type { HasChildren } from "@/shared/types/props";
 
-import { BaseDropdownStyled, type BaseDropdownStyledProps } from "./style";
-
-export type BaseDropdownProps = Pick<BaseDropdownStyledProps, "anchorRef" | "position">
+export type BaseDropdownProps = Pick<BasePopupStyledProps, "anchorRef" | "position">
     & HasChildren
     & {
         mouseEvent?: "click" | "mouseup" | "mousedown";
@@ -59,7 +58,7 @@ export const BaseDropdown: FC<BaseDropdownProps> = ({
     const container = anchorRef?.current ?? getRootElement();
 
     const dropdownElement = (
-        <BaseDropdownStyled
+        <BasePopup
             anchorRef={anchorRef}
             ref={elementRef}
             role={role}
@@ -67,7 +66,7 @@ export const BaseDropdown: FC<BaseDropdownProps> = ({
             {...rest}
         >
             {children}
-        </BaseDropdownStyled>
+        </BasePopup>
     );
 
     return ReactDOM.createPortal(dropdownElement, container);

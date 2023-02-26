@@ -7,6 +7,7 @@ import React, {
 import { useTranslation } from "react-i18next";
 
 import { defaults } from "@/shared/const";
+import { Tooltip } from "@/shared/components/tooltip";
 
 import { usePagingData } from "./utils";
 import {
@@ -130,43 +131,46 @@ export const Paging = memo(({
             {isMinifiedView && hasLeapButtons && (
                 <LeapButtonsWrapStyled>
                     <li>
-                        <LeapButtonStyled
-                            aria-label={cn.ARIA_LABEL_START_PAGE}
-                            disabled={!hasLeftSpill}
-                            onClick={toStartPage}
-                            title={`${t("paging.leapButton.toStart.title")} 1`}
-                            view="transparent"
-                        >
-                            {t("paging.leapButton.toStart.text")}
-                        </LeapButtonStyled>
+                        <Tooltip message={`${t("shared.paging.leapButton.toStart.tooltip")} 1`}>
+                            <LeapButtonStyled
+                                aria-label={cn.ARIA_LABEL_START_PAGE}
+                                disabled={!hasLeftSpill}
+                                onClick={toStartPage}
+                                view="transparent"
+                            >
+                                {t("shared.paging.leapButton.toStart.title")}
+                            </LeapButtonStyled>
+                        </Tooltip>
                     </li>
 
                     <li>
-                        <LeapButtonStyled
-                            aria-label={cn.ARIA_LABEL_LAST_PAGE}
-                            disabled={!hasRightSpill}
-                            onClick={toLastPage}
-                            title={`${t("paging.leapButton.toEnd.title")} ${lastPage}`}
-                            view="transparent"
-                        >
-                            {t("paging.leapButton.toEnd.text")}
-                        </LeapButtonStyled>
+                        <Tooltip message={`${t("shared.paging.leapButton.toEnd.tooltip")} ${lastPage}`}>
+                            <LeapButtonStyled
+                                aria-label={cn.ARIA_LABEL_LAST_PAGE}
+                                disabled={!hasRightSpill}
+                                onClick={toLastPage}
+                                view="transparent"
+                            >
+                                {t("shared.paging.leapButton.toEnd.title")}
+                            </LeapButtonStyled>
+                        </Tooltip>
                     </li>
                 </LeapButtonsWrapStyled>
             )}
 
             <StepButtonsWrapStyled>
                 <section>
-                    <StepButtonStyled
-                        aria-label={cn.ARIA_LABEL_PREVIOUS_PAGE}
-                        disabled={isStartPage}
-                        fontSize="larger"
-                        onClick={toPreviousPage}
-                        title={t("paging.stepButton.previous.title")}
-                        view="secondary"
-                    >
-                        &laquo;
-                    </StepButtonStyled>
+                    <Tooltip message={t("shared.paging.stepButton.previous.tooltip")}>
+                        <StepButtonStyled
+                            aria-label={cn.ARIA_LABEL_PREVIOUS_PAGE}
+                            disabled={isStartPage}
+                            fontSize="larger"
+                            onClick={toPreviousPage}
+                            view="secondary"
+                        >
+                            &laquo;
+                        </StepButtonStyled>
+                    </Tooltip>
                 </section>
 
                 <PageNumbersWrapStyled>
@@ -174,16 +178,17 @@ export const Paging = memo(({
                 </PageNumbersWrapStyled>
 
                 <section>
-                    <StepButtonStyled
-                        aria-label={cn.ARIA_LABEL_NEXT_PAGE}
-                        disabled={isLastPage}
-                        fontSize="larger"
-                        onClick={toNextPage}
-                        title={t("paging.stepButton.next.title")}
-                        view="secondary"
-                    >
-                        &raquo;
-                    </StepButtonStyled>
+                    <Tooltip message={t("shared.paging.stepButton.next.tooltip")}>
+                        <StepButtonStyled
+                            aria-label={cn.ARIA_LABEL_NEXT_PAGE}
+                            disabled={isLastPage}
+                            fontSize="larger"
+                            onClick={toNextPage}
+                            view="secondary"
+                        >
+                            &raquo;
+                        </StepButtonStyled>
+                    </Tooltip>
                 </section>
             </StepButtonsWrapStyled>
         </PagingStyled>

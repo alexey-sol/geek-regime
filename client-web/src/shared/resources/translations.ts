@@ -1,94 +1,94 @@
 export const en = {
-    common: {
+    shared: {
+        dialog: {
+            closeButton: {
+                tooltip: "Close",
+            },
+            goBackButton: {
+                tooltip: "Go back",
+            },
+        },
         query: {
             error: "Something went wrong",
             success: "Done",
         },
-    },
-    dialog: {
-        closeButton: {
-            title: "Close",
-        },
-        goBackButton: {
-            title: "Go back",
-        },
-    },
-    navbar: {
-        i18nButton: {
-            title: "Select language",
-        },
-        profileButton: {
-            title: "Account",
-        },
-        searchButton: {
-            title: "Search",
-        },
-    },
-    paging: {
-        leapButton: {
-            toEnd: {
-                text: "To end",
-                title: "To page",
+        navbar: {
+            i18nButton: {
+                tooltip: "Select language",
             },
-            toStart: {
-                text: "To start", // TODO inconsistency with text / title. Maybe "tooltip"?
-                title: "To page",
+            profileButton: {
+                tooltip: "Account",
+            },
+            searchButton: {
+                tooltip: "Search",
             },
         },
-        stepButton: {
-            next: {
-                title: "Next page",
+        paging: {
+            leapButton: {
+                toEnd: {
+                    title: "To end",
+                    tooltip: "To page",
+                },
+                toStart: {
+                    title: "To start",
+                    tooltip: "To page",
+                },
             },
-            previous: {
-                title: "Previous page",
+            stepButton: {
+                next: {
+                    tooltip: "Next page",
+                },
+                previous: {
+                    tooltip: "Previous page",
+                },
             },
         },
     },
 };
 
 export const ru = {
-    common: {
+    shared: {
+        dialog: {
+            closeButton: {
+                tooltip: "Закрыть",
+            },
+            goBackButton: {
+                tooltip: "Назад",
+            },
+        },
         query: {
             error: "Что-то пошло не так",
             success: "Готово",
         },
-    },
-    dialog: {
-        closeButton: {
-            title: "Закрыть",
-        },
-        goBackButton: {
-            title: "Назад",
-        },
-    },
-    navbar: {
-        i18nButton: {
-            title: "Выбрать язык",
-        },
-        profileButton: {
-            title: "Учетная запись",
-        },
-        searchButton: {
-            title: "Поиск",
-        },
-    },
-    paging: {
-        leapButton: {
-            toEnd: {
-                text: "В конец",
-                title: "На страницу",
+        navbar: {
+            i18nButton: {
+                tooltip: "Выбрать язык",
             },
-            toStart: {
-                text: "В начало",
-                title: "На страницу",
+            profileButton: {
+                tooltip: "Учетная запись",
+            },
+            searchButton: {
+                tooltip: "Поиск",
             },
         },
-        stepButton: {
-            next: {
-                title: "На следующую страницу",
+        paging: {
+            leapButton: {
+                toEnd: {
+                    title: "В конец",
+                    tooltip: "На страницу",
+                },
+                toStart: {
+                    title: "В начало",
+                    tooltip: "На страницу",
+                },
             },
-            previous: {
-                title: "На предыдущую страницу",
+            stepButton: {
+                next: {
+                    tooltip: "На следующую страницу",
+                },
+                previous: {
+                    tooltip: "На предыдущую страницу",
+                },
             },
         },
     },

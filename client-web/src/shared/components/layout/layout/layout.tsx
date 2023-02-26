@@ -1,7 +1,7 @@
 import React, { type FC } from "react";
 
 import { Footer } from "@/shared/components/layout/footer";
-import { Popup } from "@/shared/components/popup";
+import { Notification } from "@/shared/components/notification";
 import { useLayoutData } from "@/shared/components/layout/layout/utils";
 import type { HasChildren } from "@/shared/types/props";
 
@@ -12,7 +12,7 @@ import { Header } from "../header";
 import { LayoutStyled } from "./style";
 
 export const Layout: FC<HasChildren> = ({ children }) => {
-    const { popup, resetPopup } = useLayoutData();
+    const { notification, resetNotification } = useLayoutData();
 
     return (
         <LayoutStyled>
@@ -23,8 +23,11 @@ export const Layout: FC<HasChildren> = ({ children }) => {
             </Main>
             <Footer />
 
-            {popup && (
-                <Popup onClose={resetPopup} {...popup} />
+            {notification && (
+                <Notification
+                    onClose={resetNotification}
+                    {...notification}
+                />
             )}
         </LayoutStyled>
     );

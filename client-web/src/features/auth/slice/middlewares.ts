@@ -3,13 +3,16 @@ import { t } from "i18next";
 import httpStatus from "http-status";
 
 import { authApi } from "@/features/auth/services/api";
-import { createFailurePopupArg, createSuccessPopupArg } from "@/features/feedback/slice/utils";
+import {
+    createFailureNotificationArg,
+    createSuccessNotificationArg,
+} from "@/features/feedback/slice/utils";
 import { hasHttpStatus } from "@/shared/utils/guards";
-import { setPopup } from "@/features/feedback/slice";
+import { setNotification } from "@/features/feedback/slice";
 
 const { signIn, signUp } = authApi.endpoints;
 
-const COMMON_ERROR_KEY = "common.query.error";
+const COMMON_ERROR_KEY = "shared.query.error";
 
 export const authListener = createListenerMiddleware();
 
@@ -23,11 +26,11 @@ authListener.startListening({
             const isNotFound = error.status === httpStatus.NOT_FOUND;
 
             const message = (isForbidden || isNotFound)
-                ? t("signIn.query.forbiddenOrNotFoundError")
+                ? t("auth.signIn.query.forbiddenOrNotFoundError")
                 : t(COMMON_ERROR_KEY);
 
-            const arg = createFailurePopupArg(message);
-            listenerApi.dispatch(setPopup(arg));
+            const arg = createFailureNotificationArg(message);
+            listenerApi.dispatch(setNotification(arg));
         }
     },
 });
@@ -35,8 +38,8 @@ authListener.startListening({
 authListener.startListening({
     matcher: signUp.matchFulfilled,
     effect: (action, listenerApi) => {
-        const arg = createSuccessPopupArg(t("signUp.query.success"));
-        listenerApi.dispatch(setPopup(arg));
+        const arg = createSuccessNotificationArg(t("auth.signUp.query.success"));
+        listenerApi.dispatch(setNotification(arg));
     },
 });
 
@@ -49,11 +52,11 @@ authListener.startListening({
             const isConflict = error.status === httpStatus.CONFLICT;
 
             const message = (isConflict)
-                ? t("signUp.query.emailAlreadyExistsError")
+                ? t("auth.signUp.query.emailAlreadyExistsError")
                 : t(COMMON_ERROR_KEY);
 
-            const arg = createFailurePopupArg(message);
-            listenerApi.dispatch(setPopup(arg));
+            const arg = createFailureNotificationArg(message);
+            listenerApi.dispatch(setNotification(arg));
         }
     },
 });

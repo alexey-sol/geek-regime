@@ -40,28 +40,28 @@ export const SignUpForm: MemoizedAuthForm = memo(() => {
                     <FormStyled>
                         <section>
                             <FormInput
-                                label={t("signUp.fields.email")}
+                                label={t("auth.signUp.fields.email")}
                                 name={cn.EMAIL_NAME}
                                 onChange={(event) => handleChangeWrap(event, handleChange)}
                                 type="text"
                             />
 
                             <FormInput
-                                label={t("signUp.fields.password")}
+                                label={t("auth.signUp.fields.password")}
                                 name={cn.PASSWORD_NAME}
                                 onChange={(event) => handleChangeWrap(event, handleChange)}
                                 type="password"
                             />
 
                             <FormInput
-                                label={t("signUp.fields.confirmPassword")}
+                                label={t("auth.signUp.fields.confirmPassword")}
                                 name={cn.CONFIRM_PASSWORD_NAME}
                                 onChange={(event) => handleChangeWrap(event, handleChange)}
                                 type="password"
                             />
 
                             <FormInput
-                                label={t("signUp.fields.name")}
+                                label={t("auth.signUp.fields.name")}
                                 name={cn.USERNAME_NAME}
                                 onChange={(event) => handleChangeWrap(event, handleChange)}
                                 type="text"
@@ -73,7 +73,7 @@ export const SignUpForm: MemoizedAuthForm = memo(() => {
                             isStretched
                             type="submit"
                         >
-                            {t("signUp.actionButton.title")}
+                            {t("auth.signUp.actionButton.title")}
                         </ButtonStyled>
                     </FormStyled>
                 )}

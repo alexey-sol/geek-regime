@@ -26,7 +26,7 @@ export const transformGetAllPostsArg = (arg?: GetAllPostsArg): string | undefine
 
 export const createTag = (id: string | number = cn.TAG_LIST_ID): {
     id: string | number;
-    type: string;
+    type: typeof cn.POSTS_TAG_TYPE;
 } => ({
     id,
     type: cn.POSTS_TAG_TYPE,
