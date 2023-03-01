@@ -4,20 +4,20 @@ import React, {
 
 import { Typography } from "@/shared/components/typography";
 import {
-    BasePopup,
     type ElementPosition,
     type ElementPositionX,
     type ElementPositionY,
 } from "@/shared/components/base-popup";
 import type { HasChildren } from "@/shared/types/props";
 
-import { TooltipWrapStyled } from "./style";
+import { BasePopupStyled, TooltipWrapStyled } from "./style";
 
 export type TooltipProps = HasChildren & {
+    disabled?: boolean;
     message: string;
 };
 
-export const Tooltip: FC<TooltipProps> = ({ children, message }) => {
+export const Tooltip: FC<TooltipProps> = ({ children, disabled = false, message }) => {
     const [isOpen, setIsOpen] = useState(false);
 
     const childrenWrapRef = useRef<HTMLElement>(null);
@@ -47,6 +47,10 @@ export const Tooltip: FC<TooltipProps> = ({ children, message }) => {
     );
 
     useEffect(() => {
+        if (disabled) {
+            return;
+        }
+
         if (isOpen && tooltipRef.current) {
             const tooltipRect = tooltipRef.current.getBoundingClientRect();
 
@@ -73,7 +77,9 @@ export const Tooltip: FC<TooltipProps> = ({ children, message }) => {
             setPositionX("center");
             setPositionY("top");
         }
-    }, [isOpen]);
+    }, [disabled, isOpen]);
+
+    const showTooltip = !disabled && isOpen;
 
     return (
         <TooltipWrapStyled>
@@ -81,8 +87,8 @@ export const Tooltip: FC<TooltipProps> = ({ children, message }) => {
                 {children}
             </section>
 
-            {isOpen && (
-                <BasePopup
+            {showTooltip && (
+                <BasePopupStyled
                     hasGap
                     position={position}
                     ref={tooltipRef}
@@ -91,7 +97,7 @@ export const Tooltip: FC<TooltipProps> = ({ children, message }) => {
                     <Typography fontSize="smaller">
                         {message}
                     </Typography>
-                </BasePopup>
+                </BasePopupStyled>
             )}
         </TooltipWrapStyled>
     );

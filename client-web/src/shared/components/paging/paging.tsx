@@ -131,7 +131,10 @@ export const Paging = memo(({
             {isMinifiedView && hasLeapButtons && (
                 <LeapButtonsWrapStyled>
                     <li>
-                        <Tooltip message={`${t("shared.paging.leapButton.toStart.tooltip")} 1`}>
+                        <Tooltip
+                            disabled={!hasLeftSpill}
+                            message={`${t("shared.paging.leapButton.toStart.tooltip")} 1`}
+                        >
                             <LeapButtonStyled
                                 aria-label={cn.ARIA_LABEL_START_PAGE}
                                 disabled={!hasLeftSpill}
@@ -144,7 +147,10 @@ export const Paging = memo(({
                     </li>
 
                     <li>
-                        <Tooltip message={`${t("shared.paging.leapButton.toEnd.tooltip")} ${lastPage}`}>
+                        <Tooltip
+                            disabled={!hasRightSpill}
+                            message={`${t("shared.paging.leapButton.toEnd.tooltip")} ${lastPage}`}
+                        >
                             <LeapButtonStyled
                                 aria-label={cn.ARIA_LABEL_LAST_PAGE}
                                 disabled={!hasRightSpill}
@@ -160,7 +166,10 @@ export const Paging = memo(({
 
             <StepButtonsWrapStyled>
                 <section>
-                    <Tooltip message={t("shared.paging.stepButton.previous.tooltip")}>
+                    <Tooltip
+                        disabled={isStartPage}
+                        message={t("shared.paging.stepButton.previous.tooltip")}
+                    >
                         <StepButtonStyled
                             aria-label={cn.ARIA_LABEL_PREVIOUS_PAGE}
                             disabled={isStartPage}
@@ -178,7 +187,10 @@ export const Paging = memo(({
                 </PageNumbersWrapStyled>
 
                 <section>
-                    <Tooltip message={t("shared.paging.stepButton.next.tooltip")}>
+                    <Tooltip
+                        disabled={isLastPage}
+                        message={t("shared.paging.stepButton.next.tooltip")}
+                    >
                         <StepButtonStyled
                             aria-label={cn.ARIA_LABEL_NEXT_PAGE}
                             disabled={isLastPage}

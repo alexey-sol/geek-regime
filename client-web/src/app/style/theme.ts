@@ -77,6 +77,7 @@ export const theme = {
         largest: "2.2rem",
     },
     zIndex: {
+        tooltip: 11,
         modal: 10,
         navbar: 9,
     },

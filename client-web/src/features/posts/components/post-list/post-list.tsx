@@ -9,7 +9,7 @@ import { ListItemStyled, ListStyled, PostListStyled } from "./style";
 export const PostList: FC = () => {
     const { posts } = usePostsPage();
 
-    const postOverviewElements = posts.map((post, index) => (
+    const postOverviews = posts.map((post, index) => (
         <ListItemStyled key={post.id}>
             {index > 0 && <Divider />}
             <PostOverview post={post} />
@@ -19,7 +19,7 @@ export const PostList: FC = () => {
     return (
         <PostListStyled>
             <ListStyled>
-                {postOverviewElements}
+                {postOverviews}
             </ListStyled>
         </PostListStyled>
     );

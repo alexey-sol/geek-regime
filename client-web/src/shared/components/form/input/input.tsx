@@ -22,7 +22,7 @@ export const Input: FC<InputProps> = ({
     value,
     ...rest
 }) => {
-    const hintElementRef = useRef(null);
+    const hintRef = useRef(null);
 
     return (
         <InputWrapStyled>
@@ -39,7 +39,7 @@ export const Input: FC<InputProps> = ({
                 </LabelStyled>
             )}
 
-            <HintWrapStyled isVisible={Boolean(hint)} ref={hintElementRef}>
+            <HintWrapStyled isVisible={Boolean(hint)} ref={hintRef}>
                 <HintStyled color="orange" fontSize="smaller">
                     {hint}
                 </HintStyled>

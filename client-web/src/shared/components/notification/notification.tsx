@@ -30,7 +30,7 @@ export const Notification: FC<NotificationProps> = ({
 
     const container = getRootElement();
 
-    const notificationElement = (
+    const notification = (
         <NotificationStyled ref={elementRef} {...rest}>
             <Typography>
                 {message}
@@ -40,5 +40,5 @@ export const Notification: FC<NotificationProps> = ({
         </NotificationStyled>
     );
 
-    return ReactDOM.createPortal(notificationElement, container);
+    return ReactDOM.createPortal(notification, container);
 };

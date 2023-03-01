@@ -49,7 +49,7 @@ export const Overlay: FC<OverlayProps> = ({
         }
     }, [disableCloseOnClick, onClose]);
 
-    const overlayElement = (
+    const overlay = (
         <OverlayStyled
             className={className}
             onMouseDown={handleMouseDownOnRoot}
@@ -62,5 +62,5 @@ export const Overlay: FC<OverlayProps> = ({
 
     const resultContainer = container ?? getRootElement();
 
-    return ReactDOM.createPortal(overlayElement, resultContainer);
+    return ReactDOM.createPortal(overlay, resultContainer);
 };

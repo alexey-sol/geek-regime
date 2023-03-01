@@ -47,7 +47,7 @@ const mapPositionYToCss: MapKeyToCss<ElementPositionY> = {
 
 const mapViewToCss: MapKeyToCss<NonNullable<BasePopupStyledProps["view"]>> = {
     dark: css`
-        padding: 0.5rem;
+        padding: 0.5rem 0.7rem;
         background-color: ${({ theme }) => theme.colors.greyDarkest};
 
         ${TypographyStyled} {

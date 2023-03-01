@@ -57,7 +57,7 @@ export const BaseDropdown: FC<BaseDropdownProps> = ({
 
     const container = anchorRef?.current ?? getRootElement();
 
-    const dropdownElement = (
+    const dropdown = (
         <BasePopup
             anchorRef={anchorRef}
             ref={elementRef}
@@ -69,5 +69,5 @@ export const BaseDropdown: FC<BaseDropdownProps> = ({
         </BasePopup>
     );
 
-    return ReactDOM.createPortal(dropdownElement, container);
+    return ReactDOM.createPortal(dropdown, container);
 };
