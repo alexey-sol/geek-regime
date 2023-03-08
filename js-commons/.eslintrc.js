@@ -90,20 +90,6 @@ module.exports = {
             case: "kebabCase",
         }],
     },
-    // settings: {
-    //     "import/resolver": {
-    //         node: {
-    //             extensions: [".js", ".ts"],
-    //         },
-    //         alias: {
-    //             extensions: [".ts", ".js", ".json"],
-    //             map: [
-    //                 ["@", "./src"],
-    //                 ["@commons", "../js-commons/src"],
-    //             ],
-    //         },
-    //     },
-    // },
     settings: {
         "import/extensions": [".js", ".jsx", ".ts", ".tsx"],
         "import/parsers": {
