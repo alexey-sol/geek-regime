@@ -27,7 +27,7 @@
         "strictNullChecks": true,
         "strictPropertyInitialization": false,
         "sourceMap": true,
-        "target": "es6",
+        "target": "ES2015",
         "useUnknownInCatchVariables": true,
     },
 
