@@ -1,13 +1,13 @@
 import React, { useCallback, useMemo } from "react";
 import type { FormEvent, FormEventHandler } from "react";
 import type { FormikProps } from "formik";
+import type { CreateUserDto } from "js-commons/src/types/users";
 
 import { useAuthContext } from "@/features/auth/contexts/auth";
 import { fromSignUpValuesToDto } from "@/features/auth/utils/converters";
-import type { SignUpDto } from "@/features/users/models/dtos";
 
-export type SignUpValues = Pick<SignUpDto, "email" | "password">
-    & Pick<SignUpDto["details"], "name">
+export type SignUpValues = Pick<CreateUserDto, "email" | "password">
+    & Pick<CreateUserDto["details"], "name">
     & { confirmPassword: string };
 
 export type SignUpFormData = {

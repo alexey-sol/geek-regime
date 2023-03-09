@@ -26,7 +26,7 @@ const PREVIEW_DTO: PostPreviewDto = {
         details: {
             createdAt: TIMESTAMP,
             updatedAt: TIMESTAMP,
-            image: null,
+            image: undefined,
             name: "Mark",
             gender: "MALE",
         },

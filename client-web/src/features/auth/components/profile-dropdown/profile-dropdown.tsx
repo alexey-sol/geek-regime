@@ -6,7 +6,7 @@ import type { ElementPosition } from "@/shared/components/base-popup";
 
 import { ProfileButtonStyled, ProfileDropdownStyled, ProfileListStyled } from "./style";
 
-const DROPDOWN_POSITION: ElementPosition = ["right", "bottom"];
+const DROPDOWN_POSITION: ElementPosition = ["center-left", "bottom"];
 
 export type ProfileDropdownProps = {
     anchorRef?: React.RefObject<HTMLElement>;

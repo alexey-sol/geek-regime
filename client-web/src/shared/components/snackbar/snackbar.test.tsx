@@ -3,20 +3,20 @@ import React from "react";
 import { fireEvent, render, screen } from "@/test/setup";
 import * as iconButtonCn from "@/shared/components/icon-button/const";
 
-import { Notification } from "./notification";
+import { Snackbar } from "./snackbar";
 
 const MESSAGE = "Message";
 const onClose = jest.fn();
 
-describe("Shared/Notification", () => {
+describe("Shared/Snackbar", () => {
     test("renders message", () => {
-        render(<Notification message={MESSAGE} onClose={onClose} />);
+        render(<Snackbar message={MESSAGE} onClose={onClose} />);
 
         screen.getByText(MESSAGE);
     });
 
     test("calls onClose when close button is clicked", () => {
-        render(<Notification message={MESSAGE} onClose={onClose} />);
+        render(<Snackbar message={MESSAGE} onClose={onClose} />);
 
         fireEvent.click(screen.getByLabelText(iconButtonCn.ARIA_LABEL_CLOSE));
 

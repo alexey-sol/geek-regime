@@ -4,11 +4,11 @@ import httpStatus from "http-status";
 
 import { authApi } from "@/features/auth/services/api";
 import {
-    createFailureNotificationArg,
-    createSuccessNotificationArg,
+    createFailureSnackbarArg,
+    createSuccessSnackbarArg,
 } from "@/features/feedback/slice/utils";
 import { hasHttpStatus } from "@/shared/utils/guards";
-import { setNotification } from "@/features/feedback/slice";
+import { setSnackbar } from "@/features/feedback/slice";
 
 const { signIn, signUp } = authApi.endpoints;
 
@@ -29,8 +29,8 @@ authListener.startListening({
                 ? t("auth.signIn.query.forbiddenOrNotFoundError")
                 : t(COMMON_ERROR_KEY);
 
-            const arg = createFailureNotificationArg(message);
-            listenerApi.dispatch(setNotification(arg));
+            const arg = createFailureSnackbarArg(message);
+            listenerApi.dispatch(setSnackbar(arg));
         }
     },
 });
@@ -38,8 +38,8 @@ authListener.startListening({
 authListener.startListening({
     matcher: signUp.matchFulfilled,
     effect: (action, listenerApi) => {
-        const arg = createSuccessNotificationArg(t("auth.signUp.query.success"));
-        listenerApi.dispatch(setNotification(arg));
+        const arg = createSuccessSnackbarArg(t("auth.signUp.query.success"));
+        listenerApi.dispatch(setSnackbar(arg));
     },
 });
 
@@ -55,8 +55,8 @@ authListener.startListening({
                 ? t("auth.signUp.query.emailAlreadyExistsError")
                 : t(COMMON_ERROR_KEY);
 
-            const arg = createFailureNotificationArg(message);
-            listenerApi.dispatch(setNotification(arg));
+            const arg = createFailureSnackbarArg(message);
+            listenerApi.dispatch(setSnackbar(arg));
         }
     },
 });

@@ -1,29 +1,29 @@
 import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
-import type { NotificationArg } from "@/features/feedback/models/entities";
+import type { SnackbarArg } from "@/features/feedback/models/entities";
 
 export type FeedbackState = {
-    notification?: NotificationArg;
+    snackbar?: SnackbarArg;
 };
 
 const initialState: FeedbackState = {
-    notification: undefined,
+    snackbar: undefined,
 };
 
 export const feedbackSlice = createSlice({
     name: "feedback",
     initialState,
     reducers: {
-        resetNotification: (state) => {
-            state.notification = initialState.notification;
+        resetSnackbar: (state) => {
+            state.snackbar = initialState.snackbar;
         },
-        setNotification: (state, action: PayloadAction<NotificationArg>) => {
-            feedbackSlice.actions.resetNotification();
-            state.notification = action.payload;
+        setSnackbar: (state, action: PayloadAction<SnackbarArg>) => {
+            feedbackSlice.actions.resetSnackbar();
+            state.snackbar = action.payload;
         },
     },
 });
 
-export const { resetNotification, setNotification } = feedbackSlice.actions;
+export const { resetSnackbar, setSnackbar } = feedbackSlice.actions;
 
 export const feedbackReducer = feedbackSlice.reducer;

@@ -2,15 +2,15 @@ import React, { useCallback, useMemo } from "react";
 import type { FormEvent, FormEventHandler } from "react";
 import type { FormikProps } from "formik";
 
-import { YandexConsentScreen } from "@/features/auth/utils/oauth-consent-screen";
 import { useAuthContext } from "@/features/auth/contexts/auth";
+import { authBaseUrl } from "@/features/auth/services/api/utils";
 import type { SignInDto } from "@/features/users/models/dtos";
 
 export type SignInFormData = {
     handleChangeWrap: (event: FormEvent, cb: FormEventHandler) => void;
     handleSubmit: () => void;
     isPending: boolean;
-    openWindowToSignInViaYandex: () => void;
+    yandexAuthUrl: string;
 };
 
 export const useSignInFormData = (
@@ -32,15 +32,12 @@ export const useSignInFormData = (
         cb(event);
     }, []);
 
-    const openWindowToSignInViaYandex = () => {
-        const consentScreen = new YandexConsentScreen();
-        consentScreen.openWindow();
-    };
+    const yandexAuthUrl = `${authBaseUrl}/yandex`;
 
     return useMemo(() => ({
         handleChangeWrap,
         handleSubmit,
         isPending,
-        openWindowToSignInViaYandex,
-    }), [handleChangeWrap, handleSubmit, isPending]);
+        yandexAuthUrl,
+    }), [handleChangeWrap, handleSubmit, isPending, yandexAuthUrl]);
 };

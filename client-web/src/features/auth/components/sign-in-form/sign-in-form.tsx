@@ -5,8 +5,8 @@ import { Form, Formik, type FormikProps } from "formik";
 import { FormInput } from "@/shared/components/form/form-input";
 import { Typography } from "@/shared/components/typography";
 import { getSignInSchema } from "@/features/auth/utils/validation/schemas";
-import type { SignInDto } from "@/features/users/models/dtos";
 import type { MemoizedAuthForm } from "@/features/auth/types";
+import type { SignInDto } from "@/features/users/models/dtos";
 
 import { ButtonStyled, SignInFormStyled, TransparentButtonStyled } from "./style";
 import { useSignInFormData } from "./utils";
@@ -25,7 +25,7 @@ export const SignInForm: MemoizedAuthForm = memo(({ goTo }) => {
         handleChangeWrap,
         handleSubmit,
         isPending,
-        openWindowToSignInViaYandex,
+        yandexAuthUrl,
     } = useSignInFormData({ formRef });
 
     const goToSignUp = useCallback(() => {
@@ -91,13 +91,11 @@ export const SignInForm: MemoizedAuthForm = memo(({ goTo }) => {
                     {t("auth.signIn.oauth.suggestion.preface")}
                 </Typography>
 
-                <ButtonStyled
-                    isStretched
-                    onClick={openWindowToSignInViaYandex}
-                    view="secondary"
-                >
-                    {t("auth.signIn.oauth.providers.yandex.name")}
-                </ButtonStyled>
+                <a href={yandexAuthUrl}>
+                    <ButtonStyled isStretched view="secondary">
+                        {t("auth.signIn.oauth.providers.yandex.name")}
+                    </ButtonStyled>
+                </a>
             </section>
         </SignInFormStyled>
     );

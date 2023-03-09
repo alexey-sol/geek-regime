@@ -28,6 +28,7 @@
         "i18next": "21.9.2",
         "i18next-browser-languagedetector": "6.1.5",
         "joi": "17.6.0",
+        "js-commons": "https://gitpkg.now.sh/alexey-sol/geek-regime/js-commons?main",
         "lodash.debounce": "4.0.8",
         "react": "18.1.0",
         "react-dom": "18.1.0",

@@ -4,7 +4,7 @@ import type { RefObject } from "react";
 import { TypographyStyled } from "@/shared/components/typography/style";
 import type { MapKeyToCss } from "@/shared/types/theme";
 
-export type ElementPositionX = "left" | "center-start" | "center" | "center-end" | "right";
+export type ElementPositionX = "left" | "center-right" | "center" | "center-left" | "right";
 
 export type ElementPositionY = "bottom" | "top";
 
@@ -17,15 +17,17 @@ export type BasePopupStyledProps = {
     view?: "dark";
 };
 
+const DROPDOWN_POSITION: ElementPosition = ["center-left", "bottom"];
+
 const mapPositionXToCss: MapKeyToCss<ElementPositionX> = {
     center: css`
         left: 50%;
         transform: translateX(-50%);
     `,
-    "center-end": css`
+    "center-left": css`
         right: 0;
     `,
-    "center-start": css`
+    "center-right": css`
         left: 0;
     `,
     left: css`
@@ -60,7 +62,7 @@ export const BasePopup = styled.section<BasePopupStyledProps>`
     ${({
         theme,
         hasGap = false,
-        position = ["right", "bottom"],
+        position = DROPDOWN_POSITION,
         view,
     }) => css`
         position: absolute;

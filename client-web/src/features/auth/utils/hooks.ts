@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo } from "react";
+import type { CreateUserDto } from "js-commons/src/types/users";
 
 import { useAppDispatch } from "@/app/store/hooks";
 import {
@@ -10,14 +11,14 @@ import {
 } from "@/features/auth/services/api";
 import { fromUserDetailsDtoToEntity } from "@/features/users/utils/converters";
 import type { UserDetails } from "@/features/users/models/entities";
-import type { SignInDto, SignUpDto } from "@/features/users/models/dtos";
+import type { SignInDto } from "@/features/users/models/dtos";
 
 export type UseAuthApiResult = {
     isPending: boolean;
     profile?: UserDetails;
     signIn: (arg: SignInDto) => void;
     signOut: () => void;
-    signUp: (arg: SignUpDto) => void;
+    signUp: (arg: CreateUserDto) => void;
 };
 
 export const useAuthApi = (): UseAuthApiResult => {

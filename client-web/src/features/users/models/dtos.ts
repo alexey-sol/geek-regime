@@ -1,25 +1,3 @@
-import type { HasId } from "@/shared/types/props";
+import type { CreateUserDto } from "js-commons/src/types/users";
 
-export type Gender = "FEMALE" | "MALE";
-
-export type UserDetailsDto = {
-    name: string;
-    image: null;
-    gender?: Gender;
-};
-
-export type UserDto = HasId & {
-    createdAt: string;
-    details?: UserDetailsDto;
-    email: string;
-    updatedAt: string;
-};
-
-export type SignInDto = {
-    email: string;
-    password: string;
-};
-
-export type SignUpDto = SignInDto & {
-    details: Required<Pick<UserDetailsDto, "name">>;
-};
+export type SignInDto = NonNullable<Pick<CreateUserDto, "email" | "password">>;

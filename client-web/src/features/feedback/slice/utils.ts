@@ -1,18 +1,18 @@
-import type { NotificationArg } from "@/features/feedback/models/entities";
+import type { SnackbarArg } from "@/features/feedback/models/entities";
 
-type CreateNotificationArg = (message: NotificationArg["message"]) => NotificationArg;
+type CreateSnackbarArg = (message: SnackbarArg["message"]) => SnackbarArg;
 
-export const createSuccessNotificationArg: CreateNotificationArg = (message) => ({
+export const createSuccessSnackbarArg: CreateSnackbarArg = (message) => ({
     message,
     view: "success",
 });
 
-export const createFailureNotificationArg: CreateNotificationArg = (message) => ({
+export const createFailureSnackbarArg: CreateSnackbarArg = (message) => ({
     message,
     view: "failure",
 });
 
-export const createWarningNotificationArg: CreateNotificationArg = (message) => ({
+export const createWarningSnackbarArg: CreateSnackbarArg = (message) => ({
     message,
     view: "warning",
 });

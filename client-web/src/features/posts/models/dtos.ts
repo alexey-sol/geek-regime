@@ -1,6 +1,7 @@
-import type { HasId } from "@/shared/types/props";
+import type { HasId } from "js-commons/src/types/props";
+import type { UserDto } from "js-commons/src/types/users";
+
 import type { Page } from "@/shared/models/entities";
-import type { UserDto } from "@/features/users/models/dtos";
 
 export type PostPreviewDto = HasId & {
     author: UserDto;

@@ -58,9 +58,9 @@ export const Tooltip: FC<TooltipProps> = ({ children, disabled = false, message 
             const hasLeftEdgeOverflow = tooltipRect.x < 0;
 
             if (hasRightEdgeOverflow) {
-                setPositionX("center-end");
+                setPositionX("center-left");
             } else if (hasLeftEdgeOverflow) {
-                setPositionX("center-start");
+                setPositionX("center-right");
             }
 
             const hasBottomEdgeOverflow = (tooltipRect.y + tooltipRect.height) > window.innerHeight;

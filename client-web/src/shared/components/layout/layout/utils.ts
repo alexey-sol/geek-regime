@@ -1,25 +1,25 @@
 import { useCallback, useMemo } from "react";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
-import { resetNotification } from "@/features/feedback/slice";
-import { selectNotification } from "@/features/feedback/slice/selectors";
-import type { NotificationArg } from "@/features/feedback/models/entities";
+import { resetSnackbar } from "@/features/feedback/slice";
+import { selectSnackbar } from "@/features/feedback/slice/selectors";
+import type { SnackbarArg } from "@/features/feedback/models/entities";
 
 export type LayoutData = {
-    notification?: NotificationArg;
-    resetNotification: () => void;
+    snackbar?: SnackbarArg;
+    resetSnackbar: () => void;
 };
 
 export const useLayoutData = (): LayoutData => {
     const dispatch = useAppDispatch();
-    const onResetNotification = useCallback(() => {
-        dispatch(resetNotification());
+    const onResetSnackbar = useCallback(() => {
+        dispatch(resetSnackbar());
     }, [dispatch]);
 
-    const notification = useAppSelector(selectNotification);
+    const snackbar = useAppSelector(selectSnackbar);
 
     return useMemo(() => ({
-        notification,
-        resetNotification: onResetNotification,
-    }), [onResetNotification, notification]);
+        snackbar,
+        resetSnackbar: onResetSnackbar,
+    }), [onResetSnackbar, snackbar]);
 };

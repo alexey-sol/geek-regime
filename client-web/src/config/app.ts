@@ -3,13 +3,9 @@ import { InvalidConfigError } from "@/shared/utils/errors";
 const config = {
     apiPostsResource: process.env.API_POSTS_RESOURCE,
     apiPrefix: process.env.API_GATEWAY_PREFIX,
-    apiUrlExternal: `http://${process.env.API_GATEWAY_HOST_EXTERNAL}:${
-        process.env.API_GATEWAY_PORT_EXTERNAL}`,
     apiUsersResource: process.env.API_USERS_RESOURCE,
     appName: process.env.APP_NAME,
     nodeEnv: process.env.NODE_ENV,
-    yandexOauthUrl: process.env.YANDEX_OAUTH_URL,
-    yandexClientId: process.env.YANDEX_CLIENT_ID,
 };
 
 type RawConfig = typeof config;

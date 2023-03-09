@@ -2,14 +2,14 @@ import styled, { css } from "styled-components";
 
 import { TypographyStyled } from "@/shared/components/typography/style";
 import { mixins } from "@/app/style/mixins";
-import type { NotificationArg } from "@/features/feedback/models/entities";
+import type { SnackbarArg } from "@/features/feedback/models/entities";
 import type { MapKeyToCss } from "@/shared/types/theme";
 
-export type NotificationStyledProps = Pick<NotificationArg, "view">;
+export type SnackbarStyledProps = Pick<SnackbarArg, "view">;
 
 const MARGIN = "1rem";
 
-const mapViewToCss: MapKeyToCss<NonNullable<NotificationStyledProps["view"]>> = {
+const mapViewToCss: MapKeyToCss<NonNullable<SnackbarStyledProps["view"]>> = {
     failure: css(({ theme: { colors } }) => css`
         background-color: ${colors.redLighten};
         border: 1px solid ${colors.redLight};
@@ -27,7 +27,7 @@ const mapViewToCss: MapKeyToCss<NonNullable<NotificationStyledProps["view"]>> = 
     `),
 };
 
-export const NotificationStyled = styled.section<NotificationStyledProps>`
+export const SnackbarStyled = styled.section<SnackbarStyledProps>`
     position: fixed;
     z-index: ${({ theme }) => theme.zIndex.modal};
     top: ${MARGIN};

@@ -1,6 +1,5 @@
 import { Type } from "class-transformer";
-
-import type { Gender } from "./dtos";
+import type { Gender } from "js-commons/src/types/users";
 
 export class UserDetails {
     constructor(

@@ -1,7 +1,7 @@
 import React, { type FC } from "react";
 
 import { Footer } from "@/shared/components/layout/footer";
-import { Notification } from "@/shared/components/notification";
+import { Snackbar } from "@/shared/components/snackbar";
 import { useLayoutData } from "@/shared/components/layout/layout/utils";
 import type { HasChildren } from "@/shared/types/props";
 
@@ -12,7 +12,7 @@ import { Header } from "../header";
 import { LayoutStyled } from "./style";
 
 export const Layout: FC<HasChildren> = ({ children }) => {
-    const { notification, resetNotification } = useLayoutData();
+    const { snackbar, resetSnackbar } = useLayoutData();
 
     return (
         <LayoutStyled>
@@ -23,10 +23,10 @@ export const Layout: FC<HasChildren> = ({ children }) => {
             </Main>
             <Footer />
 
-            {notification && (
-                <Notification
-                    onClose={resetNotification}
-                    {...notification}
+            {snackbar && (
+                <Snackbar
+                    onClose={resetSnackbar}
+                    {...snackbar}
                 />
             )}
         </LayoutStyled>

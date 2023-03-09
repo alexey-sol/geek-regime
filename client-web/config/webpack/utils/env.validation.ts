@@ -12,9 +12,6 @@ export const envSchema = Joi.object({
     API_GATEWAY_HOST: Joi
         .string()
         .required(),
-    API_GATEWAY_HOST_EXTERNAL: Joi
-        .string()
-        .default("0.0.0.0"),
     API_GATEWAY_PORT: Joi
         .number()
         .default(3000),
@@ -49,10 +46,4 @@ export const envSchema = Joi.object({
         .string()
         .valid(DEVELOPMENT, PRODUCTION, TEST)
         .default(PRODUCTION),
-    YANDEX_CLIENT_ID: Joi
-        .string()
-        .required(),
-    YANDEX_OAUTH_URL: Joi
-        .string()
-        .default("https://oauth.yandex.ru/authorize"),
 });
