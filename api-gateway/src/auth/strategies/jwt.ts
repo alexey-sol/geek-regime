@@ -3,9 +3,9 @@ import { ExtractJwt, Strategy } from "passport-jwt";
 import { PassportStrategy } from "@nestjs/passport";
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import type { HasId } from "js-commons/src/types/props";
 
 import { AppConfig } from "@/config/types";
-import type { HasId } from "@/shared/types/props";
 
 import * as ct from "../const";
 

@@ -7,12 +7,13 @@ import { UsersModule } from "@/users/module";
 import { LocalStrategy } from "@/auth/strategies/local";
 import { AppConfig } from "@/config/types";
 import { JwtStrategy } from "@/auth/strategies/jwt";
+import { YandexStrategy } from "@/auth/strategies/yandex";
 
 import { AuthService } from "./service";
-import { AuthController } from "./controller";
+import { AuthControllerV1 } from "./controllers/v1";
 
 @Module({
-    controllers: [AuthController],
+    controllers: [AuthControllerV1],
     imports: [
         UsersModule,
         PassportModule,
@@ -30,6 +31,6 @@ import { AuthController } from "./controller";
                 });
             },
         })],
-    providers: [AuthService, LocalStrategy, JwtStrategy],
+    providers: [AuthService, LocalStrategy, JwtStrategy, YandexStrategy],
 })
 export class AuthModule {}

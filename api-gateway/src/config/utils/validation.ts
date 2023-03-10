@@ -83,6 +83,14 @@ class EnvironmentVariables {
     @IsEnum(NodeEnv)
     @Optional()
     NODE_ENV: NodeEnv = NodeEnv.PRODUCTION;
+
+    @IsString()
+    @IsNotEmpty()
+    YANDEX_CLIENT_ID: string;
+
+    @IsString()
+    @IsNotEmpty()
+    YANDEX_CLIENT_SECRET: string;
 }
 
 export const validate = (config: Record<string, unknown>) => {

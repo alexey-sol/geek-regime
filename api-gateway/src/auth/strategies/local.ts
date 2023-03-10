@@ -1,8 +1,7 @@
 import { Strategy } from "passport-local";
 import { PassportStrategy } from "@nestjs/passport";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
-
-import type { HasId } from "@/shared/types/props";
+import type { HasId } from "js-commons/src/types/props";
 
 import { AuthService } from "../service";
 
@@ -18,7 +17,7 @@ export class LocalStrategy extends PassportStrategy(Strategy) {
         const user = await this.authService.validateUser(email, password);
 
         if (!user) {
-            throw new UnauthorizedException(); // TODO add exception handler to unify error body
+            throw new UnauthorizedException();
         }
 
         return user;

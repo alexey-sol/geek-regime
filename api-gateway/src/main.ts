@@ -5,7 +5,7 @@ import { useContainer } from "class-validator";
 import cookieParser from "cookie-parser";
 import type { NestExpressApplication } from "@nestjs/platform-express";
 
-import { getUseContainerOptions } from "@/app/utils";
+import { getUseContainerOptions, getCorsOptions, getVersioningOptions } from "@/app/utils";
 import { AppProxyMiddleware } from "@/config";
 import type { AppConfig } from "@/config/types";
 
@@ -19,6 +19,8 @@ async function bootstrap() {
     const apiGatewayConfig = configService.get("apiGateway", { infer: true });
 
     useContainer(app.select(AppModule), getUseContainerOptions());
+    app.enableCors(getCorsOptions(configService));
+    app.enableVersioning(getVersioningOptions());
     app.useGlobalPipes(new ValidationPipe(validationPipeConfig));
     app.setGlobalPrefix(apiGatewayConfig.prefix);
     app.use(cookieParser());

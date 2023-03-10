@@ -1,4 +1,3 @@
-export type AuthenticateDto = {
-    email: string;
-    password: string;
-};
+import type { CreateUserDto } from "js-commons/src/types/users";
+
+export type AuthenticateDto = NonNullable<Pick<CreateUserDto, "email" | "password">>;

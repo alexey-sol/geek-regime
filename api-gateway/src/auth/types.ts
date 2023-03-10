@@ -1,7 +1,11 @@
 import type { Request } from "@nestjs/common";
+import type { HasId } from "js-commons/src/types/props";
+import type { CreateUserDto } from "js-commons/src/types/users";
 
-import type { HasId } from "@/shared/types/props";
-
-export type AuthRequest = Request & {
+export type LocalAuthRequest = Request & {
     user: HasId;
+};
+
+export type YandexAuthRequest = Request & {
+    user?: CreateUserDto;
 };

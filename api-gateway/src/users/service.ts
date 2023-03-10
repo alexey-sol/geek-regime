@@ -1,14 +1,18 @@
 import { ConfigService } from "@nestjs/config";
 import { HttpService } from "@nestjs/axios";
 import { Injectable } from "@nestjs/common";
-import { firstValueFrom, map } from "rxjs";
+import {
+    catchError, firstValueFrom, map,
+} from "rxjs";
+import type { CreateUserDto, UserDto } from "js-commons/src/types/users";
+import type { HasId } from "js-commons/src/types/props";
 
 import { AppConfig } from "@/config/types";
-import { getUsersApiPath } from "@/users/api";
 import * as authCn from "@/auth/const";
 import type { AuthenticateDto } from "@/users/models/dtos";
-import type { HasId } from "@/shared/types/props";
 import type { ResponseDataGetter } from "@/shared/types/api";
+
+import { getUsersApiPath } from "./api";
 
 @Injectable()
 export class UsersService {
@@ -22,31 +26,40 @@ export class UsersService {
         this.apiPath = getUsersApiPath(apiUsersCg);
     }
 
-    async createUser(dto: unknown): Promise<HasId> {
+    async createUser(dto: CreateUserDto): Promise<UserDto> {
         return firstValueFrom(
             this.httpService
                 .post(this.apiPath, dto)
-                .pipe(this.getData<HasId>()),
+                .pipe(this.getData<UserDto>())
+                .pipe(catchError((error) => {
+                    throw error;
+                })),
         );
     }
 
-    async findUserById(id: number): Promise<HasId> {
+    async findUser(idOrEmail: HasId["id"] | string): Promise<UserDto> {
         return firstValueFrom(
             this.httpService
-                .get(this.findUserByIdApiPath(id))
-                .pipe(this.getData<HasId>()),
+                .get(this.findUserApiPath(idOrEmail))
+                .pipe(this.getData<UserDto>())
+                .pipe(catchError((error) => {
+                    throw error;
+                })),
         );
     }
 
-    private findUserByIdApiPath = (id: number) => `${this.apiPath}/${id}`;
+    private findUserApiPath = (id: HasId["id"] | string) => `${this.apiPath}/${id}`;
 
-    async authenticate(email: string, password: string): Promise<HasId> {
+    async authenticate(email: string, password: string): Promise<UserDto> {
         const dto: AuthenticateDto = { email, password };
 
         return firstValueFrom(
             this.httpService
                 .post(this.getAuthenticateApiPath(), dto)
-                .pipe(this.getData<HasId>()),
+                .pipe(this.getData<UserDto>())
+                .pipe(catchError((error) => {
+                    throw error;
+                })),
         );
     }
 

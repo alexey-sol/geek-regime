@@ -1,3 +1,3 @@
-export type HasId<Value extends number | string = number> = {
-    id: Value;
+export type HasValue<Value = unknown> = {
+    value: Value;
 };

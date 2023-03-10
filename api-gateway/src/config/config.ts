@@ -15,6 +15,8 @@ import * as ct from "./const";
 export const authConfig = registerAs(ct.AUTH, () => ({
     jwtExpiresIn: env.JWT_EXPIRES_IN,
     jwtSecret: env.JWT_SECRET,
+    yandexClientId: env.YANDEX_CLIENT_ID,
+    yandexClientSecret: env.YANDEX_CLIENT_SECRET,
 }));
 
 export const apiAggregatorConfig = registerAs(ct.API_AGGREGATOR, () => ({
@@ -23,6 +25,8 @@ export const apiAggregatorConfig = registerAs(ct.API_AGGREGATOR, () => ({
 }));
 
 export const apiGatewayConfig = registerAs(ct.API_GATEWAY, () => ({
+    baseUrlExternal: `${ct.URL_SCHEME}://${env.API_GATEWAY_HOST_EXTERNAL}:${
+        env.API_GATEWAY_PORT_EXTERNAL}`,
     port: env.API_GATEWAY_PORT,
     prefix: env.API_GATEWAY_PREFIX,
 }));
@@ -39,7 +43,7 @@ export const apiUsersConfig = registerAs(ct.API_USERS, () => ({
 }));
 
 export const clientWebConfig = registerAs(ct.CLIENT_WEB, () => ({
-    baseUrl: `${ct.URL_SCHEME}://${env.CLIENT_WEB_HOST_EXTERNAL}:${
+    baseUrlExternal: `${ct.URL_SCHEME}://${env.CLIENT_WEB_HOST_EXTERNAL}:${
         env.CLIENT_WEB_PORT_EXTERNAL}`,
 }));
 

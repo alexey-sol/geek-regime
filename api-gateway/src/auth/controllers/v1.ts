@@ -1,18 +1,31 @@
 import {
-    Controller, Req, Post, UseGuards, Get, Res, Body,
+    Controller,
+    Req,
+    Post,
+    UseGuards,
+    Get,
+    Res,
+    Body,
+    BadRequestException,
+    Redirect,
 } from "@nestjs/common";
-import { Response } from "express";
 import { ConfigService } from "@nestjs/config";
+import type { Response } from "express";
+import type { CreateUserDto } from "js-commons/src/types/users";
+import type { HasId } from "js-commons/src/types/props";
 
 import { AuthService } from "@/auth/service";
 import { AppConfig } from "@/config/types";
-import type { AuthRequest } from "@/auth/types";
+import type { LocalAuthRequest, YandexAuthRequest } from "@/auth/types";
 
-import { JwtAuthGuard, LocalAuthGuard } from "./guards";
-import * as ct from "./const";
+import { JwtAuthGuard, LocalAuthGuard, YandexAuthGuard } from "../guards";
+import * as ct from "../const";
 
-@Controller(`v*/${ct.AUTH_ROUTE}`)
-export class AuthController {
+@Controller({
+    path: ct.AUTH_ROUTE,
+    version: "1",
+})
+export class AuthControllerV1 {
     constructor(
         private readonly authService: AuthService,
         private readonly configService: ConfigService<AppConfig, true>,
@@ -21,30 +34,27 @@ export class AuthController {
     @UseGuards(LocalAuthGuard)
     @Post("sign-in")
     async signIn(
-        @Req() req: AuthRequest,
+        @Req() req: LocalAuthRequest,
         @Res({ passthrough: true }) res: Response,
     ) {
-        // LocalStrategy's validate method gets called; it attaches "user" to request
-        // (or throws unauthorized exception).
         const userId = req.user.id;
-        return this.signTokenAndGetProfile(res, userId);
+        await this.signAuthToken(res, userId);
+        return this.authService.getProfile(userId);
     }
 
     @Post("sign-up")
     async signUp(
-        @Body() dto: unknown,
+        @Body() dto: CreateUserDto,
         @Res({ passthrough: true }) res: Response,
     ) {
         const user = await this.authService.createUser(dto);
-        return this.signTokenAndGetProfile(res, user.id);
+        this.signAuthToken(res, user.id);
+        return this.authService.getProfile(user.id);
     }
 
-    private signTokenAndGetProfile(res: Response, userId: number) {
+    private signAuthToken(res: Response, userId: HasId["id"]) {
         const { accessToken } = this.authService.signToken(userId);
-        const profile = this.authService.getProfile(userId);
-
         this.setAuthCookie(res, accessToken);
-        return profile;
     }
 
     private setAuthCookie(res: Response, accessToken: string) {
@@ -69,7 +79,7 @@ export class AuthController {
 
     @Post("sign-out")
     async signOut(@Res({ passthrough: true }) res: Response) {
-        AuthController.resetAuthCookie(res);
+        AuthControllerV1.resetAuthCookie(res);
         return true;
     }
 
@@ -79,8 +89,31 @@ export class AuthController {
 
     @UseGuards(JwtAuthGuard)
     @Get("profile")
-    async getProfile(@Req() req: AuthRequest) {
+    async getProfile(@Req() req: LocalAuthRequest) {
         const userId = req.user?.id;
         return this.authService.getProfile(userId);
+    }
+
+    @Get("yandex")
+    @UseGuards(YandexAuthGuard)
+    async yandexAuth() {} // eslint-disable-line @typescript-eslint/no-empty-function
+
+    @Get("yandex/redirect")
+    @UseGuards(YandexAuthGuard)
+    @Redirect()
+    async yandexAuthRedirect(
+        @Req() req: YandexAuthRequest,
+        @Res({ passthrough: true }) res: Response,
+    ) {
+        if (!req.user) {
+            throw new BadRequestException();
+        }
+
+        const user = await this.authService.createOrFindUser(req.user);
+        this.signAuthToken(res, user.id);
+
+        return {
+            url: this.configService.get("clientWeb", { infer: true }).baseUrlExternal,
+        };
     }
 }

@@ -1,9 +1,31 @@
 import path from "path";
 
+import { ConfigService } from "@nestjs/config";
+import { VersioningType } from "@nestjs/common";
+import type { VersioningOptions } from "@nestjs/common";
+
+import { AppConfig } from "@/config/types";
+
 import * as ct from "./const";
 
 export const getUseContainerOptions = () => ({
     fallbackOnErrors: true, // [1]
+});
+
+export const getCorsOptions = (configService: ConfigService<AppConfig, true>) => ({
+    allowedHeaders: "Content-Type, Accept",
+    credentials: true,
+    methods: ["GET", "POST"],
+    origin: [
+        configService.get("apiGateway", { infer: true }).baseUrlExternal,
+        configService.get("clientWeb", { infer: true }).baseUrlExternal,
+    ],
+});
+
+export const getVersioningOptions = (): VersioningOptions => ({
+    defaultVersion: ct.DEFAULT_API_VERSION,
+    prefix: ct.API_VERSION_PREFIX,
+    type: VersioningType.URI,
 });
 
 const defaultRoot = process.cwd();
