@@ -43,7 +43,9 @@ module.exports = {
         "implicit-arrow-linebreak": "off",
         "import/extensions": ["error", "ignorePackages", {
             js: "never",
+            jsx: "never",
             ts: "never",
+            tsx: "never",
         }],
         "import/first": ["warn", "absolute-first"],
         "import/newline-after-import": "warn",

@@ -4,19 +4,19 @@
     "description": "Shared tools for JS based modules",
     "author": "Alexey Soloviev",
     "license": "UNLICENSED",
+    "main": "dist/index.js",
     "files": [
         "configs/**/*",
-        "dist/**/*",
-        "src/**/*"
+        "dist/**/*"
     ],
     "scripts": {
+        "build": "tsc",
+        "postinstall": "npm run build",
         "lint": "npx eslint . --ext .js,.jsx,.ts,.tsx",
         "lint:fix": "npm run lint -- --fix"
     },
-    "_moduleAliases": {
-        "@": "./src"
-    },
     "devDependencies": {
+        "@types/node": "18.15.0",
         "@typescript-eslint/eslint-plugin": "5.27.1",
         "@typescript-eslint/parser": "5.27.1",
         "eslint": "8.17.0",
@@ -24,10 +24,6 @@
         "eslint-import-resolver-alias": "1.1.2",
         "eslint-plugin-import": "2.26.0",
         "eslint-plugin-unicorn": "42.0.0",
-        "typescript": "4.3.5"
-    },
-    "dependencies": {
-        "@types/node": "18.15.0",
-        "D": "1.0.0"
+        "typescript": "4.7.4"
     }
 }

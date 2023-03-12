@@ -1,5 +1,5 @@
 module.exports = {
     extends: [
-        "./configs/.eslintrc.shared",
+        "./configs/.eslintrc.base",
     ],
 };
