@@ -32,6 +32,8 @@ class UserService(val repository: UserRepository, val credentialsService: Creden
 
     fun findUserByEmail(email: String): User? = repository.findUserByEmail(email)
 
+    fun findUserBySlug(slug: String): User? = repository.findUserBySlug(slug)
+
     @Transactional
     fun createUser(user: User, password: String? = null): User {
         repository.save(user)
@@ -52,5 +54,7 @@ class UserService(val repository: UserRepository, val credentialsService: Creden
         return if (userIsDeleted) id else Defaults.NOT_FOUND_BY_ID
     }
 
-    fun userAlreadyExists(email: String): Boolean = repository.existsUserByEmail(email)
+    fun userByEmailExists(email: String): Boolean = repository.existsUserByEmail(email)
+
+    fun userBySlugExists(slug: String): Boolean = repository.existsUserBySlug(slug)
 }

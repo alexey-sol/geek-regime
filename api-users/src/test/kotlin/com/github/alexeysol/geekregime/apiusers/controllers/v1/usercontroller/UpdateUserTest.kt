@@ -43,7 +43,7 @@ class UpdateUserTest(
             .updatedAt(now)
             .build()
 
-        every { service.userAlreadyExists(email) } returns false
+        every { service.userByEmailExists(email) } returns false
         every { service.findUserById(userId) } returns user
         every { mapper.fromUpdateUserDtoToUser(updateUserDto, user) } returns user
         every { service.updateUser(userId, user) } returns user
@@ -119,7 +119,7 @@ class UpdateUserTest(
             credentials = credentials
         )
 
-        every { service.userAlreadyExists(email) } returns false
+        every { service.userByEmailExists(email) } returns false
         every { service.findUserById(userId) } returns user
 
         mockMvc.perform(TestUtils.mockPatchRequest(getUrl(userId), updateUserDto))
@@ -135,7 +135,7 @@ class UpdateUserTest(
         val email = "mark@mail.com"
         val updateUserDto = UpdateUserDto(email = email)
 
-        every { service.userAlreadyExists(email) } returns false
+        every { service.userByEmailExists(email) } returns false
         every { service.findUserById(absentUserId) } returns null
 
         mockMvc.perform(TestUtils.mockPatchRequest(getUrl(absentUserId), updateUserDto))
@@ -151,7 +151,7 @@ class UpdateUserTest(
         val existingEmail = "already-exists@mail.com"
         val updateUserDto = UpdateUserDto(email = existingEmail)
 
-        every { service.userAlreadyExists(existingEmail) } returns true
+        every { service.userByEmailExists(existingEmail) } returns true
 
         mockMvc.perform(TestUtils.mockPatchRequest(getUrl(userId), updateUserDto))
             .andExpect(MockMvcResultMatchers.status().isConflict)

@@ -15,6 +15,7 @@ import java.util.Date;
 public class UserDto implements HasId {
     private long id;
     private String email;
+    private String slug;
     private Date createdAt;
     private Date updatedAt;
     private UserDetailsDto details;

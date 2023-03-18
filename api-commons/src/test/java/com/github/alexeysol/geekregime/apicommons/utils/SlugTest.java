@@ -1,4 +1,4 @@
-package com.github.alexeysol.geekregime.apiposts.utils;
+package com.github.alexeysol.geekregime.apicommons.utils;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

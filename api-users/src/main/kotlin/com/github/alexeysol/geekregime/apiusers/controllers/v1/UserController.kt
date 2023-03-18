@@ -26,9 +26,10 @@ private const val EMAIL_FIELD = "email"
 private const val ID_FIELD = "id"
 private const val OLD_PASSWORD_FIELD = "oldPassword"
 private const val PASSWORD_FIELD = "password"
+private const val SLUG_FIELD = "slug"
 
 private val sortableFields: List<String> = listOf("createdAt", "details.name", "email", "id")
-private val searchableFields: List<String> = listOf("details.name")
+private val searchableFields: List<String> = listOf("details.name", "slug")
 
 @RestController
 @RequestMapping(
@@ -81,24 +82,17 @@ class UserController(
         }
     }
 
-    @GetMapping("{idOrEmail}")
-    fun findUserByIdOrEmail(@PathVariable idOrEmail: String): UserDto {
-        val assumeId = idOrEmail.toLongOrNull(10) !== null;
-
-        val user = if (assumeId) {
-            service.findUserById(idOrEmail.toLong())
-                ?: throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD))
-        } else {
-            service.findUserByEmail(idOrEmail)
-                ?: throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT, EMAIL_FIELD))
-        }
+    @GetMapping("{slug}")
+    fun findUserBySlug(@PathVariable slug: String): UserDto {
+        val user = service.findUserBySlug(slug)
+            ?: throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT, SLUG_FIELD))
 
         return mapper.fromUserToUserDto(user)
     }
 
     @PostMapping
     fun createUser(@RequestBody @Valid dto: CreateUserDto): UserDto {
-        if (service.userAlreadyExists(dto.email)) {
+        if (service.userByEmailExists(dto.email)) {
             throw ResourceException(ErrorDetail(ErrorDetail.Code.ALREADY_EXISTS, EMAIL_FIELD))
         }
 
@@ -113,7 +107,7 @@ class UserController(
         @RequestBody @Valid dto: UpdateUserDto
     ): UserDto {
         dto.email?.let {
-            if (service.userAlreadyExists(it)) {
+            if (service.userByEmailExists(it)) {
                 throw ResourceException(ErrorDetail(ErrorDetail.Code.ALREADY_EXISTS, EMAIL_FIELD))
             }
         }

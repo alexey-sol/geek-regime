@@ -1,10 +1,11 @@
-package com.github.alexeysol.geekregime.apiposts.utils;
+package com.github.alexeysol.geekregime.apicommons.utils;
 
-import com.github.alexeysol.geekregime.apiposts.constants.PostConstants;
 import com.github.slugify.Slugify;
 import net.bytebuddy.utility.RandomString;
 
 public class Slug {
+    private static int SUFFIX_LENGTH = 4;
+
     public static String generateSlug(String title) {
         final Slugify slugify = Slugify.builder()
             .transliterator(true)
@@ -12,12 +13,12 @@ public class Slug {
         String slug = slugify.slugify(title);
 
         return (slug.isEmpty())
-            ? PostConstants.DEFAULT_SLUG
+            ? getSuffix()
             : slug;
     }
 
     public static String getSuffix() {
-        return getSuffix(4);
+        return getSuffix(SUFFIX_LENGTH);
     }
 
     public static String getSuffix(int suffixLength) {

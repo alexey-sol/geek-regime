@@ -29,6 +29,10 @@ data class User(
     @field:Email(message = "Email must have valid format")
     var email: String? = null,
 
+    @Column(nullable = false, unique = true, length = 255)
+    @field:NotEmpty(message = "Slug is required and must not be blank")
+    var slug: String? = null,
+
     @Column(name = "created_at", updatable = false)
     @CreatedDate
     var createdAt: Date? = Date(),

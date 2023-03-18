@@ -18,24 +18,24 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class FindUserByIdTest(
+class FindUserBySlugTest(
     @Autowired mockMvc: MockMvc,
     @Autowired source: ApiUsersSource
 ) : BaseUserControllerTest(mockMvc, source) {
     @Test
-    fun givenUserExists_whenFindUserById_thenReturnsUserWithStatus200() {
-        val userId = 1L
+    fun givenUserExists_whenFindUserBySlug_thenReturnsUserWithStatus200() {
         val email = "mark@mail.com"
-        val user = User(id = userId, email = "mark@mail.com", details = defaultDetails)
+        val slug = "mark"
+        val user = User(email = "mark@mail.com", slug = slug, details = defaultDetails)
         val userDto = UserDto.builder()
-            .id(userId)
             .email(email)
+            .slug(slug)
             .build()
 
-        every { service.findUserById(userId) } returns user
+        every { service.findUserBySlug(slug) } returns user
         every { mapper.fromUserToUserDto(user) } returns userDto
 
-        mockMvc.perform(MockMvcRequestBuilders.get(getUrl(userId)))
+        mockMvc.perform(MockMvcRequestBuilders.get(getUrl(slug)))
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
             .andExpect { result ->
@@ -44,12 +44,12 @@ class FindUserByIdTest(
     }
 
     @Test
-    fun givenUserDoesntExist_whenFindUserById_thenReturnsStatus404() {
-        val absentUserId = 10L
+    fun givenUserDoesntExist_whenFindUserBySlug_thenReturnsStatus404() {
+        val absentUserSlug = "who"
 
-        every { service.findUserById(absentUserId) } returns null
+        every { service.findUserBySlug(absentUserSlug) } returns null
 
-        mockMvc.perform(MockMvcRequestBuilders.get(getUrl(absentUserId)))
+        mockMvc.perform(MockMvcRequestBuilders.get(getUrl(absentUserSlug)))
             .andExpect(MockMvcResultMatchers.status().isNotFound)
             .andExpect { result ->
                 Assertions.assertTrue(result.resolvedException is ResourceException)

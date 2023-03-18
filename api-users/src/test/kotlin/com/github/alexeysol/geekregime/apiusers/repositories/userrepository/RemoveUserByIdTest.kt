@@ -16,7 +16,7 @@ class RemoveUserByIdTest(
     fun givenUserExists_whenRemoveUserById_thenReturnsDeletedRowCount1() {
         val deletedRowCount = 1
         val details = Details(name = "Mark")
-        val user = User(email = "mark@mail.com", details = details)
+        val user = User(email = "mark@mail.com", slug = "mark", details = details)
         details.setUser(user)
         entityManager.persist(user)
         entityManager.flush()

@@ -3,7 +3,6 @@ package com.github.alexeysol.geekregime.apicommons.configurations;
 import com.github.alexeysol.geekregime.apicommons.models.dtos.shared.ApiExceptionDto;
 import com.github.alexeysol.geekregime.apicommons.exceptions.ResourceException;
 import com.github.alexeysol.geekregime.apicommons.models.exceptions.ErrorDetail;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +13,7 @@ import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
+import javax.validation.constraints.NotNull;
 import java.util.*;
 
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {

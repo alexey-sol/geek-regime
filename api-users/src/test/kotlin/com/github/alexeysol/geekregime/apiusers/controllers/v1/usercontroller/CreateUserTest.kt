@@ -46,7 +46,7 @@ class CreateUserTest(
             .updatedAt(now)
             .build()
 
-        every { service.userAlreadyExists(email) } returns false
+        every { service.userByEmailExists(email) } returns false
         every { mapper.fromCreateUserDtoToUser(createUserDto) } returns user
         every { service.createUser(user) } returns user
         every { mapper.fromUserToUserDto(user) } returns userDto
@@ -82,7 +82,7 @@ class CreateUserTest(
             .updatedAt(now)
             .build()
 
-        every { service.userAlreadyExists(email) } returns false
+        every { service.userByEmailExists(email) } returns false
         every { mapper.fromCreateUserDtoToUser(createUserDto) } returns user
         every { service.createUser(user, password = password) } returns user
         every { mapper.fromUserToUserDto(user) } returns userDto
@@ -164,7 +164,7 @@ class CreateUserTest(
             details = CreateDetailsDto(name = "Mark"),
         )
 
-        every { service.userAlreadyExists(existingEmail) } returns true
+        every { service.userByEmailExists(existingEmail) } returns true
 
         mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createUserDto))
             .andExpect(MockMvcResultMatchers.status().isConflict)

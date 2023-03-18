@@ -1,7 +1,10 @@
 package com.github.alexeysol.geekregime.apiusers.models.dtos
 
 import javax.validation.Valid
-import javax.validation.constraints.*
+import javax.validation.constraints.Email
+import javax.validation.constraints.NotEmpty
+import javax.validation.constraints.NotNull
+import javax.validation.constraints.Size
 
 data class CreateUserDto(
     @field:NotEmpty(message = "Email is required and must not be blank")
