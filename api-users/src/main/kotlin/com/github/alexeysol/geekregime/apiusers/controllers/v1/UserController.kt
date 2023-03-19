@@ -90,6 +90,14 @@ class UserController(
         return mapper.fromUserToUserDto(user)
     }
 
+    @GetMapping("email/{email}")
+    fun findUserByEmail(@PathVariable email: String): UserDto {
+        val user = service.findUserByEmail(email)
+            ?: throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT, EMAIL_FIELD))
+
+        return mapper.fromUserToUserDto(user)
+    }
+
     @PostMapping
     fun createUser(@RequestBody @Valid dto: CreateUserDto): UserDto {
         if (service.userByEmailExists(dto.email)) {
@@ -97,7 +105,7 @@ class UserController(
         }
 
         val user = mapper.fromCreateUserDtoToUser(dto)
-        val createdUser = service.createUser(user, dto.password)
+        val createdUser = service.saveUser(user)
         return mapper.fromUserToUserDto(createdUser)
     }
 
@@ -122,7 +130,7 @@ class UserController(
         }
 
         val entity = mapper.fromUpdateUserDtoToUser(dto, user)
-        val updatedUser = service.updateUser(id, entity, dto.newPassword)
+        val updatedUser = service.saveUser(entity)
         return mapper.fromUserToUserDto(updatedUser)
     }
 

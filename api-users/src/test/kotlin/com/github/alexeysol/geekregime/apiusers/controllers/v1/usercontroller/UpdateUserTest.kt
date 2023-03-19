@@ -46,7 +46,7 @@ class UpdateUserTest(
         every { service.userByEmailExists(email) } returns false
         every { service.findUserById(userId) } returns user
         every { mapper.fromUpdateUserDtoToUser(updateUserDto, user) } returns user
-        every { service.updateUser(userId, user) } returns user
+        every { service.saveUser(user) } returns user
         every { mapper.fromUserToUserDto(user) } returns userDto
 
         mockMvc.perform(TestUtils.mockPatchRequest(getUrl(userId), updateUserDto))

@@ -5,8 +5,10 @@ import com.github.alexeysol.geekregime.apicommons.models.dtos.users.UserDto
 import com.github.alexeysol.geekregime.apicommons.utils.Slug
 import com.github.alexeysol.geekregime.apiusers.models.dtos.CreateUserDto
 import com.github.alexeysol.geekregime.apiusers.models.dtos.UpdateUserDto
+import com.github.alexeysol.geekregime.apiusers.models.entities.Credentials
 import com.github.alexeysol.geekregime.apiusers.models.entities.User
 import com.github.alexeysol.geekregime.apiusers.services.v1.UserService
+import com.github.alexeysol.geekregime.apiusers.utils.Security
 import org.modelmapper.ModelMapper
 import org.springframework.stereotype.Component
 
@@ -27,6 +29,11 @@ class UserMapper(
         val entity = modelMapper.map(dto, User::class.java)
         entity.slug = generateSlug(dto.email)
         entity.details?.setUser(entity)
+
+        dto.password?.let {
+            entity.credentials = createOrUpdateCredentials(dto.password, entity)
+        }
+
         return entity
     }
 
@@ -39,6 +46,11 @@ class UserMapper(
         }
 
         user.details?.setUser(user)
+
+        dto.newPassword?.let {
+            user.credentials = createOrUpdateCredentials(dto.newPassword, user, user.credentials)
+        }
+
         return user
     }
 
@@ -53,5 +65,22 @@ class UserMapper(
         }
 
         return slug
+    }
+
+    private fun createOrUpdateCredentials(
+        password: String,
+        user: User,
+        credentials: Credentials? = null
+    ): Credentials {
+        val salt = Security.generateSalt()
+        val hashedPassword = Security.generateHash(password, salt)
+
+        val result = credentials?.let {
+            it.salt = salt
+            it.hashedPassword = hashedPassword
+            return it
+        } ?: Credentials(hashedPassword, salt, user)
+
+        return result
     }
 }

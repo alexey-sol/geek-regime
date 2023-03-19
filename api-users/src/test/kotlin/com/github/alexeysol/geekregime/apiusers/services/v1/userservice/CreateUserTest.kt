@@ -13,7 +13,7 @@ class CreateUserTest : BaseUserServiceTest() {
 
         every { repository.save(user) } returns user
 
-        val result = service.createUser(user)
+        val result = service.saveUser(user)
         verify(exactly = 1) { repository.save(user) }
         Assertions.assertEquals(user, result)
     }

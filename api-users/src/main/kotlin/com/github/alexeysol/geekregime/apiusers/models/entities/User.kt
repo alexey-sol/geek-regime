@@ -50,6 +50,6 @@ data class User(
     var details: Details?,
 
     @PrimaryKeyJoinColumn
-    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "user", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     var credentials: Credentials? = null,
 )

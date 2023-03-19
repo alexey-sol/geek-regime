@@ -48,7 +48,7 @@ class CreateUserTest(
 
         every { service.userByEmailExists(email) } returns false
         every { mapper.fromCreateUserDtoToUser(createUserDto) } returns user
-        every { service.createUser(user) } returns user
+        every { service.saveUser(user) } returns user
         every { mapper.fromUserToUserDto(user) } returns userDto
 
         mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createUserDto))
@@ -84,7 +84,7 @@ class CreateUserTest(
 
         every { service.userByEmailExists(email) } returns false
         every { mapper.fromCreateUserDtoToUser(createUserDto) } returns user
-        every { service.createUser(user, password = password) } returns user
+        every { service.saveUser(user) } returns user
         every { mapper.fromUserToUserDto(user) } returns userDto
 
         mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createUserDto))

@@ -12,7 +12,7 @@ import org.springframework.transaction.annotation.Transactional
 import javax.validation.Valid
 
 @Service
-class UserService(val repository: UserRepository, val credentialsService: CredentialsService) {
+class UserService(val repository: UserRepository) {
     fun findAllUsers(pageable: Pageable): Page<User> = repository.findAllUsers(pageable)
 
     fun findAllUsersById(ids: List<Long>, pageable: Pageable): Page<User> =
@@ -35,17 +35,8 @@ class UserService(val repository: UserRepository, val credentialsService: Creden
     fun findUserBySlug(slug: String): User? = repository.findUserBySlug(slug)
 
     @Transactional
-    fun createUser(user: User, password: String? = null): User {
-        repository.save(user)
-        password?.let { credentialsService.createCredentials(password, user) }
-        return user
-    }
-
-    @Transactional
-    fun updateUser(id: Long, user: User, newPassword: String? = null): User {
-        repository.save(user)
-        newPassword?.let { credentialsService.updateCredentials(newPassword, id, user) }
-        return user
+    fun saveUser(user: User): User {
+        return repository.save(user)
     }
 
     fun removeUserById(id: Long): Long {

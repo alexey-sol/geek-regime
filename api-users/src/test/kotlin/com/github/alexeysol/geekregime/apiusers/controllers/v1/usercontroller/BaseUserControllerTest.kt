@@ -26,8 +26,7 @@ abstract class BaseUserControllerTest(
 
     protected val apiV1Path = source.getApiPath(PathConstants.V1)
 
-    protected val defaultDetails = Details(name = "This user is not important to such an extent " +
-        "that they have no own details")
+    protected val defaultDetails = Details(name = "Mr Noname")
 
     protected fun getUrl(): String = apiV1Path
 
