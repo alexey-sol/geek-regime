@@ -7,6 +7,7 @@ const PostCreateView = lazy(() => import("@/features/posts/views/post-create-vie
 const PostDetailsView = lazy(() => import("@/features/posts/views/post-details-view"));
 const PostListView = lazy(() => import("@/features/posts/views/post-list-view"));
 const PostUpdateView = lazy(() => import("@/features/posts/views/post-update-view"));
+const UserDetailsView = lazy(() => import("@/features/users/views/user-details-view"));
 
 export const AppRoutes: FC = () => (
     <Routes>
@@ -18,6 +19,11 @@ export const AppRoutes: FC = () => (
             <Route path=":slug">
                 <Route index element={<PostDetailsView />} />
                 <Route path={paths.UPDATE} element={<PostUpdateView />} />
+            </Route>
+        </Route>
+        <Route path={paths.USERS}>
+            <Route path=":slug">
+                <Route index element={<UserDetailsView />} />
             </Route>
         </Route>
         <Route path="*" element={<div>404</div>} />

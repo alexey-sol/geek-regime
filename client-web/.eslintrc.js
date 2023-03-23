@@ -7,7 +7,7 @@ module.exports = {
     extends: [
         "airbnb",
         "airbnb/hooks",
-        "./node_modules/js-commons/.eslintrc",
+        "./node_modules/js-commons/configs/.eslintrc.base",
     ],
     globals: {
         JSX: true,
@@ -36,12 +36,6 @@ module.exports = {
         "unicorn",
     ],
     rules: {
-        "import/extensions": ["error", "ignorePackages", {
-            js: "never",
-            jsx: "never",
-            ts: "never",
-            tsx: "never",
-        }],
         "react/function-component-definition": ["error", {
             namedComponents: "arrow-function",
             unnamedComponents: "arrow-function",

@@ -17,4 +17,5 @@ export const paths = {
     PAGE: "page",
     POSTS: "posts",
     UPDATE: "update",
+    USERS: "users",
 };

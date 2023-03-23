@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from "react";
 import type { FormEvent, FormEventHandler } from "react";
 import type { FormikProps } from "formik";
-import type { CreateUserDto } from "js-commons/src/types/users";
+import type { CreateUserDto } from "js-commons";
 
 import { useAuthContext } from "@/features/auth/contexts/auth";
 import { fromSignUpValuesToDto } from "@/features/auth/utils/converters";
@@ -19,7 +19,7 @@ export type SignUpFormData = {
 export const useSignUpFormData = (
     { formRef }: { formRef: React.RefObject<FormikProps<SignUpValues>> },
 ): SignUpFormData => {
-    const { isPending, signUp } = useAuthContext();
+    const { pending, signUp } = useAuthContext();
 
     const handleSubmit = useCallback(() => {
         const { isValid, values } = formRef.current ?? {};
@@ -38,6 +38,6 @@ export const useSignUpFormData = (
     return useMemo(() => ({
         handleChangeWrap,
         handleSubmit,
-        isPending,
-    }), [handleChangeWrap, handleSubmit, isPending]);
+        isPending: Boolean(pending),
+    }), [handleChangeWrap, handleSubmit, pending]);
 };

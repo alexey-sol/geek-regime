@@ -10,7 +10,9 @@ import {
 } from "@/features/posts/services/api";
 
 import { getPathToDetails, isCreatePostOnSaveArg } from "./utils";
-import type { CreatePostOnSaveArg, UpdatePostOnSaveArg, UseActivePostResult } from "./types";
+import type {
+    ActivePostPending, CreatePostOnSaveArg, UpdatePostOnSaveArg, UseActivePostResult,
+} from "./types";
 
 const ONE_STEP_BACK = -1;
 
@@ -18,7 +20,7 @@ export const useActivePost = (): UseActivePostResult => {
     const navigate = useNavigate();
     const { slug } = useParams();
 
-    const selectedFromGet = useGetPostBySlugQuery(slug ?? skipToken, {
+    const resultOnGet = useGetPostBySlugQuery(slug ?? skipToken, {
         selectFromResult: ({ isFetching, data }) => ({
             isFetching,
             post: data && fromPostDetailsDtoToEntity(data),
@@ -47,7 +49,7 @@ export const useActivePost = (): UseActivePostResult => {
         }
     }, [navigate, slugAfterSaving, slug]);
 
-    const { isFetching, post } = selectedFromGet;
+    const { isFetching, post } = resultOnGet;
     const id = post?.id;
 
     function save(arg: CreatePostOnSaveArg): void;
@@ -65,11 +67,21 @@ export const useActivePost = (): UseActivePostResult => {
     const savePost = useCallback((arg: CreatePostOnSaveArg | UpdatePostOnSaveArg) =>
         save(arg), [save]);
 
-    const isPending = isFetching || resultOfCreate.isLoading || resultOfUpdate.isLoading;
+    const pending = useMemo<ActivePostPending | undefined>(() => {
+        if (isFetching) {
+            return "get";
+        } else if (resultOfCreate.isLoading) {
+            return "create";
+        } else if (resultOfUpdate.isLoading) {
+            return "update";
+        }
+
+        return undefined;
+    }, [isFetching, resultOfCreate.isLoading, resultOfUpdate.isLoading]);
 
     return useMemo(() => ({
-        isPending,
+        pending,
         post,
         savePost,
-    }), [isPending, post, savePost]);
+    }), [pending, post, savePost]);
 };

@@ -5,8 +5,10 @@ export type CreatePostOnSaveArg = Pick<CreatePostArg, "title" | "body">;
 
 export type UpdatePostOnSaveArg = Omit<UpdatePostByIdArg, "id">;
 
+export type ActivePostPending = "get" | "create" | "update" | "remove";
+
 export type UseActivePostResult = {
-    isPending: boolean;
+    pending?: ActivePostPending;
     post?: PostDetails;
     savePost: {
         (arg: CreatePostOnSaveArg): void;

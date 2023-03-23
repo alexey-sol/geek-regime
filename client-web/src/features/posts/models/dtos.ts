@@ -1,5 +1,4 @@
-import type { HasId } from "js-commons/src/types/props";
-import type { UserDto } from "js-commons/src/types/users";
+import type { HasId, UserDto } from "js-commons";
 
 import type { Page } from "@/shared/models/entities";
 

@@ -9,11 +9,11 @@ export const PostUpdateViewStyled = styled.section`
 `;
 
 export const PostUpdateView: FC = () => {
-    const { isPending, post } = useActivePost();
+    const { pending, post } = useActivePost();
 
     return (
         <PostUpdateViewStyled>
-            {isPending
+            {pending
                 ? "loading..."
                 : <PostDraft post={post} />}
         </PostUpdateViewStyled>

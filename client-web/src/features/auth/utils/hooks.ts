@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo } from "react";
-import type { CreateUserDto } from "js-commons/src/types/users";
+import type { CreateUserDto } from "js-commons";
 
 import { useAppDispatch } from "@/app/store/hooks";
 import {
@@ -9,13 +9,15 @@ import {
     useSignOutMutation,
     useSignUpMutation,
 } from "@/features/auth/services/api";
-import { fromUserDetailsDtoToEntity } from "@/features/users/utils/converters";
-import type { UserDetails } from "@/features/users/models/entities";
+import { fromUserDtoToEntity } from "@/features/users/utils/converters";
+import type { User } from "@/features/users/models/entities";
 import type { SignInDto } from "@/features/users/models/dtos";
 
+export type AuthPending = "get-profile" | "sign-in" | "sign-up" | "sign-out";
+
 export type UseAuthApiResult = {
-    isPending: boolean;
-    profile?: UserDetails;
+    pending?: AuthPending;
+    profile?: User;
     signIn: (arg: SignInDto) => void;
     signOut: () => void;
     signUp: (arg: CreateUserDto) => void;
@@ -29,7 +31,7 @@ export const useAuthApi = (): UseAuthApiResult => {
         selectFromResult: ({ data, error, isFetching }) => ({
             error,
             isFetching,
-            profile: data && fromUserDetailsDtoToEntity(data),
+            profile: data && fromUserDtoToEntity(data),
         }),
     });
 
@@ -37,7 +39,7 @@ export const useAuthApi = (): UseAuthApiResult => {
         selectFromResult: ({ data, error, isLoading }) => ({
             error,
             isLoading,
-            profile: data && fromUserDetailsDtoToEntity(data),
+            profile: data && fromUserDtoToEntity(data),
         }),
     });
 
@@ -47,14 +49,24 @@ export const useAuthApi = (): UseAuthApiResult => {
         selectFromResult: ({ data, error, isLoading }) => ({
             error,
             isLoading,
-            profile: data && fromUserDetailsDtoToEntity(data),
+            profile: data && fromUserDtoToEntity(data),
         }),
     });
 
-    const isPending = getProfileResult.isFetching
-        || signInResult.isLoading
-        || signOutResult.isLoading
-        || signUpResult.isLoading;
+    const pending = useMemo<AuthPending | undefined>(() => {
+        if (getProfileResult.isFetching) {
+            return "get-profile";
+        } else if (signInResult.isLoading) {
+            return "sign-in";
+        } else if (signUpResult.isLoading) {
+            return "sign-up";
+        } else if (signOutResult.isLoading) {
+            return "sign-out";
+        }
+
+        return undefined;
+    }, [getProfileResult.isFetching, signInResult.isLoading, signOutResult.isLoading,
+        signUpResult.isLoading]);
 
     useEffect(() => {
         const signedOut = Boolean(signOutResult.data);
@@ -70,10 +82,10 @@ export const useAuthApi = (): UseAuthApiResult => {
     );
 
     return useMemo(() => ({
-        isPending,
+        pending,
         profile,
         signIn,
         signOut,
         signUp,
-    }), [isPending, profile, signIn, signOut, signUp]);
+    }), [pending, profile, signIn, signOut, signUp]);
 };

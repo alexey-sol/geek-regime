@@ -1,7 +1,9 @@
-import React, { type FC } from "react";
+import React, { type FC, useCallback } from "react";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router";
 
 import { useAuthContext } from "@/features/auth/contexts/auth";
+import { paths } from "@/shared/const";
 import type { ElementPosition } from "@/shared/components/base-popup";
 
 import { ProfileButtonStyled, ProfileDropdownStyled, ProfileListStyled } from "./style";
@@ -14,13 +16,22 @@ export type ProfileDropdownProps = {
 };
 
 export const ProfileDropdown: FC<ProfileDropdownProps> = ({ anchorRef, onClose }) => {
+    const navigate = useNavigate();
     const { t } = useTranslation();
 
-    const { isPending, signOut } = useAuthContext();
+    const { pending, profile, signOut } = useAuthContext();
 
-    const openProfile = () => {
-        console.log("Open profile");
-    };
+    const goToProfile = useCallback(() => {
+        if (profile) {
+            navigate(`/${paths.USERS}/${profile.slug}`);
+        }
+
+        onClose();
+    }, [navigate, onClose, profile]);
+
+    if (!profile) {
+        return null;
+    }
 
     return (
         <ProfileDropdownStyled
@@ -30,13 +41,17 @@ export const ProfileDropdown: FC<ProfileDropdownProps> = ({ anchorRef, onClose }
         >
             <ProfileListStyled>
                 <li>
-                    <ProfileButtonStyled onClick={openProfile} view="transparent">
+                    <ProfileButtonStyled onClick={goToProfile} view="transparent">
                         {t("auth.profile.actions.profile")}
                     </ProfileButtonStyled>
                 </li>
 
                 <li>
-                    <ProfileButtonStyled disabled={isPending} onClick={signOut} view="transparent">
+                    <ProfileButtonStyled
+                        disabled={Boolean(pending)}
+                        onClick={signOut}
+                        view="transparent"
+                    >
                         {t("auth.profile.actions.signOut")}
                     </ProfileButtonStyled>
                 </li>

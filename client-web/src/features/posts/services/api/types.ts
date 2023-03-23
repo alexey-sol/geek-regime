@@ -1,4 +1,4 @@
-import type { HasId } from "js-commons/src/types/props";
+import type { HasId } from "js-commons";
 
 import type { PagingOptions } from "@/shared/models/entities";
 import type { CreatePostDto, UpdatePostDto } from "@/features/posts/models/dtos";

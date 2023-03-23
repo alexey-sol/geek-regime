@@ -118,10 +118,10 @@ export const ru = {
                 title: "Зарегистрироваться",
             },
             fields: {
-                confirmPassword: "Пароль еще раз",
-                email: "Email",
-                name: "Имя",
-                password: "Пароль",
+                confirmPassword: "Пароль еще раз *",
+                email: "Email *",
+                name: "Имя *",
+                password: "Пароль *",
             },
             query: {
                 emailAlreadyExistsError: "Такой email уже занят",

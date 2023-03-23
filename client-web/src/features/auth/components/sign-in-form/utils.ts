@@ -16,7 +16,7 @@ export type SignInFormData = {
 export const useSignInFormData = (
     { formRef }: { formRef: React.RefObject<FormikProps<SignInDto>> },
 ): SignInFormData => {
-    const { isPending, signIn } = useAuthContext();
+    const { pending, signIn } = useAuthContext();
 
     const handleSubmit = useCallback(() => {
         const { isValid, values } = formRef.current ?? {};
@@ -37,7 +37,7 @@ export const useSignInFormData = (
     return useMemo(() => ({
         handleChangeWrap,
         handleSubmit,
-        isPending,
+        isPending: Boolean(pending),
         yandexAuthUrl,
-    }), [handleChangeWrap, handleSubmit, isPending, yandexAuthUrl]);
+    }), [handleChangeWrap, handleSubmit, pending, yandexAuthUrl]);
 };

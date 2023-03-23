@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import type { Gender } from "js-commons/src/types/users";
+import type { Gender } from "js-commons";
 
 export class UserDetails {
     constructor(
@@ -20,6 +20,7 @@ export class User {
         public createdAt: string,
         public updatedAt: string,
         public email: string,
+        public slug: string,
         details: UserDetails,
     ) {
         this.details = details;

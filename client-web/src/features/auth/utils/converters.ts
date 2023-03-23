@@ -1,4 +1,4 @@
-import type { CreateUserDto } from "js-commons/src/types/users";
+import type { CreateUserDto } from "js-commons";
 
 import type { SignUpValues } from "@/features/auth/components/sign-up-form/utils";
 

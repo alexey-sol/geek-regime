@@ -5,6 +5,7 @@ import { isProduction } from "@/shared/utils/helpers/env";
 import { authApi } from "@/features/auth/services/api";
 import { authListener } from "@/features/auth/slice/middlewares";
 import { postsApi } from "@/features/posts/services/api";
+import { usersApi } from "@/features/users/services/api";
 
 import { rootReducer } from "./reducer";
 
@@ -14,7 +15,8 @@ export const store = configureStore({
     middleware: (getDefaultMiddleware) => getDefaultMiddleware()
         .prepend(authListener.middleware)
         .concat(authApi.middleware)
-        .concat(postsApi.middleware),
+        .concat(postsApi.middleware)
+        .concat(usersApi.middleware),
 } as const);
 
 setupListeners(store.dispatch);
