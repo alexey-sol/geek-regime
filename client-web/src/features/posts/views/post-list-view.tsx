@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 import { PostList } from "@/features/posts/components/post-list";
 import { Paging } from "@/shared/components/paging";
-import { paths } from "@/shared/const";
 import { usePostsPage } from "@/features/posts/utils/hooks/use-posts-page";
+import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
 
 export const PostListViewStyled = styled.section`
     display: flex;
@@ -30,7 +30,7 @@ export const PostListView: FC = () => {
 
             <Paging
                 page={page}
-                pathPrefix={`/${paths.POSTS}`}
+                pathPrefix={createAbsolutePostsPath()}
                 qs=""
                 size={size}
                 totalItems={totalItems}

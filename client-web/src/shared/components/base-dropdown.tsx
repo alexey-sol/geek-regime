@@ -3,21 +3,21 @@ import React, {
     useRef,
     type AriaRole,
     type FC,
+    type PropsWithChildren,
 } from "react";
 import ReactDOM from "react-dom";
 
 import { BasePopup, type BasePopupStyledProps } from "@/shared/components/base-popup";
 import { useKeyboardControls } from "@/shared/utils/hooks/use-keyboard-controls";
 import { getRootElement } from "@/shared/utils/helpers/dom";
-import type { HasChildren } from "@/shared/types/props";
 
-export type BaseDropdownProps = Pick<BasePopupStyledProps, "anchorRef" | "position">
-    & HasChildren
-    & {
+export type BaseDropdownProps = PropsWithChildren<
+    Pick<BasePopupStyledProps, "anchorRef" | "position"> & {
         mouseEvent?: "click" | "mouseup" | "mousedown";
         onClose: () => void;
         role?: AriaRole;
-    };
+    }
+>;
 
 export const BaseDropdown: FC<BaseDropdownProps> = ({
     anchorRef,

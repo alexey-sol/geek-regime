@@ -2,7 +2,7 @@ import "@testing-library/jest-dom";
 import "reflect-metadata";
 import "whatwg-fetch";
 
-import React, { type ReactElement } from "react";
+import React, { type FC, type PropsWithChildren, type ReactElement } from "react";
 import { Provider } from "react-redux";
 import { render, RenderOptions, RenderResult } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
@@ -11,7 +11,6 @@ import { ThemeProvider } from "styled-components";
 import { theme } from "@/app/style/theme";
 import { store } from "@/app/store";
 import { AuthContextProvider } from "@/features/auth/contexts/auth";
-import type { HasChildren } from "@/shared/types/props";
 
 jest.mock("@/config/app", () => ({
     appConfig: {},
@@ -27,7 +26,7 @@ jest.mock("react-i18next", () => ({
     }),
 }));
 
-const Container = ({ children }: HasChildren): JSX.Element => (
+const Container: FC<PropsWithChildren> = ({ children }): JSX.Element => (
     <Provider store={store}>
         <BrowserRouter>
             <ThemeProvider theme={theme}>

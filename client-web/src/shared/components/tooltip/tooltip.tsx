@@ -1,5 +1,5 @@
 import React, {
-    type FC, useEffect, useMemo, useRef, useState,
+    type FC, type PropsWithChildren, useEffect, useMemo, useRef, useState,
 } from "react";
 
 import { Typography } from "@/shared/components/typography";
@@ -8,14 +8,13 @@ import {
     type ElementPositionX,
     type ElementPositionY,
 } from "@/shared/components/base-popup";
-import type { HasChildren } from "@/shared/types/props";
 
 import { BasePopupStyled, TooltipWrapStyled } from "./style";
 
-export type TooltipProps = HasChildren & {
+export type TooltipProps = PropsWithChildren<{
     disabled?: boolean;
     message: string;
-};
+}>;
 
 export const Tooltip: FC<TooltipProps> = ({ children, disabled = false, message }) => {
     const [isOpen, setIsOpen] = useState(false);

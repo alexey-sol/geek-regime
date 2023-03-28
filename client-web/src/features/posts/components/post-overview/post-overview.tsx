@@ -1,7 +1,7 @@
 import React, { type FC } from "react";
 import { Link } from "react-router-dom";
 
-import { paths } from "@/shared/const";
+import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
 import type { PostPreview } from "@/features/posts/models/entities";
 
 import {
@@ -22,7 +22,7 @@ export const PostOverview: FC<PostOverviewProps> = ({ post }) => {
 
     return (
         <PostOverviewStyled>
-            <Link to={`/${paths.POSTS}/${post.slug}`}>
+            <Link to={createAbsolutePostsPath(post.slug)}>
                 <BodyStyled>
                     <OverviewTitle title={post.title} />
                     <OverviewExcerpt excerpt={post.excerpt} />

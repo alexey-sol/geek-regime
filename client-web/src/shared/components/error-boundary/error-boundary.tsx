@@ -1,16 +1,12 @@
-import React, { Component, ReactNode } from "react";
-
-import type { HasChildren } from "@/shared/types/props";
+import React, { Component, type PropsWithChildren, type ReactNode } from "react";
 
 import { Typography } from "../typography";
-
-export type ErrorBoundaryProps = HasChildren;
 
 export type ErrorBoundaryState = {
     error: Error | null;
 };
 
-export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+export class ErrorBoundary extends Component<PropsWithChildren, ErrorBoundaryState> {
     state: ErrorBoundaryState = {
         error: null,
     };

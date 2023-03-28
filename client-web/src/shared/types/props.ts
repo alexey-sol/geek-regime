@@ -1,8 +1,6 @@
-import React, { ReactNode } from "react";
+import React from "react";
 
 import { Color, FontSize } from "@/shared/types/theme";
-
-export type HasChildren = { children: ReactNode };
 
 export type HasColor = { color: Color };
 

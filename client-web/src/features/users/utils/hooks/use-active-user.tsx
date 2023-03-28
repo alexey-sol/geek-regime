@@ -2,9 +2,7 @@ import { useMemo } from "react";
 import { useParams } from "react-router";
 import { skipToken } from "@reduxjs/toolkit/query";
 
-import {
-    useGetUserBySlugQuery,
-} from "@/features/users/services/api";
+import { useGetUserBySlugQuery } from "@/features/users/services/api";
 import { fromUserDtoToEntity } from "@/features/users/utils/converters";
 
 import type { ActiveUserPending, UseActiveUserResult } from "./types";

@@ -24,6 +24,7 @@ export const AppRoutes: FC = () => (
         <Route path={paths.USERS}>
             <Route path=":slug">
                 <Route index element={<UserDetailsView />} />
+                <Route path="*" element={<UserDetailsView />} />
             </Route>
         </Route>
         <Route path="*" element={<div>404</div>} />

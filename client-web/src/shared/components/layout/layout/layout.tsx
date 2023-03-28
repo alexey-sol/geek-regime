@@ -1,9 +1,8 @@
-import React, { type FC } from "react";
+import React, { type FC, type PropsWithChildren } from "react";
 
 import { Footer } from "@/shared/components/layout/footer";
 import { Snackbar } from "@/shared/components/snackbar";
 import { useLayoutData } from "@/shared/components/layout/layout/utils";
-import type { HasChildren } from "@/shared/types/props";
 
 import { Main } from "../main";
 import { Navbar } from "../navbar";
@@ -11,7 +10,7 @@ import { Header } from "../header";
 
 import { LayoutStyled } from "./style";
 
-export const Layout: FC<HasChildren> = ({ children }) => {
+export const Layout: FC<PropsWithChildren> = ({ children }) => {
     const { snackbar, resetSnackbar } = useLayoutData();
 
     return (

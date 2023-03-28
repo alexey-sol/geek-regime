@@ -8,8 +8,9 @@ import {
     useGetPostBySlugQuery,
     useUpdatePostByIdMutation,
 } from "@/features/posts/services/api";
+import { createAbsoluteUsersPath } from "@/features/users/utils/helpers";
 
-import { getPathToDetails, isCreatePostOnSaveArg } from "./utils";
+import { isCreatePostOnSaveArg } from "./utils";
 import type {
     ActivePostPending, CreatePostOnSaveArg, UpdatePostOnSaveArg, UseActivePostResult,
 } from "./types";
@@ -37,7 +38,7 @@ export const useActivePost = (): UseActivePostResult => {
             const hasNewSlug = slugAfterSaving && slugAfterSaving !== slug;
 
             if (hasNewSlug) {
-                navigate(getPathToDetails(slugAfterSaving));
+                navigate(createAbsoluteUsersPath(slugAfterSaving));
             } else {
                 navigate(ONE_STEP_BACK);
             }

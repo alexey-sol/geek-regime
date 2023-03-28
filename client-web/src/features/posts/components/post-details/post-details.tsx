@@ -6,6 +6,7 @@ import { LinkButton } from "@/shared/components/button";
 import { Typography } from "@/shared/components/typography";
 import { useLanguage } from "@/shared/utils/language";
 import { paths } from "@/shared/const";
+import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
 import type * as en from "@/features/posts/models/entities";
 
 import { ContentStyled, InfoStyled, PostDetailsStyled } from "./style";
@@ -22,7 +23,7 @@ export const PostDetails: FC<PostDetailsProps> = ({ post }) => {
     const createdMonthsAgoText = relativeTimeFormat.format(createdMonthsAgo, "months");
 
     const bodyHtml = { __html: post.body };
-    const updatePostPath = `/${paths.POSTS}/${post.slug}/${paths.UPDATE}`;
+    const updatePostPath = createAbsolutePostsPath(post.slug, paths.UPDATE);
 
     const hasUpdates = post.createdAt !== post.updatedAt;
 

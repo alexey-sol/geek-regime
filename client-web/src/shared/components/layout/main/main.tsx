@@ -1,10 +1,8 @@
-import React, { type FC } from "react";
-
-import type { HasChildren } from "@/shared/types/props";
+import React, { type FC, type PropsWithChildren } from "react";
 
 import { MainInnerStyled, MainStyled } from "./style";
 
-export const Main: FC<HasChildren> = ({ children }) => (
+export const Main: FC<PropsWithChildren> = ({ children }) => (
     <MainStyled>
         <MainInnerStyled>
             {children}

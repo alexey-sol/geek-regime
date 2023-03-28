@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 
 import { useAuthContext } from "@/features/auth/contexts/auth";
-import { paths } from "@/shared/const";
+import { createAbsoluteUsersPath } from "@/features/users/utils/helpers";
 import type { ElementPosition } from "@/shared/components/base-popup";
 
 import { ProfileButtonStyled, ProfileDropdownStyled, ProfileListStyled } from "./style";
@@ -23,7 +23,7 @@ export const ProfileDropdown: FC<ProfileDropdownProps> = ({ anchorRef, onClose }
 
     const goToProfile = useCallback(() => {
         if (profile) {
-            navigate(`/${paths.USERS}/${profile.slug}`);
+            navigate(createAbsoluteUsersPath(profile.slug));
         }
 
         onClose();

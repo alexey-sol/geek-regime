@@ -4,12 +4,12 @@ import React, {
     type AriaRole,
     type FC,
     type MouseEventHandler,
+    type PropsWithChildren,
 } from "react";
 import ReactDOM from "react-dom";
 import styled from "styled-components";
 
 import { getRootElement } from "@/shared/utils/helpers/dom";
-import type { HasChildren } from "@/shared/types/props";
 
 const OverlayStyled = styled.section`
     position: fixed;
@@ -23,13 +23,13 @@ const OverlayStyled = styled.section`
     background-color: rgba(0, 0, 0, 20%);
 `;
 
-export type OverlayProps = HasChildren & {
+export type OverlayProps = PropsWithChildren<{
     className?: string;
     container?: HTMLElement;
     disableCloseOnClick?: boolean;
     onClose: () => void;
     role?: AriaRole;
-};
+}>;
 
 export const Overlay: FC<OverlayProps> = ({
     children,
