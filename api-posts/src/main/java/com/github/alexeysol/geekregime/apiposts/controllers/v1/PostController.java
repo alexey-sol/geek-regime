@@ -4,16 +4,19 @@ import com.github.alexeysol.geekregime.apicommons.constants.Defaults;
 import com.github.alexeysol.geekregime.apicommons.exceptions.ResourceException;
 import com.github.alexeysol.geekregime.apicommons.models.dtos.posts.PostDetailsDto;
 import com.github.alexeysol.geekregime.apicommons.models.dtos.posts.PostPreviewDto;
-import com.github.alexeysol.geekregime.apicommons.models.dtos.query.SearchByDto;
+import com.github.alexeysol.geekregime.apicommons.models.dtos.query.FilterCriterion;
 import com.github.alexeysol.geekregime.apicommons.models.dtos.shared.HasIdDto;
 import com.github.alexeysol.geekregime.apicommons.models.exceptions.ErrorDetail;
+import com.github.alexeysol.geekregime.apicommons.models.sql.LogicalOperator;
+import com.github.alexeysol.geekregime.apicommons.models.utils.EntityFilter;
 import com.github.alexeysol.geekregime.apicommons.utils.converters.PageableConverter;
-import com.github.alexeysol.geekregime.apicommons.utils.converters.SearchableConverter;
 import com.github.alexeysol.geekregime.apiposts.constants.PathConstants;
+import com.github.alexeysol.geekregime.apiposts.constants.PostConstants;
 import com.github.alexeysol.geekregime.apiposts.models.dtos.CreatePostDto;
 import com.github.alexeysol.geekregime.apiposts.models.dtos.UpdatePostDto;
 import com.github.alexeysol.geekregime.apiposts.models.entities.Post;
 import com.github.alexeysol.geekregime.apiposts.services.v1.PostService;
+import com.github.alexeysol.geekregime.apiposts.utils.PostFilterUtils;
 import com.github.alexeysol.geekregime.apiposts.utils.mappers.PostMapper;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
@@ -33,13 +36,6 @@ import java.util.*;
 )
 @Validated
 public class PostController {
-    private static final String ID_FIELD = "id";
-    private static final String SLUG_FIELD = "slug";
-
-    private final List<String> sortableFields = List.of("createdAt", "id", "slug", "title",
-        "updatedAt");
-    private final List<String> searchableFields = List.of("title", "excerpt");
-
     private final PostService service;
     private final PostMapper mapper;
 
@@ -48,40 +44,61 @@ public class PostController {
         this.mapper = mapper;
     }
 
-    @GetMapping
+    @GetMapping("users/{authorId}/${api-posts.resource}")
+    Page<PostPreviewDto> findAllPostsByUser(
+        @PathVariable long authorId,
+        @RequestParam(required = false) String paging,
+        @RequestParam(required = false) String sortBy,
+        @RequestParam(required = false) String searchBy
+    ) {
+        var authorIdFilter = PostFilterUtils.createFilter(authorId, LogicalOperator.AND);
+        var searchFilter = PostFilterUtils.createFilter(searchBy, LogicalOperator.OR);
+        var compositeFilter = PostFilterUtils.createFilter(List.of(authorIdFilter, searchFilter),
+            LogicalOperator.AND);
+
+        return findPosts(paging, sortBy, compositeFilter);
+    }
+
+    @GetMapping("${api-posts.resource}")
     Page<PostPreviewDto> findAllPosts(
         @RequestParam(required = false) String paging,
         @RequestParam(required = false) String sortBy,
         @RequestParam(required = false) String searchBy
     ) {
-        PageableConverter pageableConverter = new PageableConverter(paging, sortBy, sortableFields);
-        SearchableConverter searchableConverter = new SearchableConverter(searchBy, searchableFields);
+        var searchFilter = PostFilterUtils.createFilter(searchBy, LogicalOperator.OR);
+        var compositeFilter = PostFilterUtils.createFilter(searchFilter, LogicalOperator.AND);
+
+        return findPosts(paging, sortBy, compositeFilter);
+    }
+
+    private Page<PostPreviewDto> findPosts(
+        String paging,
+        String sortBy,
+        EntityFilter<EntityFilter<FilterCriterion>> filter
+    ) {
+        var pageableConverter = new PageableConverter(paging, sortBy, PostConstants.SORTABLE_FIELDS);
 
         Pageable pageable;
-        SearchByDto searchByDto;
         Page<Post> postsPage;
 
         try {
-            pageable = pageableConverter.getPageable();
-            searchByDto = searchableConverter.getValue();
-
-            postsPage = (Objects.nonNull(searchByDto))
-                ? service.searchPosts(searchByDto, pageable)
-                : service.findAllPosts(pageable);
+            pageable = pageableConverter.getValue();
+            postsPage = service.findAllPosts(pageable, filter);
         } catch (IllegalArgumentException | ConstraintViolationException exception) {
             throw new ResourceException(HttpStatus.UNPROCESSABLE_ENTITY, exception.getMessage());
         }
 
-        List<PostPreviewDto> dtoList = mapper.fromPostListToPostPreviewDtoList(postsPage.getContent());
+        var dtoList = mapper.fromPostListToPostPreviewDtoList(postsPage.getContent());
         return new PageImpl<>(dtoList, pageable, postsPage.getTotalElements());
     }
 
-    @GetMapping("{slug}")
+    @GetMapping("${api-posts.resource}/{slug}")
     PostDetailsDto findPostBySlug(@PathVariable String slug) {
-        Optional<Post> optionalPost = service.findPostBySlug(slug);
+        var optionalPost = service.findPostBySlug(slug);
 
         if (optionalPost.isEmpty()) {
-            throw new ResourceException(new ErrorDetail(ErrorDetail.Code.ABSENT, SLUG_FIELD));
+            throw new ResourceException(new ErrorDetail(ErrorDetail.Code.ABSENT,
+                PostConstants.SLUG_FIELD));
         }
 
         return mapper.fromPostToPostDetailsDto(optionalPost.get());
@@ -89,34 +106,36 @@ public class PostController {
 
     @PostMapping
     PostDetailsDto createPost(@RequestBody @Valid CreatePostDto dto) {
-        Post post = mapper.fromCreatePostDtoToPost(dto);
-        Post createdPost = service.savePost(post);
+        var post = mapper.fromCreatePostDtoToPost(dto);
+        var createdPost = service.savePost(post);
         return mapper.fromPostToPostDetailsDto(createdPost);
     }
 
-    @PatchMapping("{id}")
+    @PatchMapping("${api-posts.resource}/{id}")
     PostDetailsDto updatePost(
         @PathVariable long id,
         @RequestBody @Valid UpdatePostDto dto
     ) {
-        Optional<Post> optionalPost = service.findPostById(id);
+        var optionalPost = service.findPostById(id);
 
         if (optionalPost.isEmpty()) {
-            throw new ResourceException(new ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD));
+            throw new ResourceException(new ErrorDetail(ErrorDetail.Code.ABSENT,
+                PostConstants.ID_FIELD));
         }
 
-        Post post = mapper.mapUpdatePostDtoToPost(dto, optionalPost.get());
-        Post updatedPost = service.savePost(post);
+        var post = mapper.mapUpdatePostDtoToPost(dto, optionalPost.get());
+        var updatedPost = service.savePost(post);
         return mapper.fromPostToPostDetailsDto(updatedPost);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("${api-posts.resource}/{id}")
     HasIdDto removePostById(@PathVariable long id) {
         long result = service.removePostById(id);
         boolean isNotFound = result == Defaults.NOT_FOUND_BY_ID;
 
         if (isNotFound) {
-            throw new ResourceException(new ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD));
+            throw new ResourceException(new ErrorDetail(ErrorDetail.Code.ABSENT,
+                PostConstants.ID_FIELD));
         }
 
         return mapper.fromIdToHasIdDto(id);

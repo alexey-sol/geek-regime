@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregime.apiposts.utils.mappers.converters;
 
+import com.github.alexeysol.geekregime.apicommons.utils.Slug;
 import com.github.alexeysol.geekregime.apiposts.services.v1.PostService;
-import com.github.alexeysol.geekregime.apiposts.utils.Slug;
 import org.modelmapper.AbstractConverter;
 
 public class TitleToSlugConverter extends AbstractConverter<String, String> {

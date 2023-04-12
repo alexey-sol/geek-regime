@@ -14,13 +14,13 @@ import java.util.List;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SearchByDto {
+public class SearchCriteria {
     private final static int DEFAULT_LIMIT = 1000;
 
-    @NotBlank
-    private String term;
+    private List<String> keys = new ArrayList<>();
 
-    private List<String> fields = new ArrayList<>();
+    @NotBlank
+    private String value;
 
     @Min(1)
     private int limit = DEFAULT_LIMIT;

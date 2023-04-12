@@ -1,16 +1,16 @@
 package com.github.alexeysol.geekregime.apiposts.services.v1;
 
 import com.github.alexeysol.geekregime.apicommons.constants.Defaults;
-import com.github.alexeysol.geekregime.apicommons.models.dtos.query.SearchByDto;
+import com.github.alexeysol.geekregime.apicommons.models.dtos.query.FilterCriterion;
+import com.github.alexeysol.geekregime.apicommons.models.utils.EntityFilter;
 import com.github.alexeysol.geekregime.apiposts.models.entities.Post;
 import com.github.alexeysol.geekregime.apiposts.repositories.PostRepository;
+import com.github.alexeysol.geekregime.apiposts.utils.PostFilterUtils;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
-import javax.validation.Valid;
-import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -26,14 +26,12 @@ public class PostService {
         return repository.findAll(pageable);
     }
 
-    public Page<Post> searchPosts(@Valid SearchByDto searchByDto, Pageable pageable) {
-        String term = searchByDto.getTerm();
-        List<String> fields = searchByDto.getFields();
-        int limit = searchByDto.getLimit();
-
-        List<Post> posts = repository.searchBy(term, fields, limit);
-
-        return new PageImpl(posts, pageable, posts.size());
+    public Page<Post> findAllPosts(
+        Pageable pageable,
+        EntityFilter<EntityFilter<FilterCriterion>> filter
+    ) {
+        var specification = PostFilterUtils.createCompositeSpecification(filter);
+        return repository.findAll(specification, pageable);
     }
 
     public Optional<Post> findPostById(long id) {

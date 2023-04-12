@@ -5,7 +5,7 @@ import lombok.Data;
 import org.springframework.data.domain.Sort.Direction;
 
 @Data
-public class SortByDto {
+public class SortCriteria {
     private final static String DEFAULT_FIELD = Defaults.PRIMARY_KEY_NAME;
     private final static Direction DEFAULT_DIRECTION = Direction.DESC;
 

@@ -23,7 +23,7 @@ import static org.mockito.Mockito.when;
 
 public class FindAllPosts extends BasePostControllerTest {
     private final PageableConverter pageableConverterStub = new PageableConverter("", "");
-    private final Pageable pageableStub = pageableConverterStub.getPageable();
+    private final Pageable pageableStub = pageableConverterStub.getValue();
 
     public FindAllPosts(
         @Autowired MockMvc mockMvc,

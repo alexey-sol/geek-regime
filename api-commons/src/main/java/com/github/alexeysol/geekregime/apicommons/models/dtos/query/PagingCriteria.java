@@ -3,7 +3,7 @@ package com.github.alexeysol.geekregime.apicommons.models.dtos.query;
 import lombok.Data;
 
 @Data
-public class PagingDto {
+public class PagingCriteria {
     private final static int DEFAULT_SIZE = 10;
     private final static int DEFAULT_PAGE = 0;
 
