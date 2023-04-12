@@ -20,4 +20,5 @@ public class PostPreviewDto implements HasId {
     protected Date createdAt;
     protected Date updatedAt;
     protected long authorId;
+    protected long spaceId;
 }

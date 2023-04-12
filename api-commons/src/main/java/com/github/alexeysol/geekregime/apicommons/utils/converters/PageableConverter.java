@@ -1,8 +1,8 @@
 package com.github.alexeysol.geekregime.apicommons.utils.converters;
 
 import com.github.alexeysol.geekregime.apicommons.constants.Defaults;
-import com.github.alexeysol.geekregime.apicommons.models.dtos.query.PagingDto;
-import com.github.alexeysol.geekregime.apicommons.models.dtos.query.SortByDto;
+import com.github.alexeysol.geekregime.apicommons.models.dtos.query.PagingCriteria;
+import com.github.alexeysol.geekregime.apicommons.models.dtos.query.SortCriteria;
 import com.github.alexeysol.geekregime.apicommons.utils.parsers.Json;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
@@ -12,68 +12,54 @@ import java.util.List;
 import java.util.Objects;
 
 public class PageableConverter {
-    private static final String INVALID_SORT_BY_FIELD_TEMPLATE = "Found unexpected sortBy " +
-        "field value: %s. Value must be one of: %s";
-    private static final List<String> DEFAULT_SORT_BY_FIELDS = List.of(
+    private static final List<String> DEFAULT_SORTABLE_FIELDS = List.of(
         Defaults.PRIMARY_KEY_NAME
     );
 
-    private final String pagingJson;
-    private final String sortByJson;
-    private final List<String> sortableFields;
+    private final FieldAssertion fieldAssertion;
+    private final String pagingCriteriaJson;
+    private final String sortCriteriaJson;
 
-    public PageableConverter(String pagingJson, String sortByJson) {
-        this(pagingJson, sortByJson, DEFAULT_SORT_BY_FIELDS);
+    public PageableConverter(String pagingCriteriaJson, String sortCriteriaJson) {
+        this(pagingCriteriaJson, sortCriteriaJson, DEFAULT_SORTABLE_FIELDS);
     }
 
-    public PageableConverter(String pagingJson, String sortByJson, List<String> sortableFields) {
-        this.pagingJson = Objects.requireNonNullElse(pagingJson, "");
-        this.sortByJson = Objects.requireNonNullElse(sortByJson, "");
-        this.sortableFields = sortableFields;
+    public PageableConverter(
+        String pagingCriteriaJson,
+        String sortCriteriaJson,
+        List<String> sortableFields
+    ) {
+        this.fieldAssertion = new FieldAssertion(sortableFields);
+        this.pagingCriteriaJson = Objects.requireNonNullElse(pagingCriteriaJson, "");
+        this.sortCriteriaJson = Objects.requireNonNullElse(sortCriteriaJson, "");
     }
 
-    public Pageable getPageable() throws IllegalArgumentException {
-        try {
-            Sort sort = sortByJsonToSortObject();
+    public Pageable getValue() throws IllegalArgumentException {
+        Sort sort = sortCriteriaJsonToSortObject();
 
-            PagingDto pagingDto = (pagingJson.isEmpty())
-                ? new PagingDto()
-                : Json.parse(pagingJson, PagingDto.class);
+        PagingCriteria pagingCriteria = (pagingCriteriaJson.isEmpty())
+            ? new PagingCriteria()
+            : Json.parse(pagingCriteriaJson, PagingCriteria.class);
 
-            return PageRequest.of(
-                pagingDto.getPage(),
-                pagingDto.getSize(),
-                sort
-            );
-        } catch (RuntimeException exception) {
-            throw new IllegalArgumentException(exception.getCause());
-        }
+        return PageRequest.of(
+            pagingCriteria.getPage(),
+            pagingCriteria.getSize(),
+            sort
+        );
     }
 
-    private Sort sortByJsonToSortObject() throws IllegalArgumentException {
-        SortByDto sortByDto = (sortByJson.isEmpty())
-            ? new SortByDto()
-            : Json.parse(sortByJson, SortByDto.class);
+    private Sort sortCriteriaJsonToSortObject() throws IllegalArgumentException {
+        SortCriteria sortCriteria = (sortCriteriaJson.isEmpty())
+            ? new SortCriteria()
+            : Json.parse(sortCriteriaJson, SortCriteria.class);
 
-        assertSortByFieldIsValid(sortByDto.getField());
+        fieldAssertion.assertFieldsAreValid(sortCriteria.getKey());
 
-        Sort sort = Sort.by(sortByDto.getField());
-        boolean isAscendingDirection = sortByDto.getDirection() == Sort.Direction.ASC;
+        Sort sort = Sort.by(sortCriteria.getKey());
+        boolean isAscendingDirection = sortCriteria.getDirection() == Sort.Direction.ASC;
 
         return (isAscendingDirection)
             ? sort.ascending()
             : sort.descending();
-    }
-
-    private void assertSortByFieldIsValid(String field) throws IllegalArgumentException {
-        if (!sortableFields.contains(field)) {
-            String message = getAssertionMessage(field);
-            throw new IllegalArgumentException(message);
-        }
-    }
-
-    private String getAssertionMessage(String invalidField) {
-        String joinedFields = String.join(", ", sortableFields);
-        return String.format(INVALID_SORT_BY_FIELD_TEMPLATE, invalidField, joinedFields);
     }
 }

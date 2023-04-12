@@ -11,8 +11,8 @@ public interface SearchableRepository<Entity, Id extends Serializable>
     extends JpaRepository<Entity, Id> {
 
     List<Entity> searchBy(
-        String term,
-        List<String> fields,
+        String value,
+        List<String> keys,
         int limit
     );
 }

@@ -31,18 +31,18 @@ public class SearchableRepositoryImpl<Entity, Id extends Serializable>
 
     @Override
     public List<Entity> searchBy(
-        String term,
-        List<String> fields,
+        String value,
+        List<String> keys,
         int limit
     ) {
         SearchSession searchSession = Search.session(entityManager);
-        String[] fieldsAsArray = fields.toArray(String[]::new);
+        String[] keysAsArray = keys.toArray(String[]::new);
 
         SearchResult<Entity> items = searchSession
             .search(getDomainClass())
             .where(predicate -> predicate.match()
-                .fields(fieldsAsArray)
-                .matching(term)
+                .fields(keysAsArray)
+                .matching(value)
                 .fuzzy(1))
             .fetch(limit);
 

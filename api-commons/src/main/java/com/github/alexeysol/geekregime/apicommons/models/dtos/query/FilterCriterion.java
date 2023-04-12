@@ -1,29 +1,25 @@
 package com.github.alexeysol.geekregime.apicommons.models.dtos.query;
 
+import com.github.alexeysol.geekregime.apicommons.models.sql.ComparisonOperator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.Min;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
-import java.util.ArrayList;
-import java.util.List;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class SearchCriteria {
-    private final static int DEFAULT_LIMIT = 1000;
-
-    @NotNull
-    private List<String> keys = new ArrayList<>();
+public class FilterCriterion {
+    @NotBlank
+    private String key;
 
     @NotBlank
-    private String value;
+    private ComparisonOperator operation;
 
-    @Min(1)
-    private int limit = DEFAULT_LIMIT;
+    @NotNull
+    private Object value;
 }
