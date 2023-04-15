@@ -1,6 +1,6 @@
 package com.github.alexeysol.geekregime.apicommons.models.dtos.query;
 
-import com.github.alexeysol.geekregime.apicommons.models.sql.ComparisonOperator;
+import com.github.alexeysol.geekregime.apicommons.constants.database.ComparisonOperator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;

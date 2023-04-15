@@ -1,13 +1,13 @@
 package com.github.alexeysol.geekregime.apiposts.controllers.v1;
 
 import com.github.alexeysol.geekregime.apicommons.constants.Defaults;
+import com.github.alexeysol.geekregime.apicommons.constants.database.LogicalOperator;
 import com.github.alexeysol.geekregime.apicommons.exceptions.ResourceException;
 import com.github.alexeysol.geekregime.apicommons.models.dtos.posts.PostDetailsDto;
 import com.github.alexeysol.geekregime.apicommons.models.dtos.posts.PostPreviewDto;
 import com.github.alexeysol.geekregime.apicommons.models.dtos.query.FilterCriterion;
 import com.github.alexeysol.geekregime.apicommons.models.dtos.shared.HasIdDto;
 import com.github.alexeysol.geekregime.apicommons.models.exceptions.ErrorDetail;
-import com.github.alexeysol.geekregime.apicommons.models.sql.LogicalOperator;
 import com.github.alexeysol.geekregime.apicommons.models.utils.EntityFilter;
 import com.github.alexeysol.geekregime.apicommons.utils.converters.PageableConverter;
 import com.github.alexeysol.geekregime.apiposts.constants.PathConstants;

@@ -3,9 +3,10 @@ package com.github.alexeysol.geekregime.apiposts.services.v1;
 import com.github.alexeysol.geekregime.apicommons.constants.Defaults;
 import com.github.alexeysol.geekregime.apicommons.models.dtos.query.FilterCriterion;
 import com.github.alexeysol.geekregime.apicommons.models.utils.EntityFilter;
+import com.github.alexeysol.geekregime.apicommons.utils.database.FilterSpecificationUtils;
 import com.github.alexeysol.geekregime.apiposts.models.entities.Post;
 import com.github.alexeysol.geekregime.apiposts.repositories.PostRepository;
-import com.github.alexeysol.geekregime.apiposts.utils.PostFilterUtils;
+import com.github.alexeysol.geekregime.apiposts.utils.PostFilterSpecificationFactory;
 import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -30,7 +31,8 @@ public class PostService {
         Pageable pageable,
         EntityFilter<EntityFilter<FilterCriterion>> filter
     ) {
-        var specification = PostFilterUtils.createCompositeSpecification(filter);
+        var specificationUtils = new FilterSpecificationUtils<>(new PostFilterSpecificationFactory());
+        var specification = specificationUtils.createCompositeSpecification(filter);
         return repository.findAll(specification, pageable);
     }
 

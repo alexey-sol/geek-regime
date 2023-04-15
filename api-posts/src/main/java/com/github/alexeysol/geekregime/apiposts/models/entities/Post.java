@@ -13,7 +13,17 @@ import javax.validation.constraints.NotNull;
 import java.util.Date;
 
 @Entity
-@Table(name = DatabaseConstants.POSTS_TABLE)
+@Table(name = DatabaseConstants.POSTS_TABLE, indexes = {
+    @Index(columnList = "user_id"),
+    @Index(columnList = "space_id"),
+    @Index(columnList = "user_id, space_id"),
+    @Index(columnList = "title"),
+    @Index(columnList = "excerpt"),
+    @Index(columnList = "slug", unique = true),
+    @Index(columnList = "created_at"),
+    @Index(columnList = "updated_at")
+
+})
 @EntityListeners(AuditingEntityListener.class)
 @Data
 @Builder

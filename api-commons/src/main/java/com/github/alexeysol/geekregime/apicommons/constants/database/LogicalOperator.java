@@ -1,4 +1,4 @@
-package com.github.alexeysol.geekregime.apicommons.models.sql;
+package com.github.alexeysol.geekregime.apicommons.constants.database;
 
 public enum LogicalOperator {
     AND("and"),

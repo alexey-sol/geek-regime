@@ -1,6 +1,6 @@
 package com.github.alexeysol.geekregime.apicommons.models.utils;
 
-import com.github.alexeysol.geekregime.apicommons.models.sql.LogicalOperator;
+import com.github.alexeysol.geekregime.apicommons.constants.database.LogicalOperator;
 import lombok.Data;
 
 import java.util.ArrayList;

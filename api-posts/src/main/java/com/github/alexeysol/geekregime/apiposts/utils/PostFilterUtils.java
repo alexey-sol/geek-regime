@@ -1,16 +1,13 @@
 package com.github.alexeysol.geekregime.apiposts.utils;
 
+import com.github.alexeysol.geekregime.apicommons.constants.database.ComparisonOperator;
+import com.github.alexeysol.geekregime.apicommons.constants.database.LogicalOperator;
 import com.github.alexeysol.geekregime.apicommons.exceptions.ResourceException;
 import com.github.alexeysol.geekregime.apicommons.models.dtos.query.FilterCriterion;
 import com.github.alexeysol.geekregime.apicommons.models.dtos.query.SearchCriteria;
-import com.github.alexeysol.geekregime.apicommons.models.sql.ComparisonOperator;
-import com.github.alexeysol.geekregime.apicommons.models.sql.LogicalOperator;
 import com.github.alexeysol.geekregime.apicommons.models.utils.EntityFilter;
 import com.github.alexeysol.geekregime.apicommons.utils.converters.SearchableConverter;
 import com.github.alexeysol.geekregime.apiposts.constants.PostConstants;
-import com.github.alexeysol.geekregime.apiposts.models.PostFilterSpecification;
-import com.github.alexeysol.geekregime.apiposts.models.entities.Post;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 
 import javax.validation.ConstraintViolationException;
@@ -19,53 +16,6 @@ import java.util.List;
 import java.util.Objects;
 
 public class PostFilterUtils {
-    public static Specification<Post> createCompositeSpecification(
-        EntityFilter<EntityFilter<FilterCriterion>> filter
-    ) {
-        var operation = filter.getOperation();
-        var filterCriteria = filter.getFilterCriteria();
-
-        List<Specification<Post>> specificationGroups = new ArrayList<>();
-
-        for (var nestedFilter : filterCriteria) {
-            specificationGroups.add(createSpecification(nestedFilter));
-        }
-
-        Specification<Post> compositeSpecification = Specification.where(null);
-
-        for (var specificationToAppend : specificationGroups) {
-            compositeSpecification = appendSpecification(compositeSpecification,
-                specificationToAppend, operation);
-        }
-
-        return compositeSpecification;
-    }
-
-    public static Specification<Post> createSpecification(EntityFilter<FilterCriterion> filter) {
-        var operation = filter.getOperation();
-        var filterCriteria = filter.getFilterCriteria();
-
-        Specification<Post> specification = Specification.where(null);
-
-        for (var criterion : filterCriteria) {
-            PostFilterSpecification specificationToAppend = new PostFilterSpecification(criterion);
-            specification = appendSpecification(specification, specificationToAppend, operation);
-        }
-
-        return specification;
-    }
-
-    private static Specification<Post> appendSpecification(
-        Specification<Post> specification,
-        Specification<Post> specificationToAppend,
-        LogicalOperator operation
-    ) {
-        return switch (operation) {
-            case AND -> specification.and(specificationToAppend);
-            case OR -> specification.or(specificationToAppend);
-        };
-    }
-
     public static EntityFilter<EntityFilter<FilterCriterion>> createFilter(
         List<EntityFilter<FilterCriterion>> criteria,
         LogicalOperator operation
