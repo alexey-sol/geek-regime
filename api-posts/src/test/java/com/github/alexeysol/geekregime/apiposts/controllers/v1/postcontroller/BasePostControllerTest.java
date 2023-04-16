@@ -1,9 +1,9 @@
 package com.github.alexeysol.geekregime.apiposts.controllers.v1.postcontroller;
 
-import com.github.alexeysol.geekregime.apiposts.utils.mappers.PostMapper;
-import com.github.alexeysol.geekregime.apiposts.utils.sources.ApiPostsSource;
 import com.github.alexeysol.geekregime.apiposts.constants.PathConstants;
 import com.github.alexeysol.geekregime.apiposts.services.v1.PostService;
+import com.github.alexeysol.geekregime.apiposts.utils.mappers.PostMapper;
+import com.github.alexeysol.geekregime.apiposts.utils.sources.ApiPostsSource;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -14,15 +14,15 @@ import org.springframework.test.web.servlet.MockMvc;
 public abstract class BasePostControllerTest {
     protected final String VALIDATION_FAILED_MESSAGE = "Validation failed";
 
-    protected MockMvc mockMvc;
-    protected ApiPostsSource source;
-    protected String apiV1Path;
+    protected final MockMvc mockMvc;
+    protected final ApiPostsSource source;
+    protected final String apiV1Path;
 
     @MockBean
-    protected PostService postService;
+    protected PostService service;
 
     @MockBean
-    protected PostMapper postMapper;
+    protected PostMapper mapper;
 
     public BasePostControllerTest(
         MockMvc mockMvc,

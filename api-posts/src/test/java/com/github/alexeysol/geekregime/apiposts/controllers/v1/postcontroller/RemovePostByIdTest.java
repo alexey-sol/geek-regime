@@ -29,8 +29,8 @@ public class RemovePostByIdTest extends BasePostControllerTest {
         long postId = 1L;
         HasIdDto resultDto = new HasIdDto(postId);
 
-        when(postService.removePostById(postId)).thenReturn(postId);
-        when(postMapper.fromIdToHasIdDto(postId)).thenReturn(resultDto);
+        when(service.removePostById(postId)).thenReturn(postId);
+        when(mapper.fromIdToHasIdDto(postId)).thenReturn(resultDto);
 
         mockMvc.perform(MockMvcRequestBuilders.delete(getUrl(postId)))
             .andExpect(MockMvcResultMatchers.status().isOk())
@@ -47,7 +47,7 @@ public class RemovePostByIdTest extends BasePostControllerTest {
 
         long absentPostId = 10L;
 
-        when(postService.removePostById(absentPostId)).thenReturn(Defaults.NOT_FOUND_BY_ID);
+        when(service.removePostById(absentPostId)).thenReturn(Defaults.NOT_FOUND_BY_ID);
 
         mockMvc.perform(MockMvcRequestBuilders.delete(getUrl(absentPostId)))
             .andExpect(MockMvcResultMatchers.status().isNotFound())

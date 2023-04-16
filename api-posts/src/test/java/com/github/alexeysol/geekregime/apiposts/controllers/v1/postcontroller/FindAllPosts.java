@@ -33,7 +33,7 @@ public class FindAllPosts extends BasePostControllerTest {
     }
 
     @Test
-    public void allPostsExist_whenFindAllPosts_thenReturnsPageContainingFullDtoListWithStatus200()
+    public void allPostsExist_whenFindAllPosts_thenReturnsPageContainingDtoListWithStatus200()
         throws Exception {
 
         List<Post> posts = List.of(new Post(), new Post(), new Post());
@@ -43,8 +43,8 @@ public class FindAllPosts extends BasePostControllerTest {
             new PostPreviewDto());
         Page<PostPreviewDto> previewDtoPage = new PageImpl<>(previewDtoList, pageableStub, previewDtoList.size());
 
-        when(postService.findAllPosts(Mockito.any(Pageable.class))).thenReturn(postPage);
-        when(postMapper.fromPostListToPostPreviewDtoList(posts)).thenReturn(previewDtoList);
+        when(service.findAllPosts(Mockito.any(Pageable.class))).thenReturn(postPage);
+        when(mapper.fromPostListToPostPreviewDtoList(posts)).thenReturn(previewDtoList);
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl()))
             .andExpect(MockMvcResultMatchers.status().isOk())
@@ -67,8 +67,8 @@ public class FindAllPosts extends BasePostControllerTest {
         List<PostPreviewDto> emptyDtoList = List.of();
         Page<PostPreviewDto> emptyDtoPage = new PageImpl<>(new ArrayList<>(), pageableStub, 0);
 
-        when(postService.findAllPosts(Mockito.any(Pageable.class))).thenReturn(emptyPostPage);
-        when(postMapper.fromPostListToPostPreviewDtoList(emptyPostList)).thenReturn(emptyDtoList);
+        when(service.findAllPosts(Mockito.any(Pageable.class))).thenReturn(emptyPostPage);
+        when(mapper.fromPostListToPostPreviewDtoList(emptyPostList)).thenReturn(emptyDtoList);
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl()))
             .andExpect(MockMvcResultMatchers.status().isOk())

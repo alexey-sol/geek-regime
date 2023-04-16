@@ -14,9 +14,6 @@ public class ApiPostsSource implements ApiPath, BaseUrl, ActiveProfile {
     @Value("${api-posts.base-url}")
     private String baseUrl;
 
-    @Value("${api-posts.prefix}")
-    private String apiPrefix;
-
     @Value("${api-posts.resource}")
     private String resource;
 
@@ -25,7 +22,7 @@ public class ApiPostsSource implements ApiPath, BaseUrl, ActiveProfile {
     }
 
     public String getApiPath(int version) {
-        return formatApiPath(apiPrefix, version, resource);
+        return formatApiPath(version, resource);
     }
 
     @Override

@@ -33,8 +33,8 @@ public class FindPostBySlugTest extends BasePostControllerTest {
             .build();
         PostDetailsDto detailsDto = new PostDetailsDto();
 
-        when(postService.findPostBySlug(post.getSlug())).thenReturn(Optional.of(post));
-        when(postMapper.fromPostToPostDetailsDto(post)).thenReturn(detailsDto);
+        when(service.findPostBySlug(post.getSlug())).thenReturn(Optional.of(post));
+        when(mapper.fromPostToPostDetailsDto(post)).thenReturn(detailsDto);
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl(post.getSlug())))
             .andExpect(MockMvcResultMatchers.status().isOk())
@@ -51,7 +51,7 @@ public class FindPostBySlugTest extends BasePostControllerTest {
 
         String absentPostSlug = "test-post";
 
-        when(postService.findPostBySlug(absentPostSlug)).thenReturn(Optional.empty());
+        when(service.findPostBySlug(absentPostSlug)).thenReturn(Optional.empty());
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl(absentPostSlug)))
             .andExpect(MockMvcResultMatchers.status().isNotFound());

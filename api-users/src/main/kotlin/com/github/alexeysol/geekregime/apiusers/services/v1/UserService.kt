@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregime.apiusers.services.v1
 
 import com.github.alexeysol.geekregime.apicommons.constants.Defaults
-import com.github.alexeysol.geekregime.apicommons.models.dtos.query.SearchByDto
+import com.github.alexeysol.geekregime.apicommons.models.dtos.query.SearchCriteria
 import com.github.alexeysol.geekregime.apiusers.models.entities.User
 import com.github.alexeysol.geekregime.apiusers.repositories.UserRepository
 import org.springframework.data.domain.Page
@@ -18,10 +18,10 @@ class UserService(val repository: UserRepository) {
     fun findAllUsersById(ids: List<Long>, pageable: Pageable): Page<User> =
         repository.findAllUsersById(ids, pageable)
 
-    fun searchUsers(searchByDto: @Valid SearchByDto, pageable: Pageable): Page<User> {
-        val term = searchByDto.term
-        val fields = searchByDto.fields
-        val limit = searchByDto.limit
+    fun searchUsers(searchCriteria: @Valid SearchCriteria, pageable: Pageable): Page<User> {
+        val term = searchCriteria.value
+        val fields = searchCriteria.keys
+        val limit = searchCriteria.limit
 
         val users: List<User> = repository.searchBy(term, fields, limit)
 

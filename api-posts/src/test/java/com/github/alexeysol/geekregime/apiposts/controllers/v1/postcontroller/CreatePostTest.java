@@ -51,9 +51,9 @@ public class CreatePostTest extends BasePostControllerTest {
             .body(post.getBody())
             .build();
 
-        when(postMapper.fromCreatePostDtoToPost(createPostDto)).thenReturn(post);
-        when(postService.savePost(post)).thenReturn(post);
-        when(postMapper.fromPostToPostDetailsDto(post)).thenReturn(detailsDto);
+        when(mapper.fromCreatePostDtoToPost(createPostDto)).thenReturn(post);
+        when(service.savePost(post)).thenReturn(post);
+        when(mapper.fromPostToPostDetailsDto(post)).thenReturn(detailsDto);
 
         mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createPostDto))
             .andExpect(MockMvcResultMatchers.status().isOk())
@@ -106,9 +106,9 @@ public class CreatePostTest extends BasePostControllerTest {
             .body(post.getBody())
             .build();
 
-        when(postMapper.fromCreatePostDtoToPost(createPostDto)).thenReturn(post);
-        when(postService.savePost(post)).thenReturn(post);
-        when(postMapper.fromPostToPostDetailsDto(post))
+        when(mapper.fromCreatePostDtoToPost(createPostDto)).thenReturn(post);
+        when(service.savePost(post)).thenReturn(post);
+        when(mapper.fromPostToPostDetailsDto(post))
             .thenThrow(new ResourceException(HttpStatus.NOT_FOUND, "huh?"));
 
         mockMvc.perform(TestUtils.mockPostRequest(getUrl(), createPostDto))

@@ -20,6 +20,10 @@ public class PostFilterUtils {
         List<EntityFilter<FilterCriterion>> criteria,
         LogicalOperator operation
     ) {
+        if (criteria.isEmpty()) {
+            return null;
+        }
+
         var compositeFilter = new EntityFilter<EntityFilter<FilterCriterion>>(operation);
         compositeFilter.addAllFilterCriteria(criteria);
         return compositeFilter;
@@ -29,6 +33,10 @@ public class PostFilterUtils {
         EntityFilter<FilterCriterion> criterion,
         LogicalOperator operation
     ) {
+        if (Objects.isNull(criterion)) {
+            return null;
+        }
+
         return createFilter(List.of(criterion), operation);
     }
 
@@ -46,6 +54,10 @@ public class PostFilterUtils {
         String searchBy,
         LogicalOperator operation
     ) {
+        if (Objects.isNull(searchBy)) {
+            return null;
+        }
+
         var searchableConverter = new SearchableConverter(
             searchBy,
             PostConstants.SEARCHABLE_FIELDS

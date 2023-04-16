@@ -83,7 +83,9 @@ public class PostController {
 
         try {
             pageable = pageableConverter.getValue();
-            postsPage = service.findAllPosts(pageable, filter);
+            postsPage = (Objects.isNull(filter))
+                ? service.findAllPosts(pageable)
+                : service.findAllPosts(pageable, filter);
         } catch (IllegalArgumentException | ConstraintViolationException exception) {
             throw new ResourceException(HttpStatus.UNPROCESSABLE_ENTITY, exception.getMessage());
         }
@@ -104,7 +106,7 @@ public class PostController {
         return mapper.fromPostToPostDetailsDto(optionalPost.get());
     }
 
-    @PostMapping
+    @PostMapping("${api-posts.resource}")
     PostDetailsDto createPost(@RequestBody @Valid CreatePostDto dto) {
         var post = mapper.fromCreatePostDtoToPost(dto);
         var createdPost = service.savePost(post);

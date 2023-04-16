@@ -18,19 +18,33 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 
 @SpringBootTest
 @AutoConfigureMockMvc
-class FindUserBySlugTest(
+class FindUserByIdOrSlugTest(
     @Autowired mockMvc: MockMvc,
     @Autowired source: ApiUsersSource
 ) : BaseUserControllerTest(mockMvc, source) {
     @Test
-    fun givenUserExists_whenFindUserBySlug_thenReturnsUserWithStatus200() {
-        val email = "mark@mail.com"
+    fun givenUserWithIdExists_whenFindUserByIdOrSlug_thenReturnsUserWithStatus200() {
+        val userId = 1L
         val slug = "mark"
-        val user = User(email = "mark@mail.com", slug = slug, details = defaultDetails)
-        val userDto = UserDto.builder()
-            .email(email)
-            .slug(slug)
-            .build()
+        val user = User(slug = slug, details = defaultDetails)
+        val userDto = UserDto.builder().slug(slug).build()
+
+        every { service.findUserById(userId) } returns user
+        every { mapper.fromUserToUserDto(user) } returns userDto
+
+        mockMvc.perform(MockMvcRequestBuilders.get(getUrl(userId)))
+            .andExpect(MockMvcResultMatchers.status().isOk)
+            .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
+            .andExpect { result ->
+                Assertions.assertEquals(Json.stringify(userDto), result.response.contentAsString)
+            }
+    }
+
+    @Test
+    fun givenUserWithSlugExists_whenFindUserByIdOrSlug_thenReturnsUserWithStatus200() {
+        val slug = "mark"
+        val user = User(slug = slug, details = defaultDetails)
+        val userDto = UserDto.builder().slug(slug).build()
 
         every { service.findUserBySlug(slug) } returns user
         every { mapper.fromUserToUserDto(user) } returns userDto
@@ -44,12 +58,12 @@ class FindUserBySlugTest(
     }
 
     @Test
-    fun givenUserDoesntExist_whenFindUserBySlug_thenReturnsStatus404() {
-        val absentUserSlug = "who"
+    fun givenUserDoesntExist_whenFindUserByIdOrSlug_thenReturnsStatus404() {
+        val absentUserId = 10L
 
-        every { service.findUserBySlug(absentUserSlug) } returns null
+        every { service.findUserById(absentUserId) } returns null
 
-        mockMvc.perform(MockMvcRequestBuilders.get(getUrl(absentUserSlug)))
+        mockMvc.perform(MockMvcRequestBuilders.get(getUrl(absentUserId)))
             .andExpect(MockMvcResultMatchers.status().isNotFound)
             .andExpect { result ->
                 Assertions.assertTrue(result.resolvedException is ResourceException)

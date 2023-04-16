@@ -20,7 +20,7 @@ class FindAllUsersTest(
     @Autowired source: ApiUsersSource
 ) : BaseUserControllerTest(mockMvc, source) {
     private val pageableConverterStub = PageableConverter("", "")
-    private val pageableStub = pageableConverterStub.pageable
+    private val pageableStub = pageableConverterStub.value
 
     @Test
     fun allUsersExist_whenFindAllUsers_thenReturnsUserDtoListWithStatus200() {

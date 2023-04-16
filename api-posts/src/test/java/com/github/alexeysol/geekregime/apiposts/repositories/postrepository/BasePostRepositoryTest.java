@@ -1,17 +1,14 @@
 package com.github.alexeysol.geekregime.apiposts.repositories.postrepository;
 
-import com.github.alexeysol.geekregime.apiposts.configurations.JpaConfiguration;
 import com.github.alexeysol.geekregime.apiposts.repositories.PostRepository;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
-import org.springframework.context.annotation.Import;
 
 @DataJpaTest
 @AutoConfigureTestDatabase
 @AutoConfigureTestEntityManager
-@Import({ JpaConfiguration.class })
 public abstract class BasePostRepositoryTest {
     protected TestEntityManager entityManager;
     protected PostRepository postRepository;

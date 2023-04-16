@@ -51,10 +51,10 @@ public class UpdatePostTest extends BasePostControllerTest {
             .body(post.getBody())
             .build();
 
-        when(postService.findPostById(postId)).thenReturn(Optional.of(post));
-        when(postMapper.mapUpdatePostDtoToPost(updatePostDto, post)).thenReturn(post);
-        when(postService.savePost(post)).thenReturn(post);
-        when(postMapper.fromPostToPostDetailsDto(post)).thenReturn(detailsDto);
+        when(service.findPostById(postId)).thenReturn(Optional.of(post));
+        when(mapper.mapUpdatePostDtoToPost(updatePostDto, post)).thenReturn(post);
+        when(service.savePost(post)).thenReturn(post);
+        when(mapper.fromPostToPostDetailsDto(post)).thenReturn(detailsDto);
 
         mockMvc.perform(TestUtils.mockPatchRequest(getUrl(postId), updatePostDto))
             .andExpect(MockMvcResultMatchers.status().isOk())
@@ -76,7 +76,7 @@ public class UpdatePostTest extends BasePostControllerTest {
             .body("Hello World")
             .build();
 
-        when(postService.findPostById(absentId))
+        when(service.findPostById(absentId))
             .thenThrow(new ResourceException(HttpStatus.NOT_FOUND, "whuh?"));
 
         mockMvc.perform(TestUtils.mockPatchRequest(getUrl(absentId), updatePostDto))

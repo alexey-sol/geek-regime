@@ -6,4 +6,8 @@ public interface ApiPath {
     default String formatApiPath(String prefix, int version, String resource) {
         return String.format("/%s/v%d/%s", prefix, version, resource);
     }
+
+    default String formatApiPath(int version, String resource) {
+        return String.format("/v%d/%s", version, resource);
+    }
 }

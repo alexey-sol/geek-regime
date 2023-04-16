@@ -7,6 +7,7 @@ import com.github.alexeysol.geekregime.apicommons.models.dtos.users.UserDto
 import com.github.alexeysol.geekregime.apicommons.models.exceptions.ErrorDetail
 import com.github.alexeysol.geekregime.apicommons.utils.converters.PageableConverter
 import com.github.alexeysol.geekregime.apicommons.utils.converters.SearchableConverter
+import com.github.alexeysol.geekregime.apiusers.constants.UserConstants
 import com.github.alexeysol.geekregime.apiusers.models.dtos.AuthDto
 import com.github.alexeysol.geekregime.apiusers.models.dtos.CreateUserDto
 import com.github.alexeysol.geekregime.apiusers.models.dtos.UpdateUserDto
@@ -22,15 +23,6 @@ import org.springframework.web.bind.annotation.*
 import javax.validation.ConstraintViolationException
 import javax.validation.Valid
 
-private const val EMAIL_FIELD = "email"
-private const val ID_FIELD = "id"
-private const val OLD_PASSWORD_FIELD = "oldPassword"
-private const val PASSWORD_FIELD = "password"
-private const val SLUG_FIELD = "slug"
-
-private val sortableFields: List<String> = listOf("createdAt", "details.name", "email", "id")
-private val searchableFields: List<String> = listOf("details.name", "slug")
-
 @RestController
 @RequestMapping(
     path = [com.github.alexeysol.geekregime.apiusers.constants.PathConstants.API_V1_PATH],
@@ -44,13 +36,15 @@ class UserController(
     @PostMapping("auth")
     fun authenticate(@RequestBody @Valid dto: AuthDto): UserDto {
         val user = dto.email?.let { service.findUserByEmail(it) }
-            ?: throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT, EMAIL_FIELD))
+            ?: throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT,
+                UserConstants.EMAIL_FIELD))
 
         try {
             assertPassword(dto.password, user.credentials);
             return mapper.fromUserToUserDto(user);
         } catch (exception: IllegalArgumentException) {
-            throw ResourceException(ErrorDetail(ErrorDetail.Code.MISMATCH, PASSWORD_FIELD))
+            throw ResourceException(ErrorDetail(ErrorDetail.Code.MISMATCH,
+                UserConstants.PASSWORD_FIELD))
         }
     }
 
@@ -61,11 +55,11 @@ class UserController(
         @RequestParam sortBy: String?,
         @RequestParam searchBy: String?
     ): Page<UserDto> {
-        val pageableConverter = PageableConverter(paging, sortBy, sortableFields)
-        val searchableConverter = SearchableConverter(searchBy, searchableFields)
+        val pageableConverter = PageableConverter(paging, sortBy, UserConstants.SORTABLE_FIELDS)
+        val searchableConverter = SearchableConverter(searchBy, UserConstants.SEARCHABLE_FIELDS)
 
         try {
-            val pageable = pageableConverter.pageable
+            val pageable = pageableConverter.value
             val searchByDto = searchableConverter.value
 
             val usersPage =
@@ -82,10 +76,19 @@ class UserController(
         }
     }
 
-    @GetMapping("{slug}")
-    fun findUserBySlug(@PathVariable slug: String): UserDto {
-        val user = service.findUserBySlug(slug)
-            ?: throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT, SLUG_FIELD))
+    @GetMapping("{idOrSlug}")
+    fun findUserByIdOrSlug(@PathVariable idOrSlug: String): UserDto {
+        val assumeId = idOrSlug.toLongOrNull(10) !== null;
+
+        val user = if (assumeId) {
+            service.findUserById(idOrSlug.toLong())
+                ?: throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT,
+                    UserConstants.ID_FIELD))
+        } else {
+            service.findUserBySlug(idOrSlug)
+                ?: throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT,
+                    UserConstants.SLUG_FIELD))
+        }
 
         return mapper.fromUserToUserDto(user)
     }
@@ -93,7 +96,8 @@ class UserController(
     @GetMapping("email/{email}")
     fun findUserByEmail(@PathVariable email: String): UserDto {
         val user = service.findUserByEmail(email)
-            ?: throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT, EMAIL_FIELD))
+            ?: throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT,
+                UserConstants.EMAIL_FIELD))
 
         return mapper.fromUserToUserDto(user)
     }
@@ -101,7 +105,8 @@ class UserController(
     @PostMapping
     fun createUser(@RequestBody @Valid dto: CreateUserDto): UserDto {
         if (service.userByEmailExists(dto.email)) {
-            throw ResourceException(ErrorDetail(ErrorDetail.Code.ALREADY_EXISTS, EMAIL_FIELD))
+            throw ResourceException(ErrorDetail(ErrorDetail.Code.ALREADY_EXISTS,
+                UserConstants.EMAIL_FIELD))
         }
 
         val user = mapper.fromCreateUserDtoToUser(dto)
@@ -116,17 +121,20 @@ class UserController(
     ): UserDto {
         dto.email?.let {
             if (service.userByEmailExists(it)) {
-                throw ResourceException(ErrorDetail(ErrorDetail.Code.ALREADY_EXISTS, EMAIL_FIELD))
+                throw ResourceException(ErrorDetail(ErrorDetail.Code.ALREADY_EXISTS,
+                    UserConstants.EMAIL_FIELD))
             }
         }
 
         val user = service.findUserById(id)
-            ?: throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD))
+            ?: throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT,
+                UserConstants.ID_FIELD))
 
         try {
             assertPasswordsMatchIfNeeded(dto.oldPassword, dto.newPassword, user.credentials)
         } catch (exception: IllegalArgumentException) {
-            throw ResourceException(ErrorDetail(ErrorDetail.Code.MISMATCH, OLD_PASSWORD_FIELD))
+            throw ResourceException(ErrorDetail(ErrorDetail.Code.MISMATCH,
+                UserConstants.OLD_PASSWORD_FIELD))
         }
 
         val entity = mapper.fromUpdateUserDtoToUser(dto, user)
@@ -140,7 +148,7 @@ class UserController(
         val isNotFound = result == Defaults.NOT_FOUND_BY_ID
 
         if (isNotFound) {
-            throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD))
+            throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT, UserConstants.ID_FIELD))
         }
 
         return mapper.fromIdToHasIdDto(id)

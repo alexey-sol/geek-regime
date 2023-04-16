@@ -12,7 +12,7 @@ abstract class BaseUserServiceTest {
     protected val service = UserService(repository)
 
     private val pageableConverterStub = PageableConverter("", "")
-    protected val pageableStub: Pageable = pageableConverterStub.pageable
+    protected val pageableStub: Pageable = pageableConverterStub.value
 
     protected val defaultDetails = Details(name = "For we are many")
 }
