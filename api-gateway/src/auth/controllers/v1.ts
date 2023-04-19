@@ -11,8 +11,7 @@ import {
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import type { Response } from "express";
-import type { CreateUserDto } from "js-commons/src/types/users";
-import type { HasId } from "js-commons/src/types/props";
+import type { CreateUserDto, HasId } from "js-commons";
 
 import { AuthService } from "@/auth/service";
 import { AppConfig } from "@/config/types";
@@ -22,7 +21,7 @@ import { JwtAuthGuard, LocalAuthGuard, YandexAuthGuard } from "../guards";
 import * as ct from "../const";
 
 @Controller({
-    path: ct.AUTH_ROUTE,
+    path: ct.AUTH_RESOURCE,
     version: "1",
 })
 export class AuthControllerV1 {
@@ -67,9 +66,9 @@ export class AuthControllerV1 {
     private getMaxAge() {
         const dayInMs = 24 * 60 * 60 * 1000;
         const jwtExpiresIn = this.configService.get("auth.jwtExpiresIn", { infer: true });
-        const hasSetExpirationTimeInDays = jwtExpiresIn?.endsWith("d");
+        const isExpirationTimeInDays = jwtExpiresIn?.endsWith("d");
 
-        if (hasSetExpirationTimeInDays) {
+        if (isExpirationTimeInDays) {
             const days = parseInt(jwtExpiresIn, 10);
             return days * dayInMs;
         }

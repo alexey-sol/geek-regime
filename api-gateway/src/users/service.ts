@@ -4,8 +4,7 @@ import { Injectable } from "@nestjs/common";
 import {
     catchError, firstValueFrom, map,
 } from "rxjs";
-import type { CreateUserDto, UserDto } from "js-commons/src/types/users";
-import type { HasId } from "js-commons/src/types/props";
+import type { CreateUserDto, UserDto, HasId } from "js-commons";
 
 import { AppConfig } from "@/config/types";
 import * as authCn from "@/auth/const";
@@ -37,10 +36,10 @@ export class UsersService {
         );
     }
 
-    async findUser(idOrEmail: HasId["id"] | string): Promise<UserDto> {
+    async findUserById(id: HasId["id"]): Promise<UserDto> {
         return firstValueFrom(
             this.httpService
-                .get(this.findUserApiPath(idOrEmail))
+                .get(this.findUserByIdApiPath(id))
                 .pipe(this.getData<UserDto>())
                 .pipe(catchError((error) => {
                     throw error;
@@ -48,7 +47,20 @@ export class UsersService {
         );
     }
 
-    private findUserApiPath = (id: HasId["id"] | string) => `${this.apiPath}/${id}`;
+    private findUserByIdApiPath = (id: HasId["id"]) => `${this.apiPath}/${id}`;
+
+    async findUserByEmail(email: string): Promise<UserDto> {
+        return firstValueFrom(
+            this.httpService
+                .get(this.findUserByEmailApiPath(email))
+                .pipe(this.getData<UserDto>())
+                .pipe(catchError((error) => {
+                    throw error;
+                })),
+        );
+    }
+
+    private findUserByEmailApiPath = (email: string) => `${this.apiPath}/email/${email}`;
 
     async authenticate(email: string, password: string): Promise<UserDto> {
         const dto: AuthenticateDto = { email, password };
@@ -63,7 +75,7 @@ export class UsersService {
         );
     }
 
-    private getAuthenticateApiPath = () => `${this.apiPath}/${authCn.AUTH_ROUTE}`;
+    private getAuthenticateApiPath = () => `${this.apiPath}/${authCn.AUTH_RESOURCE}`;
 
     private getData: ResponseDataGetter = () => map((res) => res.data);
 }

@@ -5,6 +5,8 @@ import type { ArgumentsHost, ExceptionFilter } from "@nestjs/common";
 
 import { ProcessConfigService } from "@/config/service";
 import { getResource } from "@/shared/utils/url";
+import { validatedEnv as env } from "@/config/utils/validation";
+import * as authCn from "@/auth/const";
 
 import type { ApiExceptionData } from "./types";
 
@@ -25,6 +27,9 @@ export class ApiExceptionFilter implements ExceptionFilter {
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
+    private static KNOWN_RESOURCES: string[] = [env.API_POSTS_RESOURCE, env.API_USERS_RESOURCE,
+        authCn.AUTH_RESOURCE];
+
     constructor(private readonly processConfigService: ProcessConfigService) {}
 
     catch(exception: HttpException, host: ArgumentsHost) {
@@ -40,7 +45,7 @@ export class HttpExceptionFilter implements ExceptionFilter {
             details: [],
             message: exception.message,
             path: request.path,
-            resource: getResource(request.path),
+            resource: getResource(request.path, HttpExceptionFilter.KNOWN_RESOURCES),
             status,
             timestamp: new Date().toISOString(),
             trace: (isProduction) ? null : trace,

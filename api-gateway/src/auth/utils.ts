@@ -1,5 +1,5 @@
 import type { Profile } from "passport-yandex";
-import type { CreateUserDto, Gender } from "js-commons/src/types/users";
+import type { CreateUserDto, Gender } from "js-commons";
 
 const convertGender = (gender?: string): Gender | undefined => {
     switch (gender?.toUpperCase()) {
@@ -17,11 +17,16 @@ export const fromYandexProfileToCreateUserDto = ({
     emails,
     gender,
     photos,
-}: Profile): CreateUserDto => ({
-    email: emails?.[0]?.value ?? "",
-    details: {
-        gender: convertGender(gender),
-        image: photos?.[0]?.value,
-        name: displayName ?? "",
-    },
-});
+}: Profile): CreateUserDto => {
+    const email = emails?.[0]?.value ?? "";
+    const defaultName = email.split("@")[0] ?? "";
+
+    return {
+        email: emails?.[0]?.value ?? "",
+        details: {
+            gender: convertGender(gender),
+            image: photos?.[0]?.value,
+            name: displayName ?? defaultName,
+        },
+    };
+};

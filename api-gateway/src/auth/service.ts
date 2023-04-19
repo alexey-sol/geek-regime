@@ -1,8 +1,7 @@
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { isAxiosError } from "axios";
-import type { CreateUserDto } from "js-commons/src/types/users";
-import type { HasId } from "js-commons/src/types/props";
+import type { CreateUserDto, HasId } from "js-commons";
 
 import { UsersService } from "@/users/service";
 
@@ -15,7 +14,7 @@ export class AuthService {
 
     createUser = async (dto: CreateUserDto) => this.usersService.createUser(dto);
 
-    getProfile = async (idOrEmail: HasId["id"] | string) => this.usersService.findUser(idOrEmail);
+    getProfile = async (id: HasId["id"]) => this.usersService.findUserById(id);
 
     createOrFindUser = async (dto: CreateUserDto) => {
         try {
@@ -25,7 +24,7 @@ export class AuthService {
                 const userAlreadyExists = error.response?.status === HttpStatus.CONFLICT;
 
                 if (userAlreadyExists) {
-                    return this.usersService.findUser(dto.email);
+                    return this.usersService.findUserByEmail(dto.email);
                 }
             }
 

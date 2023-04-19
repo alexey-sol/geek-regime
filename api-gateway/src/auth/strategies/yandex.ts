@@ -2,7 +2,7 @@ import { PassportStrategy } from "@nestjs/passport";
 import { Callback, Strategy } from "passport-yandex";
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import type { CreateUserDto } from "js-commons/src/types/users";
+import type { CreateUserDto } from "js-commons";
 
 import { AppConfig } from "@/config/types";
 import { fromYandexProfileToCreateUserDto } from "@/auth/utils";

@@ -3,7 +3,7 @@ import { ExtractJwt, Strategy } from "passport-jwt";
 import { PassportStrategy } from "@nestjs/passport";
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import type { HasId } from "js-commons/src/types/props";
+import type { HasId } from "js-commons";
 
 import { AppConfig } from "@/config/types";
 

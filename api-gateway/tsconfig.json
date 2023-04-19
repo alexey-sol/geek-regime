@@ -1,5 +1,5 @@
 {
-    "extends": "js-commons/tsconfig.json",
+    "extends": "js-commons/configs/tsconfig.base.json",
     "compilerOptions": {
         "baseUrl": ".",
         "outDir": "./dist",

@@ -61,20 +61,22 @@ export const validationPipeConfig = registerAs("validationPipe", () => {
 });
 
 export class AppProxyMiddleware {
-    private static readonly targetUrl = "http://localhost";
-    private static readonly resourcesToIgnore = [authCn.AUTH_ROUTE];
+    private static readonly TARGET_URL = "http://localhost";
+    private static readonly RESOURCES_TO_IGNORE = [authCn.AUTH_RESOURCE];
+    private static readonly KNOWN_RESOURCES = [env.API_POSTS_RESOURCE, env.API_USERS_RESOURCE,
+        authCn.AUTH_RESOURCE];
 
     constructor(private readonly configService: ConfigService<AppConfig, true>) {}
 
     getResult = (): RequestHandler => unless(createProxyMiddleware({
         changeOrigin: true,
         onProxyReq: async (proxyReq) => proxyReq,
-        target: AppProxyMiddleware.targetUrl,
+        target: AppProxyMiddleware.TARGET_URL,
         router: this.getRouter,
-    }), AppProxyMiddleware.resourcesToIgnore);
+    }), AppProxyMiddleware.RESOURCES_TO_IGNORE);
 
     private getRouter = (req: Request) => {
-        const resource = getResource(req.path);
+        const resource = getResource(req.path, AppProxyMiddleware.KNOWN_RESOURCES);
         const proxyTable = this.getProxyTable();
         const proxyTableKey = `/${resource}`;
         const proxyRoute = proxyTable[proxyTableKey];

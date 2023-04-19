@@ -3,7 +3,3 @@ export enum NodeEnv {
     PRODUCTION = "production",
     TEST = "test",
 }
-
-export const url = {
-    RESOURCE_SEGMENT_INDEX: 2,
-};
