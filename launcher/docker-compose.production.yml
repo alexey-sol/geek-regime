@@ -12,11 +12,7 @@ services:
 
     api-users:
         volumes:
-            - api-users-search-data_prod:${API_POSTS_SEARCH_DATA_PATH}
-
-    api-posts:
-        volumes:
-            - api-posts-search-data_prod:${API_POSTS_SEARCH_DATA_PATH}
+            - api-users-search-data_prod:${API_USERS_SEARCH_DATA_PATH}
 
 volumes:
     api-posts-search-data_prod:

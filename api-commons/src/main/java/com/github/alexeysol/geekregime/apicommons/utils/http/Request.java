@@ -92,15 +92,15 @@ public class Request {
             .sendAsync(httpRequest, HttpResponse.BodyHandlers.ofString());
     }
 
-    public Request addPathVariable(long pathVariable) {
-        return addPathVariable(String.valueOf(pathVariable));
+    public Request addPathSegment(long segment) {
+        return addPathSegment(String.valueOf(segment));
     }
 
-    public Request addPathVariable(String pathVariable) {
-        Assert.isNull(httpRequest, "Request is already built; add path variable before making request");
-        Assert.isTrue(!hasQueryParams, "URI already has query params in it; add path variable first");
+    public Request addPathSegment(String segment) {
+        Assert.isNull(httpRequest, "Request is already built; add path segment before making request");
+        Assert.isTrue(!hasQueryParams, "URI already has query params in it; add path segment first");
 
-        String path = String.format("/%s", pathVariable);
+        String path = String.format("/%s", segment);
         url += path;
 
         return this;

@@ -2,14 +2,14 @@ package com.github.alexeysol.geekregime.apicommons.models.utils;
 
 import java.util.List;
 
-public class BasicPage<Item> {
-    private List<Item> content;
+public class BasicPage<E> {
+    private List<E> content;
     private int size;
     private int totalElements;
 
     public BasicPage() {}
 
-    public List<Item> getContent() {
+    public List<E> getContent() {
         return content;
     }
 
@@ -21,7 +21,7 @@ public class BasicPage<Item> {
         return totalElements;
     }
 
-    private void setContent(List<Item> content) {
+    private void setContent(List<E> content) {
         this.content = content;
     }
 

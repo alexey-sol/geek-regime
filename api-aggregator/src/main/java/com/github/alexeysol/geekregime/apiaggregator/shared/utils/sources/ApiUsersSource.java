@@ -20,7 +20,11 @@ public class ApiUsersSource implements ApiPath, BaseUrl {
         return baseUrl;
     }
 
+    public String getResource() {
+        return resource;
+    }
+
     public String getApiPath(int version) {
-        return String.format("/%s/v%d/%s", apiPrefix, version, resource);
+        return formatApiPath(apiPrefix, version);
     }
 }

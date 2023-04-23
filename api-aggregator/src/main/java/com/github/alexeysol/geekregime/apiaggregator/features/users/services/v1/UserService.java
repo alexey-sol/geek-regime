@@ -15,19 +15,16 @@ import java.util.List;
 
 @Service
 public class UserService {
-    private String apiUsersBaseUrl = "";
     private final ApiUsersSource source;
 
     public UserService(ApiUsersSource source) {
         this.source = source;
     }
 
-    public void setApiUsersUrl(String apiUsersBaseUrl) {
-        this.apiUsersBaseUrl = apiUsersBaseUrl;
-    }
-
     public List<UserDto> findAllUsers(List<Long> ids) {
-        Request request = new Request(getApiUsersUrl());
+        String path = String.format("/%s", source.getResource());
+
+        Request request = new Request(getApiUrl(path));
 
         HttpResponse<String> response = request.addQueryParam("ids", ids)
             .GET()
@@ -44,9 +41,11 @@ public class UserService {
     }
 
     public UserDto findUserById(long id) {
-        Request request = new Request(getApiUsersUrl());
-        HttpResponse<String> response = request.addPathVariable(id)
-            .GET()
+        String path = String.format("/%s/%d", source.getResource(), id);
+
+        Request request = new Request(getApiUrl(path));
+
+        HttpResponse<String> response = request.GET()
             .send()
             .join();
 
@@ -57,12 +56,8 @@ public class UserService {
         }
     }
 
-    private String getApiUsersUrl() {
+    private String getApiUrl(String path) {
         String apiPath = source.getApiPath(PathConstants.V1);
-        String baseUrl = (apiUsersBaseUrl.isEmpty())
-            ? source.getBaseUrl()
-            : apiUsersBaseUrl;
-
-        return baseUrl + apiPath;
+        return source.getBaseUrl() + apiPath + path;
     }
 }

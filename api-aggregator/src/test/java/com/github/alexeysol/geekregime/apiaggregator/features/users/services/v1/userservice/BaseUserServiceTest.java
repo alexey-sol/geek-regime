@@ -1,7 +1,6 @@
 package com.github.alexeysol.geekregime.apiaggregator.features.users.services.v1.userservice;
 
 import com.github.alexeysol.geekregime.apiaggregator.features.users.services.v1.UserService;
-import com.github.alexeysol.geekregime.apiaggregator.shared.constants.PathConstants;
 import com.github.alexeysol.geekregime.apiaggregator.shared.utils.sources.ApiUsersSource;
 import com.github.tomakehurst.wiremock.WireMockServer;
 import com.github.tomakehurst.wiremock.client.MappingBuilder;
@@ -17,13 +16,16 @@ import org.springframework.boot.test.mock.mockito.SpyBean;
 import org.springframework.http.HttpStatus;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
+import static org.mockito.Mockito.when;
 
 @SpringBootTest
 public abstract class BaseUserServiceTest {
-    private final static String HOST = "localhost";
+    private static final String HOST = "http://localhost";
+    protected static final String API_USERS_PATH = "/api/v1/users";
+
     static WireMockServer wireMockServer = new WireMockServer();
 
-    private String apiV1Path;
+    @SpyBean
     protected ApiUsersSource source;
 
     @SpyBean
@@ -35,12 +37,12 @@ public abstract class BaseUserServiceTest {
         wireMockServer = new WireMockServer(wireMockConfig);
         wireMockServer.start();
         WireMock.configureFor(HOST, wireMockServer.port());
-
     }
 
     @BeforeEach
     public void beforeEach() {
-        service.setApiUsersUrl(getTestBaseUrl());
+        String baseUrl = String.format("%s:%d", HOST, wireMockServer.port());
+        when(source.getBaseUrl()).thenReturn(baseUrl);
     }
 
     @AfterAll
@@ -53,58 +55,17 @@ public abstract class BaseUserServiceTest {
         wireMockServer.resetAll();
     }
 
-    public BaseUserServiceTest(
-        ApiUsersSource source
-    ) {
-        this.source = source;
-        this.apiV1Path = source.getApiPath(PathConstants.V1);
-    }
-
-    protected String getTestBaseUrl() {
-        int port = wireMockServer.port();
-        return String.format(PathConstants.BASE_URL_TEMPLATE, HOST, port);
-    }
-
-    protected String getEndpoint() {
-        return getEndpoint("");
-    }
-
-    protected String getEndpoint(long pathVariable) {
-        return getEndpoint(String.valueOf(pathVariable));
-    }
-
-    protected String getEndpoint(String pathVariable) {
-        return (pathVariable.isEmpty())
-            ? apiV1Path
-            : String.format("%s/%s", apiV1Path, pathVariable);
-    }
-
     protected String getJsonPath(String methodName, HttpStatus httpStatus) {
         String jsonPathTemplate = "features/users/services/v1/userservice/%s/%d.json";
         return String.format(jsonPathTemplate, methodName.toLowerCase(), httpStatus.value());
     }
 
-    protected MappingBuilder getApiUsersMappingBuilder(ResponseDefinitionBuilder response) {
-        return getApiUsersMappingBuilder(response, "");
-    }
-
-    protected MappingBuilder getApiUsersMappingBuilder(
-        ResponseDefinitionBuilder response,
-        long pathVariable
+    protected MappingBuilder getApiMappingBuilder(
+        String path,
+        ResponseDefinitionBuilder responseToReturn
     ) {
-        return getApiUsersMappingBuilder(response, String.valueOf(pathVariable));
-    }
-
-    protected MappingBuilder getApiUsersMappingBuilder(
-        ResponseDefinitionBuilder response,
-        String pathVariable
-    ) {
-        String url = (pathVariable.isEmpty())
-            ? apiV1Path
-            : String.format("%s/%s", apiV1Path, pathVariable);
-
-        return get(urlPathEqualTo(url))
+        return get(urlPathEqualTo(path))
             .withHeader("Content-Type", containing("application/json"))
-            .willReturn(response);
+            .willReturn(responseToReturn);
     }
 }

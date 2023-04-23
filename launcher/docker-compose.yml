@@ -31,6 +31,8 @@ services:
             - JWT_EXPIRES_IN
             - JWT_SECRET
             - NODE_ENV
+            - YANDEX_CLIENT_ID
+            - YANDEX_CLIENT_SECRET
 
     api-aggregator:
         restart: always
@@ -86,7 +88,7 @@ services:
             - API_POSTS_PORT
             - API_POSTS_PREFIX
             - API_POSTS_RESOURCE
-            - API_POSTS_SEARCH_DATA_PATH
+            - API_USERS_RESOURCE
             - DB_POSTS_HOST
             - DB_POSTS_NAME
             - DB_POSTS_PASSWORD
@@ -143,8 +145,6 @@ services:
             - CLIENT_WEB_PORT_EXTERNAL
             - CLIENT_WEB_WEBSOCKET_URL
             - NODE_ENV
-            - YANDEX_CLIENT_ID
-            - YANDEX_OAUTH_URL
 
 networks:
     geek-regime-internal:

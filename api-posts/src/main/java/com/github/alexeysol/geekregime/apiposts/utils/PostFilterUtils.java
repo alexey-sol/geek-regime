@@ -8,13 +8,16 @@ import com.github.alexeysol.geekregime.apicommons.models.dtos.query.SearchCriter
 import com.github.alexeysol.geekregime.apicommons.models.utils.EntityFilter;
 import com.github.alexeysol.geekregime.apicommons.utils.converters.SearchableConverter;
 import com.github.alexeysol.geekregime.apiposts.constants.PostConstants;
+import lombok.experimental.UtilityClass;
 import org.springframework.http.HttpStatus;
 
 import javax.validation.ConstraintViolationException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+@UtilityClass
 public class PostFilterUtils {
     public static EntityFilter<EntityFilter<FilterCriterion>> createFilter(
         List<EntityFilter<FilterCriterion>> criteria,
@@ -100,5 +103,14 @@ public class PostFilterUtils {
         }
 
         return criteria;
+    }
+
+    @SafeVarargs
+    public static List<EntityFilter<FilterCriterion>> combinePlainFilters(
+        EntityFilter<FilterCriterion>... filters
+    ) {
+        return Arrays.stream(filters)
+            .filter(Objects::nonNull)
+            .toList();
     }
 }

@@ -31,7 +31,7 @@ public class PostController {
         this.mapper = mapper;
     }
 
-    @GetMapping
+    @GetMapping("${api-posts.resource}")
     BasicPage<PostPreviewView> findAllPosts(
         @RequestParam Optional<String> paging,
         @RequestParam Optional<String> sortBy,
@@ -42,13 +42,25 @@ public class PostController {
         return page.convertContent(viewList);
     }
 
-    @GetMapping("{slug}")
+    @GetMapping("${api-users.resource}/{authorId}/${api-posts.resource}")
+    BasicPage<PostPreviewView> findAllPostsByAuthor(
+        @PathVariable long authorId,
+        @RequestParam Optional<String> paging,
+        @RequestParam Optional<String> sortBy,
+        @RequestParam Optional<String> searchBy
+    ) {
+        BasicPage<PostPreviewDto> page = service.findAllPosts(authorId, paging, sortBy, searchBy);
+        List<PostPreviewView> viewList = mapper.fromPostPreviewDtoListToViewList(page.getContent());
+        return page.convertContent(viewList);
+    }
+
+    @GetMapping("${api-posts.resource}/{slug}")
     PostDetailsView findPostBySlug(@PathVariable String slug) {
         PostDetailsDto detailsDto = service.findPostBySlug(slug);
         return mapper.fromPostDetailsDtoToView(detailsDto);
     }
 
-    @PostMapping
+    @PostMapping("${api-posts.resource}")
     PostDetailsView createPost(@RequestBody String dto) throws Throwable {
         PostDetailsDto detailsDto = service.createPost(dto);
 
@@ -56,12 +68,12 @@ public class PostController {
             return mapper.fromPostDetailsDtoToView(detailsDto);
         } catch (MappingException exception) {
             Throwable cause = exception.getCause();
-            cleanUpIfNeeded(cause, detailsDto.getId());
+            cleanUpIfNeeded(exception.getCause(), detailsDto.getId());
             throw cause;
         }
     }
 
-    @PatchMapping("{id}")
+    @PatchMapping("${api-posts.resource}/{id}")
     PostDetailsView updatePost(
         @PathVariable long id,
         @RequestBody String dto
@@ -70,7 +82,7 @@ public class PostController {
         return mapper.fromPostDetailsDtoToView(updatePost);
     }
 
-    @DeleteMapping("{id}")
+    @DeleteMapping("${api-posts.resource}/{id}")
     HasIdDto removePostById(@PathVariable long id) {
         return service.removePostById(id);
     }

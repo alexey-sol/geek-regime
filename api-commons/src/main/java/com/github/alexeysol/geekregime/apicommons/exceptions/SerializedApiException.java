@@ -7,6 +7,7 @@ import com.github.alexeysol.geekregime.apicommons.utils.parsers.Json;
 import com.github.alexeysol.geekregime.apicommons.utils.ObjectCasting;
 import com.github.alexeysol.geekregime.apicommons.utils.converters.MapConverter;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -66,7 +67,9 @@ public class SerializedApiException extends RuntimeException {
         }
 
         public Builder buildDetails() {
-            var unknownDetails = ObjectCasting.objectToList(rawData.get("details"), Map.class);
+            List<Map> unknownDetails = (rawData.containsKey("details"))
+                ? ObjectCasting.objectToList(rawData.get("details"), Map.class)
+                : new ArrayList<>();
 
             List<ErrorDetail.View> details = unknownDetails.stream()
                 .map(detail -> MapConverter.toClass(detail, ErrorDetail.View.class))

@@ -24,6 +24,9 @@ api-posts:
     prefix: ${API_POSTS_PREFIX:api}
     resource: ${API_POSTS_RESOURCE:posts}
 
+api-users:
+    resource: ${API_USERS_RESOURCE:users}
+
 ---
 
 spring:

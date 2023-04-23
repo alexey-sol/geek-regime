@@ -44,8 +44,8 @@ public class PostController {
         this.mapper = mapper;
     }
 
-    @GetMapping("users/{authorId}/${api-posts.resource}")
-    Page<PostPreviewDto> findAllPostsByUser(
+    @GetMapping("${api-users.resource}/{authorId}/${api-posts.resource}")
+    Page<PostPreviewDto> findAllPostsByAuthor(
         @PathVariable long authorId,
         @RequestParam(required = false) String paging,
         @RequestParam(required = false) String sortBy,
@@ -53,8 +53,9 @@ public class PostController {
     ) {
         var authorIdFilter = PostFilterUtils.createFilter(authorId, LogicalOperator.AND);
         var searchFilter = PostFilterUtils.createFilter(searchBy, LogicalOperator.OR);
-        var compositeFilter = PostFilterUtils.createFilter(List.of(authorIdFilter, searchFilter),
-            LogicalOperator.AND);
+        var plainFilters = PostFilterUtils.combinePlainFilters(authorIdFilter, searchFilter);
+
+        var compositeFilter = PostFilterUtils.createFilter(plainFilters, LogicalOperator.AND);
 
         return findPosts(paging, sortBy, compositeFilter);
     }

@@ -20,7 +20,11 @@ public class ApiPostsSource implements ApiPath, BaseUrl {
         return baseUrl;
     }
 
+    public String getResource() {
+        return resource;
+    }
+
     public String getApiPath(int version) {
-        return formatApiPath(apiPrefix, version, resource);
+        return formatApiPath(apiPrefix, version);
     }
 }
