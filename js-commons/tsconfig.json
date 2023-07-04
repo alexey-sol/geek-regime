@@ -1,13 +1,15 @@
 {
-    "extends": "./configs/tsconfig.base.json",
+    "extends": "@eggziom/geek-regime-js-configs/dist/tsconfig.base.json",
     "compilerOptions": {
         "baseUrl": ".",
         "declaration": true,
+        "emitDeclarationOnly": true,
         "outDir": "./dist",
         "paths": {
             "@/*": ["src/*"]
-        }
+        },
+        "sourceMap": false,
+        "typeRoots": ["node_modules/@types", "@types"]
     },
-    "exclude": ["node_modules", "build", "dist", "**/*.spec.*", "**/*.test.*"],
-    "include": ["src"]
+    "include": ["src", "@types"]
 }

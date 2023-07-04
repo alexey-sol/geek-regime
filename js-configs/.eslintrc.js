@@ -1,14 +1,10 @@
-const path = require("path");
-
-const baseConfig = path.resolve("node_modules", "@eggziom", "geek-regime-js-configs", "dist", "eslint", "config.base");
-
 module.exports = {
     extends: [
-        baseConfig,
+        "./src/eslint/config.base",
     ],
     overrides: [
         {
-            files: ["src/configs/**", "**/*.d.ts", "**/*.config.*", "**/*.stories.*"],
+            files: ["src/**", "**/*.d.ts", "**/*.config.*"],
             rules: {
                 "import/no-default-export": "off",
             },
