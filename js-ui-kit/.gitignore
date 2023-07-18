@@ -1,0 +1,14 @@
+**/*.tsbuildinfo
+.DS_Store
+.env
+.nyc_output
+.idea
+.vscode
+build
+coverage
+dist
+log
+logs
+misc
+node_modules
+npm-debug.log*
