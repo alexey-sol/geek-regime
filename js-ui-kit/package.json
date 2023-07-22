@@ -1,6 +1,6 @@
 {
     "name": "@eggziom/geek-regime-js-ui-kit",
-    "version": "0.0.22",
+    "version": "0.0.26",
     "description": "UI kit for web client",
     "author": "Alexey Soloviev",
     "license": "UNLICENSED",
@@ -42,7 +42,7 @@
         "@babel/preset-react": "7.22.5",
         "@babel/preset-typescript": "7.22.5",
         "@eggziom/geek-regime-js-commons": "0.0.24",
-        "@eggziom/geek-regime-js-configs": "0.0.4",
+        "@eggziom/geek-regime-js-configs": "0.0.6",
         "@storybook/addon-a11y": "6.5.16",
         "@storybook/addon-essentials": "6.5.16",
         "@storybook/addon-interactions": "6.5.16",

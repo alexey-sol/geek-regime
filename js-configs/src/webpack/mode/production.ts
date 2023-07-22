@@ -29,7 +29,7 @@ const config: webpack.Configuration = merge(coreConfig, {
     optimization: {
         splitChunks: {
             cacheGroups: {
-                vendors: {
+                vendor: {
                     test: /[\\/]node_modules[\\/]/,
                     chunks: "all",
                     filename: path.join(cn.JS_OUTPUT, "libs", "vendor.[name].js"),
