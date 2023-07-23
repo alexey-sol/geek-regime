@@ -1,5 +1,5 @@
 import { plainToClass } from "class-transformer";
-import type { UserDto } from "js-commons";
+import type { UserDto } from "@eggziom/geek-regime-js-commons";
 
 import { User } from "@/features/users/models/entities";
 

@@ -4,12 +4,12 @@ import { Provider } from "react-redux";
 import { compose } from "@reduxjs/toolkit";
 import { withTranslation } from "react-i18next";
 import { ThemeProvider } from "styled-components";
+import { ErrorBoundary, GlobalStyle } from "@eggziom/geek-regime-js-ui-kit";
+import "@eggziom/geek-regime-js-ui-kit/dist/main/global.css";
 
 import { store } from "@/app/store";
 import { theme } from "@/app/style/theme";
-import { GlobalStyle } from "@/app/style/global";
 import { AuthContextProvider } from "@/features/auth/contexts/auth";
-import { ErrorBoundary } from "@/shared/components/error-boundary";
 import { Loader } from "@/shared/components/loader";
 
 type WithProvider = (component: FC<void>) => FC<void>;

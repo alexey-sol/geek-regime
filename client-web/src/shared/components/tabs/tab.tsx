@@ -1,7 +1,7 @@
 import React, { type FC, useCallback } from "react";
 import styled, { css } from "styled-components";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit";
 
-import { Typography } from "@/shared/components/typography";
 import { useTabContext } from "@/shared/components/tabs/tab-context";
 
 import * as cn from "./const";

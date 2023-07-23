@@ -1,6 +1,5 @@
 import styled from "styled-components";
-
-import { Button } from "@/shared/components/button";
+import { Button } from "@eggziom/geek-regime-js-ui-kit";
 
 export const SignInFormStyled = styled.section`
     display: flex;

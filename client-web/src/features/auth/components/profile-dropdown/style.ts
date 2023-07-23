@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import { BaseDropdown } from "@/shared/components/base-dropdown";
 import { mixins } from "@/app/style/mixins";
-import { Button } from "@/shared/components/button";
+import { Button } from "@eggziom/geek-regime-js-ui-kit";
 
 export const ProfileDropdownStyled = styled(BaseDropdown)`
     padding: 1rem;

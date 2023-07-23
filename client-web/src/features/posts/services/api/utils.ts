@@ -4,18 +4,18 @@ import { getApiPath } from "@/shared/utils/formatters/api-path";
 import * as cn from "./const";
 import type { GetAllPostsArg } from "./types";
 
-const { apiPostsResource, apiPrefix } = appConfig;
+const { apiPrefix } = appConfig;
 
 const PAGE_OFFSET = 1;
 const API_VERSION = 1;
 
-export const postsBaseUrl = getApiPath(apiPrefix, API_VERSION, apiPostsResource);
+export const baseUrl = getApiPath(apiPrefix, API_VERSION);
 
-export const transformGetAllPostsArg = (arg?: GetAllPostsArg): string | undefined => {
-    if (arg) {
-        const result: GetAllPostsArg = {
-            ...arg,
-            page: arg.page - PAGE_OFFSET,
+export const transformPaging = (paging?: GetAllPostsArg["paging"]): string | undefined => {
+    if (paging) {
+        const result: GetAllPostsArg["paging"] = {
+            ...paging,
+            page: paging.page - PAGE_OFFSET,
         };
 
         return JSON.stringify(result);

@@ -1,8 +1,8 @@
 import React, { type FC, useCallback } from "react";
 import styled from "styled-components";
 import { useLocation, useNavigate } from "react-router";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit";
 
-import { Typography } from "@/shared/components/typography";
 import { useAuthContext } from "@/features/auth/contexts/auth";
 import { paths } from "@/shared/const";
 import { createAbsoluteUsersPath } from "@/features/users/utils/helpers";
@@ -11,7 +11,7 @@ import { Tab } from "@/shared/components/tabs/tab";
 import { TabContextProvider } from "@/shared/components/tabs/tab-context";
 import { TabPanel } from "@/shared/components/tabs/tab-panel";
 import { DetailsHome } from "@/features/users/components/user-details/details-home";
-import { type User } from "@/features/users/models/entities";
+import type { User } from "@/features/users/models/entities";
 import type { HandleChange } from "@/shared/components/tabs/types";
 
 export const UserDetailsStyled = styled.section`

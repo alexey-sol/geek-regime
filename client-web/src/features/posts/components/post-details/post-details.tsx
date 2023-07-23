@@ -1,9 +1,8 @@
 import React, { type FC } from "react";
 import differenceInMonths from "date-fns/differenceInMonths";
 import { useTranslation } from "react-i18next";
+import { LinkButton, Typography } from "@eggziom/geek-regime-js-ui-kit";
 
-import { LinkButton } from "@/shared/components/button";
-import { Typography } from "@/shared/components/typography";
 import { useLanguage } from "@/shared/utils/language";
 import { paths } from "@/shared/const";
 import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";

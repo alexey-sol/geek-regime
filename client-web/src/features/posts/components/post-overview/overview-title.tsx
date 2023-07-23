@@ -1,6 +1,6 @@
 import React, { type FC } from "react";
+import type { FontSize } from "@eggziom/geek-regime-js-ui-kit";
 
-import type { FontSize } from "@/shared/types/theme";
 import { useTypography } from "@/shared/utils/hooks/use-typography";
 
 import { TwoLineTextStyled } from "./style";

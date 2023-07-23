@@ -1,6 +1,6 @@
 import React from "react";
 
-import { render, screen } from "@/test/setup";
+import { render, screen } from "@/features/posts/test/setup";
 import { fromPostPreviewDtoToEntity } from "@/features/posts/utils/converters";
 import { paths } from "@/shared/const";
 import type { PostPreviewDto } from "@/features/posts/models/dtos";

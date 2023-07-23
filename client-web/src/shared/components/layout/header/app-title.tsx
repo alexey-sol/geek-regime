@@ -1,6 +1,5 @@
 import React, { type FC } from "react";
-
-import { Typography } from "@/shared/components/typography";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit";
 
 import { TitleLinkStyled } from "./style";
 

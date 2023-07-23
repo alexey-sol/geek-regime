@@ -1,9 +1,9 @@
 import React, { type FC, ReactNode, useRef } from "react";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit";
 
 import { useKeyboardControls } from "@/shared/utils/hooks/use-keyboard-controls";
 
 import { Overlay } from "../overlay";
-import { Typography } from "../typography";
 import { CloseIconButton, GoBackIconButton } from "../icon-button";
 
 import {

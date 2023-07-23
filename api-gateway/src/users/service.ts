@@ -21,8 +21,8 @@ export class UsersService {
         private readonly httpService: HttpService,
         private readonly configService: ConfigService<AppConfig, true>,
     ) {
-        const apiUsersCg = this.configService.get("apiUsers", { infer: true });
-        this.apiPath = getUsersApiPath(apiUsersCg);
+        const apiUsersCf = this.configService.get("apiUsers", { infer: true });
+        this.apiPath = getUsersApiPath(apiUsersCf);
     }
 
     async createUser(dto: CreateUserDto): Promise<UserDto> {

@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { CreateUserDto, UserDto } from "js-commons";
+import type { CreateUserDto, UserDto } from "@eggziom/geek-regime-js-commons";
 
 import type { SignInDto } from "@/features/users/models/dtos";
 

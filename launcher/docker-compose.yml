@@ -133,20 +133,17 @@ services:
             - geek-regime-external
         environment:
             - API_GATEWAY_HOST
-            - API_GATEWAY_HOST_EXTERNAL
             - API_GATEWAY_PORT
-            - API_GATEWAY_PORT_EXTERNAL
             - API_GATEWAY_PREFIX
             - API_POSTS_RESOURCE
             - API_USERS_RESOURCE
             - APP_NAME
             - CLIENT_WEB_HOST
             - CLIENT_WEB_PORT
-            - CLIENT_WEB_PORT_EXTERNAL
             - CLIENT_WEB_WEBSOCKET_URL
-            - NODE_ENV
 
 networks:
     geek-regime-internal:
     geek-regime-external:
         driver: bridge
+

@@ -8,7 +8,8 @@ import {
     useGetPostBySlugQuery,
     useUpdatePostByIdMutation,
 } from "@/features/posts/services/api";
-import { createAbsoluteUsersPath } from "@/features/users/utils/helpers";
+import { useAuthContext } from "@/features/auth/contexts/auth";
+import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
 
 import { isCreatePostOnSaveArg } from "./utils";
 import type {
@@ -20,6 +21,8 @@ const ONE_STEP_BACK = -1;
 export const useActivePost = (): UseActivePostResult => {
     const navigate = useNavigate();
     const { slug } = useParams();
+
+    const { profile } = useAuthContext();
 
     const resultOnGet = useGetPostBySlugQuery(slug ?? skipToken, {
         selectFromResult: ({ isFetching, data }) => ({
@@ -38,7 +41,7 @@ export const useActivePost = (): UseActivePostResult => {
             const hasNewSlug = slugAfterSaving && slugAfterSaving !== slug;
 
             if (hasNewSlug) {
-                navigate(createAbsoluteUsersPath(slugAfterSaving));
+                navigate(createAbsolutePostsPath(slugAfterSaving));
             } else {
                 navigate(ONE_STEP_BACK);
             }
@@ -56,12 +59,16 @@ export const useActivePost = (): UseActivePostResult => {
     function save(arg: CreatePostOnSaveArg): void;
     function save(arg: UpdatePostOnSaveArg): void;
     function save(arg: CreatePostOnSaveArg | UpdatePostOnSaveArg): void {
-        const postExists = id;
+        if (!profile) {
+            return;
+        }
+
+        const postExists = !!id;
 
         if (postExists) {
             updatePostById({ id, ...arg });
         } else if (!postExists && isCreatePostOnSaveArg(arg)) {
-            createPost({ spaceId: 1, userId: 1, ...arg }); // TODO hardcoded
+            createPost({ spaceId: 1, authorId: profile.id, ...arg }); // TODO spaceId is hardcoded
         }
     }
 

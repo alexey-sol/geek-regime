@@ -1,9 +1,9 @@
 import React, { memo, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Form, Formik, type FormikProps } from "formik";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit";
 
 import { FormInput } from "@/shared/components/form/form-input";
-import { Typography } from "@/shared/components/typography";
 import { getSignInSchema } from "@/features/auth/utils/validation/schemas";
 import type { MemoizedAuthForm } from "@/features/auth/types";
 import type { SignInDto } from "@/features/users/models/dtos";

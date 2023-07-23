@@ -1,13 +1,13 @@
 import { createListenerMiddleware } from "@reduxjs/toolkit";
 import { t } from "i18next";
 import httpStatus from "http-status";
+import { hasHttpStatus } from "@eggziom/geek-regime-js-commons";
 
 import { authApi } from "@/features/auth/services/api";
 import {
     createFailureSnackbarArg,
     createSuccessSnackbarArg,
 } from "@/features/feedback/slice/utils";
-import { hasHttpStatus } from "@/shared/utils/guards";
 import { setSnackbar } from "@/features/feedback/slice";
 
 const { signIn, signUp } = authApi.endpoints;

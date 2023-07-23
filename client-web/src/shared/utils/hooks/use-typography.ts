@@ -1,7 +1,5 @@
 import { useTheme } from "styled-components";
-
-import type { HasFontSize } from "@/shared/types/props";
-import type { FontSize } from "@/shared/types/theme";
+import type { FontSize, HasFontSize } from "@eggziom/geek-regime-js-ui-kit";
 
 const NORMAL_LINE_HEIGHT_COEF = 1.4;
 

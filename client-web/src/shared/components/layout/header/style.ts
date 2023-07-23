@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
+import { TypographyStyled } from "@eggziom/geek-regime-js-ui-kit";
 
-import { TypographyStyled } from "@/shared/components/typography/style";
 import { mixins } from "@/app/style/mixins";
 
 export const HeaderStyled = styled.header`

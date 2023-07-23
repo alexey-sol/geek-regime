@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
+import { isProduction } from "@eggziom/geek-regime-js-commons";
 
-import { isProduction } from "@/shared/utils/helpers/env";
 import { authApi } from "@/features/auth/services/api";
 import { authListener } from "@/features/auth/slice/middlewares";
 import { postsApi } from "@/features/posts/services/api";
@@ -10,7 +10,7 @@ import { usersApi } from "@/features/users/services/api";
 import { rootReducer } from "./reducer";
 
 export const store = configureStore({
-    devTools: !isProduction(),
+    devTools: !isProduction(process.env.NODE_ENV),
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware()
         .prepend(authListener.middleware)

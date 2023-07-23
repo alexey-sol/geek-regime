@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from "react";
 import type { FormEvent, FormEventHandler } from "react";
 import type { FormikProps } from "formik";
-import type { CreateUserDto } from "js-commons";
+import type { CreateUserDto } from "@eggziom/geek-regime-js-commons";
 
 import { useAuthContext } from "@/features/auth/contexts/auth";
 import { fromSignUpValuesToDto } from "@/features/auth/utils/converters";

@@ -1,14 +1,21 @@
 {
-    "extends": "js-commons/configs/tsconfig.base.json",
+    "extends": "@eggziom/geek-regime-js-configs/dist/tsconfig.react.json",
     "compilerOptions": {
         "baseUrl": ".",
-        "jsx": "react",
-        "lib": ["dom", "dom.iterable", "esnext"],
         "outDir": "./dist",
         "paths": {
             "@/*": ["src/*"]
         },
-        "types": ["react/next", "react-dom/next", "node"]
+        "types": [
+            "@eggziom/geek-regime-js-commons/@types",
+            "@eggziom/geek-regime-js-ui-kit/@types"
+        ],
+        "typeRoots": [
+            "node_modules/@types",
+            "node_modules/@eggziom/geek-regime-js-commons/@types",
+            "node_modules/@eggziom/geek-regime-js-ui-kit/@types",
+            "@types"
+        ]
     },
     "exclude": ["node_modules", "build", "dist"],
     "include": ["**/*.ts", "src"]

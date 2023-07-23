@@ -1,6 +1,5 @@
 import { useEffect } from "react";
-
-import type { HasElementRef } from "@/shared/types/props";
+import type { HasElementRef } from "@eggziom/geek-regime-js-ui-kit";
 
 type Handler = () => void;
 

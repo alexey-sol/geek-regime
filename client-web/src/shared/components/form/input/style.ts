@@ -1,7 +1,7 @@
 import styled, { css } from "styled-components";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit";
 
 import { mixins } from "@/app/style/mixins";
-import { Typography } from "@/shared/components/typography";
 
 export const InputWrapStyled = styled.section`
     position: relative;

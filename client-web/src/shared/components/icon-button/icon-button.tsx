@@ -1,16 +1,17 @@
 import React, { type FC } from "react";
 import { t } from "i18next";
-
 import {
+    BaseIconButton,
     CloseIcon,
     GoBackIcon,
     I18nIcon,
     ProfileIcon,
     SearchIcon,
-} from "@/shared/components/icon";
+    type BaseIconButtonProps,
+} from "@eggziom/geek-regime-js-ui-kit";
+
 import { Tooltip } from "@/shared/components/tooltip";
 
-import { BaseIconButton, type BaseIconButtonProps } from "./base-icon-button";
 import * as cn from "./const";
 
 export type IconButtonProps = Pick<BaseIconButtonProps, "disabled"

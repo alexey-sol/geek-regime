@@ -1,6 +1,5 @@
 import styled, { css } from "styled-components";
-
-import { Button } from "@/shared/components/button";
+import { Button } from "@eggziom/geek-regime-js-ui-kit";
 
 const GAP = "0.5rem";
 

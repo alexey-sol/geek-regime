@@ -4,7 +4,7 @@ import "whatwg-fetch";
 
 import React, { type FC, type PropsWithChildren, type ReactElement } from "react";
 import { Provider } from "react-redux";
-import { render, RenderOptions, RenderResult } from "@testing-library/react";
+import { render, type RenderOptions, type RenderResult } from "@testing-library/react";
 import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
 
@@ -26,7 +26,7 @@ jest.mock("react-i18next", () => ({
     }),
 }));
 
-const Container: FC<PropsWithChildren> = ({ children }): JSX.Element => (
+export const Wrap: FC<PropsWithChildren> = ({ children }) => (
     <Provider store={store}>
         <BrowserRouter>
             <ThemeProvider theme={theme}>
@@ -44,7 +44,7 @@ const renderWithProviders = (
 ): RenderResult => render(
     ui,
     {
-        wrapper: Container,
+        wrapper: Wrap,
         ...options,
     },
 );

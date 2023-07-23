@@ -7,7 +7,7 @@ import { createServeStaticModuleOptions } from "@/app/utils";
 import { validate } from "@/config/utils/validation";
 import { AuthModule } from "@/auth/module";
 import { ProcessConfigService } from "@/config/service";
-import * as cg from "@/config";
+import * as cf from "@/config";
 import type { AppConfig } from "@/config/types";
 
 import { ApiExceptionFilter, HttpExceptionFilter } from "./handlers/exception.filters";
@@ -17,14 +17,14 @@ import { ApiExceptionFilter, HttpExceptionFilter } from "./handlers/exception.fi
         ConfigModule.forRoot({
             isGlobal: true,
             load: [
-                cg.authConfig,
-                cg.apiAggregatorConfig,
-                cg.apiGatewayConfig,
-                cg.apiPostsConfig,
-                cg.apiUsersConfig,
-                cg.clientWebConfig,
-                cg.processConfig,
-                cg.validationPipeConfig,
+                cf.authConfig,
+                cf.apiAggregatorConfig,
+                cf.apiGatewayConfig,
+                cf.apiPostsConfig,
+                cf.apiUsersConfig,
+                cf.clientWebConfig,
+                cf.processConfig,
+                cf.validationPipeConfig,
             ],
             validate,
         }),

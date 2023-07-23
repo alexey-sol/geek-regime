@@ -1,5 +1,5 @@
 import { Type } from "class-transformer";
-import type { Gender } from "js-commons";
+import type { Gender } from "@eggziom/geek-regime-js-commons";
 
 export class UserDetails {
     constructor(

@@ -46,8 +46,8 @@ type UsePostsApiArg = ReturnType<typeof usePagingOptions>;
 const usePosts = ({ pagingOptions, setTotalItems }: UsePostsApiArg) => {
     const { page, size } = pagingOptions;
 
-    const pagingArg: GetAllPostsArg = useMemo(() => ({ page, size }), [page, size]);
-    const selectedFromResult = useGetAllPostsQuery(pagingArg, {
+    const getAllPostsArg: GetAllPostsArg = useMemo(() => ({ paging: { page, size } }), [page, size]); // TODO
+    const selectedFromResult = useGetAllPostsQuery(getAllPostsArg, {
         selectFromResult: ({ data, isFetching }) => ({
             isFetching,
             posts: fromPostPreviewDtoListToEntities(data?.items ?? []),
@@ -69,8 +69,8 @@ const usePosts = ({ pagingOptions, setTotalItems }: UsePostsApiArg) => {
 
 type UsePostsPageResult = {
     isPending: boolean;
-    posts: PostPreview[];
     pagingOptions: PagingOptions;
+    posts: PostPreview[];
 };
 
 export const usePostsPage = (): UsePostsPageResult => {

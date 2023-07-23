@@ -1,5 +1,11 @@
 export const getApiPath = (
     prefix: string,
     version: number,
-    resource: string,
-): string => `/${prefix}/v${version}/${resource}`;
+    path?: string,
+): string => {
+    const basePath = `/${prefix}/v${version}`;
+
+    return path
+        ? `${basePath}/${path}`
+        : `${basePath}`;
+};

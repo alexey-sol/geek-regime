@@ -1,4 +1,4 @@
-import type { HasId, UserDto } from "js-commons";
+import type { HasId, UserDto } from "@eggziom/geek-regime-js-commons";
 
 import type { Page } from "@/shared/models/entities";
 
@@ -16,8 +16,8 @@ export type PostDetailsDto = HasId & PostPreviewDto & {
 };
 
 export type CreatePostDto = Pick<PostDetailsDto, "title" | "body"> & {
+    authorId: number;
     spaceId: number;
-    userId: number;
 };
 
 export type UpdatePostDto = Partial<Pick<PostDetailsDto, "title" | "body">>;

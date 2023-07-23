@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo } from "react";
-import type { CreateUserDto } from "js-commons";
+import type { CreateUserDto } from "@eggziom/geek-regime-js-commons";
 
 import { useAppDispatch } from "@/app/store/hooks";
 import {

@@ -8,6 +8,8 @@ import {
     LabelStyled,
 } from "@/shared/components/form/input/style";
 
+const DEFAULT_TYPE = "text";
+
 export type InputProps = Omit<HTMLProps<HTMLInputElement>, "as" | "ref"> & {
     hint?: string;
     label?: string;
@@ -20,6 +22,7 @@ export const Input: FC<InputProps> = ({
     name,
     onChange,
     value,
+    type = DEFAULT_TYPE,
     ...rest
 }) => {
     const hintRef = useRef(null);
@@ -30,6 +33,7 @@ export const Input: FC<InputProps> = ({
                 {...rest}
                 name={name}
                 onChange={onChange}
+                type={type}
                 value={value}
             />
 

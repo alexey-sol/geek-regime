@@ -89,13 +89,13 @@ export class AppProxyMiddleware {
     };
 
     private getProxyTable = () => {
-        const apiAggregatorCg = this.configService.get("apiAggregator", { infer: true });
-        const apiPostsCg = this.configService.get("apiPosts", { infer: true });
-        const apiUsersCg = this.configService.get("apiUsers", { infer: true });
+        const apiAggregatorCf = this.configService.get("apiAggregator", { infer: true });
+        const apiPostsCf = this.configService.get("apiPosts", { infer: true });
+        const apiUsersCf = this.configService.get("apiUsers", { infer: true });
 
         return {
-            [`/${apiPostsCg.resource}`]: apiAggregatorCg.baseUrl,
-            [`/${apiUsersCg.resource}`]: apiUsersCg.baseUrl,
+            [`/${apiPostsCf.resource}`]: apiAggregatorCf.baseUrl,
+            [`/${apiUsersCf.resource}`]: apiUsersCf.baseUrl,
         };
     };
 }

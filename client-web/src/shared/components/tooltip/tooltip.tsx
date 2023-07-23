@@ -1,12 +1,10 @@
 import React, {
     type FC, type PropsWithChildren, useEffect, useMemo, useRef, useState,
 } from "react";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit";
 
-import { Typography } from "@/shared/components/typography";
-import {
-    type ElementPosition,
-    type ElementPositionX,
-    type ElementPositionY,
+import type {
+    ElementPosition, ElementPositionX, ElementPositionY,
 } from "@/shared/components/base-popup";
 
 import { BasePopupStyled, TooltipWrapStyled } from "./style";

@@ -1,8 +1,6 @@
 import styled, { css } from "styled-components";
+import { TypographyStyled, type MapKeyToCss } from "@eggziom/geek-regime-js-ui-kit";
 import type { RefObject } from "react";
-
-import { TypographyStyled } from "@/shared/components/typography/style";
-import type { MapKeyToCss } from "@/shared/types/theme";
 
 export type ElementPositionX = "left" | "center-right" | "center" | "center-left" | "right";
 

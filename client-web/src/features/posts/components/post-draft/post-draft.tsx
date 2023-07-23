@@ -10,8 +10,8 @@ import React, {
 import ReactQuill from "react-quill";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
+import { Button } from "@eggziom/geek-regime-js-ui-kit";
 
-import { Button } from "@/shared/components/button";
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import type { CreatePostOnSaveArg } from "@/features/posts/utils/hooks/types";
 import type { PostDetails } from "@/features/posts/models/entities";

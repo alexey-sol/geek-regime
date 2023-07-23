@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit";
 
-import { Typography } from "@/shared/components/typography";
 import { mixins } from "@/app/style/mixins";
 
 const TWO_LINES = 2;

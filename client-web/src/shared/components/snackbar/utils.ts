@@ -1,8 +1,8 @@
 import { useEffect, useRef } from "react";
+import type { HasElementRef } from "@eggziom/geek-regime-js-ui-kit";
 
 import { useKeyboardControls } from "@/shared/utils/hooks/use-keyboard-controls";
 import type { SnackbarProps } from "@/shared/components/snackbar";
-import type { HasElementRef } from "@/shared/types/props";
 
 export type UseSnackbarDataArg = HasElementRef
     & Pick<SnackbarProps, "durationMs" | "onClose">;
