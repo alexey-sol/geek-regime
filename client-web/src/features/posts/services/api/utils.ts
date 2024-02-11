@@ -1,5 +1,14 @@
-import { appConfig } from "@/config/app";
+import type { ThunkDispatch } from "redux-thunk";
+import type { AnyAction } from "redux";
+import type { Recipe } from "@reduxjs/toolkit/dist/query/core/buildThunks";
+
 import { getApiPath } from "@/shared/utils/formatters/api-path";
+import { appConfig } from "@/config/app";
+import * as tp from "@/features/posts/services/api/types";
+import { type PostsApiUtil } from "@/features/posts/services/api/api";
+import type { RootState } from "@/app/store";
+import type { PostDetailsDto, PostsPage } from "@/features/posts/models/dtos";
+import type { PostsState } from "@/features/posts/slice";
 
 import * as cn from "./const";
 import type { GetAllPostsArg } from "./types";
@@ -30,4 +39,43 @@ export const createTag = (id: string | number = cn.TAG_LIST_ID): {
 } => ({
     id,
     type: cn.POSTS_TAG_TYPE,
+});
+
+export const getDataUpdaters = (
+    dispatch: ThunkDispatch<RootState, void, AnyAction>,
+    util: PostsApiUtil,
+) => ({
+    updatePostData: (
+        data: PostDetailsDto,
+    ) => dispatch(
+        util.upsertQueryData("getPostBySlug", data.slug, data),
+    ),
+    updatePostsData: (
+        paging: PostsState["pagingOptions"],
+        updatePostsPageRecipe: Recipe<PostsPage>,
+    ) => {
+        const getAllPostsArg: tp.GetAllPostsArg = { paging };
+
+        dispatch(util.updateQueryData(
+            "getAllPosts",
+            getAllPostsArg,
+            updatePostsPageRecipe,
+        ));
+    },
+    updatePostsByAuthorData: (
+        paging: PostsState["pagingOptions"],
+        authorId: number,
+        updatePostsPageRecipe: Recipe<PostsPage>,
+    ) => {
+        const getAllPostsByAuthorArg: tp.GetAllPostsArg = {
+            filter: { authorId },
+            paging,
+        };
+
+        dispatch(util.updateQueryData(
+            "getAllPosts",
+            getAllPostsByAuthorArg,
+            updatePostsPageRecipe,
+        ));
+    },
 });
