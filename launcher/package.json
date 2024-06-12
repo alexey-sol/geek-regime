@@ -6,10 +6,10 @@
     "private": true,
     "license": "UNLICENSED",
     "scripts": {
-        "dev:up": "docker-compose -f docker-compose.yml -f docker-compose.development.yml up",
-        "dev:down": "docker-compose -f docker-compose.yml -f docker-compose.development.yml down",
-        "local:up": "docker-compose -f docker-compose.yml -f docker-compose.development.yml up db-users db-posts",
+        "dev:up": "docker compose -f docker-compose.yml -f docker-compose.development.yml up",
+        "dev:down": "docker compose -f docker-compose.yml -f docker-compose.development.yml down",
+        "local:up": "docker compose -f docker-compose.yml -f docker-compose.development.yml up db-users db-posts",
         "local:down": "npm run dev:down",
-        "api-commons:build": "docker-compose -f docker-compose.lib.yml build --no-cache api-commons"
+        "api-commons:build": "docker compose -f docker-compose.lib.yml build --no-cache api-commons"
     }
 }

@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { Recipe } from "@reduxjs/toolkit/dist/query/core/buildThunks";
+import { resources } from "@eggziom/geek-regime-js-commons";
 
-import { appConfig } from "@/config/app";
 import { fromPageDtoToPostsPage } from "@/features/posts/utils/converters";
 import { selectPagingOptions } from "@/features/posts/slice/selectors";
 import * as cn from "@/features/posts/services/api/const";
@@ -13,8 +13,6 @@ import {
 } from "./utils";
 import type * as tp from "./types";
 
-const { apiPostsResource, apiUsersResource } = appConfig;
-
 export const postsApi = createApi({
     reducerPath: "postsApi",
     tagTypes: [cn.POSTS_TAG_TYPE],
@@ -24,7 +22,7 @@ export const postsApi = createApi({
             query: (body) => ({
                 body,
                 method: "POST",
-                url: apiPostsResource,
+                url: resources.POSTS,
             }),
             invalidatesTags: (result) => [createTag(result?.id)],
             async onQueryStarted(_, { dispatch, queryFulfilled }) {
@@ -42,8 +40,8 @@ export const postsApi = createApi({
                 const { authorId } = arg?.filter ?? {};
 
                 const url = (authorId)
-                    ? `${apiUsersResource}/${authorId}/${apiPostsResource}`
-                    : apiPostsResource;
+                    ? `${resources.USERS}/${authorId}/${resources.POSTS}`
+                    : resources.POSTS;
 
                 return ({
                     params: { paging: transformPaging(arg?.paging) },
@@ -61,13 +59,13 @@ export const postsApi = createApi({
             },
         }),
         getPostBySlug: builder.query<PostDetailsDto, tp.GetPostBySlugArg>({
-            query: (slug) => `${apiPostsResource}/${slug}`,
+            query: (slug) => `${resources.POSTS}/${slug}`,
             providesTags: (result, error, id) => [createTag(id)],
         }),
         removePostById: builder.mutation<number, tp.RemovePostByIdArg>({
             query: (id) => ({
                 method: "DELETE",
-                url: `${apiPostsResource}/${id}`,
+                url: `${resources.POSTS}/${id}`,
             }),
             invalidatesTags: (result, error, id) => [createTag(id)],
         }),
@@ -75,7 +73,7 @@ export const postsApi = createApi({
             query: ({ id, ...body }) => ({
                 body,
                 method: "PATCH",
-                url: `${apiPostsResource}/${id}`,
+                url: `${resources.POSTS}/${id}`,
             }),
             async onQueryStarted({ id }, { dispatch, queryFulfilled, getState }) {
                 const paging = selectPagingOptions(getState());

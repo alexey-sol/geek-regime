@@ -1,9 +1,6 @@
 import { InvalidConfigError } from "@/shared/utils/errors";
 
 const config = {
-    apiPostsResource: process.env.API_POSTS_RESOURCE,
-    apiPrefix: process.env.API_GATEWAY_PREFIX,
-    apiUsersResource: process.env.API_USERS_RESOURCE,
     appName: process.env.APP_NAME,
     nodeEnv: process.env.NODE_ENV,
 };

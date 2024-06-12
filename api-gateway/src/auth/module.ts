@@ -3,14 +3,14 @@ import { PassportModule } from "@nestjs/passport";
 import { JwtModule } from "@nestjs/jwt";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 
-import { UsersModule } from "@/users/module";
-import { LocalStrategy } from "@/auth/strategies/local";
-import { AppConfig } from "@/config/types";
-import { JwtStrategy } from "@/auth/strategies/jwt";
-import { YandexStrategy } from "@/auth/strategies/yandex";
+import { UsersModule } from "@/user/module";
+import { LocalStrategy } from "@/auth/strategy/local";
+import { AppConfig } from "@/config/type";
+import { JwtStrategy } from "@/auth/strategy/jwt";
+import { YandexStrategy } from "@/auth/strategy/yandex";
 
 import { AuthService } from "./service";
-import { AuthControllerV1 } from "./controllers/v1";
+import { AuthControllerV1 } from "@/auth/controller/v1";
 
 @Module({
     controllers: [AuthControllerV1],

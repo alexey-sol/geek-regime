@@ -16,7 +16,6 @@ if (error) {
 }
 
 export const env = {
-    apiPrefix: value.API_GATEWAY_PREFIX,
     appName: value.APP_NAME,
     nodeEnv: value.NODE_ENV,
     stub: {

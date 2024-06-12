@@ -3,7 +3,6 @@ import type { AnyAction } from "redux";
 import type { Recipe } from "@reduxjs/toolkit/dist/query/core/buildThunks";
 
 import { getApiPath } from "@/shared/utils/formatters/api-path";
-import { appConfig } from "@/config/app";
 import * as tp from "@/features/posts/services/api/types";
 import { type PostsApiUtil } from "@/features/posts/services/api/api";
 import type { RootState } from "@/app/store";
@@ -13,12 +12,10 @@ import type { PostsState } from "@/features/posts/slice";
 import * as cn from "./const";
 import type { GetAllPostsArg } from "./types";
 
-const { apiPrefix } = appConfig;
-
 const PAGE_OFFSET = 1;
 const API_VERSION = 1;
 
-export const baseUrl = getApiPath(apiPrefix, API_VERSION);
+export const baseUrl = getApiPath(API_VERSION);
 
 export const transformPaging = (paging?: GetAllPostsArg["paging"]): string | undefined => {
     if (paging) {

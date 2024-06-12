@@ -1,9 +1,8 @@
 export const getApiPath = (
-    prefix: string,
     version: number,
     path?: string,
 ): string => {
-    const basePath = `/${prefix}/v${version}`;
+    const basePath = `/api/v${version}`;
 
     return path
         ? `${basePath}/${path}`

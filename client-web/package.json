@@ -18,7 +18,7 @@
         "test:clear": "npm run test -- --clearCache"
     },
     "dependencies": {
-        "@eggziom/geek-regime-js-commons": "0.0.24",
+        "@eggziom/geek-regime-js-commons": "0.0.25",
         "@eggziom/geek-regime-js-ui-kit": "0.0.26",
         "@reduxjs/toolkit": "1.9.0",
         "class-transformer": "0.5.1",
@@ -48,7 +48,7 @@
         "@babel/preset-env": "7.22.6",
         "@babel/preset-react": "7.22.5",
         "@babel/preset-typescript": "7.22.5",
-        "@eggziom/geek-regime-js-configs": "0.0.6",
+        "@eggziom/geek-regime-js-configs": "0.0.7",
         "@testing-library/jest-dom": "5.16.5",
         "@testing-library/react": "13.4.0",
         "@types/dompurify": "2.3.4",

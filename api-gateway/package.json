@@ -24,6 +24,7 @@
         "@": "./src"
     },
     "dependencies": {
+        "@eggziom/geek-regime-js-commons": "0.0.25",
         "@nestjs/axios": "1.0.1",
         "@nestjs/common": "9.0.11",
         "@nestjs/config": "2.2.0",
@@ -38,7 +39,6 @@
         "cookie-parser": "1.4.6",
         "express": "4.18.1",
         "http-proxy-middleware": "2.0.6",
-        "js-commons": "https://gitpkg.now.sh/alexey-sol/geek-regime/js-commons?main",
         "module-alias": "2.2.2",
         "passport": "0.6.0",
         "passport-jwt": "4.0.1",
@@ -49,6 +49,7 @@
         "rxjs": "7.2.0"
     },
     "devDependencies": {
+        "@eggziom/geek-regime-js-configs": "0.0.7",
         "@nestjs/cli": "9.0.0",
         "@nestjs/schematics": "9.0.1",
         "@nestjs/testing": "9.0.11",
@@ -61,6 +62,7 @@
         "@types/supertest": "2.0.11",
         "@typescript-eslint/eslint-plugin": "5.27.1",
         "@typescript-eslint/parser": "5.27.1",
+        "dotenv": "16.4.5",
         "eslint": "8.17.0",
         "eslint-config-airbnb-base": "15.0.0",
         "eslint-import-resolver-alias": "1.1.2",

@@ -1,7 +1,7 @@
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 
-import { AppConfig } from "@/config/types";
+import { AppConfig } from "@/config/type";
 import { NodeEnv } from "@/shared/const";
 
 @Injectable()

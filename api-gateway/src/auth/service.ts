@@ -1,9 +1,9 @@
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { isAxiosError } from "axios";
-import type { CreateUserDto, HasId } from "js-commons";
+import type { CreateUserDto, HasId } from "@eggziom/geek-regime-js-commons";
 
-import { UsersService } from "@/users/service";
+import { UsersService } from "@/user/service";
 
 @Injectable()
 export class AuthService {

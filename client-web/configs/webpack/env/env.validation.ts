@@ -15,15 +15,6 @@ export const envSchema = Joi.object({
     API_GATEWAY_PORT: Joi
         .number()
         .default(3000),
-    API_GATEWAY_PREFIX: Joi
-        .string()
-        .default("api"),
-    API_POSTS_RESOURCE: Joi
-        .string()
-        .required(),
-    API_USERS_RESOURCE: Joi
-        .string()
-        .required(),
     APP_NAME: Joi
         .string()
         .required(),

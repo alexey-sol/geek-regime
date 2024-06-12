@@ -49,7 +49,7 @@ const sharedConfig: CallableOption = (env, argv) => {
                 port: envCf.stub.port,
                 hot: true,
                 proxy: {
-                    [`/${envCf.apiPrefix}`]: envCf.stub.apiUrl,
+                    "/api": envCf.stub.apiUrl,
                 },
                 static: {
                     directory: path.join(cwd, "src", "public"),

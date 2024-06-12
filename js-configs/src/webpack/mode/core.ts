@@ -12,6 +12,7 @@ const config: webpack.Configuration = {
         assetModuleFilename: `${cn.MEDIA_OUTPUT}/[name].[${cn.HASH}][ext]`,
         clean: true,
         path: path.resolve(cwd, "dist"),
+        publicPath: "/", // [1]
     },
     target: "web",
     entry: path.resolve(cwd, "src"),
@@ -22,3 +23,6 @@ const config: webpack.Configuration = {
 };
 
 export default config;
+
+// [1]. Without that in place, the browser may attempt to load a resource from nested path
+// like "/posts/js/bundle.js" instead of "/js/bundle.js" (which is the actual location).

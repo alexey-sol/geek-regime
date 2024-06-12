@@ -18,14 +18,10 @@ services:
             - API_GATEWAY_HOST_EXTERNAL
             - API_GATEWAY_PORT
             - API_GATEWAY_PORT_EXTERNAL
-            - API_GATEWAY_PREFIX
             - API_POSTS_HOST
             - API_POSTS_PORT
-            - API_POSTS_RESOURCE
             - API_USERS_HOST
             - API_USERS_PORT
-            - API_USERS_PREFIX
-            - API_USERS_RESOURCE
             - CLIENT_WEB_HOST_EXTERNAL
             - CLIENT_WEB_PORT_EXTERNAL
             - JWT_EXPIRES_IN
@@ -46,12 +42,8 @@ services:
         environment:
             - API_POSTS_HOST
             - API_POSTS_PORT
-            - API_POSTS_PREFIX
-            - API_POSTS_RESOURCE
             - API_USERS_HOST
             - API_USERS_PORT
-            - API_USERS_PREFIX
-            - API_USERS_RESOURCE
 
     api-users:
         restart: always
@@ -63,8 +55,6 @@ services:
             - geek-regime-internal
         environment:
             - API_USERS_PORT
-            - API_USERS_PREFIX
-            - API_USERS_RESOURCE
             - API_USERS_SEARCH_DATA_PATH
             - DB_USERS_HOST
             - DB_USERS_NAME
@@ -86,9 +76,6 @@ services:
         environment:
             - API_POSTS_HOST
             - API_POSTS_PORT
-            - API_POSTS_PREFIX
-            - API_POSTS_RESOURCE
-            - API_USERS_RESOURCE
             - DB_POSTS_HOST
             - DB_POSTS_NAME
             - DB_POSTS_PASSWORD
@@ -134,9 +121,6 @@ services:
         environment:
             - API_GATEWAY_HOST
             - API_GATEWAY_PORT
-            - API_GATEWAY_PREFIX
-            - API_POSTS_RESOURCE
-            - API_USERS_RESOURCE
             - APP_NAME
             - CLIENT_WEB_HOST
             - CLIENT_WEB_PORT

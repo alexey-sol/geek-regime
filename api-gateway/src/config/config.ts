@@ -2,14 +2,14 @@ import { ConfigService, registerAs } from "@nestjs/config";
 import { NotFoundException } from "@nestjs/common";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import type { Request, RequestHandler } from "express";
+import { resources } from "@eggziom/geek-regime-js-commons";
 
 import { NodeEnv } from "@/shared/const";
-import { getResource } from "@/shared/utils/url";
-import * as authCn from "@/auth/const";
-import type { AppConfig } from "@/config/types";
+import { getResource } from "@/shared/util/url";
+import type { AppConfig } from "@/config/type";
 
-import { unless } from "./utils/handlers";
-import { validatedEnv, validatedEnv as env } from "./utils/validation";
+import { unless } from "@/config/util/handler";
+import { validatedEnv, validatedEnv as env } from "@/config/util/validation";
 import * as ct from "./const";
 
 export const authConfig = registerAs(ct.AUTH, () => ({
@@ -28,18 +28,14 @@ export const apiGatewayConfig = registerAs(ct.API_GATEWAY, () => ({
     baseUrlExternal: `${ct.URL_SCHEME}://${env.API_GATEWAY_HOST_EXTERNAL}:${
         env.API_GATEWAY_PORT_EXTERNAL}`,
     port: env.API_GATEWAY_PORT,
-    prefix: env.API_GATEWAY_PREFIX,
 }));
 
 export const apiPostsConfig = registerAs(ct.API_POSTS, () => ({
     baseUrl: `${ct.URL_SCHEME}://${env.API_POSTS_HOST}:${env.API_POSTS_PORT}`,
-    resource: env.API_POSTS_RESOURCE,
 }));
 
 export const apiUsersConfig = registerAs(ct.API_USERS, () => ({
     baseUrl: `${ct.URL_SCHEME}://${env.API_USERS_HOST}:${env.API_USERS_PORT}`,
-    prefix: env.API_USERS_PREFIX,
-    resource: env.API_USERS_RESOURCE,
 }));
 
 export const clientWebConfig = registerAs(ct.CLIENT_WEB, () => ({
@@ -62,9 +58,8 @@ export const validationPipeConfig = registerAs("validationPipe", () => {
 
 export class AppProxyMiddleware {
     private static readonly TARGET_URL = "http://localhost";
-    private static readonly RESOURCES_TO_IGNORE = [authCn.AUTH_RESOURCE];
-    private static readonly KNOWN_RESOURCES = [env.API_POSTS_RESOURCE, env.API_USERS_RESOURCE,
-        authCn.AUTH_RESOURCE];
+    private static readonly RESOURCES_TO_IGNORE = [resources.AUTH];
+    private static readonly KNOWN_RESOURCES = [resources.POSTS, resources.USERS, resources.AUTH];
 
     constructor(private readonly configService: ConfigService<AppConfig, true>) {}
 
@@ -90,12 +85,11 @@ export class AppProxyMiddleware {
 
     private getProxyTable = () => {
         const apiAggregatorCf = this.configService.get("apiAggregator", { infer: true });
-        const apiPostsCf = this.configService.get("apiPosts", { infer: true });
         const apiUsersCf = this.configService.get("apiUsers", { infer: true });
 
         return {
-            [`/${apiPostsCf.resource}`]: apiAggregatorCf.baseUrl,
-            [`/${apiUsersCf.resource}`]: apiUsersCf.baseUrl,
+            [`/${resources.POSTS}`]: apiAggregatorCf.baseUrl,
+            [`/${resources.USERS}`]: apiUsersCf.baseUrl,
         };
     };
 }

@@ -15,17 +15,12 @@ spring:
         active: prod
 
 server:
-    port: ${API_POSTS_PORT:3002}
+    port: ${API_POSTS_PORT:3003}
     servlet:
-        context-path: /${API_POSTS_PREFIX}
+        context-path: /api
 
 api-posts:
     base-url: http://${API_POSTS_HOST}:${API_POSTS_PORT}
-    prefix: ${API_POSTS_PREFIX:api}
-    resource: ${API_POSTS_RESOURCE:posts}
-
-api-users:
-    resource: ${API_USERS_RESOURCE:users}
 
 ---
 

@@ -3,13 +3,16 @@ import { ConfigService } from "@nestjs/config";
 import { Logger, ValidationPipe } from "@nestjs/common";
 import { useContainer } from "class-validator";
 import cookieParser from "cookie-parser";
+import "dotenv/config";
 import type { NestExpressApplication } from "@nestjs/platform-express";
 
-import { getUseContainerOptions, getCorsOptions, getVersioningOptions } from "@/app/utils";
+import { getUseContainerOptions, getCorsOptions, getVersioningOptions } from "@/app/util";
 import { AppProxyMiddleware } from "@/config";
-import type { AppConfig } from "@/config/types";
+import type { AppConfig } from "@/config/type";
 
 import { AppModule } from "./app";
+
+const GLOBAL_PREFIX = "api";
 
 async function bootstrap() {
     const app = await NestFactory.create<NestExpressApplication>(AppModule);
@@ -22,7 +25,7 @@ async function bootstrap() {
     app.enableCors(getCorsOptions(configService));
     app.enableVersioning(getVersioningOptions());
     app.useGlobalPipes(new ValidationPipe(validationPipeConfig));
-    app.setGlobalPrefix(apiGatewayConfig.prefix);
+    app.setGlobalPrefix(GLOBAL_PREFIX);
     app.use(cookieParser());
     app.use(new AppProxyMiddleware(configService).getResult());
 
