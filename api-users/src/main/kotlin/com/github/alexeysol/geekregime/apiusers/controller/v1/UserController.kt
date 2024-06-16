@@ -1,12 +1,11 @@
 package com.github.alexeysol.geekregime.apiusers.controller.v1
 
 import com.github.alexeysol.geekregime.apicommons.constant.Default
+import com.github.alexeysol.geekregime.apicommons.constant.Default.PAGE_SIZE
 import com.github.alexeysol.geekregime.apicommons.exception.ResourceException
 import com.github.alexeysol.geekregime.apicommons.model.dto.shared.HasIdDto
 import com.github.alexeysol.geekregime.apicommons.model.dto.user.UserDto
 import com.github.alexeysol.geekregime.apicommons.model.exception.ErrorDetail
-import com.github.alexeysol.geekregime.apicommons.util.converter.PageableConverter
-import com.github.alexeysol.geekregime.apicommons.util.converter.SearchableConverter
 import com.github.alexeysol.geekregime.apiusers.constant.PathConstant.API_V1_PATH
 import com.github.alexeysol.geekregime.apiusers.constant.UserConstant.EMAIL_FIELD
 import com.github.alexeysol.geekregime.apiusers.constant.UserConstant.ID_FIELD
@@ -14,16 +13,17 @@ import com.github.alexeysol.geekregime.apiusers.constant.UserConstant.OLD_PASSWO
 import com.github.alexeysol.geekregime.apiusers.constant.UserConstant.PASSWORD_FIELD
 import com.github.alexeysol.geekregime.apiusers.constant.UserConstant.SEARCHABLE_FIELDS
 import com.github.alexeysol.geekregime.apiusers.constant.UserConstant.SLUG_FIELD
-import com.github.alexeysol.geekregime.apiusers.constant.UserConstant.SORTABLE_FIELDS
+import com.github.alexeysol.geekregime.apiusers.mapper.UserMapper
 import com.github.alexeysol.geekregime.apiusers.model.dto.AuthDto
 import com.github.alexeysol.geekregime.apiusers.model.dto.CreateUserDto
 import com.github.alexeysol.geekregime.apiusers.model.dto.UpdateUserDto
 import com.github.alexeysol.geekregime.apiusers.service.v1.UserService
 import com.github.alexeysol.geekregime.apiusers.util.assertPassword
 import com.github.alexeysol.geekregime.apiusers.util.assertPasswordsMatchIfNeeded
-import com.github.alexeysol.geekregime.apiusers.mapper.UserMapper
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
+import org.springframework.data.domain.Pageable
+import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
@@ -53,20 +53,14 @@ class UserController(
     @GetMapping
     fun findAllUsers(
         @RequestParam ids: List<Long>?,
-        @RequestParam paging: String?,
-        @RequestParam sortBy: String?,
-        @RequestParam searchBy: String?
+        @RequestParam text: String?,
+        @RequestParam searchIn: List<String>?,
+        @PageableDefault(size = PAGE_SIZE) pageable: Pageable
     ): Page<UserDto> {
-        val pageableConverter = PageableConverter(paging, sortBy, SORTABLE_FIELDS)
-        val searchableConverter = SearchableConverter(searchBy, SEARCHABLE_FIELDS)
-
         try {
-            val pageable = pageableConverter.value
-            val searchByDto = searchableConverter.value
-
             val usersPage =
                 if (ids !== null) service.findAllUsersById(ids, pageable)
-                else if (searchByDto !== null) service.searchUsers(searchByDto, pageable)
+                else if (text !== null) service.searchUsers(text, searchIn ?: SEARCHABLE_FIELDS, pageable)
                 else service.findAllUsers(pageable)
 
             val userDtoList = mapper.fromUserListToUserDtoList(usersPage.content);

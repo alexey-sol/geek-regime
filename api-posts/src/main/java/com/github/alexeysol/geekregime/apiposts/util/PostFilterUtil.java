@@ -4,9 +4,7 @@ import com.github.alexeysol.geekregime.apicommons.constant.database.ComparisonOp
 import com.github.alexeysol.geekregime.apicommons.constant.database.LogicalOperator;
 import com.github.alexeysol.geekregime.apicommons.exception.ResourceException;
 import com.github.alexeysol.geekregime.apicommons.model.dto.query.FilterCriterion;
-import com.github.alexeysol.geekregime.apicommons.model.dto.query.SearchCriteria;
 import com.github.alexeysol.geekregime.apicommons.model.util.EntityFilter;
-import com.github.alexeysol.geekregime.apicommons.util.converter.SearchableConverter;
 import lombok.experimental.UtilityClass;
 import org.springframework.http.HttpStatus;
 
@@ -54,24 +52,24 @@ public class PostFilterUtil {
         return filter;
     }
 
+    public static EntityFilter<FilterCriterion> createFilter(String text, LogicalOperator operation) {
+        return createFilter(text, SEARCHABLE_FIELDS, operation);
+    }
+
     public static EntityFilter<FilterCriterion> createFilter(
-        String searchBy,
+        String text,
+        List<String> searchableFields,
         LogicalOperator operation
     ) {
-        if (Objects.isNull(searchBy)) {
+        if (Objects.isNull(text) || Objects.isNull(operation)) {
             return null;
         }
 
-        var searchableConverter = new SearchableConverter(searchBy, SEARCHABLE_FIELDS);
         var filter = new EntityFilter<FilterCriterion>(operation);
 
         try {
-            var searchCriteria = searchableConverter.getValue();
-
-            if (Objects.nonNull(searchCriteria)) {
-                var criteria = createCriteria(searchCriteria);
-                filter.addAllFilterCriteria(criteria);
-            }
+            var criteria = createCriteria(text, searchableFields);
+            filter.addAllFilterCriteria(criteria);
         } catch (IllegalArgumentException | ConstraintViolationException exception) {
             throw new ResourceException(HttpStatus.UNPROCESSABLE_ENTITY, exception.getMessage());
         }
@@ -87,14 +85,14 @@ public class PostFilterUtil {
             .build());
     }
 
-    private static List<FilterCriterion> createCriteria(SearchCriteria searchCriteria) {
+    private static List<FilterCriterion> createCriteria(String text, List<String> searchableFields) {
         var criteria = new ArrayList<FilterCriterion>();
 
-        for (String key : searchCriteria.getKeys()) {
+        for (String key : searchableFields) {
             var criterion = FilterCriterion.builder()
                 .key(key)
                 .operation(ComparisonOperator.ILIKE)
-                .value(searchCriteria.getValue())
+                .value(text)
                 .build();
             criteria.add(criterion);
         }

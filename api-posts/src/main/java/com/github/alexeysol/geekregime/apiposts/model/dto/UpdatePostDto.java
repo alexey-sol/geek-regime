@@ -1,4 +1,4 @@
-package com.github.alexeysol.geekregime.apiposts.model.dtos;
+package com.github.alexeysol.geekregime.apiposts.model.dto;
 
 import lombok.Builder;
 import lombok.Data;

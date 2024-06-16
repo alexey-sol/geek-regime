@@ -7,19 +7,19 @@ import org.springframework.util.Assert;
 
 import java.net.http.HttpResponse;
 
-public class ResponseReader {
+class AppHttpResponse {
     private final HttpResponse<String> response;
 
-    public ResponseReader(HttpResponse<String> response) {
+    public AppHttpResponse(HttpResponse<String> response) {
         this.response = response;
     }
 
-    public <Content> Content content(Class<Content> valueType) {
+    public <T> T content(Class<T> valueType) {
         assertIsSuccessful();
         return Json.parse(response.body(), valueType);
     }
 
-    public <Content> Content content(TypeReference<Content> valueTypeRef) {
+    public <T> T content(TypeReference<T> valueTypeRef) {
         assertIsSuccessful();
         return Json.parse(response.body(), valueTypeRef);
     }

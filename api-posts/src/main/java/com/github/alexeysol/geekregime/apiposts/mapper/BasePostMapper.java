@@ -4,10 +4,10 @@ import com.github.alexeysol.geekregime.apicommons.model.dto.post.PostDetailsDto;
 import com.github.alexeysol.geekregime.apicommons.model.dto.post.PostPreviewDto;
 import com.github.alexeysol.geekregime.apiposts.mapper.converters.BodyToExcerptConverter;
 import com.github.alexeysol.geekregime.apiposts.mapper.converters.TitleToSlugConverter;
-import com.github.alexeysol.geekregime.apiposts.model.entities.Post;
+import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.service.v1.PostService;
-import com.github.alexeysol.geekregime.apiposts.model.dtos.CreatePostDto;
-import com.github.alexeysol.geekregime.apiposts.model.dtos.UpdatePostDto;
+import com.github.alexeysol.geekregime.apiposts.model.dto.CreatePostDto;
+import com.github.alexeysol.geekregime.apiposts.model.dto.UpdatePostDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.spi.MappingContext;
 

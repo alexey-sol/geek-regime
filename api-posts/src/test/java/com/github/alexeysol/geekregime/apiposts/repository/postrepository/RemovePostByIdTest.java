@@ -1,6 +1,6 @@
 package com.github.alexeysol.geekregime.apiposts.repository.postrepository;
 
-import com.github.alexeysol.geekregime.apiposts.model.entities.Post;
+import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.repository.PostRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

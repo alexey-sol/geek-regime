@@ -4,7 +4,7 @@ import com.github.alexeysol.geekregime.apicommons.constant.Default;
 import com.github.alexeysol.geekregime.apicommons.model.dto.query.FilterCriterion;
 import com.github.alexeysol.geekregime.apicommons.model.util.EntityFilter;
 import com.github.alexeysol.geekregime.apicommons.util.database.FilterSpecificationUtil;
-import com.github.alexeysol.geekregime.apiposts.model.entities.Post;
+import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.repository.PostRepository;
 import com.github.alexeysol.geekregime.apiposts.util.PostFilterSpecificationFactory;
 import lombok.RequiredArgsConstructor;

@@ -2,8 +2,7 @@ package com.github.alexeysol.geekregime.apiposts.controller.v1.postcontroller;
 
 import com.github.alexeysol.geekregime.apicommons.model.dto.post.PostPreviewDto;
 import com.github.alexeysol.geekregime.apicommons.util.TestUtil;
-import com.github.alexeysol.geekregime.apicommons.util.converter.PageableConverter;
-import com.github.alexeysol.geekregime.apiposts.model.entities.Post;
+import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.util.source.ApiPostsSource;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -19,11 +18,11 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.github.alexeysol.geekregime.apicommons.constant.Default.PAGE_SIZE;
 import static org.mockito.Mockito.when;
 
 public class FindAllPosts extends BasePostControllerTest {
-    private final PageableConverter pageableConverterStub = new PageableConverter("", "");
-    private final Pageable pageableStub = pageableConverterStub.getValue();
+    private final Pageable pageableStub = Pageable.ofSize(PAGE_SIZE);
 
     public FindAllPosts(
         @Autowired MockMvc mockMvc,

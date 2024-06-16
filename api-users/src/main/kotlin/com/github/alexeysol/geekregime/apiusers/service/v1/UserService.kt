@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregime.apiusers.service.v1
 
 import com.github.alexeysol.geekregime.apicommons.constant.Default
-import com.github.alexeysol.geekregime.apicommons.model.dto.query.SearchCriteria
+import com.github.alexeysol.geekregime.apiusers.constant.UserConstant.SEARCH_LIMIT
 import com.github.alexeysol.geekregime.apiusers.model.entity.User
 import com.github.alexeysol.geekregime.apiusers.repository.UserRepository
 import org.springframework.data.domain.Page
@@ -9,7 +9,6 @@ import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
-import javax.validation.Valid
 
 @Service
 class UserService(val repository: UserRepository) {
@@ -18,12 +17,12 @@ class UserService(val repository: UserRepository) {
     fun findAllUsersById(ids: List<Long>, pageable: Pageable): Page<User> =
         repository.findAllUsersById(ids, pageable)
 
-    fun searchUsers(searchCriteria: @Valid SearchCriteria, pageable: Pageable): Page<User> {
-        val term = searchCriteria.value
-        val fields = searchCriteria.keys
-        val limit = searchCriteria.limit
-
-        val users: List<User> = repository.searchBy(term, fields, limit)
+    fun searchUsers(
+        text: String,
+        searchIn: List<String>,
+        pageable: Pageable
+    ): Page<User> {
+        val users: List<User> = repository.searchBy(text, searchIn, SEARCH_LIMIT)
 
         return PageImpl(users, pageable, users.size.toLong())
     }

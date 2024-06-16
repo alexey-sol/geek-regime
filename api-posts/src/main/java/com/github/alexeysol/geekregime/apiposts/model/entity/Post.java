@@ -1,4 +1,4 @@
-package com.github.alexeysol.geekregime.apiposts.model.entities;
+package com.github.alexeysol.geekregime.apiposts.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;

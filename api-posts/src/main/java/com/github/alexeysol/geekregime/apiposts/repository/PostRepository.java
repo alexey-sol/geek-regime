@@ -1,6 +1,6 @@
 package com.github.alexeysol.geekregime.apiposts.repository;
 
-import com.github.alexeysol.geekregime.apiposts.model.entities.Post;
+import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;

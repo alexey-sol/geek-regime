@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregime.apiaggregator.features.post.controller.v1;
 
-import com.github.alexeysol.geekregime.apiaggregator.features.post.service.v1.PostService;
 import com.github.alexeysol.geekregime.apiaggregator.features.post.mapper.PostMapper;
+import com.github.alexeysol.geekregime.apiaggregator.features.post.service.v1.PostService;
 import com.github.alexeysol.geekregime.apicommons.exception.SerializedApiException;
 import com.github.alexeysol.geekregime.apicommons.model.dto.post.PostDetailsDto;
 import com.github.alexeysol.geekregime.apicommons.model.dto.post.PostDetailsView;
@@ -15,9 +15,9 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
+import java.util.Map;
 
-import static com.github.alexeysol.geekregime.apiaggregator.shared.constant.PathConstant.*;
+import static com.github.alexeysol.geekregime.apiaggregator.shared.constant.PathConstant.API_PREFIX_V1;
 
 @RestController
 @RequestMapping(path = API_PREFIX_V1, produces = "application/json")
@@ -29,11 +29,9 @@ public class PostController {
 
     @GetMapping("posts")
     BasicPage<PostPreviewView> findAllPosts(
-        @RequestParam Optional<String> paging,
-        @RequestParam Optional<String> sortBy,
-        @RequestParam Optional<String> searchBy
+        @RequestParam(required = false) Map<String, String> params
     ) {
-        BasicPage<PostPreviewDto> page = service.findAllPosts(paging, sortBy, searchBy);
+        BasicPage<PostPreviewDto> page = service.findAllPosts(params);
         List<PostPreviewView> viewList = mapper.fromPostPreviewDtoListToViewList(page.getContent());
         return page.convertContent(viewList);
     }
@@ -41,11 +39,9 @@ public class PostController {
     @GetMapping("users/{authorId}/posts")
     BasicPage<PostPreviewView> findAllPostsByAuthor(
         @PathVariable long authorId,
-        @RequestParam Optional<String> paging,
-        @RequestParam Optional<String> sortBy,
-        @RequestParam Optional<String> searchBy
+        @RequestParam(required = false) Map<String, String> params
     ) {
-        BasicPage<PostPreviewDto> page = service.findAllPosts(authorId, paging, sortBy, searchBy);
+        BasicPage<PostPreviewDto> page = service.findAllPosts(authorId, params);
         List<PostPreviewView> viewList = mapper.fromPostPreviewDtoListToViewList(page.getContent());
         return page.convertContent(viewList);
     }

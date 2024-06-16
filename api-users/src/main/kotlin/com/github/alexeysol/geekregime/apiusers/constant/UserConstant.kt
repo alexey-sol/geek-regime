@@ -6,6 +6,6 @@ object UserConstant {
     const val OLD_PASSWORD_FIELD = "oldPassword"
     const val PASSWORD_FIELD = "password"
     const val SLUG_FIELD = "slug"
-    val SEARCHABLE_FIELDS = listOf("details.name", "slug")
-    val SORTABLE_FIELDS = listOf("createdAt", "details.name", "email", "id")
+    const val SEARCH_LIMIT = 1000
+    val SEARCHABLE_FIELDS = listOf("details.name")
 }

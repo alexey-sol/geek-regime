@@ -9,10 +9,9 @@ import com.github.alexeysol.geekregime.apicommons.model.dto.query.FilterCriterio
 import com.github.alexeysol.geekregime.apicommons.model.dto.shared.HasIdDto;
 import com.github.alexeysol.geekregime.apicommons.model.exception.ErrorDetail;
 import com.github.alexeysol.geekregime.apicommons.model.util.EntityFilter;
-import com.github.alexeysol.geekregime.apicommons.util.converter.PageableConverter;
-import com.github.alexeysol.geekregime.apiposts.model.dtos.CreatePostDto;
-import com.github.alexeysol.geekregime.apiposts.model.dtos.UpdatePostDto;
-import com.github.alexeysol.geekregime.apiposts.model.entities.Post;
+import com.github.alexeysol.geekregime.apiposts.model.dto.CreatePostDto;
+import com.github.alexeysol.geekregime.apiposts.model.dto.UpdatePostDto;
+import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.service.v1.PostService;
 import com.github.alexeysol.geekregime.apiposts.util.PostFilterUtil;
 import com.github.alexeysol.geekregime.apiposts.mapper.PostMapper;
@@ -20,6 +19,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -28,6 +28,7 @@ import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
 import java.util.*;
 
+import static com.github.alexeysol.geekregime.apicommons.constant.Default.PAGE_SIZE;
 import static com.github.alexeysol.geekregime.apiposts.constant.PathConstant.*;
 import static com.github.alexeysol.geekregime.apiposts.constant.PostConstant.*;
 
@@ -42,42 +43,47 @@ public class PostController {
     @GetMapping("users/{authorId}/posts")
     Page<PostPreviewDto> findAllPostsByAuthor(
         @PathVariable long authorId,
-        @RequestParam(required = false) String paging,
-        @RequestParam(required = false) String sortBy,
-        @RequestParam(required = false) String searchBy
+        @RequestParam(required = false) String text,
+        @RequestParam(required = false) List<String> searchIn,
+        @PageableDefault(size = PAGE_SIZE) Pageable pageable
     ) {
+        var searchFilter = getSearchFilterIfTextIsPresent(text, searchIn);
         var authorIdFilter = PostFilterUtil.createFilter(authorId, LogicalOperator.AND);
-        var searchFilter = PostFilterUtil.createFilter(searchBy, LogicalOperator.OR);
         var plainFilters = PostFilterUtil.combinePlainFilters(authorIdFilter, searchFilter);
         var compositeFilter = PostFilterUtil.createFilter(plainFilters, LogicalOperator.AND);
 
-        return findPosts(paging, sortBy, compositeFilter);
+        return findPosts(pageable, compositeFilter);
     }
 
     @GetMapping("posts")
     Page<PostPreviewDto> findAllPosts(
-        @RequestParam(required = false) String paging,
-        @RequestParam(required = false) String sortBy,
-        @RequestParam(required = false) String searchBy
+        @RequestParam(required = false) String text,
+        @RequestParam(required = false) List<String> searchIn,
+        @PageableDefault(size = PAGE_SIZE) Pageable pageable
     ) {
-        var searchFilter = PostFilterUtil.createFilter(searchBy, LogicalOperator.OR);
+        var searchFilter = getSearchFilterIfTextIsPresent(text, searchIn);
         var compositeFilter = PostFilterUtil.createFilter(searchFilter, LogicalOperator.AND);
 
-        return findPosts(paging, sortBy, compositeFilter);
+        return findPosts(pageable, compositeFilter);
+    }
+
+    private EntityFilter<FilterCriterion> getSearchFilterIfTextIsPresent(String text, List<String> searchIn) {
+        if (Objects.isNull(text)) {
+            return null;
+        }
+
+        return (Objects.isNull(searchIn) || searchIn.isEmpty())
+            ? PostFilterUtil.createFilter(text, LogicalOperator.OR)
+            : PostFilterUtil.createFilter(text, searchIn, LogicalOperator.OR);
     }
 
     private Page<PostPreviewDto> findPosts(
-        String paging,
-        String sortBy,
+        Pageable pageable,
         EntityFilter<EntityFilter<FilterCriterion>> filter
     ) {
-        var pageableConverter = new PageableConverter(paging, sortBy, SORTABLE_FIELDS);
-
-        Pageable pageable;
         Page<Post> postsPage;
 
         try {
-            pageable = pageableConverter.getValue();
             postsPage = (Objects.isNull(filter))
                 ? service.findAllPosts(pageable)
                 : service.findAllPosts(pageable, filter);

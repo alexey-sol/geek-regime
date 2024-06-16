@@ -1,21 +1,20 @@
 package com.github.alexeysol.geekregime.apiaggregator.features.post.service.v1;
 
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.github.alexeysol.geekregime.apiaggregator.shared.util.UriUtil;
 import com.github.alexeysol.geekregime.apiaggregator.shared.util.source.ApiPostsSource;
-import com.github.alexeysol.geekregime.apicommons.exception.SerializedApiException;
 import com.github.alexeysol.geekregime.apicommons.model.dto.post.PostDetailsDto;
 import com.github.alexeysol.geekregime.apicommons.model.dto.post.PostPreviewDto;
 import com.github.alexeysol.geekregime.apicommons.model.dto.shared.HasIdDto;
 import com.github.alexeysol.geekregime.apicommons.model.util.BasicPage;
-import com.github.alexeysol.geekregime.apicommons.util.http.Request;
-import com.github.alexeysol.geekregime.apicommons.util.http.ResponseReader;
+import com.github.alexeysol.geekregime.apicommons.util.http.AppHttpClient;
+import com.github.alexeysol.geekregime.apicommons.util.http.AppHttpRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.net.http.HttpResponse;
-import java.util.Optional;
+import java.net.http.HttpRequest;
+import java.util.Map;
 
-import static com.github.alexeysol.geekregime.apiaggregator.shared.constant.PathConstant.*;
 import static com.github.alexeysol.geekregime.apicommons.constant.ResourceConstant.*;
 
 @Service
@@ -23,107 +22,84 @@ import static com.github.alexeysol.geekregime.apicommons.constant.ResourceConsta
 public class PostService {
     private final ApiPostsSource source;
 
-    public BasicPage<PostPreviewDto> findAllPosts(
-        long authorId,
-        Optional<String> paging,
-        Optional<String> sortBy,
-        Optional<String> searchBy
-    ) {
+    public BasicPage<PostPreviewDto> findAllPosts(long authorId, Map<String, String> params) {
         String path = String.format("%s/%d/%s", USERS, authorId, POSTS);
 
-        return findAllPosts(path, paging, sortBy, searchBy);
+        return findAllPosts(path, params);
     }
 
-    public BasicPage<PostPreviewDto> findAllPosts(
-        Optional<String> paging,
-        Optional<String> sortBy,
-        Optional<String> searchBy
-    ) {
-        return findAllPosts(POSTS, paging, sortBy, searchBy);
+    public BasicPage<PostPreviewDto> findAllPosts(Map<String, String> params) {
+        return findAllPosts(POSTS, params);
     }
 
-    private BasicPage<PostPreviewDto> findAllPosts(
-        String path,
-        Optional<String> paging,
-        Optional<String> sortBy,
-        Optional<String> searchBy
-    ) {
-        Request request = new Request(getApiUrl(path));
+    private BasicPage<PostPreviewDto> findAllPosts(String path, Map<String, String> params) {
+        var uri = UriUtil.getApiUriBuilder(source.getBaseUrl(), path, params)
+            .build()
+            .toUri();
 
-        paging.ifPresent(json -> request.addQueryParam("paging", json));
-        sortBy.ifPresent(json -> request.addQueryParam("sortBy", json));
-        searchBy.ifPresent(json -> request.addQueryParam("searchBy", json));
+        var request = AppHttpRequest.builder()
+            .uri(uri)
+            .GET()
+            .build();
 
-        HttpResponse<String> response = request.GET()
-            .send()
-            .join();
-
-        try {
-            return new ResponseReader(response).content(new TypeReference<>() {});
-        } catch (IllegalArgumentException exception) {
-            throw new SerializedApiException(response.body());
-        }
+        return AppHttpClient.send(request, new TypeReference<>() {});
     }
 
     public PostDetailsDto findPostBySlug(String slug) {
         String path = String.format("%s/%s", POSTS, slug);
 
-        HttpResponse<String> response = new Request(getApiUrl(path))
-            .GET()
-            .send()
-            .join();
+        var uri = UriUtil.getApiUriBuilder(source.getBaseUrl(), path)
+            .build()
+            .toUri();
 
-        try {
-            return new ResponseReader(response).content(PostDetailsDto.class);
-        } catch (IllegalArgumentException exception) {
-            throw new SerializedApiException(response.body());
-        }
+        var request = AppHttpRequest.builder()
+            .uri(uri)
+            .GET()
+            .build();
+
+        return AppHttpClient.send(request, new TypeReference<>() {});
     }
 
     public PostDetailsDto createPost(String dto) {
-        HttpResponse<String> response = new Request(getApiUrl(POSTS))
-            .POST(dto)
-            .send()
-            .join();
+        var uri = UriUtil.getApiUriBuilder(source.getBaseUrl(), POSTS)
+            .build()
+            .toUri();
 
-        try {
-            return new ResponseReader(response).content(PostDetailsDto.class);
-        } catch (IllegalArgumentException exception) {
-            throw new SerializedApiException(response.body());
-        }
+        var request = AppHttpRequest.builder()
+            .uri(uri)
+            .POST(HttpRequest.BodyPublishers.ofString(dto))
+            .build();
+
+        return AppHttpClient.send(request, new TypeReference<>() {});
     }
 
     public PostDetailsDto updatePost(long id, String dto) {
         String path = String.format("%s/%d", POSTS, id);
 
-        HttpResponse<String> response = new Request(getApiUrl(path))
-            .PATCH(dto)
-            .send()
-            .join();
+        var uri = UriUtil.getApiUriBuilder(source.getBaseUrl(), path)
+            .build()
+            .toUri();
 
-        try {
-            return new ResponseReader(response).content(PostDetailsDto.class);
-        } catch (IllegalArgumentException exception) {
-            throw new SerializedApiException(response.body());
-        }
+        var request = AppHttpRequest.builder()
+            .uri(uri)
+            .method("PATCH", HttpRequest.BodyPublishers.ofString(dto))
+            .build();
+
+        return AppHttpClient.send(request, new TypeReference<>() {});
     }
 
     public HasIdDto removePostById(long id) {
         String path = String.format("%s/%d", POSTS, id);
 
-        HttpResponse<String> response = new Request(getApiUrl(path))
-            .DELETE()
-            .send()
-            .join();
+        var uri = UriUtil.getApiUriBuilder(source.getBaseUrl(), path)
+            .build()
+            .toUri();
 
-        try {
-            return new ResponseReader(response).content(HasIdDto.class);
-        } catch (IllegalArgumentException exception) {
-            throw new SerializedApiException(response.body());
-        }
-    }
+        var request = AppHttpRequest.builder()
+            .uri(uri)
+            .method("DELETE", HttpRequest.BodyPublishers.noBody())
+            .build();
 
-    private String getApiUrl(String path) {
-        return String.format("%s/%s/%s", source.getBaseUrl(), API_PREFIX_V1_EXTERNAL, path);
+        return AppHttpClient.send(request, new TypeReference<>() {});
     }
 }

@@ -2,7 +2,7 @@ package com.github.alexeysol.geekregime.apiposts.controller.v1.postcontroller;
 
 import com.github.alexeysol.geekregime.apicommons.model.dto.post.PostDetailsDto;
 import com.github.alexeysol.geekregime.apicommons.util.parser.Json;
-import com.github.alexeysol.geekregime.apiposts.model.entities.Post;
+import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.util.source.ApiPostsSource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
