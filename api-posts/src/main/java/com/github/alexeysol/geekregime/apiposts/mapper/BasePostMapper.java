@@ -1,13 +1,13 @@
 package com.github.alexeysol.geekregime.apiposts.mapper;
 
-import com.github.alexeysol.geekregime.apicommons.model.dto.post.PostDetailsDto;
-import com.github.alexeysol.geekregime.apicommons.model.dto.post.PostPreviewDto;
+import com.github.alexeysol.geekregime.apicommons.generated.model.PostDetailsResponse;
+import com.github.alexeysol.geekregime.apicommons.generated.model.PostPreviewResponse;
+import com.github.alexeysol.geekregime.apiposts.generated.model.CreatePostRequest;
+import com.github.alexeysol.geekregime.apiposts.generated.model.UpdatePostRequest;
 import com.github.alexeysol.geekregime.apiposts.mapper.converters.BodyToExcerptConverter;
 import com.github.alexeysol.geekregime.apiposts.mapper.converters.TitleToSlugConverter;
 import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.service.v1.PostService;
-import com.github.alexeysol.geekregime.apiposts.model.dto.CreatePostDto;
-import com.github.alexeysol.geekregime.apiposts.model.dto.UpdatePostDto;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.spi.MappingContext;
 
@@ -24,37 +24,37 @@ public abstract class BasePostMapper {
     }
 
     private void init(ModelMapper modelMapper) {
-        modelMapper.createTypeMap(Post.class, PostDetailsDto.class)
+        modelMapper.createTypeMap(Post.class, PostDetailsResponse.class)
             .addMappings(mapper -> mapper
                 .using(MappingContext::getSource)
-                .map(Post::getUserId, PostDetailsDto::setAuthorId));
+                .map(Post::getUserId, PostDetailsResponse::setAuthorId));
 
-        modelMapper.createTypeMap(Post.class, PostPreviewDto.class)
+        modelMapper.createTypeMap(Post.class, PostPreviewResponse.class)
             .addMappings(mapper -> mapper
                 .using(MappingContext::getSource)
-                .map(Post::getUserId, PostPreviewDto::setAuthorId));
+                .map(Post::getUserId, PostPreviewResponse::setAuthorId));
 
-        modelMapper.typeMap(CreatePostDto.class, Post.class)
+        modelMapper.typeMap(CreatePostRequest.class, Post.class)
             .addMappings(mapper -> {
                 mapper.using(new TitleToSlugConverter(service))
-                    .map(CreatePostDto::getTitle, Post::setSlug);
+                    .map(CreatePostRequest::getTitle, Post::setSlug);
 
                 mapper.using(new BodyToExcerptConverter())
-                    .map(CreatePostDto::getBody, Post::setExcerpt);
+                    .map(CreatePostRequest::getBody, Post::setExcerpt);
 
                 mapper
                     .using(MappingContext::getSource)
-                    .map(CreatePostDto::getAuthorId, Post::setUserId);
+                    .map(CreatePostRequest::getAuthorId, Post::setUserId);
             });
 
-        modelMapper.typeMap(UpdatePostDto.class, Post.class)
+        modelMapper.typeMap(UpdatePostRequest.class, Post.class)
             .addMappings(mapper -> {
                 mapper.when(this::shouldUpdateSlug)
                     .using(new TitleToSlugConverter(service))
-                    .map(UpdatePostDto::getTitle, Post::setSlug);
+                    .map(UpdatePostRequest::getTitle, Post::setSlug);
 
                 mapper.using(new BodyToExcerptConverter())
-                    .map(UpdatePostDto::getBody, Post::setExcerpt);
+                    .map(UpdatePostRequest::getBody, Post::setExcerpt);
             });
     }
 

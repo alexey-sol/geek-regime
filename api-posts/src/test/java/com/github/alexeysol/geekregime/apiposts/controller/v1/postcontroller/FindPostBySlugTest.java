@@ -1,6 +1,6 @@
 package com.github.alexeysol.geekregime.apiposts.controller.v1.postcontroller;
 
-import com.github.alexeysol.geekregime.apicommons.model.dto.post.PostDetailsDto;
+import com.github.alexeysol.geekregime.apicommons.generated.model.PostDetailsResponse;
 import com.github.alexeysol.geekregime.apicommons.util.parser.Json;
 import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.util.source.ApiPostsSource;
@@ -27,19 +27,19 @@ public class FindPostBySlugTest extends BasePostControllerTest {
     public void givenPostAndAuthorExist_whenFindPostBySlug_thenReturnsDtoWithStatus200()
         throws Exception {
 
-        Post post = Post.builder()
+        var post = Post.builder()
             .userId(1L)
             .slug("test-post")
             .build();
-        PostDetailsDto detailsDto = new PostDetailsDto();
+        var response = new PostDetailsResponse();
 
         when(service.findPostBySlug(post.getSlug())).thenReturn(Optional.of(post));
-        when(mapper.fromPostToPostDetailsDto(post)).thenReturn(detailsDto);
+        when(mapper.toPostDetailsResponse(post)).thenReturn(response);
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl(post.getSlug())))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(result -> {
-                String expected = Json.stringify(detailsDto);
+                String expected = Json.stringify(response);
                 String actual = result.getResponse().getContentAsString();
                 Assertions.assertEquals(expected, actual);
             });
@@ -49,7 +49,7 @@ public class FindPostBySlugTest extends BasePostControllerTest {
     public void givenPostDoesntExist_whenFindPostBySlug_thenReturnsStatus404()
         throws Exception {
 
-        String absentPostSlug = "test-post";
+        var absentPostSlug = "test-post";
 
         when(service.findPostBySlug(absentPostSlug)).thenReturn(Optional.empty());
 

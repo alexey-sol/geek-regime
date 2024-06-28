@@ -1,13 +1,14 @@
 package com.github.alexeysol.geekregime.apiposts.controller.v1.postcontroller;
 
-import com.github.alexeysol.geekregime.apicommons.model.dto.post.PostPreviewDto;
-import com.github.alexeysol.geekregime.apicommons.util.TestUtil;
+import com.github.alexeysol.geekregime.apicommons.generated.model.PostPreviewPageResponse;
+import com.github.alexeysol.geekregime.apicommons.generated.model.PostPreviewResponse;
+import com.github.alexeysol.geekregime.apicommons.util.parser.Json;
 import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.util.source.ApiPostsSource;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
@@ -35,15 +36,15 @@ public class FindAllPosts extends BasePostControllerTest {
     public void allPostsExist_whenFindAllPosts_thenReturnsPageContainingDtoListWithStatus200()
         throws Exception {
 
-        List<Post> posts = List.of(new Post(), new Post(), new Post());
-        Page<Post> postPage = new PageImpl<>(posts, pageableStub, posts.size());
+        var postList = List.of(new Post(), new Post(), new Post());
+        var postPage = new PageImpl<>(postList, pageableStub, postList.size());
 
-        List<PostPreviewDto> previewDtoList = List.of(new PostPreviewDto(), new PostPreviewDto(),
-            new PostPreviewDto());
-        Page<PostPreviewDto> previewDtoPage = new PageImpl<>(previewDtoList, pageableStub, previewDtoList.size());
+        var dtoList = List.of(new PostPreviewResponse(), new PostPreviewResponse(),
+            new PostPreviewResponse());
+        var dtoPage = new PostPreviewPageResponse(dtoList, postPage.getSize(), postPage.getTotalElements());
 
         when(service.findAllPosts(Mockito.any(Pageable.class))).thenReturn(postPage);
-        when(mapper.fromPostListToPostPreviewDtoList(posts)).thenReturn(previewDtoList);
+        when(mapper.toPostPreviewListResponse(postList)).thenReturn(dtoList);
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl()))
             .andExpect(MockMvcResultMatchers.status().isOk())
@@ -52,22 +53,22 @@ public class FindAllPosts extends BasePostControllerTest {
             .andExpect(MockMvcResultMatchers.jsonPath("$.content").isNotEmpty())
             .andExpect(result -> {
                 String contentAsString = result.getResponse().getContentAsString();
-                TestUtil.responseContentEqualsProvidedPage(previewDtoPage, contentAsString);
+                Assertions.assertEquals(Json.stringify(dtoPage), contentAsString);
             });
     }
 
     @Test
-    public void postsDontExist_whenFindAllPosts_thenReturnsPageContainingNothingWithStatus200()
+    public void postsDontExist_whenFindAllPosts_thenReturnsEmptyPageWithStatus200()
         throws Exception {
 
         List<Post> emptyPostList = List.of();
-        Page<Post> emptyPostPage = new PageImpl<>(new ArrayList<>(), pageableStub, 0);
+        var emptyPostPage = new PageImpl<Post>(new ArrayList<>(), pageableStub, 0);
 
-        List<PostPreviewDto> emptyDtoList = List.of();
-        Page<PostPreviewDto> emptyDtoPage = new PageImpl<>(new ArrayList<>(), pageableStub, 0);
+        List<PostPreviewResponse> emptyDtoList = List.of();
+        var emptyDtoPage = new PostPreviewPageResponse(new ArrayList<>(), emptyPostPage.getSize(), emptyPostPage.getTotalElements());
 
         when(service.findAllPosts(Mockito.any(Pageable.class))).thenReturn(emptyPostPage);
-        when(mapper.fromPostListToPostPreviewDtoList(emptyPostList)).thenReturn(emptyDtoList);
+        when(mapper.toPostPreviewListResponse(emptyPostList)).thenReturn(emptyDtoList);
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl()))
             .andExpect(MockMvcResultMatchers.status().isOk())
@@ -76,7 +77,7 @@ public class FindAllPosts extends BasePostControllerTest {
             .andExpect(MockMvcResultMatchers.jsonPath("$.content").isEmpty())
             .andExpect(result -> {
                 String contentAsString = result.getResponse().getContentAsString();
-                TestUtil.responseContentEqualsProvidedPage(emptyDtoPage, contentAsString);
+                Assertions.assertEquals(Json.stringify(emptyDtoPage), contentAsString);
             });
     }
 }

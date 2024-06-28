@@ -1,16 +1,16 @@
 package com.github.alexeysol.geekregime.apiposts.mapper;
 
-import com.github.alexeysol.geekregime.apicommons.model.dto.post.PostDetailsDto;
-import com.github.alexeysol.geekregime.apicommons.model.dto.post.PostPreviewDto;
-import com.github.alexeysol.geekregime.apicommons.model.dto.shared.HasIdDto;
-import com.github.alexeysol.geekregime.apiposts.model.dto.CreatePostDto;
-import com.github.alexeysol.geekregime.apiposts.model.dto.UpdatePostDto;
+import com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse;
+import com.github.alexeysol.geekregime.apicommons.generated.model.PostDetailsResponse;
+import com.github.alexeysol.geekregime.apicommons.generated.model.PostPreviewResponse;
+import com.github.alexeysol.geekregime.apiposts.generated.model.CreatePostRequest;
+import com.github.alexeysol.geekregime.apiposts.generated.model.UpdatePostRequest;
 import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.service.v1.PostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import java.util.*;
+import java.util.List;
 
 @Component
 public class PostMapper extends BasePostMapper {
@@ -18,30 +18,30 @@ public class PostMapper extends BasePostMapper {
         super(modelMapper, service);
     }
 
-    public List<PostPreviewDto> fromPostListToPostPreviewDtoList(List<Post> posts) {
+    public List<PostPreviewResponse> toPostPreviewListResponse(List<Post> posts) {
         return posts.stream()
-            .map(this::fromPostToPostPreviewDto)
+            .map(this::toPostPreviewResponse)
             .toList();
     }
 
-    public PostPreviewDto fromPostToPostPreviewDto(Post post) {
-        return modelMapper.map(post, PostPreviewDto.class);
+    public PostPreviewResponse toPostPreviewResponse(Post post) {
+        return modelMapper.map(post, PostPreviewResponse.class);
     }
 
-    public PostDetailsDto fromPostToPostDetailsDto(Post post) {
-        return modelMapper.map(post, PostDetailsDto.class);
+    public PostDetailsResponse toPostDetailsResponse(Post post) {
+        return modelMapper.map(post, PostDetailsResponse.class);
     }
 
-    public Post fromCreatePostDtoToPost(CreatePostDto dto) {
-        return modelMapper.map(dto, Post.class);
+    public Post toPost(CreatePostRequest request) {
+        return modelMapper.map(request, Post.class);
     }
 
-    public Post mapUpdatePostDtoToPost(UpdatePostDto dto, Post post) {
-        modelMapper.map(dto, post);
+    public Post toPost(UpdatePostRequest request, Post post) {
+        modelMapper.map(request, post);
         return post;
     }
 
-    public HasIdDto fromIdToHasIdDto(long id) {
-        return new HasIdDto(id);
+    public IdResponse toIdResponse(Long id) {
+        return new IdResponse(id);
     }
 }

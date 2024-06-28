@@ -2,7 +2,7 @@ package com.github.alexeysol.geekregime.apiposts.controller.v1.postcontroller;
 
 import com.github.alexeysol.geekregime.apicommons.constant.Default;
 import com.github.alexeysol.geekregime.apicommons.exception.ResourceException;
-import com.github.alexeysol.geekregime.apicommons.model.dto.shared.HasIdDto;
+import com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse;
 import com.github.alexeysol.geekregime.apicommons.util.parser.Json;
 import com.github.alexeysol.geekregime.apiposts.util.source.ApiPostsSource;
 import org.junit.jupiter.api.Assertions;
@@ -26,16 +26,16 @@ public class RemovePostByIdTest extends BasePostControllerTest {
     public void givenPostExists_whenRemovePostById_thenReturnsResultDtoWithStatus200()
         throws Exception {
 
-        long postId = 1L;
-        HasIdDto resultDto = new HasIdDto(postId);
+        var postId = 1L;
+        var response = new IdResponse(postId);
 
         when(service.removePostById(postId)).thenReturn(postId);
-        when(mapper.fromIdToHasIdDto(postId)).thenReturn(resultDto);
+        when(mapper.toIdResponse(postId)).thenReturn(response);
 
         mockMvc.perform(MockMvcRequestBuilders.delete(getUrl(postId)))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(result -> {
-                String expected = Json.stringify(resultDto);
+                String expected = Json.stringify(response);
                 String actual = result.getResponse().getContentAsString();
                 Assertions.assertEquals(expected, actual);
             });
@@ -45,7 +45,7 @@ public class RemovePostByIdTest extends BasePostControllerTest {
     public void givenPostDoesntExist_whenRemovePostById_thenReturnsStatus404()
         throws Exception {
 
-        long absentPostId = 10L;
+        var absentPostId = 10L;
 
         when(service.removePostById(absentPostId)).thenReturn(Default.NOT_FOUND_BY_ID);
 

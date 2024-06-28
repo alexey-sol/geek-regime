@@ -1,0 +1,37 @@
+openapi: 3.1.0
+info:
+  title: Parameter components
+  version: v1
+components:
+  parameters:
+    id:
+      name: id
+      description: The ID of an entity
+      in: path
+      schema:
+        type: integer
+        format: int64
+    slug:
+      name: slug
+      description: The slug of the post
+      in: path
+      schema:
+        type: string
+    searchIn:
+      name: searchIn
+      description: The list of fields to search the text in
+      in: query
+      schema:
+        type: array
+        items:
+          type: string
+        examples:
+          - "title"
+          - "title,excerpt"
+    text:
+      name: text
+      description: The text to search
+      in: query
+      schema:
+        type: string
+        example: "Something I wanna find"

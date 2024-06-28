@@ -10,14 +10,14 @@ import static org.mockito.Mockito.when;
 public class SavePostTest extends BasePostServiceTest {
     @Test
     public void givenPostExists_whenSavePost_thenReturnsPost() {
-        Post post = Post.builder()
+        var post = Post.builder()
             .title("Test Post")
             .body("Hello World")
             .build();
 
         when(postRepository.save(Mockito.any(Post.class))).thenReturn(post);
 
-        Post result = postService.savePost(post);
+        var result = postService.savePost(post);
         Assertions.assertEquals(post, result);
     }
 }

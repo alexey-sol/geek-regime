@@ -1,10 +1,10 @@
 package com.github.alexeysol.geekregime.apiposts.controller.v1.postcontroller;
 
 import com.github.alexeysol.geekregime.apicommons.exception.ResourceException;
-import com.github.alexeysol.geekregime.apicommons.model.dto.post.PostDetailsDto;
+import com.github.alexeysol.geekregime.apicommons.generated.model.PostDetailsResponse;
 import com.github.alexeysol.geekregime.apicommons.util.TestUtil;
 import com.github.alexeysol.geekregime.apicommons.util.parser.Json;
-import com.github.alexeysol.geekregime.apiposts.model.dto.CreatePostDto;
+import com.github.alexeysol.geekregime.apiposts.generated.model.CreatePostRequest;
 import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.util.source.ApiPostsSource;
 import org.hamcrest.CoreMatchers;
@@ -34,32 +34,32 @@ public class CreatePostTest extends BasePostControllerTest {
     public void givenDtoIsValid_whenCreatePost_thenReturnsDtoWithStatus200()
         throws Exception {
 
-        Post post = Post.builder()
+        var post = Post.builder()
             .userId(1L)
             .spaceId(1L)
             .title("Test Post")
             .body("Hello World")
             .build();
-        CreatePostDto createPostDto = CreatePostDto.builder()
+        var request = CreatePostRequest.builder()
             .authorId(post.getUserId())
             .spaceId(post.getSpaceId())
             .title(post.getTitle())
             .body(post.getBody())
             .build();
-        PostDetailsDto detailsDto = PostDetailsDto.builder()
+        var response = PostDetailsResponse.builder()
             .title(post.getTitle())
             .body(post.getBody())
             .build();
 
-        when(mapper.fromCreatePostDtoToPost(createPostDto)).thenReturn(post);
+        when(mapper.toPost(request)).thenReturn(post);
         when(service.savePost(post)).thenReturn(post);
-        when(mapper.fromPostToPostDetailsDto(post)).thenReturn(detailsDto);
+        when(mapper.toPostDetailsResponse(post)).thenReturn(response);
 
-        mockMvc.perform(TestUtil.mockPostRequest(getUrl(), createPostDto))
+        mockMvc.perform(TestUtil.mockPostRequest(getUrl(), request))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(result -> {
-                String expected = Json.stringify(detailsDto);
+                String expected = Json.stringify(response);
                 String actual = result.getResponse().getContentAsString();
                 Assertions.assertEquals(expected, actual);
             });
@@ -69,15 +69,16 @@ public class CreatePostTest extends BasePostControllerTest {
     public void givenDtoIsInvalid_whenCreatePost_thenReturnsStatus422()
         throws Exception {
 
-        String invalidTitle = "";
-        CreatePostDto createPostDto = CreatePostDto.builder()
+        var invalidTitle = "";
+
+        var request = CreatePostRequest.builder()
             .authorId(1L)
             .spaceId(1L)
             .title(invalidTitle)
             .body("Hello World")
             .build();
 
-        mockMvc.perform(TestUtil.mockPostRequest(getUrl(), createPostDto))
+        mockMvc.perform(TestUtil.mockPostRequest(getUrl(), request))
             .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity())
             .andExpect(result -> {
                 Assertions.assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException);
@@ -92,26 +93,27 @@ public class CreatePostTest extends BasePostControllerTest {
     public void givenDtoIsValidButUserDoesntExist_whenCreatePost_thenReturnsStatus404()
         throws Exception {
 
-        long absentUserId = 10L;
-        Post post = Post.builder()
+        var absentUserId = 10L;
+
+        var post = Post.builder()
             .userId(absentUserId)
             .spaceId(1L)
             .title("Test Post")
             .body("Hello World")
             .build();
-        CreatePostDto createPostDto = CreatePostDto.builder()
+        var request = CreatePostRequest.builder()
             .authorId(post.getUserId())
             .spaceId(post.getSpaceId())
             .title(post.getTitle())
             .body(post.getBody())
             .build();
 
-        when(mapper.fromCreatePostDtoToPost(createPostDto)).thenReturn(post);
+        when(mapper.toPost(request)).thenReturn(post);
         when(service.savePost(post)).thenReturn(post);
-        when(mapper.fromPostToPostDetailsDto(post))
+        when(mapper.toPostDetailsResponse(post))
             .thenThrow(new ResourceException(HttpStatus.NOT_FOUND, "huh?"));
 
-        mockMvc.perform(TestUtil.mockPostRequest(getUrl(), createPostDto))
+        mockMvc.perform(TestUtil.mockPostRequest(getUrl(), request))
             .andExpect(MockMvcResultMatchers.status().isNotFound())
             .andExpect(result -> {
                 Assertions.assertTrue(result.getResolvedException() instanceof ResourceException);

@@ -10,4 +10,5 @@ public class Default {
     public final long NOT_FOUND_BY_ID = -1L;
     public final int PAGE_SIZE = 10;
     public final int START_PAGE = 0;
+    public final String SORT_BY = "createdAt";
 }

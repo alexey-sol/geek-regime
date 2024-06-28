@@ -1,0 +1,121 @@
+openapi: 3.1.0
+info:
+  version: v1
+  title: api-posts
+servers:
+  - url: http://localhost:3003/api/v1
+paths:
+  /users/{id}/posts:
+    get:
+      summary: Find all posts by author
+      operationId: findAllPostsByAuthor
+      tags:
+        - post
+      x-spring-paginated: true
+      parameters:
+        - $ref: "./parameters-v1.yml#/components/parameters/id"
+        - $ref: "./parameters-v1.yml#/components/parameters/searchIn"
+        - $ref: "./parameters-v1.yml#/components/parameters/text"
+      responses:
+        200:
+          description: A list of posts
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostPreviewPageResponse"
+  /posts:
+    get:
+      summary: Find all posts
+      operationId: findAllPosts
+      tags:
+        - post
+      x-spring-paginated: true
+      parameters:
+        - $ref: "./parameters-v1.yml#/components/parameters/searchIn"
+        - $ref: "./parameters-v1.yml#/components/parameters/text"
+      responses:
+        200:
+          description: A list of posts
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostPreviewPageResponse"
+    post:
+      summary: Create post
+      operationId: createPost
+      tags:
+        - post
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas-v1.yml#/components/schemas/CreatePostRequest"
+      responses:
+        200:
+          description: The created post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostDetailsResponse"
+  /posts/{slug}:
+    get:
+      summary: Find post by slug
+      operationId: findPostBySlug
+      tags:
+        - post
+      parameters:
+        - $ref: "./parameters-v1.yml#/components/parameters/slug"
+      responses:
+        200:
+          description: The post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostDetailsResponse"
+  /posts/{id}:
+    patch:
+      summary: Update post by ID
+      operationId: updatePost
+      tags:
+        - post
+      parameters:
+        - $ref: "./parameters-v1.yml#/components/parameters/id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "./schemas-v1.yml#/components/schemas/UpdatePostRequest"
+      responses:
+        200:
+          description: The updated post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostDetailsResponse"
+    delete:
+      summary: Remove post by ID
+      operationId: removePostById
+      tags:
+        - post
+      parameters:
+        - $ref: "./parameters-v1.yml#/components/parameters/id"
+      responses:
+        200:
+          description: The ID of the removed post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdResponse"
+components:
+  # Schemas imported from api-commons
+  schemas:
+    PostPreviewPageResponse:
+      type: object
+    PostDetailsResponse:
+      type: object
+    PostPreviewResponse:
+      type: object
+    IdResponse:
+      type: object

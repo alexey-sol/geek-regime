@@ -1,0 +1,73 @@
+openapi: 3.1.0
+info:
+  title: Schema components
+  version: v1
+components:
+  schemas:
+    PostPreviewPageResponse:
+      required: [ content, size, totalElements ]
+      allOf:
+        - $ref: "#/components/schemas/Page"
+      properties:
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/PostPreviewResponse"
+    Page:
+      type: object
+      required: [ size, totalElements ]
+      properties:
+        size:
+          type: integer
+          format: int32
+          min: 1
+        totalElements:
+          type: integer
+          format: int64
+          min: 0
+    PostDetailsResponse:
+      type: object
+      required: [ id, title, excerpt, slug, createdAt, updatedAt, authorId, spaceId, body ]
+      allOf:
+        - $ref: "#/components/schemas/PostPreviewResponse"
+        - $ref: "#/components/schemas/HasBody"
+    PostPreviewResponse:
+      type: object
+      required: [ id, title, excerpt, slug, createdAt, updatedAt, authorId, spaceId ]
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        excerpt:
+          type: string
+        slug:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        authorId:
+          type: integer
+          format: int64
+          min: 1
+        spaceId:
+          type: integer
+          format: int64
+          min: 1
+    IdResponse:
+      type: object
+      required: [ id ]
+      properties:
+        id:
+          type: integer
+          format: int64
+          min: 1
+    HasBody:
+      type: object
+      required: [ body ]
+      properties:
+        body:
+          type: string

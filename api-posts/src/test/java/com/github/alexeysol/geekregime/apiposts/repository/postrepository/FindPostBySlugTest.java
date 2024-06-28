@@ -17,7 +17,7 @@ public class FindPostBySlugTest extends BasePostRepositoryTest {
 
     @Test
     public void givenPostExists_whenFindPostBySlug_thenReturnsPost() {
-        Post post = Post.builder()
+        var post = Post.builder()
             .title("Test Post")
             .body("Hello World")
             .excerpt("Test Post")
@@ -26,15 +26,15 @@ public class FindPostBySlugTest extends BasePostRepositoryTest {
         entityManager.persist(post);
         entityManager.flush();
 
-        Post result = postRepository.findPostBySlug(post.getSlug());
+        var result = postRepository.findPostBySlug(post.getSlug());
         Assertions.assertEquals(post, result);
     }
 
     @Test
     public void givenPostDoesntExist_whenFindPostBySlug_thenReturnsNull() {
-        String absentSlug = "test-post";
+        var absentSlug = "test-post";
 
-        Post result = postRepository.findPostBySlug(absentSlug);
+        var result = postRepository.findPostBySlug(absentSlug);
 
         Assertions.assertNull(result);
     }

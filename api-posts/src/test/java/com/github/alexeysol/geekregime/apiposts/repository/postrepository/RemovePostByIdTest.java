@@ -17,8 +17,8 @@ public class RemovePostByIdTest extends BasePostRepositoryTest {
 
     @Test
     public void givenPostExists_whenRemovePostById_thenReturnsDeletedRowCount1() {
-        int deletedRowCount = 1;
-        Post post = Post.builder()
+        var deletedRowCount = 1;
+        var post = Post.builder()
             .title("Test Post")
             .body("Hello World")
             .excerpt("Test Post")
@@ -27,16 +27,16 @@ public class RemovePostByIdTest extends BasePostRepositoryTest {
         entityManager.persist(post);
         entityManager.flush();
 
-        int result = postRepository.removePostById(post.getId());
+        var result = postRepository.removePostById(post.getId());
         Assertions.assertEquals(deletedRowCount, result);
     }
 
     @Test
     public void givenPostDoesntExist_whenRemovePostById_thenReturnsDeletedRowCount0() {
-        int deletedRowCount = 0;
-        long absentPostId = 10L;
+        var deletedRowCount = 0;
+        var absentPostId = 10L;
 
-        int result = postRepository.removePostById(absentPostId);
+        var result = postRepository.removePostById(absentPostId);
         Assertions.assertEquals(deletedRowCount, result);
     }
 }

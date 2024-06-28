@@ -23,6 +23,7 @@ import com.github.alexeysol.geekregime.apiusers.util.assertPasswordsMatchIfNeede
 import org.springframework.data.domain.Page
 import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
+import org.springframework.data.domain.Sort
 import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.validation.annotation.Validated
@@ -55,7 +56,7 @@ class UserController(
         @RequestParam ids: List<Long>?,
         @RequestParam text: String?,
         @RequestParam searchIn: List<String>?,
-        @PageableDefault(size = PAGE_SIZE) pageable: Pageable
+        @PageableDefault(size = PAGE_SIZE, sort = ["createdAt"], direction = Sort.Direction.DESC) pageable: Pageable
     ): Page<UserDto> {
         try {
             val usersPage =
