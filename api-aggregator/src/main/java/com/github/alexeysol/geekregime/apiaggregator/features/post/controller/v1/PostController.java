@@ -3,21 +3,18 @@ package com.github.alexeysol.geekregime.apiaggregator.features.post.controller.v
 import com.github.alexeysol.geekregime.apiaggregator.features.post.mapper.PostMapper;
 import com.github.alexeysol.geekregime.apiaggregator.features.post.service.v1.PostService;
 import com.github.alexeysol.geekregime.apicommons.exception.SerializedApiException;
-import com.github.alexeysol.geekregime.apicommons.model.dto.post.PostDetailsDto;
-import com.github.alexeysol.geekregime.apicommons.model.dto.post.PostDetailsView;
-import com.github.alexeysol.geekregime.apicommons.model.dto.post.PostPreviewDto;
-import com.github.alexeysol.geekregime.apicommons.model.dto.post.PostPreviewView;
-import com.github.alexeysol.geekregime.apicommons.model.dto.shared.HasIdDto;
-import com.github.alexeysol.geekregime.apicommons.model.util.BasicPage;
+import com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse;
+import com.github.alexeysol.geekregime.apicommons.generated.model.PostDetailsResponse;
+import com.github.alexeysol.geekregime.apicommons.generated.model.UserPostDetailsResponse;
+import com.github.alexeysol.geekregime.apicommons.generated.model.UserPostPreviewPageResponse;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.MappingException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
 import java.util.Map;
 
-import static com.github.alexeysol.geekregime.apiaggregator.shared.constant.PathConstant.API_PREFIX_V1;
+import static com.github.alexeysol.geekregime.apiaggregator.shared.constant.PathConstant.*;
 
 @RestController
 @RequestMapping(path = API_PREFIX_V1, produces = "application/json")
@@ -27,55 +24,52 @@ public class PostController {
     private final PostService service;
     private final PostMapper mapper;
 
-    @GetMapping("posts")
-    BasicPage<PostPreviewView> findAllPosts(
-        @RequestParam(required = false) Map<String, String> params
-    ) {
-        BasicPage<PostPreviewDto> page = service.findAllPosts(params);
-        List<PostPreviewView> viewList = mapper.fromPostPreviewDtoListToViewList(page.getContent());
-        return page.convertContent(viewList);
-    }
-
     @GetMapping("users/{authorId}/posts")
-    BasicPage<PostPreviewView> findAllPostsByAuthor(
+    UserPostPreviewPageResponse findAllPostsByAuthor(
         @PathVariable long authorId,
         @RequestParam(required = false) Map<String, String> params
     ) {
-        BasicPage<PostPreviewDto> page = service.findAllPosts(authorId, params);
-        List<PostPreviewView> viewList = mapper.fromPostPreviewDtoListToViewList(page.getContent());
-        return page.convertContent(viewList);
+        var page = service.findAllPosts(authorId, params);
+        var userPostPreviews = mapper.toUserPostDetailsResponseList(page.getContent());
+        return new UserPostPreviewPageResponse(userPostPreviews, page.getSize(), page.getTotalElements());
+    }
+
+    @GetMapping("posts")
+    UserPostPreviewPageResponse findAllPosts(
+        @RequestParam(required = false) Map<String, String> params
+    ) {
+        var page = service.findAllPosts(params);
+        var userPostPreviews = mapper.toUserPostDetailsResponseList(page.getContent());
+        return new UserPostPreviewPageResponse(userPostPreviews, page.getSize(), page.getTotalElements());
     }
 
     @GetMapping("posts/{slug}")
-    PostDetailsView findPostBySlug(@PathVariable String slug) {
-        PostDetailsDto detailsDto = service.findPostBySlug(slug);
-        return mapper.fromPostDetailsDtoToView(detailsDto);
+    UserPostDetailsResponse findPostBySlug(@PathVariable String slug) {
+        PostDetailsResponse postDetailsResponse = service.findPostBySlug(slug);
+        return mapper.toUserPostDetailsResponse(postDetailsResponse);
     }
 
     @PostMapping("posts")
-    PostDetailsView createPost(@RequestBody String dto) throws Throwable {
-        PostDetailsDto detailsDto = service.createPost(dto);
+    UserPostDetailsResponse createPost(@RequestBody String request) throws Throwable {
+        PostDetailsResponse postDetailsResponse = service.createPost(request);
 
         try {
-            return mapper.fromPostDetailsDtoToView(detailsDto);
+            return mapper.toUserPostDetailsResponse(postDetailsResponse);
         } catch (MappingException exception) {
             Throwable cause = exception.getCause();
-            cleanUpIfNeeded(exception.getCause(), detailsDto.getId());
+            cleanUpIfNeeded(exception.getCause(), postDetailsResponse.getId());
             throw cause;
         }
     }
 
     @PatchMapping("posts/{id}")
-    PostDetailsView updatePost(
-        @PathVariable long id,
-        @RequestBody String dto
-    ) {
-        PostDetailsDto updatePost = service.updatePost(id, dto);
-        return mapper.fromPostDetailsDtoToView(updatePost);
+    UserPostDetailsResponse updatePost(@PathVariable long id, @RequestBody String request) {
+        PostDetailsResponse updatePost = service.updatePost(id, request);
+        return mapper.toUserPostDetailsResponse(updatePost);
     }
 
     @DeleteMapping("posts/{id}")
-    HasIdDto removePostById(@PathVariable long id) {
+    IdResponse removePostById(@PathVariable long id) {
         return service.removePostById(id);
     }
 

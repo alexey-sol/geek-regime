@@ -1,7 +1,6 @@
 package com.github.alexeysol.geekregime.apiaggregator.features.user.service.v1.userservice;
 
 import com.github.alexeysol.geekregime.apicommons.exception.SerializedApiException;
-import com.github.alexeysol.geekregime.apicommons.model.dto.user.UserDto;
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -11,7 +10,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 public class FindUserByIdTest extends BaseUserServiceTest {
     @Test
-    public void userExists_whenFindUserById_thenReturnsUser() {
+    public void userExists_whenFindUserById_thenReturnsUserResponse() {
         long userId = 1L;
         String path = String.format("%s/%d", API_USERS_PATH, userId);
 
@@ -21,7 +20,7 @@ public class FindUserByIdTest extends BaseUserServiceTest {
 
         wireMockServer.stubFor(getApiMappingBuilder(path, responseToReturn));
 
-        UserDto user = service.findUserById(userId);
+        var user = service.findUserById(userId);
 
         wireMockServer.verify(getRequestedFor(urlPathEqualTo(path))
             .withHeader("Content-Type", equalTo("application/json")));

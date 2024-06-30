@@ -53,6 +53,15 @@ components:
           type: string
           format: date-time
     # Post
+    UserPostPreviewPageResponse:
+      required: [ content, size, totalElements ]
+      allOf:
+        - $ref: "#/components/schemas/Page"
+      properties:
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/UserPostPreviewResponse"
     PostPreviewPageResponse:
       required: [ content, size, totalElements ]
       allOf:
@@ -62,12 +71,24 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/PostPreviewResponse"
+    UserPostDetailsResponse:
+      type: object
+      required: [ id, title, excerpt, slug, createdAt, updatedAt, authorId, spaceId, body, author ]
+      allOf:
+        - $ref: "#/components/schemas/PostDetailsResponse"
+        - $ref: "#/components/schemas/HasAuthor"
     PostDetailsResponse:
       type: object
       required: [ id, title, excerpt, slug, createdAt, updatedAt, authorId, spaceId, body ]
       allOf:
         - $ref: "#/components/schemas/PostPreviewResponse"
         - $ref: "#/components/schemas/HasBody"
+    UserPostPreviewResponse:
+      type: object
+      required: [ id, title, excerpt, slug, createdAt, updatedAt, authorId, spaceId, author ]
+      allOf:
+        - $ref: "#/components/schemas/PostPreviewResponse"
+        - $ref: "#/components/schemas/HasAuthor"
     PostPreviewResponse:
       type: object
       required: [ id, title, excerpt, slug, createdAt, updatedAt, authorId, spaceId ]
@@ -123,3 +144,10 @@ components:
       properties:
         body:
           type: string
+    HasAuthor:
+      type: object
+      required: [ author ]
+      properties:
+        author:
+          type: object
+          $ref: "#/components/schemas/UserResponse"

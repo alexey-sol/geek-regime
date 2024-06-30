@@ -8,7 +8,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import java.util.Map;
 import java.util.Objects;
 
-import static com.github.alexeysol.geekregime.apiaggregator.shared.constant.PathConstant.API_PREFIX_V1_EXTERNAL;
+import static com.github.alexeysol.geekregime.apiaggregator.shared.constant.PathConstant.*;
 
 @UtilityClass
 public class UriUtil {

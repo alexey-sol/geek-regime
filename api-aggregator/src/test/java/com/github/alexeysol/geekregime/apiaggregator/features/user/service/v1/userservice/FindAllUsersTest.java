@@ -1,6 +1,5 @@
 package com.github.alexeysol.geekregime.apiaggregator.features.user.service.v1.userservice;
 
-import com.github.alexeysol.geekregime.apicommons.model.dto.user.UserDto;
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -12,7 +11,7 @@ import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
 public class FindAllUsersTest extends BaseUserServiceTest {
     @Test
-    public void usersExist_whenFindAllUsers_thenReturnsUserList() {
+    public void usersExist_whenFindAllUsers_thenReturnsUserResponseList() {
         long userId = 1L;
         long userId2 = 2L;
 
@@ -23,7 +22,7 @@ public class FindAllUsersTest extends BaseUserServiceTest {
         wireMockServer.stubFor(getApiMappingBuilder(API_USERS_PATH, responseToReturn));
 
         List<Long> ids = List.of(userId, userId2);
-        List<UserDto> users = service.findAllUsers(ids);
+        var users = service.findAllUsers(ids);
 
         wireMockServer.verify(getRequestedFor(urlPathEqualTo(API_USERS_PATH))
             .withHeader("Content-Type", equalTo("application/json")));
