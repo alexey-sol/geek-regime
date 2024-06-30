@@ -32,7 +32,7 @@ public class UpdatePostTest extends BasePostControllerTest {
     }
 
     @Test
-    public void givenDtoIsForExistingPost_whenUpdatePost_thenReturnsDtoWithStatus200()
+    public void givenRequestIsValid_whenUpdatePost_thenReturnsResponseWithStatus200()
         throws Exception {
 
         var postId = 1L;
@@ -43,37 +43,37 @@ public class UpdatePostTest extends BasePostControllerTest {
             .title("Test Post")
             .body("Hello World")
             .build();
-        var request = UpdatePostRequest.builder()
+        var updatePostRequest = UpdatePostRequest.builder()
             .title(post.getTitle())
             .body(post.getBody())
             .build();
-        var response = PostDetailsResponse.builder()
+        var postDetailsResponse = PostDetailsResponse.builder()
             .title(post.getTitle())
             .body(post.getBody())
             .build();
 
         when(service.findPostById(postId)).thenReturn(Optional.of(post));
-        when(mapper.toPost(request, post)).thenReturn(post);
+        when(mapper.toPost(updatePostRequest, post)).thenReturn(post);
         when(service.savePost(post)).thenReturn(post);
-        when(mapper.toPostDetailsResponse(post)).thenReturn(response);
+        when(mapper.toPostDetailsResponse(post)).thenReturn(postDetailsResponse);
 
-        mockMvc.perform(TestUtil.mockPatchRequest(getUrl(postId), request))
+        mockMvc.perform(TestUtil.mockPatchRequest(getUrl(postId), updatePostRequest))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(result -> {
-                String expected = Json.stringify(response);
+                String expected = Json.stringify(postDetailsResponse);
                 String actual = result.getResponse().getContentAsString();
                 Assertions.assertEquals(expected, actual);
             });
     }
 
     @Test
-    public void givenDtoIsForAbsentPost_whenUpdatePost_thenReturnsStatus404()
+    public void givenRequestIsValidButPostDoesntExist_whenUpdatePost_thenReturnsStatus404()
         throws Exception {
 
         var absentId = 10L;
 
-        var request = UpdatePostRequest.builder()
+        var updatePostRequest = UpdatePostRequest.builder()
             .title("Test Post")
             .body("Hello World")
             .build();
@@ -81,7 +81,7 @@ public class UpdatePostTest extends BasePostControllerTest {
         when(service.findPostById(absentId))
             .thenThrow(new ResourceException(HttpStatus.NOT_FOUND, "whuh?"));
 
-        mockMvc.perform(TestUtil.mockPatchRequest(getUrl(absentId), request))
+        mockMvc.perform(TestUtil.mockPatchRequest(getUrl(absentId), updatePostRequest))
             .andExpect(MockMvcResultMatchers.status().isNotFound())
             .andExpect(result ->
                 Assertions.assertTrue(result.getResolvedException() instanceof ResourceException)
@@ -89,18 +89,18 @@ public class UpdatePostTest extends BasePostControllerTest {
     }
 
     @Test
-    public void givenDtoIsInvalid_whenUpdatePost_thenReturnsStatus400()
+    public void givenRequestIsInvalid_whenUpdatePost_thenReturnsStatus400()
         throws Exception {
 
         var postId = 1L;
         var invalidBody = "";
 
-        var request = UpdatePostRequest.builder()
+        var updatePostRequest = UpdatePostRequest.builder()
             .title("Test Post")
             .body(invalidBody)
             .build();
 
-        mockMvc.perform(TestUtil.mockPatchRequest(getUrl(postId), request))
+        mockMvc.perform(TestUtil.mockPatchRequest(getUrl(postId), updatePostRequest))
             .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity())
             .andExpect(result ->
                 Assertions.assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException)

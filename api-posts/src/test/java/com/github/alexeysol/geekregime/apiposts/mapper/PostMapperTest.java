@@ -178,7 +178,7 @@ public class PostMapperTest {
     }
 
     @Test
-    public void givenDtoHasNulls_whenToPost_thenReturnsPostWithSkippedNulls() {
+    public void givenNulls_whenToPost_thenReturnsPostWithSkippedNulls() {
         var postId = 1L;
         var oldBody = "Hello World";
         var slug = "test-post";

@@ -33,18 +33,19 @@ public class FindAllPosts extends BasePostControllerTest {
     }
 
     @Test
-    public void allPostsExist_whenFindAllPosts_thenReturnsPageContainingDtoListWithStatus200()
+    public void allPostsExist_whenFindAllPosts_thenReturnsPageResponseWithStatus200()
         throws Exception {
 
-        var postList = List.of(new Post(), new Post(), new Post());
-        var postPage = new PageImpl<>(postList, pageableStub, postList.size());
+        var posts = List.of(new Post(), new Post(), new Post());
+        var postPage = new PageImpl<>(posts, pageableStub, posts.size());
 
-        var dtoList = List.of(new PostPreviewResponse(), new PostPreviewResponse(),
+        var postPreviewResponses = List.of(new PostPreviewResponse(), new PostPreviewResponse(),
             new PostPreviewResponse());
-        var dtoPage = new PostPreviewPageResponse(dtoList, postPage.getSize(), postPage.getTotalElements());
+        var postPreviewPageResponse = new PostPreviewPageResponse(postPreviewResponses,
+                postPage.getSize(), postPage.getTotalElements());
 
         when(service.findAllPosts(Mockito.any(Pageable.class))).thenReturn(postPage);
-        when(mapper.toPostPreviewListResponse(postList)).thenReturn(dtoList);
+        when(mapper.toPostPreviewListResponse(posts)).thenReturn(postPreviewResponses);
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl()))
             .andExpect(MockMvcResultMatchers.status().isOk())
@@ -53,22 +54,23 @@ public class FindAllPosts extends BasePostControllerTest {
             .andExpect(MockMvcResultMatchers.jsonPath("$.content").isNotEmpty())
             .andExpect(result -> {
                 String contentAsString = result.getResponse().getContentAsString();
-                Assertions.assertEquals(Json.stringify(dtoPage), contentAsString);
+                Assertions.assertEquals(Json.stringify(postPreviewPageResponse), contentAsString);
             });
     }
 
     @Test
-    public void postsDontExist_whenFindAllPosts_thenReturnsEmptyPageWithStatus200()
+    public void postsDontExist_whenFindAllPosts_thenReturnsEmptyPageResponseWithStatus200()
         throws Exception {
 
-        List<Post> emptyPostList = List.of();
-        var emptyPostPage = new PageImpl<Post>(new ArrayList<>(), pageableStub, 0);
+        List<Post> emptyList = List.of();
+        var emptyPage = new PageImpl<Post>(new ArrayList<>(), pageableStub, 0);
 
-        List<PostPreviewResponse> emptyDtoList = List.of();
-        var emptyDtoPage = new PostPreviewPageResponse(new ArrayList<>(), emptyPostPage.getSize(), emptyPostPage.getTotalElements());
+        List<PostPreviewResponse> emptyPostPreviewResponseList = List.of();
+        var emptyPostPreviewPageResponse = new PostPreviewPageResponse(new ArrayList<>(), emptyPage.getSize(),
+            emptyPage.getTotalElements());
 
-        when(service.findAllPosts(Mockito.any(Pageable.class))).thenReturn(emptyPostPage);
-        when(mapper.toPostPreviewListResponse(emptyPostList)).thenReturn(emptyDtoList);
+        when(service.findAllPosts(Mockito.any(Pageable.class))).thenReturn(emptyPage);
+        when(mapper.toPostPreviewListResponse(emptyList)).thenReturn(emptyPostPreviewResponseList);
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl()))
             .andExpect(MockMvcResultMatchers.status().isOk())
@@ -77,7 +79,7 @@ public class FindAllPosts extends BasePostControllerTest {
             .andExpect(MockMvcResultMatchers.jsonPath("$.content").isEmpty())
             .andExpect(result -> {
                 String contentAsString = result.getResponse().getContentAsString();
-                Assertions.assertEquals(Json.stringify(emptyDtoPage), contentAsString);
+                Assertions.assertEquals(Json.stringify(emptyPostPreviewPageResponse), contentAsString);
             });
     }
 }

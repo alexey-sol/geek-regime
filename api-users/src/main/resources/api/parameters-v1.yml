@@ -4,6 +4,12 @@ info:
   version: v1
 components:
   parameters:
+    idOrSlug:
+      name: idOrSlug
+      description: The ID of the slug of the user
+      in: path
+      schema:
+        type: string
     id:
       name: id
       description: The ID of an entity
@@ -11,12 +17,13 @@ components:
       schema:
         type: integer
         format: int64
-    slug:
-      name: slug
-      description: The slug of the entity
+    email:
+      name: email
+      description: The email of the user
       in: path
       schema:
         type: string
+        format: email
     searchIn:
       name: searchIn
       description: The list of fields to search the text in

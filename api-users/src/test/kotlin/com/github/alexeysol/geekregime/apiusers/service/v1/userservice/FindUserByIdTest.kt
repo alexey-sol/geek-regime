@@ -8,7 +8,7 @@ import org.junit.jupiter.api.Assertions
 
 class FindUserByIdTest : BaseUserServiceTest() {
     @Test
-    fun givenUserExist_whenFindUserById_thenReturnsUser() {
+    fun givenUserExists_whenFindUserById_thenReturnsUser() {
         val userId = 1L
         val user = User(email = "mark@mail.com", details = defaultDetails)
 

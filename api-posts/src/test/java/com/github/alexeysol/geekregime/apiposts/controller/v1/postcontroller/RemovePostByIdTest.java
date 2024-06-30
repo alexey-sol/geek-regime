@@ -23,19 +23,19 @@ public class RemovePostByIdTest extends BasePostControllerTest {
     }
 
     @Test
-    public void givenPostExists_whenRemovePostById_thenReturnsResultDtoWithStatus200()
+    public void givenPostExists_whenRemovePostById_thenReturnsResponseWithStatus200()
         throws Exception {
 
         var postId = 1L;
-        var response = new IdResponse(postId);
+        var idResponse = new IdResponse(postId);
 
         when(service.removePostById(postId)).thenReturn(postId);
-        when(mapper.toIdResponse(postId)).thenReturn(response);
+        when(mapper.toIdResponse(postId)).thenReturn(idResponse);
 
         mockMvc.perform(MockMvcRequestBuilders.delete(getUrl(postId)))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(result -> {
-                String expected = Json.stringify(response);
+                String expected = Json.stringify(idResponse);
                 String actual = result.getResponse().getContentAsString();
                 Assertions.assertEquals(expected, actual);
             });

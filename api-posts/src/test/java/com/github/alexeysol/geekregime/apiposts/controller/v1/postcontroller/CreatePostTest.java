@@ -31,7 +31,7 @@ public class CreatePostTest extends BasePostControllerTest {
     }
 
     @Test
-    public void givenDtoIsValid_whenCreatePost_thenReturnsDtoWithStatus200()
+    public void givenRequestIsValid_whenCreatePost_thenReturnsResponseWithStatus200()
         throws Exception {
 
         var post = Post.builder()
@@ -40,45 +40,45 @@ public class CreatePostTest extends BasePostControllerTest {
             .title("Test Post")
             .body("Hello World")
             .build();
-        var request = CreatePostRequest.builder()
+        var createPostRequest = CreatePostRequest.builder()
             .authorId(post.getUserId())
             .spaceId(post.getSpaceId())
             .title(post.getTitle())
             .body(post.getBody())
             .build();
-        var response = PostDetailsResponse.builder()
+        var postDetailsResponse = PostDetailsResponse.builder()
             .title(post.getTitle())
             .body(post.getBody())
             .build();
 
-        when(mapper.toPost(request)).thenReturn(post);
+        when(mapper.toPost(createPostRequest)).thenReturn(post);
         when(service.savePost(post)).thenReturn(post);
-        when(mapper.toPostDetailsResponse(post)).thenReturn(response);
+        when(mapper.toPostDetailsResponse(post)).thenReturn(postDetailsResponse);
 
-        mockMvc.perform(TestUtil.mockPostRequest(getUrl(), request))
+        mockMvc.perform(TestUtil.mockPostRequest(getUrl(), createPostRequest))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
             .andExpect(result -> {
-                String expected = Json.stringify(response);
+                String expected = Json.stringify(postDetailsResponse);
                 String actual = result.getResponse().getContentAsString();
                 Assertions.assertEquals(expected, actual);
             });
     }
 
     @Test
-    public void givenDtoIsInvalid_whenCreatePost_thenReturnsStatus422()
+    public void givenRequestIsInvalid_whenCreatePost_thenReturnsStatus422()
         throws Exception {
 
         var invalidTitle = "";
 
-        var request = CreatePostRequest.builder()
+        var createPostRequest = CreatePostRequest.builder()
             .authorId(1L)
             .spaceId(1L)
             .title(invalidTitle)
             .body("Hello World")
             .build();
 
-        mockMvc.perform(TestUtil.mockPostRequest(getUrl(), request))
+        mockMvc.perform(TestUtil.mockPostRequest(getUrl(), createPostRequest))
             .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity())
             .andExpect(result -> {
                 Assertions.assertTrue(result.getResolvedException() instanceof MethodArgumentNotValidException);
@@ -90,7 +90,7 @@ public class CreatePostTest extends BasePostControllerTest {
     }
 
     @Test
-    public void givenDtoIsValidButUserDoesntExist_whenCreatePost_thenReturnsStatus404()
+    public void givenRequestIsValidButUserDoesntExist_whenCreatePost_thenReturnsStatus404()
         throws Exception {
 
         var absentUserId = 10L;
@@ -101,19 +101,19 @@ public class CreatePostTest extends BasePostControllerTest {
             .title("Test Post")
             .body("Hello World")
             .build();
-        var request = CreatePostRequest.builder()
+        var createPostRequest = CreatePostRequest.builder()
             .authorId(post.getUserId())
             .spaceId(post.getSpaceId())
             .title(post.getTitle())
             .body(post.getBody())
             .build();
 
-        when(mapper.toPost(request)).thenReturn(post);
+        when(mapper.toPost(createPostRequest)).thenReturn(post);
         when(service.savePost(post)).thenReturn(post);
         when(mapper.toPostDetailsResponse(post))
             .thenThrow(new ResourceException(HttpStatus.NOT_FOUND, "huh?"));
 
-        mockMvc.perform(TestUtil.mockPostRequest(getUrl(), request))
+        mockMvc.perform(TestUtil.mockPostRequest(getUrl(), createPostRequest))
             .andExpect(MockMvcResultMatchers.status().isNotFound())
             .andExpect(result -> {
                 Assertions.assertTrue(result.getResolvedException() instanceof ResourceException);

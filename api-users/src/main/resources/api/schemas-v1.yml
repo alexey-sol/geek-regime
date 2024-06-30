@@ -1,0 +1,72 @@
+openapi: 3.1.0
+info:
+  title: Schema components
+  version: v1
+components:
+  schemas:
+    AuthRequest:
+      type: object
+      required: [ email, password ]
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+        password:
+          type: string
+          minLength: 1
+    CreateUserRequest:
+      type: object
+      required: [ email, details ]
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+        password:
+          type: string
+          minLength: 1
+        details:
+          type: object
+          $ref: "#/components/schemas/CreateUserDetails"
+    CreateUserDetails:
+      type: object
+      required: [ name ]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        image:
+          type: string
+          minLength: 1
+        gender:
+          type: string
+          enum: [ "MALE", "FEMALE"]
+    UpdateUserRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+        oldPassword:
+          type: string
+          minLength: 1
+        newPassword:
+          type: string
+          minLength: 1
+        details:
+          type: object
+          $ref: "#/components/schemas/UpdateUserDetails"
+    UpdateUserDetails:
+      type: object
+      properties:
+        name:
+          type: string
+          minLength: 1
+        image:
+          type: string
+          minLength: 1
+        gender:
+          type: string
+          enum: [ "MALE", "FEMALE" ]

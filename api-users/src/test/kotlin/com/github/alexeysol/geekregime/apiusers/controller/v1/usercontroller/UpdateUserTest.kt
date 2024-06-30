@@ -1,10 +1,10 @@
 package com.github.alexeysol.geekregime.apiusers.controller.v1.usercontroller
 
 import com.github.alexeysol.geekregime.apicommons.exception.ResourceException
-import com.github.alexeysol.geekregime.apicommons.model.dto.user.UserDto
+import com.github.alexeysol.geekregime.apicommons.generated.model.UserResponse
 import com.github.alexeysol.geekregime.apicommons.util.TestUtil
 import com.github.alexeysol.geekregime.apicommons.util.parser.Json
-import com.github.alexeysol.geekregime.apiusers.model.dto.UpdateUserDto
+import com.github.alexeysol.geekregime.apiusers.generated.model.UpdateUserRequest
 import com.github.alexeysol.geekregime.apiusers.model.entity.Credentials
 import com.github.alexeysol.geekregime.apiusers.model.entity.Details
 import com.github.alexeysol.geekregime.apiusers.model.entity.User
@@ -22,7 +22,7 @@ import java.util.*
 
 class UpdateUserTest(@Autowired mockMvc: MockMvc) : BaseUserControllerTest(mockMvc) {
     @Test
-    fun givenDtoIsValid_whenUpdateUser_thenReturnsUserDtoWithStatus200() {
+    fun givenRequestIsValid_whenUpdateUser_thenReturnsResponseWithStatus200() {
         val userId = 1L
         val email = "mark@mail.com"
         val now = Date()
@@ -32,8 +32,11 @@ class UpdateUserTest(@Autowired mockMvc: MockMvc) : BaseUserControllerTest(mockM
             updatedAt = now,
             details = defaultDetails
         )
-        val updateUserDto = UpdateUserDto(email = email)
-        val userDto = UserDto.builder()
+        val updateUserRequest = UpdateUserRequest.builder()
+            .email(email)
+            .build()
+
+        val userResponse = UserResponse.builder()
             .email(email)
             .createdAt(now)
             .updatedAt(now)
@@ -41,24 +44,26 @@ class UpdateUserTest(@Autowired mockMvc: MockMvc) : BaseUserControllerTest(mockM
 
         every { service.userByEmailExists(email) } returns false
         every { service.findUserById(userId) } returns user
-        every { mapper.fromUpdateUserDtoToUser(updateUserDto, user) } returns user
+        every { mapper.toUser(updateUserRequest, user) } returns user
         every { service.saveUser(user) } returns user
-        every { mapper.fromUserToUserDto(user) } returns userDto
+        every { mapper.toUserResponse(user) } returns userResponse
 
-        mockMvc.perform(TestUtil.mockPatchRequest(getUrl(userId), updateUserDto))
+        mockMvc.perform(TestUtil.mockPatchRequest(getUrl(userId), updateUserRequest))
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect(MockMvcResultMatchers.content().contentType(MediaType.APPLICATION_JSON))
             .andExpect { result ->
-                Assertions.assertEquals(Json.stringify(userDto), result.response.contentAsString)
+                Assertions.assertEquals(Json.stringify(userResponse), result.response.contentAsString)
             }
     }
 
     @Test
-    fun givenDtoHasInvalidEmail_whenUpdateUser_thenReturnsStatus400() {
+    fun givenRequestHasInvalidEmail_whenUpdateUser_thenReturnsStatus400() {
         val userId = 1L
-        val updateUserDto = UpdateUserDto(email = "is-this-even-email")
+        val updateUserRequest = UpdateUserRequest.builder()
+            .email("is-this-even-email")
+            .build()
 
-        mockMvc.perform(TestUtil.mockPatchRequest(getUrl(userId), updateUserDto))
+        mockMvc.perform(TestUtil.mockPatchRequest(getUrl(userId), updateUserRequest))
             .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity)
             .andExpect { result ->
                 Assertions.assertTrue(result.resolvedException is MethodArgumentNotValidException)
@@ -72,29 +77,23 @@ class UpdateUserTest(@Autowired mockMvc: MockMvc) : BaseUserControllerTest(mockM
     }
 
     @Test
-    fun givenDtoHasIncompletePasswordInfo_whenUpdateUser_thenReturnsStatus400() {
+    fun givenRequestHasIncompletePasswordData_whenUpdateUser_thenReturnsStatus422() {
         val userId = 1L
-        val updateUserDto = UpdateUserDto(
-            email = "mark@mail.com",
-            oldPassword = "123",
-            newPassword = null
-        )
+        val updateUserRequest = UpdateUserRequest.builder()
+            .email("mark@mail.com")
+            .oldPassword("123")
+            .newPassword(null)
+            .build()
 
-        mockMvc.perform(TestUtil.mockPatchRequest(getUrl(userId), updateUserDto))
+        mockMvc.perform(TestUtil.mockPatchRequest(getUrl(userId), updateUserRequest))
             .andExpect(MockMvcResultMatchers.status().isUnprocessableEntity)
             .andExpect { result ->
-                Assertions.assertTrue(result.resolvedException is MethodArgumentNotValidException)
-            }
-            .andExpect { result ->
-                MatcherAssert.assertThat(
-                    result.resolvedException?.message,
-                    CoreMatchers.containsString(VALIDATION_FAILED_MESSAGE)
-                )
+                Assertions.assertTrue(result.resolvedException is ResourceException)
             }
     }
 
     @Test
-    fun givenDtoHasInvalidOldPassword_whenUpdateUser_thenReturnsStatus403() {
+    fun givenRequestHasInvalidOldPassword_whenUpdateUser_thenReturnsStatus403() {
         val userId = 1L
         val email = "mark@mail.com"
         val name = "Mark"
@@ -104,11 +103,11 @@ class UpdateUserTest(@Autowired mockMvc: MockMvc) : BaseUserControllerTest(mockM
             hashedPassword = ByteArray(1),
             salt = ByteArray(2)
         )
-        val updateUserDto = UpdateUserDto(
-            email = email,
-            oldPassword = invalidOldPassword,
-            newPassword = "abbath"
-        )
+        val updateUserRequest = UpdateUserRequest.builder()
+            .email(email)
+            .oldPassword(invalidOldPassword)
+            .newPassword("abbath")
+            .build()
         val user = User(
             email = email,
             details = Details(name = name),
@@ -118,7 +117,7 @@ class UpdateUserTest(@Autowired mockMvc: MockMvc) : BaseUserControllerTest(mockM
         every { service.userByEmailExists(email) } returns false
         every { service.findUserById(userId) } returns user
 
-        mockMvc.perform(TestUtil.mockPatchRequest(getUrl(userId), updateUserDto))
+        mockMvc.perform(TestUtil.mockPatchRequest(getUrl(userId), updateUserRequest))
             .andExpect(MockMvcResultMatchers.status().isForbidden)
             .andExpect { result ->
                 Assertions.assertTrue(result.resolvedException is ResourceException)
@@ -126,15 +125,17 @@ class UpdateUserTest(@Autowired mockMvc: MockMvc) : BaseUserControllerTest(mockM
     }
 
     @Test
-    fun givenDtoIsForAbsentUser_whenUpdateUser_thenReturnsStatus404() {
+    fun givenRequestIsValidButUserDoesntExist_whenUpdateUser_thenReturnsStatus404() {
         val absentUserId = 10L
         val email = "mark@mail.com"
-        val updateUserDto = UpdateUserDto(email = email)
+        val updateUserRequest = UpdateUserRequest.builder()
+            .email(email)
+            .build()
 
         every { service.userByEmailExists(email) } returns false
         every { service.findUserById(absentUserId) } returns null
 
-        mockMvc.perform(TestUtil.mockPatchRequest(getUrl(absentUserId), updateUserDto))
+        mockMvc.perform(TestUtil.mockPatchRequest(getUrl(absentUserId), updateUserRequest))
             .andExpect(MockMvcResultMatchers.status().isNotFound)
             .andExpect { result ->
                 Assertions.assertTrue(result.resolvedException is ResourceException)
@@ -142,14 +143,16 @@ class UpdateUserTest(@Autowired mockMvc: MockMvc) : BaseUserControllerTest(mockM
     }
 
     @Test
-    fun givenDtoHasEmailThatAlreadyExists_whenUpdateUser_thenReturnsStatus409() {
+    fun givenRequestHasEmailThatAlreadyExists_whenUpdateUser_thenReturnsStatus409() {
         val userId = 1L
         val existingEmail = "already-exists@mail.com"
-        val updateUserDto = UpdateUserDto(email = existingEmail)
+        val updateUserRequest = UpdateUserRequest.builder()
+            .email(existingEmail)
+            .build()
 
         every { service.userByEmailExists(existingEmail) } returns true
 
-        mockMvc.perform(TestUtil.mockPatchRequest(getUrl(userId), updateUserDto))
+        mockMvc.perform(TestUtil.mockPatchRequest(getUrl(userId), updateUserRequest))
             .andExpect(MockMvcResultMatchers.status().isConflict)
             .andExpect { result ->
                 Assertions.assertTrue(result.resolvedException is ResourceException)

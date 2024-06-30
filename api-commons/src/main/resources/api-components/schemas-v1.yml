@@ -4,6 +4,55 @@ info:
   version: v1
 components:
   schemas:
+    # User
+    UserPageResponse:
+      required: [ content, size, totalElements ]
+      allOf:
+        - $ref: "#/components/schemas/Page"
+      properties:
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/UserResponse"
+    UserResponse:
+      type: object
+      required: [ id, email, slug, createdAt, updatedAt, details ]
+      properties:
+        id:
+          type: integer
+          format: int64
+          min: 1
+        email:
+          type: string
+        slug:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+        details:
+          type: object
+          $ref: "#/components/schemas/UserDetails"
+    UserDetails:
+      type: object
+      required: [ name, image, gender, createdAt, updatedAt ]
+      properties:
+        name:
+          type: string
+        image:
+          type: string
+        gender:
+          type: string
+          enum: [ "MALE", "FEMALE"]
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    # Post
     PostPreviewPageResponse:
       required: [ content, size, totalElements ]
       allOf:
@@ -13,18 +62,6 @@ components:
           type: array
           items:
             $ref: "#/components/schemas/PostPreviewResponse"
-    Page:
-      type: object
-      required: [ size, totalElements ]
-      properties:
-        size:
-          type: integer
-          format: int32
-          min: 1
-        totalElements:
-          type: integer
-          format: int64
-          min: 0
     PostDetailsResponse:
       type: object
       required: [ id, title, excerpt, slug, createdAt, updatedAt, authorId, spaceId, body ]
@@ -36,7 +73,9 @@ components:
       required: [ id, title, excerpt, slug, createdAt, updatedAt, authorId, spaceId ]
       properties:
         id:
-          type: string
+          type: integer
+          format: int64
+          min: 1
         title:
           type: string
         excerpt:
@@ -57,6 +96,19 @@ components:
           type: integer
           format: int64
           min: 1
+    # Common
+    Page:
+      type: object
+      required: [ size, totalElements ]
+      properties:
+        size:
+          type: integer
+          format: int32
+          min: 1
+        totalElements:
+          type: integer
+          format: int64
+          min: 0
     IdResponse:
       type: object
       required: [ id ]

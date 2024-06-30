@@ -1,10 +1,12 @@
 package com.github.alexeysol.geekregime.apiusers.controller.v1.usercontroller
 
 import com.github.alexeysol.geekregime.apicommons.constant.Default.PAGE_SIZE
-import com.github.alexeysol.geekregime.apicommons.model.dto.user.UserDto
-import com.github.alexeysol.geekregime.apicommons.util.TestUtil
+import com.github.alexeysol.geekregime.apicommons.generated.model.UserPageResponse
+import com.github.alexeysol.geekregime.apicommons.generated.model.UserResponse
+import com.github.alexeysol.geekregime.apicommons.util.parser.Json
 import com.github.alexeysol.geekregime.apiusers.model.entity.User
 import io.mockk.every
+import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.Page
@@ -19,18 +21,15 @@ class FindAllUsersTest(@Autowired mockMvc: MockMvc) : BaseUserControllerTest(moc
     private val pageableStub = Pageable.ofSize(PAGE_SIZE)
 
     @Test
-    fun allUsersExist_whenFindAllUsers_thenReturnsUserDtoListWithStatus200() {
-        val users = listOf(
-            User(details = defaultDetails),
-            User(details = defaultDetails)
-        )
+    fun allUsersExist_whenFindAllUsers_thenReturnsPageResponseWithStatus200() {
+        val users = listOf(User(details = defaultDetails), User(details = defaultDetails))
         val userPage: Page<User> = PageImpl(users, pageableStub, users.size.toLong())
 
-        val userDtoList = listOf(UserDto(), UserDto())
-        val userDtoPage = PageImpl(userDtoList, pageableStub, userDtoList.size.toLong());
+        val userResponses = listOf(UserResponse(), UserResponse())
+        val userPageResponse = UserPageResponse(userResponses, userPage.size, userPage.totalElements);
 
         every { service.findAllUsers(ofType(Pageable::class)) } returns userPage
-        every { mapper.fromUserListToUserDtoList(users) } returns userDtoList
+        every { mapper.toUserListResponse(users) } returns userResponses
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl()))
             .andExpect(MockMvcResultMatchers.status().isOk)
@@ -38,19 +37,22 @@ class FindAllUsersTest(@Autowired mockMvc: MockMvc) : BaseUserControllerTest(moc
             .andExpect(MockMvcResultMatchers.jsonPath("$.content").isArray)
             .andExpect(MockMvcResultMatchers.jsonPath("$.content").isNotEmpty)
             .andExpect { result ->
-                TestUtil.responseContentEqualsProvidedPage(userDtoPage, result.response.contentAsString)
+                run {
+                    val contentAsString = result.response.contentAsString
+                    Assertions.assertEquals(Json.stringify(userPageResponse), contentAsString)
+                }
             }
     }
 
     @Test
-    fun usersDontExist_whenFindAllUsers_thenReturnsEmptyListWithStatus200() {
+    fun usersDontExist_whenFindAllUsers_thenReturnsEmptyPageResponseWithStatus200() {
         val emptyList = listOf<User>()
         val emptyPage: Page<User> = PageImpl(emptyList, pageableStub, 0)
 
-        val emptyUserDtoList = listOf<UserDto>()
+        val emptyUserResponses = listOf<UserResponse>()
 
         every { service.findAllUsers(ofType(Pageable::class)) } returns emptyPage
-        every { mapper.fromUserListToUserDtoList(emptyList) } returns emptyUserDtoList
+        every { mapper.toUserListResponse(emptyList) } returns emptyUserResponses
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl()))
             .andExpect(MockMvcResultMatchers.status().isOk)
@@ -60,7 +62,7 @@ class FindAllUsersTest(@Autowired mockMvc: MockMvc) : BaseUserControllerTest(moc
     }
 
     @Test
-    fun allUsersExist_whenFindAllUsersById_thenReturnsUserDtoListWithStatus200() {
+    fun allUsersExist_whenFindAllUsersById_thenReturnsPageResponseWithStatus200() {
         val userId = 1L
         val userId2 = 2L
         val userIds = listOf(userId, userId2)
@@ -71,17 +73,17 @@ class FindAllUsersTest(@Autowired mockMvc: MockMvc) : BaseUserControllerTest(moc
         )
         val userPage: Page<User> = PageImpl(users, pageableStub, users.size.toLong())
 
-        val userDto = UserDto.builder()
+        val userResponse = UserResponse.builder()
             .id(userId)
             .build()
-        val userDto2 = UserDto.builder()
+        val userResponse2 = UserResponse.builder()
             .id(userId2)
             .build()
-        val userDtoList = listOf(userDto, userDto2)
-        val userDtoPage = PageImpl(userDtoList, pageableStub, userDtoList.size.toLong());
+        val userResponses = listOf(userResponse, userResponse2)
+        val userPageResponse = UserPageResponse(userResponses, userPage.size, userPage.totalElements)
 
         every { service.findAllUsersById(userIds, ofType(Pageable::class)) } returns userPage
-        every { mapper.fromUserListToUserDtoList(users) } returns userDtoList
+        every { mapper.toUserListResponse(users) } returns userResponses
 
         val requestBuilder = MockMvcRequestBuilders.get(getUrl())
             .queryParam("ids", userId.toString(), userId2.toString())
@@ -91,12 +93,15 @@ class FindAllUsersTest(@Autowired mockMvc: MockMvc) : BaseUserControllerTest(moc
             .andExpect(MockMvcResultMatchers.jsonPath("$.content").isArray)
             .andExpect(MockMvcResultMatchers.jsonPath("$.content").isNotEmpty)
             .andExpect { result ->
-                TestUtil.responseContentEqualsProvidedPage(userDtoPage, result.response.contentAsString)
+                run {
+                    val contentAsString = result.response.contentAsString
+                    Assertions.assertEquals(Json.stringify(userPageResponse), contentAsString)
+                }
             }
     }
 
     @Test
-    fun fewUsersExist_whenFindAllUsersById_thenReturnsUserDtoListWithStatus200() {
+    fun fewUsersExist_whenFindAllUsersById_thenReturnsPageResponseWithStatus200() {
         val userId = 1L
         val absentUserId = 10L
         val absentUserId2 = 11L
@@ -105,14 +110,14 @@ class FindAllUsersTest(@Autowired mockMvc: MockMvc) : BaseUserControllerTest(moc
         val users = listOf(User(id = userId, details = defaultDetails))
         val userPage: Page<User> = PageImpl(users, pageableStub, users.size.toLong())
 
-        val userDto = UserDto.builder()
+        val userResponse = UserResponse.builder()
             .id(userId)
             .build()
-        val userDtoList = listOf(userDto)
-        val userDtoPage = PageImpl(userDtoList, pageableStub, userDtoList.size.toLong());
+        val userResponses = listOf(userResponse)
+        val userPageResponse = UserPageResponse(userResponses, userPage.size, userPage.totalElements)
 
         every { service.findAllUsersById(userIds, ofType(Pageable::class)) } returns userPage
-        every { mapper.fromUserListToUserDtoList(users) } returns userDtoList
+        every { mapper.toUserListResponse(users) } returns userResponses
 
         val requestBuilder = MockMvcRequestBuilders.get(getUrl())
             .queryParam("ids", userId.toString(), absentUserId.toString(), absentUserId2.toString())
@@ -122,12 +127,15 @@ class FindAllUsersTest(@Autowired mockMvc: MockMvc) : BaseUserControllerTest(moc
             .andExpect(MockMvcResultMatchers.jsonPath("$.content").isArray)
             .andExpect(MockMvcResultMatchers.jsonPath("$.content").isNotEmpty)
             .andExpect { result ->
-                TestUtil.responseContentEqualsProvidedPage(userDtoPage, result.response.contentAsString)
+                run {
+                    val contentAsString = result.response.contentAsString
+                    Assertions.assertEquals(Json.stringify(userPageResponse), contentAsString)
+                }
             }
     }
 
     @Test
-    fun usersDontExist_whenFindAllUsersById_thenReturnsEmptyListWithStatus200() {
+    fun usersDontExist_whenFindAllUsersById_thenReturnsEmptyPageResponseWithStatus200() {
         val absentUserId = 10L
         val absentUserId2 = 11L
         val userIds = listOf(absentUserId, absentUserId2)
@@ -135,10 +143,10 @@ class FindAllUsersTest(@Autowired mockMvc: MockMvc) : BaseUserControllerTest(moc
         val emptyList = listOf<User>()
         val emptyPage: Page<User> = PageImpl(emptyList, pageableStub, 0)
 
-        val emptyUserDtoList = listOf<UserDto>()
+        val emptyUserResponseList = listOf<UserResponse>()
 
         every { service.findAllUsersById(userIds, ofType(Pageable::class)) } returns emptyPage
-        every { mapper.fromUserListToUserDtoList(emptyList) } returns emptyUserDtoList
+        every { mapper.toUserListResponse(emptyList) } returns emptyUserResponseList
 
         val requestBuilder = MockMvcRequestBuilders.get(getUrl())
             .queryParam("ids", absentUserId.toString(), absentUserId2.toString())

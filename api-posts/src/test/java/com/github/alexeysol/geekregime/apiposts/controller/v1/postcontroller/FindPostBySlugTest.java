@@ -24,22 +24,22 @@ public class FindPostBySlugTest extends BasePostControllerTest {
     }
 
     @Test
-    public void givenPostAndAuthorExist_whenFindPostBySlug_thenReturnsDtoWithStatus200()
+    public void givenPostAndAuthorExist_whenFindPostBySlug_thenReturnsResponseWithStatus200()
         throws Exception {
 
         var post = Post.builder()
             .userId(1L)
             .slug("test-post")
             .build();
-        var response = new PostDetailsResponse();
+        var postDetailsResponse = new PostDetailsResponse();
 
         when(service.findPostBySlug(post.getSlug())).thenReturn(Optional.of(post));
-        when(mapper.toPostDetailsResponse(post)).thenReturn(response);
+        when(mapper.toPostDetailsResponse(post)).thenReturn(postDetailsResponse);
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl(post.getSlug())))
             .andExpect(MockMvcResultMatchers.status().isOk())
             .andExpect(result -> {
-                String expected = Json.stringify(response);
+                String expected = Json.stringify(postDetailsResponse);
                 String actual = result.getResponse().getContentAsString();
                 Assertions.assertEquals(expected, actual);
             });

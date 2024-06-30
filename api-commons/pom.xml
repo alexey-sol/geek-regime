@@ -92,7 +92,7 @@
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>${springdoc-openapi-ui.version}</version>
         </dependency>
-        <!-- Utils -->
+        <!-- Util -->
         <dependency>
             <groupId>com.jayway.jsonpath</groupId>
             <artifactId>json-path</artifactId>
@@ -131,6 +131,7 @@
                 <version>7.5.0</version>
                 <executions>
                     <execution>
+                        <id>api-commons</id>
                         <goals>
                             <goal>generate</goal>
                         </goals>

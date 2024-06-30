@@ -20,7 +20,7 @@ class RemoveUserByIdTest : BaseUserServiceTest() {
     }
 
     @Test
-    fun givenUserDoesntExist_whenRemoveUserById_thenReturnsOutOfRange() {
+    fun givenUserDoesntExist_whenRemoveUserById_thenReturnsNotFoundById() {
         val absentUserId = 10L
         val deletedRowCount = 0
 

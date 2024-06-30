@@ -82,7 +82,7 @@
             <artifactId>springdoc-openapi-ui</artifactId>
             <version>${springdoc-openapi-ui.version}</version>
         </dependency>
-        <!-- Utils -->
+        <!-- Util -->
         <dependency>
             <groupId>com.github.alexeysol.geekregime</groupId>
             <artifactId>api-commons</artifactId>

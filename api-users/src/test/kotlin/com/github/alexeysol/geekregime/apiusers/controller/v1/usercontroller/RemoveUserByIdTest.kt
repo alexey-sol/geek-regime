@@ -2,7 +2,7 @@ package com.github.alexeysol.geekregime.apiusers.controller.v1.usercontroller
 
 import com.github.alexeysol.geekregime.apicommons.constant.Default
 import com.github.alexeysol.geekregime.apicommons.exception.ResourceException
-import com.github.alexeysol.geekregime.apicommons.model.dto.shared.HasIdDto
+import com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse
 import com.github.alexeysol.geekregime.apicommons.util.parser.Json
 import io.mockk.every
 import org.junit.jupiter.api.Assertions
@@ -18,17 +18,17 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers
 @AutoConfigureMockMvc
 class RemoveUserByIdTest(@Autowired mockMvc: MockMvc) : BaseUserControllerTest(mockMvc) {
     @Test
-    fun givenUserExists_whenRemoveUserById_thenReturnsResultDtoWithStatus200() {
+    fun givenUserExists_whenRemoveUserById_thenReturnsResponseWithStatus200() {
         val userId = 1L
-        val resultDto = HasIdDto(userId)
+        val idResponse = IdResponse(userId)
 
         every { service.removeUserById(userId) } returns userId
-        every { mapper.fromIdToHasIdDto(userId) } returns resultDto
+        every { mapper.toIdResponse(userId) } returns idResponse
 
         mockMvc.perform(MockMvcRequestBuilders.delete(getUrl(userId)))
             .andExpect(MockMvcResultMatchers.status().isOk)
             .andExpect { result ->
-                Assertions.assertEquals(Json.stringify(resultDto), result.response.contentAsString)
+                Assertions.assertEquals(Json.stringify(idResponse), result.response.contentAsString)
             }
     }
 

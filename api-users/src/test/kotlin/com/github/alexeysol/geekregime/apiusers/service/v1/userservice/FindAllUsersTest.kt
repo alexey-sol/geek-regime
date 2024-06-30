@@ -10,7 +10,7 @@ import org.springframework.data.domain.PageImpl
 
 class FindAllUsersTest : BaseUserServiceTest() {
     @Test
-    fun usersExist_whenFindAllUsers_thenReturnsUserList() {
+    fun usersExist_whenFindAllUsers_thenReturnsUserPage() {
         val users = listOf(
             User(details = defaultDetails),
             User(details = defaultDetails)
@@ -25,7 +25,7 @@ class FindAllUsersTest : BaseUserServiceTest() {
     }
 
     @Test
-    fun usersDontExist_whenFindAllUsers_thenReturnsEmptyList() {
+    fun usersDontExist_whenFindAllUsers_thenReturnsEmptyPage() {
         val emptyUserPage: Page<User> = PageImpl(listOf(), pageableStub, 0)
 
         every { repository.findAllUsers(pageableStub) } returns emptyUserPage

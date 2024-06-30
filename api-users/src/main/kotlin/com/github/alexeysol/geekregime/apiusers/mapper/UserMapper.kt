@@ -1,10 +1,10 @@
 package com.github.alexeysol.geekregime.apiusers.mapper
 
-import com.github.alexeysol.geekregime.apicommons.model.dto.shared.HasIdDto
-import com.github.alexeysol.geekregime.apicommons.model.dto.user.UserDto
+import com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse
+import com.github.alexeysol.geekregime.apicommons.generated.model.UserResponse
 import com.github.alexeysol.geekregime.apicommons.util.Slug
-import com.github.alexeysol.geekregime.apiusers.model.dto.CreateUserDto
-import com.github.alexeysol.geekregime.apiusers.model.dto.UpdateUserDto
+import com.github.alexeysol.geekregime.apiusers.generated.model.CreateUserRequest
+import com.github.alexeysol.geekregime.apiusers.generated.model.UpdateUserRequest
 import com.github.alexeysol.geekregime.apiusers.model.entity.Credentials
 import com.github.alexeysol.geekregime.apiusers.model.entity.User
 import com.github.alexeysol.geekregime.apiusers.service.v1.UserService
@@ -19,42 +19,42 @@ class UserMapper(
     private val modelMapper: ModelMapper,
     private val service: UserService
 ) {
-    fun fromUserListToUserDtoList(users: Iterable<User>): List<UserDto> =
-        users.map { fromUserToUserDto(it) }
+    fun toUserListResponse(users: Iterable<User>): List<UserResponse> =
+        users.map { toUserResponse(it) }
 
-    fun fromUserToUserDto(user: User): UserDto =
-        modelMapper.map(user, UserDto::class.java)
+    fun toUserResponse(user: User): UserResponse =
+        modelMapper.map(user, UserResponse::class.java)
 
-    fun fromCreateUserDtoToUser(dto: CreateUserDto): User {
-        val entity = modelMapper.map(dto, User::class.java)
-        entity.slug = generateSlug(dto.email)
+    fun toUser(request: CreateUserRequest): User {
+        val entity = modelMapper.map(request, User::class.java)
+        entity.slug = generateSlug(request.email)
         entity.details?.setUser(entity)
 
-        dto.password?.let {
-            entity.credentials = createOrUpdateCredentials(dto.password, entity)
+        request.password?.let {
+            entity.credentials = createOrUpdateCredentials(request.password, entity)
         }
 
         return entity
     }
 
-    fun fromUpdateUserDtoToUser(dto: UpdateUserDto, user: User): User {
+    fun toUser(request: UpdateUserRequest, user: User): User {
         val oldEmail = user.email
-        modelMapper.map(dto, user)
+        modelMapper.map(request, user)
 
-        if (dto.email !== null && dto.email !== oldEmail) {
-            user.slug = generateSlug(dto.email)
+        if (request.email !== null && request.email !== oldEmail) {
+            user.slug = generateSlug(request.email)
         }
 
         user.details?.setUser(user)
 
-        dto.newPassword?.let {
-            user.credentials = createOrUpdateCredentials(dto.newPassword, user, user.credentials)
+        request.newPassword?.let {
+            user.credentials = createOrUpdateCredentials(request.newPassword, user, user.credentials)
         }
 
         return user
     }
 
-    fun fromIdToHasIdDto(id: Long): HasIdDto = HasIdDto(id)
+    fun toIdResponse(id: Long): IdResponse = IdResponse(id)
 
     private fun generateSlug(email: String): String {
         val username = email.split(EMAIL_DELIMITER)[0]

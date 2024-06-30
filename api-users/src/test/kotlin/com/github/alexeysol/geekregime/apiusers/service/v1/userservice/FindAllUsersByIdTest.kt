@@ -10,7 +10,7 @@ import org.springframework.data.domain.PageImpl
 
 class FindAllUsersByIdTest : BaseUserServiceTest() {
     @Test
-    fun usersExist_whenFindAllUsersById_thenReturnsUserList() {
+    fun usersExist_whenFindAllUsersById_thenReturnsUserPage() {
         val userId = 1L
         val userId2 = 2L
         val userIds = listOf(userId, userId2)
@@ -29,7 +29,7 @@ class FindAllUsersByIdTest : BaseUserServiceTest() {
     }
 
     @Test
-    fun usersDontExist_whenFindAllUsersById_thenReturnsEmptyList() {
+    fun usersDontExist_whenFindAllUsersById_thenReturnsEmptyPage() {
         val absentId = 10L
         val absentId2 = 11L
         val userIds = listOf(absentId, absentId2)
