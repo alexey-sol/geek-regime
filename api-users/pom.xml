@@ -173,6 +173,7 @@
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
                 <configuration>
+                    <mainClass>com.github.alexeysol.geekregime.apiusers.ApiUsersApplicationKt</mainClass>
                     <profiles>
                         <profile>dev</profile>
                         <profile>prod</profile>

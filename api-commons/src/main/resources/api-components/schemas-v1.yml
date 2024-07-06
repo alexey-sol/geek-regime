@@ -73,25 +73,32 @@ components:
             $ref: "#/components/schemas/PostPreviewResponse"
     UserPostDetailsResponse:
       type: object
-      required: [ id, title, excerpt, slug, createdAt, updatedAt, authorId, spaceId, body, author ]
+      required: [ id, title, excerpt, slug, createdAt, updatedAt, body, author ]
       allOf:
-        - $ref: "#/components/schemas/PostDetailsResponse"
+        - $ref: "#/components/schemas/BasePost"
         - $ref: "#/components/schemas/HasAuthor"
     PostDetailsResponse:
       type: object
       required: [ id, title, excerpt, slug, createdAt, updatedAt, authorId, spaceId, body ]
       allOf:
-        - $ref: "#/components/schemas/PostPreviewResponse"
+        - $ref: "#/components/schemas/BasePost"
+        - $ref: "#/components/schemas/PostDependencies"
         - $ref: "#/components/schemas/HasBody"
     UserPostPreviewResponse:
       type: object
-      required: [ id, title, excerpt, slug, createdAt, updatedAt, authorId, spaceId, author ]
+      required: [ id, title, excerpt, slug, createdAt, updatedAt, author ]
       allOf:
-        - $ref: "#/components/schemas/PostPreviewResponse"
+        - $ref: "#/components/schemas/BasePost"
         - $ref: "#/components/schemas/HasAuthor"
     PostPreviewResponse:
       type: object
       required: [ id, title, excerpt, slug, createdAt, updatedAt, authorId, spaceId ]
+      allOf:
+        - $ref: "#/components/schemas/BasePost"
+        - $ref: "#/components/schemas/PostDependencies"
+    BasePost:
+      type: object
+      required: [ id, title, excerpt, slug, createdAt, updatedAt ]
       properties:
         id:
           type: integer
@@ -109,6 +116,10 @@ components:
         updatedAt:
           type: string
           format: date-time
+    PostDependencies:
+      type: object
+      required: [ authorId, spaceId ]
+      properties:
         authorId:
           type: integer
           format: int64

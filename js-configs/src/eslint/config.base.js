@@ -9,7 +9,7 @@ module.exports = {
     globals: {
         NodeJS: true,
     },
-    ignorePatterns: ["build/*", "coverage/*", "dist/*", "node_modules/*"],
+    ignorePatterns: ["build/*", "coverage/*", "dist/*", "node_modules/*", "src/generated/*"],
     overrides: [
         { // [1]
             files: ["*.ts", "*.tsx"],
