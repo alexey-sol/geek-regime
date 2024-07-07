@@ -24,6 +24,7 @@ components:
           min: 1
         email:
           type: string
+          format: email
         slug:
           type: string
         createdAt:
@@ -45,13 +46,22 @@ components:
           type: string
         gender:
           type: string
-          enum: [ "MALE", "FEMALE"]
+          enum: [ "MALE", "FEMALE" ]
         createdAt:
           type: string
           format: date-time
         updatedAt:
           type: string
           format: date-time
+    AuthenticateRequest:
+      type: object
+      required: [ email, password ]
+      properties:
+        email:
+          type: string
+          format: email
+        password:
+          type: string
     # Post
     UserPostPreviewPageResponse:
       required: [ content, size, totalElements ]
