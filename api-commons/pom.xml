@@ -145,7 +145,13 @@
                                 <typeMapping>OffsetDateTime=java.util.Date</typeMapping>
                             </typeMappings>
                             <configOptions>
-                                <additionalModelTypeAnnotations>@lombok.Builder</additionalModelTypeAnnotations>
+                                <additionalModelTypeAnnotations>
+                                    @lombok.Builder
+                                    @lombok.AllArgsConstructor
+                                    @lombok.NoArgsConstructor
+                                </additionalModelTypeAnnotations>
+                                <documentationProvider>source</documentationProvider>
+                                <generatedConstructorWithRequiredArgs>false</generatedConstructorWithRequiredArgs>
                                 <sourceFolder>src/main/java</sourceFolder>
                             </configOptions>
                         </configuration>

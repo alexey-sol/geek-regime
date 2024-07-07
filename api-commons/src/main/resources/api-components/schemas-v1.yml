@@ -53,6 +53,33 @@ components:
         updatedAt:
           type: string
           format: date-time
+    CreateUserRequest:
+      type: object
+      required: [ email, details ]
+      properties:
+        email:
+          type: string
+          format: email
+          minLength: 1
+        password:
+          type: string
+          minLength: 1
+        details:
+          type: object
+          $ref: "#/components/schemas/CreateUserDetails"
+    CreateUserDetails:
+      type: object
+      required: [ name ]
+      properties:
+        name:
+          type: string
+          minLength: 1
+        image:
+          type: string
+          minLength: 1
+        gender:
+          type: string
+          enum: [ "MALE", "FEMALE" ]
     AuthenticateRequest:
       type: object
       required: [ email, password ]
@@ -60,8 +87,10 @@ components:
         email:
           type: string
           format: email
+          minLength: 1
         password:
           type: string
+          minLength: 1
     # Post
     UserPostPreviewPageResponse:
       required: [ content, size, totalElements ]
