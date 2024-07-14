@@ -2,11 +2,11 @@ import { PassportStrategy } from "@nestjs/passport";
 import { Callback, Strategy } from "passport-yandex";
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import type { CreateUserDto } from "@eggziom/geek-regime-js-commons";
 
 import { AppConfig } from "@/config/type";
 import { fromYandexProfileToCreateUserDto } from "@/auth/util";
 import { DEFAULT_API_VERSION } from "@/app/const";
+import type { CreateUserRequest } from "@/user/model/dto";
 
 const API_VERSION = `v${DEFAULT_API_VERSION}`;
 
@@ -22,7 +22,7 @@ export class YandexStrategy extends PassportStrategy(Strategy, "yandex") {
         });
     }
 
-    validate: Callback<CreateUserDto> = (
+    validate: Callback<CreateUserRequest> = (
         accessToken,
         refreshToken,
         profile,

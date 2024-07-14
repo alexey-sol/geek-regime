@@ -2,11 +2,11 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import type { Recipe } from "@reduxjs/toolkit/dist/query/core/buildThunks";
 import { resources } from "@eggziom/geek-regime-js-commons";
 
-import { fromPageDtoToPostsPage } from "@/features/posts/utils/converters";
 import { selectPagingOptions } from "@/features/posts/slice/selectors";
 import * as cn from "@/features/posts/services/api/const";
-import type { PostDetailsDto, PostPreviewDto, PostsPage } from "@/features/posts/models/dtos";
-import type { PageDto } from "@/shared/models/dtos";
+import type {
+    UserPostDetailsResponse, UserPostPreviewPageResponse,
+} from "@/features/posts/models/dtos";
 
 import {
     baseUrl, createTag, getDataUpdaters, transformPaging,
@@ -18,7 +18,7 @@ export const postsApi = createApi({
     tagTypes: [cn.POSTS_TAG_TYPE],
     baseQuery: fetchBaseQuery({ baseUrl }),
     endpoints: (builder) => ({
-        createPost: builder.mutation<PostDetailsDto, tp.CreatePostArg>({
+        createPost: builder.mutation<UserPostDetailsResponse, tp.CreatePostArg>({
             query: (body) => ({
                 body,
                 method: "POST",
@@ -35,7 +35,7 @@ export const postsApi = createApi({
                 }
             },
         }),
-        getAllPosts: builder.query<PostsPage, tp.GetAllPostsArg | void>({
+        getAllPosts: builder.query<UserPostPreviewPageResponse, tp.GetAllPostsArg | void>({
             query: (arg) => {
                 const { authorId } = arg?.filter ?? {};
 
@@ -48,17 +48,15 @@ export const postsApi = createApi({
                     url,
                 });
             },
-            transformResponse: (response: PageDto<PostPreviewDto[]>): Promise<PostsPage>
-                | PostsPage => fromPageDtoToPostsPage(response),
             providesTags: (result) => {
                 const tag = createTag();
 
                 return result
-                    ? [...result.items.map(({ id }) => ({ type: tag.type, id })), tag]
+                    ? [...result.content.map(({ id }) => ({ type: tag.type, id })), tag]
                     : [tag];
             },
         }),
-        getPostBySlug: builder.query<PostDetailsDto, tp.GetPostBySlugArg>({
+        getPostBySlug: builder.query<UserPostDetailsResponse, tp.GetPostBySlugArg>({
             query: (slug) => `${resources.POSTS}/${slug}`,
             providesTags: (result, error, id) => [createTag(id)],
         }),
@@ -69,7 +67,7 @@ export const postsApi = createApi({
             }),
             invalidatesTags: (result, error, id) => [createTag(id)],
         }),
-        updatePostById: builder.mutation<PostDetailsDto, tp.UpdatePostByIdArg>({
+        updatePostById: builder.mutation<UserPostDetailsResponse, tp.UpdatePostByIdArg>({
             query: ({ id, ...body }) => ({
                 body,
                 method: "PATCH",
@@ -80,11 +78,11 @@ export const postsApi = createApi({
                 const { data } = await queryFulfilled;
 
                 if (data) {
-                    const updatePostsDataRecipe: Recipe<PostsPage> = (draftPosts) => {
-                        const itemIndex = draftPosts.items.findIndex((post) => post.id === id);
+                    const updatePostsDataRecipe: Recipe<UserPostPreviewPageResponse> = (draftPosts) => {
+                        const itemIndex = draftPosts.content.findIndex((post) => post.id === id);
 
                         if (itemIndex >= 0) {
-                            draftPosts.items[itemIndex] = data;
+                            draftPosts.content[itemIndex] = data;
                         }
                     };
 

@@ -50,7 +50,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "./schemas-v1.yml#/components/schemas/CreatePostRequest"
+              $ref: "#/components/schemas/CreatePostRequest"
       responses:
         200:
           description: The created post
@@ -86,7 +86,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "./schemas-v1.yml#/components/schemas/UpdatePostRequest"
+              $ref: "#/components/schemas/UpdatePostRequest"
       responses:
         200:
           description: The updated post
@@ -112,10 +112,14 @@ components:
   # Schemas imported from api-commons
   schemas:
     PostPreviewPageResponse:
-      type: object
+      type: PostPreviewPageResponse
     PostDetailsResponse:
-      type: object
+      type: PostDetailsResponse
     PostPreviewResponse:
-      type: object
+      type: PostPreviewResponse
+    CreatePostRequest:
+      type: CreatePostRequest
+    UpdatePostRequest:
+      type: UpdatePostRequest
     IdResponse:
-      type: object
+      type: IdResponse

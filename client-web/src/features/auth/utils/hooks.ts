@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useMemo } from "react";
-import type { CreateUserDto } from "@eggziom/geek-regime-js-commons";
 
 import { useAppDispatch } from "@/app/store/hooks";
 import {
@@ -9,18 +8,18 @@ import {
     useSignOutMutation,
     useSignUpMutation,
 } from "@/features/auth/services/api";
-import { fromUserDtoToEntity } from "@/features/users/utils/converters";
+import { toUser } from "@/features/users/utils/converters";
 import type { User } from "@/features/users/models/entities";
-import type { SignInDto } from "@/features/users/models/dtos";
+import type { AuthenticateRequest, CreateUserRequest } from "@/features/users/models/dtos";
 
 export type AuthPending = "get-profile" | "sign-in" | "sign-up" | "sign-out";
 
 export type UseAuthApiResult = {
     pending?: AuthPending;
     profile?: User;
-    signIn: (arg: SignInDto) => void;
+    signIn: (arg: AuthenticateRequest) => void;
     signOut: () => void;
-    signUp: (arg: CreateUserDto) => void;
+    signUp: (arg: CreateUserRequest) => void;
 };
 
 export const useAuthApi = (): UseAuthApiResult => {
@@ -31,7 +30,7 @@ export const useAuthApi = (): UseAuthApiResult => {
         selectFromResult: ({ data, error, isFetching }) => ({
             error,
             isFetching,
-            profile: data && fromUserDtoToEntity(data),
+            profile: data && toUser(data),
         }),
     });
 
@@ -39,7 +38,7 @@ export const useAuthApi = (): UseAuthApiResult => {
         selectFromResult: ({ data, error, isLoading }) => ({
             error,
             isLoading,
-            profile: data && fromUserDtoToEntity(data),
+            profile: data && toUser(data),
         }),
     });
 
@@ -49,7 +48,7 @@ export const useAuthApi = (): UseAuthApiResult => {
         selectFromResult: ({ data, error, isLoading }) => ({
             error,
             isLoading,
-            profile: data && fromUserDtoToEntity(data),
+            profile: data && toUser(data),
         }),
     });
 

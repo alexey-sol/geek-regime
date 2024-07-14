@@ -10,11 +10,12 @@ import {
     Redirect,
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
+import { type HasId, resources } from "@eggziom/geek-regime-js-commons";
 import type { Response } from "express";
-import { CreateUserDto, HasId, resources } from "@eggziom/geek-regime-js-commons";
 
 import { AuthService } from "@/auth/service";
 import { AppConfig } from "@/config/type";
+import type { CreateUserRequest } from "@/user/model/dto";
 import type { LocalAuthRequest, YandexAuthRequest } from "@/auth/type";
 
 import { JwtAuthGuard, LocalAuthGuard, YandexAuthGuard } from "../guard";
@@ -43,10 +44,10 @@ export class AuthControllerV1 {
 
     @Post("sign-up")
     async signUp(
-        @Body() dto: CreateUserDto,
+        @Body() request: CreateUserRequest,
         @Res({ passthrough: true }) res: Response,
     ) {
-        const user = await this.authService.createUser(dto);
+        const user = await this.authService.createUser(request);
         this.signAuthToken(res, user.id);
         return this.authService.getProfile(user.id);
     }

@@ -6,7 +6,9 @@ import { getApiPath } from "@/shared/utils/formatters/api-path";
 import * as tp from "@/features/posts/services/api/types";
 import { type PostsApiUtil } from "@/features/posts/services/api/api";
 import type { RootState } from "@/app/store";
-import type { PostDetailsDto, PostsPage } from "@/features/posts/models/dtos";
+import type {
+    UserPostDetailsResponse, UserPostPreviewPageResponse,
+} from "@/features/posts/models/dtos";
 import type { PostsState } from "@/features/posts/slice";
 
 import * as cn from "./const";
@@ -43,13 +45,13 @@ export const getDataUpdaters = (
     util: PostsApiUtil,
 ) => ({
     updatePostData: (
-        data: PostDetailsDto,
+        data: UserPostDetailsResponse,
     ) => dispatch(
         util.upsertQueryData("getPostBySlug", data.slug, data),
     ),
     updatePostsData: (
         paging: PostsState["pagingOptions"],
-        updatePostsPageRecipe: Recipe<PostsPage>,
+        updatePostsPageRecipe: Recipe<UserPostPreviewPageResponse>,
     ) => {
         const getAllPostsArg: tp.GetAllPostsArg = { paging };
 
@@ -62,7 +64,7 @@ export const getDataUpdaters = (
     updatePostsByAuthorData: (
         paging: PostsState["pagingOptions"],
         authorId: number,
-        updatePostsPageRecipe: Recipe<PostsPage>,
+        updatePostsPageRecipe: Recipe<UserPostPreviewPageResponse>,
     ) => {
         const getAllPostsByAuthorArg: tp.GetAllPostsArg = {
             filter: { authorId },

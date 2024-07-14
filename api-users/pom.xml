@@ -250,13 +250,14 @@
                             <library>spring-boot</library>
                             <apiPackage>com.github.alexeysol.geekregime.apiusers.generated.api</apiPackage>
                             <modelPackage>com.github.alexeysol.geekregime.apiusers.generated.model</modelPackage>
-                            <schemaMappings>
-                                <schemaMapping>UserPageResponse=com.github.alexeysol.geekregime.apicommons.generated.model.UserPageResponse</schemaMapping>
-                                <schemaMapping>UserResponse=com.github.alexeysol.geekregime.apicommons.generated.model.UserResponse</schemaMapping>
-                                <schemaMapping>UserDetails=com.github.alexeysol.geekregime.apicommons.generated.model.UserDetails</schemaMapping>
-                                <schemaMapping>IdResponse=com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse</schemaMapping>
-                            </schemaMappings>
                             <typeMappings>
+                                <typeMapping>UserPageResponse=com.github.alexeysol.geekregime.apicommons.generated.model.UserPageResponse</typeMapping>
+                                <typeMapping>UserResponse=com.github.alexeysol.geekregime.apicommons.generated.model.UserResponse</typeMapping>
+                                <typeMapping>UserDetails=com.github.alexeysol.geekregime.apicommons.generated.model.UserDetails</typeMapping>
+                                <typeMapping>IdResponse=com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse</typeMapping>
+                                <typeMapping>AuthenticateRequest=com.github.alexeysol.geekregime.apicommons.generated.model.AuthenticateRequest</typeMapping>
+                                <typeMapping>CreateUserRequest=com.github.alexeysol.geekregime.apicommons.generated.model.CreateUserRequest</typeMapping>
+                                <typeMapping>CreateUserDetails=com.github.alexeysol.geekregime.apicommons.generated.model.CreateUserDetails</typeMapping>
                                 <typeMapping>LocalDate=java.util.Date</typeMapping>
                                 <typeMapping>OffsetDateTime=java.util.Date</typeMapping>
                             </typeMappings>
@@ -264,6 +265,7 @@
                                 <additionalModelTypeAnnotations>
                                     @lombok.Builder
                                     @lombok.AllArgsConstructor
+                                    @lombok.NoArgsConstructor
                                 </additionalModelTypeAnnotations>
                                 <documentationProvider>source</documentationProvider>
                                 <generatedConstructorWithRequiredArgs>false</generatedConstructorWithRequiredArgs>

@@ -1,5 +1,7 @@
 import type { Profile } from "passport-yandex";
-import type { CreateUserDto, Gender } from "@eggziom/geek-regime-js-commons";
+import type { Gender } from "@eggziom/geek-regime-js-commons";
+
+import type { CreateUserRequest } from "@/user/model/dto";
 
 const convertGender = (gender?: string): Gender | undefined => {
     switch (gender?.toUpperCase()) {
@@ -17,7 +19,7 @@ export const fromYandexProfileToCreateUserDto = ({
     emails,
     gender,
     photos,
-}: Profile): CreateUserDto => {
+}: Profile): CreateUserRequest => {
     const email = emails?.[0]?.value ?? "";
     const defaultName = email.split("@")[0] ?? "";
 

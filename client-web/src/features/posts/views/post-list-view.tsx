@@ -19,7 +19,7 @@ export const InnerStyled = styled.section`
 
 export const PostListView: FC = () => {
     const { isPending, pagingOptions } = usePostsPage();
-    const { page, size, totalItems } = pagingOptions;
+    const { page, size, totalElements } = pagingOptions;
 
     return (
         <PostListViewStyled>
@@ -33,7 +33,7 @@ export const PostListView: FC = () => {
                 pathPrefix={createAbsolutePostsPath()}
                 qs=""
                 size={size}
-                totalItems={totalItems}
+                totalElements={totalElements}
             />
         </PostListViewStyled>
     );

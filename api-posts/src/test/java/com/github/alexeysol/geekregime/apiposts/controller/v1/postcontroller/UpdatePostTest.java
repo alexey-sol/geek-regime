@@ -2,9 +2,9 @@ package com.github.alexeysol.geekregime.apiposts.controller.v1.postcontroller;
 
 import com.github.alexeysol.geekregime.apicommons.exception.ResourceException;
 import com.github.alexeysol.geekregime.apicommons.generated.model.PostDetailsResponse;
+import com.github.alexeysol.geekregime.apicommons.generated.model.UpdatePostRequest;
 import com.github.alexeysol.geekregime.apicommons.util.TestUtil;
 import com.github.alexeysol.geekregime.apicommons.util.parser.Json;
-import com.github.alexeysol.geekregime.apiposts.generated.model.UpdatePostRequest;
 import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.util.source.ApiPostsSource;
 import org.hamcrest.CoreMatchers;

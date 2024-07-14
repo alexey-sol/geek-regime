@@ -1,14 +1,14 @@
 package com.github.alexeysol.geekregime.apiusers.mapper
 
+import com.github.alexeysol.geekregime.apicommons.generated.model.CreateUserRequest
 import com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse
 import com.github.alexeysol.geekregime.apicommons.generated.model.UserResponse
 import com.github.alexeysol.geekregime.apicommons.util.Slug
-import com.github.alexeysol.geekregime.apiusers.generated.model.CreateUserRequest
 import com.github.alexeysol.geekregime.apiusers.generated.model.UpdateUserRequest
 import com.github.alexeysol.geekregime.apiusers.model.entity.Credentials
 import com.github.alexeysol.geekregime.apiusers.model.entity.User
 import com.github.alexeysol.geekregime.apiusers.service.v1.UserService
-import com.github.alexeysol.geekregime.apiusers.util.Security
+import com.github.alexeysol.geekregime.apiusers.util.SecurityUtil
 import org.modelmapper.ModelMapper
 import org.springframework.stereotype.Component
 
@@ -72,8 +72,8 @@ class UserMapper(
         user: User,
         credentials: Credentials? = null
     ): Credentials {
-        val salt = Security.generateSalt()
-        val hashedPassword = Security.generateHash(password, salt)
+        val salt = SecurityUtil.generateSalt()
+        val hashedPassword = SecurityUtil.generateHash(password, salt)
 
         val result = credentials?.let {
             it.salt = salt

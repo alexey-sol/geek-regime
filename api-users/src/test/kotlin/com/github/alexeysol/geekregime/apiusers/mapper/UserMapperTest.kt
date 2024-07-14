@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregime.apiusers.mapper
 
-import com.github.alexeysol.geekregime.apiusers.generated.model.CreateUserRequest
-import com.github.alexeysol.geekregime.apiusers.generated.model.CreateUserRequestDetails
+import com.github.alexeysol.geekregime.apicommons.generated.model.CreateUserRequest
+import com.github.alexeysol.geekregime.apicommons.generated.model.CreateUserDetails
 import com.github.alexeysol.geekregime.apiusers.generated.model.UpdateUserRequest
 import com.github.alexeysol.geekregime.apiusers.generated.model.UpdateUserRequestDetails
 import com.github.alexeysol.geekregime.apiusers.model.entity.Details
@@ -46,7 +46,7 @@ class UserMapperTest(@Autowired val mapper: UserMapper) {
         val createUserRequest = CreateUserRequest.builder()
             .email(email)
             .password(password)
-            .details(CreateUserRequestDetails.builder()
+            .details(CreateUserDetails.builder()
                 .name(name)
                 .build())
             .build()

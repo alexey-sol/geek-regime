@@ -2,7 +2,7 @@ import React, { type FC } from "react";
 import { Link } from "react-router-dom";
 
 import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
-import type { PostPreview } from "@/features/posts/models/entities";
+import type { UserPostPreview } from "@/features/posts/models/entities";
 
 import {
     BodyStyled,
@@ -14,7 +14,7 @@ import { OverviewTitle } from "./overview-title";
 import { OverviewExcerpt } from "./overview-excerpt";
 
 export type PostOverviewProps = {
-    post: PostPreview;
+    post: UserPostPreview;
 };
 
 export const PostOverview: FC<PostOverviewProps> = ({ post }) => {

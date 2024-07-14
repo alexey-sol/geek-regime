@@ -26,7 +26,7 @@ export const usePagingData = ({
     pathPrefix = "",
     qs = "",
     size = defaults.PAGING_SIZE,
-    totalItems,
+    totalElements,
 }: UsePagingDataArg): PagingData => {
     const [spillCount, setSpillCount] = useState(SpillCount.DEFAULT);
 
@@ -43,7 +43,7 @@ export const usePagingData = ({
             : SpillCount.DEFAULT);
     }, [isMinifiedView]);
 
-    const lastPage = Math.ceil(totalItems / size);
+    const lastPage = Math.ceil(totalElements / size);
     const visiblePages = (pageNeighbours * 2) + 1;
 
     const leftmostVisiblePage = page - pageNeighbours;

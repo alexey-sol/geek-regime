@@ -4,7 +4,7 @@ import { sanitize } from "dompurify";
 import { formatTimestamp } from "@/shared/utils/formatters/date";
 import { User } from "@/features/users/models/entities";
 
-export class PostPreview {
+export class UserPostPreview {
     @Type(() => User)
     public author: User;
 
@@ -29,7 +29,7 @@ export class PostPreview {
     }
 }
 
-export class PostDetails extends PostPreview {
+export class UserPostDetails extends UserPostPreview {
     @Expose()
     @Transform(({ value }) => sanitize(value))
     public body: string;

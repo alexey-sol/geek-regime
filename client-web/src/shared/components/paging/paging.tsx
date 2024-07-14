@@ -34,7 +34,7 @@ export const Paging = memo(({
     pathPrefix = "",
     qs = "",
     size = defaults.PAGING_SIZE,
-    totalItems = 0,
+    totalElements = 0,
 }: PagingProps) => {
     const { t } = useTranslation();
 
@@ -51,7 +51,7 @@ export const Paging = memo(({
         pathPrefix,
         qs,
         size,
-        totalItems,
+        totalElements,
     });
 
     const hasLeapButtons = MIN_PAGE_COUNT_TO_SHOW_SPILLS <= lastPage;
@@ -122,7 +122,7 @@ export const Paging = memo(({
     }, [goToPage, hasLeftSpill, hasRightSpill, isLastPage, isMinifiedView, isStartPage,
         lastPage, page, pagesRange, toLastPage, toStartPage]);
 
-    if (totalItems === 0) {
+    if (totalElements === 0) {
         return null;
     }
 

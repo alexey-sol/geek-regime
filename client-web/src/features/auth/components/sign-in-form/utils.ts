@@ -4,7 +4,7 @@ import type { FormikProps } from "formik";
 
 import { useAuthContext } from "@/features/auth/contexts/auth";
 import { authBaseUrl } from "@/features/auth/services/api/utils";
-import type { SignInDto } from "@/features/users/models/dtos";
+import type { AuthenticateRequest } from "@/features/users/models/dtos";
 
 export type SignInFormData = {
     handleChangeWrap: (event: FormEvent, cb: FormEventHandler) => void;
@@ -14,7 +14,7 @@ export type SignInFormData = {
 };
 
 export const useSignInFormData = (
-    { formRef }: { formRef: React.RefObject<FormikProps<SignInDto>> },
+    { formRef }: { formRef: React.RefObject<FormikProps<AuthenticateRequest>> },
 ): SignInFormData => {
     const { pending, signIn } = useAuthContext();
 

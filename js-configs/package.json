@@ -1,6 +1,6 @@
 {
     "name": "@eggziom/geek-regime-js-configs",
-    "version": "0.0.8",
+    "version": "0.0.9",
     "description": "Configuration files for JS based modules",
     "author": "Alexey Soloviev",
     "license": "UNLICENSED",
@@ -23,8 +23,8 @@
         "@types/node": "18.15.0",
         "@types/webpack": "5.28.1",
         "@types/webpack-node-externals": "3.0.0",
-        "@typescript-eslint/eslint-plugin": "5.27.1",
-        "@typescript-eslint/parser": "5.27.1",
+        "@typescript-eslint/eslint-plugin": "6.21.0",
+        "@typescript-eslint/parser": "6.21.0",
         "babel-loader": "9.1.2",
         "babel-plugin-styled-components": "2.1.4",
         "clean-webpack-plugin": "4.0.0",

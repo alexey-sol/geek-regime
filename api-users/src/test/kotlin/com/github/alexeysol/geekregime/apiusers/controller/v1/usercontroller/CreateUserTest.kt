@@ -1,11 +1,11 @@
 package com.github.alexeysol.geekregime.apiusers.controller.v1.usercontroller
 
 import com.github.alexeysol.geekregime.apicommons.exception.ResourceException
+import com.github.alexeysol.geekregime.apicommons.generated.model.CreateUserRequest
+import com.github.alexeysol.geekregime.apicommons.generated.model.CreateUserDetails
 import com.github.alexeysol.geekregime.apicommons.generated.model.UserResponse
 import com.github.alexeysol.geekregime.apicommons.util.TestUtil
 import com.github.alexeysol.geekregime.apicommons.util.parser.Json
-import com.github.alexeysol.geekregime.apiusers.generated.model.CreateUserRequest
-import com.github.alexeysol.geekregime.apiusers.generated.model.CreateUserRequestDetails
 import com.github.alexeysol.geekregime.apiusers.model.entity.Details
 import com.github.alexeysol.geekregime.apiusers.model.entity.User
 import io.mockk.every
@@ -34,7 +34,7 @@ class CreateUserTest(@Autowired mockMvc: MockMvc) : BaseUserControllerTest(mockM
         )
         val createUserRequest = CreateUserRequest.builder()
             .email(email)
-            .details(CreateUserRequestDetails.builder()
+            .details(CreateUserDetails.builder()
                 .name(name)
                 .build())
             .build()
@@ -72,7 +72,7 @@ class CreateUserTest(@Autowired mockMvc: MockMvc) : BaseUserControllerTest(mockM
         val createUserRequest = CreateUserRequest.builder()
             .email(email)
             .password(password)
-            .details(CreateUserRequestDetails.builder()
+            .details(CreateUserDetails.builder()
                 .name(name)
                 .build())
             .build()
@@ -99,7 +99,7 @@ class CreateUserTest(@Autowired mockMvc: MockMvc) : BaseUserControllerTest(mockM
     fun givenRequestHasInvalidEmail_whenCreateUser_thenReturnsStatus400() {
         val createUserRequest = CreateUserRequest.builder()
             .email("is-this-even-email")
-            .details(CreateUserRequestDetails.builder()
+            .details(CreateUserDetails.builder()
                 .name("Mark")
                 .build())
             .build()
@@ -121,7 +121,7 @@ class CreateUserTest(@Autowired mockMvc: MockMvc) : BaseUserControllerTest(mockM
     fun givenRequestHasBlankNameInDetails_whenCreateUser_thenReturnsStatus400() {
         val createUserRequest = CreateUserRequest.builder()
             .email("mark@mail.com")
-            .details(CreateUserRequestDetails.builder()
+            .details(CreateUserDetails.builder()
                 .name("")
                 .build())
             .build()
@@ -144,7 +144,7 @@ class CreateUserTest(@Autowired mockMvc: MockMvc) : BaseUserControllerTest(mockM
         val createUserRequest = CreateUserRequest.builder()
             .email("mark@mail.com")
             .password("")
-            .details(CreateUserRequestDetails.builder()
+            .details(CreateUserDetails.builder()
                 .name("Mark")
                 .build())
             .build()
@@ -167,7 +167,7 @@ class CreateUserTest(@Autowired mockMvc: MockMvc) : BaseUserControllerTest(mockM
         val existingEmail = "already-exists@mail.com"
         val createUserRequest = CreateUserRequest.builder()
             .email(existingEmail)
-            .details(CreateUserRequestDetails.builder()
+            .details(CreateUserDetails.builder()
                 .name("Mark")
                 .build())
             .build()

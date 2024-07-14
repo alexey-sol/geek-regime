@@ -5,7 +5,7 @@ import java.security.spec.KeySpec
 import javax.crypto.SecretKeyFactory
 import javax.crypto.spec.PBEKeySpec
 
-object Security {
+object SecurityUtil {
     private object Constants {
         const val ALGORITHM = "PBKDF2WithHmacSHA1"
         const val ITERATION_COUNT = 65536

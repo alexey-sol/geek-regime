@@ -161,19 +161,24 @@
                             <library>spring-boot</library>
                             <apiPackage>com.github.alexeysol.geekregime.apiposts.generated.api</apiPackage>
                             <modelPackage>com.github.alexeysol.geekregime.apiposts.generated.model</modelPackage>
-                            <schemaMappings>
-                                <schemaMapping>PostPreviewPageResponse=com.github.alexeysol.geekregime.apicommons.generated.model.PostPreviewPageResponse</schemaMapping>
-                                <schemaMapping>PostDetailsResponse=com.github.alexeysol.geekregime.apicommons.generated.model.PostDetailsResponse</schemaMapping>
-                                <schemaMapping>PostPreviewResponse=com.github.alexeysol.geekregime.apicommons.generated.model.PostPreviewResponse</schemaMapping>
-                                <schemaMapping>IdResponse=com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse</schemaMapping>
-                            </schemaMappings>
                             <typeMappings>
+                                <typeMapping>PostPreviewPageResponse=com.github.alexeysol.geekregime.apicommons.generated.model.PostPreviewPageResponse</typeMapping>
+                                <typeMapping>PostDetailsResponse=com.github.alexeysol.geekregime.apicommons.generated.model.PostDetailsResponse</typeMapping>
+                                <typeMapping>PostPreviewResponse=com.github.alexeysol.geekregime.apicommons.generated.model.PostPreviewResponse</typeMapping>
+                                <typeMapping>CreatePostRequest=com.github.alexeysol.geekregime.apicommons.generated.model.CreatePostRequest</typeMapping>
+                                <typeMapping>UpdatePostRequest=com.github.alexeysol.geekregime.apicommons.generated.model.UpdatePostRequest</typeMapping>
+                                <typeMapping>IdResponse=com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse</typeMapping>
                                 <typeMapping>LocalDate=java.util.Date</typeMapping>
                                 <typeMapping>OffsetDateTime=java.util.Date</typeMapping>
                             </typeMappings>
                             <configOptions>
-                                <additionalModelTypeAnnotations>@lombok.Builder</additionalModelTypeAnnotations>
+                                <additionalModelTypeAnnotations>
+                                    @lombok.Builder
+                                    @lombok.AllArgsConstructor
+                                    @lombok.NoArgsConstructor
+                                </additionalModelTypeAnnotations>
                                 <documentationProvider>source</documentationProvider>
+                                <generatedConstructorWithRequiredArgs>false</generatedConstructorWithRequiredArgs>
                                 <interfaceOnly>true</interfaceOnly>
                                 <skipDefaultInterface>true</skipDefaultInterface>
                                 <sourceFolder>src/main/java</sourceFolder>

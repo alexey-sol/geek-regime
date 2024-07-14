@@ -135,6 +135,33 @@ components:
       allOf:
         - $ref: "#/components/schemas/BasePost"
         - $ref: "#/components/schemas/PostDependencies"
+    CreatePostRequest:
+      type: object
+      required: [ authorId, spaceId, title, body ]
+      properties:
+        authorId:
+          type: integer
+          format: int64
+          min: 1
+        spaceId:
+          type: integer
+          format: int64
+          min: 1
+        title:
+          type: string
+          minLength: 1
+        body:
+          type: string
+          minLength: 1
+    UpdatePostRequest:
+      type: object
+      properties:
+        title:
+          type: string
+          minLength: 1
+        body:
+          type: string
+          minLength: 1
     BasePost:
       type: object
       required: [ id, title, excerpt, slug, createdAt, updatedAt ]

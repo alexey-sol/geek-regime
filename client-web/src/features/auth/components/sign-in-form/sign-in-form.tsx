@@ -6,19 +6,19 @@ import { Typography } from "@eggziom/geek-regime-js-ui-kit";
 import { FormInput } from "@/shared/components/form/form-input";
 import { getSignInSchema } from "@/features/auth/utils/validation/schemas";
 import type { MemoizedAuthForm } from "@/features/auth/types";
-import type { SignInDto } from "@/features/users/models/dtos";
+import type { AuthenticateRequest } from "@/features/users/models/dtos";
 
 import { ButtonStyled, SignInFormStyled, TransparentButtonStyled } from "./style";
 import { useSignInFormData } from "./utils";
 import * as cn from "./const";
 
-const initialValues: SignInDto = {
+const initialValues: AuthenticateRequest = {
     email: "",
     password: "",
 };
 
 export const SignInForm: MemoizedAuthForm = memo(({ goTo }) => {
-    const formRef = useRef<FormikProps<SignInDto>>(null);
+    const formRef = useRef<FormikProps<AuthenticateRequest>>(null);
     const { t } = useTranslation();
 
     const {

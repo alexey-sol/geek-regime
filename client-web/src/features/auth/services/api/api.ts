@@ -1,7 +1,8 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { CreateUserDto, UserDto } from "@eggziom/geek-regime-js-commons";
 
-import type { SignInDto } from "@/features/users/models/dtos";
+import type {
+    AuthenticateRequest, CreateUserRequest, UserResponse,
+} from "@/features/users/models/dtos";
 
 import { authBaseUrl as baseUrl } from "./utils";
 
@@ -9,12 +10,12 @@ export const authApi = createApi({
     reducerPath: "authApi",
     baseQuery: fetchBaseQuery({ baseUrl }),
     endpoints: (builder) => ({
-        getProfile: builder.query<UserDto, void>({
+        getProfile: builder.query<UserResponse, void>({
             query: () => ({
                 url: "profile",
             }),
         }),
-        signIn: builder.mutation<UserDto, SignInDto>({
+        signIn: builder.mutation<UserResponse, AuthenticateRequest>({
             query: (body) => ({
                 body,
                 method: "POST",
@@ -27,7 +28,7 @@ export const authApi = createApi({
                 url: "sign-out",
             }),
         }),
-        signUp: builder.mutation<UserDto, CreateUserDto>({
+        signUp: builder.mutation<UserResponse, CreateUserRequest>({
             query: (body) => ({
                 body,
                 method: "POST",

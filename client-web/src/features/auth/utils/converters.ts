@@ -1,12 +1,11 @@
-import type { CreateUserDto } from "@eggziom/geek-regime-js-commons";
-
 import type { SignUpValues } from "@/features/auth/components/sign-up-form/utils";
+import type { CreateUserRequest } from "@/features/users/models/dtos";
 
-export const fromSignUpValuesToDto = ({
+export const toCreateUserRequest = ({
     email,
     name,
     password,
-}: SignUpValues): CreateUserDto => ({
+}: SignUpValues): CreateUserRequest => ({
     details: { name },
     email,
     password,

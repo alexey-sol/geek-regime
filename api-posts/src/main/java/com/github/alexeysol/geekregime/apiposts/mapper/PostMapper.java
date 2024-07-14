@@ -1,10 +1,6 @@
 package com.github.alexeysol.geekregime.apiposts.mapper;
 
-import com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse;
-import com.github.alexeysol.geekregime.apicommons.generated.model.PostDetailsResponse;
-import com.github.alexeysol.geekregime.apicommons.generated.model.PostPreviewResponse;
-import com.github.alexeysol.geekregime.apiposts.generated.model.CreatePostRequest;
-import com.github.alexeysol.geekregime.apiposts.generated.model.UpdatePostRequest;
+import com.github.alexeysol.geekregime.apicommons.generated.model.*;
 import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.service.v1.PostService;
 import org.modelmapper.ModelMapper;

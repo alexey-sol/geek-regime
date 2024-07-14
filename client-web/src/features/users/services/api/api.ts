@@ -1,5 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { UserDto } from "@eggziom/geek-regime-js-commons";
+
+import type { UserResponse } from "@/features/users/models/dtos";
 
 import {
     createTag,
@@ -13,7 +14,7 @@ export const usersApi = createApi({
     tagTypes: [cn.USERS_TAG_TYPE],
     baseQuery: fetchBaseQuery({ baseUrl }),
     endpoints: (builder) => ({
-        getUserBySlug: builder.query<UserDto, tp.GetUserBySlugArg>({
+        getUserBySlug: builder.query<UserResponse, tp.GetUserBySlugArg>({
             query: (slug) => slug,
             providesTags: (result, error, id) => [createTag(id)],
         }),

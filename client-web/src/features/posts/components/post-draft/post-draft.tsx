@@ -14,7 +14,7 @@ import { Button } from "@eggziom/geek-regime-js-ui-kit";
 
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import type { CreatePostOnSaveArg } from "@/features/posts/utils/hooks/types";
-import type { PostDetails } from "@/features/posts/models/entities";
+import type { UserPostDetails } from "@/features/posts/models/entities";
 
 import {
     BodyEditorStyled,
@@ -25,7 +25,7 @@ import {
 } from "./style";
 
 export type PostDraftProps = {
-    post?: PostDetails;
+    post?: UserPostDetails;
 };
 
 export const PostDraft: FC<PostDraftProps> = ({ post }) => {

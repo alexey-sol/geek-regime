@@ -1,11 +1,9 @@
-export type Page<Content = unknown> = {
-    items: Content;
-    options: {
-        size: number;
-        totalItems: number;
-    };
+export type Page<E = unknown> = {
+    content: E[];
+    size: number;
+    totalElements: number;
 };
 
-export type PagingOptions = Page["options"] & {
+export type PagingOptions = Pick<Page, "size" | "totalElements"> & {
     page: number;
 };

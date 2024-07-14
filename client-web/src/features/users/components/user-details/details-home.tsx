@@ -26,7 +26,7 @@ export const DetailsHome: FC<DetailsHomeProps> = ({ userId }) => {
 
     return (
         <>
-            {data?.items.map((item) => (
+            {data?.content.map((item) => (
                 <section key={item.id}>
                     <section>
                         {item.title}

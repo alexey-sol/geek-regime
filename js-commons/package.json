@@ -1,6 +1,6 @@
 {
     "name": "@eggziom/geek-regime-js-commons",
-    "version": "0.0.28",
+    "version": "0.0.36",
     "description": "Shared tools for JS based modules",
     "author": "Alexey Soloviev",
     "license": "UNLICENSED",
@@ -10,10 +10,11 @@
         "**/*.d.ts"
     ],
     "scripts": {
-        "build": "npm run build:core && npm run build:types && npm run build:openapi:schemas",
+        "build": "npm run build:core && npm run build:types && npm run build:schemas:local",
         "build:core": "node configs/esbuild.config.mjs",
         "build:types": "tsc --project tsconfig.json && tsc-alias",
-        "build:openapi:schemas": "npx openapi-typescript https://raw.githubusercontent.com/alexey-sol/geek-regime/main/api-commons/src/main/resources/api-components/schemas-v1.yml -o ./dist/models/schemas-v1.d.ts",
+        "build:schemas:remote": "npx openapi-typescript https://raw.githubusercontent.com/alexey-sol/geek-regime/main/api-commons/src/main/resources/api-components/schemas-v1.yml -o ./dist/models/schemas-v1.d.ts",
+        "build:schemas:local": "npx openapi-typescript ../api-commons/src/main/resources/api-components/schemas-v1.yml -o ./dist/models/schemas-v1.d.ts",
         "prebuild": "rimraf dist",
         "prepare": "npm run build",
         "lint": "eslint . --ext .js,.jsx,.mjs,.ts,.tsx",
@@ -28,8 +29,8 @@
         "@eggziom/geek-regime-js-configs": "0.0.5",
         "@types/jest": "29.5.2",
         "@types/node": "18.15.0",
-        "@typescript-eslint/eslint-plugin": "5.27.1",
-        "@typescript-eslint/parser": "5.27.1",
+        "@typescript-eslint/eslint-plugin": "6.21.0",
+        "@typescript-eslint/parser": "6.21.0",
         "esbuild": "0.18.12",
         "esbuild-node-externals": "1.8.0",
         "eslint": "8.17.0",

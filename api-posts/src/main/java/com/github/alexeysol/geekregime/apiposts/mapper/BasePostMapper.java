@@ -1,9 +1,9 @@
 package com.github.alexeysol.geekregime.apiposts.mapper;
 
+import com.github.alexeysol.geekregime.apicommons.generated.model.CreatePostRequest;
 import com.github.alexeysol.geekregime.apicommons.generated.model.PostDetailsResponse;
 import com.github.alexeysol.geekregime.apicommons.generated.model.PostPreviewResponse;
-import com.github.alexeysol.geekregime.apiposts.generated.model.CreatePostRequest;
-import com.github.alexeysol.geekregime.apiposts.generated.model.UpdatePostRequest;
+import com.github.alexeysol.geekregime.apicommons.generated.model.UpdatePostRequest;
 import com.github.alexeysol.geekregime.apiposts.mapper.converters.BodyToExcerptConverter;
 import com.github.alexeysol.geekregime.apiposts.mapper.converters.TitleToSlugConverter;
 import com.github.alexeysol.geekregime.apiposts.model.entity.Post;

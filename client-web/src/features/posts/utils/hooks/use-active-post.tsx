@@ -2,7 +2,7 @@ import { useCallback, useEffect, useMemo } from "react";
 import { useNavigate, useParams } from "react-router";
 import { skipToken } from "@reduxjs/toolkit/query";
 
-import { fromPostDetailsDtoToEntity } from "@/features/posts/utils/converters";
+import { toUserPostDetails } from "@/features/posts/utils/converters";
 import {
     useCreatePostMutation,
     useGetPostBySlugQuery,
@@ -27,7 +27,7 @@ export const useActivePost = (): UseActivePostResult => {
     const resultOnGet = useGetPostBySlugQuery(slug ?? skipToken, {
         selectFromResult: ({ isFetching, data }) => ({
             isFetching,
-            post: data && fromPostDetailsDtoToEntity(data),
+            post: data && toUserPostDetails(data),
         }),
     });
 

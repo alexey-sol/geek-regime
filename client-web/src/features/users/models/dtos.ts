@@ -1,3 +1,7 @@
-import type { CreateUserDto } from "@eggziom/geek-regime-js-commons";
+import type { components } from "@eggziom/geek-regime-js-commons/dist/models/schemas-v1";
 
-export type SignInDto = NonNullable<Pick<CreateUserDto, "email" | "password">>;
+export type UserResponse = components["schemas"]["UserResponse"];
+
+export type CreateUserRequest = components["schemas"]["CreateUserRequest"];
+
+export type AuthenticateRequest = components["schemas"]["AuthenticateRequest"];

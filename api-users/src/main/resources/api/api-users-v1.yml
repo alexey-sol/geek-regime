@@ -1,7 +1,7 @@
 openapi: 3.1.0
 info:
   version: v1
-  title: api-posts
+  title: api-users
 servers:
   - url: http://localhost:3002/api/v1
 paths:
@@ -16,7 +16,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "./schemas-v1.yml#/components/schemas/AuthRequest"
+              $ref: "#/components/schemas/AuthenticateRequest"
       responses:
         200:
           description: The authenticated user
@@ -59,7 +59,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "./schemas-v1.yml#/components/schemas/CreateUserRequest"
+              $ref: "#/components/schemas/CreateUserRequest"
       responses:
         200:
           description: The created user
@@ -136,10 +136,14 @@ components:
   # Schemas imported from api-commons
   schemas:
     UserPageResponse:
-      type: object
+      type: UserPageResponse
     UserResponse:
-      type: object
+      type: UserResponse
     UserDetails:
-      type: object
+      type: UserDetails
+    CreateUserRequest:
+      type: CreateUserRequest
+    AuthenticateRequest:
+      type: AuthenticateRequest
     IdResponse:
-      type: object
+      type: IdResponse

@@ -31,7 +31,7 @@ describe("Shared/Paging", () => {
             render(<Paging
                 pageNeighbours={neighbours}
                 size={SIZE}
-                totalItems={items}
+                totalElements={items}
             />);
 
             const pageNumbers = screen.queryAllByLabelText(cn.ARIA_LABEL_PAGE_NUMBER);
@@ -40,14 +40,14 @@ describe("Shared/Paging", () => {
     }
 
     test("renders element if has items", () => {
-        render(<Paging totalItems={1} />);
+        render(<Paging totalElements={1} />);
 
         const element = screen.queryByLabelText(cn.ARIA_LABEL_PAGING);
         expect(element).toBeInTheDocument();
     });
 
     test("renders nothing if has no items", () => {
-        render(<Paging totalItems={0} />);
+        render(<Paging totalElements={0} />);
 
         const element = screen.queryByLabelText(cn.ARIA_LABEL_PAGING);
         expect(element).not.toBeInTheDocument();
@@ -56,7 +56,7 @@ describe("Shared/Paging", () => {
     test("renders only one page if it accommodates all items", () => {
         render(<Paging
             size={SIZE}
-            totalItems={SIZE}
+            totalElements={SIZE}
         />);
 
         const pageNumbers = screen.queryAllByLabelText(cn.ARIA_LABEL_PAGE_NUMBER);
@@ -66,7 +66,7 @@ describe("Shared/Paging", () => {
     test("renders more than one page if it doesn't accommodate all items", () => {
         render(<Paging
             size={SIZE}
-            totalItems={SIZE + 1}
+            totalElements={SIZE + 1}
         />);
 
         const pageNumbers = screen.queryAllByLabelText(cn.ARIA_LABEL_PAGE_NUMBER);
@@ -79,7 +79,7 @@ describe("Shared/Paging", () => {
         render(<Paging
             page={page}
             size={SIZE}
-            totalItems={SIZE * 10}
+            totalElements={SIZE * 10}
         />);
 
         const pageNumbers = screen.queryAllByLabelText(cn.ARIA_LABEL_PAGE_NUMBER);
@@ -99,7 +99,7 @@ describe("Shared/Paging", () => {
         render(<Paging
             page={1}
             size={SIZE}
-            totalItems={SIZE * PAGE_COUNT}
+            totalElements={SIZE * PAGE_COUNT}
         />);
 
         screen.getByLabelText(cn.ARIA_LABEL_LAST_PAGE);
@@ -109,7 +109,7 @@ describe("Shared/Paging", () => {
         render(<Paging
             page={PAGE_COUNT}
             size={SIZE}
-            totalItems={SIZE * PAGE_COUNT}
+            totalElements={SIZE * PAGE_COUNT}
         />);
 
         screen.getByLabelText(cn.ARIA_LABEL_START_PAGE);
@@ -119,7 +119,7 @@ describe("Shared/Paging", () => {
         render(<Paging
             page={1}
             size={SIZE}
-            totalItems={SIZE * PAGE_COUNT}
+            totalElements={SIZE * PAGE_COUNT}
         />);
 
         const previousPage = screen.getByLabelText(cn.ARIA_LABEL_PREVIOUS_PAGE);
@@ -133,7 +133,7 @@ describe("Shared/Paging", () => {
         render(<Paging
             page={PAGE_COUNT}
             size={SIZE}
-            totalItems={SIZE * PAGE_COUNT}
+            totalElements={SIZE * PAGE_COUNT}
         />);
 
         const nextPage = screen.getByLabelText(cn.ARIA_LABEL_NEXT_PAGE);
@@ -147,7 +147,7 @@ describe("Shared/Paging", () => {
         render(<Paging
             page={1}
             size={SIZE}
-            totalItems={SIZE * PAGE_COUNT}
+            totalElements={SIZE * PAGE_COUNT}
         />);
 
         fireEvent.click(screen.getByLabelText(cn.ARIA_LABEL_LAST_PAGE));
@@ -159,7 +159,7 @@ describe("Shared/Paging", () => {
         render(<Paging
             page={1}
             size={SIZE}
-            totalItems={SIZE * PAGE_COUNT}
+            totalElements={SIZE * PAGE_COUNT}
         />);
 
         const startPage = screen.getAllByLabelText(cn.ARIA_LABEL_PAGE_NUMBER)[0];
@@ -174,7 +174,7 @@ describe("Shared/Paging", () => {
         render(<Paging
             page={page}
             size={SIZE}
-            totalItems={SIZE * PAGE_COUNT}
+            totalElements={SIZE * PAGE_COUNT}
         />);
 
         fireEvent.click(screen.getByLabelText(cn.ARIA_LABEL_NEXT_PAGE));
@@ -188,7 +188,7 @@ describe("Shared/Paging", () => {
         render(<Paging
             page={page}
             size={SIZE}
-            totalItems={SIZE * PAGE_COUNT}
+            totalElements={SIZE * PAGE_COUNT}
         />);
 
         fireEvent.click(screen.getByLabelText(cn.ARIA_LABEL_PREVIOUS_PAGE));
@@ -204,7 +204,7 @@ describe("Shared/Paging", () => {
             qs={qs}
             page={page}
             size={SIZE}
-            totalItems={SIZE * PAGE_COUNT}
+            totalElements={SIZE * PAGE_COUNT}
         />);
 
         fireEvent.click(screen.getByLabelText(cn.ARIA_LABEL_NEXT_PAGE));

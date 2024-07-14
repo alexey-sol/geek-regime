@@ -1,9 +1,10 @@
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { isAxiosError } from "axios";
-import type { CreateUserDto, HasId } from "@eggziom/geek-regime-js-commons";
+import type { HasId } from "@eggziom/geek-regime-js-commons";
 
 import { UsersService } from "@/user/service";
+import type { CreateUserRequest } from "@/user/model/dto";
 
 @Injectable()
 export class AuthService {
@@ -12,19 +13,19 @@ export class AuthService {
         private readonly jwtService: JwtService,
     ) {}
 
-    createUser = async (dto: CreateUserDto) => this.usersService.createUser(dto);
+    createUser = async (request: CreateUserRequest) => this.usersService.createUser(request);
 
     getProfile = async (id: HasId["id"]) => this.usersService.findUserById(id);
 
-    createOrFindUser = async (dto: CreateUserDto) => {
+    createOrFindUser = async (request: CreateUserRequest) => {
         try {
-            return await this.usersService.createUser(dto);
+            return await this.usersService.createUser(request);
         } catch (error: unknown) {
             if (isAxiosError(error)) {
                 const userAlreadyExists = error.response?.status === HttpStatus.CONFLICT;
 
                 if (userAlreadyExists) {
-                    return this.usersService.findUserByEmail(dto.email);
+                    return this.usersService.findUserByEmail(request.email);
                 }
             }
 

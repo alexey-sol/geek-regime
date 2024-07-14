@@ -11,7 +11,7 @@ import type * as en from "@/features/posts/models/entities";
 import { ContentStyled, InfoStyled, PostDetailsStyled } from "./style";
 
 export type PostDetailsProps = {
-    post: en.PostDetails;
+    post: en.UserPostDetails;
 };
 
 export const PostDetails: FC<PostDetailsProps> = ({ post }) => {

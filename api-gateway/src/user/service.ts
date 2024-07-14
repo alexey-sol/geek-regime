@@ -4,12 +4,10 @@ import { Injectable } from "@nestjs/common";
 import {
     catchError, firstValueFrom, map,
 } from "rxjs";
-import {
-    CreateUserDto, UserDto, HasId, resources,
-} from "@eggziom/geek-regime-js-commons";
+import { HasId, resources } from "@eggziom/geek-regime-js-commons";
 
 import { AppConfig } from "@/config/type";
-import type { AuthenticateDto } from "@/user/model/dto";
+import type { AuthenticateRequest, CreateUserRequest, UserResponse } from "@/user/model/dto";
 import type { ResponseDataGetter } from "@/shared/type/api";
 
 import { getUsersApiPath } from "./api";
@@ -26,22 +24,22 @@ export class UsersService {
         this.apiPath = getUsersApiPath(apiUsersCf);
     }
 
-    async createUser(dto: CreateUserDto): Promise<UserDto> {
+    async createUser(request: CreateUserRequest): Promise<UserResponse> {
         return firstValueFrom(
             this.httpService
-                .post(this.apiPath, dto)
-                .pipe(this.getData<UserDto>())
+                .post(this.apiPath, request)
+                .pipe(this.getData<UserResponse>())
                 .pipe(catchError((error) => {
                     throw error;
                 })),
         );
     }
 
-    async findUserById(id: HasId["id"]): Promise<UserDto> {
+    async findUserById(id: HasId["id"]): Promise<UserResponse> {
         return firstValueFrom(
             this.httpService
                 .get(this.findUserByIdApiPath(id))
-                .pipe(this.getData<UserDto>())
+                .pipe(this.getData<UserResponse>())
                 .pipe(catchError((error) => {
                     throw error;
                 })),
@@ -50,11 +48,11 @@ export class UsersService {
 
     private findUserByIdApiPath = (id: HasId["id"]) => `${this.apiPath}/${id}`;
 
-    async findUserByEmail(email: string): Promise<UserDto> {
+    async findUserByEmail(email: string): Promise<UserResponse> {
         return firstValueFrom(
             this.httpService
                 .get(this.findUserByEmailApiPath(email))
-                .pipe(this.getData<UserDto>())
+                .pipe(this.getData<UserResponse>())
                 .pipe(catchError((error) => {
                     throw error;
                 })),
@@ -63,13 +61,13 @@ export class UsersService {
 
     private findUserByEmailApiPath = (email: string) => `${this.apiPath}/email/${email}`;
 
-    async authenticate(email: string, password: string): Promise<UserDto> {
-        const dto: AuthenticateDto = { email, password };
+    async authenticate(email: string, password: string): Promise<UserResponse> {
+        const request: AuthenticateRequest = { email, password };
 
         return firstValueFrom(
             this.httpService
-                .post(this.getAuthenticateApiPath(), dto)
-                .pipe(this.getData<UserDto>())
+                .post(this.getAuthenticateApiPath(), request)
+                .pipe(this.getData<UserResponse>())
                 .pipe(catchError((error) => {
                     throw error;
                 })),

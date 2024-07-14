@@ -1,7 +1,7 @@
 import { plainToClass } from "class-transformer";
-import type { UserDto } from "@eggziom/geek-regime-js-commons";
 
 import { User } from "@/features/users/models/entities";
+import type { UserResponse } from "@/features/users/models/dtos";
 
-export const fromUserDtoToEntity = (dto: UserDto): User =>
-    plainToClass(User, dto);
+export const toUser = (response: UserResponse): User =>
+    plainToClass(User, response);

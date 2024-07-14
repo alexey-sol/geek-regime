@@ -1,8 +1,8 @@
 import type { HasId } from "@eggziom/geek-regime-js-commons";
 
 import type { PagingOptions } from "@/shared/models/entities";
-import type { CreatePostDto, UpdatePostDto } from "@/features/posts/models/dtos";
-import type { PostDetails } from "@/features/posts/models/entities";
+import type { UserPostDetails } from "@/features/posts/models/entities";
+import type { CreatePostRequest, UpdatePostRequest } from "@/features/posts/models/dtos";
 
 export type GetAllPostsArg = {
     filter?: {
@@ -11,10 +11,10 @@ export type GetAllPostsArg = {
     paging: Pick<PagingOptions, "page" | "size">;
 };
 
-export type GetPostBySlugArg = PostDetails["slug"];
+export type GetPostBySlugArg = UserPostDetails["slug"];
 
-export type CreatePostArg = CreatePostDto;
+export type CreatePostArg = CreatePostRequest;
 
 export type RemovePostByIdArg = HasId["id"];
 
-export type UpdatePostByIdArg = HasId & UpdatePostDto;
+export type UpdatePostByIdArg = HasId & UpdatePostRequest;

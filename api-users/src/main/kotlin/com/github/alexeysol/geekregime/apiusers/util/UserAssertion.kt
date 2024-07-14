@@ -32,7 +32,7 @@ private fun passwordsMatch(password: String?, credentials: Credentials): Boolean
         return false
     }
 
-    val newHash = Security.generateHash(password, credentials.salt)
+    val newHash = SecurityUtil.generateHash(password, credentials.salt)
     val oldHash = credentials.hashedPassword
     return newHash.contentEquals(oldHash)
 }
