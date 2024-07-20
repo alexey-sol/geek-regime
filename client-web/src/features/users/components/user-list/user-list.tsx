@@ -1,26 +1,26 @@
 import React, { type FC } from "react";
 
 import { Divider } from "@/shared/components/divider";
-import { usePostsPage } from "@/features/posts/utils/hooks/use-posts-page";
+import { useUsersPage } from "@/features/users/utils/hooks/use-users-page";
 
-import { PostOverview } from "../post-overview";
+import { UserOverview } from "../user-overview";
 
 import { ListItemStyled, ListStyled, PostListStyled } from "./style";
 
-export const PostList: FC = () => {
-    const { posts } = usePostsPage();
+export const UserList: FC = () => {
+    const { users } = useUsersPage();
 
-    const postOverviews = posts.map((post, index) => (
-        <ListItemStyled key={post.id}>
+    const userOverviews = users.map((user, index) => (
+        <ListItemStyled key={user.id}>
             {index > 0 && <Divider />}
-            <PostOverview post={post} />
+            <UserOverview user={user} />
         </ListItemStyled>
     ));
 
     return (
         <PostListStyled>
             <ListStyled>
-                {postOverviews}
+                {userOverviews}
             </ListStyled>
         </PostListStyled>
     );

@@ -1,28 +1,28 @@
 import { useCallback, useEffect, useMemo } from "react";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
-import { selectPagingOptions } from "@/features/posts/slice/selectors";
-import { setPagingOptions } from "@/features/posts/slice";
-import { toUserPostPreviewList } from "@/features/posts/utils/converters";
-import { useGetAllPostsQuery } from "@/features/posts/services/api";
+import { selectPagingOptions } from "@/features/users/slice/selectors";
+import { setPagingOptions } from "@/features/users/slice";
+import { useGetAllUsersQuery } from "@/features/users/services/api";
+import { toUserList } from "@/features/users/utils/converters";
+import { User } from "@/features/users/models/entities";
 import { usePage, type UsePageResult } from "@/shared/utils/hooks/use-page";
 import type { PagingOptions } from "@/shared/types";
-import type { UserPostPreview } from "@/features/posts/models/entities";
-import type { GetAllPostsArg } from "@/features/posts/services/api/types";
+import type { GetAllUsersArg } from "@/features/users/services/api/types";
 
-const usePosts = ({ pagingOptions, setTotalElements }: UsePageResult) => {
+const useUsers = ({ pagingOptions, setTotalElements }: UsePageResult) => {
     const { page, size } = pagingOptions;
 
-    const arg: GetAllPostsArg = useMemo(() => ({ paging: { page, size } }), [page, size]);
-    const selectedFromResult = useGetAllPostsQuery(arg, {
+    const arg: GetAllUsersArg = useMemo(() => ({ paging: { page, size } }), [page, size]);
+    const selectedFromResult = useGetAllUsersQuery(arg, {
         selectFromResult: ({ data, isFetching }) => ({
             isFetching,
-            posts: toUserPostPreviewList(data?.content ?? []),
+            users: toUserList(data?.content ?? []),
             totalElements: data?.totalElements ?? pagingOptions.totalElements,
         }),
     });
 
-    const { isFetching, posts, totalElements } = selectedFromResult;
+    const { isFetching, totalElements, users } = selectedFromResult;
 
     useEffect(() => {
         setTotalElements(totalElements);
@@ -30,17 +30,17 @@ const usePosts = ({ pagingOptions, setTotalElements }: UsePageResult) => {
 
     return useMemo(() => ({
         isPending: isFetching,
-        posts,
-    }), [isFetching, posts]);
+        users,
+    }), [isFetching, users]);
 };
 
-type UsePostsPageResult = {
+type UseUsersPageResult = {
     isPending: boolean;
     pagingOptions: PagingOptions;
-    posts: UserPostPreview[];
+    users: User[];
 };
 
-export const usePostsPage = (): UsePostsPageResult => {
+export const useUsersPage = (): UseUsersPageResult => {
     const initialPagingOptions = useAppSelector(selectPagingOptions);
 
     const dispatch = useAppDispatch();
@@ -53,11 +53,11 @@ export const usePostsPage = (): UsePostsPageResult => {
         setPagingOptions: onSetPagingOptions,
     });
 
-    const { isPending, posts } = usePosts({ pagingOptions, setTotalElements });
+    const { isPending, users } = useUsers({ pagingOptions, setTotalElements });
 
     return useMemo(() => ({
         isPending,
         pagingOptions,
-        posts,
-    }), [isPending, pagingOptions, posts]);
+        users,
+    }), [isPending, pagingOptions, users]);
 };

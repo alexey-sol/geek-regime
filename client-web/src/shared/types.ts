@@ -1,4 +1,4 @@
-export type Page<E = unknown> = {
+type Page<E = unknown> = {
     content: E[];
     size: number;
     totalElements: number;
@@ -7,3 +7,5 @@ export type Page<E = unknown> = {
 export type PagingOptions = Pick<Page, "size" | "totalElements"> & {
     page: number;
 };
+
+export type PagingParams = Pick<PagingOptions, "page" | "size">;

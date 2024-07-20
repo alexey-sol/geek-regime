@@ -12,25 +12,10 @@ import type {
 import type { PostsState } from "@/features/posts/slice";
 
 import * as cn from "./const";
-import type { GetAllPostsArg } from "./types";
 
-const PAGE_OFFSET = 1;
 const API_VERSION = 1;
 
 export const baseUrl = getApiPath(API_VERSION);
-
-export const transformPaging = (paging?: GetAllPostsArg["paging"]): string | undefined => {
-    if (paging) {
-        const result: GetAllPostsArg["paging"] = {
-            ...paging,
-            page: paging.page - PAGE_OFFSET,
-        };
-
-        return JSON.stringify(result);
-    }
-
-    return undefined;
-};
 
 export const createTag = (id: string | number = cn.TAG_LIST_ID): {
     id: string | number;

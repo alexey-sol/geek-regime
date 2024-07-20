@@ -8,6 +8,7 @@ const PostDetailsView = lazy(() => import("@/features/posts/views/post-details-v
 const PostListView = lazy(() => import("@/features/posts/views/post-list-view"));
 const PostUpdateView = lazy(() => import("@/features/posts/views/post-update-view"));
 const UserDetailsView = lazy(() => import("@/features/users/views/user-details-view"));
+const UserListView = lazy(() => import("@/features/users/views/user-list-view"));
 
 export const AppRoutes: FC = () => (
     <Routes>
@@ -22,6 +23,8 @@ export const AppRoutes: FC = () => (
             </Route>
         </Route>
         <Route path={paths.USERS}>
+            <Route index element={<UserListView />} />
+            <Route path={`${paths.PAGE}-:page`} element={<UserListView />} />
             <Route path=":slug">
                 <Route index element={<UserDetailsView />} />
                 <Route path="*" element={<UserDetailsView />} />

@@ -7,6 +7,7 @@ import { Language } from "@/shared/const";
 import { en as enAuth, ru as ruAuth } from "@/features/auth/resources/translations";
 import { en as enShared, ru as ruShared } from "@/shared/resources/translations";
 import { en as enPosts, ru as ruPosts } from "@/features/posts/resources/translations";
+import { en as enUsers, ru as ruUsers } from "@/features/users/resources/translations";
 
 i18n.use(LanguageDetector)
     .use(initReactI18next)
@@ -19,6 +20,7 @@ i18n.use(LanguageDetector)
                     ...enAuth,
                     ...enShared,
                     ...enPosts,
+                    ...enUsers,
                 },
             },
             [Language.RU]: {
@@ -26,6 +28,7 @@ i18n.use(LanguageDetector)
                     ...ruAuth,
                     ...ruShared,
                     ...ruPosts,
+                    ...ruUsers,
                 },
             },
         },

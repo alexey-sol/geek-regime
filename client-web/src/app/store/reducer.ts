@@ -5,6 +5,7 @@ import { postsApi } from "@/features/posts/services/api";
 import { usersApi } from "@/features/users/services/api";
 import { feedbackReducer } from "@/features/feedback/slice";
 import { postsReducer } from "@/features/posts/slice";
+import { usersReducer } from "@/features/users/slice";
 
 export const rootReducer = combineReducers({
     [authApi.reducerPath]: authApi.reducer,
@@ -12,4 +13,5 @@ export const rootReducer = combineReducers({
     [usersApi.reducerPath]: usersApi.reducer,
     feedback: feedbackReducer,
     posts: postsReducer,
+    users: usersReducer,
 });

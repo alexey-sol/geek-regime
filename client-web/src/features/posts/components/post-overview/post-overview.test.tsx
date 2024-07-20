@@ -36,7 +36,7 @@ const RESPONSE: UserPostPreviewResponse = {
 
 const POST = toUserPostPreview(RESPONSE);
 
-describe("Posts/PostOverview", () => {
+describe("Posts/UserOverview", () => {
     it("renders title and excerpt from provided post", () => {
         render(<PostOverview post={POST} />);
 

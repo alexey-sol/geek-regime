@@ -23,7 +23,7 @@ import {
 import * as cn from "./const";
 import type { UsePagingDataArg } from "./types";
 
-const START_PAGE = defaults.PAGING_PAGE;
+const { START_PAGE } = defaults;
 const MIN_PAGE_COUNT_TO_SHOW_SPILLS = 3;
 
 export type PagingProps = Partial<UsePagingDataArg>;
@@ -33,7 +33,7 @@ export const Paging = memo(({
     pageNeighbours = 4,
     pathPrefix = "",
     qs = "",
-    size = defaults.PAGING_SIZE,
+    size = defaults.PAGE_SIZE,
     totalElements = 0,
 }: PagingProps) => {
     const { t } = useTranslation();

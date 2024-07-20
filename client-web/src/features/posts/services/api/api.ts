@@ -7,10 +7,9 @@ import * as cn from "@/features/posts/services/api/const";
 import type {
     UserPostDetailsResponse, UserPostPreviewPageResponse,
 } from "@/features/posts/models/dtos";
+import { transformPagingParams } from "@/shared/utils/converters";
 
-import {
-    baseUrl, createTag, getDataUpdaters, transformPaging,
-} from "./utils";
+import { baseUrl, createTag, getDataUpdaters } from "./utils";
 import type * as tp from "./types";
 
 export const postsApi = createApi({
@@ -44,7 +43,7 @@ export const postsApi = createApi({
                     : resources.POSTS;
 
                 return ({
-                    params: { paging: transformPaging(arg?.paging) },
+                    params: transformPagingParams(arg?.paging),
                     url,
                 });
             },

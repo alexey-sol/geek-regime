@@ -13,8 +13,14 @@ export const en = {
             success: "Done",
         },
         navbar: {
+            authorsTab: {
+                title: "Authors",
+            },
             i18nButton: {
                 tooltip: "Select language",
+            },
+            postsTab: {
+                title: "Posts",
             },
             profileButton: {
                 tooltip: "Account",
@@ -61,8 +67,14 @@ export const ru = {
             success: "Готово",
         },
         navbar: {
+            authorsTab: {
+                title: "Авторы",
+            },
             i18nButton: {
                 tooltip: "Выбрать язык",
+            },
+            postsTab: {
+                title: "Статьи",
             },
             profileButton: {
                 tooltip: "Учетная запись",

@@ -13,7 +13,7 @@ import { useWindowSize } from "@/shared/utils/hooks/use-window-size";
 
 import type { PagingData, UsePagingDataArg } from "./types";
 
-const START_PAGE = defaults.PAGING_PAGE;
+const { START_PAGE } = defaults;
 
 enum SpillCount {
     DEFAULT = 2,
@@ -21,11 +21,11 @@ enum SpillCount {
 }
 
 export const usePagingData = ({
-    page = defaults.PAGING_PAGE,
+    page = defaults.START_PAGE,
     pageNeighbours = 4,
     pathPrefix = "",
     qs = "",
-    size = defaults.PAGING_SIZE,
+    size = defaults.PAGE_SIZE,
     totalElements,
 }: UsePagingDataArg): PagingData => {
     const [spillCount, setSpillCount] = useState(SpillCount.DEFAULT);

@@ -3,16 +3,16 @@ import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { DEFAULT_PAGING_OPTIONS } from "@/shared/const";
 import type { PagingOptions } from "@/shared/types";
 
-export type PostsState = {
+export type UsersState = {
     pagingOptions: PagingOptions;
 };
 
-const initialState: PostsState = {
+const initialState: UsersState = {
     pagingOptions: { ...DEFAULT_PAGING_OPTIONS },
 };
 
-export const postsSlice = createSlice({
-    name: "posts",
+export const usersSlice = createSlice({
+    name: "users",
     initialState,
     reducers: {
         setPagingOptions: (state, action: PayloadAction<Partial<PagingOptions>>) => {
@@ -24,6 +24,6 @@ export const postsSlice = createSlice({
     },
 });
 
-export const { setPagingOptions } = postsSlice.actions;
+export const { setPagingOptions } = usersSlice.actions;
 
-export const postsReducer = postsSlice.reducer;
+export const usersReducer = usersSlice.reducer;

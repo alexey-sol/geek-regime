@@ -1,4 +1,4 @@
-import type { PagingOptions } from "@/shared/models/entities";
+import type { PagingOptions } from "@/shared/types";
 
 export type UsePagingDataArg = PagingOptions & {
     pageNeighbours: number;

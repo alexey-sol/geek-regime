@@ -1,6 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import type { UserResponse } from "@/features/users/models/dtos";
+import type { UserPageResponse, UserResponse } from "@/features/users/models/dtos";
+import { transformPagingParams } from "@/shared/utils/converters";
 
 import {
     createTag,
@@ -14,6 +15,19 @@ export const usersApi = createApi({
     tagTypes: [cn.USERS_TAG_TYPE],
     baseQuery: fetchBaseQuery({ baseUrl }),
     endpoints: (builder) => ({
+        getAllUsers: builder.query<UserPageResponse, tp.GetAllUsersArg | void>({
+            query: (arg) => ({
+                params: transformPagingParams(arg?.paging),
+                url: "",
+            }),
+            providesTags: (result) => {
+                const tag = createTag();
+
+                return result
+                    ? [...result.content.map(({ id }) => ({ type: tag.type, id })), tag]
+                    : [tag];
+            },
+        }),
         getUserBySlug: builder.query<UserResponse, tp.GetUserBySlugArg>({
             query: (slug) => slug,
             providesTags: (result, error, id) => [createTag(id)],
@@ -22,5 +36,6 @@ export const usersApi = createApi({
 });
 
 export const {
+    useGetAllUsersQuery,
     useGetUserBySlugQuery,
 } = usersApi;
