@@ -2,8 +2,8 @@ package com.github.alexeysol.geekregime.apiusers.mapper
 
 import com.github.alexeysol.geekregime.apicommons.generated.model.CreateUserRequest
 import com.github.alexeysol.geekregime.apicommons.generated.model.CreateUserDetails
-import com.github.alexeysol.geekregime.apiusers.generated.model.UpdateUserRequest
-import com.github.alexeysol.geekregime.apiusers.generated.model.UpdateUserRequestDetails
+import com.github.alexeysol.geekregime.apicommons.generated.model.UpdateUserDetails
+import com.github.alexeysol.geekregime.apicommons.generated.model.UpdateUserRequest
 import com.github.alexeysol.geekregime.apiusers.model.entity.Details
 import com.github.alexeysol.geekregime.apiusers.model.entity.User
 import org.junit.jupiter.api.Assertions
@@ -63,7 +63,7 @@ class UserMapperTest(@Autowired val mapper: UserMapper) {
         val newName = "Oh Hi Mark"
         val updateUserRequest = UpdateUserRequest.builder()
             .email(email)
-            .details(UpdateUserRequestDetails.builder()
+            .details(UpdateUserDetails.builder()
                 .name(newName).build())
             .build()
         val user = User(email = email, details = Details(name = oldName))
@@ -81,7 +81,7 @@ class UserMapperTest(@Autowired val mapper: UserMapper) {
         val newName = null
         val updateUserRequest = UpdateUserRequest.builder()
             .email(newEmail)
-            .details(UpdateUserRequestDetails.builder()
+            .details(UpdateUserDetails.builder()
                 .name(newName)
                 .build())
             .build()

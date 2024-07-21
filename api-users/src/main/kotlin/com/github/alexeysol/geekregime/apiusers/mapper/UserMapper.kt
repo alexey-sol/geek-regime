@@ -1,10 +1,10 @@
 package com.github.alexeysol.geekregime.apiusers.mapper
 
 import com.github.alexeysol.geekregime.apicommons.generated.model.CreateUserRequest
+import com.github.alexeysol.geekregime.apicommons.generated.model.UpdateUserRequest
 import com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse
 import com.github.alexeysol.geekregime.apicommons.generated.model.UserResponse
 import com.github.alexeysol.geekregime.apicommons.util.Slug
-import com.github.alexeysol.geekregime.apiusers.generated.model.UpdateUserRequest
 import com.github.alexeysol.geekregime.apiusers.model.entity.Credentials
 import com.github.alexeysol.geekregime.apiusers.model.entity.User
 import com.github.alexeysol.geekregime.apiusers.service.v1.UserService

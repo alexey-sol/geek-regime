@@ -9,6 +9,7 @@ import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.util.*
 
 @Service
 class UserService(val repository: UserRepository) {
@@ -32,6 +33,10 @@ class UserService(val repository: UserRepository) {
     fun findUserByEmail(email: String): User? = repository.findUserByEmail(email)
 
     fun findUserBySlug(slug: String): User? = repository.findUserBySlug(slug)
+
+    fun updateLastSeenAtByUserId(id: Long, lastSeenAt: Date = Date()) {
+        repository.updateLastSeenAtByUserId(id, lastSeenAt)
+    }
 
     @Transactional
     fun saveUser(user: User): User {

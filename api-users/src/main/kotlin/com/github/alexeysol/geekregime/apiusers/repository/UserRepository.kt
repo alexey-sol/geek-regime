@@ -7,6 +7,7 @@ import org.springframework.data.domain.Pageable
 import org.springframework.data.jpa.repository.Modifying
 import org.springframework.data.jpa.repository.Query
 import org.springframework.stereotype.Repository
+import java.util.*
 import javax.transaction.Transactional
 
 private const val COUNT_USERS_QUERY = "SELECT COUNT(u) FROM User u"
@@ -55,4 +56,9 @@ interface UserRepository : SearchableRepository<User, Long> {
     fun existsUserByEmail(email: String): Boolean
 
     fun existsUserBySlug(slug: String): Boolean
+
+    @Query("UPDATE User u SET u.lastSeenAt = :lastSeenAt WHERE u.id = :id")
+    @Transactional
+    @Modifying
+    fun updateLastSeenAtByUserId(id: Long, lastSeenAt: Date)
 }

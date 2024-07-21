@@ -1,60 +1,69 @@
 -- users
 
-INSERT INTO users (email, slug, created_at, updated_at) VALUES (
+INSERT INTO users (email, slug, created_at, updated_at, last_seen_at) VALUES (
     'alexius@mail.com',
     'alexius',
+    'now'::timestamptz - '1 year'::interval,
     'now'::timestamptz - '1 year'::interval,
     'now'::timestamptz - '1 year'::interval
 );
 
-INSERT INTO users (email, slug, created_at, updated_at) VALUES (
+INSERT INTO users (email, slug, created_at, updated_at, last_seen_at) VALUES (
     'boobuntu@mail.com',
     'boobuntu',
     'now'::timestamptz - '10 months 23 days'::interval,
-    'now'::timestamptz - '10 months'::interval
+    'now'::timestamptz - '10 months'::interval,
+    'now'::timestamptz - '10 months 23 days'::interval
 );
 
-INSERT INTO users (email, slug, created_at, updated_at) VALUES (
+INSERT INTO users (email, slug, created_at, updated_at, last_seen_at) VALUES (
     'hel@mail.com',
     'hel',
+    'now'::timestamptz - '2 months 12 days'::interval,
     'now'::timestamptz - '2 months 12 days'::interval,
     'now'::timestamptz - '2 months 12 days'::interval
 );
 
-INSERT INTO users (email, slug, created_at, updated_at) VALUES (
+INSERT INTO users (email, slug, created_at, updated_at, last_seen_at) VALUES (
     'bobo@mail.com',
     'bobo',
     'now'::timestamptz - '3 days'::interval,
-    'now'::timestamptz - '2 days 12 hours'::interval
+    'now'::timestamptz - '2 days 12 hours'::interval,
+    'now'::timestamptz - '3 days'::interval
 );
 
-INSERT INTO users (email, slug, created_at, updated_at) VALUES (
+INSERT INTO users (email, slug, created_at, updated_at, last_seen_at) VALUES (
     'enzyme@mail.com',
     'enzyme',
     'now'::timestamptz - '5 hours'::interval,
-    'now'::timestamptz - '1 hour'::interval
+    'now'::timestamptz - '1 hour'::interval,
+    'now'::timestamptz - '5 hours'::interval
 );
 
-INSERT INTO users (email, slug, created_at, updated_at) VALUES (
+INSERT INTO users (email, slug, created_at, updated_at, last_seen_at) VALUES (
     'zoe@mail.com',
     'zoe',
+    now(),
     now(),
     now()
 );
 
-INSERT INTO users (email, slug, created_at, updated_at) VALUES (
+INSERT INTO users (email, slug, created_at, updated_at, last_seen_at) VALUES (
    'zoe@new-mail.com',
    'zoe-2',
+   now(),
    now(),
    now()
 );
 
 -- details
 
-INSERT INTO details (user_id, name, gender, created_at, updated_at)
+INSERT INTO details (user_id, name, description, about, gender, created_at, updated_at)
 VALUES (
     1,
     'Alexius',
+    'Me being a user',
+    'What',
     'MALE',
     'now'::timestamptz - '1 year'::interval,
     'now'::timestamptz - '1 year'::interval

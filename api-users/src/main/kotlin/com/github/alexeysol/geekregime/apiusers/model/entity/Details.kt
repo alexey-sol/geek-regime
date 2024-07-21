@@ -26,6 +26,14 @@ data class Details(
     var name: String?,
 
     @Column(length = 255)
+    @field:Size(min = 1, message = "Description must not be blank")
+    var description: String? = null,
+
+    @Column(columnDefinition = "TEXT")
+    @field:Size(min = 1, message = "About must not be blank")
+    var about: String? = null,
+
+    @Column(length = 255)
     @field:Size(min = 1, message = "Image must not be blank")
     var image: String? = null,
 

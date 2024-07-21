@@ -5,6 +5,7 @@ import com.github.alexeysol.geekregime.apicommons.exception.ResourceException
 import com.github.alexeysol.geekregime.apicommons.generated.model.AuthenticateRequest
 import com.github.alexeysol.geekregime.apicommons.generated.model.CreateUserRequest
 import com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse
+import com.github.alexeysol.geekregime.apicommons.generated.model.UpdateUserRequest
 import com.github.alexeysol.geekregime.apicommons.generated.model.UserPageResponse
 import com.github.alexeysol.geekregime.apicommons.generated.model.UserResponse
 import com.github.alexeysol.geekregime.apicommons.model.exception.ErrorDetail
@@ -17,7 +18,6 @@ import com.github.alexeysol.geekregime.apiusers.constant.UserConstant.PASSWORD_F
 import com.github.alexeysol.geekregime.apiusers.constant.UserConstant.SEARCHABLE_FIELDS
 import com.github.alexeysol.geekregime.apiusers.constant.UserConstant.SLUG_FIELD
 import com.github.alexeysol.geekregime.apiusers.generated.api.UserApi
-import com.github.alexeysol.geekregime.apiusers.generated.model.UpdateUserRequest
 import com.github.alexeysol.geekregime.apiusers.mapper.UserMapper
 import com.github.alexeysol.geekregime.apiusers.service.v1.UserService
 import com.github.alexeysol.geekregime.apiusers.util.assertPassword
@@ -45,6 +45,7 @@ class UserController(
 
         try {
             assertPassword(request.password, user.credentials);
+            user.id?.let { service.updateLastSeenAtByUserId(it) }
             val response = mapper.toUserResponse(user);
 
             return ResponseEntity(response, HttpStatus.OK);

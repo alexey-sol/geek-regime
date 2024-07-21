@@ -1,10 +1,10 @@
 package com.github.alexeysol.geekregime.apiusers.controller.v1.usercontroller
 
 import com.github.alexeysol.geekregime.apicommons.exception.ResourceException
+import com.github.alexeysol.geekregime.apicommons.generated.model.UpdateUserRequest
 import com.github.alexeysol.geekregime.apicommons.generated.model.UserResponse
 import com.github.alexeysol.geekregime.apicommons.util.TestUtil
 import com.github.alexeysol.geekregime.apicommons.util.parser.Json
-import com.github.alexeysol.geekregime.apiusers.generated.model.UpdateUserRequest
 import com.github.alexeysol.geekregime.apiusers.model.entity.Credentials
 import com.github.alexeysol.geekregime.apiusers.model.entity.Details
 import com.github.alexeysol.geekregime.apiusers.model.entity.User

@@ -80,7 +80,7 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "./schemas-v1.yml#/components/schemas/UpdateUserRequest"
+              $ref: "#/components/schemas/UpdateUserRequest"
       responses:
         200:
           description: The updated user
@@ -143,6 +143,8 @@ components:
       type: UserDetails
     CreateUserRequest:
       type: CreateUserRequest
+    UpdateUserRequest:
+      type: UpdateUserRequest
     AuthenticateRequest:
       type: AuthenticateRequest
     IdResponse:

@@ -40,6 +40,10 @@ data class User(
     @LastModifiedDate
     var updatedAt: Date? = Date(),
 
+    @Column(name = "last_seen_at")
+    @CreatedDate
+    var lastSeenAt: Date? = Date(),
+
     @PrimaryKeyJoinColumn
     @IndexedEmbedded
     @AssociationInverseSide(inversePath = ObjectPath(PropertyValue(propertyName = "user")))
