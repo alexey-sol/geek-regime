@@ -3,8 +3,7 @@ import { Typography } from "@eggziom/geek-regime-js-ui-kit";
 
 const columnCss = css`
     display: flex;
-    flex-direction: column;
-    row-gap: 1rem;
+    column-gap: 1rem;
 `;
 
 export const PostOverviewStyled = styled.article`
@@ -18,5 +17,7 @@ export const OneLineTextStyled = styled(Typography)`
 `;
 
 export const BodyStyled = styled.section`
-    ${columnCss};
+    display: flex;
+    flex-direction: column;
+    row-gap: 1rem;
 `;

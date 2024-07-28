@@ -6,6 +6,8 @@ export class UserDetails {
         public createdAt: string,
         public updatedAt: string,
         public name: string,
+        public description?: string,
+        public about?: string,
         public gender?: Gender,
         public image?: string,
     ) {}
@@ -19,6 +21,7 @@ export class User {
         public id: number,
         public createdAt: string,
         public updatedAt: string,
+        public lastSeenAt: string,
         public email: string,
         public slug: string,
         details: UserDetails,

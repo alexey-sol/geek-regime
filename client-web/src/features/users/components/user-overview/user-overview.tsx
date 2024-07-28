@@ -2,7 +2,7 @@ import React, { type FC } from "react";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
-import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
+import { createAbsoluteUsersPath } from "@/features/users/utils/helpers";
 import { User } from "@/features/users/models/entities";
 
 import {
@@ -20,17 +20,19 @@ export const UserOverview: FC<UserOverviewProps> = ({ user }) => {
 
     return (
         <PostOverviewStyled>
-            <Link to={createAbsolutePostsPath(user.slug)}>
-                <BodyStyled>
+            <section>{user.details.image ?? "image"}</section>
+
+            <BodyStyled>
+                <Link to={createAbsoluteUsersPath(user.slug)}>
                     <OneLineTextStyled view="caption">
-                        {user.details.name}
+                        {`${user.details.name} @${user.slug}`}
                     </OneLineTextStyled>
-                    <OneLineTextStyled>
-                        {/* user.details.description TODO render description */}
-                        {t("users.user.defaultDescription")}
-                    </OneLineTextStyled>
-                </BodyStyled>
-            </Link>
+                </Link>
+
+                <OneLineTextStyled>
+                    {user.details.description ?? t("users.user.defaultDescription")}
+                </OneLineTextStyled>
+            </BodyStyled>
         </PostOverviewStyled>
     );
 };

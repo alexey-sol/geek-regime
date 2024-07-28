@@ -1,10 +1,15 @@
 import React, { type FC, type PropsWithChildren } from "react";
+import styled from "styled-components";
 
 import { useTabContext } from "./tab-context";
 
 export type TabPanelProps = PropsWithChildren<{
     value: string;
 }>;
+
+const TabPanelStyled = styled.section`
+    height: 100%;
+`;
 
 export const TabPanel: FC<TabPanelProps> = ({ children, value }) => {
     const {
@@ -16,8 +21,8 @@ export const TabPanel: FC<TabPanelProps> = ({ children, value }) => {
     }
 
     return (
-        <section role="tabpanel">
+        <TabPanelStyled role="tabpanel">
             {children}
-        </section>
+        </TabPanelStyled>
     );
 };

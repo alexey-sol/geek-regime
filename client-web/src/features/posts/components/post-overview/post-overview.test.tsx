@@ -24,6 +24,7 @@ const RESPONSE: UserPostPreviewResponse = {
         slug: "mark",
         createdAt: DATE_TIME,
         updatedAt: DATE_TIME,
+        lastSeenAt: DATE_TIME,
         details: {
             createdAt: DATE_TIME,
             updatedAt: DATE_TIME,

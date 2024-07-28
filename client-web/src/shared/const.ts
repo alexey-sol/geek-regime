@@ -15,7 +15,7 @@ export const dom = {
 };
 
 export const paths = {
-    ABOUT: "about",
+    COMMENTS: "comments",
     CREATE: "create",
     PAGE: "page",
     POSTS: "posts",

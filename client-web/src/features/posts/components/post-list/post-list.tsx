@@ -1,15 +1,17 @@
 import React, { type FC } from "react";
 
 import { Divider } from "@/shared/components/divider";
-import { usePostsPage } from "@/features/posts/utils/hooks/use-posts-page";
+import { UserPostPreview } from "@/features/posts/models/entities";
 
 import { PostOverview } from "../post-overview";
 
 import { ListItemStyled, ListStyled, PostListStyled } from "./style";
 
-export const PostList: FC = () => {
-    const { posts } = usePostsPage();
+type PostListProps = {
+    posts: UserPostPreview[];
+};
 
+export const PostList: FC<PostListProps> = ({ posts }) => {
     const postOverviews = posts.map((post, index) => (
         <ListItemStyled key={post.id}>
             {index > 0 && <Divider />}

@@ -1,5 +1,10 @@
-import type { UserPostDetails } from "@/features/posts/models/entities";
-import type { CreatePostArg, UpdatePostByIdArg } from "@/features/posts/services/api/types";
+import type { UserPostDetails, UserPostPreview } from "@/features/posts/models/entities";
+import type {
+    CreatePostArg,
+    GetAllPostsArg,
+    UpdatePostByIdArg,
+} from "@/features/posts/services/api/types";
+import type { PagingOptions } from "@/shared/types";
 
 export type CreatePostOnSaveArg = Pick<CreatePostArg, "title" | "body">;
 
@@ -14,4 +19,12 @@ export type UseActivePostResult = {
         (arg: CreatePostOnSaveArg): void;
         (arg: UpdatePostOnSaveArg): void;
     };
+};
+
+export type UsePostsPageArg = Pick<GetAllPostsArg, "filter">;
+
+export type UsePostsPageResult = {
+    isPending: boolean;
+    pagingOptions: PagingOptions;
+    posts: UserPostPreview[];
 };
