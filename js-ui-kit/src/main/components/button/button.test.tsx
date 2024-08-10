@@ -2,7 +2,7 @@ import React from "react";
 
 import { fireEvent, render, screen } from "@test/setup";
 
-import { Button, LinkButton } from "./button";
+import { Button } from "./button";
 
 const TITLE = "Button";
 const onClick = jest.fn();
@@ -31,16 +31,5 @@ describe("Button", () => {
         render(<Button icon={Icon}>{TITLE}</Button>);
 
         screen.getByText(iconStub);
-    });
-});
-
-describe("LinkButton", () => {
-    test("renders link equal to \"to\" prop", () => {
-        const to = "/oh-hi-mark";
-
-        render(<LinkButton to={to}>{TITLE}</LinkButton>);
-
-        const link = screen.getByRole("link");
-        expect(link).toHaveAttribute("href", to);
     });
 });

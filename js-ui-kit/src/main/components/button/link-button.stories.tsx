@@ -1,18 +1,17 @@
 import React from "react";
 import type { Meta, Story } from "@storybook/react";
 
-import { SearchIcon } from "@/components/icon";
 import { baseTheme } from "@/style/theme";
 
-import { Button, type ButtonProps } from ".";
+import { LinkButton, type LinkButtonProps } from ".";
 
-const views: ButtonProps["view"][] = ["primary", "secondary", "plain"];
+const views: LinkButtonProps["view"][] = ["primary", "secondary"];
 
-const getButtonTitle = (view: ButtonProps["view"]) => `Button (view = "${view}")`;
+const getLinkButtonTitle = (view: LinkButtonProps["view"]) => `LinkButton (view = "${view}")`;
 
 export default {
-    title: "Button",
-    component: Button,
+    title: "LinkButton",
+    component: LinkButton,
     argTypes: {
         children: {
             control: "text",
@@ -34,10 +33,6 @@ export default {
             control: "select",
             options: Object.keys(baseTheme.fontSizes),
         },
-        isStretched: {
-            control: "boolean",
-            defaultValue: false,
-        },
         onClick: {
             action: "click",
         },
@@ -47,33 +42,18 @@ export default {
             },
         },
     },
-} as Meta<ButtonProps>;
+} as Meta<LinkButtonProps>;
 
-export const ByView: Story<ButtonProps> = ({ children, ...arg }) => (
+export const ByView: Story<LinkButtonProps> = ({ children, ...arg }) => (
     <>
         {views.map((view) => (
-            <Button
+            <LinkButton
                 key={view}
                 view={view}
                 {...arg}
             >
-                {children ?? getButtonTitle(view)}
-            </Button>
-        ))}
-    </>
-);
-
-export const ByViewWithIcon: Story<ButtonProps> = ({ children, ...arg }) => (
-    <>
-        {views.map((view) => (
-            <Button
-                key={view}
-                icon={SearchIcon}
-                view={view}
-                {...arg}
-            >
-                {children ?? getButtonTitle(view)}
-            </Button>
+                {children ?? getLinkButtonTitle(view)}
+            </LinkButton>
         ))}
     </>
 );

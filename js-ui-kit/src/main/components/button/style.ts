@@ -1,18 +1,20 @@
 import styled, { css } from "styled-components";
-import { Link } from "react-router-dom";
 
+import { type ColorValue, type MapKeyToCss } from "@/types/theme";
 import { baseMixins } from "@/style/mixins";
-import type { ColorValue, MapKeyToCss } from "@/types/theme";
 
 import { TypographyStyled } from "../typography/style";
 import { BaseIconStyled } from "../icon/style";
+
+import { BaseButton } from "./base-button";
+import { type LinkDecorationProps } from "@/style/mixins/link-decoration";
 
 const PADDING_Y = "1rem";
 const PLAIN_BORDER_WIDTH = "1px";
 
 export type ButtonStyledProps = {
     isStretched?: boolean;
-    view?: "primary" | "secondary" | "plain" | "transparent";
+    view?: "primary" | "secondary" | "plain";
 };
 
 const getBgColorCss = (bgColor: ColorValue, bgColorOnHover: ColorValue) => css`
@@ -50,14 +52,9 @@ const mapViewToCss: MapKeyToCss<NonNullable<ButtonStyledProps["view"]>> = {
     `),
     primary: css(({ theme }) => getBgColorCss(theme.colors.purpleLight, theme.colors.primary)),
     secondary: css(({ theme }) => getBgColorCss(theme.colors.secondary, theme.colors.orangeDark)),
-    transparent: css`
-        padding: 0;
-        background-color: transparent;
-        ${baseMixins.getLinkDecoration()};
-    `,
 };
 
-export const ButtonStyled = styled.button<ButtonStyledProps>(
+export const ButtonStyled = styled(BaseButton)<ButtonStyledProps>(
     ({
         theme,
         isStretched = false,
@@ -70,19 +67,11 @@ export const ButtonStyled = styled.button<ButtonStyledProps>(
         width: ${isStretched ? "100%" : "fit-content"};
         height: fit-content;
         padding: ${PADDING_Y} 2rem;
-        border: none;
         border-radius: 0.3rem;
-        user-select: none;
         color: ${theme.colors.white};
-        cursor: pointer;
 
-        &:hover {
-            transition:
-                border-color ${theme.durations.normal} ease,
-                background-color ${theme.durations.normal} ease, 
-                color ${theme.durations.normal} ease,
-                fill ${theme.durations.normal} ease,
-                opacity ${theme.durations.normal} ease;
+        &:disabled {
+            color: ${theme.colors.white};
         }
 
         ${TypographyStyled} {
@@ -94,17 +83,12 @@ export const ButtonStyled = styled.button<ButtonStyledProps>(
             fill: ${theme.colors.white};
         }
 
-        &:disabled {
-            opacity: 0.8;
-            color: ${theme.colors.white};
-            cursor: default;
-        }
-
         ${mapViewToCss[view]};
     `,
 );
 
-export const LinkStyled = styled(Link)`
-    display: inline-block;
-    width: fit-content;
+export const LinkButtonStyled = styled(BaseButton)<LinkDecorationProps>`
+    padding: 0;
+    background-color: transparent;
+    ${(props) => baseMixins.getLinkDecoration(props)};
 `;

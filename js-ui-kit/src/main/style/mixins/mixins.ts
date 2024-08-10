@@ -1,7 +1,9 @@
 import { css } from "styled-components";
 
 import { BaseIconStyled } from "@/components/icon";
-import type { ColorValue } from "@/types/theme";
+import { type ColorValue } from "@/types/theme";
+
+import { getLinkDecoration } from "./link-decoration";
 
 export const baseMixins = {
     getIconFill: (fill: ColorValue, fillOnHover = fill) => css`
@@ -15,32 +17,7 @@ export const baseMixins = {
             }
         }
     `,
-    getLinkDecoration: () => css(
-        ({ theme }) => css`
-            color: ${theme.colors.secondary};
-            text-decoration: underline dashed;
-            text-underline-offset: 0.2rem;
-            transition:
-                color ${theme.durations.fast} ease,
-                fill ${theme.durations.fast} ease;
-
-            ${BaseIconStyled} {
-                fill: ${theme.colors.secondary};
-            };
-
-            &:disabled {
-                color: ${theme.colors.secondary};
-            }
-
-            &:not(:disabled):hover {
-                color: ${theme.colors.orangeDark};
-
-                ${BaseIconStyled} {
-                    fill: ${theme.colors.orangeDark};
-                };
-            }
-        `,
-    ),
+    getLinkDecoration,
     getOneLineText: () => css`
         overflow-x: hidden;
         white-space: nowrap;

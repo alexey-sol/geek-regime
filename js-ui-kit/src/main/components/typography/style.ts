@@ -1,25 +1,10 @@
 import styled, { css } from "styled-components";
 
 import type { HasColor, HasFontSize } from "@/types/props";
-import type { Font, MapKeyToCss } from "@/types/theme";
+import type { Font } from "@/types/theme";
 
 export type TypographyStyledProps = Partial<HasColor> & Partial<HasFontSize> & {
     font?: Font;
-    view?: "normal" | "caption" | "hint";
-};
-
-const mapViewToCss: MapKeyToCss<NonNullable<TypographyStyledProps["view"]>> = {
-    caption: css`
-        font-size: ${({ theme }) => theme.fontSizes.large};
-        font-weight: bold;
-    `,
-    hint: css(({ theme }) => css`
-        color: ${theme.colors.greyDarken};
-        font-size: ${theme.fontSizes.small};
-    `),
-    normal: css`
-        font-size: ${({ theme }) => theme.fontSizes.normal};
-    `,
 };
 
 export const TypographyStyled = styled.p<TypographyStyledProps>`
@@ -28,11 +13,10 @@ export const TypographyStyled = styled.p<TypographyStyledProps>`
         color,
         font,
         fontSize,
-        view = "normal",
     }) => css`
         font-family: ${theme.fonts.normal};
+        font-size: ${theme.fontSizes.normal};
         color: ${theme.colors.greyDarkest};
-        ${mapViewToCss[view]};
 
         ${font && css`
             font-family: ${theme.fonts[font]};
