@@ -6,13 +6,22 @@ import { useTabContext } from "@/shared/components/tabs/tab-context";
 
 import * as cn from "./const";
 
-const TabStyled = styled.li<{ isActive?: boolean }>`
-    cursor: pointer;
+const TabStyled = styled.li<{ isActive?: boolean }>(
+    ({ theme, isActive = false }) => css`
+        cursor: pointer;
+        padding-bottom: 1rem;
+        border-bottom: ${cn.TAB_BORDER_WIDTH} solid transparent;
+        transition: border-color ${theme.durations.fast} ease;
 
-    ${({ isActive = false }) => isActive && css`
-        border-bottom: ${cn.TAB_BORDER_WIDTH} solid red;
-    `};
-`;
+        ${isActive ? css`
+            border-color: ${theme.colors.secondary};
+        ` : css`
+            &:hover {
+                border-color: ${theme.colors.grey};
+            }
+        `};
+    `,
+);
 
 export type TabProps = {
     label: string;
@@ -29,13 +38,17 @@ export const Tab: FC<TabProps> = ({ label, value }) => {
         onChange(value);
     }, [onChange, value]);
 
+    const isActive = activeValue === value;
+
     return (
         <TabStyled
-            isActive={activeValue === value}
+            isActive={isActive}
             onClick={handleClick}
             role="tab"
         >
-            <Typography>{label}</Typography>
+            <Typography as="h3" color={isActive ? "secondary" : "grey"}>
+                {label}
+            </Typography>
         </TabStyled>
     );
 };

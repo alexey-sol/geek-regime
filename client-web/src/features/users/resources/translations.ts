@@ -1,15 +1,36 @@
 export const en = {
     users: {
         profile: {
-            tabs: {
-                comments: "Comments",
-                home: "Profile",
-                posts: "Posts",
-                settings: "Settings",
+            comments: {
+                title: "Comments",
+            },
+            home: {
+                stats: {
+                    gender: {
+                        title: "Gender",
+                    },
+                    createdAt: {
+                        title: "Signed up",
+                    },
+                    lastSeenAt: {
+                        title: "Last seen",
+                    },
+                },
+                title: "Profile",
+            },
+            posts: {
+                title: "Posts",
+            },
+            settings: {
+                title: "Settings",
             },
         },
         user: {
             defaultDescription: "User",
+            gender: {
+                female: "Female",
+                male: "Male",
+            },
         },
     },
 };
@@ -17,15 +38,36 @@ export const en = {
 export const ru = {
     users: {
         profile: {
-            tabs: {
-                comments: "Комментарии",
-                home: "Профиль",
-                posts: "Статьи",
-                settings: "Настройки",
+            comments: {
+                title: "Комментарии",
+            },
+            home: {
+                stats: {
+                    gender: {
+                        title: "Пол",
+                    },
+                    createdAt: {
+                        title: "Зарегистрирован",
+                    },
+                    lastSeenAt: {
+                        title: "Активность",
+                    },
+                },
+                title: "Профиль",
+            },
+            posts: {
+                title: "Статьи",
+            },
+            settings: {
+                title: "Настройки",
             },
         },
         user: {
             defaultDescription: "Пользователь",
+            gender: {
+                female: "Женский",
+                male: "Мужской",
+            },
         },
     },
 };

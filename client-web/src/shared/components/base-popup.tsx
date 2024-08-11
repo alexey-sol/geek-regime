@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { TypographyStyled, type MapKeyToCss } from "@eggziom/geek-regime-js-ui-kit";
+import { Typography, type MapKeyToCss } from "@eggziom/geek-regime-js-ui-kit";
 import type { RefObject } from "react";
 
 export type ElementPositionX = "left" | "center-right" | "center" | "center-left" | "right";
@@ -50,7 +50,7 @@ const mapViewToCss: MapKeyToCss<NonNullable<BasePopupStyledProps["view"]>> = {
         padding: 0.5rem 0.7rem;
         background-color: ${({ theme }) => theme.colors.greyDarkest};
 
-        ${TypographyStyled} {
+        ${Typography} {
             color: ${({ theme }) => theme.colors.white};
         }
     `,

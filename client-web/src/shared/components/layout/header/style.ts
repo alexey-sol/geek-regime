@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Link } from "react-router-dom";
-import { TypographyStyled } from "@eggziom/geek-regime-js-ui-kit";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit";
 
 import { mixins } from "@/app/style/mixins";
 
@@ -19,12 +19,12 @@ export const TitleLinkStyled = styled(Link)`
     display: flex;
     align-items: center;
 
-    ${TypographyStyled} {
+    ${Typography} {
         transition: color ${({ theme }) => theme.durations.normal} ease;
     }
 
     :hover {
-        ${TypographyStyled} {
+        ${Typography} {
             color: ${({ theme }) => theme.colors.orangeLighten};
         }
     }

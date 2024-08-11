@@ -2,7 +2,7 @@ import {
     css, type DefaultTheme, type FlattenInterpolation, type ThemeProps,
 } from "styled-components";
 
-import { TypographyStyled } from "@/components/typography";
+import { Typography } from "@/components/typography";
 import { type Color, type ColorValue, type MapKeyToCss } from "@/types/theme";
 import { type HasColor } from "@/types/props";
 
@@ -11,14 +11,8 @@ export type LinkDecorationProps = Partial<HasColor> & {
 };
 
 const getColorCss = (color: Color | ColorValue) => css`
-    &, ${TypographyStyled} {
+    &, ${Typography} {
         color: ${color};
-    }
-
-    &:not(:disabled):hover {
-        &, ${TypographyStyled} {
-            filter: contrast(130%) brightness(113%);
-        }
     }
 `;
 
@@ -34,12 +28,14 @@ export const getLinkDecoration = ({
     display: inline-block;
     width: fit-content;
 
-    ${TypographyStyled} {
-        transition:
-                color ${({ theme }) => theme.durations.normal} ease,
-                filter ${({ theme }) => theme.durations.normal} ease;
+    ${Typography} {
+        transition: text-decoration ${({ theme }) => theme.durations.normal} ease;
         text-decoration: underline dashed;
         text-underline-offset: 0.5rem;
+        
+        &:hover {
+            text-decoration: none;
+        }
     }
 
     ${getMapViewToCss(color)[view]};

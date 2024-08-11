@@ -8,7 +8,7 @@ import { getSignInSchema } from "@/features/auth/utils/validation/schemas";
 import type { MemoizedAuthForm } from "@/features/auth/types";
 import type { AuthenticateRequest } from "@/features/users/models/dtos";
 
-import { ButtonStyled, SignInFormStyled, TransparentButtonStyled } from "./style";
+import { ButtonStyled, LinkButtonStyled, SignInFormStyled } from "./style";
 import { useSignInFormData } from "./utils";
 import * as cn from "./const";
 
@@ -76,13 +76,9 @@ export const SignInForm: MemoizedAuthForm = memo(({ goTo }) => {
                 <Typography>
                     {t("auth.signIn.signUp.suggestion.preface")}
 
-                    <TransparentButtonStyled
-                        fontSize="normal"
-                        view="transparent"
-                        onClick={goToSignUp}
-                    >
+                    <LinkButtonStyled onClick={goToSignUp}>
                         {t("auth.signIn.signUp.suggestion.link")}
-                    </TransparentButtonStyled>
+                    </LinkButtonStyled>
                 </Typography>
             </section>
 

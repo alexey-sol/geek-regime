@@ -2,12 +2,12 @@ import styled, { css } from "styled-components";
 
 import { type ColorValue, type MapKeyToCss } from "@/types/theme";
 import { baseMixins } from "@/style/mixins";
+import { type LinkDecorationProps } from "@/style/mixins/link-decoration";
 
-import { TypographyStyled } from "../typography/style";
+import { Typography } from "../typography";
 import { BaseIconStyled } from "../icon/style";
 
 import { BaseButton } from "./base-button";
-import { type LinkDecorationProps } from "@/style/mixins/link-decoration";
 
 const PADDING_Y = "1rem";
 const PLAIN_BORDER_WIDTH = "1px";
@@ -74,7 +74,7 @@ export const ButtonStyled = styled(BaseButton)<ButtonStyledProps>(
             color: ${theme.colors.white};
         }
 
-        ${TypographyStyled} {
+        ${Typography} {
             overflow-x: hidden;
             text-overflow: ellipsis;
         }

@@ -139,7 +139,6 @@ export const Paging = memo(({
                                 aria-label={cn.ARIA_LABEL_START_PAGE}
                                 disabled={!hasLeftSpill}
                                 onClick={toStartPage}
-                                view="transparent"
                             >
                                 {t("shared.paging.leapButton.toStart.title")}
                             </LeapButtonStyled>
@@ -155,7 +154,6 @@ export const Paging = memo(({
                                 aria-label={cn.ARIA_LABEL_LAST_PAGE}
                                 disabled={!hasRightSpill}
                                 onClick={toLastPage}
-                                view="transparent"
                             >
                                 {t("shared.paging.leapButton.toEnd.title")}
                             </LeapButtonStyled>
@@ -173,7 +171,7 @@ export const Paging = memo(({
                         <StepButtonStyled
                             aria-label={cn.ARIA_LABEL_PREVIOUS_PAGE}
                             disabled={isStartPage}
-                            fontSize="larger"
+                            fontSize="xl"
                             onClick={toPreviousPage}
                             view="secondary"
                         >
@@ -194,7 +192,7 @@ export const Paging = memo(({
                         <StepButtonStyled
                             aria-label={cn.ARIA_LABEL_NEXT_PAGE}
                             disabled={isLastPage}
-                            fontSize="larger"
+                            fontSize="xl"
                             onClick={toNextPage}
                             view="secondary"
                         >

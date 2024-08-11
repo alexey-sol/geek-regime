@@ -12,7 +12,7 @@ export const theme = {
             minHeight: headerMinHeight,
         },
         main: {
-            paddingY: "4rem",
+            paddingY: "2rem",
         },
         navbar: {
             minHeight: headerMinHeight,

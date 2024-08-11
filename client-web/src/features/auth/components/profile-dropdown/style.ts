@@ -1,8 +1,8 @@
 import styled from "styled-components";
+import { LinkButton, Typography } from "@eggziom/geek-regime-js-ui-kit";
 
 import { BaseDropdown } from "@/shared/components/base-dropdown";
 import { mixins } from "@/app/style/mixins";
-import { Button } from "@eggziom/geek-regime-js-ui-kit";
 
 export const ProfileDropdownStyled = styled(BaseDropdown)`
     padding: 1rem;
@@ -22,8 +22,10 @@ export const ProfileListStyled = styled.ul`
     }
 `;
 
-export const ProfileButtonStyled = styled(Button)`
-    text-decoration: none;
-    white-space: nowrap;
-    color: ${({ theme }) => theme.colors.greyDarken};
+export const ProfileButtonStyled = styled(LinkButton)`
+    ${Typography} {
+        text-decoration: none;
+        white-space: nowrap;
+        color: ${({ theme }) => theme.colors.greyDarken};
+    }
 `;

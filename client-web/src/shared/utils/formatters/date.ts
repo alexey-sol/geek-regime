@@ -6,6 +6,7 @@ const defaultOptions: Intl.DateTimeFormatOptions = {
 
 export const formatTimestamp = (
     timestamp: string,
+    options = {},
     language = getLanguage(),
-    options = defaultOptions,
-): string => new Intl.DateTimeFormat(language, options).format(new Date(timestamp));
+): string => new Intl.DateTimeFormat(language, { ...defaultOptions, ...options })
+    .format(new Date(timestamp));

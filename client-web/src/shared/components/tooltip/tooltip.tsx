@@ -91,7 +91,7 @@ export const Tooltip: FC<TooltipProps> = ({ children, disabled = false, message 
                     ref={tooltipRef}
                     view="dark"
                 >
-                    <Typography fontSize="smaller">
+                    <Typography fontSize="xs">
                         {message}
                     </Typography>
                 </BasePopupStyled>

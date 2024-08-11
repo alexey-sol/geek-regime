@@ -38,7 +38,7 @@ export const baseMixins = {
         position: absolute;
         top: -1.4rem;
         color: ${({ theme }) => theme.colors.grey};
-        font-size: ${({ theme }) => theme.fontSizes.smaller};
+        font-size: ${({ theme }) => theme.fontSizes.xs};
     `,
     getWrapShadow: () => css`
         box-shadow: rgba(0, 0, 0, 0.16) 0 1px 4px;

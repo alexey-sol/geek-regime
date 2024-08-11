@@ -10,7 +10,7 @@ export type OverviewExcerptProps = {
 };
 
 export const OverviewExcerpt: FC<OverviewExcerptProps> = ({ excerpt }) => {
-    const fontSize: FontSize = "normal";
+    const fontSize: FontSize = "md";
     const { lineHeight } = useTypography({ fontSize });
 
     return (

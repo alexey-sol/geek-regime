@@ -44,7 +44,7 @@ export const Input: FC<InputProps> = ({
             )}
 
             <HintWrapStyled isVisible={Boolean(hint)} ref={hintRef}>
-                <HintStyled color="orange" fontSize="smaller">
+                <HintStyled color="orange" fontSize="xs">
                     {hint}
                 </HintStyled>
             </HintWrapStyled>

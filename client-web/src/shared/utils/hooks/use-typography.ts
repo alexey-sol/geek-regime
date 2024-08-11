@@ -4,15 +4,15 @@ import type { FontSize, HasFontSize } from "@eggziom/geek-regime-js-ui-kit";
 const NORMAL_LINE_HEIGHT_COEF = 1.4;
 
 const mapSizeToLineHeightCoef: Partial<Record<FontSize, number>> = { // [1]
-    large: 1.2,
-    normal: NORMAL_LINE_HEIGHT_COEF,
+    lg: 1.2,
+    md: NORMAL_LINE_HEIGHT_COEF,
 };
 
 export type UseTypographyResult = {
     lineHeight: string;
 };
 
-export const useTypography = ({ fontSize = "normal" }: HasFontSize): UseTypographyResult => {
+export const useTypography = ({ fontSize = "md" }: HasFontSize): UseTypographyResult => {
     const theme = useTheme();
 
     const lineHeightCoef = mapSizeToLineHeightCoef[fontSize] ?? NORMAL_LINE_HEIGHT_COEF;

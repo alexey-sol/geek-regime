@@ -1,7 +1,9 @@
 import React, { type FC } from "react";
-import { Link } from "react-router-dom";
+import { Link as RouterDomLink } from "react-router-dom";
+import { Link } from "@eggziom/geek-regime-js-ui-kit";
 
 import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
+import { createAbsoluteUsersPath } from "@/features/users/utils/helpers";
 import type { UserPostPreview } from "@/features/posts/models/entities";
 
 import {
@@ -17,21 +19,25 @@ export type PostOverviewProps = {
     post: UserPostPreview;
 };
 
-export const PostOverview: FC<PostOverviewProps> = ({ post }) => {
-    const postInfo = `${post.author.details.name} – ${post.formattedCreatedAt}`;
+export const PostOverview: FC<PostOverviewProps> = ({ post }) => (
+    <PostOverviewStyled>
+        <RouterDomLink to={createAbsolutePostsPath(post.slug)}>
+            <BodyStyled>
+                <OverviewTitle title={post.title} />
+                <OverviewExcerpt excerpt={post.excerpt} />
+            </BodyStyled>
+        </RouterDomLink>
 
-    return (
-        <PostOverviewStyled>
-            <Link to={createAbsolutePostsPath(post.slug)}>
-                <BodyStyled>
-                    <OverviewTitle title={post.title} />
-                    <OverviewExcerpt excerpt={post.excerpt} />
-                </BodyStyled>
-            </Link>
-
-            <InfoContainerStyled>
-                <TwoLineTextStyled>{postInfo}</TwoLineTextStyled>
-            </InfoContainerStyled>
-        </PostOverviewStyled>
-    );
-};
+        <InfoContainerStyled>
+            <TwoLineTextStyled>
+                <Link to={createAbsoluteUsersPath(post.author.slug)}>
+                    {post.author.details.name}
+                </Link>
+                {" "}
+                &mdash;
+                {" "}
+                {post.formattedCreatedAt}
+            </TwoLineTextStyled>
+        </InfoContainerStyled>
+    </PostOverviewStyled>
+);

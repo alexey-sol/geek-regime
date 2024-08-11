@@ -6,9 +6,9 @@ import { baseTheme } from "@/style/theme";
 
 import { Button, type ButtonProps } from ".";
 
-const views: ButtonProps["view"][] = ["primary", "secondary", "plain"];
+const VIEWS: ButtonProps["view"][] = ["primary", "secondary", "plain"];
 
-const getButtonTitle = (view: ButtonProps["view"]) => `Button (view = "${view}")`;
+const getTitle = (view: ButtonProps["view"]) => `Button (view = "${view}")`;
 
 export default {
     title: "Button",
@@ -51,13 +51,13 @@ export default {
 
 export const ByView: Story<ButtonProps> = ({ children, ...arg }) => (
     <>
-        {views.map((view) => (
+        {VIEWS.map((view) => (
             <Button
                 key={view}
                 view={view}
                 {...arg}
             >
-                {children ?? getButtonTitle(view)}
+                {children ?? getTitle(view)}
             </Button>
         ))}
     </>
@@ -65,14 +65,14 @@ export const ByView: Story<ButtonProps> = ({ children, ...arg }) => (
 
 export const ByViewWithIcon: Story<ButtonProps> = ({ children, ...arg }) => (
     <>
-        {views.map((view) => (
+        {VIEWS.map((view) => (
             <Button
                 key={view}
                 icon={SearchIcon}
                 view={view}
                 {...arg}
             >
-                {children ?? getButtonTitle(view)}
+                {children ?? getTitle(view)}
             </Button>
         ))}
     </>

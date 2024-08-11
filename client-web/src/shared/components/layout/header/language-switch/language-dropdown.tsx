@@ -26,7 +26,7 @@ export const LanguageDropdown: FC<LanguageDropdownProps> = ({ anchorRef, onClose
             return (
                 <li key={lang}>
                     <SwitchButtonStyled
-                        fontSize="smaller"
+                        fontSize="xs"
                         isStretched
                         onClick={handleClick}
                     >

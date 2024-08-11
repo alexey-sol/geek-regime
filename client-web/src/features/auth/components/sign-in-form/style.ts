@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Button } from "@eggziom/geek-regime-js-ui-kit";
+import { Button, LinkButton } from "@eggziom/geek-regime-js-ui-kit";
 
 export const SignInFormStyled = styled.section`
     display: flex;
@@ -8,7 +8,7 @@ export const SignInFormStyled = styled.section`
     width: 100%;
 `;
 
-export const TransparentButtonStyled = styled(Button)`
+export const LinkButtonStyled = styled(LinkButton)`
     display: inline;
 `;
 

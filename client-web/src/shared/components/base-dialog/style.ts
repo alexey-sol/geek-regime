@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { TypographyStyled } from "@eggziom/geek-regime-js-ui-kit";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit";
 
 export type BaseDialogStyledProps = {
     width?: "auto" | "normal" | "narrow";
@@ -24,7 +24,7 @@ export const HeaderStyled = styled.section`
     display: flex;
     justify-content: end;
 
-    ${TypographyStyled} {
+    ${Typography} {
         flex: 1;
     }
 `;

@@ -41,17 +41,13 @@ export const ProfileDropdown: FC<ProfileDropdownProps> = ({ anchorRef, onClose }
         >
             <ProfileListStyled>
                 <li>
-                    <ProfileButtonStyled onClick={goToProfile} view="transparent">
+                    <ProfileButtonStyled onClick={goToProfile}>
                         {t("auth.profile.actions.profile")}
                     </ProfileButtonStyled>
                 </li>
 
                 <li>
-                    <ProfileButtonStyled
-                        disabled={Boolean(pending)}
-                        onClick={signOut}
-                        view="transparent"
-                    >
+                    <ProfileButtonStyled disabled={Boolean(pending)} onClick={signOut}>
                         {t("auth.profile.actions.signOut")}
                     </ProfileButtonStyled>
                 </li>

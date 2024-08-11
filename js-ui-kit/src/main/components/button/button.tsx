@@ -16,7 +16,7 @@ export type ButtonProps = BaseButtonProps
 export const Button: FC<ButtonProps> = ({
     children,
     color = INHERIT,
-    fontSize = "small",
+    fontSize = "sm",
     font = INHERIT,
     icon: Icon,
     type = "button",
@@ -25,6 +25,7 @@ export const Button: FC<ButtonProps> = ({
     <ButtonStyled type={type} {...rest}>
         {children && (
             <Typography
+                as="span"
                 color={color}
                 font={font}
                 fontSize={fontSize}

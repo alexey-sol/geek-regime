@@ -4,7 +4,7 @@ import type { Story, StoryContext } from "@storybook/react";
 
 import { GlobalStyle } from "@/style/global";
 
-import { baseTheme } from "../../dist/main";
+import { baseTheme } from "../../src/main";
 
 export const parameters = {
     actions: { argTypesRegex: "^on.*" },

@@ -163,6 +163,7 @@ components:
       allOf:
         - $ref: "#/components/schemas/BasePost"
         - $ref: "#/components/schemas/HasAuthor"
+        - $ref: "#/components/schemas/HasBody"
     PostDetailsResponse:
       type: object
       required: [ id, title, excerpt, slug, createdAt, updatedAt, authorId, spaceId, body ]

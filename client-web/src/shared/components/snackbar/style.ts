@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { type MapKeyToCss, TypographyStyled } from "@eggziom/geek-regime-js-ui-kit";
+import { type MapKeyToCss, Typography } from "@eggziom/geek-regime-js-ui-kit";
 
 import { mixins } from "@/app/style/mixins";
 import type { SnackbarArg } from "@/features/feedback/models/entities";
@@ -40,7 +40,7 @@ export const SnackbarStyled = styled.section<SnackbarStyledProps>`
     border-radius: 0.3rem;
     ${({ view = "success" }) => mapViewToCss[view]};
 
-    ${TypographyStyled} {
+    ${Typography} {
         overflow-wrap: anywhere;
     }
 `;

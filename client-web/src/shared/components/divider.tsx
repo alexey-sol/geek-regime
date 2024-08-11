@@ -1,12 +1,19 @@
 import React, { type FC } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { type HasClassName } from "@eggziom/geek-regime-js-ui-kit";
 
-const DividerStyled = styled.hr`
+type DividerProps = Partial<HasClassName> & {
+    widthPx?: number;
+};
+
+const DividerStyled = styled.hr<DividerProps>`
     width: 100%;
     border-top: none;
-    border-bottom: 1px solid ${({ theme }) => theme.colors.greyLighten};
+    ${({ theme, widthPx = 1 }) => css`
+        border-bottom: ${widthPx}px solid ${theme.colors.greyLighten};
+    `};
 `;
 
-export const Divider: FC = () => (
-    <DividerStyled />
+export const Divider: FC<DividerProps> = ({ widthPx, ...rest }) => (
+    <DividerStyled widthPx={widthPx} {...rest} />
 );

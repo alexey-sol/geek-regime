@@ -15,7 +15,7 @@ export const TitleInputStyled = styled.input`
     padding: 1.5rem;
     border: none;
     font-family: ${({ theme }) => theme.fonts.normal};
-    font-size: ${({ theme }) => theme.fontSizes.normal};
+    font-size: ${({ theme }) => theme.fontSizes.md};
 `;
 
 export const BodyEditorWrapStyled = styled.section`
@@ -31,7 +31,7 @@ export const BodyEditorStyled = styled(Editor)`
     .ql-editor {
         overflow-y: scroll;
         font-family: ${({ theme }) => theme.fonts.normal};
-        font-size: ${({ theme }) => theme.fontSizes.normal};
+        font-size: ${({ theme }) => theme.fontSizes.md};
 
         &.ql-blank::before{
             font-style: normal;

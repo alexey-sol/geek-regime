@@ -1,5 +1,8 @@
 import styled, { css } from "styled-components";
-import { Typography } from "@eggziom/geek-regime-js-ui-kit";
+import {
+    Typography,
+    type TypographyProps,
+} from "@eggziom/geek-regime-js-ui-kit";
 
 import { mixins } from "@/app/style/mixins";
 
@@ -15,12 +18,24 @@ export const PostOverviewStyled = styled.article`
     ${columnCss};
 `;
 
-export const TwoLineTextStyled = styled(Typography)<{ lineHeight?: string }>`
+type TwoLineTextStyledProps = TypographyProps & {
+    lineHeight?: string;
+};
+
+export const TwoLineTextStyled = styled(Typography)<TwoLineTextStyledProps>`
     ${({ lineHeight }) => lineHeight && mixins.getLineClampText(TWO_LINES, lineHeight)};
 `;
 
 export const BodyStyled = styled.section`
     ${columnCss};
+
+    & :first-child {
+        transition: color ${({ theme }) => theme.durations.fast} ease;
+    }
+
+    &:hover :first-child {
+        color: ${({ theme }) => theme.colors.secondary};
+    }
 `;
 
 export const InfoContainerStyled = styled.section`

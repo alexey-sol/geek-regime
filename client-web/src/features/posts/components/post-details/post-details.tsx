@@ -1,7 +1,7 @@
 import React, { type FC } from "react";
 import differenceInMonths from "date-fns/differenceInMonths";
 import { useTranslation } from "react-i18next";
-import { LinkButton, Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Link, Typography } from "@eggziom/geek-regime-js-ui-kit";
 
 import { useLanguage } from "@/shared/utils/language";
 import { paths } from "@/shared/const";
@@ -33,27 +33,27 @@ export const PostDetails: FC<PostDetailsProps> = ({ post }) => {
             </section>
 
             <ContentStyled>
-                <Typography view="caption">{post.title}</Typography>
+                <Typography as="h2">{post.title}</Typography>
                 <Typography dangerouslySetInnerHTML={bodyHtml} />
             </ContentStyled>
 
             <InfoStyled>
-                <Typography view="hint">
+                <Typography color="greyDarken" fontSize="sm">
                     {`${t("posts.post.createdAt")} ${post.formattedCreatedAt}`
                         + ` (${createdMonthsAgoText})`}
                 </Typography>
 
                 {hasUpdates && (
-                    <Typography view="hint">
+                    <Typography color="greyDarken" fontSize="sm">
                         {`${t("posts.post.updatedAt")} ${post.formattedUpdatedAt}`}
                     </Typography>
                 )}
             </InfoStyled>
 
             <section>
-                <LinkButton to={updatePostPath}>
+                <Link to={updatePostPath}>
                     {t("posts.draft.actions.editPostButton.title")}
-                </LinkButton>
+                </Link>
             </section>
         </PostDetailsStyled>
     );

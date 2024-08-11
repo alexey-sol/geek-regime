@@ -10,15 +10,14 @@ export type OverviewCaptionProps = {
 };
 
 export const OverviewTitle: FC<OverviewCaptionProps> = ({ title }) => {
-    const fontSize: FontSize = "large";
+    const fontSize: FontSize = "lg";
     const { lineHeight } = useTypography({ fontSize });
 
     return (
         <TwoLineTextStyled
-            fontSize={fontSize}
+            as="h2"
             lineHeight={lineHeight}
             title={title}
-            view="caption"
         >
             {title}
         </TwoLineTextStyled>

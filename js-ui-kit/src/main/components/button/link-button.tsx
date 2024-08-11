@@ -7,16 +7,17 @@ import { Typography } from "../typography";
 import { BaseButtonProps } from "./base-button";
 import { LinkButtonStyled } from "./style";
 
-export type LinkButtonProps = BaseButtonProps & Pick<LinkProps, "view">;
+export type LinkButtonProps = BaseButtonProps & Pick<LinkProps, "as" | "view">;
 
 export const LinkButton: FC<LinkButtonProps> = ({
+    as: tagName = "span",
     children,
     fontSize,
     font,
     ...rest
 }) => (
     <LinkButtonStyled {...rest}>
-        <Typography font={font} fontSize={fontSize}>
+        <Typography as={tagName} font={font} fontSize={fontSize}>
             {children}
         </Typography>
     </LinkButtonStyled>

@@ -12,7 +12,7 @@ export type BaseIconProps = PropsWithChildren<SVGAttributes<SVGSVGElement> & Ico
 export const BaseIcon: FC<BaseIconProps> = ({
     children,
     color,
-    fontSize = "normal",
+    fontSize = "md",
     ...rest
 }) => {
     const theme = useTheme();

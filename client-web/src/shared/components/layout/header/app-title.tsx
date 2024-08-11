@@ -13,7 +13,7 @@ export const AppTitle: FC<TitleProps> = ({ title, to = "/" }) => (
         <Typography
             color="white"
             font="logo"
-            fontSize="larger"
+            fontSize="xl"
         >
             {title}
         </Typography>

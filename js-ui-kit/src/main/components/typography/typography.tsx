@@ -1,21 +1,30 @@
-import React, { type FC, type HTMLAttributes } from "react";
+import styled, { css } from "styled-components";
 
-import { TypographyStyled, type TypographyStyledProps } from "./style";
+import { TypographyProps } from "./types";
+import { mapTagNameToFontSize } from "./utils";
 
-export type TypographyProps = HTMLAttributes<Omit<HTMLParagraphElement, "color">>
-    & TypographyStyledProps & {
-    as?: "p" | "h1" | "h2" | "h3" | "h4" | "h5" | "h6";
-};
+export const Typography = styled.p<TypographyProps>`
+    ${({
+        as: tagName,
+        theme,
+        color,
+        font,
+        fontSize,
+    }) => css`
+        font-family: ${theme.fonts.normal};
+        font-size: ${theme.fontSizes[(tagName && mapTagNameToFontSize[tagName]) ?? "md"]};
+        color: ${theme.colors.greyDarkest};
 
-export const Typography: FC<TypographyProps> = ({
-    as: tagName = "p",
-    children,
-    ...rest
-}) => (
-    <TypographyStyled
-        as={tagName}
-        {...rest}
-    >
-        {children}
-    </TypographyStyled>
-);
+        ${font && css`
+            font-family: ${theme.fonts[font]};
+        `};
+
+        ${color && css`
+            color: ${theme.colors[color]};
+        `};
+
+        ${fontSize && css`
+            font-size: ${theme.fontSizes[fontSize]};
+        `};
+    `};
+`;

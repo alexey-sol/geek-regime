@@ -1,14 +1,12 @@
 import React, { type FC } from "react";
-import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+import { Link } from "react-router-dom";
 
 import { createAbsoluteUsersPath } from "@/features/users/utils/helpers";
 import { User } from "@/features/users/models/entities";
 
 import {
-    BodyStyled,
-    OneLineTextStyled,
-    PostOverviewStyled,
+    BodyStyled, OneLineTextStyled, UserNameTitleStyled, UserOverviewStyled,
 } from "./style";
 
 export type UserOverviewProps = {
@@ -19,20 +17,20 @@ export const UserOverview: FC<UserOverviewProps> = ({ user }) => {
     const { t } = useTranslation();
 
     return (
-        <PostOverviewStyled>
+        <UserOverviewStyled>
             <section>{user.details.image ?? "image"}</section>
 
             <BodyStyled>
                 <Link to={createAbsoluteUsersPath(user.slug)}>
-                    <OneLineTextStyled view="caption">
+                    <UserNameTitleStyled as="h3" title={user.details.name}>
                         {`${user.details.name} @${user.slug}`}
-                    </OneLineTextStyled>
+                    </UserNameTitleStyled>
                 </Link>
 
                 <OneLineTextStyled>
                     {user.details.description ?? t("users.user.defaultDescription")}
                 </OneLineTextStyled>
             </BodyStyled>
-        </PostOverviewStyled>
+        </UserOverviewStyled>
     );
 };

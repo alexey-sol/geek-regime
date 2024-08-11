@@ -38,7 +38,7 @@ export const Snackbar: FC<SnackbarProps> = ({
                 {message}
             </Typography>
 
-            <CloseIconButton fontSize="smaller" onClick={onClose} />
+            <CloseIconButton fontSize="xs" onClick={onClose} />
         </SnackbarStyled>
     );
 

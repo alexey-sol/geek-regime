@@ -2,17 +2,22 @@ import React from "react";
 import type { Meta, Story } from "@storybook/react";
 
 import { baseTheme } from "@/style/theme";
+import { TYPOGRAPHY_TAG_NAMES } from "@/const";
 
 import { LinkButton, type LinkButtonProps } from ".";
 
-const views: LinkButtonProps["view"][] = ["primary", "secondary"];
+const VIEWS: LinkButtonProps["view"][] = ["primary", "secondary"];
 
-const getLinkButtonTitle = (view: LinkButtonProps["view"]) => `LinkButton (view = "${view}")`;
+const getTitle = (view: LinkButtonProps["view"]) => `LinkButton (view = "${view}")`;
 
 export default {
     title: "LinkButton",
     component: LinkButton,
     argTypes: {
+        as: {
+            control: "select",
+            options: TYPOGRAPHY_TAG_NAMES,
+        },
         children: {
             control: "text",
             description: "text",
@@ -46,13 +51,13 @@ export default {
 
 export const ByView: Story<LinkButtonProps> = ({ children, ...arg }) => (
     <>
-        {views.map((view) => (
+        {VIEWS.map((view) => (
             <LinkButton
                 key={view}
                 view={view}
                 {...arg}
             >
-                {children ?? getLinkButtonTitle(view)}
+                {children ?? getTitle(view)}
             </LinkButton>
         ))}
     </>

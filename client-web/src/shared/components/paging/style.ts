@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { Button } from "@eggziom/geek-regime-js-ui-kit";
+import { Button, LinkButton, Typography } from "@eggziom/geek-regime-js-ui-kit";
 
 const GAP = "0.5rem";
 
@@ -48,15 +48,17 @@ export const LeapButtonsWrapStyled = styled.ul`
     justify-content: space-between;
 `;
 
-export const LeapButtonStyled = styled(Button)`
-    color: ${({ theme }) => theme.colors.primary};
-    text-decoration-style: dotted;
+export const LeapButtonStyled = styled(LinkButton)`
+    ${Typography} {
+        color: ${({ theme }) => theme.colors.primary};
+        text-decoration-style: dotted;
+    }
 
-    &:disabled {
+    &:disabled ${Typography} {
         color: ${({ theme }) => theme.colors.primary};
     }
 
-    &:not(:disabled):hover {
+    &:not(:disabled):hover ${Typography} {
         color: ${({ theme }) => theme.colors.secondary};
     }
 `;

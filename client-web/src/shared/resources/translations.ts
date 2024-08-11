@@ -30,6 +30,9 @@ export const en = {
             },
         },
         paging: {
+            content: {
+                empty: "Nothing",
+            },
             leapButton: {
                 toEnd: {
                     title: "To end",
@@ -84,6 +87,9 @@ export const ru = {
             },
         },
         paging: {
+            content: {
+                empty: "Пусто",
+            },
             leapButton: {
                 toEnd: {
                     title: "В конец",
