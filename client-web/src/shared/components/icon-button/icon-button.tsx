@@ -14,11 +14,7 @@ import { Tooltip } from "@/shared/components/tooltip";
 
 import * as cn from "./const";
 
-export type IconButtonProps = Pick<BaseIconButtonProps, "disabled"
-    | "fontSize"
-    | "onClick"
-    | "title"
-    | "view">;
+export type IconButtonProps = Omit<BaseIconButtonProps, "icon">;
 
 export const CloseIconButton: FC<IconButtonProps> = ({ disabled, title, ...rest }) => (
     <Tooltip disabled={disabled} message={title ?? t("shared.dialog.closeButton.tooltip")}>

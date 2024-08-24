@@ -38,7 +38,7 @@ export const getDataUpdaters = (
         paging: PostsState["pagingOptions"],
         updatePostsPageRecipe: Recipe<UserPostPreviewPageResponse>,
     ) => {
-        const getAllPostsArg: tp.GetAllPostsArg = { paging };
+        const getAllPostsArg: tp.GetAllPostsArg = { params: { ...paging } };
 
         dispatch(util.updateQueryData(
             "getAllPosts",
@@ -53,7 +53,7 @@ export const getDataUpdaters = (
     ) => {
         const getAllPostsByAuthorArg: tp.GetAllPostsArg = {
             filter: { authorId },
-            paging,
+            params: { ...paging },
         };
 
         dispatch(util.updateQueryData(

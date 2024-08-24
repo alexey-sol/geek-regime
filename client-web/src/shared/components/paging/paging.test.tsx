@@ -1,7 +1,12 @@
 import React from "react";
 import * as router from "react-router";
+import { MemoryRouter } from "react-router";
+import { Provider } from "react-redux";
+import { ThemeProvider } from "styled-components";
 
+import { store } from "@/app/store";
 import { fireEvent, render, screen } from "@/test/setup";
+import { theme } from "@/app/style/theme";
 
 import { Paging } from "./paging";
 import * as cn from "./const";
@@ -152,7 +157,10 @@ describe("Shared/Paging", () => {
 
         fireEvent.click(screen.getByLabelText(cn.ARIA_LABEL_LAST_PAGE));
 
-        expect(navigate).toBeCalledWith(`/page-${PAGE_COUNT}`);
+        expect(navigate).toBeCalledWith(expect.objectContaining({
+            pathname: `/page-${PAGE_COUNT}`,
+            search: "",
+        }));
     });
 
     test("not navigates to same page", () => {
@@ -179,7 +187,10 @@ describe("Shared/Paging", () => {
 
         fireEvent.click(screen.getByLabelText(cn.ARIA_LABEL_NEXT_PAGE));
 
-        expect(navigate).toBeCalledWith(`/page-${page + 1}`);
+        expect(navigate).toBeCalledWith(expect.objectContaining({
+            pathname: `/page-${page + 1}`,
+            search: "",
+        }));
     });
 
     test("navigates to previous page", () => {
@@ -193,22 +204,40 @@ describe("Shared/Paging", () => {
 
         fireEvent.click(screen.getByLabelText(cn.ARIA_LABEL_PREVIOUS_PAGE));
 
-        expect(navigate).toBeCalledWith(`/page-${page - 1}`);
+        expect(navigate).toBeCalledWith(expect.objectContaining({
+            pathname: `/page-${page - 1}`,
+            search: "",
+        }));
     });
 
-    test("navigates to page with query string", () => {
-        const qs = "?key=value";
+    test("navigates to page with search query", () => {
+        const search = "key=value";
         const page = 1;
 
-        render(<Paging
-            qs={qs}
-            page={page}
-            size={SIZE}
-            totalElements={SIZE * PAGE_COUNT}
-        />);
+        render(
+            <Paging
+                page={page}
+                size={SIZE}
+                totalElements={SIZE * PAGE_COUNT}
+            />,
+            {
+                wrapper: ({ children }) => (
+                    <Provider store={store}>
+                        <MemoryRouter initialEntries={[`?${search}`]}>
+                            <ThemeProvider theme={theme}>
+                                {children}
+                            </ThemeProvider>
+                        </MemoryRouter>
+                    </Provider>
+                ),
+            },
+        );
 
         fireEvent.click(screen.getByLabelText(cn.ARIA_LABEL_NEXT_PAGE));
 
-        expect(navigate).toBeCalledWith(`/page-${page + 1}${qs}`);
+        expect(navigate).toBeCalledWith(expect.objectContaining({
+            pathname: `/page-${page + 1}`,
+            search,
+        }));
     });
 });

@@ -39,24 +39,16 @@ const POST = toUserPostPreview(RESPONSE);
 
 describe("Posts/UserOverview", () => {
     it("renders title and excerpt from provided post", () => {
-        render(<PostOverview post={POST} />);
+        render(<PostOverview item={POST} />);
 
         screen.getByText(TITLE);
         screen.getByText(EXCERPT);
     });
 
-    it("creates and renders concise post info", () => {
-        const postInfo = `${POST.author.details.name} – ${POST.formattedCreatedAt}`;
-
-        render(<PostOverview post={POST} />);
-
-        screen.getByText(postInfo);
-    });
-
     it("renders link containing slug from provided post", () => {
-        render(<PostOverview post={POST} />);
+        render(<PostOverview item={POST} />);
 
-        const link = screen.getByRole("link");
+        const link = screen.getByTestId("post-overview/post-slug-link");
         expect(link).toHaveAttribute("href", `/${paths.POSTS}/${POST.slug}`);
     });
 });

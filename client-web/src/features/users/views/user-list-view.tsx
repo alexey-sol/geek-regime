@@ -1,19 +1,8 @@
-import React, { type FC, memo } from "react";
+import React, { memo } from "react";
 
-import { UserList } from "@/features/users/components/user-list";
-import { useUsersPage } from "@/features/users/utils/hooks/use-users-page";
-import { Page } from "@/shared/components/page";
-import { createAbsoluteUsersPath } from "@/features/users/utils/helpers";
+import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
+import { UsersPage } from "@/features/users/components/users-page";
 
-export const UserListView: FC = () => {
-    const { isPending, pagingOptions } = useUsersPage();
-    const pathPrefix = createAbsoluteUsersPath();
+const PATH_PREFIX = createAbsolutePostsPath();
 
-    return (
-        <Page isPending={isPending} pagingOptions={pagingOptions} pathPrefix={pathPrefix}>
-            <UserList />
-        </Page>
-    );
-};
-
-export default memo(() => <UserListView />);
+export default memo(() => <UsersPage pathPrefix={PATH_PREFIX} />);

@@ -1,17 +1,17 @@
 import React, { type FC } from "react";
 
-import { PostList } from "@/features/posts/components/post-list";
 import { usePostsPage } from "@/features/posts/utils/hooks/use-posts-page";
 import { Page } from "@/shared/components/page";
-import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
+import { PostOverview } from "@/features/posts/components/post-overview";
+import { ItemList } from "@/shared/components/item-list";
+import { type HasPathPrefix } from "@/shared/types";
 
-export const PostsPage: FC = () => {
+export const PostsPage: FC<HasPathPrefix> = ({ pathPrefix }) => {
     const { isPending, pagingOptions, posts } = usePostsPage();
-    const pathPrefix = createAbsolutePostsPath();
 
     return (
         <Page isPending={isPending} pagingOptions={pagingOptions} pathPrefix={pathPrefix}>
-            <PostList posts={posts} />
+            <ItemList ItemComponent={PostOverview} items={posts} />
         </Page>
     );
 };

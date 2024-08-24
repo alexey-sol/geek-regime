@@ -3,7 +3,6 @@ import type { PagingOptions } from "@/shared/types";
 export type UsePagingDataArg = PagingOptions & {
     pageNeighbours: number;
     pathPrefix: string;
-    qs: string;
 };
 
 export type PagingData = {

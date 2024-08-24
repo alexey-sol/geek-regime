@@ -39,7 +39,6 @@ export const Page: FC<PageProps> = ({
             <Paging
                 page={page}
                 pathPrefix={pathPrefix}
-                qs=""
                 size={size}
                 totalElements={totalElements}
             />

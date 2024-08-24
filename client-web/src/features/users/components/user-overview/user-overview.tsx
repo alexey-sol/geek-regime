@@ -4,31 +4,28 @@ import { Link } from "react-router-dom";
 
 import { createAbsoluteUsersPath } from "@/features/users/utils/helpers";
 import { User } from "@/features/users/models/entities";
+import { type HasItem } from "@/shared/types";
 
 import {
     BodyStyled, OneLineTextStyled, UserNameTitleStyled, UserOverviewStyled,
 } from "./style";
 
-export type UserOverviewProps = {
-    user: User;
-};
-
-export const UserOverview: FC<UserOverviewProps> = ({ user }) => {
+export const UserOverview: FC<HasItem<User>> = ({ item }) => {
     const { t } = useTranslation();
 
     return (
         <UserOverviewStyled>
-            <section>{user.details.image ?? "image"}</section>
+            <section>{item.details.image ?? "image"}</section>
 
             <BodyStyled>
-                <Link to={createAbsoluteUsersPath(user.slug)}>
-                    <UserNameTitleStyled as="h3" title={user.details.name}>
-                        {`${user.details.name} @${user.slug}`}
+                <Link to={createAbsoluteUsersPath(item.slug)}>
+                    <UserNameTitleStyled as="h3" title={item.details.name}>
+                        {`${item.details.name} @${item.slug}`}
                     </UserNameTitleStyled>
                 </Link>
 
                 <OneLineTextStyled>
-                    {user.details.description ?? t("users.user.defaultDescription")}
+                    {item.details.description ?? t("users.user.defaultDescription")}
                 </OneLineTextStyled>
             </BodyStyled>
         </UserOverviewStyled>

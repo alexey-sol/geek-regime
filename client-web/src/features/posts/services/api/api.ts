@@ -4,10 +4,10 @@ import { resources } from "@eggziom/geek-regime-js-commons";
 
 import { selectPagingOptions } from "@/features/posts/slice/selectors";
 import * as cn from "@/features/posts/services/api/const";
-import type {
-    UserPostDetailsResponse, UserPostPreviewPageResponse,
+import {
+    type UserPostDetailsResponse, type UserPostPreviewPageResponse,
 } from "@/features/posts/models/dtos";
-import { transformPagingParams } from "@/shared/utils/converters";
+import { transformQueryParams } from "@/shared/utils/converters";
 
 import { baseUrl, createTag, getDataUpdaters } from "./utils";
 import type * as tp from "./types";
@@ -43,7 +43,7 @@ export const postsApi = createApi({
                     : resources.POSTS;
 
                 return ({
-                    params: transformPagingParams(arg?.paging),
+                    params: transformQueryParams(arg?.params),
                     url,
                 });
             },

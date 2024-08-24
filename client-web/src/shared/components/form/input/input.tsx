@@ -1,4 +1,4 @@
-import React, { useRef, type HTMLProps, type FC } from "react";
+import React, { useRef, type HTMLProps, forwardRef } from "react";
 
 import {
     HintStyled,
@@ -14,9 +14,11 @@ export type InputProps = Omit<HTMLProps<HTMLInputElement>, "as" | "ref"> & {
     hint?: string;
     label?: string;
     name: string;
+    wrapClassName?: string;
 };
 
-export const Input: FC<InputProps> = ({
+export const Input = forwardRef<HTMLInputElement, InputProps>(({
+    className,
     hint,
     label,
     name,
@@ -24,15 +26,17 @@ export const Input: FC<InputProps> = ({
     value,
     type = DEFAULT_TYPE,
     ...rest
-}) => {
+}, ref) => {
     const hintRef = useRef(null);
 
     return (
-        <InputWrapStyled>
+        <InputWrapStyled className={className}>
             <InputStyled
                 {...rest}
+                hasLabel={Boolean(label)}
                 name={name}
                 onChange={onChange}
+                ref={ref}
                 type={type}
                 value={value}
             />
@@ -50,4 +54,4 @@ export const Input: FC<InputProps> = ({
             </HintWrapStyled>
         </InputWrapStyled>
     );
-};
+});

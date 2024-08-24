@@ -22,20 +22,22 @@ export const LabelStyled = styled.span<{ hasValue?: boolean }>(
     `,
 );
 
-export const InputStyled = styled.input(
-    ({ theme }) => css`
+export const InputStyled = styled.input<{ hasLabel?: boolean }>(
+    ({ theme, hasLabel = false }) => css`
         box-sizing: border-box;
         display: block;
         width: 100%;
         padding: 1rem 1rem 1rem 0.5rem;
         border: none;
         border-bottom: 1px solid ${theme.colors.greyDarken};
-        margin-top: 2rem;
         outline: none;
         background-color: ${theme.colors.white};
         color: ${theme.colors.greyDarken};
         font-family: ${theme.fonts.normal};
         font-size: ${theme.fontSizes.md};
+        ${hasLabel && css`
+            margin-top: 2rem;
+        `};
 
         &:-webkit-autofill {
             & + ${LabelStyled} {

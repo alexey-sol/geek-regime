@@ -19,9 +19,14 @@ export const paths = {
     CREATE: "create",
     PAGE: "page",
     POSTS: "posts",
+    SEARCH: "search",
     SETTINGS: "settings",
     UPDATE: "update",
     USERS: "users",
+};
+
+export const SEARCH_PARAMS = {
+    TEXT: "text",
 };
 
 export const DEFAULT_PAGING_OPTIONS: PagingOptions = {

@@ -3,6 +3,7 @@ import React, {
 } from "react";
 import { Typography } from "@eggziom/geek-regime-js-ui-kit";
 
+import { useToggle } from "@/shared/utils/hooks/use-toggle";
 import type {
     ElementPosition, ElementPositionX, ElementPositionY,
 } from "@/shared/components/base-popup";
@@ -15,7 +16,7 @@ export type TooltipProps = PropsWithChildren<{
 }>;
 
 export const Tooltip: FC<TooltipProps> = ({ children, disabled = false, message }) => {
-    const [isOpen, setIsOpen] = useState(false);
+    const { isOn, setIsOn } = useToggle();
 
     const childrenWrapRef = useRef<HTMLElement>(null);
     const tooltipRef = useRef<HTMLElement>(null);
@@ -23,8 +24,8 @@ export const Tooltip: FC<TooltipProps> = ({ children, disabled = false, message 
     useEffect(() => {
         const childrenWrap = childrenWrapRef.current;
 
-        const openTooltip = () => setIsOpen(true);
-        const closeTooltip = () => setIsOpen(false);
+        const openTooltip = () => setIsOn(true);
+        const closeTooltip = () => setIsOn(false);
 
         childrenWrap?.addEventListener("mouseenter", openTooltip);
         childrenWrap?.addEventListener("mouseleave", closeTooltip);
@@ -33,7 +34,7 @@ export const Tooltip: FC<TooltipProps> = ({ children, disabled = false, message 
             childrenWrap?.removeEventListener("mouseenter", openTooltip);
             childrenWrap?.removeEventListener("mouseleave", closeTooltip);
         };
-    }, []);
+    }, [setIsOn]);
 
     const [positionX, setPositionX] = useState<ElementPositionX>("center");
     const [positionY, setPositionY] = useState<ElementPositionY>("top");
@@ -48,7 +49,7 @@ export const Tooltip: FC<TooltipProps> = ({ children, disabled = false, message 
             return;
         }
 
-        if (isOpen && tooltipRef.current) {
+        if (isOn && tooltipRef.current) {
             const tooltipRect = tooltipRef.current.getBoundingClientRect();
 
             const hasRightEdgeOverflow = (tooltipRect.x + tooltipRect.width) > window.innerWidth;
@@ -70,13 +71,13 @@ export const Tooltip: FC<TooltipProps> = ({ children, disabled = false, message 
             }
         }
 
-        if (!isOpen) {
+        if (!isOn) {
             setPositionX("center");
             setPositionY("top");
         }
-    }, [disabled, isOpen]);
+    }, [disabled, isOn]);
 
-    const showTooltip = !disabled && isOpen;
+    const showTooltip = !disabled && isOn;
 
     return (
         <TooltipWrapStyled>

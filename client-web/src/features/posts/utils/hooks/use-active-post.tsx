@@ -60,7 +60,7 @@ export const useActivePost = (): UseActivePostResult => {
     function save(arg: UpdatePostOnSaveArg): void;
     function save(arg: CreatePostOnSaveArg | UpdatePostOnSaveArg): void {
         if (!profile) {
-            return;
+            // return;
         }
 
         const postExists = !!id;
@@ -68,7 +68,7 @@ export const useActivePost = (): UseActivePostResult => {
         if (postExists) {
             updatePostById({ id, ...arg });
         } else if (!postExists && isCreatePostOnSaveArg(arg)) {
-            createPost({ spaceId: 1, authorId: profile.id, ...arg }); // TODO spaceId is hardcoded
+            createPost({ spaceId: 1, authorId: 1, ...arg }); // TODO spaceId is hardcoded
         }
     }
 

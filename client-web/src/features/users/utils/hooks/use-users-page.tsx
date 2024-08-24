@@ -7,18 +7,27 @@ import { useGetAllUsersQuery } from "@/features/users/services/api";
 import { toUserList } from "@/features/users/utils/converters";
 import { User } from "@/features/users/models/entities";
 import { usePage, type UsePageResult } from "@/shared/utils/hooks/use-page";
-import type { PagingOptions } from "@/shared/types";
-import type { GetAllUsersArg } from "@/features/users/services/api/types";
+import { getQueryParams } from "@/shared/utils/helpers/api";
+import { type PagingOptions } from "@/shared/types";
+import { type GetAllUsersArg } from "@/features/users/services/api/types";
 
-const useUsers = ({ pagingOptions, setTotalElements }: UsePageResult) => {
-    const { page, size } = pagingOptions;
+const getArg = (
+    pagingOptions: PagingOptions,
+    text?: string,
+): GetAllUsersArg => ({
+    params: getQueryParams(pagingOptions, text, ["details.name"]),
+});
 
-    const arg: GetAllUsersArg = useMemo(() => ({ paging: { page, size } }), [page, size]);
+type UseUsersArg = Pick<UsePageResult, "setTotalElements"> & {
+    arg: GetAllUsersArg;
+};
+
+const useUsers = ({ arg, setTotalElements }: UseUsersArg) => {
     const selectedFromResult = useGetAllUsersQuery(arg, {
         selectFromResult: ({ data, isFetching }) => ({
             isFetching,
             users: toUserList(data?.content ?? []),
-            totalElements: data?.totalElements ?? pagingOptions.totalElements,
+            totalElements: data?.totalElements ?? 0,
         }),
     });
 
@@ -48,12 +57,13 @@ export const useUsersPage = (): UseUsersPageResult => {
         dispatch(setPagingOptions(options));
     }, [dispatch]);
 
-    const { pagingOptions, setTotalElements } = usePage({
+    const { pagingOptions, searchText, setTotalElements } = usePage({
         initialPagingOptions,
         setPagingOptions: onSetPagingOptions,
     });
 
-    const { isPending, users } = useUsers({ pagingOptions, setTotalElements });
+    const arg = getArg(pagingOptions, searchText);
+    const { isPending, users } = useUsers({ arg, setTotalElements });
 
     return useMemo(() => ({
         isPending,

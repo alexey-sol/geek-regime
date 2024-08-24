@@ -3,7 +3,7 @@ import { useField } from "formik";
 
 import { Input, type InputProps } from "../input";
 
-export type FormInputProps = HTMLProps<HTMLInputElement> & Pick<InputProps, "name">;
+export type FormInputProps = Omit<HTMLProps<HTMLInputElement>, "ref"> & Pick<InputProps, "name">;
 
 export const FormInput: FC<FormInputProps> = (props) => {
     const [field, meta] = useField(props);

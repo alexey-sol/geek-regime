@@ -2,10 +2,11 @@ import React, { type FC } from "react";
 
 import { Page } from "@/shared/components/page";
 import { createAbsoluteUsersPath } from "@/features/users/utils/helpers";
-import { PostList } from "@/features/posts/components/post-list";
 import { useActiveUser } from "@/features/users/utils/hooks/use-active-user";
 import { usePostsPage } from "@/features/posts/utils/hooks/use-posts-page";
-import type { GetAllPostsArg } from "@/features/posts/services/api/types";
+import { ItemList } from "@/shared/components/item-list";
+import { PostOverview } from "@/features/posts/components/post-overview";
+import { type GetAllPostsArg } from "@/features/posts/services/api/types";
 
 export const UserPostsPage: FC = () => {
     const { pending, user } = useActiveUser();
@@ -24,7 +25,7 @@ export const UserPostsPage: FC = () => {
     return (
         <Page isPending={isPending} pagingOptions={pagingOptions} pathPrefix={pathPrefix}>
             {isAllPending && "loading..."}
-            <PostList posts={posts} />
+            <ItemList ItemComponent={PostOverview} items={posts} />
         </Page>
     );
 };

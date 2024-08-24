@@ -1,14 +1,14 @@
-import type { HasId } from "@eggziom/geek-regime-js-commons";
+import { type HasId } from "@eggziom/geek-regime-js-commons";
 
-import type { UserPostDetails } from "@/features/posts/models/entities";
-import type { CreatePostRequest, UpdatePostRequest } from "@/features/posts/models/dtos";
-import { type PagingParams } from "@/shared/types";
+import { type UserPostDetails } from "@/features/posts/models/entities";
+import { type CreatePostRequest, type UpdatePostRequest } from "@/features/posts/models/dtos";
+import { type QueryParams } from "@/shared/types";
 
 export type GetAllPostsArg = {
     filter?: {
         authorId?: HasId["id"];
     };
-    paging: PagingParams;
+    params: QueryParams;
 };
 
 export type GetPostBySlugArg = UserPostDetails["slug"];

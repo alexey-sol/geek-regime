@@ -4,18 +4,21 @@ import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import { selectPagingOptions } from "@/features/posts/slice/selectors";
 import { setPagingOptions } from "@/features/posts/slice";
 import { usePage } from "@/shared/utils/hooks/use-page";
-import type { PagingOptions } from "@/shared/types";
-import type { GetAllPostsArg } from "@/features/posts/services/api/types";
+import { type PagingOptions } from "@/shared/types";
+import { type GetAllPostsArg } from "@/features/posts/services/api/types";
+import { getQueryParams } from "@/shared/utils/helpers/api";
 
 import { usePosts } from "./use-posts";
-import type { UsePostsPageArg, UsePostsPageResult } from "./types";
+import { type UsePostsPageArg, type UsePostsPageResult } from "./types";
 
 const getArg = (
     pagingOptions: PagingOptions,
     filter: UsePostsPageArg["filter"],
+    text?: string,
 ): GetAllPostsArg => {
-    const { page, size } = pagingOptions;
-    const arg: GetAllPostsArg = { paging: { page, size } };
+    const arg: GetAllPostsArg = {
+        params: getQueryParams(pagingOptions, text, ["title", "body"]),
+    };
 
     if (filter) {
         arg.filter = filter;
@@ -32,12 +35,12 @@ export const usePostsPage = ({ filter }: UsePostsPageArg = {}): UsePostsPageResu
         dispatch(setPagingOptions(options));
     }, [dispatch]);
 
-    const { pagingOptions, setTotalElements } = usePage({
+    const { pagingOptions, searchText, setTotalElements } = usePage({
         initialPagingOptions,
         setPagingOptions: onSetPagingOptions,
     });
 
-    const arg = getArg(pagingOptions, filter);
+    const arg = getArg(pagingOptions, filter, searchText);
     const { isPending, posts } = usePosts({ arg, setTotalElements });
 
     return useMemo(() => ({

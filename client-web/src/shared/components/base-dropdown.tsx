@@ -1,5 +1,4 @@
 import React, {
-    useEffect,
     useRef,
     type AriaRole,
     type FC,
@@ -11,13 +10,14 @@ import { BasePopup, type BasePopupStyledProps } from "@/shared/components/base-p
 import { useKeyboardControls } from "@/shared/utils/hooks/use-keyboard-controls";
 import { getRootElement } from "@/shared/utils/helpers/dom";
 
-export type BaseDropdownProps = PropsWithChildren<
-    Pick<BasePopupStyledProps, "anchorRef" | "position"> & {
-        mouseEvent?: "click" | "mouseup" | "mousedown";
+import { useClickOutside, UseClickOutsideArg } from "../utils/hooks/use-click-outside";
+
+export type BaseDropdownProps = PropsWithChildren<Pick<UseClickOutsideArg, "mouseEvent">
+    & Pick<BasePopupStyledProps, "anchorRef" | "position">
+    & {
         onClose: () => void;
         role?: AriaRole;
-    }
->;
+    }>;
 
 export const BaseDropdown: FC<BaseDropdownProps> = ({
     anchorRef,
@@ -29,26 +29,12 @@ export const BaseDropdown: FC<BaseDropdownProps> = ({
 }) => {
     const elementRef = useRef<HTMLElement>(null);
 
-    useEffect(() => {
-        const handleClick = ({ target }: Event) => {
-            if (!elementRef.current || !(target instanceof HTMLElement)) {
-                return;
-            }
-
-            const clickedOutside = !elementRef.current.contains(target)
-                || !anchorRef?.current?.contains(target);
-
-            if (clickedOutside) {
-                onClose();
-            }
-        };
-
-        document.addEventListener(mouseEvent, handleClick);
-
-        return () => {
-            document.removeEventListener(mouseEvent, handleClick);
-        };
-    }, [anchorRef, mouseEvent, onClose]);
+    useClickOutside({
+        anchorRef,
+        elementRef,
+        mouseEvent,
+        onAction: onClose,
+    });
 
     useKeyboardControls({
         elementRef,

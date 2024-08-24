@@ -6,7 +6,7 @@ const columnCss = css`
     row-gap: 2rem;
 `;
 
-export const PostListStyled = styled.section``;
+export const ItemListStyled = styled.section``;
 
 export const ListStyled = styled.ul`
     ${columnCss};

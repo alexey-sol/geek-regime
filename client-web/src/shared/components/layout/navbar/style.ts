@@ -13,6 +13,7 @@ export const NavbarStyled = styled.nav`
 
 export const NavbarInnerStyled = styled.section`
     ${mixins.getLayoutRowInner()};
+    position: relative;
     display: flex;
     justify-content: space-between;
     align-items: center;

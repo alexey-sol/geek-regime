@@ -11,11 +11,11 @@ import { Tab } from "@/shared/components/tabs/tab";
 import { TabContextProvider } from "@/shared/components/tabs/tab-context";
 import { TabPanel } from "@/shared/components/tabs/tab-panel";
 import { ProfileHome } from "@/features/users/components/profile-home";
-import type { HandleChange } from "@/shared/components/tabs/types";
+import { type HandleChange } from "@/shared/components/tabs/types";
 
 import { UserPostsPage } from "../user-posts-page";
 import { UserOverview } from "../user-overview";
-import type { HasUser } from "../../types";
+import { type HasUser } from "../../types";
 
 export const ProfileStyled = styled.section`
     display: flex;
@@ -63,7 +63,7 @@ export const Profile: FC<HasUser> = ({ user }) => {
     return (
         <ProfileStyled>
             <TabsWrapStyled>
-                <UserOverview user={user} />
+                <UserOverview item={user} />
 
                 <ContentWrapStyled>
                     <TabContextProvider onChange={handleChange} initialValue={initialTabValue}>

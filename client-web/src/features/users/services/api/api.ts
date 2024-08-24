@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
-import type { UserPageResponse, UserResponse } from "@/features/users/models/dtos";
-import { transformPagingParams } from "@/shared/utils/converters";
+import { type UserPageResponse, type UserResponse } from "@/features/users/models/dtos";
+import { transformQueryParams } from "@/shared/utils/converters";
 
 import {
     createTag,
@@ -17,7 +17,7 @@ export const usersApi = createApi({
     endpoints: (builder) => ({
         getAllUsers: builder.query<UserPageResponse, tp.GetAllUsersArg | void>({
             query: (arg) => ({
-                params: transformPagingParams(arg?.paging),
+                params: transformQueryParams(arg?.params),
                 url: "",
             }),
             providesTags: (result) => {

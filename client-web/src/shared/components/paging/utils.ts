@@ -6,6 +6,7 @@ import {
 } from "react";
 import { useNavigate } from "react-router";
 import { useTheme } from "styled-components";
+import { useSearchParams } from "react-router-dom";
 
 import { range } from "@/shared/utils/helpers/range";
 import { defaults } from "@/shared/const";
@@ -24,10 +25,10 @@ export const usePagingData = ({
     page = defaults.START_PAGE,
     pageNeighbours = 4,
     pathPrefix = "",
-    qs = "",
     size = defaults.PAGE_SIZE,
     totalElements,
 }: UsePagingDataArg): PagingData => {
+    const [searchParams] = useSearchParams();
     const [spillCount, setSpillCount] = useState(SpillCount.DEFAULT);
 
     const theme = useTheme();
@@ -53,16 +54,20 @@ export const usePagingData = ({
     const hasLeftSpill = hasSpills && leftmostVisiblePage > 1;
     const hasRightSpill = hasSpills && rightmostVisiblePage < lastPage;
 
+    const qs = searchParams.toString();
     const goToPage = useCallback<PagingData["goToPage"]>((selectedPage) => {
         if (selectedPage === page) {
             return;
         }
 
-        const path = (!qs && selectedPage === START_PAGE)
-            ? `${pathPrefix}/`
-            : `${pathPrefix}/page-${selectedPage}${qs}`;
+        const pathname = selectedPage === START_PAGE
+            ? pathPrefix
+            : `${pathPrefix}/page-${selectedPage}`;
 
-        navigate(path);
+        navigate({
+            pathname,
+            search: qs,
+        });
     }, [navigate, page, pathPrefix, qs]);
 
     const getStartNumber = useCallback(() => {

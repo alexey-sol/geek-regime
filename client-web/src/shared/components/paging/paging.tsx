@@ -32,7 +32,6 @@ export const Paging = memo(({
     page = START_PAGE,
     pageNeighbours = 4,
     pathPrefix = "",
-    qs = "",
     size = defaults.PAGE_SIZE,
     totalElements = 0,
 }: PagingProps) => {
@@ -49,7 +48,6 @@ export const Paging = memo(({
         page,
         pageNeighbours,
         pathPrefix,
-        qs,
         size,
         totalElements,
     });

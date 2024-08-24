@@ -11,6 +11,7 @@ import { ThemeProvider } from "styled-components";
 import { theme } from "@/app/style/theme";
 import { store } from "@/app/store";
 import { AuthContextProvider } from "@/features/auth/contexts/auth";
+import {MemoryRouter} from "react-router";
 
 jest.mock("@/config/app", () => ({
     appConfig: {},
@@ -28,13 +29,14 @@ jest.mock("react-i18next", () => ({
 
 export const Wrap: FC<PropsWithChildren> = ({ children }) => (
     <Provider store={store}>
-        <BrowserRouter>
+        {/*<MemoryRouter initialEntries={["?key=value"]}>*/}
+        <MemoryRouter>
             <ThemeProvider theme={theme}>
                 <AuthContextProvider>
                     {children}
                 </AuthContextProvider>
             </ThemeProvider>
-        </BrowserRouter>
+        </MemoryRouter>
     </Provider>
 );
 

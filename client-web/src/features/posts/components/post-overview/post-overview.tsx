@@ -4,7 +4,8 @@ import { Link } from "@eggziom/geek-regime-js-ui-kit";
 
 import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
 import { createAbsoluteUsersPath } from "@/features/users/utils/helpers";
-import type { UserPostPreview } from "@/features/posts/models/entities";
+import { type UserPostPreview } from "@/features/posts/models/entities";
+import { type HasItem } from "@/shared/types";
 
 import {
     BodyStyled,
@@ -15,28 +16,30 @@ import {
 import { OverviewTitle } from "./overview-title";
 import { OverviewExcerpt } from "./overview-excerpt";
 
-export type PostOverviewProps = {
-    post: UserPostPreview;
-};
-
-export const PostOverview: FC<PostOverviewProps> = ({ post }) => (
+export const PostOverview: FC<HasItem<UserPostPreview>> = ({ item }) => (
     <PostOverviewStyled>
-        <RouterDomLink to={createAbsolutePostsPath(post.slug)}>
+        <RouterDomLink
+            data-testid="post-overview/post-slug-link"
+            to={createAbsolutePostsPath(item.slug)}
+        >
             <BodyStyled>
-                <OverviewTitle title={post.title} />
-                <OverviewExcerpt excerpt={post.excerpt} />
+                <OverviewTitle title={item.title} />
+                <OverviewExcerpt excerpt={item.excerpt} />
             </BodyStyled>
         </RouterDomLink>
 
         <InfoContainerStyled>
             <TwoLineTextStyled>
-                <Link to={createAbsoluteUsersPath(post.author.slug)}>
-                    {post.author.details.name}
+                <Link
+                    data-testid="post-overview/author-slug-link"
+                    to={createAbsoluteUsersPath(item.author.slug)}
+                >
+                    {item.author.details.name}
                 </Link>
                 {" "}
                 &mdash;
                 {" "}
-                {post.formattedCreatedAt}
+                {item.formattedCreatedAt}
             </TwoLineTextStyled>
         </InfoContainerStyled>
     </PostOverviewStyled>

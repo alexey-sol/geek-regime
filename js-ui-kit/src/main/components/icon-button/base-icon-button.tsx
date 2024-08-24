@@ -14,12 +14,9 @@ export type BaseIconButtonStyledProps = {
 
 export type BaseIconButtonProps = IconProps
     & BaseIconButtonStyledProps
-    & Pick<ButtonHTMLAttributes<HTMLButtonElement>, "aria-label">
+    & ButtonHTMLAttributes<HTMLButtonElement>
     & {
-        disabled?: boolean;
         icon: ComponentType<IconProps>;
-        onClick: () => void;
-        title?: string;
     };
 
 export const BaseIconButton: FC<BaseIconButtonProps> = ({

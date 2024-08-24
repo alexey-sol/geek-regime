@@ -1,8 +1,7 @@
-import {
-    useCallback, useEffect, useMemo, useState,
-} from "react";
+import { useEffect, useMemo } from "react";
 
 import { useAuthContext } from "@/features/auth/contexts/auth";
+import { useToggle } from "@/shared/utils/hooks/use-toggle";
 
 export type ProfileItemData = {
     handleClick: () => void;
@@ -14,13 +13,17 @@ export const useProfileItemData = (): ProfileItemData => {
     const { profile } = useAuthContext();
     const isAuthorized = Boolean(profile);
 
-    const [showAuthDialog, setShowAuthDialog] = useState(false);
-    const [showProfileDropdown, setShowProfileDropdown] = useState(false);
+    const {
+        isOn: showProfileDropdown,
+        setIsOn: setShowAuthDialog,
+        toggleOn: toggleShowProfileDropdown,
+    } = useToggle();
 
-    const toggleShowProfileDropdown = useCallback(() =>
-        setShowProfileDropdown(((show) => !show)), []);
-    const toggleShowAuthDialog = useCallback(() =>
-        setShowAuthDialog(((show) => !show)), []);
+    const {
+        isOn: showAuthDialog,
+        setIsOn: setShowProfileDropdown,
+        toggleOn: toggleShowAuthDialog,
+    } = useToggle();
 
     const handleClick = useMemo(
         () => (isAuthorized
@@ -35,7 +38,7 @@ export const useProfileItemData = (): ProfileItemData => {
         } else {
             setShowProfileDropdown(false);
         }
-    }, [isAuthorized]);
+    }, [isAuthorized, setShowAuthDialog, setShowProfileDropdown]);
 
     return useMemo(() => ({
         handleClick,
