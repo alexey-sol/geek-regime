@@ -21,5 +21,15 @@ public interface PostRepository extends PagingAndSortingRepository<Post, Long>,
     @Modifying
     int removePostById(long id);
 
+    @Query("UPDATE PostMeta pm SET pm.viewCount = pm.viewCount + 1 WHERE pm.id = :postId")
+    @Transactional
+    @Modifying
+    void incrementViewCount(long postId);
+
+    @Query("UPDATE PostMeta pm SET pm.rating = pm.rating + :value WHERE pm.id = :postId")
+    @Transactional
+    @Modifying
+    int addRating(long postId, long value);
+
     Boolean existsPostBySlug(String slug);
 }

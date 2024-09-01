@@ -143,3 +143,29 @@ VALUES (
     'now'::timestamptz - '7 months'::interval,
     'now'::timestamptz - '1 day'::interval
 );
+
+-- post meta
+
+INSERT INTO post_meta (post_id, rating, view_count) VALUES (1, 0, 0);
+
+INSERT INTO post_meta (post_id, rating, view_count) VALUES (2, 0, 0);
+
+INSERT INTO post_meta (post_id, rating, view_count) VALUES (3, 0, 0);
+
+INSERT INTO post_meta (post_id, rating, view_count) VALUES (4, 0, 0);
+
+INSERT INTO post_meta (post_id, rating, view_count) VALUES (5, 0, 0);
+
+INSERT INTO post_meta (post_id, rating, view_count) VALUES (6, 0, 0);
+
+INSERT INTO post_meta (post_id, rating, view_count) VALUES (7, 0, 0);
+
+INSERT INTO post_meta (post_id, rating, view_count) VALUES (8, 0, 0);
+
+INSERT INTO post_meta (post_id, rating, view_count) VALUES (9, 0, 0);
+
+INSERT INTO post_meta (post_id, rating, view_count) VALUES (10, 2, 100);
+
+INSERT INTO post_meta (post_id, rating, view_count) VALUES (11, 10, 20);
+
+INSERT INTO post_meta (post_id, rating, view_count) VALUES (12, 0, 0);

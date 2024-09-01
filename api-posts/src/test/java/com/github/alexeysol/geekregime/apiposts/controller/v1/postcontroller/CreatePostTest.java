@@ -6,6 +6,7 @@ import com.github.alexeysol.geekregime.apicommons.generated.model.PostDetailsRes
 import com.github.alexeysol.geekregime.apicommons.util.TestUtil;
 import com.github.alexeysol.geekregime.apicommons.util.parser.Json;
 import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
+import com.github.alexeysol.geekregime.apiposts.model.entity.PostMeta;
 import com.github.alexeysol.geekregime.apiposts.util.source.ApiPostsSource;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
@@ -39,6 +40,7 @@ public class CreatePostTest extends BasePostControllerTest {
             .spaceId(1L)
             .title("Test Post")
             .body("Hello World")
+            .meta(new PostMeta())
             .build();
         var createPostRequest = CreatePostRequest.builder()
             .authorId(post.getUserId())
@@ -100,6 +102,7 @@ public class CreatePostTest extends BasePostControllerTest {
             .spaceId(1L)
             .title("Test Post")
             .body("Hello World")
+            .meta(new PostMeta())
             .build();
         var createPostRequest = CreatePostRequest.builder()
             .authorId(post.getUserId())

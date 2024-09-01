@@ -3,6 +3,7 @@ package com.github.alexeysol.geekregime.apiposts.controller.v1.postcontroller;
 import com.github.alexeysol.geekregime.apicommons.generated.model.PostDetailsResponse;
 import com.github.alexeysol.geekregime.apicommons.util.parser.Json;
 import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
+import com.github.alexeysol.geekregime.apiposts.model.entity.PostMeta;
 import com.github.alexeysol.geekregime.apiposts.util.source.ApiPostsSource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -13,7 +14,7 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 
 import java.util.Optional;
 
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 public class FindPostBySlugTest extends BasePostControllerTest {
     public FindPostBySlugTest(
@@ -30,10 +31,12 @@ public class FindPostBySlugTest extends BasePostControllerTest {
         var post = Post.builder()
             .userId(1L)
             .slug("test-post")
+            .meta(new PostMeta())
             .build();
         var postDetailsResponse = new PostDetailsResponse();
 
         when(service.findPostBySlug(post.getSlug())).thenReturn(Optional.of(post));
+        doNothing().when(service).incrementViewCountAndSave(post.getId());
         when(mapper.toPostDetailsResponse(post)).thenReturn(postDetailsResponse);
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl(post.getSlug())))

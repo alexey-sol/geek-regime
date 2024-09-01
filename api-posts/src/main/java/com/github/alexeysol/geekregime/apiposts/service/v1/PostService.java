@@ -49,16 +49,29 @@ public class PostService {
 
     public long removePostById(long id) {
         int deletedRowCount = repository.removePostById(id);
-        boolean postIsDeleted = deletedRowCount > 0;
+        return getMutationResult(id, deletedRowCount);
+    }
 
-        if (postIsDeleted) {
-            return id;
-        }
+    public void incrementViewCountAndSave(long postId) {
+        repository.incrementViewCount(postId);
+    }
 
-        return Default.NOT_FOUND_BY_ID;
+    public long addRating(long postId, long value) {
+        int mutatedRowCount = repository.addRating(postId, value);
+        return getMutationResult(postId, mutatedRowCount);
     }
 
     public boolean postAlreadyExists(String slug) {
         return repository.existsPostBySlug(slug);
+    }
+
+    private long getMutationResult(long id, int mutatedRowCount) {
+        boolean isMutated = mutatedRowCount > 0;
+
+        if (isMutated) {
+            return id;
+        }
+
+        return Default.NOT_FOUND_BY_ID;
     }
 }

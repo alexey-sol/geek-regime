@@ -72,4 +72,8 @@ public class Post {
     @LastModifiedDate
     @Setter(value = AccessLevel.NONE)
     private Date updatedAt;
+
+    @OneToOne(cascade = CascadeType.ALL)
+    @PrimaryKeyJoinColumn
+    private PostMeta meta;
 }

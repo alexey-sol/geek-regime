@@ -167,6 +167,7 @@
                                 <typeMapping>PostPreviewResponse=com.github.alexeysol.geekregime.apicommons.generated.model.PostPreviewResponse</typeMapping>
                                 <typeMapping>CreatePostRequest=com.github.alexeysol.geekregime.apicommons.generated.model.CreatePostRequest</typeMapping>
                                 <typeMapping>UpdatePostRequest=com.github.alexeysol.geekregime.apicommons.generated.model.UpdatePostRequest</typeMapping>
+                                <typeMapping>AddPostRatingRequest=com.github.alexeysol.geekregime.apicommons.generated.model.AddPostRatingRequest</typeMapping>
                                 <typeMapping>IdResponse=com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse</typeMapping>
                                 <typeMapping>LocalDate=java.util.Date</typeMapping>
                                 <typeMapping>OffsetDateTime=java.util.Date</typeMapping>

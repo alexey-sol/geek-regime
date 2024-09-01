@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 
 import static com.github.alexeysol.geekregime.apicommons.constant.Default.*;
 import static com.github.alexeysol.geekregime.apiposts.constant.PathConstant.*;
@@ -37,6 +38,7 @@ import static com.github.alexeysol.geekregime.apiposts.constant.PostConstant.*;
 public class PostController implements PostApi {
     private final PostService service;
     private final PostMapper mapper;
+    private final PostService postService;
 
     @Override
     public ResponseEntity<PostPreviewPageResponse> findAllPostsByAuthor(
@@ -106,7 +108,12 @@ public class PostController implements PostApi {
             throw new ResourceException(new ErrorDetail(ErrorDetail.Code.ABSENT, SLUG_FIELD));
         }
 
-        var response = mapper.toPostDetailsResponse(optionalPost.get());
+        var post = optionalPost.get();
+
+        postService.incrementViewCountAndSave(post.getId());
+        post.getMeta().incrementViewCount();
+
+        var response = mapper.toPostDetailsResponse(post);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -114,6 +121,7 @@ public class PostController implements PostApi {
     @Override
     public ResponseEntity<PostDetailsResponse> createPost(CreatePostRequest request) {
         var post = mapper.toPost(request);
+        post.getMeta().incrementViewCount();
         var createdPost = service.savePost(post);
         var response = mapper.toPostDetailsResponse(createdPost);
 
@@ -138,6 +146,20 @@ public class PostController implements PostApi {
     @Override
     public ResponseEntity<IdResponse> removePostById(Long id) {
         var result = service.removePostById(id);
+        var isNotFound = result == Default.NOT_FOUND_BY_ID;
+
+        if (isNotFound) {
+            throw new ResourceException(new ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD));
+        }
+
+        var response = mapper.toIdResponse(id);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<IdResponse> addPostRating(AddPostRatingRequest request, Long id) {
+        var result = service.addRating(id, request.getValue());
         var isNotFound = result == Default.NOT_FOUND_BY_ID;
 
         if (isNotFound) {
