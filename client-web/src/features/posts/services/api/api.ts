@@ -1,15 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import type { Recipe } from "@reduxjs/toolkit/dist/query/core/buildThunks";
 import { resources } from "@eggziom/geek-regime-js-commons";
 
-import { selectPagingOptions } from "@/features/posts/slice/selectors";
 import * as cn from "@/features/posts/services/api/const";
 import {
     type UserPostDetailsResponse, type UserPostPreviewPageResponse,
 } from "@/features/posts/models/dtos";
 import { transformQueryParams } from "@/shared/utils/converters";
 
-import { baseUrl, createTag, getDataUpdaters } from "./utils";
+import { baseUrl, createTag } from "./utils";
 import type * as tp from "./types";
 
 export const postsApi = createApi({
@@ -72,35 +70,39 @@ export const postsApi = createApi({
                 method: "PATCH",
                 url: `${resources.POSTS}/${id}`,
             }),
-            async onQueryStarted({ id }, { dispatch, queryFulfilled, getState }) {
-                const paging = selectPagingOptions(getState());
-                const { data } = await queryFulfilled;
+            async onQueryStarted({ id }, api) {
+                const { data } = await api.queryFulfilled;
 
-                if (data) {
-                    const updatePostsDataRecipe: Recipe<UserPostPreviewPageResponse> = (draftPosts) => {
+                if (!data) {
+                    return;
+                }
+
+                const caches = postsApi.util.selectInvalidatedBy(
+                    api.getState(),
+                    [{ type: cn.POSTS_TAG_TYPE, id }],
+                );
+
+                caches.forEach(({ endpointName, originalArgs }) => {
+                    if (endpointName !== "getAllPosts") {
+                        return;
+                    }
+
+                    api.dispatch(postsApi.util.updateQueryData("getAllPosts", originalArgs, (draftPosts) => {
                         const itemIndex = draftPosts.content.findIndex((post) => post.id === id);
 
                         if (itemIndex >= 0) {
                             draftPosts.content[itemIndex] = data;
                         }
-                    };
+                    }));
+                });
 
-                    const {
-                        updatePostData,
-                        updatePostsData,
-                        updatePostsByAuthorData,
-                    } = getDataUpdaters(dispatch, postsApi.util);
-
-                    updatePostData(data);
-                    updatePostsData(paging, updatePostsDataRecipe);
-                    updatePostsByAuthorData(paging, data.author.id, updatePostsDataRecipe);
-                }
+                api.dispatch(
+                    postsApi.util.upsertQueryData("getPostBySlug", data.slug, data),
+                );
             },
         }),
     }),
 });
-
-export type PostsApiUtil = typeof postsApi.util;
 
 export const {
     useCreatePostMutation,
