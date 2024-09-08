@@ -6,6 +6,7 @@ import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
 import { createAbsoluteUsersPath } from "@/features/users/utils/helpers";
 import { type UserPostPreview } from "@/features/posts/models/entities";
 import { type HasItem } from "@/shared/types";
+import { LikeIcon } from "@/shared/components/icon";
 
 import {
     BodyStyled,
@@ -42,5 +43,11 @@ export const PostOverview: FC<HasItem<UserPostPreview>> = ({ item }) => (
                 {item.formattedCreatedAt}
             </TwoLineTextStyled>
         </InfoContainerStyled>
+
+        <div>
+            <LikeIcon />
+            {" "}
+            {item.meta.rating}
+        </div>
     </PostOverviewStyled>
 );

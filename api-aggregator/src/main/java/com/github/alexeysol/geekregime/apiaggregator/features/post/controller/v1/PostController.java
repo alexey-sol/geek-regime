@@ -73,6 +73,11 @@ public class PostController {
         return service.removePostById(id);
     }
 
+    @PatchMapping("posts/{id}/rating")
+    IdResponse addPostRating(@PathVariable long id, @RequestBody String request) {
+        return service.addPostRating(id, request);
+    }
+
     private void cleanUpIfNeeded(Throwable exception, long postId) {
         // If there are issues with referenced resources (for example, the post's author doesn't
         // exist), delete the post.

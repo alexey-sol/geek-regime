@@ -4,9 +4,20 @@ import { sanitize } from "dompurify";
 import { formatTimestamp } from "@/shared/utils/formatters/date";
 import { User } from "@/features/users/models/entities";
 
+export class PostMeta {
+    constructor(
+        public id: number,
+        public rating: number,
+        public viewCount: number,
+    ) {}
+}
+
 export class UserPostPreview {
     @Type(() => User)
     public author: User;
+
+    @Type(() => PostMeta)
+    public meta: PostMeta;
 
     constructor(
         public id: number,

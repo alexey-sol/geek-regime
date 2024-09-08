@@ -102,4 +102,19 @@ public class PostService {
 
         return AppHttpClient.send(request, new TypeReference<>() {});
     }
+
+    public IdResponse addPostRating(long id, String originalRequest) {
+        String path = String.format("%s/%d/rating", POSTS, id);
+
+        var uri = UriUtil.getApiUriBuilder(source.getBaseUrl(), path)
+            .build()
+            .toUri();
+
+        var request = AppHttpRequest.builder()
+            .uri(uri)
+            .method("PATCH", HttpRequest.BodyPublishers.ofString(originalRequest))
+            .build();
+
+        return AppHttpClient.send(request, new TypeReference<>() {});
+    }
 }

@@ -11,6 +11,7 @@ import {
 } from "@eggziom/geek-regime-js-ui-kit";
 
 import { Tooltip } from "@/shared/components/tooltip";
+import { LikeIcon } from "@/shared/components/icon";
 
 import * as cn from "./const";
 

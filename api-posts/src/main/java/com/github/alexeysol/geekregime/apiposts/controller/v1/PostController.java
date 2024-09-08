@@ -20,12 +20,12 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import javax.validation.ConstraintViolationException;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 
 import static com.github.alexeysol.geekregime.apicommons.constant.Default.*;
 import static com.github.alexeysol.geekregime.apiposts.constant.PathConstant.*;
