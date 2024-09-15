@@ -10,6 +10,7 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "posts", indexes = {
@@ -21,7 +22,6 @@ import java.util.Date;
     @Index(columnList = "slug", unique = true),
     @Index(columnList = "created_at"),
     @Index(columnList = "updated_at")
-
 })
 @EntityListeners(AuditingEntityListener.class)
 @Data
@@ -76,4 +76,8 @@ public class Post {
     @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private PostMeta meta;
+
+    @OneToMany(mappedBy = "post")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<PostVote> votes;
 }

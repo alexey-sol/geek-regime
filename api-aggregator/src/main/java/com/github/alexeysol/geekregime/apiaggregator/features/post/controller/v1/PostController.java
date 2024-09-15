@@ -3,10 +3,7 @@ package com.github.alexeysol.geekregime.apiaggregator.features.post.controller.v
 import com.github.alexeysol.geekregime.apiaggregator.features.post.mapper.PostMapper;
 import com.github.alexeysol.geekregime.apiaggregator.features.post.service.v1.PostService;
 import com.github.alexeysol.geekregime.apicommons.exception.SerializedApiException;
-import com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse;
-import com.github.alexeysol.geekregime.apicommons.generated.model.PostDetailsResponse;
-import com.github.alexeysol.geekregime.apicommons.generated.model.UserPostDetailsResponse;
-import com.github.alexeysol.geekregime.apicommons.generated.model.UserPostPreviewPageResponse;
+import com.github.alexeysol.geekregime.apicommons.generated.model.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.MappingException;
 import org.springframework.validation.annotation.Validated;
@@ -64,8 +61,8 @@ public class PostController {
 
     @PatchMapping("posts/{id}")
     UserPostDetailsResponse updatePost(@PathVariable long id, @RequestBody String request) {
-        PostDetailsResponse updatePost = service.updatePost(id, request);
-        return mapper.toUserPostDetailsResponse(updatePost);
+        PostDetailsResponse updatedPost = service.updatePost(id, request);
+        return mapper.toUserPostDetailsResponse(updatedPost);
     }
 
     @DeleteMapping("posts/{id}")
@@ -73,9 +70,15 @@ public class PostController {
         return service.removePostById(id);
     }
 
-    @PatchMapping("posts/{id}/rating")
-    IdResponse addPostRating(@PathVariable long id, @RequestBody String request) {
-        return service.addPostRating(id, request);
+    @PutMapping("users/{userId}/posts/{postId}/vote")
+    public UserPostDetailsResponse voteForPost(
+        @PathVariable long userId,
+        @PathVariable long postId,
+        @RequestBody String request
+    ) {
+        PostDetailsResponse updatedPost = service.voteForPost(userId, postId, request);
+        // TODO update the post author's rating as well (request to api-users)
+        return mapper.toUserPostDetailsResponse(updatedPost);
     }
 
     private void cleanUpIfNeeded(Throwable exception, long postId) {

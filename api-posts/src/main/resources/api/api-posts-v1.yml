@@ -23,6 +23,40 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/PostPreviewPageResponse"
+  /users/{userId}/posts/{postId}/vote:
+    put:
+      summary: Vote for the post on behalf of the user
+      operationId: voteForPost
+      tags:
+        - post
+      parameters:
+        - name: userId
+          description: The ID of the user
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+        - name: postId
+          description: The ID of the post
+          in: path
+          required: true
+          schema:
+            type: integer
+            format: int64
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VoteForPostRequest"
+      responses:
+        200:
+          description: The updated post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PostDetailsResponse"
   /posts:
     get:
       summary: Find all posts
@@ -108,27 +142,6 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/IdResponse"
-  /posts/{id}/rating:
-    patch:
-      summary: Find post by ID and add value (which is a positive or negative integer) to rating
-      operationId: addPostRating
-      tags:
-        - post
-      parameters:
-        - $ref: "./parameters-v1.yml#/components/parameters/id"
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/AddPostRatingRequest"
-      responses:
-        200:
-          description: The ID of the updated post
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/IdResponse"
 components:
   # Schemas imported from api-commons
   schemas:
@@ -142,7 +155,7 @@ components:
       type: CreatePostRequest
     UpdatePostRequest:
       type: UpdatePostRequest
-    AddPostRatingRequest:
-      type: AddPostRatingRequest
+    VoteForPostRequest:
+      type: VoteForPostRequest
     IdResponse:
       type: IdResponse

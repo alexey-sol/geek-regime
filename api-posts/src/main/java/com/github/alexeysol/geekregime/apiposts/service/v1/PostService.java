@@ -5,7 +5,9 @@ import com.github.alexeysol.geekregime.apicommons.model.dto.query.FilterCriterio
 import com.github.alexeysol.geekregime.apicommons.model.util.EntityFilter;
 import com.github.alexeysol.geekregime.apicommons.util.database.FilterSpecificationUtil;
 import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
+import com.github.alexeysol.geekregime.apiposts.model.entity.PostVote;
 import com.github.alexeysol.geekregime.apiposts.repository.PostRepository;
+import com.github.alexeysol.geekregime.apiposts.repository.PostVoteRepository;
 import com.github.alexeysol.geekregime.apiposts.util.PostFilterSpecificationFactory;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.*;
@@ -19,10 +21,11 @@ import java.util.Optional;
 @Validated
 @RequiredArgsConstructor
 public class PostService {
-    private final PostRepository repository;
+    private final PostRepository postRepository;
+    private final PostVoteRepository postVoteRepository;
 
     public Page<Post> findAllPosts(Pageable pageable) {
-        return repository.findAll(pageable);
+        return postRepository.findAll(pageable);
     }
 
     public Page<Post> findAllPosts(
@@ -31,38 +34,51 @@ public class PostService {
     ) {
         var specificationUtils = new FilterSpecificationUtil<>(new PostFilterSpecificationFactory());
         var specification = specificationUtils.createCompositeSpecification(filter);
-        return repository.findAll(specification, pageable);
+        return postRepository.findAll(specification, pageable);
     }
 
     public Optional<Post> findPostById(long id) {
-        return repository.findById(id);
+        return postRepository.findById(id);
     }
 
     public Optional<Post> findPostBySlug(String slug) {
-        return Optional.ofNullable(repository.findPostBySlug(slug));
+        return Optional.ofNullable(postRepository.findPostBySlug(slug));
+    }
+
+    public Optional<PostVote> findPostVote(Long userId, Long postId) {
+        return Optional.ofNullable(postVoteRepository.findPostVote(userId, postId));
     }
 
     @Transactional
     public Post savePost(Post post) {
-        return repository.save(post);
+        return postRepository.save(post);
+    }
+
+    @Transactional
+    public void savePostVote(PostVote postVote) {
+        postVoteRepository.save(postVote);
     }
 
     public long removePostById(long id) {
-        int deletedRowCount = repository.removePostById(id);
+        int deletedRowCount = postRepository.removePostById(id);
         return getMutationResult(id, deletedRowCount);
     }
 
     public void incrementViewCountAndSave(long postId) {
-        repository.incrementViewCount(postId);
+        postRepository.incrementViewCount(postId);
     }
 
-    public long addRating(long postId, long value) {
-        int mutatedRowCount = repository.addRating(postId, value);
-        return getMutationResult(postId, mutatedRowCount);
+    public void updatePostRating(Post post) {
+        long newRating = post.getVotes().stream()
+            .map(PostVote::getValue)
+            .reduce(0L, Long::sum);
+
+        postRepository.updatePostRating(post.getId(), newRating);
+        post.getMeta().setRating(newRating);
     }
 
     public boolean postAlreadyExists(String slug) {
-        return repository.existsPostBySlug(slug);
+        return postRepository.existsPostBySlug(slug);
     }
 
     private long getMutationResult(long id, int mutatedRowCount) {

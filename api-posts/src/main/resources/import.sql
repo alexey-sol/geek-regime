@@ -112,7 +112,7 @@ INSERT INTO posts (user_id, space_id, title, body, excerpt, slug, created_at, up
 VALUES (
     1,
     1,
-    'Lorem Ipsum 10',
+    'Lorem Ipsum 10. dolor sit amet, consectetur adipiscing elit. Pellentesque blandit sapien ante, ac tempus metus viverra eu. Nulla id tincidunt est. Quisque ac fringilla orci.',
     '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque blandit sapien ante, ac tempus metus viverra eu. Nulla id tincidunt est. Quisque ac fringilla orci. Mauris hendrerit urna diam, luctus pellentesque erat sodales nec. Vestibulum leo diam, ultricies eget dolor nec, accumsan convallis sapien. Etiam elementum vel est molestie euismod. Suspendisse consectetur tempor ante a sodales.</p><p><br /></p><p>Donec a iaculis risus. Aenean tristique, enim a congue maximus, lacus dui porta justo, vel fermentum metus metus in leo. Nulla eget pharetra erat. Sed at diam vitae augue molestie vehicula. Mauris consectetur, enim ut porttitor malesuada, erat urna luctus risus, et fringilla eros felis vel nunc. Donec libero lectus, consequat eget aliquam quis, placerat ac nibh. Fusce vel aliquam metus. Nulla et ligula ut nisl ullamcorper vulputate vitae nec ante. Morbi nec nunc placerat, elementum metus a, ultrices est. Aenean et diam lectus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus vestibulum ligula a dignissim egestas. Donec fermentum, enim tempor lobortis auctor, eros nulla venenatis nibh, in lobortis lorem sapien et eros.</p><p><br /></p><p>Etiam vehicula eros felis, vitae sagittis nulla porttitor a. Curabitur lacinia lectus magna, vel efficitur ipsum faucibus nec. Etiam vulputate nunc sed ante laoreet, id dapibus nunc rutrum. Ut gravida tincidunt feugiat. Proin rutrum condimentum tempor. Suspendisse id vulputate ipsum. Praesent luctus scelerisque felis, eget euismod justo tempus eget. Donec interdum nisl sit amet ex porttitor, lacinia ultrices ipsum convallis. Curabitur consequat vehicula condimentum. Donec tortor nibh, suscipit sed tempus sit amet, malesuada eu nulla. Nulla quis diam sapien. Maecenas ac libero ex. Cras at elit in augue viverra sagittis vitae vitae ante. Fusce auctor tortor nunc, ac condimentum augue finibus id.</p><p><br /></p><p>Duis vel mi id nibh tincidunt congue. Aliquam erat volutpat. Mauris sit amet urna interdum, tristique nulla ut, pretium lectus. Cras ac condimentum mi. Phasellus efficitur nunc diam, sed ullamcorper mauris eleifend in. Sed nisl magna, lacinia at convallis ut, ultrices nec nibh. Sed eu purus faucibus, aliquet tortor sed, faucibus nisi. Maecenas vehicula commodo rhoncus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, lectus vel gravida tempus, est tellus ullamcorper elit, dictum tincidunt orci nisi eget metus. Donec eget ante id ex cursus blandit feugiat ac est. Sed cursus justo a consectetur euismod. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>',
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque blandit sapien ante, ac tempus metus viverra eu. Nulla id tincidunt est. Quisque ac fringilla orci. Mauris hendrerit urna diam, luctus pellentesque erat sodales nec. Vestibulum leo diam, ultricies eget dolor nec, accumsan convalli…',
     'lorem-ipsum-10',
@@ -136,7 +136,7 @@ INSERT INTO posts (user_id, space_id, title, body, excerpt, slug, created_at, up
 VALUES (
     1,
     1,
-    'Lorem Ipsum 12. dolor sit amet, consectetur adipiscing elit. Pellentesque blandit sapien ante, ac tempus metus viverra eu. Nulla id tincidunt est. Quisque ac fringilla orci.',
+    'Lorem Ipsum 12',
     '<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque blandit sapien ante, ac tempus metus viverra eu. Nulla id tincidunt est. Quisque ac fringilla orci. Mauris hendrerit urna diam, luctus pellentesque erat sodales nec. Vestibulum leo diam, ultricies eget dolor nec, accumsan convallis sapien. Etiam elementum vel est molestie euismod. Suspendisse consectetur tempor ante a sodales.</p><p><br /></p><p>Donec a iaculis risus. Aenean tristique, enim a congue maximus, lacus dui porta justo, vel fermentum metus metus in leo. Nulla eget pharetra erat. Sed at diam vitae augue molestie vehicula. Mauris consectetur, enim ut porttitor malesuada, erat urna luctus risus, et fringilla eros felis vel nunc. Donec libero lectus, consequat eget aliquam quis, placerat ac nibh. Fusce vel aliquam metus. Nulla et ligula ut nisl ullamcorper vulputate vitae nec ante. Morbi nec nunc placerat, elementum metus a, ultrices est. Aenean et diam lectus. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Vivamus vestibulum ligula a dignissim egestas. Donec fermentum, enim tempor lobortis auctor, eros nulla venenatis nibh, in lobortis lorem sapien et eros.</p><p><br /></p><p>Etiam vehicula eros felis, vitae sagittis nulla porttitor a. Curabitur lacinia lectus magna, vel efficitur ipsum faucibus nec. Etiam vulputate nunc sed ante laoreet, id dapibus nunc rutrum. Ut gravida tincidunt feugiat. Proin rutrum condimentum tempor. Suspendisse id vulputate ipsum. Praesent luctus scelerisque felis, eget euismod justo tempus eget. Donec interdum nisl sit amet ex porttitor, lacinia ultrices ipsum convallis. Curabitur consequat vehicula condimentum. Donec tortor nibh, suscipit sed tempus sit amet, malesuada eu nulla. Nulla quis diam sapien. Maecenas ac libero ex. Cras at elit in augue viverra sagittis vitae vitae ante. Fusce auctor tortor nunc, ac condimentum augue finibus id.</p><p><br /></p><p>Duis vel mi id nibh tincidunt congue. Aliquam erat volutpat. Mauris sit amet urna interdum, tristique nulla ut, pretium lectus. Cras ac condimentum mi. Phasellus efficitur nunc diam, sed ullamcorper mauris eleifend in. Sed nisl magna, lacinia at convallis ut, ultrices nec nibh. Sed eu purus faucibus, aliquet tortor sed, faucibus nisi. Maecenas vehicula commodo rhoncus. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus. Nam fermentum, lectus vel gravida tempus, est tellus ullamcorper elit, dictum tincidunt orci nisi eget metus. Donec eget ante id ex cursus blandit feugiat ac est. Sed cursus justo a consectetur euismod. Orci varius natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.</p>',
     'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Pellentesque blandit sapien ante, ac tempus metus viverra eu. Nulla id tincidunt est. Quisque ac fringilla orci. Mauris hendrerit urna diam, luctus pellentesque erat sodales nec. Vestibulum leo diam, ultricies eget dolor nec, accumsan convalli…',
     'lorem-ipsum-12-dolor-sit-amet-consectetur-adipiscing-elit-pellentesque-blandit-sapien-ante-ac-tempus-metus-viverra-eu-nulla-id-tincidunt-est-quisque-ac-fringilla-orci',
@@ -164,8 +164,20 @@ INSERT INTO post_meta (post_id, rating, view_count) VALUES (8, 0, 0);
 
 INSERT INTO post_meta (post_id, rating, view_count) VALUES (9, 0, 0);
 
-INSERT INTO post_meta (post_id, rating, view_count) VALUES (10, 2, 100);
+INSERT INTO post_meta (post_id, rating, view_count) VALUES (10, 0, 100);
 
-INSERT INTO post_meta (post_id, rating, view_count) VALUES (11, 10, 20);
+INSERT INTO post_meta (post_id, rating, view_count) VALUES (11, 1, 20);
 
 INSERT INTO post_meta (post_id, rating, view_count) VALUES (12, 0, 0);
+
+-- post vote
+
+INSERT INTO post_vote (post_id, user_id, value) VALUES (11, 1, 1);
+
+INSERT INTO post_vote (post_id, user_id, value) VALUES (11, 2, 1);
+
+INSERT INTO post_vote (post_id, user_id, value) VALUES (11, 3, -1);
+
+INSERT INTO post_vote (post_id, user_id, value) VALUES (10, 1, -1);
+
+INSERT INTO post_vote (post_id, user_id, value) VALUES (10, 2, 1);

@@ -32,4 +32,8 @@ public class PostMeta {
     public void incrementViewCount() {
         viewCount++;
     }
+
+    public void addRating(long value) {
+        rating += value;
+    }
 }

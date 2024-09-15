@@ -158,15 +158,24 @@ public class PostController implements PostApi {
     }
 
     @Override
-    public ResponseEntity<IdResponse> addPostRating(AddPostRatingRequest request, Long id) {
-        var result = service.addRating(id, request.getValue());
-        var isNotFound = result == Default.NOT_FOUND_BY_ID;
+    public ResponseEntity<PostDetailsResponse> voteForPost(Long userId, Long postId, VoteForPostRequest request) {
+        var optionalPost = service.findPostById(postId);
 
-        if (isNotFound) {
+        if (optionalPost.isEmpty()) {
             throw new ResourceException(new ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD));
         }
 
-        var response = mapper.toIdResponse(id);
+        var optionalPostVote = service.findPostVote(userId, postId);
+        var post = optionalPost.get();
+
+        var postVote = optionalPostVote.isPresent()
+            ? mapper.toPostVote(request, optionalPostVote.get())
+            : mapper.toPostVote(request, userId, post);
+
+        service.savePostVote(postVote);
+        service.updatePostRating(post);
+
+        var response = mapper.toPostDetailsResponse(post);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
