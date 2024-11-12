@@ -10,7 +10,7 @@ export type CreatePostOnSaveArg = Pick<CreatePostArg, "title" | "body">;
 
 export type UpdatePostOnSaveArg = Omit<UpdatePostByIdArg, "id">;
 
-export type ActivePostPending = "get" | "create" | "update" | "remove";
+export type ActivePostPending = "get" | "create" | "update" | "remove" | "vote";
 
 export type UseActivePostResult = {
     pending?: ActivePostPending;
@@ -19,6 +19,7 @@ export type UseActivePostResult = {
         (arg: CreatePostOnSaveArg): void;
         (arg: UpdatePostOnSaveArg): void;
     };
+    voteForPost: (value: number) => void;
 };
 
 export type UsePostsPageArg = Pick<GetAllPostsArg, "filter">;

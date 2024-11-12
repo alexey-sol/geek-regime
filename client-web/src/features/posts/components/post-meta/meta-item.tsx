@@ -22,6 +22,6 @@ export const MetaItem: FC<MetaItemProps> = ({
         <Tooltip message={tooltipMessage}>
             <Icon />
         </Tooltip>
-        <Typography color={labelColor} fontSize="sm" weight='bolder'>{label}</Typography>
+        <Typography color={labelColor} fontSize="sm" weight="bolder">{label}</Typography>
     </MetaItemStyled>
 );

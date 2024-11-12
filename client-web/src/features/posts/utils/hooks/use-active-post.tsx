@@ -7,6 +7,7 @@ import {
     useCreatePostMutation,
     useGetPostBySlugQuery,
     useUpdatePostByIdMutation,
+    useVoteForPostMutation,
 } from "@/features/posts/services/api";
 import { useAuthContext } from "@/features/auth/contexts/auth";
 import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
@@ -31,8 +32,9 @@ export const useActivePost = (): UseActivePostResult => {
         }),
     });
 
-    const [createPost, resultOfCreate] = useCreatePostMutation();
-    const [updatePostById, resultOfUpdate] = useUpdatePostByIdMutation();
+    const [createPostMutation, resultOfCreate] = useCreatePostMutation();
+    const [updatePostByIdMutation, resultOfUpdate] = useUpdatePostByIdMutation();
+    const [voteForPostMutation, resultOfVote] = useVoteForPostMutation();
 
     const slugAfterSaving = resultOfUpdate?.data?.slug ?? resultOfCreate?.data?.slug;
 
@@ -66,14 +68,26 @@ export const useActivePost = (): UseActivePostResult => {
         const postExists = !!id;
 
         if (postExists) {
-            updatePostById({ id, ...arg });
+            updatePostByIdMutation({ id, ...arg });
         } else if (!postExists && isCreatePostOnSaveArg(arg)) {
-            createPost({ spaceId: 1, authorId: 1, ...arg }); // TODO spaceId is hardcoded
+            createPostMutation({ spaceId: 1, authorId: 1, ...arg }); // TODO spaceId is hardcoded
         }
     }
 
-    const savePost = useCallback((arg: CreatePostOnSaveArg | UpdatePostOnSaveArg) =>
+    const savePost: UseActivePostResult["savePost"] = useCallback((arg) =>
         save(arg), [save]);
+
+    const voteForPost: UseActivePostResult["voteForPost"] = useCallback((value) => {
+        if (!profile || !id) {
+            return; // TODO throw?
+        }
+
+        voteForPostMutation({
+            postId: id,
+            userId: profile?.id,
+            value,
+        });
+    }, [id, profile, voteForPostMutation]);
 
     const pending = useMemo<ActivePostPending | undefined>(() => {
         if (isFetching) {
@@ -82,14 +96,17 @@ export const useActivePost = (): UseActivePostResult => {
             return "create";
         } else if (resultOfUpdate.isLoading) {
             return "update";
+        } else if (resultOfVote.isLoading) {
+            return "vote";
         }
 
         return undefined;
-    }, [isFetching, resultOfCreate.isLoading, resultOfUpdate.isLoading]);
+    }, [isFetching, resultOfCreate.isLoading, resultOfUpdate.isLoading, resultOfVote.isLoading]);
 
     return useMemo(() => ({
         pending,
         post,
         savePost,
-    }), [pending, post, savePost]);
+        voteForPost,
+    }), [pending, post, savePost, voteForPost]);
 };

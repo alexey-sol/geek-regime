@@ -4,35 +4,42 @@ import { useTranslation } from "react-i18next";
 
 import { Tooltip } from "@/shared/components/tooltip";
 import { DislikeIconButton, LikeIconButton } from "@/shared/components/icon-button";
-import { type PostMeta as Meta } from "@/features/posts/models/entities";
+import { useAuthContext } from "@/features/auth/contexts/auth";
+
+import { useActivePost } from "../../utils/hooks/use-active-post";
 
 import { getCappedCountLabel, getRatingColor } from "./utils";
 import { MetaItemStyled } from "./style";
+import { type HasPostMeta } from "./types";
 
-type ItemRatingUpdatableProps = {
-    meta: Meta;
-    onDislike: () => void;
-    onLike: () => void;
-    userVoteValue?: number;
-};
+const NEUTRAL_VOTE_VALUE = 0;
+const DISLIKE_VALUE = -1;
+const LIKE_VALUE = 1;
 
-export const ItemRatingUpdatable: FC<ItemRatingUpdatableProps> = ({
-    meta,
-    onDislike,
-    onLike,
-    userVoteValue = 0,
-}) => {
+export const ItemRatingUpdatable: FC<HasPostMeta> = ({ meta }) => {
     const { t } = useTranslation();
     const ratingColor = getRatingColor(meta.rating);
+
+    const { profile } = useAuthContext();
+    const { pending, post, voteForPost } = useActivePost();
+
+    const dislikePost = () => voteForPost(DISLIKE_VALUE);
+    const likePost = () => voteForPost(LIKE_VALUE);
+    const undoVoteForPost = () => voteForPost(NEUTRAL_VOTE_VALUE);
+
+    const {
+        value: userVoteValue = NEUTRAL_VOTE_VALUE,
+    } = post?.votes.find(({ userId }) => userId === profile?.id) ?? {};
 
     return (
         <MetaItemStyled>
             <DislikeIconButton
-                color={userVoteValue < 0 ? "secondary" : undefined}
-                title={userVoteValue < 0
+                color={userVoteValue < NEUTRAL_VOTE_VALUE ? "secondary" : undefined}
+                disabled={pending === "vote"}
+                title={userVoteValue < NEUTRAL_VOTE_VALUE
                     ? t("posts.post.dislikeButton.active.tooltip")
                     : t("posts.post.dislikeButton.inactive.tooltip")}
-                onClick={onDislike}
+                onClick={userVoteValue < NEUTRAL_VOTE_VALUE ? undoVoteForPost : dislikePost}
             />
 
             <Tooltip message={`${t("posts.post.rating")}: ${meta.rating}`}>
@@ -42,11 +49,12 @@ export const ItemRatingUpdatable: FC<ItemRatingUpdatableProps> = ({
             </Tooltip>
 
             <LikeIconButton
-                color={userVoteValue > 0 ? "secondary" : undefined}
-                title={userVoteValue > 0
+                color={userVoteValue > NEUTRAL_VOTE_VALUE ? "secondary" : undefined}
+                disabled={pending === "vote"}
+                title={userVoteValue > NEUTRAL_VOTE_VALUE
                     ? t("posts.post.likeButton.active.tooltip")
                     : t("posts.post.likeButton.inactive.tooltip")}
-                onClick={onLike}
+                onClick={userVoteValue > NEUTRAL_VOTE_VALUE ? undoVoteForPost : likePost}
             />
         </MetaItemStyled>
     );

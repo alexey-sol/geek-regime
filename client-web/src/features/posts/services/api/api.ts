@@ -1,11 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { resources } from "@eggziom/geek-regime-js-commons";
+import { type ThunkDispatch } from "redux-thunk";
 
 import * as cn from "@/features/posts/services/api/const";
 import {
     type UserPostDetailsResponse, type UserPostPreviewPageResponse,
 } from "@/features/posts/models/dtos";
 import { transformQueryParams } from "@/shared/utils/converters";
+import { type RootState } from "@/app/store";
 
 import { baseUrl, createTag } from "./utils";
 import type * as tp from "./types";
@@ -70,43 +72,71 @@ export const postsApi = createApi({
                 method: "PATCH",
                 url: `${resources.POSTS}/${id}`,
             }),
-            async onQueryStarted({ id }, api) {
+            async onQueryStarted(_, api) {
                 const { data } = await api.queryFulfilled;
 
-                if (!data) {
-                    return;
-                }
+                // eslint-disable-next-line no-use-before-define -- [1]
+                updatePostCacheIfNeeded(data, api.getState(), api.dispatch);
+            },
+        }),
+        voteForPost: builder.mutation<UserPostDetailsResponse, tp.VoteForPostArg>({
+            query: ({ postId, userId, value }) => ({
+                body: { value },
+                method: "PUT",
+                url: `${resources.USERS}/${userId}/${resources.POSTS}/${postId}/vote`,
+            }),
+            // FIXME check if this works
+            async onQueryStarted(_, api) {
+                const { data } = await api.queryFulfilled;
 
-                const caches = postsApi.util.selectInvalidatedBy(
-                    api.getState(),
-                    [{ type: cn.POSTS_TAG_TYPE, id }],
-                );
-
-                caches.forEach(({ endpointName, originalArgs }) => {
-                    if (endpointName !== "getAllPosts") {
-                        return;
-                    }
-
-                    api.dispatch(postsApi.util.updateQueryData("getAllPosts", originalArgs, (draftPosts) => {
-                        const itemIndex = draftPosts.content.findIndex((post) => post.id === id);
-
-                        if (itemIndex >= 0) {
-                            draftPosts.content[itemIndex] = data;
-                        }
-                    }));
-                });
-
-                api.dispatch(
-                    postsApi.util.upsertQueryData("getPostBySlug", data.slug, data),
-                );
+                // eslint-disable-next-line no-use-before-define -- [1]
+                updatePostCacheIfNeeded(data, api.getState(), api.dispatch);
             },
         }),
     }),
 });
+
+const updatePostCacheIfNeeded = (
+    data: UserPostDetailsResponse,
+    state: RootState,
+    dispatch: ThunkDispatch<RootState, any, any>,
+) => {
+    if (!data) {
+        return;
+    }
+
+    const { id } = data;
+
+    const caches = postsApi.util.selectInvalidatedBy(
+        state,
+        [{ type: cn.POSTS_TAG_TYPE, id }],
+    );
+
+    caches.forEach(({ endpointName, originalArgs }) => {
+        if (endpointName !== "getAllPosts") {
+            return;
+        }
+
+        dispatch(postsApi.util.updateQueryData("getAllPosts", originalArgs, (draftPosts) => {
+            const itemIndex = draftPosts.content.findIndex((post) => post.id === id);
+
+            if (itemIndex >= 0) {
+                draftPosts.content[itemIndex] = data;
+            }
+        }));
+    });
+
+    dispatch(
+        postsApi.util.upsertQueryData("getPostBySlug", data.slug, data),
+    );
+};
 
 export const {
     useCreatePostMutation,
     useGetAllPostsQuery,
     useGetPostBySlugQuery,
     useUpdatePostByIdMutation,
+    useVoteForPostMutation,
 } = postsApi;
+
+// [1]. The function depends on postsApi, so we can't declare it before it.

@@ -1,4 +1,4 @@
-import React, { type FC, useCallback } from "react";
+import React, { type FC } from "react";
 import differenceInMonths from "date-fns/differenceInMonths";
 import { useTranslation } from "react-i18next";
 import { Link, Typography } from "@eggziom/geek-regime-js-ui-kit";
@@ -34,10 +34,6 @@ export const PostDetails: FC<PostDetailsProps> = ({ post }) => {
 
     const hasUpdates = post.createdAt !== post.updatedAt;
     const isRateable = profile && profile.id !== post.author.id;
-    const userVoteValue = 0; // TODO stub
-
-    const handleDislike = useCallback(() => {}, []); // TODO stub
-    const handleLike = useCallback(() => {}, []);
 
     return (
         <PostDetailsStyled>
@@ -65,14 +61,7 @@ export const PostDetails: FC<PostDetailsProps> = ({ post }) => {
 
             <PostMeta meta={post.meta}>
                 {isRateable
-                    ? (
-                        <ItemRatingUpdatable
-                            meta={post.meta}
-                            onDislike={handleDislike}
-                            onLike={handleLike}
-                            userVoteValue={userVoteValue}
-                        />
-                    )
+                    ? <ItemRatingUpdatable meta={post.meta} />
                     : <ItemRatingReadonly meta={post.meta} />}
             </PostMeta>
 

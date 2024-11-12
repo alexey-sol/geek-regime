@@ -18,3 +18,9 @@ export type CreatePostArg = CreatePostRequest;
 export type RemovePostByIdArg = HasId["id"];
 
 export type UpdatePostByIdArg = HasId & UpdatePostRequest;
+
+export type VoteForPostArg = {
+    postId: HasId["id"];
+    userId: HasId["id"];
+    value: number;
+};
