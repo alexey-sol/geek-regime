@@ -32,8 +32,7 @@ export const Page: FC<PageProps> = ({
     return (
         <PageStyled>
             <InnerStyled>
-                {isPending && "loading"}
-                {children}
+                {isPending ? "loading" : children}
             </InnerStyled>
 
             <Paging

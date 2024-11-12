@@ -26,8 +26,26 @@ export const en = {
             },
         },
         post: {
-            createdAt: "Created at:",
-            updatedAt: "Updated at:",
+            createdAt: "Created at",
+            dislikeButton: {
+                active: {
+                    tooltip: "Dismiss dislike",
+                },
+                inactive: {
+                    tooltip: "Dislike it",
+                },
+            },
+            likeButton: {
+                active: {
+                    tooltip: "Dismiss like",
+                },
+                inactive: {
+                    tooltip: "Like it",
+                },
+            },
+            rating: "Rating",
+            updatedAt: "Updated at",
+            viewCount: "View count",
         },
     },
 };
@@ -60,8 +78,26 @@ export const ru = {
             },
         },
         post: {
-            createdAt: "Создано:",
-            updatedAt: "Обновлено:",
+            createdAt: "Создано",
+            dislikeButton: {
+                active: {
+                    tooltip: "Отставить дизлайк",
+                },
+                inactive: {
+                    tooltip: "Не нравится",
+                },
+            },
+            likeButton: {
+                active: {
+                    tooltip: "Разонравилось",
+                },
+                inactive: {
+                    tooltip: "Нравится",
+                },
+            },
+            rating: "Рейтинг",
+            updatedAt: "Обновлено",
+            viewCount: "Просмотров",
         },
     },
 };

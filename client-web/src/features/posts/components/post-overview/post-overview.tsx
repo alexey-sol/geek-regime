@@ -6,11 +6,14 @@ import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
 import { createAbsoluteUsersPath } from "@/features/users/utils/helpers";
 import { type UserPostPreview } from "@/features/posts/models/entities";
 import { type HasItem } from "@/shared/types";
-import { LikeIcon } from "@/shared/components/icon";
+import { PostMeta } from "@/features/posts/components/post-meta";
+
+import { ItemRatingReadonly } from "../post-meta/item-rating-readonly";
 
 import {
     BodyStyled,
-    InfoContainerStyled,
+    InfoWrapStyled,
+    PostOverviewFooter,
     PostOverviewStyled,
     TwoLineTextStyled,
 } from "./style";
@@ -29,25 +32,25 @@ export const PostOverview: FC<HasItem<UserPostPreview>> = ({ item }) => (
             </BodyStyled>
         </RouterDomLink>
 
-        <InfoContainerStyled>
-            <TwoLineTextStyled>
-                <Link
-                    data-testid="post-overview/author-slug-link"
-                    to={createAbsoluteUsersPath(item.author.slug)}
-                >
-                    {item.author.details.name}
-                </Link>
-                {" "}
-                &mdash;
-                {" "}
-                {item.formattedCreatedAt}
-            </TwoLineTextStyled>
-        </InfoContainerStyled>
+        <PostOverviewFooter>
+            <InfoWrapStyled>
+                <TwoLineTextStyled>
+                    <Link
+                        data-testid="post-overview/author-slug-link"
+                        to={createAbsoluteUsersPath(item.author.slug)}
+                    >
+                        {item.author.details.name}
+                    </Link>
+                    {" "}
+                    &mdash;
+                    {" "}
+                    {item.formattedCreatedAt}
+                </TwoLineTextStyled>
+            </InfoWrapStyled>
 
-        <div>
-            <LikeIcon />
-            {" "}
-            {item.meta.rating}
-        </div>
+            <PostMeta meta={item.meta}>
+                <ItemRatingReadonly meta={item.meta} />
+            </PostMeta>
+        </PostOverviewFooter>
     </PostOverviewStyled>
 );

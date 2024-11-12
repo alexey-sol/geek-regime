@@ -162,7 +162,7 @@ INSERT INTO post_meta (post_id, rating, view_count) VALUES (7, 0, 0);
 
 INSERT INTO post_meta (post_id, rating, view_count) VALUES (8, 0, 0);
 
-INSERT INTO post_meta (post_id, rating, view_count) VALUES (9, 0, 0);
+INSERT INTO post_meta (post_id, rating, view_count) VALUES (9, -1, 1);
 
 INSERT INTO post_meta (post_id, rating, view_count) VALUES (10, 0, 100);
 
@@ -181,3 +181,5 @@ INSERT INTO post_vote (post_id, user_id, value) VALUES (11, 3, -1);
 INSERT INTO post_vote (post_id, user_id, value) VALUES (10, 1, -1);
 
 INSERT INTO post_vote (post_id, user_id, value) VALUES (10, 2, 1);
+
+INSERT INTO post_vote (post_id, user_id, value) VALUES (9, 3, -1);

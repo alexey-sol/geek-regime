@@ -38,6 +38,13 @@ export const BodyStyled = styled.section`
     }
 `;
 
-export const InfoContainerStyled = styled.section`
+export const PostOverviewFooter = styled.section`
+    display: flex;
+    gap: 1rem;
+    justify-content: space-between;
+    flex-wrap: wrap;
+`;
+
+export const InfoWrapStyled = styled.section`
     display: flex;
 `;

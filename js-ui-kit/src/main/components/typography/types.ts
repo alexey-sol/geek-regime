@@ -1,4 +1,5 @@
 import type { HTMLAttributes } from "react";
+import type { CSSProperties } from "styled-components";
 
 import type { HasColor, HasFontSize } from "@/types/props";
 import type { Font } from "@/types/theme";
@@ -22,4 +23,5 @@ export type TypographyProps = HTMLAttributes<Omit<HTMLParagraphElement, "color">
     & {
     as?: TypographyTagName;
     font?: Font;
+    weight?: CSSProperties["fontWeight"];
 };

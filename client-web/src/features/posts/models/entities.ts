@@ -12,6 +12,14 @@ export class PostMeta {
     ) {}
 }
 
+export class PostVote {
+    constructor(
+        public id: number,
+        public userId: number,
+        public value: number,
+    ) {}
+}
+
 export class UserPostPreview {
     @Type(() => User)
     public author: User;
@@ -45,6 +53,9 @@ export class UserPostDetails extends UserPostPreview {
     @Transform(({ value }) => sanitize(value))
     public body: string;
 
+    @Type(() => PostVote)
+    public votes: PostVote[];
+
     constructor(
         id: number,
         title: string,
@@ -54,8 +65,10 @@ export class UserPostDetails extends UserPostPreview {
         updatedAt: string,
         author: User,
         body: string,
+        votes: PostVote[],
     ) {
         super(id, title, excerpt, slug, createdAt, updatedAt, author);
         this.body = body;
+        this.votes = votes;
     }
 }

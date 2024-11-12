@@ -11,7 +11,7 @@ import {
 } from "@eggziom/geek-regime-js-ui-kit";
 
 import { Tooltip } from "@/shared/components/tooltip";
-import { LikeIcon } from "@/shared/components/icon";
+import { DislikeIcon, LikeIcon } from "@/shared/components/icon";
 
 import * as cn from "./const";
 
@@ -62,6 +62,26 @@ export const SearchIconButton: FC<IconButtonProps> = ({ disabled, title, ...rest
         <BaseIconButton
             aria-label={cn.ARIA_LABEL_SEARCH}
             icon={SearchIcon}
+            {...rest}
+        />
+    </Tooltip>
+);
+
+export const LikeIconButton: FC<IconButtonProps> = ({ disabled, title, ...rest }) => (
+    <Tooltip disabled={disabled} message={title ?? t("posts.post.likeButton.inactive.tooltip")}>
+        <BaseIconButton
+            aria-label={cn.ARIA_LABEL_LIKE}
+            icon={LikeIcon}
+            {...rest}
+        />
+    </Tooltip>
+);
+
+export const DislikeIconButton: FC<IconButtonProps> = ({ disabled, title, ...rest }) => (
+    <Tooltip disabled={disabled} message={title ?? t("posts.post.dislikeButton.inactive.tooltip")}>
+        <BaseIconButton
+            aria-label={cn.ARIA_LABEL_DISLIKE}
+            icon={DislikeIcon}
             {...rest}
         />
     </Tooltip>

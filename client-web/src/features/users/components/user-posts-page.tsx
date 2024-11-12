@@ -23,8 +23,7 @@ export const UserPostsPage: FC = () => {
         : "";
 
     return (
-        <Page isPending={isPending} pagingOptions={pagingOptions} pathPrefix={pathPrefix}>
-            {isAllPending && "loading..."}
+        <Page isPending={isAllPending} pagingOptions={pagingOptions} pathPrefix={pathPrefix}>
             <ItemList ItemComponent={PostOverview} items={posts} />
         </Page>
     );

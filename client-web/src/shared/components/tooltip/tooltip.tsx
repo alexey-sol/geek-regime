@@ -1,7 +1,7 @@
 import React, {
     type FC, type PropsWithChildren, useEffect, useMemo, useRef, useState,
 } from "react";
-import { Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { HasClassName, Typography } from "@eggziom/geek-regime-js-ui-kit";
 
 import { useToggle } from "@/shared/utils/hooks/use-toggle";
 import type {
@@ -10,12 +10,17 @@ import type {
 
 import { BasePopupStyled, TooltipWrapStyled } from "./style";
 
-export type TooltipProps = PropsWithChildren<{
+export type TooltipProps = PropsWithChildren<Partial<HasClassName> & {
     disabled?: boolean;
     message: string;
 }>;
 
-export const Tooltip: FC<TooltipProps> = ({ children, disabled = false, message }) => {
+export const Tooltip: FC<TooltipProps> = ({
+    children,
+    className,
+    disabled = false,
+    message,
+}) => {
     const { isOn, setIsOn } = useToggle();
 
     const childrenWrapRef = useRef<HTMLElement>(null);
@@ -81,7 +86,7 @@ export const Tooltip: FC<TooltipProps> = ({ children, disabled = false, message 
 
     return (
         <TooltipWrapStyled>
-            <section ref={childrenWrapRef}>
+            <section className={className} ref={childrenWrapRef}>
                 {children}
             </section>
 

@@ -10,6 +10,7 @@ export const Typography = styled.p<TypographyProps>`
         color,
         font,
         fontSize,
+        weight,
     }) => css`
         font-family: ${theme.fonts.normal};
         font-size: ${theme.fontSizes[(tagName && mapTagNameToFontSize[tagName]) ?? "md"]};
@@ -25,6 +26,10 @@ export const Typography = styled.p<TypographyProps>`
 
         ${fontSize && css`
             font-size: ${theme.fontSizes[fontSize]};
+        `};
+
+        ${weight && css`
+            font-weight: ${weight};
         `};
     `};
 `;
