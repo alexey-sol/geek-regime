@@ -19,7 +19,7 @@ public class TitleToSlugConverter extends AbstractConverter<String, String> {
     private String generateSlug(String title) {
         String slug = Slug.generateSlug(title);
 
-        if (service.postAlreadyExists(slug)) {
+        if (service.postExistsBySlug(slug)) {
             slug += Slug.getSuffix();
         }
 

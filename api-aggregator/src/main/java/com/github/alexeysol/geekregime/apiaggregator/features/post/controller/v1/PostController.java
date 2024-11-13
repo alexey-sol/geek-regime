@@ -22,36 +22,36 @@ public class PostController {
     private final PostMapper mapper;
 
     @GetMapping("users/{authorId}/posts")
-    UserPostPreviewPageResponse findAllPostsByAuthor(
+    PostPreviewPageResponse findAllPostsByAuthor(
         @PathVariable long authorId,
         @RequestParam(required = false) Map<String, String> params
     ) {
         var page = service.findAllPosts(authorId, params);
-        var userPostPreviews = mapper.toUserPostDetailsResponseList(page.getContent());
-        return new UserPostPreviewPageResponse(userPostPreviews, page.getSize(), page.getTotalElements());
+        var postPreviews = mapper.toPostPreviewResponseList(page.getContent());
+        return new PostPreviewPageResponse(postPreviews, page.getSize(), page.getTotalElements());
     }
 
     @GetMapping("posts")
-    UserPostPreviewPageResponse findAllPosts(
+    PostPreviewPageResponse findAllPosts(
         @RequestParam(required = false) Map<String, String> params
     ) {
         var page = service.findAllPosts(params);
-        var userPostPreviews = mapper.toUserPostDetailsResponseList(page.getContent());
-        return new UserPostPreviewPageResponse(userPostPreviews, page.getSize(), page.getTotalElements());
+        var postPreviews = mapper.toPostPreviewResponseList(page.getContent());
+        return new PostPreviewPageResponse(postPreviews, page.getSize(), page.getTotalElements());
     }
 
     @GetMapping("posts/{slug}")
-    UserPostDetailsResponse findPostBySlug(@PathVariable String slug) {
-        PostDetailsResponse postDetailsResponse = service.findPostBySlug(slug);
-        return mapper.toUserPostDetailsResponse(postDetailsResponse);
+    PostDetailsResponse findPostBySlug(@PathVariable String slug) {
+        BasePostDetailsResponse postDetailsResponse = service.findPostBySlug(slug);
+        return mapper.toPostDetailsResponse(postDetailsResponse);
     }
 
     @PostMapping("posts")
-    UserPostDetailsResponse createPost(@RequestBody String request) throws Throwable {
-        PostDetailsResponse postDetailsResponse = service.createPost(request);
+    PostDetailsResponse createPost(@RequestBody String request) throws Throwable {
+        BasePostDetailsResponse postDetailsResponse = service.createPost(request);
 
         try {
-            return mapper.toUserPostDetailsResponse(postDetailsResponse);
+            return mapper.toPostDetailsResponse(postDetailsResponse);
         } catch (MappingException exception) {
             Throwable cause = exception.getCause();
             cleanUpIfNeeded(exception.getCause(), postDetailsResponse.getId());
@@ -60,9 +60,9 @@ public class PostController {
     }
 
     @PatchMapping("posts/{id}")
-    UserPostDetailsResponse updatePost(@PathVariable long id, @RequestBody String request) {
-        PostDetailsResponse updatedPost = service.updatePost(id, request);
-        return mapper.toUserPostDetailsResponse(updatedPost);
+    PostDetailsResponse updatePost(@PathVariable long id, @RequestBody String request) {
+        BasePostDetailsResponse updatedPost = service.updatePost(id, request);
+        return mapper.toPostDetailsResponse(updatedPost);
     }
 
     @DeleteMapping("posts/{id}")
@@ -71,14 +71,14 @@ public class PostController {
     }
 
     @PutMapping("users/{userId}/posts/{postId}/vote")
-    public UserPostDetailsResponse voteForPost(
+    public PostDetailsResponse voteOnPost(
         @PathVariable long userId,
         @PathVariable long postId,
         @RequestBody String request
     ) {
-        PostDetailsResponse updatedPost = service.voteForPost(userId, postId, request);
+        BasePostDetailsResponse updatedPost = service.voteOnPost(userId, postId, request);
         // TODO update the post author's rating as well (request to api-users)
-        return mapper.toUserPostDetailsResponse(updatedPost);
+        return mapper.toPostDetailsResponse(updatedPost);
     }
 
     private void cleanUpIfNeeded(Throwable exception, long postId) {

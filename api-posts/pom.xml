@@ -157,37 +157,53 @@
                         </goals>
                         <configuration>
                             <inputSpec>${project.basedir}/src/main/resources/api/api-posts-v1.yml</inputSpec>
-                            <generatorName>spring</generatorName>
-                            <library>spring-boot</library>
-                            <apiPackage>com.github.alexeysol.geekregime.apiposts.generated.api</apiPackage>
-                            <modelPackage>com.github.alexeysol.geekregime.apiposts.generated.model</modelPackage>
-                            <typeMappings>
-                                <typeMapping>PostPreviewPageResponse=com.github.alexeysol.geekregime.apicommons.generated.model.PostPreviewPageResponse</typeMapping>
-                                <typeMapping>PostDetailsResponse=com.github.alexeysol.geekregime.apicommons.generated.model.PostDetailsResponse</typeMapping>
-                                <typeMapping>PostPreviewResponse=com.github.alexeysol.geekregime.apicommons.generated.model.PostPreviewResponse</typeMapping>
-                                <typeMapping>CreatePostRequest=com.github.alexeysol.geekregime.apicommons.generated.model.CreatePostRequest</typeMapping>
-                                <typeMapping>UpdatePostRequest=com.github.alexeysol.geekregime.apicommons.generated.model.UpdatePostRequest</typeMapping>
-                                <typeMapping>VoteForPostRequest=com.github.alexeysol.geekregime.apicommons.generated.model.VoteForPostRequest</typeMapping>
-                                <typeMapping>IdResponse=com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse</typeMapping>
-                                <typeMapping>LocalDate=java.util.Date</typeMapping>
-                                <typeMapping>OffsetDateTime=java.util.Date</typeMapping>
-                            </typeMappings>
-                            <configOptions>
-                                <additionalModelTypeAnnotations>
-                                    @lombok.Builder
-                                    @lombok.AllArgsConstructor
-                                    @lombok.NoArgsConstructor
-                                </additionalModelTypeAnnotations>
-                                <documentationProvider>source</documentationProvider>
-                                <generatedConstructorWithRequiredArgs>false</generatedConstructorWithRequiredArgs>
-                                <interfaceOnly>true</interfaceOnly>
-                                <skipDefaultInterface>true</skipDefaultInterface>
-                                <sourceFolder>src/main/java</sourceFolder>
-                                <useTags>true</useTags>
-                            </configOptions>
+                        </configuration>
+                    </execution>
+                    <execution>
+                        <id>api-post-comments</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/api/api-post-comments-v1.yml</inputSpec>
                         </configuration>
                     </execution>
                 </executions>
+
+                <configuration>
+                    <generatorName>spring</generatorName>
+                    <library>spring-boot</library>
+                    <apiPackage>com.github.alexeysol.geekregime.apiposts.generated.api</apiPackage>
+                    <modelPackage>com.github.alexeysol.geekregime.apiposts.generated.model</modelPackage>
+                    <typeMappings>
+                        <typeMapping>BasePostPreviewPageResponse=com.github.alexeysol.geekregime.apicommons.generated.model.BasePostPreviewPageResponse</typeMapping>
+                        <typeMapping>BasePostDetailsResponse=com.github.alexeysol.geekregime.apicommons.generated.model.BasePostDetailsResponse</typeMapping>
+                        <typeMapping>BasePostPreviewResponse=com.github.alexeysol.geekregime.apicommons.generated.model.BasePostPreviewResponse</typeMapping>
+                        <typeMapping>CreatePostRequest=com.github.alexeysol.geekregime.apicommons.generated.model.CreatePostRequest</typeMapping>
+                        <typeMapping>UpdatePostRequest=com.github.alexeysol.geekregime.apicommons.generated.model.UpdatePostRequest</typeMapping>
+                        <typeMapping>VoteOnPostRequest=com.github.alexeysol.geekregime.apicommons.generated.model.VoteOnPostRequest</typeMapping>
+                        <typeMapping>BasePostCommentPageResponse=com.github.alexeysol.geekregime.apicommons.generated.model.BasePostCommentPageResponse</typeMapping>
+                        <typeMapping>BasePostCommentResponse=com.github.alexeysol.geekregime.apicommons.generated.model.BasePostCommentResponse</typeMapping>
+                        <typeMapping>CreatePostCommentRequest=com.github.alexeysol.geekregime.apicommons.generated.model.CreatePostCommentRequest</typeMapping>
+                        <typeMapping>UpdatePostCommentRequest=com.github.alexeysol.geekregime.apicommons.generated.model.UpdatePostCommentRequest</typeMapping>
+                        <typeMapping>IdResponse=com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse</typeMapping>
+                        <typeMapping>LocalDate=java.util.Date</typeMapping>
+                        <typeMapping>OffsetDateTime=java.util.Date</typeMapping>
+                    </typeMappings>
+                    <configOptions>
+                        <additionalModelTypeAnnotations>
+                            @lombok.Builder
+                            @lombok.AllArgsConstructor
+                            @lombok.NoArgsConstructor
+                        </additionalModelTypeAnnotations>
+                        <documentationProvider>source</documentationProvider>
+                        <generatedConstructorWithRequiredArgs>false</generatedConstructorWithRequiredArgs>
+                        <interfaceOnly>true</interfaceOnly>
+                        <skipDefaultInterface>true</skipDefaultInterface>
+                        <sourceFolder>src/main/java</sourceFolder>
+                        <useTags>true</useTags>
+                    </configOptions>
+                </configuration>
             </plugin>
         </plugins>
     </build>

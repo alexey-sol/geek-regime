@@ -29,11 +29,10 @@ public class PostMeta {
     @Column(name = "view_count")
     private long viewCount;
 
+    @Column(name = "comment_count")
+    private long commentCount;
+
     public void incrementViewCount() {
         viewCount++;
-    }
-
-    public void addRating(long value) {
-        rating += value;
     }
 }

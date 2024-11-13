@@ -1,8 +1,8 @@
 package com.github.alexeysol.geekregime.apiaggregator.features.post.mapper.converter;
 
 import com.github.alexeysol.geekregime.apiaggregator.features.user.service.v1.UserService;
+import com.github.alexeysol.geekregime.apicommons.generated.model.BasePostPreviewResponse;
 import com.github.alexeysol.geekregime.apicommons.generated.model.PostPreviewResponse;
-import com.github.alexeysol.geekregime.apicommons.generated.model.UserPostPreviewResponse;
 import com.github.alexeysol.geekregime.apicommons.generated.model.UserResponse;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
@@ -13,34 +13,34 @@ import java.util.Map;
 
 // Fetches a collection of users from the corresponding API via single query and sets them to
 // DTOs as author field.
-public class ToUserPostPreviewResponseListConverter extends AbstractConverter<
-    List<PostPreviewResponse>,
-    List<UserPostPreviewResponse>
+public class ToPostPreviewResponseListConverter extends AbstractConverter<
+    List<BasePostPreviewResponse>,
+    List<PostPreviewResponse>
 > {
     private final UserService userService;
     private final ModelMapper modelMapper;
 
-    public ToUserPostPreviewResponseListConverter(UserService userService, ModelMapper modelMapper) {
+    public ToPostPreviewResponseListConverter(UserService userService, ModelMapper modelMapper) {
         this.userService = userService;
         this.modelMapper = modelMapper;
     }
 
     @Override
-    protected List<UserPostPreviewResponse> convert(List<PostPreviewResponse> sources) {
+    protected List<PostPreviewResponse> convert(List<BasePostPreviewResponse> sources) {
         List<Long> authorIds = getAuthorIds(sources);
         Map<Long, UserResponse> mapAuthorIdToAuthor = getMapAuthorIdToAuthor(authorIds);
 
         return sources.stream()
             .map(source -> {
                 UserResponse author = mapAuthorIdToAuthor.get(source.getAuthorId());
-                return toUserPostPreviewResponse(source, author);
+                return toPostPreviewResponse(source, author);
             })
             .toList();
     }
 
-    private List<Long> getAuthorIds(List<PostPreviewResponse> sources) {
+    private List<Long> getAuthorIds(List<BasePostPreviewResponse> sources) {
         return sources.stream()
-            .map(PostPreviewResponse::getAuthorId)
+            .map(BasePostPreviewResponse::getAuthorId)
             .distinct()
             .toList();
     }
@@ -57,9 +57,9 @@ public class ToUserPostPreviewResponseListConverter extends AbstractConverter<
         return map;
     }
 
-    private UserPostPreviewResponse toUserPostPreviewResponse(PostPreviewResponse source, UserResponse author) {
-        UserPostPreviewResponse target = modelMapper.map(source, UserPostPreviewResponse.class);
+    private PostPreviewResponse toPostPreviewResponse(BasePostPreviewResponse source, UserResponse author) {
+        PostPreviewResponse target = modelMapper.map(source, PostPreviewResponse.class);
         target.setAuthor(author);
-        return modelMapper.map(target, UserPostPreviewResponse.class);
+        return modelMapper.map(target, PostPreviewResponse.class);
     }
 }

@@ -2,10 +2,10 @@ package com.github.alexeysol.geekregime.apiaggregator.features.post.mapper;
 
 import com.github.alexeysol.geekregime.apiaggregator.features.post.service.v1.PostService;
 import com.github.alexeysol.geekregime.apiaggregator.features.user.service.v1.UserService;
+import com.github.alexeysol.geekregime.apicommons.generated.model.BasePostDetailsResponse;
+import com.github.alexeysol.geekregime.apicommons.generated.model.BasePostPreviewResponse;
 import com.github.alexeysol.geekregime.apicommons.generated.model.PostDetailsResponse;
 import com.github.alexeysol.geekregime.apicommons.generated.model.PostPreviewResponse;
-import com.github.alexeysol.geekregime.apicommons.generated.model.UserPostDetailsResponse;
-import com.github.alexeysol.geekregime.apicommons.generated.model.UserPostPreviewResponse;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
@@ -17,13 +17,13 @@ public class PostMapper extends BasePostMapper {
         super(modelMapper, postService, userService);
     }
 
-    public UserPostDetailsResponse toUserPostDetailsResponse(PostDetailsResponse postDetailsResponse) {
-        return modelMapper.map(postDetailsResponse, UserPostDetailsResponse.class);
+    public PostDetailsResponse toPostDetailsResponse(BasePostDetailsResponse postDetailsResponse) {
+        return modelMapper.map(postDetailsResponse, PostDetailsResponse.class);
     }
 
-    public List<UserPostPreviewResponse> toUserPostDetailsResponseList(List<PostPreviewResponse> postPreviewResponses) {
-        var responseList = new PostPreviewResponseList();
+    public List<PostPreviewResponse> toPostPreviewResponseList(List<BasePostPreviewResponse> postPreviewResponses) {
+        var responseList = new BasePostPreviewResponseList();
         responseList.setList(postPreviewResponses);
-        return modelMapper.map(responseList, UserPostPreviewResponseList.class).getList();
+        return modelMapper.map(responseList, PostPreviewResponseList.class).getList();
     }
 }

@@ -77,10 +77,15 @@ public class PostService {
         post.getMeta().setRating(newRating);
     }
 
-    public boolean postAlreadyExists(String slug) {
+    public boolean postExistsById(long id) {
+        return postRepository.existsPostById(id);
+    }
+
+    public boolean postExistsBySlug(String slug) {
         return postRepository.existsPostBySlug(slug);
     }
 
+    // TODO move to shared (is also used in another service)
     private long getMutationResult(long id, int mutatedRowCount) {
         boolean isMutated = mutatedRowCount > 0;
 

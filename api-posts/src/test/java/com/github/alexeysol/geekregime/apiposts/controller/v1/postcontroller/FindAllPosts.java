@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregime.apiposts.controller.v1.postcontroller;
 
-import com.github.alexeysol.geekregime.apicommons.generated.model.PostPreviewPageResponse;
-import com.github.alexeysol.geekregime.apicommons.generated.model.PostPreviewResponse;
+import com.github.alexeysol.geekregime.apicommons.generated.model.BasePostPreviewPageResponse;
+import com.github.alexeysol.geekregime.apicommons.generated.model.BasePostPreviewResponse;
 import com.github.alexeysol.geekregime.apicommons.util.parser.Json;
 import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.util.source.ApiPostsSource;
@@ -39,13 +39,13 @@ public class FindAllPosts extends BasePostControllerTest {
         var posts = List.of(new Post(), new Post(), new Post());
         var postPage = new PageImpl<>(posts, pageableStub, posts.size());
 
-        var postPreviewResponses = List.of(new PostPreviewResponse(), new PostPreviewResponse(),
-            new PostPreviewResponse());
-        var postPreviewPageResponse = new PostPreviewPageResponse(postPreviewResponses,
+        var postPreviewResponses = List.of(new BasePostPreviewResponse(), new BasePostPreviewResponse(),
+            new BasePostPreviewResponse());
+        var postPreviewPageResponse = new BasePostPreviewPageResponse(postPreviewResponses,
                 postPage.getSize(), postPage.getTotalElements());
 
         when(service.findAllPosts(Mockito.any(Pageable.class))).thenReturn(postPage);
-        when(mapper.toPostPreviewListResponse(posts)).thenReturn(postPreviewResponses);
+        when(mapper.toBasePostPreviewListResponse(posts)).thenReturn(postPreviewResponses);
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl()))
             .andExpect(MockMvcResultMatchers.status().isOk())
@@ -65,12 +65,12 @@ public class FindAllPosts extends BasePostControllerTest {
         List<Post> emptyList = List.of();
         var emptyPage = new PageImpl<Post>(new ArrayList<>(), pageableStub, 0);
 
-        List<PostPreviewResponse> emptyPostPreviewResponseList = List.of();
-        var emptyPostPreviewPageResponse = new PostPreviewPageResponse(new ArrayList<>(), emptyPage.getSize(),
+        List<BasePostPreviewResponse> emptyPostPreviewResponseList = List.of();
+        var emptyPostPreviewPageResponse = new BasePostPreviewPageResponse(new ArrayList<>(), emptyPage.getSize(),
             emptyPage.getTotalElements());
 
         when(service.findAllPosts(Mockito.any(Pageable.class))).thenReturn(emptyPage);
-        when(mapper.toPostPreviewListResponse(emptyList)).thenReturn(emptyPostPreviewResponseList);
+        when(mapper.toBasePostPreviewListResponse(emptyList)).thenReturn(emptyPostPreviewResponseList);
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl()))
             .andExpect(MockMvcResultMatchers.status().isOk())

@@ -1,6 +1,6 @@
 package com.github.alexeysol.geekregime.apiposts.controller.v1.postcontroller;
 
-import com.github.alexeysol.geekregime.apicommons.generated.model.PostDetailsResponse;
+import com.github.alexeysol.geekregime.apicommons.generated.model.BasePostDetailsResponse;
 import com.github.alexeysol.geekregime.apicommons.util.parser.Json;
 import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.model.entity.PostMeta;
@@ -33,11 +33,11 @@ public class FindPostBySlugTest extends BasePostControllerTest {
             .slug("test-post")
             .meta(new PostMeta())
             .build();
-        var postDetailsResponse = new PostDetailsResponse();
+        var postDetailsResponse = new BasePostDetailsResponse();
 
         when(service.findPostBySlug(post.getSlug())).thenReturn(Optional.of(post));
         doNothing().when(service).incrementViewCountAndSave(post.getId());
-        when(mapper.toPostDetailsResponse(post)).thenReturn(postDetailsResponse);
+        when(mapper.toBasePostDetailsResponse(post)).thenReturn(postDetailsResponse);
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl(post.getSlug())))
             .andExpect(MockMvcResultMatchers.status().isOk())

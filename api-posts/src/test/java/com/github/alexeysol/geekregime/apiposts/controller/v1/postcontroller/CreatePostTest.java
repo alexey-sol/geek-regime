@@ -2,7 +2,7 @@ package com.github.alexeysol.geekregime.apiposts.controller.v1.postcontroller;
 
 import com.github.alexeysol.geekregime.apicommons.exception.ResourceException;
 import com.github.alexeysol.geekregime.apicommons.generated.model.CreatePostRequest;
-import com.github.alexeysol.geekregime.apicommons.generated.model.PostDetailsResponse;
+import com.github.alexeysol.geekregime.apicommons.generated.model.BasePostDetailsResponse;
 import com.github.alexeysol.geekregime.apicommons.util.TestUtil;
 import com.github.alexeysol.geekregime.apicommons.util.parser.Json;
 import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
@@ -48,14 +48,14 @@ public class CreatePostTest extends BasePostControllerTest {
             .title(post.getTitle())
             .body(post.getBody())
             .build();
-        var postDetailsResponse = PostDetailsResponse.builder()
+        var postDetailsResponse = BasePostDetailsResponse.builder()
             .title(post.getTitle())
             .body(post.getBody())
             .build();
 
         when(mapper.toPost(createPostRequest)).thenReturn(post);
         when(service.savePost(post)).thenReturn(post);
-        when(mapper.toPostDetailsResponse(post)).thenReturn(postDetailsResponse);
+        when(mapper.toBasePostDetailsResponse(post)).thenReturn(postDetailsResponse);
 
         mockMvc.perform(TestUtil.mockPostRequest(getUrl(), createPostRequest))
             .andExpect(MockMvcResultMatchers.status().isOk())
@@ -113,7 +113,7 @@ public class CreatePostTest extends BasePostControllerTest {
 
         when(mapper.toPost(createPostRequest)).thenReturn(post);
         when(service.savePost(post)).thenReturn(post);
-        when(mapper.toPostDetailsResponse(post))
+        when(mapper.toBasePostDetailsResponse(post))
             .thenThrow(new ResourceException(HttpStatus.NOT_FOUND, "huh?"));
 
         mockMvc.perform(TestUtil.mockPostRequest(getUrl(), createPostRequest))

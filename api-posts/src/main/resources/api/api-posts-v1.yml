@@ -22,11 +22,11 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PostPreviewPageResponse"
+                $ref: "#/components/schemas/BasePostPreviewPageResponse"
   /users/{userId}/posts/{postId}/vote:
     put:
       summary: Vote for the post on behalf of the user
-      operationId: voteForPost
+      operationId: voteOnPost
       tags:
         - post
       parameters:
@@ -49,14 +49,14 @@ paths:
         content:
           application/json:
             schema:
-              $ref: "#/components/schemas/VoteForPostRequest"
+              $ref: "#/components/schemas/VoteOnPostRequest"
       responses:
         200:
           description: The updated post
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PostDetailsResponse"
+                $ref: "#/components/schemas/BasePostDetailsResponse"
   /posts:
     get:
       summary: Find all posts
@@ -73,7 +73,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PostPreviewPageResponse"
+                $ref: "#/components/schemas/BasePostPreviewPageResponse"
     post:
       summary: Create post
       operationId: createPost
@@ -91,7 +91,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PostDetailsResponse"
+                $ref: "#/components/schemas/BasePostDetailsResponse"
   /posts/{slug}:
     get:
       summary: Find post by slug
@@ -106,7 +106,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PostDetailsResponse"
+                $ref: "#/components/schemas/BasePostDetailsResponse"
   /posts/{id}:
     patch:
       summary: Update post by ID
@@ -127,7 +127,7 @@ paths:
           content:
             application/json:
               schema:
-                $ref: "#/components/schemas/PostDetailsResponse"
+                $ref: "#/components/schemas/BasePostDetailsResponse"
     delete:
       summary: Remove post by ID
       operationId: removePostById
@@ -145,17 +145,17 @@ paths:
 components:
   # Schemas imported from api-commons
   schemas:
-    PostPreviewPageResponse:
-      type: PostPreviewPageResponse
-    PostDetailsResponse:
-      type: PostDetailsResponse
-    PostPreviewResponse:
-      type: PostPreviewResponse
+    BasePostPreviewPageResponse:
+      type: BasePostPreviewPageResponse
+    BasePostDetailsResponse:
+      type: BasePostDetailsResponse
+    BasePostPreviewResponse:
+      type: BasePostPreviewResponse
     CreatePostRequest:
       type: CreatePostRequest
     UpdatePostRequest:
       type: UpdatePostRequest
-    VoteForPostRequest:
-      type: VoteForPostRequest
+    VoteOnPostRequest:
+      type: VoteOnPostRequest
     IdResponse:
       type: IdResponse

@@ -29,7 +29,7 @@ public class PostMapperTest {
     }
 
     @Test
-    public void whenToPostPreviewListResponse_thenReturnsPostPreviewListResponse() {
+    public void whenToBasePostPreviewListResponse_thenReturnsBasePostPreviewListResponse() {
         var post = Post.builder()
             .userId(1L)
             .spaceId(5L)
@@ -46,7 +46,7 @@ public class PostMapperTest {
             .build();
         List<Post> posts = List.of(post, post2);
 
-        var result = postMapper.toPostPreviewListResponse(posts);
+        var result = postMapper.toBasePostPreviewListResponse(posts);
         Assertions.assertEquals(posts.size(), result.size());
         Assertions.assertEquals(post.getTitle(), result.get(0).getTitle());
         Assertions.assertEquals(post.getExcerpt(), result.get(0).getExcerpt());
@@ -59,7 +59,7 @@ public class PostMapperTest {
     }
 
     @Test
-    public void whenToPostDetailsResponse_thenReturnsPostDetailsResponse() {
+    public void whenToBasePostDetailsResponse_thenReturnsBasePostDetailsResponse() {
         var post = Post.builder()
             .userId(1L)
             .spaceId(5L)
@@ -68,7 +68,7 @@ public class PostMapperTest {
             .slug("test-post")
             .build();
 
-        var result = postMapper.toPostDetailsResponse(post);
+        var result = postMapper.toBasePostDetailsResponse(post);
         Assertions.assertEquals(post.getTitle(), result.getTitle());
         Assertions.assertEquals(post.getBody(), result.getBody());
         Assertions.assertEquals(post.getSlug(), result.getSlug());
@@ -85,7 +85,7 @@ public class PostMapperTest {
             .build();
         var slug = "test-post";
 
-        when(postService.postAlreadyExists(slug)).thenReturn(false);
+        when(postService.postExistsBySlug(slug)).thenReturn(false);
 
         var result = postMapper.toPost(createPostRequest);
         Assertions.assertEquals(slug, result.getSlug());
@@ -101,7 +101,7 @@ public class PostMapperTest {
             .build();
         var slug = "test-post";
 
-        when(postService.postAlreadyExists(slug)).thenReturn(true);
+        when(postService.postExistsBySlug(slug)).thenReturn(true);
 
         var result = postMapper.toPost(createPostRequest);
         Assertions.assertNotEquals(slug, result.getSlug());
@@ -133,7 +133,7 @@ public class PostMapperTest {
         var slug = "new-title";
 
         when(postService.findPostById(postId)).thenReturn(Optional.of(oldPost));
-        when(postService.postAlreadyExists(slug)).thenReturn(true);
+        when(postService.postExistsBySlug(slug)).thenReturn(true);
 
         var result = postMapper.toPost(updatePostRequest, oldPost);
         Assertions.assertNotEquals(slug, result.getSlug());
@@ -153,7 +153,7 @@ public class PostMapperTest {
             .build();
 
         when(postService.findPostById(postId)).thenReturn(Optional.of(oldPost));
-        when(postService.postAlreadyExists(slug)).thenReturn(true);
+        when(postService.postExistsBySlug(slug)).thenReturn(true);
 
         var result = postMapper.toPost(updatePostRequest, oldPost);
         Assertions.assertEquals(slug, result.getSlug());
@@ -195,7 +195,7 @@ public class PostMapperTest {
             .build();
 
         when(postService.findPostById(postId)).thenReturn(Optional.of(oldPost));
-        when(postService.postAlreadyExists(slug)).thenReturn(false);
+        when(postService.postExistsBySlug(slug)).thenReturn(false);
 
         var result = postMapper.toPost(updatePostRequest, oldPost);
         Assertions.assertEquals(newTitle, result.getTitle());

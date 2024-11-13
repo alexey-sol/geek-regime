@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregime.apiposts.controller.v1.postcontroller;
 
 import com.github.alexeysol.geekregime.apicommons.exception.ResourceException;
-import com.github.alexeysol.geekregime.apicommons.generated.model.PostDetailsResponse;
+import com.github.alexeysol.geekregime.apicommons.generated.model.BasePostDetailsResponse;
 import com.github.alexeysol.geekregime.apicommons.generated.model.UpdatePostRequest;
 import com.github.alexeysol.geekregime.apicommons.util.TestUtil;
 import com.github.alexeysol.geekregime.apicommons.util.parser.Json;
@@ -47,7 +47,7 @@ public class UpdatePostTest extends BasePostControllerTest {
             .title(post.getTitle())
             .body(post.getBody())
             .build();
-        var postDetailsResponse = PostDetailsResponse.builder()
+        var postDetailsResponse = BasePostDetailsResponse.builder()
             .title(post.getTitle())
             .body(post.getBody())
             .build();
@@ -55,7 +55,7 @@ public class UpdatePostTest extends BasePostControllerTest {
         when(service.findPostById(postId)).thenReturn(Optional.of(post));
         when(mapper.toPost(updatePostRequest, post)).thenReturn(post);
         when(service.savePost(post)).thenReturn(post);
-        when(mapper.toPostDetailsResponse(post)).thenReturn(postDetailsResponse);
+        when(mapper.toBasePostDetailsResponse(post)).thenReturn(postDetailsResponse);
 
         mockMvc.perform(TestUtil.mockPatchRequest(getUrl(postId), updatePostRequest))
             .andExpect(MockMvcResultMatchers.status().isOk())

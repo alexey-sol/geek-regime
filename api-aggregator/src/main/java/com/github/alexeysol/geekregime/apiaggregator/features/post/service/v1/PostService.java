@@ -4,8 +4,8 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.alexeysol.geekregime.apiaggregator.shared.util.UriUtil;
 import com.github.alexeysol.geekregime.apiaggregator.shared.util.source.ApiPostsSource;
 import com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse;
-import com.github.alexeysol.geekregime.apicommons.generated.model.PostDetailsResponse;
-import com.github.alexeysol.geekregime.apicommons.generated.model.PostPreviewPageResponse;
+import com.github.alexeysol.geekregime.apicommons.generated.model.BasePostDetailsResponse;
+import com.github.alexeysol.geekregime.apicommons.generated.model.BasePostPreviewPageResponse;
 import com.github.alexeysol.geekregime.apicommons.util.http.AppHttpClient;
 import com.github.alexeysol.geekregime.apicommons.util.http.AppHttpRequest;
 import lombok.RequiredArgsConstructor;
@@ -22,17 +22,17 @@ import static com.github.alexeysol.geekregime.apicommons.constant.ResourceConsta
 public class PostService {
     private final ApiPostsSource source;
 
-    public PostPreviewPageResponse findAllPosts(long authorId, Map<String, String> params) {
+    public BasePostPreviewPageResponse findAllPosts(long authorId, Map<String, String> params) {
         String path = String.format("%s/%d/%s", USERS, authorId, POSTS);
 
         return findAllPosts(path, params);
     }
 
-    public PostPreviewPageResponse findAllPosts(Map<String, String> params) {
+    public BasePostPreviewPageResponse findAllPosts(Map<String, String> params) {
         return findAllPosts(POSTS, params);
     }
 
-    private PostPreviewPageResponse findAllPosts(String path, Map<String, String> params) {
+    private BasePostPreviewPageResponse findAllPosts(String path, Map<String, String> params) {
         var uri = UriUtil.getApiUriBuilder(source.getBaseUrl(), path, params)
             .build()
             .toUri();
@@ -45,7 +45,7 @@ public class PostService {
         return AppHttpClient.send(request, new TypeReference<>() {});
     }
 
-    public PostDetailsResponse findPostBySlug(String slug) {
+    public BasePostDetailsResponse findPostBySlug(String slug) {
         String path = String.format("%s/%s", POSTS, slug);
 
         var uri = UriUtil.getApiUriBuilder(source.getBaseUrl(), path)
@@ -60,7 +60,7 @@ public class PostService {
         return AppHttpClient.send(request, new TypeReference<>() {});
     }
 
-    public PostDetailsResponse createPost(String originalRequest) {
+    public BasePostDetailsResponse createPost(String originalRequest) {
         var uri = UriUtil.getApiUriBuilder(source.getBaseUrl(), POSTS)
             .build()
             .toUri();
@@ -73,7 +73,7 @@ public class PostService {
         return AppHttpClient.send(request, new TypeReference<>() {});
     }
 
-    public PostDetailsResponse updatePost(long id, String originalRequest) {
+    public BasePostDetailsResponse updatePost(long id, String originalRequest) {
         String path = String.format("%s/%d", POSTS, id);
 
         var uri = UriUtil.getApiUriBuilder(source.getBaseUrl(), path)
@@ -103,7 +103,7 @@ public class PostService {
         return AppHttpClient.send(request, new TypeReference<>() {});
     }
 
-    public PostDetailsResponse voteForPost(long userId, long postId, String originalRequest) {
+    public BasePostDetailsResponse voteOnPost(long userId, long postId, String originalRequest) {
         String path = String.format("%s/%d/%s/%d/vote", USERS, userId, POSTS, postId);
 
         var uri = UriUtil.getApiUriBuilder(source.getBaseUrl(), path)

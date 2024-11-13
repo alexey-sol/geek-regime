@@ -80,4 +80,8 @@ public class Post {
     @OneToMany(mappedBy = "post")
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<PostVote> votes;
+
+    @OneToMany(mappedBy = "post")
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    private List<PostComment> comments;
 }

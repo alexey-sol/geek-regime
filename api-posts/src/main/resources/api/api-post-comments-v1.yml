@@ -1,0 +1,107 @@
+openapi: 3.1.0
+info:
+  version: v1
+  title: api-post-comments
+servers:
+  - url: http://localhost:3003/api/v1
+paths:
+  /users/{id}/comments:
+    get:
+      summary: Find all post comments by author
+      operationId: findAllPostCommentsByAuthor
+      tags:
+        - post-comment
+      x-spring-paginated: true
+      parameters:
+        - $ref: "./parameters-v1.yml#/components/parameters/id"
+      responses:
+        200:
+          description: A list of post comments by author
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasePostCommentPageResponse"
+  /posts/{id}/comments:
+    get:
+      summary: Find all post comments by post
+      operationId: findAllPostCommentsByPost
+      tags:
+        - post-comment
+      x-spring-paginated: true
+      parameters:
+        - $ref: "./parameters-v1.yml#/components/parameters/id"
+      responses:
+        200:
+          description: A list of post comments by post
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasePostCommentPageResponse"
+    post:
+      summary: Create post comment
+      operationId: createPostComment
+      tags:
+        - post-comment
+      parameters:
+        - $ref: "./parameters-v1.yml#/components/parameters/id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreatePostCommentRequest"
+      responses:
+        200:
+          description: The created post сщььуте
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasePostCommentResponse"
+  /posts/comments/{id}:
+    patch:
+      summary: Update post comment by ID
+      operationId: updatePostComment
+      tags:
+        - post-comment
+      parameters:
+        - $ref: "./parameters-v1.yml#/components/parameters/id"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdatePostCommentRequest"
+      responses:
+        200:
+          description: The updated post comment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasePostCommentResponse"
+    delete:
+      summary: Remove post comment by ID
+      operationId: removePostCommentById
+      tags:
+        - post-comment
+      parameters:
+        - $ref: "./parameters-v1.yml#/components/parameters/id"
+      responses:
+        200:
+          description: The ID of the removed post comment
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdResponse"
+components:
+  # Schemas imported from api-commons
+  schemas:
+    BasePostCommentPageResponse:
+      type: BasePostCommentPageResponse
+    BasePostCommentResponse:
+      type: BasePostCommentResponse
+    CreatePostCommentRequest:
+      type: CreatePostCommentRequest
+    UpdatePostCommentRequest:
+      type: UpdatePostCommentRequest
+    IdResponse:
+      type: IdResponse

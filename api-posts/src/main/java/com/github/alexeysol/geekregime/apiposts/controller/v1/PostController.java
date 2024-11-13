@@ -38,10 +38,9 @@ import static com.github.alexeysol.geekregime.apiposts.constant.PostConstant.*;
 public class PostController implements PostApi {
     private final PostService service;
     private final PostMapper mapper;
-    private final PostService postService;
 
     @Override
-    public ResponseEntity<PostPreviewPageResponse> findAllPostsByAuthor(
+    public ResponseEntity<BasePostPreviewPageResponse> findAllPostsByAuthor(
         Long authorId,
         List<String> searchIn,
         String text,
@@ -58,7 +57,7 @@ public class PostController implements PostApi {
     }
 
     @Override
-    public ResponseEntity<PostPreviewPageResponse> findAllPosts(
+    public ResponseEntity<BasePostPreviewPageResponse> findAllPosts(
         List<String> searchIn,
         String text,
         @PageableDefault(size = PAGE_SIZE, sort = SORT_BY, direction = Sort.Direction.DESC) Pageable pageable
@@ -81,7 +80,7 @@ public class PostController implements PostApi {
             : PostFilterUtil.createFilter(text, searchIn, LogicalOperator.OR);
     }
 
-    private PostPreviewPageResponse findPosts(
+    private BasePostPreviewPageResponse findPosts(
         Pageable pageable,
         EntityFilter<EntityFilter<FilterCriterion>> filter
     ) {
@@ -95,13 +94,13 @@ public class PostController implements PostApi {
             throw new ResourceException(HttpStatus.UNPROCESSABLE_ENTITY, exception.getMessage());
         }
 
-        var postPreviewList = mapper.toPostPreviewListResponse(postPage.getContent());
+        var basePostPreviewList = mapper.toBasePostPreviewListResponse(postPage.getContent());
 
-        return new PostPreviewPageResponse(postPreviewList, postPage.getSize(), postPage.getTotalElements());
+        return new BasePostPreviewPageResponse(basePostPreviewList, postPage.getSize(), postPage.getTotalElements());
     }
 
     @Override
-    public ResponseEntity<PostDetailsResponse> findPostBySlug(String slug) {
+    public ResponseEntity<BasePostDetailsResponse> findPostBySlug(String slug) {
         var optionalPost = service.findPostBySlug(slug);
 
         if (optionalPost.isEmpty()) {
@@ -110,26 +109,26 @@ public class PostController implements PostApi {
 
         var post = optionalPost.get();
 
-        postService.incrementViewCountAndSave(post.getId());
+        service.incrementViewCountAndSave(post.getId());
         post.getMeta().incrementViewCount();
 
-        var response = mapper.toPostDetailsResponse(post);
+        var response = mapper.toBasePostDetailsResponse(post);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<PostDetailsResponse> createPost(CreatePostRequest request) {
+    public ResponseEntity<BasePostDetailsResponse> createPost(CreatePostRequest request) {
         var post = mapper.toPost(request);
         post.getMeta().incrementViewCount();
         var createdPost = service.savePost(post);
-        var response = mapper.toPostDetailsResponse(createdPost);
+        var response = mapper.toBasePostDetailsResponse(createdPost);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
     @Override
-    public ResponseEntity<PostDetailsResponse> updatePost(UpdatePostRequest request, Long id) {
+    public ResponseEntity<BasePostDetailsResponse> updatePost(UpdatePostRequest request, Long id) {
         var optionalPost = service.findPostById(id);
 
         if (optionalPost.isEmpty()) {
@@ -138,7 +137,7 @@ public class PostController implements PostApi {
 
         var post = mapper.toPost(request, optionalPost.get());
         var updatedPost = service.savePost(post);
-        var response = mapper.toPostDetailsResponse(updatedPost);
+        var response = mapper.toBasePostDetailsResponse(updatedPost);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -146,9 +145,8 @@ public class PostController implements PostApi {
     @Override
     public ResponseEntity<IdResponse> removePostById(Long id) {
         var result = service.removePostById(id);
-        var isNotFound = result == Default.NOT_FOUND_BY_ID;
 
-        if (isNotFound) {
+        if (result == Default.NOT_FOUND_BY_ID) {
             throw new ResourceException(new ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD));
         }
 
@@ -158,7 +156,7 @@ public class PostController implements PostApi {
     }
 
     @Override
-    public ResponseEntity<PostDetailsResponse> voteForPost(Long userId, Long postId, VoteForPostRequest request) {
+    public ResponseEntity<BasePostDetailsResponse> voteOnPost(Long userId, Long postId, VoteOnPostRequest request) {
         var optionalPost = service.findPostById(postId);
 
         if (optionalPost.isEmpty()) {
@@ -175,7 +173,7 @@ public class PostController implements PostApi {
         service.savePostVote(postVote);
         service.updatePostRating(post);
 
-        var response = mapper.toPostDetailsResponse(post);
+        var response = mapper.toBasePostDetailsResponse(post);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

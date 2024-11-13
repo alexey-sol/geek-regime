@@ -31,5 +31,12 @@ public interface PostRepository extends PagingAndSortingRepository<Post, Long>,
     @Modifying
     void updatePostRating(long postId, long rating);
 
+    @Query("UPDATE PostMeta pm SET pm.commentCount = :commentCount WHERE pm.id = :postId")
+    @Transactional
+    @Modifying
+    void updatePostCommentCount(long postId, long commentCount);
+
+    Boolean existsPostById(long id);
+
     Boolean existsPostBySlug(String slug);
 }

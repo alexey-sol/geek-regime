@@ -1,9 +1,6 @@
 package com.github.alexeysol.geekregime.apiposts.mapper;
 
-import com.github.alexeysol.geekregime.apicommons.generated.model.CreatePostRequest;
-import com.github.alexeysol.geekregime.apicommons.generated.model.PostDetailsResponse;
-import com.github.alexeysol.geekregime.apicommons.generated.model.PostPreviewResponse;
-import com.github.alexeysol.geekregime.apicommons.generated.model.UpdatePostRequest;
+import com.github.alexeysol.geekregime.apicommons.generated.model.*;
 import com.github.alexeysol.geekregime.apiposts.mapper.converters.BodyToExcerptConverter;
 import com.github.alexeysol.geekregime.apiposts.mapper.converters.TitleToSlugConverter;
 import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
@@ -24,15 +21,15 @@ public abstract class BasePostMapper {
     }
 
     private void init(ModelMapper modelMapper) {
-        modelMapper.createTypeMap(Post.class, PostDetailsResponse.class)
+        modelMapper.createTypeMap(Post.class, BasePostDetailsResponse.class)
             .addMappings(mapper -> mapper
                 .using(MappingContext::getSource)
-                .map(Post::getUserId, PostDetailsResponse::setAuthorId));
+                .map(Post::getUserId, BasePostDetailsResponse::setAuthorId));
 
-        modelMapper.createTypeMap(Post.class, PostPreviewResponse.class)
+        modelMapper.createTypeMap(Post.class, BasePostPreviewResponse.class)
             .addMappings(mapper -> mapper
                 .using(MappingContext::getSource)
-                .map(Post::getUserId, PostPreviewResponse::setAuthorId));
+                .map(Post::getUserId, BasePostPreviewResponse::setAuthorId));
 
         modelMapper.typeMap(CreatePostRequest.class, Post.class)
             .addMappings(mapper -> {

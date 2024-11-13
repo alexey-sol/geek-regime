@@ -15,18 +15,18 @@ public class PostMapper extends BasePostMapper {
         super(modelMapper, service);
     }
 
-    public List<PostPreviewResponse> toPostPreviewListResponse(List<Post> posts) {
+    public List<BasePostPreviewResponse> toBasePostPreviewListResponse(List<Post> posts) {
         return posts.stream()
-            .map(this::toPostPreviewResponse)
+            .map(this::toBasePostPreviewResponse)
             .toList();
     }
 
-    public PostPreviewResponse toPostPreviewResponse(Post post) {
-        return modelMapper.map(post, PostPreviewResponse.class);
+    public BasePostPreviewResponse toBasePostPreviewResponse(Post post) {
+        return modelMapper.map(post, BasePostPreviewResponse.class);
     }
 
-    public PostDetailsResponse toPostDetailsResponse(Post post) {
-        return modelMapper.map(post, PostDetailsResponse.class);
+    public BasePostDetailsResponse toBasePostDetailsResponse(Post post) {
+        return modelMapper.map(post, BasePostDetailsResponse.class);
     }
 
     public Post toPost(CreatePostRequest request) {
@@ -38,12 +38,12 @@ public class PostMapper extends BasePostMapper {
         return post;
     }
 
-    public PostVote toPostVote(VoteForPostRequest request, PostVote postVote) {
+    public PostVote toPostVote(VoteOnPostRequest request, PostVote postVote) {
         modelMapper.map(request, postVote);
         return postVote;
     }
 
-    public PostVote toPostVote(VoteForPostRequest request, Long userId, Post post) {
+    public PostVote toPostVote(VoteOnPostRequest request, Long userId, Post post) {
         return PostVote.builder()
             .userId(userId)
             .post(post)

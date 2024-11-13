@@ -1,12 +1,12 @@
 package com.github.alexeysol.geekregime.apiaggregator.features.post.mapper;
 
-import com.github.alexeysol.geekregime.apiaggregator.features.post.mapper.converter.ToUserPostPreviewResponseListConverter;
+import com.github.alexeysol.geekregime.apiaggregator.features.post.mapper.converter.ToPostPreviewResponseListConverter;
 import com.github.alexeysol.geekregime.apiaggregator.features.post.service.v1.PostService;
 import com.github.alexeysol.geekregime.apiaggregator.features.user.service.v1.UserService;
+import com.github.alexeysol.geekregime.apicommons.generated.model.BasePostDetailsResponse;
+import com.github.alexeysol.geekregime.apicommons.generated.model.BasePostPreviewResponse;
 import com.github.alexeysol.geekregime.apicommons.generated.model.PostDetailsResponse;
 import com.github.alexeysol.geekregime.apicommons.generated.model.PostPreviewResponse;
-import com.github.alexeysol.geekregime.apicommons.generated.model.UserPostDetailsResponse;
-import com.github.alexeysol.geekregime.apicommons.generated.model.UserPostPreviewResponse;
 import org.modelmapper.ModelMapper;
 
 import java.util.List;
@@ -16,6 +16,18 @@ public abstract class BasePostMapper {
     protected final PostService postService;
     protected final UserService userService;
 
+    static protected class BasePostPreviewResponseList {
+        private List<BasePostPreviewResponse> list;
+
+        public List<BasePostPreviewResponse> getList() {
+            return list;
+        }
+
+        public void setList(List<BasePostPreviewResponse> list) {
+            this.list = list;
+        }
+    }
+
     static protected class PostPreviewResponseList {
         private List<PostPreviewResponse> list;
 
@@ -24,18 +36,6 @@ public abstract class BasePostMapper {
         }
 
         public void setList(List<PostPreviewResponse> list) {
-            this.list = list;
-        }
-    }
-
-    static protected class UserPostPreviewResponseList {
-        private List<UserPostPreviewResponse> list;
-
-        public List<UserPostPreviewResponse> getList() {
-            return list;
-        }
-
-        public void setList(List<UserPostPreviewResponse> list) {
             this.list = list;
         }
     }
@@ -52,14 +52,14 @@ public abstract class BasePostMapper {
     }
 
     private void init(ModelMapper modelMapper) {
-        modelMapper.createTypeMap(PostDetailsResponse.class, UserPostDetailsResponse.class)
+        modelMapper.createTypeMap(BasePostDetailsResponse.class, PostDetailsResponse.class)
             .addMappings(mapper -> mapper
                 .using(context -> userService.findUserById((long) context.getSource()))
-                .map(PostDetailsResponse::getAuthorId, UserPostDetailsResponse::setAuthor));
+                .map(BasePostDetailsResponse::getAuthorId, PostDetailsResponse::setAuthor));
 
-        modelMapper.createTypeMap(PostPreviewResponseList.class, UserPostPreviewResponseList.class)
+        modelMapper.createTypeMap(BasePostPreviewResponseList.class, PostPreviewResponseList.class)
             .addMappings(mapper -> mapper
-                .using(new ToUserPostPreviewResponseListConverter(userService, modelMapper))
-                .map(PostPreviewResponseList::getList, UserPostPreviewResponseList::setList));
+                .using(new ToPostPreviewResponseListConverter(userService, modelMapper))
+                .map(BasePostPreviewResponseList::getList, PostPreviewResponseList::setList));
     }
 }
