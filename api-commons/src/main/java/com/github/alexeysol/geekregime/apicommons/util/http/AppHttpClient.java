@@ -2,16 +2,22 @@ package com.github.alexeysol.geekregime.apicommons.util.http;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.alexeysol.geekregime.apicommons.exception.SerializedApiException;
-import lombok.experimental.UtilityClass;
+import lombok.RequiredArgsConstructor;
 
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 
-@UtilityClass
+@RequiredArgsConstructor
 public class AppHttpClient {
+    private final HttpClient httpClient;
+
+    public AppHttpClient() {
+        this.httpClient = HttpClient.newHttpClient();
+    }
+
     public <T> T send(HttpRequest request, TypeReference<T> reference) {
-        var response = HttpClient.newHttpClient()
+        var response = httpClient
             .sendAsync(request, HttpResponse.BodyHandlers.ofString())
             .join();
 

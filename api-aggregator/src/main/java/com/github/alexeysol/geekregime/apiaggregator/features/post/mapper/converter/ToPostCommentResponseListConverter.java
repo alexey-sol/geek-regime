@@ -1,32 +1,29 @@
 package com.github.alexeysol.geekregime.apiaggregator.features.post.mapper.converter;
 
 import com.github.alexeysol.geekregime.apiaggregator.features.user.service.v1.UserService;
-import com.github.alexeysol.geekregime.apicommons.generated.model.BasePostPreviewResponse;
-import com.github.alexeysol.geekregime.apicommons.generated.model.PostPreviewResponse;
-import com.github.alexeysol.geekregime.apicommons.generated.model.UserResponse;
+import com.github.alexeysol.geekregime.apicommons.generated.model.*;
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 
 import java.util.List;
 import java.util.Map;
 
-// TODO refactor this and ToPostCommentResponseListConverter
 // Fetches a collection of users from the corresponding API via single query and sets them to
 // DTOs as author field.
-public class ToPostPreviewResponseListConverter extends AbstractConverter<
-    List<BasePostPreviewResponse>,
-    List<PostPreviewResponse>
+public class ToPostCommentResponseListConverter extends AbstractConverter<
+    List<BasePostCommentResponse>,
+    List<PostCommentResponse>
 > {
     private final UserService userService;
     private final ModelMapper modelMapper;
 
-    public ToPostPreviewResponseListConverter(UserService userService, ModelMapper modelMapper) {
+    public ToPostCommentResponseListConverter(UserService userService, ModelMapper modelMapper) {
         this.userService = userService;
         this.modelMapper = modelMapper;
     }
 
     @Override
-    protected List<PostPreviewResponse> convert(List<BasePostPreviewResponse> sources) {
+    protected List<PostCommentResponse> convert(List<BasePostCommentResponse> sources) {
         List<Long> authorIds = getAuthorIds(sources);
         Map<Long, UserResponse> mapAuthorIdToAuthor = userService.getMapAuthorIdToAuthor(authorIds);
 
@@ -38,16 +35,16 @@ public class ToPostPreviewResponseListConverter extends AbstractConverter<
             .toList();
     }
 
-    private List<Long> getAuthorIds(List<BasePostPreviewResponse> sources) {
+    private List<Long> getAuthorIds(List<BasePostCommentResponse> sources) {
         return sources.stream()
-            .map(BasePostPreviewResponse::getAuthorId)
+            .map(BasePostCommentResponse::getAuthorId)
             .distinct()
             .toList();
     }
 
-    private PostPreviewResponse toPostPreviewResponse(BasePostPreviewResponse source, UserResponse author) {
-        PostPreviewResponse target = modelMapper.map(source, PostPreviewResponse.class);
+    private PostCommentResponse toPostPreviewResponse(BasePostCommentResponse source, UserResponse author) {
+        PostCommentResponse target = modelMapper.map(source, PostCommentResponse.class);
         target.setAuthor(author);
-        return modelMapper.map(target, PostPreviewResponse.class);
+        return modelMapper.map(target, PostCommentResponse.class);
     }
 }

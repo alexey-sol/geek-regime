@@ -1,52 +1,33 @@
 package com.github.alexeysol.geekregime.apiaggregator.features.post.mapper;
 
 import com.github.alexeysol.geekregime.apiaggregator.features.post.mapper.converter.ToPostPreviewResponseListConverter;
-import com.github.alexeysol.geekregime.apiaggregator.features.post.service.v1.PostService;
 import com.github.alexeysol.geekregime.apiaggregator.features.user.service.v1.UserService;
 import com.github.alexeysol.geekregime.apicommons.generated.model.BasePostDetailsResponse;
 import com.github.alexeysol.geekregime.apicommons.generated.model.BasePostPreviewResponse;
 import com.github.alexeysol.geekregime.apicommons.generated.model.PostDetailsResponse;
 import com.github.alexeysol.geekregime.apicommons.generated.model.PostPreviewResponse;
+import lombok.Data;
 import org.modelmapper.ModelMapper;
 
 import java.util.List;
 
+// TODO any way to combine this one and BasePostCommentMapper?
 public abstract class BasePostMapper {
     protected final ModelMapper modelMapper;
-    protected final PostService postService;
     protected final UserService userService;
 
+    @Data
     static protected class BasePostPreviewResponseList {
         private List<BasePostPreviewResponse> list;
-
-        public List<BasePostPreviewResponse> getList() {
-            return list;
-        }
-
-        public void setList(List<BasePostPreviewResponse> list) {
-            this.list = list;
-        }
     }
 
+    @Data
     static protected class PostPreviewResponseList {
         private List<PostPreviewResponse> list;
-
-        public List<PostPreviewResponse> getList() {
-            return list;
-        }
-
-        public void setList(List<PostPreviewResponse> list) {
-            this.list = list;
-        }
     }
 
-    public BasePostMapper(
-        ModelMapper modelMapper,
-        PostService postService,
-        UserService userService
-    ) {
+    public BasePostMapper(ModelMapper modelMapper, UserService userService) {
         this.modelMapper = modelMapper;
-        this.postService = postService;
         this.userService = userService;
         init(modelMapper);
     }

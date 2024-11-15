@@ -120,7 +120,6 @@ public class PostController implements PostApi {
     @Override
     public ResponseEntity<BasePostDetailsResponse> createPost(CreatePostRequest request) {
         var post = mapper.toPost(request);
-        post.getMeta().incrementViewCount();
         var createdPost = service.savePost(post);
         var response = mapper.toBasePostDetailsResponse(createdPost);
 

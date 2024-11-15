@@ -1,6 +1,5 @@
 package com.github.alexeysol.geekregime.apiaggregator.features.post.mapper;
 
-import com.github.alexeysol.geekregime.apiaggregator.features.post.service.v1.PostService;
 import com.github.alexeysol.geekregime.apiaggregator.features.user.service.v1.UserService;
 import com.github.alexeysol.geekregime.apicommons.generated.model.BasePostDetailsResponse;
 import com.github.alexeysol.geekregime.apicommons.generated.model.BasePostPreviewResponse;
@@ -13,8 +12,8 @@ import java.util.List;
 
 @Component
 public class PostMapper extends BasePostMapper {
-    public PostMapper(ModelMapper modelMapper, PostService postService, UserService userService) {
-        super(modelMapper, postService, userService);
+    public PostMapper(ModelMapper modelMapper, UserService userService) {
+        super(modelMapper, userService);
     }
 
     public PostDetailsResponse toPostDetailsResponse(BasePostDetailsResponse postDetailsResponse) {

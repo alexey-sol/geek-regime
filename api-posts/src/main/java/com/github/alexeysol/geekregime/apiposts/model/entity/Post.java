@@ -73,7 +73,7 @@ public class Post {
     @Setter(value = AccessLevel.NONE)
     private Date updatedAt;
 
-    @OneToOne(cascade = CascadeType.ALL)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @PrimaryKeyJoinColumn
     private PostMeta meta;
 

@@ -5,7 +5,9 @@ import com.github.alexeysol.geekregime.apicommons.model.dto.query.FilterCriterio
 import com.github.alexeysol.geekregime.apicommons.model.util.EntityFilter;
 import com.github.alexeysol.geekregime.apicommons.util.database.FilterSpecificationUtil;
 import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
+import com.github.alexeysol.geekregime.apiposts.model.entity.PostMeta;
 import com.github.alexeysol.geekregime.apiposts.model.entity.PostVote;
+import com.github.alexeysol.geekregime.apiposts.repository.PostMetaRepository;
 import com.github.alexeysol.geekregime.apiposts.repository.PostRepository;
 import com.github.alexeysol.geekregime.apiposts.repository.PostVoteRepository;
 import com.github.alexeysol.geekregime.apiposts.util.PostFilterSpecificationFactory;
@@ -15,6 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.Objects;
 import java.util.Optional;
 
 @Service
@@ -22,6 +25,7 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class PostService {
     private final PostRepository postRepository;
+    private final PostMetaRepository postMetaRepository;
     private final PostVoteRepository postVoteRepository;
 
     public Page<Post> findAllPosts(Pageable pageable) {
@@ -51,7 +55,17 @@ public class PostService {
 
     @Transactional
     public Post savePost(Post post) {
+        if (Objects.isNull(post.getMeta())) {
+            post.setMeta(createPostMeta(post));
+        }
+
         return postRepository.save(post);
+    }
+
+    private PostMeta createPostMeta(Post post) {
+        var postMeta = new PostMeta();
+        postMeta.setPost(post);
+        return postMetaRepository.save(postMeta);
     }
 
     @Transactional
@@ -60,6 +74,7 @@ public class PostService {
     }
 
     public long removePostById(long id) {
+        postMetaRepository.removePostMetaById(id);
         int deletedRowCount = postRepository.removePostById(id);
         return getMutationResult(id, deletedRowCount);
     }

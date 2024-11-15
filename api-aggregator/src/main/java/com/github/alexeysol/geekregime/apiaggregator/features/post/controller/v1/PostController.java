@@ -42,19 +42,19 @@ public class PostController {
 
     @GetMapping("posts/{slug}")
     PostDetailsResponse findPostBySlug(@PathVariable String slug) {
-        BasePostDetailsResponse postDetailsResponse = service.findPostBySlug(slug);
-        return mapper.toPostDetailsResponse(postDetailsResponse);
+        BasePostDetailsResponse post = service.findPostBySlug(slug);
+        return mapper.toPostDetailsResponse(post);
     }
 
     @PostMapping("posts")
     PostDetailsResponse createPost(@RequestBody String request) throws Throwable {
-        BasePostDetailsResponse postDetailsResponse = service.createPost(request);
+        BasePostDetailsResponse post = service.createPost(request);
 
         try {
-            return mapper.toPostDetailsResponse(postDetailsResponse);
+            return mapper.toPostDetailsResponse(post);
         } catch (MappingException exception) {
             Throwable cause = exception.getCause();
-            cleanUpIfNeeded(exception.getCause(), postDetailsResponse.getId());
+            cleanUpIfNeeded(cause, post.getId());
             throw cause;
         }
     }
