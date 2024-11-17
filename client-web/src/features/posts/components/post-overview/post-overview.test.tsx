@@ -3,7 +3,7 @@ import React from "react";
 import { render, screen } from "@/features/posts/test/setup";
 import { toUserPostPreview } from "@/features/posts/utils/converters";
 import { paths } from "@/shared/const";
-import { UserPostPreviewResponse } from "@/features/posts/models/dtos";
+import { PostPreviewResponse } from "@/features/posts/models/dtos";
 
 import { PostOverview } from "./post-overview";
 
@@ -11,7 +11,7 @@ const DATE_TIME = "2022-02-01T07:20:00.000Z";
 const TITLE = "Title";
 const EXCERPT = "Excerpt";
 
-const RESPONSE: UserPostPreviewResponse = {
+const RESPONSE: PostPreviewResponse = {
     id: 1,
     title: TITLE,
     excerpt: EXCERPT,

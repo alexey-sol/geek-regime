@@ -19,7 +19,7 @@ export type UseActivePostResult = {
         (arg: CreatePostOnSaveArg): void;
         (arg: UpdatePostOnSaveArg): void;
     };
-    voteForPost: (value: number) => void;
+    voteOnPost: (value: number) => void;
 };
 
 export type UsePostsPageArg = Pick<GetAllPostsArg, "filter">;

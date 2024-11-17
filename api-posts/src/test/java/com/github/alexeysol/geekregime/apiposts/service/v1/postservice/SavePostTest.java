@@ -11,8 +11,10 @@ public class SavePostTest extends BasePostServiceTest {
     @Test
     public void givenPostExists_whenSavePost_thenReturnsPost() {
         var post = Post.builder()
+            .slug("slug")
             .title("Test Post")
             .body("Hello World")
+            .excerpt("Hello World")
             .build();
 
         when(postRepository.save(Mockito.any(Post.class))).thenReturn(post);

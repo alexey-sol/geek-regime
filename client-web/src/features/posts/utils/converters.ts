@@ -2,14 +2,14 @@ import { plainToClass } from "class-transformer";
 
 import { UserPostDetails, UserPostPreview } from "@/features/posts/models/entities";
 import type {
-    UserPostDetailsResponse, UserPostPreviewResponse,
+    PostDetailsResponse, PostPreviewResponse,
 } from "@/features/posts/models/dtos";
 
-export const toUserPostDetails = (response: UserPostDetailsResponse): UserPostDetails =>
+export const toUserPostDetails = (response: PostDetailsResponse): UserPostDetails =>
     plainToClass(UserPostDetails, response);
 
-export const toUserPostPreview = (response: UserPostPreviewResponse): UserPostPreview =>
+export const toUserPostPreview = (response: PostPreviewResponse): UserPostPreview =>
     plainToClass(UserPostPreview, response);
 
-export const toUserPostPreviewList = (list: UserPostPreviewResponse[]): UserPostPreview[] =>
+export const toUserPostPreviewList = (list: PostPreviewResponse[]): UserPostPreview[] =>
     list.map((response) => toUserPostPreview(response));

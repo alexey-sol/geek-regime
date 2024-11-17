@@ -7,7 +7,7 @@ import {
     useCreatePostMutation,
     useGetPostBySlugQuery,
     useUpdatePostByIdMutation,
-    useVoteForPostMutation,
+    useVoteOnPostMutation,
 } from "@/features/posts/services/api";
 import { useAuthContext } from "@/features/auth/contexts/auth";
 import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
@@ -34,7 +34,7 @@ export const useActivePost = (): UseActivePostResult => {
 
     const [createPostMutation, resultOfCreate] = useCreatePostMutation();
     const [updatePostByIdMutation, resultOfUpdate] = useUpdatePostByIdMutation();
-    const [voteForPostMutation, resultOfVote] = useVoteForPostMutation();
+    const [voteOnPostMutation, resultOfVote] = useVoteOnPostMutation();
 
     const slugAfterSaving = resultOfUpdate?.data?.slug ?? resultOfCreate?.data?.slug;
 
@@ -77,17 +77,17 @@ export const useActivePost = (): UseActivePostResult => {
     const savePost: UseActivePostResult["savePost"] = useCallback((arg) =>
         save(arg), [save]);
 
-    const voteForPost: UseActivePostResult["voteForPost"] = useCallback((value) => {
+    const voteOnPost: UseActivePostResult["voteOnPost"] = useCallback((value) => {
         if (!profile || !id) {
             return; // TODO throw?
         }
 
-        voteForPostMutation({
+        voteOnPostMutation({
             postId: id,
             userId: profile?.id,
             value,
         });
-    }, [id, profile, voteForPostMutation]);
+    }, [id, profile, voteOnPostMutation]);
 
     const pending = useMemo<ActivePostPending | undefined>(() => {
         if (isFetching) {
@@ -107,6 +107,6 @@ export const useActivePost = (): UseActivePostResult => {
         pending,
         post,
         savePost,
-        voteForPost,
-    }), [pending, post, savePost, voteForPost]);
+        voteOnPost,
+    }), [pending, post, savePost, voteOnPost]);
 };

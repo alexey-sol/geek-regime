@@ -4,6 +4,7 @@ export const defaults = {
 
 export const resources = {
     AUTH: "auth",
+    COMMENTS: "comments",
     POSTS: "posts",
     USERS: "users",
 };

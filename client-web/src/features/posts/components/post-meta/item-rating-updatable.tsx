@@ -21,11 +21,11 @@ export const ItemRatingUpdatable: FC<HasPostMeta> = ({ meta }) => {
     const ratingColor = getRatingColor(meta.rating);
 
     const { profile } = useAuthContext();
-    const { pending, post, voteForPost } = useActivePost();
+    const { pending, post, voteOnPost } = useActivePost();
 
-    const dislikePost = () => voteForPost(DISLIKE_VALUE);
-    const likePost = () => voteForPost(LIKE_VALUE);
-    const undoVoteForPost = () => voteForPost(NEUTRAL_VOTE_VALUE);
+    const dislikePost = () => voteOnPost(DISLIKE_VALUE);
+    const likePost = () => voteOnPost(LIKE_VALUE);
+    const undoVoteOnPost = () => voteOnPost(NEUTRAL_VOTE_VALUE);
 
     const {
         value: userVoteValue = NEUTRAL_VOTE_VALUE,
@@ -39,7 +39,7 @@ export const ItemRatingUpdatable: FC<HasPostMeta> = ({ meta }) => {
                 title={userVoteValue < NEUTRAL_VOTE_VALUE
                     ? t("posts.post.dislikeButton.active.tooltip")
                     : t("posts.post.dislikeButton.inactive.tooltip")}
-                onClick={userVoteValue < NEUTRAL_VOTE_VALUE ? undoVoteForPost : dislikePost}
+                onClick={userVoteValue < NEUTRAL_VOTE_VALUE ? undoVoteOnPost : dislikePost}
             />
 
             <Tooltip message={`${t("posts.post.rating")}: ${meta.rating}`}>
@@ -54,7 +54,7 @@ export const ItemRatingUpdatable: FC<HasPostMeta> = ({ meta }) => {
                 title={userVoteValue > NEUTRAL_VOTE_VALUE
                     ? t("posts.post.likeButton.active.tooltip")
                     : t("posts.post.likeButton.inactive.tooltip")}
-                onClick={userVoteValue > NEUTRAL_VOTE_VALUE ? undoVoteForPost : likePost}
+                onClick={userVoteValue > NEUTRAL_VOTE_VALUE ? undoVoteOnPost : likePost}
             />
         </MetaItemStyled>
     );

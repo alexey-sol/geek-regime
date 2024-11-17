@@ -4,7 +4,7 @@ import { type ThunkDispatch } from "redux-thunk";
 
 import * as cn from "@/features/posts/services/api/const";
 import {
-    type UserPostDetailsResponse, type UserPostPreviewPageResponse,
+    type PostDetailsResponse, type PostPreviewPageResponse,
 } from "@/features/posts/models/dtos";
 import { transformQueryParams } from "@/shared/utils/converters";
 import { type RootState } from "@/app/store";
@@ -17,7 +17,7 @@ export const postsApi = createApi({
     tagTypes: [cn.POSTS_TAG_TYPE],
     baseQuery: fetchBaseQuery({ baseUrl }),
     endpoints: (builder) => ({
-        createPost: builder.mutation<UserPostDetailsResponse, tp.CreatePostArg>({
+        createPost: builder.mutation<PostDetailsResponse, tp.CreatePostArg>({
             query: (body) => ({
                 body,
                 method: "POST",
@@ -34,7 +34,7 @@ export const postsApi = createApi({
                 }
             },
         }),
-        getAllPosts: builder.query<UserPostPreviewPageResponse, tp.GetAllPostsArg | void>({
+        getAllPosts: builder.query<PostPreviewPageResponse, tp.GetAllPostsArg | void>({
             query: (arg) => {
                 const { authorId } = arg?.filter ?? {};
 
@@ -55,7 +55,7 @@ export const postsApi = createApi({
                     : [tag];
             },
         }),
-        getPostBySlug: builder.query<UserPostDetailsResponse, tp.GetPostBySlugArg>({
+        getPostBySlug: builder.query<PostDetailsResponse, tp.GetPostBySlugArg>({
             query: (slug) => `${resources.POSTS}/${slug}`,
             providesTags: (result, error, id) => [createTag(id)],
         }),
@@ -66,7 +66,7 @@ export const postsApi = createApi({
             }),
             invalidatesTags: (result, error, id) => [createTag(id)],
         }),
-        updatePostById: builder.mutation<UserPostDetailsResponse, tp.UpdatePostByIdArg>({
+        updatePostById: builder.mutation<PostDetailsResponse, tp.UpdatePostByIdArg>({
             query: ({ id, ...body }) => ({
                 body,
                 method: "PATCH",
@@ -79,7 +79,8 @@ export const postsApi = createApi({
                 updatePostCacheIfNeeded(data, api.getState(), api.dispatch);
             },
         }),
-        voteForPost: builder.mutation<UserPostDetailsResponse, tp.VoteForPostArg>({
+        // TODO it turns out, grammatically correct phrase would be "vote on post"
+        voteOnPost: builder.mutation<PostDetailsResponse, tp.VoteOnPostArg>({
             query: ({ postId, userId, value }) => ({
                 body: { value },
                 method: "PUT",
@@ -97,7 +98,7 @@ export const postsApi = createApi({
 });
 
 const updatePostCacheIfNeeded = (
-    data: UserPostDetailsResponse,
+    data: PostDetailsResponse,
     state: RootState,
     dispatch: ThunkDispatch<RootState, any, any>,
 ) => {
@@ -136,7 +137,7 @@ export const {
     useGetAllPostsQuery,
     useGetPostBySlugQuery,
     useUpdatePostByIdMutation,
-    useVoteForPostMutation,
+    useVoteOnPostMutation,
 } = postsApi;
 
 // [1]. The function depends on postsApi, so we can't declare it before it.
