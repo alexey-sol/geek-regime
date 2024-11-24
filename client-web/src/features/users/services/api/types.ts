@@ -1,8 +1,6 @@
 import { type User } from "@/features/users/models/entities";
-import { type QueryParams } from "@/shared/types";
+import { type HasSearchPagingQueryParams } from "@/shared/types";
 
-export type GetAllUsersArg = {
-    params: QueryParams;
-};
+export type GetAllUsersArg = HasSearchPagingQueryParams;
 
 export type GetUserBySlugArg = User["slug"];

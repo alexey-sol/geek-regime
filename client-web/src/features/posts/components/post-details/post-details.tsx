@@ -12,18 +12,19 @@ import {
     PostMeta,
 } from "@/features/posts/components/post-meta";
 import { useAuthContext } from "@/features/auth/contexts/auth";
-import type * as en from "@/features/posts/models/entities";
+import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 
 import { ContentStyled, InfoStyled, PostDetailsStyled } from "./style";
 
-export type PostDetailsProps = {
-    post: en.UserPostDetails;
-};
-
-export const PostDetails: FC<PostDetailsProps> = ({ post }) => {
+export const PostDetails: FC = () => {
     const { t } = useTranslation();
     const { language } = useLanguage();
+    const { post } = useActivePost();
     const { profile } = useAuthContext();
+
+    if (!post) {
+        return null;
+    }
 
     const createdMonthsAgo = differenceInMonths(new Date(post.createdAt), new Date());
     const relativeTimeFormat = new Intl.RelativeTimeFormat(language);

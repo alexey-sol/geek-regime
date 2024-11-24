@@ -2,19 +2,19 @@ import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { resources } from "@eggziom/geek-regime-js-commons";
 import { type ThunkDispatch } from "redux-thunk";
 
-import * as cn from "@/features/posts/services/api/const";
 import {
-    type PostDetailsResponse, type PostPreviewPageResponse,
+    type PostDetailsResponse,
+    type PostPreviewPageResponse,
 } from "@/features/posts/models/dtos";
-import { transformQueryParams } from "@/shared/utils/converters";
 import { type RootState } from "@/app/store";
 
+import * as cn from "./const";
 import { baseUrl, createTag } from "./utils";
 import type * as tp from "./types";
 
 export const postsApi = createApi({
     reducerPath: "postsApi",
-    tagTypes: [cn.POSTS_TAG_TYPE],
+    tagTypes: [cn.TAG_TYPE],
     baseQuery: fetchBaseQuery({ baseUrl }),
     endpoints: (builder) => ({
         createPost: builder.mutation<PostDetailsResponse, tp.CreatePostArg>({
@@ -36,16 +36,14 @@ export const postsApi = createApi({
         }),
         getAllPosts: builder.query<PostPreviewPageResponse, tp.GetAllPostsArg | void>({
             query: (arg) => {
-                const { authorId } = arg?.filter ?? {};
+                const { params } = arg ?? {};
+                const { authorId } = params?.filter ?? {};
 
                 const url = (authorId)
                     ? `${resources.USERS}/${authorId}/${resources.POSTS}`
                     : resources.POSTS;
 
-                return ({
-                    params: transformQueryParams(arg?.params),
-                    url,
-                });
+                return ({ params, url });
             },
             providesTags: (result) => {
                 const tag = createTag();
@@ -79,14 +77,12 @@ export const postsApi = createApi({
                 updatePostCacheIfNeeded(data, api.getState(), api.dispatch);
             },
         }),
-        // TODO it turns out, grammatically correct phrase would be "vote on post"
         voteOnPost: builder.mutation<PostDetailsResponse, tp.VoteOnPostArg>({
             query: ({ postId, userId, value }) => ({
                 body: { value },
                 method: "PUT",
                 url: `${resources.USERS}/${userId}/${resources.POSTS}/${postId}/vote`,
             }),
-            // FIXME check if this works
             async onQueryStarted(_, api) {
                 const { data } = await api.queryFulfilled;
 
@@ -110,7 +106,7 @@ const updatePostCacheIfNeeded = (
 
     const caches = postsApi.util.selectInvalidatedBy(
         state,
-        [{ type: cn.POSTS_TAG_TYPE, id }],
+        [{ type: cn.TAG_TYPE, id }],
     );
 
     caches.forEach(({ endpointName, originalArgs }) => {

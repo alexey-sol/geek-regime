@@ -4,7 +4,8 @@ import { isProduction } from "@eggziom/geek-regime-js-commons";
 
 import { authApi } from "@/features/auth/services/api";
 import { authListener } from "@/features/auth/slice/middlewares";
-import { postsApi } from "@/features/posts/services/api";
+import { postsApi } from "@/features/posts/services/posts-api";
+import { postCommentsApi } from "@/features/posts/services/post-comments-api";
 import { usersApi } from "@/features/users/services/api";
 
 import { rootReducer } from "./reducer";
@@ -16,6 +17,7 @@ export const store = configureStore({
         .prepend(authListener.middleware)
         .concat(authApi.middleware)
         .concat(postsApi.middleware)
+        .concat(postCommentsApi.middleware)
         .concat(usersApi.middleware),
 } as const);
 

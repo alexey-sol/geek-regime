@@ -8,7 +8,7 @@ import {
     useGetPostBySlugQuery,
     useUpdatePostByIdMutation,
     useVoteOnPostMutation,
-} from "@/features/posts/services/api";
+} from "@/features/posts/services/posts-api";
 import { useAuthContext } from "@/features/auth/contexts/auth";
 import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
 

@@ -4,19 +4,13 @@ import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import { selectPagingOptions } from "@/features/users/slice/selectors";
 import { setPagingOptions } from "@/features/users/slice";
 import { useGetAllUsersQuery } from "@/features/users/services/api";
-import { toUserList } from "@/features/users/utils/converters";
 import { User } from "@/features/users/models/entities";
 import { usePage, type UsePageResult } from "@/shared/utils/hooks/use-page";
-import { getQueryParams } from "@/shared/utils/helpers/api";
 import { type PagingOptions } from "@/shared/types";
 import { type GetAllUsersArg } from "@/features/users/services/api/types";
 
-const getArg = (
-    pagingOptions: PagingOptions,
-    text?: string,
-): GetAllUsersArg => ({
-    params: getQueryParams(pagingOptions, text, ["details.name"]),
-});
+import { toUserList } from "../converters";
+import { normalizeGetAllUsersArg } from "../api";
 
 type UseUsersArg = Pick<UsePageResult, "setTotalElements"> & {
     arg: GetAllUsersArg;
@@ -62,7 +56,7 @@ export const useUsersPage = (): UseUsersPageResult => {
         setPagingOptions: onSetPagingOptions,
     });
 
-    const arg = getArg(pagingOptions, searchText);
+    const arg = normalizeGetAllUsersArg({ ...pagingOptions, text: searchText });
     const { isPending, users } = useUsers({ arg, setTotalElements });
 
     return useMemo(() => ({

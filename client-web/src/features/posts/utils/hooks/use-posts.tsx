@@ -1,9 +1,9 @@
 import { useEffect, useMemo } from "react";
 
 import { toUserPostPreviewList } from "@/features/posts/utils/converters";
-import { useGetAllPostsQuery } from "@/features/posts/services/api";
+import { useGetAllPostsQuery } from "@/features/posts/services/posts-api";
 import { type UsePageResult } from "@/shared/utils/hooks/use-page";
-import { type GetAllPostsArg } from "@/features/posts/services/api/types";
+import { type GetAllPostsArg } from "@/features/posts/services/posts-api/types";
 
 import { type UsePostsPageResult } from "./types";
 

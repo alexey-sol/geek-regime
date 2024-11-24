@@ -1,7 +1,6 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 import { type UserPageResponse, type UserResponse } from "@/features/users/models/dtos";
-import { transformQueryParams } from "@/shared/utils/converters";
 
 import {
     createTag,
@@ -12,12 +11,12 @@ import type * as tp from "./types";
 
 export const usersApi = createApi({
     reducerPath: "usersApi",
-    tagTypes: [cn.USERS_TAG_TYPE],
+    tagTypes: [cn.TAG_TYPE],
     baseQuery: fetchBaseQuery({ baseUrl }),
     endpoints: (builder) => ({
         getAllUsers: builder.query<UserPageResponse, tp.GetAllUsersArg | void>({
             query: (arg) => ({
-                params: transformQueryParams(arg?.params),
+                params: arg?.params,
                 url: "",
             }),
             providesTags: (result) => {
