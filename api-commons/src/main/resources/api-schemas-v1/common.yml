@@ -1,0 +1,26 @@
+openapi: 3.1.0
+info:
+  title: Common schema components
+  version: v1
+components:
+  schemas:
+    Page:
+      type: object
+      required: [ size, totalElements ]
+      properties:
+        size:
+          type: integer
+          format: int32
+          minimum: 1
+        totalElements:
+          type: integer
+          format: int64
+          minimum: 0
+    IdResponse:
+      type: object
+      required: [ id ]
+      properties:
+        id:
+          type: integer
+          format: int64
+          minimum: 1

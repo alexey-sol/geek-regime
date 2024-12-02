@@ -1,0 +1,132 @@
+openapi: 3.1.0
+info:
+  title: Post comment schema components
+  version: v1
+components:
+  schemas:
+    # Response DTOs from base service containing scalar reference ID fields (foreign keys):
+    BasePostCommentPageResponse:
+      required: [ content, size, totalElements ]
+      allOf:
+        - $ref: "#/components/schemas/Page"
+      properties:
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/BasePostCommentResponse"
+    BasePostCommentResponse:
+      type: object
+      required: [ id, body, createdAt, updatedAt, authorId, postId, descendantCommentCount ]
+      allOf:
+        - $ref: "#/components/schemas/PostCommentResponseBase"
+        - $ref: "#/components/schemas/PostCommentRefs"
+        - type: object
+          properties:
+            descendantCommentCount:
+              type: integer
+              format: int64
+              minimum: 0
+    BasePostCommentTreeResponse:
+      type: object
+      required: [ id, body, createdAt, updatedAt, authorId, postId, comments ]
+      allOf:
+        - $ref: "#/components/schemas/PostCommentResponseBase"
+        - $ref: "#/components/schemas/PostCommentRefs"
+        - type: object
+          properties:
+            comments:
+              type: array
+              items:
+                $ref: "#/components/schemas/BasePostCommentTreeResponse"
+    # Response DTOs from aggregator service containing populated reference fields:
+    PostCommentPageResponse:
+      required: [ content, size, totalElements ]
+      allOf:
+        - $ref: "#/components/schemas/Page"
+      properties:
+        content:
+          type: array
+          items:
+            $ref: "#/components/schemas/PostCommentResponse"
+    PostCommentResponse:
+      type: object
+      required: [ id, body, createdAt, updatedAt, author, descendantCommentCount ]
+      allOf:
+        - $ref: "#/components/schemas/PostCommentResponseBase"
+        - type: object
+          properties:
+            author:
+              $ref: "#/components/schemas/UserResponse"
+            descendantCommentCount:
+              type: integer
+              format: int64
+              minimum: 0
+    PostCommentTreeResponse:
+      type: object
+      required: [ id, body, createdAt, updatedAt, postId, author, comments ]
+      allOf:
+        - $ref: "#/components/schemas/PostCommentResponseBase"
+        - type: object
+          properties:
+            author:
+              $ref: "#/components/schemas/UserResponse"
+            comments:
+              type: array
+              items:
+                $ref: "#/components/schemas/PostCommentTreeResponse"
+    # Request DTOs:
+    CreatePostCommentRequest:
+      type: object
+      required: [ authorId, postId, body ]
+      properties:
+        authorId:
+          type: integer
+          format: int64
+          minimum: 1
+        postId:
+          type: integer
+          format: int64
+          minimum: 1
+        body:
+          type: string
+          minLength: 1
+    UpdatePostCommentRequest:
+      type: object
+      properties:
+        body:
+          type: string
+          minLength: 1
+    # Shared fields:
+    PostCommentResponseBase: # fields shared by all post comment response DTOs
+      type: object
+      required: [ id, body, createdAt, updatedAt, descendantCommentCount ]
+      properties:
+        id:
+          type: integer
+          format: int64
+          minimum: 1
+        body:
+          type: string
+        createdAt:
+          type: string
+          format: date-time
+        updatedAt:
+          type: string
+          format: date-time
+    PostCommentRefs: # scalar reference ID fields (foreign keys)
+      type: object
+      required: [ authorId, postId ]
+      properties:
+        authorId:
+          type: integer
+          format: int64
+          minimum: 1
+        postId:
+          type: integer
+          format: int64
+          minimum: 1
+    # Refs:
+    Page:
+      type: Page
+    UserResponse:
+      type: UserResponse
