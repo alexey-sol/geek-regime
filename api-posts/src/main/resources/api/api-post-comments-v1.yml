@@ -7,7 +7,7 @@ servers:
 paths:
   /users/{id}/comments:
     get:
-      summary: Find all post comments by author
+      summary: Find all root-level post comments of author
       operationId: findAllPostCommentsByAuthor
       tags:
         - post-comment
@@ -16,14 +16,14 @@ paths:
         - $ref: "./parameters-v1.yml#/components/parameters/id"
       responses:
         200:
-          description: A list of post comments by author
+          description: A page of all root-level post comments of author
           content:
             application/json:
               schema:
                 $ref: "#/components/schemas/BasePostCommentPageResponse"
   /posts/{id}/comments:
     get:
-      summary: Find all post comments by post
+      summary: Find all root-level post comments of post
       operationId: findAllPostCommentsByPost
       tags:
         - post-comment
@@ -32,7 +32,7 @@ paths:
         - $ref: "./parameters-v1.yml#/components/parameters/id"
       responses:
         200:
-          description: A list of post comments by post
+          description: A page of all root-level post comments of post
           content:
             application/json:
               schema:
@@ -52,7 +52,7 @@ paths:
               $ref: "#/components/schemas/CreatePostCommentRequest"
       responses:
         200:
-          description: The created post сщььуте
+          description: The created post comment
           content:
             application/json:
               schema:
@@ -92,6 +92,21 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/IdResponse"
+  /comments/{id}:
+    get:
+      summary: Find root-level post comment and all its descendants (get the whole tree)
+      operationId: getPostCommentTreeByParentId
+      tags:
+        - post-comment
+      parameters:
+        - $ref: "./parameters-v1.yml#/components/parameters/id"
+      responses:
+        200:
+          description: The whole post comment tree
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasePostCommentTreeResponse"
 components:
   # Schemas imported from api-commons
   schemas:
@@ -99,6 +114,8 @@ components:
       type: BasePostCommentPageResponse
     BasePostCommentResponse:
       type: BasePostCommentResponse
+    BasePostCommentTreeResponse:
+      type: BasePostCommentTreeResponse
     CreatePostCommentRequest:
       type: CreatePostCommentRequest
     UpdatePostCommentRequest:

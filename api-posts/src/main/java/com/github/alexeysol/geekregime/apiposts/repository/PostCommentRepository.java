@@ -11,7 +11,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface PostCommentRepository extends PagingAndSortingRepository<PostComment, Long> {
-
     Page<PostComment> findPostCommentsByUserId(long userId, Pageable pageable);
 
     Page<PostComment> findPostCommentsByPostId(long postId, Pageable pageable);
@@ -22,4 +21,19 @@ public interface PostCommentRepository extends PagingAndSortingRepository<PostCo
     int removePostCommentById(long id);
 
     long countByPostId(long postId);
+
+    @Query( // [1]
+        value = "WITH RECURSIVE tree (id, parent_id) AS " +
+            "(SELECT id, parent_id " +
+            "FROM post_comment " +
+            "WHERE parent_id = :parentId " +
+            "UNION ALL " +
+            "SELECT pc.id, pc.parent_id " +
+            "FROM tree INNER JOIN post_comment pc " +
+            "ON tree.id = pc.parent_id) " +
+            "SELECT COUNT(id) FROM tree",
+        nativeQuery = true)
+    long countAllDescendantsByParentId(long parentId);
 }
+
+// [1]. Borrowed the query ("getAllChildren") from here: https://habr.com/ru/articles/537062/

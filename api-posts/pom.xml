@@ -184,6 +184,7 @@
                         <typeMapping>VoteOnPostRequest=com.github.alexeysol.geekregime.apicommons.generated.model.VoteOnPostRequest</typeMapping>
                         <typeMapping>BasePostCommentPageResponse=com.github.alexeysol.geekregime.apicommons.generated.model.BasePostCommentPageResponse</typeMapping>
                         <typeMapping>BasePostCommentResponse=com.github.alexeysol.geekregime.apicommons.generated.model.BasePostCommentResponse</typeMapping>
+                        <typeMapping>BasePostCommentTreeResponse=com.github.alexeysol.geekregime.apicommons.generated.model.BasePostCommentTreeResponse</typeMapping>
                         <typeMapping>CreatePostCommentRequest=com.github.alexeysol.geekregime.apicommons.generated.model.CreatePostCommentRequest</typeMapping>
                         <typeMapping>UpdatePostCommentRequest=com.github.alexeysol.geekregime.apicommons.generated.model.UpdatePostCommentRequest</typeMapping>
                         <typeMapping>IdResponse=com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse</typeMapping>

@@ -142,3 +142,4 @@ components:
     # Refs:
     Page:
       type: Page
+      $ref: "./common.yml#/components/schemas/Page"

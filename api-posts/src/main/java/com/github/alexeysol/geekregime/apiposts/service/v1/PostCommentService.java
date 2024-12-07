@@ -28,6 +28,10 @@ public class PostCommentService {
         return postCommentRepository.findPostCommentsByPostId(postId, pageable);
     }
 
+    public long countAllDescendantsByParentId(long parentId) {
+        return postCommentRepository.countAllDescendantsByParentId(parentId);
+    }
+
     public Optional<PostComment> findPostCommentById(long id) {
         return postCommentRepository.findById(id);
     }

@@ -16,25 +16,25 @@ components:
             $ref: "#/components/schemas/BasePostCommentResponse"
     BasePostCommentResponse:
       type: object
-      required: [ id, body, createdAt, updatedAt, authorId, postId, descendantCommentCount ]
+      required: [ id, createdAt, updatedAt, authorId, postId, descendantCount ]
       allOf:
         - $ref: "#/components/schemas/PostCommentResponseBase"
         - $ref: "#/components/schemas/PostCommentRefs"
         - type: object
           properties:
-            descendantCommentCount:
+            descendantCount:
               type: integer
               format: int64
               minimum: 0
     BasePostCommentTreeResponse:
       type: object
-      required: [ id, body, createdAt, updatedAt, authorId, postId, comments ]
+      required: [ id, createdAt, updatedAt, authorId, postId, replies ]
       allOf:
         - $ref: "#/components/schemas/PostCommentResponseBase"
         - $ref: "#/components/schemas/PostCommentRefs"
         - type: object
           properties:
-            comments:
+            replies:
               type: array
               items:
                 $ref: "#/components/schemas/BasePostCommentTreeResponse"
@@ -50,27 +50,27 @@ components:
             $ref: "#/components/schemas/PostCommentResponse"
     PostCommentResponse:
       type: object
-      required: [ id, body, createdAt, updatedAt, author, descendantCommentCount ]
+      required: [ id, createdAt, updatedAt, author, descendantCount ]
       allOf:
         - $ref: "#/components/schemas/PostCommentResponseBase"
         - type: object
           properties:
             author:
               $ref: "#/components/schemas/UserResponse"
-            descendantCommentCount:
+            descendantCount:
               type: integer
               format: int64
               minimum: 0
     PostCommentTreeResponse:
       type: object
-      required: [ id, body, createdAt, updatedAt, postId, author, comments ]
+      required: [ id, createdAt, updatedAt, postId, author, replies ]
       allOf:
         - $ref: "#/components/schemas/PostCommentResponseBase"
         - type: object
           properties:
             author:
               $ref: "#/components/schemas/UserResponse"
-            comments:
+            replies:
               type: array
               items:
                 $ref: "#/components/schemas/PostCommentTreeResponse"
@@ -99,7 +99,7 @@ components:
     # Shared fields:
     PostCommentResponseBase: # fields shared by all post comment response DTOs
       type: object
-      required: [ id, body, createdAt, updatedAt, descendantCommentCount ]
+      required: [ id, createdAt, updatedAt ]
       properties:
         id:
           type: integer
@@ -107,6 +107,8 @@ components:
           minimum: 1
         body:
           type: string
+        isDeleted:
+          type: boolean
         createdAt:
           type: string
           format: date-time
@@ -128,5 +130,7 @@ components:
     # Refs:
     Page:
       type: Page
+      $ref: "./common.yml#/components/schemas/Page"
     UserResponse:
       type: UserResponse
+      $ref: "./user.yml#/components/schemas/UserResponse"

@@ -2,6 +2,8 @@ package com.github.alexeysol.geekregime.apiposts.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -10,11 +12,13 @@ import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "post_comment", indexes = {
     @Index(columnList = "post_id"),
-    @Index(columnList = "user_id, post_id")
+    @Index(columnList = "user_id, post_id"),
+    @Index(columnList = "parent_id")
 })
 @EntityListeners(AuditingEntityListener.class)
 @Data
@@ -53,6 +57,17 @@ public class PostComment {
     @LastModifiedDate
     @Setter(value = AccessLevel.NONE)
     private Date updatedAt;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "parent_id")
+    private PostComment parent;
+
+    @OneToMany(mappedBy = "parent", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OnDelete(action = OnDeleteAction.CASCADE)
+    private List<PostComment> replies;
+
+    @Column(name = "is_deleted")
+    private Boolean isDeleted;
 }
 
 // [1]. It's a field specifically for a DTO. We don't need the whole post in a response DTO, so when

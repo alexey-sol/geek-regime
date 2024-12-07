@@ -173,5 +173,7 @@ components:
     # Refs:
     Page:
       type: Page
+      $ref: "./common.yml#/components/schemas/Page"
     UserResponse:
       type: UserResponse
+      $ref: "./user.yml#/components/schemas/UserResponse"

@@ -110,4 +110,18 @@ public class PostCommentController implements PostCommentApi {
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @Override
+    public ResponseEntity<BasePostCommentTreeResponse> getPostCommentTreeByParentId(Long id) {
+        var optionalPostComment = postCommentService.findPostCommentById(id);
+
+        if (optionalPostComment.isEmpty()) {
+            throw new ResourceException(new ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD));
+        }
+
+        var postComment = optionalPostComment.get();
+        var response = postCommentMapper.toBasePostCommentTreeResponse(postComment);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
 }
