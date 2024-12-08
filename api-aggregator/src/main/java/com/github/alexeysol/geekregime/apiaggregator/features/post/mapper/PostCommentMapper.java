@@ -13,13 +13,17 @@ public class PostCommentMapper extends BasePostCommentMapper {
         super(modelMapper, userService);
     }
 
-    public PostCommentResponse toPostCommentResponse(BasePostCommentResponse postCommentResponse) {
-        return modelMapper.map(postCommentResponse, PostCommentResponse.class);
+    public PostCommentResponse toPostCommentResponse(BasePostCommentResponse basePostCommentResponse) {
+        return modelMapper.map(basePostCommentResponse, PostCommentResponse.class);
     }
 
-    public List<PostCommentResponse> toPostCommentResponseList(List<BasePostCommentResponse> postCommentResponses) {
+    public List<PostCommentResponse> toPostCommentResponseList(List<BasePostCommentResponse> basePostCommentResponses) {
         var responseList = new BasePostCommentResponseList();
-        responseList.setList(postCommentResponses);
+        responseList.setList(basePostCommentResponses);
         return modelMapper.map(responseList, PostCommentResponseList.class).getList();
+    }
+
+    public PostCommentTreeResponse toPostCommentTreeResponse(BasePostCommentTreeResponse basePostCommentTreeResponse) {
+        return modelMapper.map(basePostCommentTreeResponse, PostCommentTreeResponse.class);
     }
 }

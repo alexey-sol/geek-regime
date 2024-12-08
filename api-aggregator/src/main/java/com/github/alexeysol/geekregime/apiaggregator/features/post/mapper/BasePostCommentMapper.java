@@ -41,5 +41,10 @@ public abstract class BasePostCommentMapper {
             .addMappings(mapper -> mapper
                 .using(new ToPostCommentResponseListConverter(userService, modelMapper))
                 .map(BasePostCommentResponseList::getList, PostCommentResponseList::setList));
+
+        modelMapper.createTypeMap(BasePostCommentTreeResponse.class, PostCommentTreeResponse.class)
+            .addMappings(mapper -> mapper
+                .using(context -> userService.findUserById((long) context.getSource()))
+                .map(BasePostCommentTreeResponse::getAuthorId, PostCommentTreeResponse::setAuthor));
     }
 }

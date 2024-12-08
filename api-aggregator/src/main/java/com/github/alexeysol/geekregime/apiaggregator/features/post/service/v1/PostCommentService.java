@@ -4,9 +4,7 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.alexeysol.geekregime.apiaggregator.shared.util.HttpEndpoint;
 import com.github.alexeysol.geekregime.apiaggregator.shared.util.UriUtil;
 import com.github.alexeysol.geekregime.apiaggregator.shared.util.source.ApiPostsSource;
-import com.github.alexeysol.geekregime.apicommons.generated.model.BasePostCommentPageResponse;
-import com.github.alexeysol.geekregime.apicommons.generated.model.BasePostCommentResponse;
-import com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse;
+import com.github.alexeysol.geekregime.apicommons.generated.model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -77,5 +75,15 @@ public class PostCommentService {
         return new HttpEndpoint(httpClient, uri)
             .method("DELETE")
             .request(new TypeReference<>() {});
+    }
+
+    public BasePostCommentTreeResponse getPostCommentTreeByParentId(long id) {
+        String path = String.format("%s/%s", COMMENTS, id);
+
+        var uri = UriUtil.getApiUriBuilder(source.getBaseUrl(), path)
+            .build()
+            .toUri();
+
+        return new HttpEndpoint(httpClient, uri).request(new TypeReference<>() {});
     }
 }

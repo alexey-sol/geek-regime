@@ -61,8 +61,14 @@ public class PostCommentController {
     }
 
     @DeleteMapping("posts/comments/{id}")
-    IdResponse removePosCommentById(@PathVariable long id) {
+    IdResponse removePostCommentById(@PathVariable long id) {
         return service.removePostCommentById(id);
+    }
+
+    @GetMapping("comments/{id}")
+    PostCommentTreeResponse getPostCommentTreeByParentId(@PathVariable long id) {
+        BasePostCommentTreeResponse postComment = service.getPostCommentTreeByParentId(id);
+        return mapper.toPostCommentTreeResponse(postComment);
     }
 
     private void cleanUpIfNeeded(Throwable exception, long commentId) {
