@@ -1,6 +1,6 @@
 import { useEffect, useMemo } from "react";
 
-import { toUserPostPreviewList } from "@/features/posts/utils/converters";
+import { toPostPreviewList } from "@/features/posts/utils/converters";
 import { useGetAllPostsQuery } from "@/features/posts/services/posts-api";
 import { type UsePageResult } from "@/shared/utils/hooks/use-page";
 import { type GetAllPostsArg } from "@/features/posts/services/posts-api/types";
@@ -18,7 +18,7 @@ export const usePosts = ({ arg, setTotalElements, skip }: UsePostsArg): UsePosts
     const selectedFromResult = useGetAllPostsQuery(arg, {
         selectFromResult: ({ data, isFetching }) => ({
             isFetching,
-            posts: toUserPostPreviewList(data?.content ?? []),
+            posts: toPostPreviewList(data?.content ?? []),
             totalElements: data?.totalElements ?? 0,
         }),
         skip,

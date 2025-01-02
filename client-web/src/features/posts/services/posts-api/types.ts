@@ -1,13 +1,13 @@
 import { type HasId } from "@eggziom/geek-regime-js-commons";
 
-import { type UserPostDetails } from "@/features/posts/models/entities";
+import { type PostDetails } from "@/features/posts/models/entities";
 import { type CreatePostRequest, type UpdatePostRequest } from "@/features/posts/models/dtos";
 import { type HasFilteredSearchPagingQueryParams } from "@/shared/types";
 import { type HasAuthorId } from "@/features/posts/types";
 
 export type GetAllPostsArg = HasFilteredSearchPagingQueryParams<HasAuthorId>;
 
-export type GetPostBySlugArg = UserPostDetails["slug"];
+export type GetPostBySlugArg = PostDetails["slug"];
 
 export type CreatePostArg = CreatePostRequest;
 

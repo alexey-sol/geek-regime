@@ -1,15 +1,29 @@
 import { plainToClass } from "class-transformer";
 
-import { UserPostDetails, UserPostPreview } from "@/features/posts/models/entities";
-import type {
-    PostDetailsResponse, PostPreviewResponse,
+import {
+    PostComment, PostCommentTree, PostDetails, PostPreview,
+} from "@/features/posts/models/entities";
+import {
+    type PostCommentResponse,
+    type PostCommentTreeResponse,
+    type PostDetailsResponse,
+    type PostPreviewResponse,
 } from "@/features/posts/models/dtos";
 
-export const toUserPostDetails = (response: PostDetailsResponse): UserPostDetails =>
-    plainToClass(UserPostDetails, response);
+export const toPostDetails = (response: PostDetailsResponse): PostDetails =>
+    plainToClass(PostDetails, response);
 
-export const toUserPostPreview = (response: PostPreviewResponse): UserPostPreview =>
-    plainToClass(UserPostPreview, response);
+export const toPostPreview = (response: PostPreviewResponse): PostPreview =>
+    plainToClass(PostPreview, response);
 
-export const toUserPostPreviewList = (list: PostPreviewResponse[]): UserPostPreview[] =>
-    list.map((response) => toUserPostPreview(response));
+export const toPostPreviewList = (list: PostPreviewResponse[]): PostPreview[] =>
+    list.map((response) => toPostPreview(response));
+
+export const toPostComment = (response: PostCommentResponse): PostComment =>
+    plainToClass(PostComment, response);
+
+export const toPostCommentList = (list: PostCommentResponse[]): PostComment[] =>
+    list.map((response) => toPostComment(response));
+
+export const toPostCommentTree = (response: PostCommentTreeResponse): PostCommentTree =>
+    plainToClass(PostCommentTree, response);

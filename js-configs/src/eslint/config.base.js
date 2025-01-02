@@ -77,6 +77,8 @@ module.exports = {
         "max-classes-per-file": "off",
         "max-len": ["error", {
             code: 100,
+            ignorePattern: "^import\\s.+\\sfrom\\s.+;$",
+            ignoreUrls: true,
         }],
         "no-else-return": ["error", {
             allowElseIf: true,

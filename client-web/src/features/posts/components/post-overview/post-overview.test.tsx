@@ -1,7 +1,7 @@
 import React from "react";
 
 import { render, screen } from "@/features/posts/test/setup";
-import { toUserPostPreview } from "@/features/posts/utils/converters";
+import { toPostPreview } from "@/features/posts/utils/converters";
 import { paths } from "@/shared/const";
 import { PostPreviewResponse } from "@/features/posts/models/dtos";
 
@@ -33,9 +33,15 @@ const RESPONSE: PostPreviewResponse = {
             gender: "MALE",
         },
     },
+    meta: {
+        id: 1,
+        rating: 0,
+        viewCount: 0,
+        commentCount: 0,
+    },
 };
 
-const POST = toUserPostPreview(RESPONSE);
+const POST = toPostPreview(RESPONSE);
 
 describe("Posts/UserOverview", () => {
     it("renders title and excerpt from provided post", () => {

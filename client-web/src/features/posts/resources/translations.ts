@@ -26,6 +26,18 @@ export const en = {
             },
         },
         post: {
+            comments: {
+                hideRepliesButton: {
+                    title: "Hide replies",
+                },
+                isDeleted: {
+                    placeholder: "The comment has been deleted.",
+                },
+                showRepliesButton: {
+                    title: "Show replies",
+                },
+                title: "Comments",
+            },
             createdAt: "Created at",
             dislikeButton: {
                 active: {
@@ -78,6 +90,18 @@ export const ru = {
             },
         },
         post: {
+            comments: {
+                hideRepliesButton: {
+                    title: "Скрыть ответы",
+                },
+                isDeleted: {
+                    placeholder: "Комментарий удален.",
+                },
+                showRepliesButton: {
+                    title: "Показать ответы",
+                },
+                title: "Комментарии",
+            },
             createdAt: "Создано",
             dislikeButton: {
                 active: {

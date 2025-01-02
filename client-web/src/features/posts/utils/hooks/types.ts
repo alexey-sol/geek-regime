@@ -1,4 +1,4 @@
-import { type UserPostDetails, type UserPostPreview } from "@/features/posts/models/entities";
+import { type PostDetails, type PostPreview } from "@/features/posts/models/entities";
 import { type PagingOptions } from "@/shared/types";
 import {
     type CreatePostArg,
@@ -14,7 +14,7 @@ export type ActivePostPending = "get" | "create" | "update" | "remove" | "vote";
 
 export type UseActivePostResult = {
     pending?: ActivePostPending;
-    post?: UserPostDetails;
+    post?: PostDetails;
     savePost: {
         (arg: CreatePostOnSaveArg): void;
         (arg: UpdatePostOnSaveArg): void;
@@ -27,5 +27,5 @@ export type UsePostsPageArg = Pick<GetAllPostsArg["params"], "filter">;
 export type UsePostsPageResult = {
     isPending: boolean;
     pagingOptions: PagingOptions;
-    posts: UserPostPreview[];
+    posts: PostPreview[];
 };

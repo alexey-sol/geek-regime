@@ -1,11 +1,18 @@
 import React, {
     type FC, memo, useCallback, useState,
 } from "react";
+import styled from "styled-components";
 
 import { PostDetails } from "@/features/posts/components/post-details";
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import { PostComments } from "@/features/posts/components/post-comments";
 import { useInfiniteScroll } from "@/shared/utils/hooks/use-infinite-scroll";
+
+export const PostDetailsViewStyled = styled.section`
+    display: flex;
+    flex-direction: column;
+    row-gap: 2rem;
+`;
 
 export const PostDetailsView: FC = () => {
     const [showComments, setShowComments] = useState(false);
@@ -16,20 +23,19 @@ export const PostDetailsView: FC = () => {
         setShowComments(true);
     }, []);
 
-    const { scrollableRef } = useInfiniteScroll({
+    const { sentryRef } = useInfiniteScroll({
         hasMore: Boolean(post) && !showComments,
         onLoadMore,
     });
 
     return (
-        <section>
+        <PostDetailsViewStyled>
             {Boolean(pending) && "loading..."}
             <PostDetails />
-
-            <section ref={scrollableRef}>
+            <section ref={sentryRef}>
                 {showComments && <PostComments />}
             </section>
-        </section>
+        </PostDetailsViewStyled>
     );
 };
 

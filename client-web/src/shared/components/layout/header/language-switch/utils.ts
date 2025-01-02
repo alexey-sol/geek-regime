@@ -8,7 +8,7 @@ export const mapLanguageToTitle: Record<string, string> = {
 };
 
 export const getLanguageTitle = (language: string): string => {
-    const normLanguage = language.toLowerCase().split(LANGUAGE_DELIMITER)[0];
+    const normLanguage = language?.toLowerCase().split(LANGUAGE_DELIMITER)[0];
 
     return mapLanguageToTitle[normLanguage] ?? "";
 };

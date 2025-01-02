@@ -1,15 +1,18 @@
-import type { components } from "@eggziom/geek-regime-js-commons/dist/models/schemas-v1";
+import type { components as post } from "@eggziom/geek-regime-js-commons/dist/models/post-schemas-v1";
+import type { components as postComment } from "@eggziom/geek-regime-js-commons/dist/models/post-comment-schemas-v1";
 
-export type PostPreviewResponse = components["schemas"]["PostPreviewResponse"]
+export type PostPreviewResponse = post["schemas"]["PostPreviewResponse"];
 
-export type PostDetailsResponse = components["schemas"]["PostDetailsResponse"];
+export type PostDetailsResponse = post["schemas"]["PostDetailsResponse"];
 
-export type CreatePostRequest = components["schemas"]["CreatePostRequest"];
+export type CreatePostRequest = post["schemas"]["CreatePostRequest"];
 
-export type UpdatePostRequest = components["schemas"]["UpdatePostRequest"];
+export type UpdatePostRequest = post["schemas"]["UpdatePostRequest"];
 
-export type PostPreviewPageResponse = components["schemas"]["PostPreviewPageResponse"];
+export type PostPreviewPageResponse = post["schemas"]["PostPreviewPageResponse"];
 
-export type PostCommentPageResponse = components["schemas"]["PostCommentPageResponse"];
+export type PostCommentPageResponse = postComment["schemas"]["PostCommentPageResponse"];
 
-export type PostCommentResponse = components["schemas"]["PostCommentResponse"];
+export type PostCommentResponse = postComment["schemas"]["PostCommentResponse"];
+
+export type PostCommentTreeResponse = postComment["schemas"]["PostCommentTreeResponse"];

@@ -1,7 +1,7 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { resources } from "@eggziom/geek-regime-js-commons";
 
-import { type PostCommentPageResponse } from "@/features/posts/models/dtos";
+import { type PostCommentPageResponse, type PostCommentTreeResponse } from "@/features/posts/models/dtos";
 import { mergePageContent } from "@/shared/utils/api";
 
 import * as cn from "./const";
@@ -30,9 +30,15 @@ export const postCommentsApi = createApi({
                 `${endpointName}${queryArgs.postId}`,
             forceRefetch: ({ currentArg, previousArg }) => currentArg !== previousArg,
         }),
+        getPostCommentTreeByParentId: builder.query<PostCommentTreeResponse, number>({
+            query: (postCommentId) => ({
+                url: `${resources.COMMENTS}/${postCommentId}`,
+            }),
+        }),
     }),
 });
 
 export const {
     useGetAllPostCommentsQuery,
+    useLazyGetPostCommentTreeByParentIdQuery,
 } = postCommentsApi;

@@ -44,7 +44,3 @@ export const PostOverviewFooter = styled.section`
     justify-content: space-between;
     flex-wrap: wrap;
 `;
-
-export const InfoWrapStyled = styled.section`
-    display: flex;
-`;

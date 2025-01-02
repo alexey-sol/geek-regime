@@ -11,19 +11,19 @@ type UseInfiniteScrollArg = {
     options?: IntersectionObserverInit;
 };
 
-type UseInfiniteScrollResult = {
-    scrollableRef: RefObject<HTMLElement>;
+type UseInfiniteScrollResult<E> = {
+    sentryRef: RefObject<E>;
 };
 
 export const useInfiniteScroll = <E extends HTMLElement = HTMLElement>({
     hasMore = false,
     onLoadMore,
     options,
-}: UseInfiniteScrollArg): UseInfiniteScrollResult => {
-    const scrollableRef = useRef<E>(null);
+}: UseInfiniteScrollArg): UseInfiniteScrollResult<E> => {
+    const sentryRef = useRef<E>(null);
 
     useEffect(() => {
-        const scrollable = scrollableRef.current;
+        const scrollable = sentryRef.current;
 
         if (!scrollable) {
             return undefined;
@@ -47,5 +47,5 @@ export const useInfiniteScroll = <E extends HTMLElement = HTMLElement>({
         };
     }, [hasMore, onLoadMore, options]);
 
-    return { scrollableRef };
+    return { sentryRef };
 };

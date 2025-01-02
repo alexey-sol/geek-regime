@@ -7,9 +7,9 @@ import { resources } from "@eggziom/geek-regime-js-commons";
 import { NodeEnv } from "@/shared/const";
 import { getResource } from "@/shared/util/url";
 import type { AppConfig } from "@/config/type";
-
 import { unless } from "@/config/util/handler";
 import { validatedEnv, validatedEnv as env } from "@/config/util/validation";
+
 import * as ct from "./const";
 
 export const authConfig = registerAs(ct.AUTH, () => ({
@@ -59,7 +59,9 @@ export const validationPipeConfig = registerAs("validationPipe", () => {
 export class AppProxyMiddleware {
     private static readonly TARGET_URL = "http://localhost";
     private static readonly RESOURCES_TO_IGNORE = [resources.AUTH];
-    private static readonly KNOWN_RESOURCES = [resources.POSTS, resources.USERS, resources.AUTH];
+    private static readonly KNOWN_RESOURCES = [
+        resources.AUTH, resources.COMMENTS, resources.POSTS, resources.USERS,
+    ];
 
     constructor(private readonly configService: ConfigService<AppConfig, true>) {}
 
@@ -88,6 +90,7 @@ export class AppProxyMiddleware {
         const apiUsersCf = this.configService.get("apiUsers", { infer: true });
 
         return {
+            [`/${resources.COMMENTS}`]: apiAggregatorCf.baseUrl,
             [`/${resources.POSTS}`]: apiAggregatorCf.baseUrl,
             [`/${resources.USERS}`]: apiUsersCf.baseUrl,
         };

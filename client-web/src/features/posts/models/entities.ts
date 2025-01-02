@@ -9,6 +9,7 @@ export class PostMeta {
         public id: number,
         public rating: number,
         public viewCount: number,
+        public commentCount: number,
     ) {}
 }
 
@@ -20,7 +21,7 @@ export class PostVote {
     ) {}
 }
 
-export class UserPostPreview {
+export class PostPreview {
     @Type(() => User)
     public author: User;
 
@@ -48,7 +49,7 @@ export class UserPostPreview {
     }
 }
 
-export class UserPostDetails extends UserPostPreview {
+export class PostDetails extends PostPreview {
     @Expose()
     @Transform(({ value }) => sanitize(value))
     public body: string;
@@ -70,5 +71,88 @@ export class UserPostDetails extends UserPostPreview {
         super(id, title, excerpt, slug, createdAt, updatedAt, author);
         this.body = body;
         this.votes = votes;
+    }
+}
+
+export class PostCommentBase {
+    @Expose()
+    @Transform(({ value }) => value && sanitize(value))
+    public body?: string;
+
+    @Type(() => User)
+    public author: User;
+
+    constructor(
+        public id: number,
+        public createdAt: string,
+        public updatedAt: string,
+        author: User,
+        body?: string,
+        public isDeleted = false,
+    ) {
+        this.author = author;
+        this.body = body;
+    }
+
+    get formattedCreatedAt(): string {
+        return formatTimestamp(this.createdAt);
+    }
+
+    get formattedUpdatedAt(): string {
+        return formatTimestamp(this.updatedAt);
+    }
+}
+
+export class PostComment extends PostCommentBase {
+    @Type(() => User)
+    public author: User;
+
+    constructor(
+        id: number,
+        createdAt: string,
+        updatedAt: string,
+        author: User,
+        body?: string,
+        isDeleted?: boolean,
+        public descendantCount = 0,
+    ) {
+        super(id, createdAt, updatedAt, author, body, isDeleted);
+    }
+
+    get formattedCreatedAt(): string {
+        return formatTimestamp(this.createdAt);
+    }
+
+    get formattedUpdatedAt(): string {
+        return formatTimestamp(this.updatedAt);
+    }
+}
+
+export class PostCommentTree extends PostCommentBase {
+    @Type(() => User)
+    public author: User;
+
+    @Type(() => PostCommentTree)
+    public replies: PostCommentTree[]; // eslint-disable-line no-use-before-define
+
+    constructor(
+        id: number,
+        createdAt: string,
+        updatedAt: string,
+        author: User,
+        body?: string,
+        isDeleted?: boolean,
+        replies: PostCommentTree[] = [],
+    ) {
+        super(id, createdAt, updatedAt, author, body, isDeleted);
+        this.replies = replies;
+    }
+
+    get formattedCreatedAt(): string {
+        return formatTimestamp(this.createdAt);
+    }
+
+    get formattedUpdatedAt(): string {
+        return formatTimestamp(this.updatedAt);
     }
 }
