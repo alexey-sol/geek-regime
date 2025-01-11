@@ -21,16 +21,13 @@ export const Tooltip: FC<TooltipProps> = ({
     disabled = false,
     message,
 }) => {
-    const { isOn, setIsOn } = useToggle();
+    const { isOn, off: closeTooltip, on: openTooltip } = useToggle();
 
     const childrenWrapRef = useRef<HTMLElement>(null);
     const tooltipRef = useRef<HTMLElement>(null);
 
     useEffect(() => {
         const childrenWrap = childrenWrapRef.current;
-
-        const openTooltip = () => setIsOn(true);
-        const closeTooltip = () => setIsOn(false);
 
         childrenWrap?.addEventListener("mouseenter", openTooltip);
         childrenWrap?.addEventListener("mouseleave", closeTooltip);
@@ -39,7 +36,7 @@ export const Tooltip: FC<TooltipProps> = ({
             childrenWrap?.removeEventListener("mouseenter", openTooltip);
             childrenWrap?.removeEventListener("mouseleave", closeTooltip);
         };
-    }, [setIsOn]);
+    }, [closeTooltip, openTooltip]);
 
     const [positionX, setPositionX] = useState<ElementPositionX>("center");
     const [positionY, setPositionY] = useState<ElementPositionY>("top");

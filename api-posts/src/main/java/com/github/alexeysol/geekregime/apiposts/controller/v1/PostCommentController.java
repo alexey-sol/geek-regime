@@ -34,7 +34,7 @@ public class PostCommentController implements PostCommentApi {
     private final PostCommentMapper postCommentMapper;
 
     @Override
-    public ResponseEntity<BasePostCommentPageResponse> findAllPostCommentsByAuthor(
+    public ResponseEntity<BasePostCommentPageResponse> findAllPostCommentsByAuthor( // TODO find root comments?
         Long authorId,
         @PageableDefault(size = PAGE_SIZE, sort = SORT_BY, direction = Sort.Direction.DESC) Pageable pageable
     ) {
@@ -45,11 +45,11 @@ public class PostCommentController implements PostCommentApi {
     }
 
     @Override
-    public ResponseEntity<BasePostCommentPageResponse> findAllPostCommentsByPost(
+    public ResponseEntity<BasePostCommentPageResponse> findAllRootPostCommentsByPost(
         Long postId,
         @PageableDefault(size = PAGE_SIZE, sort = SORT_BY, direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        var postCommentPage = postCommentService.findAllPostCommentsByPostId(postId, pageable);
+        var postCommentPage = postCommentService.findAllRootPostCommentsByPostId(postId, pageable);
         var response = toPageResponse(postCommentPage);
 
         return new ResponseEntity<>(response, HttpStatus.OK);

@@ -11,11 +11,8 @@ import java.util.List;
 
 @Component
 public class PostCommentMapper extends BasePostCommentMapper {
-    private final PostCommentService postCommentService;
-
     public PostCommentMapper(ModelMapper modelMapper, PostService postService, PostCommentService postCommentService) {
-        super(modelMapper, postService);
-        this.postCommentService = postCommentService;
+        super(modelMapper, postService, postCommentService);
     }
 
     public List<BasePostCommentResponse> toBasePostCommentListResponse(List<PostComment> postComments) {

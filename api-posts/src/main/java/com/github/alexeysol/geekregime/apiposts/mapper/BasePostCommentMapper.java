@@ -1,8 +1,12 @@
 package com.github.alexeysol.geekregime.apiposts.mapper;
 
-import com.github.alexeysol.geekregime.apicommons.generated.model.*;
+import com.github.alexeysol.geekregime.apicommons.generated.model.BasePostCommentResponse;
+import com.github.alexeysol.geekregime.apicommons.generated.model.BasePostCommentTreeResponse;
+import com.github.alexeysol.geekregime.apicommons.generated.model.CreatePostCommentRequest;
+import com.github.alexeysol.geekregime.apiposts.mapper.converters.ParentIdToParentConverter;
 import com.github.alexeysol.geekregime.apiposts.mapper.converters.PostIdToPostConverter;
 import com.github.alexeysol.geekregime.apiposts.model.entity.PostComment;
+import com.github.alexeysol.geekregime.apiposts.service.v1.PostCommentService;
 import com.github.alexeysol.geekregime.apiposts.service.v1.PostService;
 import org.modelmapper.Converter;
 import org.modelmapper.ModelMapper;
@@ -15,10 +19,12 @@ public abstract class BasePostCommentMapper {
 
     protected final ModelMapper modelMapper;
     protected final PostService postService;
+    protected final PostCommentService postCommentService;
 
-    public BasePostCommentMapper(ModelMapper modelMapper, PostService postService) {
+    public BasePostCommentMapper(ModelMapper modelMapper, PostService postService, PostCommentService postCommentService) {
         this.modelMapper = modelMapper;
         this.postService = postService;
+        this.postCommentService = postCommentService;
         init(modelMapper);
     }
 
@@ -38,6 +44,9 @@ public abstract class BasePostCommentMapper {
 
                 mapper.using(new PostIdToPostConverter(postService))
                     .map(CreatePostCommentRequest::getPostId, PostComment::setPost);
+
+                mapper.using(new ParentIdToParentConverter(postCommentService))
+                    .map(CreatePostCommentRequest::getParentId, PostComment::setParent);
             });
 
         modelMapper.createTypeMap(PostComment.class, BasePostCommentTreeResponse.class)

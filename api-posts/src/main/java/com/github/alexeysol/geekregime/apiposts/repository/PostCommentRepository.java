@@ -9,11 +9,13 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.Optional;
+
 @Repository
 public interface PostCommentRepository extends PagingAndSortingRepository<PostComment, Long> {
     Page<PostComment> findPostCommentsByUserId(long userId, Pageable pageable);
 
-    Page<PostComment> findPostCommentsByPostId(long postId, Pageable pageable);
+    Page<PostComment> findPostCommentsByPostIdAndParentIsNull(long postId, Pageable pageable);
 
     @Query("DELETE FROM PostComment pc WHERE pc.id = :id")
     @Transactional
@@ -34,6 +36,23 @@ public interface PostCommentRepository extends PagingAndSortingRepository<PostCo
             "SELECT COUNT(id) FROM tree",
         nativeQuery = true)
     long countAllDescendantsByParentId(long parentId);
+
+    @Query(
+        value = "WITH RECURSIVE tree (id, parent_id) AS " +
+            "(SELECT id, parent_id " +
+            "FROM post_comment " +
+            "WHERE id = :replyId " +
+            "UNION ALL " +
+            "SELECT pc.id, pc.parent_id " +
+            "FROM tree t " +
+            "JOIN post_comment pc " +
+            "ON pc.id = t.parent_id) " +
+            "SELECT id AS root_id " +
+            "FROM tree " +
+            "WHERE parent_id IS NULL",
+        nativeQuery = true
+    )
+    Optional<Long> findRootPostCommentId(long replyId);
 }
 
 // [1]. Borrowed the query ("getAllChildren") from here: https://habr.com/ru/articles/537062/

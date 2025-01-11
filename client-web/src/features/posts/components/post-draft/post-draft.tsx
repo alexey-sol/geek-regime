@@ -17,7 +17,7 @@ import type { CreatePostOnSaveArg } from "@/features/posts/utils/hooks/types";
 import type { PostDetails } from "@/features/posts/models/entities";
 
 import {
-    BodyEditorStyled,
+    PostEditorStyled,
     BodyEditorWrapStyled,
     ControlsWrapStyled,
     PostDraftStyled,
@@ -29,7 +29,7 @@ export type PostDraftProps = {
 };
 
 export const PostDraft: FC<PostDraftProps> = ({ post }) => {
-    const bodyEditorRef = useRef<ReactQuill>(null);
+    const editorRef = useRef<ReactQuill>(null);
 
     const { savePost } = useActivePost();
 
@@ -70,8 +70,8 @@ export const PostDraft: FC<PostDraftProps> = ({ post }) => {
 
     useEffect(() => {
         const focusOnDraftBodyIfPossible = () => {
-            if (bodyEditorRef.current) {
-                const { editor, value } = bodyEditorRef.current;
+            if (editorRef.current) {
+                const { editor, value } = editorRef.current;
                 const index = typeof value.length === "number" ? value.length : 0;
 
                 if (editor) {
@@ -92,8 +92,8 @@ export const PostDraft: FC<PostDraftProps> = ({ post }) => {
             />
 
             <BodyEditorWrapStyled>
-                <BodyEditorStyled
-                    editorRef={bodyEditorRef}
+                <PostEditorStyled
+                    editorRef={editorRef}
                     onChange={handleBodyChange}
                     placeholder={t("posts.draft.body.placeholder")}
                     value={values.body}

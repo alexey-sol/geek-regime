@@ -12,6 +12,7 @@ import {
 import { useAuthContext } from "@/features/auth/contexts/auth";
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import { Divider } from "@/shared/components/divider";
+import { createInnerHtml } from "@/shared/utils/helpers/dom";
 
 import { ContentStyled, InfoStyled, PostDetailsStyled } from "./style";
 
@@ -24,7 +25,6 @@ export const PostDetails: FC = () => {
         return null;
     }
 
-    const bodyHtml = { __html: post.body };
     const updatePostPath = createAbsolutePostsPath(post.slug, paths.UPDATE);
 
     const hasUpdates = post.createdAt !== post.updatedAt;
@@ -38,7 +38,7 @@ export const PostDetails: FC = () => {
 
             <ContentStyled>
                 <Typography as="h2">{post.title}</Typography>
-                <Typography dangerouslySetInnerHTML={bodyHtml} />
+                <Typography dangerouslySetInnerHTML={createInnerHtml(post.body)} />
             </ContentStyled>
 
             <Divider />

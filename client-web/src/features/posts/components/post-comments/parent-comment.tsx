@@ -1,44 +1,49 @@
-import React, {
-    type FC, memo, useCallback, useMemo,
-} from "react";
-import { LinkButton } from "@eggziom/geek-regime-js-ui-kit";
+import React, { type FC, memo } from "react";
 import { useTranslation } from "react-i18next";
 
 import { type PostComment } from "@/features/posts/models/entities";
 import { type HasItem } from "@/shared/types";
-import { useLazyGetPostCommentTreeByParentIdQuery } from "@/features/posts/services/post-comments-api";
-import { toPostCommentTree } from "@/features/posts/utils/converters";
+import { useRootCommentContext } from "@/features/posts/contexts/root-comment";
 import { useToggle } from "@/shared/utils/hooks/use-toggle";
 
 import { Comment } from "./comment";
-import { renderReplies } from "./utils";
+import { renderReplies, renderToggleReplyTreeButtonIfPossible } from "./utils";
 
 export const ParentComment: FC<HasItem<PostComment>> = memo(({ item }) => {
     const { t } = useTranslation();
-    const { isOn: showReplies, toggleOn: toggleShowReplies } = useToggle();
-    const [getPostCommentTreeByParentId, { data }] = useLazyGetPostCommentTreeByParentIdQuery();
 
-    const commentTree = useMemo(() => data && toPostCommentTree(data), [data]);
+    const {
+        isOn: showReplyTree,
+        off: setShowReplyTreeOff,
+        on: setShowReplyTreeOn,
+    } = useToggle();
 
-    const toggleReplies = useCallback(() => {
-        // TODO add loader
-        toggleShowReplies();
-        getPostCommentTreeByParentId(item.id, true);
-    }, [getPostCommentTreeByParentId, item.id, toggleShowReplies]);
+    const { commentTree, getReplies } = useRootCommentContext();
 
-    const toggleRepliesTitle = showReplies
-        ? t("posts.post.comments.hideRepliesButton.title")
-        : t("posts.post.comments.showRepliesButton.title");
+    const getAndOpenReplies = () => {
+        setShowReplyTreeOn();
+        getReplies();
+    };
+
+    const closeReplyTreeButton = renderToggleReplyTreeButtonIfPossible({
+        descendantCount: item.descendantCount,
+        onClick: setShowReplyTreeOff,
+        title: t("posts.post.comments.actions.hideRepliesButton.title"),
+    });
+
+    const openReplyTreeButton = renderToggleReplyTreeButtonIfPossible({
+        descendantCount: item.descendantCount,
+        onClick: getAndOpenReplies,
+        title: t("posts.post.comments.actions.showRepliesButton.title"),
+    });
+
+    const toggleReplyTreeButton = showReplyTree
+        ? closeReplyTreeButton
+        : openReplyTreeButton;
 
     return (
-        <Comment item={item}>
-            {item.descendantCount > 0 && (
-                <LinkButton fontSize="xs" onClick={toggleReplies} view="secondary">
-                    {`${toggleRepliesTitle} (${item.descendantCount})`}
-                </LinkButton>
-            )}
-
-            {showReplies && !!commentTree && renderReplies(commentTree)}
+        <Comment item={item} footerChildren={toggleReplyTreeButton} onReply={getAndOpenReplies}>
+            {showReplyTree && !!commentTree && renderReplies(commentTree)}
         </Comment>
     );
 });

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { Editor } from "./editor";
+import { Editor } from "@/shared/components/editor";
 
 export const PostDraftStyled = styled.section`
     position: relative;
@@ -22,7 +22,7 @@ export const BodyEditorWrapStyled = styled.section`
     position: relative;
 `;
 
-export const BodyEditorStyled = styled(Editor)`
+export const PostEditorStyled = styled(Editor)`
     position: absolute;
     top: 0;
     bottom: 0;
@@ -30,12 +30,6 @@ export const BodyEditorStyled = styled(Editor)`
 
     .ql-editor {
         overflow-y: scroll;
-        font-family: ${({ theme }) => theme.fonts.normal};
-        font-size: ${({ theme }) => theme.fontSizes.md};
-
-        &.ql-blank::before{
-            font-style: normal;
-        }
     }
 `;
 

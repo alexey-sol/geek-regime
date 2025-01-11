@@ -24,8 +24,8 @@ public class PostCommentService {
         return postCommentRepository.findPostCommentsByUserId(authorId, pageable);
     }
 
-    public Page<PostComment> findAllPostCommentsByPostId(long postId, Pageable pageable) {
-        return postCommentRepository.findPostCommentsByPostId(postId, pageable);
+    public Page<PostComment> findAllRootPostCommentsByPostId(long postId, Pageable pageable) {
+        return postCommentRepository.findPostCommentsByPostIdAndParentIsNull(postId, pageable);
     }
 
     public long countAllDescendantsByParentId(long parentId) {

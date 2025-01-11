@@ -87,6 +87,10 @@ components:
           type: integer
           format: int64
           minimum: 1
+        parentId:
+          type: integer
+          format: int64
+          minimum: 1
         body:
           type: string
           minLength: 1

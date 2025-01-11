@@ -11,8 +11,19 @@ export const CommentListStyled = styled.ul`
     ${layoutCss};
 `;
 
+export const CommentFooterStyled = styled.section`
+    display: flex;
+    gap: 1rem;
+`;
+
 export const PostCommentsStyled = styled.section`
     ${layoutCss};
+`;
+
+export const PostCommentsHeaderStyled = styled.section`
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5rem;
 `;
 
 export const ReplyListStyled = styled.ul`
@@ -26,6 +37,7 @@ export const CommentStyled = styled.section`
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+    width: 100%;
 `;
 
 export const ReplyItemStyled = styled.li`

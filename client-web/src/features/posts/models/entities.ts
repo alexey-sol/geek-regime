@@ -1,8 +1,8 @@
 import { Expose, Transform, Type } from "class-transformer";
-import { sanitize } from "dompurify";
 
 import { formatTimestamp } from "@/shared/utils/formatters/date";
 import { User } from "@/features/users/models/entities";
+import { purifyHtml } from "@/shared/utils/helpers/dom";
 
 export class PostMeta {
     constructor(
@@ -51,7 +51,7 @@ export class PostPreview {
 
 export class PostDetails extends PostPreview {
     @Expose()
-    @Transform(({ value }) => sanitize(value))
+    @Transform(({ value }) => purifyHtml(value))
     public body: string;
 
     @Type(() => PostVote)
@@ -76,7 +76,7 @@ export class PostDetails extends PostPreview {
 
 export class PostCommentBase {
     @Expose()
-    @Transform(({ value }) => value && sanitize(value))
+    @Transform(({ value }) => value && purifyHtml(value))
     public body?: string;
 
     @Type(() => User)

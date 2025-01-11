@@ -42,7 +42,9 @@ module.exports = {
         "@typescript-eslint/no-empty-function": "error",
         "@typescript-eslint/explicit-module-boundary-types": "error",
         "@typescript-eslint/no-redeclare": "error",
-        "@typescript-eslint/no-unused-vars": "error",
+        "@typescript-eslint/no-unused-vars": ["error", {
+            argsIgnorePattern: "^_",
+        }],
         "@typescript-eslint/no-useless-constructor": "error",
         "@typescript-eslint/semi": "warn",
         "class-methods-use-this": "off",

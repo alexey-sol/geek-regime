@@ -1,15 +1,22 @@
 import { useCallback, useState } from "react";
 
-type UseToggleResult = {
+export type UseToggleResult = {
     isOn: boolean;
-    setIsOn: (isOn: boolean) => void;
-    toggleOn: () => void;
+    off: () => void;
+    on: () => void;
+    toggle: () => void;
 };
 
 export const useToggle = (): UseToggleResult => {
     const [isOn, setIsOn] = useState(false);
 
-    const toggleOn = useCallback(() => setIsOn((prevIsOn) => !prevIsOn), []);
+    const toggle = useCallback(() => setIsOn((prevIsOn) => !prevIsOn), []);
 
-    return { isOn, setIsOn, toggleOn };
+    const off = useCallback(() => setIsOn(false), []);
+
+    const on = useCallback(() => setIsOn(true), []);
+
+    return {
+        isOn, off, on, toggle,
+    };
 };

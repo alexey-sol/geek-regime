@@ -27,14 +27,31 @@ export const en = {
         },
         post: {
             comments: {
-                hideRepliesButton: {
-                    title: "Hide replies",
+                actions: {
+                    hideRepliesButton: {
+                        title: "Hide replies",
+                    },
+                    leaveCommentButton: {
+                        title: "Leave a comment",
+                    },
+                    showRepliesButton: {
+                        title: "Show replies",
+                    },
+                    showReplyBoxButton: {
+                        title: "Reply",
+                    },
                 },
                 isDeleted: {
                     placeholder: "The comment has been deleted.",
                 },
-                showRepliesButton: {
-                    title: "Show replies",
+                replyBox: {
+                    actions: {
+                        sendButton: {
+                            title: "Send",
+                        },
+                    },
+                    placeholder: "What do you wanna say?",
+                    title: "Reply to",
                 },
                 title: "Comments",
             },
@@ -91,14 +108,31 @@ export const ru = {
         },
         post: {
             comments: {
-                hideRepliesButton: {
-                    title: "Скрыть ответы",
+                actions: {
+                    hideRepliesButton: {
+                        title: "Скрыть ответы",
+                    },
+                    leaveCommentButton: {
+                        title: "Прокомментировать",
+                    },
+                    showRepliesButton: {
+                        title: "Показать ответы",
+                    },
+                    showReplyBoxButton: {
+                        title: "Ответить",
+                    },
                 },
                 isDeleted: {
                     placeholder: "Комментарий удален.",
                 },
-                showRepliesButton: {
-                    title: "Показать ответы",
+                replyBox: {
+                    actions: {
+                        sendButton: {
+                            title: "Отправить",
+                        },
+                    },
+                    placeholder: "Что хотите сказать?",
+                    title: "Ответить",
                 },
                 title: "Комментарии",
             },

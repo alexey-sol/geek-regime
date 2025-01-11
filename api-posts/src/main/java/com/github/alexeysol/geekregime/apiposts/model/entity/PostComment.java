@@ -67,7 +67,7 @@ public class PostComment {
     private List<PostComment> replies;
 
     @Column(name = "is_deleted")
-    private Boolean isDeleted;
+    private Boolean isDeleted = false;
 }
 
 // [1]. It's a field specifically for a DTO. We don't need the whole post in a response DTO, so when

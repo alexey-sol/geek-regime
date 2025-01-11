@@ -6,10 +6,10 @@ const API_VERSION = 1;
 
 export const baseUrl = getApiPath(API_VERSION);
 
-export const createTag = (id: string | number = cn.TAG_LIST_ID): {
+export const createTag = (id: string | number): {
     id: string | number;
-    type: typeof cn.TAG_TYPE;
+    type: typeof cn.POST_COMMENTS_TYPE;
 } => ({
     id,
-    type: cn.TAG_TYPE,
+    type: cn.POST_COMMENTS_TYPE,
 });

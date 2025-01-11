@@ -1,2 +1,2 @@
-export const TAG_LIST_ID = "PostCommentList";
-export const TAG_TYPE = "PostComments" as const;
+export const ROOT_LIST_ID = "RootList";
+export const POST_COMMENTS_TYPE = "PostComments" as const;

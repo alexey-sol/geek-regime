@@ -24,7 +24,7 @@ paths:
   /posts/{id}/comments:
     get:
       summary: Find all root-level post comments of post
-      operationId: findAllPostCommentsByPost
+      operationId: findAllRootPostCommentsByPost
       tags:
         - post-comment
       x-spring-paginated: true

@@ -15,14 +15,14 @@ export const useProfileItemData = (): ProfileItemData => {
 
     const {
         isOn: showProfileDropdown,
-        setIsOn: setShowAuthDialog,
-        toggleOn: toggleShowProfileDropdown,
+        off: closeProfileDropdown,
+        toggle: toggleShowProfileDropdown,
     } = useToggle();
 
     const {
         isOn: showAuthDialog,
-        setIsOn: setShowProfileDropdown,
-        toggleOn: toggleShowAuthDialog,
+        off: closeAuthDialog,
+        toggle: toggleShowAuthDialog,
     } = useToggle();
 
     const handleClick = useMemo(
@@ -34,11 +34,11 @@ export const useProfileItemData = (): ProfileItemData => {
 
     useEffect(() => {
         if (isAuthorized) {
-            setShowAuthDialog(false);
+            closeProfileDropdown();
         } else {
-            setShowProfileDropdown(false);
+            closeAuthDialog();
         }
-    }, [isAuthorized, setShowAuthDialog, setShowProfileDropdown]);
+    }, [isAuthorized, closeProfileDropdown, closeAuthDialog]);
 
     return useMemo(() => ({
         handleClick,
