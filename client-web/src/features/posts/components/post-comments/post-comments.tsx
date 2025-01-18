@@ -14,8 +14,9 @@ import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import { type PostCommentResponse } from "@/features/posts/models/dtos";
 import { toPostCommentList } from "@/features/posts/utils/converters";
 import { RootCommentContextProvider } from "@/features/posts/contexts/root-comment";
+import { useAuthContext } from "@/features/auth/contexts/auth";
 
-import { useReplyBox } from "../reply-box";
+import { ReplyCommentBox, useCommentBox } from "../comment-box";
 
 import { CommentListStyled, PostCommentsHeaderStyled, PostCommentsStyled } from "./style";
 import { ParentComment } from "./parent-comment";
@@ -26,6 +27,7 @@ export const PostComments: FC = memo(() => {
     const [page, setPage] = useState(defaults.START_PAGE);
 
     const { t } = useTranslation();
+    const { profile } = useAuthContext();
     const { post } = useActivePost();
 
     const arg = post && normalizeGetAllPostCommentsArg({
@@ -46,13 +48,19 @@ export const PostComments: FC = memo(() => {
         onLoadMore,
     });
 
-    const { openReplyBox, replyBoxIfAvailable, showReplyBox } = useReplyBox();
+    const {
+        closeBox, onSubmitSuccess, openReplyBox, showReplyBox,
+    } = useCommentBox();
 
     const openReplyBoxButton = (
         <LinkButton fontSize="xs" onClick={openReplyBox} view="primary">
-            {t("posts.post.comments.actions.leaveCommentButton.title")}
+            {t("shared.actions.leaveComment")}
         </LinkButton>
     );
+
+    const replyBoxOrButton = showReplyBox
+        ? <ReplyCommentBox onClose={closeBox} onSubmit={onSubmitSuccess} />
+        : openReplyBoxButton;
 
     return (
         <PostCommentsStyled>
@@ -63,7 +71,7 @@ export const PostComments: FC = memo(() => {
                         {post?.meta.commentCount}
                     </Typography>
                 </Typography>
-                {showReplyBox ? replyBoxIfAvailable : openReplyBoxButton}
+                {profile && replyBoxOrButton}
             </PostCommentsHeaderStyled>
             <CommentListStyled>
                 {postComments.map((comment) => (

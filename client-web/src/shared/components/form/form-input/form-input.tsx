@@ -8,7 +8,7 @@ export type FormInputProps = Omit<HTMLProps<HTMLInputElement>, "ref"> & Pick<Inp
 export const FormInput: FC<FormInputProps> = (props) => {
     const [field, meta] = useField(props);
 
-    const errorText = (meta.error && meta.touched)
+    const errorMessage = (meta.error && meta.touched)
         ? meta.error
         : "";
 
@@ -16,7 +16,7 @@ export const FormInput: FC<FormInputProps> = (props) => {
         <Input
             {...field}
             {...props}
-            hint={errorText}
+            errorMessage={errorMessage}
         />
     );
 };

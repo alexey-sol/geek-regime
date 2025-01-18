@@ -25,12 +25,18 @@ export const postsApi = createApi({
             }),
             invalidatesTags: (result) => [createTag(result?.id)],
             async onQueryStarted(_, { dispatch, queryFulfilled }) {
-                const { data } = await queryFulfilled;
+                try {
+                    const { data } = await queryFulfilled;
 
-                if (data) {
+                    if (!data) {
+                        return;
+                    }
+
                     dispatch(
                         postsApi.util.upsertQueryData("getPostBySlug", data.slug, data),
                     );
+                } catch (error) {
+                    console.error(error);
                 }
             },
         }),

@@ -7,7 +7,7 @@ import { getUseContextOrThrowError } from "@/shared/utils/helpers/context";
 import { useLazyGetPostCommentTreeByParentIdQuery } from "@/features/posts/services/post-comments-api";
 import { toPostCommentTree } from "@/features/posts/utils/converters";
 import { HasItem } from "@/shared/types";
-import { PostComment, PostCommentTree } from "@/features/posts/models/entities";
+import { type PostComment, type PostCommentTree } from "@/features/posts/models/entities";
 
 export type RootCommentContextValue = {
     commentTree?: PostCommentTree;

@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { Color } from "@eggziom/geek-regime-js-ui-kit";
+import { Color, Typography } from "@eggziom/geek-regime-js-ui-kit";
 
 const layoutCss = css`
     display: flex;
@@ -92,5 +92,12 @@ export const CommentBranchStyled = styled.section<CommentBranchStyledProps>(
             border-left: 1px solid ${theme.colors[BRANCH_COLOR]};
             content: "";
         }
+    `,
+);
+
+export const BodyTypographyStyled = styled(Typography)<{ isHighlighted?: boolean }>(
+    ({ isHighlighted, theme }) => isHighlighted && css`
+        background-color: ${theme.colors.orangeLighten};
+        border-radius: 0.3rem;
     `,
 );

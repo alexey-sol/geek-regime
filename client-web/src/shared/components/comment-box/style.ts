@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import { Editor } from "@/shared/components/editor";
 
-export const ReplyBoxStyled = styled.section`
+export const CommentBoxStyled = styled.section`
     display: flex;
     flex-direction: column;
     gap: 1rem;

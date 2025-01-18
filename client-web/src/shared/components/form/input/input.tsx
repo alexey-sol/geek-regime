@@ -1,7 +1,7 @@
 import React, { useRef, type HTMLProps, forwardRef } from "react";
 
 import {
-    HintStyled,
+    FieldErrorMessageStyled,
     HintWrapStyled,
     InputStyled,
     InputWrapStyled,
@@ -11,7 +11,7 @@ import {
 const DEFAULT_TYPE = "text";
 
 export type InputProps = Omit<HTMLProps<HTMLInputElement>, "as" | "ref"> & {
-    hint?: string;
+    errorMessage?: string;
     label?: string;
     name: string;
     wrapClassName?: string;
@@ -19,7 +19,7 @@ export type InputProps = Omit<HTMLProps<HTMLInputElement>, "as" | "ref"> & {
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(({
     className,
-    hint,
+    errorMessage,
     label,
     name,
     onChange,
@@ -27,7 +27,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
     type = DEFAULT_TYPE,
     ...rest
 }, ref) => {
-    const hintRef = useRef(null);
+    const errorMessageRef = useRef(null);
 
     return (
         <InputWrapStyled className={className}>
@@ -47,10 +47,8 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({
                 </LabelStyled>
             )}
 
-            <HintWrapStyled isVisible={Boolean(hint)} ref={hintRef}>
-                <HintStyled color="orange" fontSize="xs">
-                    {hint}
-                </HintStyled>
+            <HintWrapStyled isVisible={Boolean(errorMessage)} ref={errorMessageRef}>
+                <FieldErrorMessageStyled>{errorMessage}</FieldErrorMessageStyled>
             </HintWrapStyled>
         </InputWrapStyled>
     );

@@ -1,5 +1,10 @@
 export const en = {
     shared: {
+        actions: {
+            done: "Done",
+            leaveComment: "Leave a comment",
+            send: "Send",
+        },
         dialog: {
             closeButton: {
                 tooltip: "Close",
@@ -57,6 +62,11 @@ export const en = {
 
 export const ru = {
     shared: {
+        actions: {
+            done: "Готово",
+            leaveComment: "Прокомментировать",
+            send: "Отправить",
+        },
         dialog: {
             closeButton: {
                 tooltip: "Закрыть",

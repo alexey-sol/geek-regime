@@ -25,33 +25,40 @@ export const en = {
                 placeholder: "Here's a title",
             },
         },
+        errors: {
+            validation: {
+                bodyEmpty: "Type in the comment",
+                bodyTooLong: "The comment is too long",
+            },
+        },
         post: {
             comments: {
                 actions: {
                     hideRepliesButton: {
                         title: "Hide replies",
                     },
-                    leaveCommentButton: {
-                        title: "Leave a comment",
+                    showEditCommentBoxButton: {
+                        title: "Edit",
                     },
                     showRepliesButton: {
                         title: "Show replies",
                     },
-                    showReplyBoxButton: {
+                    showReplyCommentBoxButton: {
                         title: "Reply",
+                    },
+                },
+                commentBox: {
+                    edit: {
+                        placeholder: "Type in the comment",
+                        title: "Editing",
+                    },
+                    reply: {
+                        placeholder: "What do you wanna say?",
+                        title: "Reply to",
                     },
                 },
                 isDeleted: {
                     placeholder: "The comment has been deleted.",
-                },
-                replyBox: {
-                    actions: {
-                        sendButton: {
-                            title: "Send",
-                        },
-                    },
-                    placeholder: "What do you wanna say?",
-                    title: "Reply to",
                 },
                 title: "Comments",
             },
@@ -106,33 +113,40 @@ export const ru = {
                 placeholder: "Здесь заголовок",
             },
         },
+        errors: {
+            validation: {
+                bodyEmpty: "Введите комментарий",
+                bodyTooLong: "Комментарий слишком длинный",
+            },
+        },
         post: {
             comments: {
                 actions: {
                     hideRepliesButton: {
                         title: "Скрыть ответы",
                     },
-                    leaveCommentButton: {
-                        title: "Прокомментировать",
+                    showEditCommentBoxButton: {
+                        title: "Изменить",
                     },
                     showRepliesButton: {
                         title: "Показать ответы",
                     },
-                    showReplyBoxButton: {
+                    showReplyCommentBoxButton: {
+                        title: "Ответить",
+                    },
+                },
+                commentBox: {
+                    edit: {
+                        placeholder: "Введите комментарий",
+                        title: "Редактирование",
+                    },
+                    reply: {
+                        placeholder: "Что хотите сказать?",
                         title: "Ответить",
                     },
                 },
                 isDeleted: {
                     placeholder: "Комментарий удален.",
-                },
-                replyBox: {
-                    actions: {
-                        sendButton: {
-                            title: "Отправить",
-                        },
-                    },
-                    placeholder: "Что хотите сказать?",
-                    title: "Ответить",
                 },
                 title: "Комментарии",
             },

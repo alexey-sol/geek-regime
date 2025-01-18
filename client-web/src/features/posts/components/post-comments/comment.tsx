@@ -1,6 +1,4 @@
-import React, {
-    type FC, type PropsWithChildren, type ReactNode, useMemo,
-} from "react";
+import React, { type FC, type PropsWithChildren, type ReactNode } from "react";
 import { LinkButton, Typography } from "@eggziom/geek-regime-js-ui-kit";
 import { useTranslation } from "react-i18next";
 
@@ -9,10 +7,11 @@ import { type PostCommentBase } from "@/features/posts/models/entities";
 import { type HasItem } from "@/shared/types";
 import { createInnerHtml } from "@/shared/utils/helpers/dom";
 import { useRootCommentContext } from "@/features/posts/contexts/root-comment";
+import { useAuthContext } from "@/features/auth/contexts/auth";
 
-import { useReplyBox } from "../reply-box";
+import { EditCommentBox, ReplyCommentBox, useCommentBox } from "../comment-box";
 
-import { CommentFooterStyled, CommentStyled } from "./style";
+import { BodyTypographyStyled, CommentFooterStyled, CommentStyled } from "./style";
 
 type CommentProps = HasItem<PostCommentBase> & {
     footerChildren?: ReactNode;
@@ -26,29 +25,35 @@ export const Comment: FC<PropsWithChildren<CommentProps>> = ({
     onReply,
 }) => {
     const { t } = useTranslation();
+    const { profile } = useAuthContext();
     const { rootCommentId } = useRootCommentContext();
+
+    const {
+        closeBox, onSubmitSuccess, openEditBox, openReplyBox, showEditBox, showReplyBox,
+    } = useCommentBox({
+        onSubmit: onReply,
+    });
 
     const commentBody = item.isDeleted
         ? <Typography color="grey">{t("posts.post.comments.isDeleted.placeholder")}</Typography>
-        : <Typography dangerouslySetInnerHTML={createInnerHtml(item.body)} />;
+        : (
+            <BodyTypographyStyled
+                dangerouslySetInnerHTML={createInnerHtml(item.body)}
+                isHighlighted={showEditBox}
+            />
+        );
 
-    const replyBoxTitle = useMemo(() => (
-        <>
-            {`${t("posts.post.comments.replyBox.title")} `}
-            <Typography as='span' color="primary">{item.author.details.name}</Typography>
-        </>
-    ), [item.author.details.name, t]);
+    const isAuthor = profile && profile.id === item.author.id;
 
-    const { openReplyBox, replyBoxIfAvailable, showReplyBox } = useReplyBox({
-        onSubmit: onReply,
-        parentId: item.id,
-        rootCommentId,
-        title: replyBoxTitle,
-    });
+    const openEditBoxButton = (
+        <LinkButton fontSize="xs" onClick={openEditBox} view="primary">
+            {t("posts.post.comments.actions.showEditCommentBoxButton.title")}
+        </LinkButton>
+    );
 
     const openReplyBoxButton = (
         <LinkButton fontSize="xs" onClick={openReplyBox} view="primary">
-            {t("posts.post.comments.actions.showReplyBoxButton.title")}
+            {t("posts.post.comments.actions.showReplyCommentBoxButton.title")}
         </LinkButton>
     );
 
@@ -62,9 +67,35 @@ export const Comment: FC<PropsWithChildren<CommentProps>> = ({
             {commentBody}
             <CommentFooterStyled>
                 {footerChildren}
-                {!showReplyBox && !item.isDeleted && openReplyBoxButton}
+                {!item.isDeleted && !!profile && (
+                    <>
+                        {!showEditBox && isAuthor && openEditBoxButton}
+                        {!showReplyBox && !isAuthor && openReplyBoxButton}
+                    </>
+                )}
             </CommentFooterStyled>
-            {showReplyBox && replyBoxIfAvailable}
+            {!!profile && (
+                <>
+                    {showEditBox && isAuthor && (
+                        <EditCommentBox
+                            body={item.body}
+                            commentId={item.id}
+                            onClose={closeBox}
+                            onSubmit={onSubmitSuccess}
+                            rootCommentId={rootCommentId}
+                        />
+                    )}
+                    {showReplyBox && !isAuthor && (
+                        <ReplyCommentBox
+                            authorName={item.author.details.name}
+                            commentId={item.id}
+                            onClose={closeBox}
+                            onSubmit={onSubmitSuccess}
+                            rootCommentId={rootCommentId}
+                        />
+                    )}
+                </>
+            )}
             {children}
         </CommentStyled>
     );

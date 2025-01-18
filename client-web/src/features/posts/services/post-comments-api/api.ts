@@ -46,20 +46,21 @@ export const postCommentsApi = createApi({
             // comments have).
             // Otherwise, just re-fetch the root comments list since the created comment belongs to
             // root ones.
-            invalidatesTags: (result, error, arg) => ((result && arg.meta.rootCommentId)
+            invalidatesTags: (result, error, arg) => ((result && arg.meta?.rootCommentId)
                 ? [createTag(arg.meta.rootCommentId), createTag(cn.ROOT_LIST_ID)]
                 : [createTag(cn.ROOT_LIST_ID)]),
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 const { meta } = arg;
-                const { data } = await queryFulfilled;
 
-                if (!data) {
-                    return;
-                }
+                try {
+                    const { data } = await queryFulfilled;
 
-                // Just increment the parent post's comment count. We'll invalidate comment tags via
-                // automatic means since it's getting too complicated to do this manually.
-                if (meta.parentPostSlug) {
+                    if (!data || !meta?.parentPostSlug) {
+                        return;
+                    }
+
+                    // Just increment the parent post's comment count. We'll invalidate comment tags
+                    // via automatic means since it's getting too complicated to do this manually.
                     dispatch(
                         postsApi.util.updateQueryData("getPostBySlug", meta.parentPostSlug, (draftPost) => {
                             if (draftPost.meta) {
@@ -67,6 +68,8 @@ export const postCommentsApi = createApi({
                             }
                         }),
                     );
+                } catch (error) {
+                    console.error(error);
                 }
             },
         }),
@@ -76,6 +79,9 @@ export const postCommentsApi = createApi({
                 method: "PATCH",
                 url: `${resources.POSTS}/${resources.COMMENTS}/${id}`,
             }),
+            invalidatesTags: (result, error, arg) => ((result && arg.meta?.rootCommentId)
+                ? [createTag(arg.meta.rootCommentId), createTag(cn.ROOT_LIST_ID)]
+                : [createTag(cn.ROOT_LIST_ID)]),
         }),
     }),
 });

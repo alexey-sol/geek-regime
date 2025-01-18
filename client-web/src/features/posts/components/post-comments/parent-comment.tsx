@@ -20,7 +20,7 @@ export const ParentComment: FC<HasItem<PostComment>> = memo(({ item }) => {
 
     const { commentTree, getReplies } = useRootCommentContext();
 
-    const getAndOpenReplies = () => {
+    const getAndShowReplies = () => {
         setShowReplyTreeOn();
         getReplies();
     };
@@ -33,7 +33,7 @@ export const ParentComment: FC<HasItem<PostComment>> = memo(({ item }) => {
 
     const openReplyTreeButton = renderToggleReplyTreeButtonIfPossible({
         descendantCount: item.descendantCount,
-        onClick: getAndOpenReplies,
+        onClick: getAndShowReplies,
         title: t("posts.post.comments.actions.showRepliesButton.title"),
     });
 
@@ -42,7 +42,7 @@ export const ParentComment: FC<HasItem<PostComment>> = memo(({ item }) => {
         : openReplyTreeButton;
 
     return (
-        <Comment item={item} footerChildren={toggleReplyTreeButton} onReply={getAndOpenReplies}>
+        <Comment item={item} footerChildren={toggleReplyTreeButton} onReply={getAndShowReplies}>
             {showReplyTree && !!commentTree && renderReplies(commentTree)}
         </Comment>
     );
