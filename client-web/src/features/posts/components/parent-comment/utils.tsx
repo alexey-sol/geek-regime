@@ -3,7 +3,8 @@ import { type ButtonProps, LinkButton } from "@eggziom/geek-regime-js-ui-kit";
 
 import { type PostComment, type PostCommentTree } from "@/features/posts/models/entities";
 
-import { Comment } from "./comment";
+import { Comment } from "../comment";
+
 import { CommentBranchStyled, ReplyItemStyled, ReplyListStyled } from "./style";
 
 export const renderToggleReplyTreeButtonIfPossible = ({

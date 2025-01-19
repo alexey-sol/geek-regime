@@ -1,4 +1,6 @@
-import React, { type FC, type PropsWithChildren, type ReactNode } from "react";
+import React, {
+    type FC, type PropsWithChildren, type ReactNode, useMemo,
+} from "react";
 import { LinkButton, Typography } from "@eggziom/geek-regime-js-ui-kit";
 import { useTranslation } from "react-i18next";
 
@@ -8,10 +10,12 @@ import { type HasItem } from "@/shared/types";
 import { createInnerHtml } from "@/shared/utils/helpers/dom";
 import { useRootCommentContext } from "@/features/posts/contexts/root-comment";
 import { useAuthContext } from "@/features/auth/contexts/auth";
+import { Tooltip } from "@/shared/components/tooltip";
 
 import { EditCommentBox, ReplyCommentBox, useCommentBox } from "../comment-box";
 
-import { BodyTypographyStyled, CommentFooterStyled, CommentStyled } from "./style";
+import { BodyTypographyStyled, CommentStyled, CommentFooterStyled } from "./style";
+import { useComment } from "./utils";
 
 type CommentProps = HasItem<PostCommentBase> & {
     footerChildren?: ReactNode;
@@ -34,6 +38,10 @@ export const Comment: FC<PropsWithChildren<CommentProps>> = ({
         onSubmit: onReply,
     });
 
+    const {
+        isAuthor, pending, removeButtonView, tryRemoveComment,
+    } = useComment({ item });
+
     const commentBody = item.isDeleted
         ? <Typography color="grey">{t("posts.post.comments.isDeleted.placeholder")}</Typography>
         : (
@@ -43,13 +51,29 @@ export const Comment: FC<PropsWithChildren<CommentProps>> = ({
             />
         );
 
-    const isAuthor = profile && profile.id === item.author.id;
+    const editCommentButtons = useMemo(() => (
+        <>
+            <LinkButton
+                disabled={pending === "update"}
+                fontSize="xs"
+                onClick={openEditBox}
+                view="primary"
+            >
+                {t("posts.post.comments.actions.showEditCommentBoxButton.title")}
+            </LinkButton>
 
-    const openEditBoxButton = (
-        <LinkButton fontSize="xs" onClick={openEditBox} view="primary">
-            {t("posts.post.comments.actions.showEditCommentBoxButton.title")}
-        </LinkButton>
-    );
+            <Tooltip message={t("posts.post.comments.actions.removeCommentButton.tooltip")}>
+                <LinkButton
+                    disabled={pending === "remove"}
+                    fontSize="xs"
+                    onClick={tryRemoveComment}
+                    view={removeButtonView}
+                >
+                    {t("posts.post.comments.actions.removeCommentButton.title")}
+                </LinkButton>
+            </Tooltip>
+        </>
+    ), [openEditBox, pending, removeButtonView, t, tryRemoveComment]);
 
     const openReplyBoxButton = (
         <LinkButton fontSize="xs" onClick={openReplyBox} view="primary">
@@ -69,7 +93,7 @@ export const Comment: FC<PropsWithChildren<CommentProps>> = ({
                 {footerChildren}
                 {!item.isDeleted && !!profile && (
                     <>
-                        {!showEditBox && isAuthor && openEditBoxButton}
+                        {!showEditBox && isAuthor && editCommentButtons}
                         {!showReplyBox && !isAuthor && openReplyBoxButton}
                     </>
                 )}

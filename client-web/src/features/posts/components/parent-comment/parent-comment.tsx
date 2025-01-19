@@ -6,7 +6,8 @@ import { type HasItem } from "@/shared/types";
 import { useRootCommentContext } from "@/features/posts/contexts/root-comment";
 import { useToggle } from "@/shared/utils/hooks/use-toggle";
 
-import { Comment } from "./comment";
+import { Comment } from "../comment";
+
 import { renderReplies, renderToggleReplyTreeButtonIfPossible } from "./utils";
 
 export const ParentComment: FC<HasItem<PostComment>> = memo(({ item }) => {

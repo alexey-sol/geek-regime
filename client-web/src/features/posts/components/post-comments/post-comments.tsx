@@ -17,9 +17,9 @@ import { RootCommentContextProvider } from "@/features/posts/contexts/root-comme
 import { useAuthContext } from "@/features/auth/contexts/auth";
 
 import { ReplyCommentBox, useCommentBox } from "../comment-box";
+import { ParentComment } from "../parent-comment";
 
 import { CommentListStyled, PostCommentsHeaderStyled, PostCommentsStyled } from "./style";
-import { ParentComment } from "./parent-comment";
 
 const DEFAULT_POST_COMMENTS: PostCommentResponse[] = [];
 

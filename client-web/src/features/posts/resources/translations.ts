@@ -37,6 +37,10 @@ export const en = {
                     hideRepliesButton: {
                         title: "Hide replies",
                     },
+                    removeCommentButton: {
+                        tooltip: "Click twice in order to confirm the action",
+                        title: "Delete",
+                    },
                     showEditCommentBoxButton: {
                         title: "Edit",
                     },
@@ -124,6 +128,10 @@ export const ru = {
                 actions: {
                     hideRepliesButton: {
                         title: "Скрыть ответы",
+                    },
+                    removeCommentButton: {
+                        tooltip: "Нажмите дважды, чтобы подтвердить действие",
+                        title: "Удалить",
                     },
                     showEditCommentBoxButton: {
                         title: "Изменить",

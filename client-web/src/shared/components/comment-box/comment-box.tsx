@@ -10,6 +10,7 @@ import { CommentEditorStyled, HeaderStyled, CommentBoxStyled } from "./style";
 
 export type CommentBoxProps = {
     body: string;
+    disableSubmit?: boolean;
     editorRef?: RefObject<ReactQuill>;
     errorMessage?: string;
     onClose: () => void;
@@ -21,6 +22,7 @@ export type CommentBoxProps = {
 
 export const CommentBox = memo(({
     body,
+    disableSubmit = false,
     editorRef,
     errorMessage,
     onClose,

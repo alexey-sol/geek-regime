@@ -8,8 +8,8 @@ import {
 } from "@/features/posts/models/dtos";
 import { type RootState } from "@/app/store";
 
-import * as cn from "./const";
 import { baseUrl, createTag } from "./utils";
+import * as cn from "./const";
 import type * as tp from "./types";
 
 export const postsApi = createApi({
@@ -77,10 +77,12 @@ export const postsApi = createApi({
                 url: `${resources.POSTS}/${id}`,
             }),
             async onQueryStarted(_, api) {
-                const { data } = await api.queryFulfilled;
-
-                // eslint-disable-next-line no-use-before-define -- [1]
-                updatePostCacheIfNeeded(data, api.getState(), api.dispatch);
+                api.queryFulfilled
+                    .then(({ data }) => {
+                        // eslint-disable-next-line no-use-before-define -- [1]
+                        updatePostCacheIfNeeded(data, api.getState(), api.dispatch);
+                    })
+                    .catch(console.error);
             },
         }),
         voteOnPost: builder.mutation<PostDetailsResponse, tp.VoteOnPostArg>({
@@ -90,10 +92,12 @@ export const postsApi = createApi({
                 url: `${resources.USERS}/${userId}/${resources.POSTS}/${postId}/vote`,
             }),
             async onQueryStarted(_, api) {
-                const { data } = await api.queryFulfilled;
-
-                // eslint-disable-next-line no-use-before-define -- [1]
-                updatePostCacheIfNeeded(data, api.getState(), api.dispatch);
+                api.queryFulfilled
+                    .then(({ data }) => {
+                        // eslint-disable-next-line no-use-before-define -- [1]
+                        updatePostCacheIfNeeded(data, api.getState(), api.dispatch);
+                    })
+                    .catch(console.error);
             },
         }),
     }),
@@ -142,4 +146,4 @@ export const {
     useVoteOnPostMutation,
 } = postsApi;
 
-// [1]. The function depends on postsApi, so we can't declare it before it.
+// [1]. The function depends on api, so we can't declare it before it.

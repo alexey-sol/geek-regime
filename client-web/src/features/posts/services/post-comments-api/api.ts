@@ -1,15 +1,20 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { resources } from "@eggziom/geek-regime-js-commons";
+import type { ThunkDispatch } from "redux-thunk";
 
 import {
     type PostCommentResponse,
     type PostCommentPageResponse,
     type PostCommentTreeResponse,
+    type PostDetailsResponse,
 } from "@/features/posts/models/dtos";
 import { mergePageContent } from "@/shared/utils/api";
 import { postsApi } from "@/features/posts/services/posts-api";
+import type { RootState } from "@/app/store";
 
-import { baseUrl, createTag } from "./utils";
+import {
+    baseUrl, createTag, decrementPostCommentCount, incrementPostCommentCount,
+} from "./utils";
 import * as cn from "./const";
 import type * as tp from "./types";
 
@@ -50,45 +55,64 @@ export const postCommentsApi = createApi({
                 ? [createTag(arg.meta.rootCommentId), createTag(cn.ROOT_LIST_ID)]
                 : [createTag(cn.ROOT_LIST_ID)]),
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
-                const { meta } = arg;
-
-                try {
-                    const { data } = await queryFulfilled;
-
-                    if (!data || !meta?.parentPostSlug) {
-                        return;
-                    }
-
-                    // Just increment the parent post's comment count. We'll invalidate comment tags
-                    // via automatic means since it's getting too complicated to do this manually.
-                    dispatch(
-                        postsApi.util.updateQueryData("getPostBySlug", meta.parentPostSlug, (draftPost) => {
-                            if (draftPost.meta) {
-                                draftPost.meta.commentCount += 1;
-                            }
-                        }),
-                    );
-                } catch (error) {
-                    console.error(error);
-                }
+                queryFulfilled
+                    .then(() => {
+                        // eslint-disable-next-line no-use-before-define -- [1]
+                        updatePostCacheIfNeeded(dispatch, arg.meta, incrementPostCommentCount);
+                    })
+                    .catch(console.error);
             },
         }),
-        updatePostComment: builder.mutation<PostCommentResponse, tp.UpdatePostCommentArg>({
-            query: ({ id, ...body }) => ({
+        removePostCommentById: builder.mutation<PostCommentResponse, tp.RemovePostCommentByIdArg>({
+            query: ({ id }) => ({
+                method: "DELETE",
+                url: `${resources.POSTS}/${resources.COMMENTS}/${id}`,
+            }),
+            invalidatesTags: (result, error, arg) => ((result && arg.meta?.rootCommentId)
+                ? [createTag(arg.meta.rootCommentId), createTag(cn.ROOT_LIST_ID)]
+                : [createTag(cn.ROOT_LIST_ID)]),
+            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+                queryFulfilled
+                    .then(() => {
+                        // eslint-disable-next-line no-use-before-define -- [1]
+                        updatePostCacheIfNeeded(dispatch, arg.meta, decrementPostCommentCount);
+                    })
+                    .catch(console.error);
+            },
+        }),
+        updatePostCommentById: builder.mutation<PostCommentResponse, tp.UpdatePostCommentByIdArg>({
+            query: ({ id, meta, ...body }) => ({
                 body,
                 method: "PATCH",
                 url: `${resources.POSTS}/${resources.COMMENTS}/${id}`,
             }),
-            invalidatesTags: (result, error, arg) => ((result && arg.meta?.rootCommentId)
+            invalidatesTags: (result, error, arg) => ((result && arg.meta?.rootCommentId) // TODO duplicated code
                 ? [createTag(arg.meta.rootCommentId), createTag(cn.ROOT_LIST_ID)]
                 : [createTag(cn.ROOT_LIST_ID)]),
         }),
     }),
 });
 
+const updatePostCacheIfNeeded = (
+    dispatch: ThunkDispatch<RootState, any, any>,
+    meta: Partial<tp.CommentMutationMeta> | undefined,
+    onPostCacheUpdate: (post: PostDetailsResponse) => void,
+) => {
+    if (!meta?.parentPostSlug) {
+        return;
+    }
+
+    dispatch(
+        postsApi.util.updateQueryData("getPostBySlug", meta.parentPostSlug, onPostCacheUpdate),
+    );
+};
+
 export const {
     useGetAllRootPostCommentsQuery,
     useLazyGetPostCommentTreeByParentIdQuery,
     useCreatePostCommentMutation,
-    useUpdatePostCommentMutation,
+    useRemovePostCommentByIdMutation,
+    useUpdatePostCommentByIdMutation,
 } = postCommentsApi;
+
+// [1]. The function depends on api, so we can't declare it before it.

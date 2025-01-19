@@ -4,18 +4,22 @@ import { type HasPagingQueryParams } from "@/shared/types";
 import { type CreatePostCommentRequest, type UpdatePostCommentRequest } from "@/features/posts/models/dtos";
 import { type RootCommentContextValue } from "@/features/posts/contexts/root-comment";
 
-type HasRootCommentId = Pick<RootCommentContextValue, "rootCommentId">;
+export type CommentMutationMeta = Pick<RootCommentContextValue, "rootCommentId"> & {
+    parentPostSlug: string;
+};
 
 export type GetAllPostCommentsArg = HasPagingQueryParams & {
     postId: HasId["id"];
 };
 
 export type CreatePostCommentArg = CreatePostCommentRequest & {
-    meta?: Partial<HasRootCommentId> & {
-        parentPostSlug?: string;
-    };
+    meta?: Partial<CommentMutationMeta>;
 };
 
-export type UpdatePostCommentArg = HasId & UpdatePostCommentRequest & {
-    meta: Partial<HasRootCommentId>;
+export type RemovePostCommentByIdArg = HasId & {
+    meta: CommentMutationMeta;
+}
+
+export type UpdatePostCommentByIdArg = HasId & UpdatePostCommentRequest & {
+    meta?: Partial<Pick<CommentMutationMeta, "rootCommentId">>;
 };
