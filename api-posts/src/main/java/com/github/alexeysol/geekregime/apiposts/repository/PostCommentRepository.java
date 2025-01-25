@@ -22,7 +22,7 @@ public interface PostCommentRepository extends PagingAndSortingRepository<PostCo
     @Modifying
     int removePostCommentById(long id);
 
-    long countByPostId(long postId);
+    long countByPostIdAndIsDeletedIsFalse(long postId);
 
     @Query( // [1]
         value = "WITH RECURSIVE tree (id, parent_id) AS " +
