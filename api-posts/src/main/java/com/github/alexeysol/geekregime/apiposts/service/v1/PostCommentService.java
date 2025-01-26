@@ -1,6 +1,5 @@
 package com.github.alexeysol.geekregime.apiposts.service.v1;
 
-import com.github.alexeysol.geekregime.apicommons.constant.Default;
 import com.github.alexeysol.geekregime.apiposts.model.entity.PostComment;
 import com.github.alexeysol.geekregime.apiposts.repository.PostCommentRepository;
 import com.github.alexeysol.geekregime.apiposts.repository.PostRepository;
@@ -45,41 +44,8 @@ public class PostCommentService {
         postRepository.updatePostCommentCount(postId, postCommentRepository.countByPostIdAndIsDeletedIsFalse(postId));
     }
 
-    public long removePostCommentById(long id) {
-        var optionalPostComment = findPostCommentById(id);
-
-        if (optionalPostComment.isEmpty()) {
-            return Default.NOT_FOUND_BY_ID;
-        }
-
-        var postComment = optionalPostComment.get();
-
-        if (postComment.getReplies().isEmpty()) {
-            return hardRemovePostComment(id);
-        } else {
-            return softRemovePostComment(postComment);
-        }
-    }
-
-    // TODO move to shared (is also used in another service)
-    private long getMutationResult(long id, int mutatedRowCount) {
-        boolean isMutated = mutatedRowCount > 0;
-
-        if (isMutated) {
-            return id;
-        }
-
-        return Default.NOT_FOUND_BY_ID;
-    }
-
-    private long hardRemovePostComment(long id) {
-        int deletedRowCount = postCommentRepository.removePostCommentById(id);
-        return getMutationResult(id, deletedRowCount);
-    }
-
-    private long softRemovePostComment(PostComment postComment) {
+    public void softRemovePostComment(PostComment postComment) {
         postComment.setIsDeleted(true);
         postCommentRepository.save(postComment);
-        return postComment.getId();
     }
 }

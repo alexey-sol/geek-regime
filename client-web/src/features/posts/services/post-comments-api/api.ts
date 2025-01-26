@@ -13,7 +13,17 @@ import { postsApi } from "@/features/posts/services/posts-api";
 import type { RootState } from "@/app/store";
 
 import {
-    baseUrl, createTag, decrementPostCommentCount, incrementPostCommentCount,
+    baseUrl,
+    createTag,
+    decrementPostCommentCount,
+    decrementRootCommentReplyCount,
+    getAllRootPostCommentsArg,
+    incrementPostCommentCount,
+    incrementRootCommentReplyCount,
+    invalidateReplyComments,
+    patchRootComment,
+    patchRootCommentPage,
+    softRemoveRootComment,
 } from "./utils";
 import * as cn from "./const";
 import type * as tp from "./types";
@@ -29,7 +39,7 @@ export const postCommentsApi = createApi({
                 url: `${resources.POSTS}/${arg.postId}/${resources.COMMENTS}`,
             }),
             merge: mergePageContent,
-            providesTags: [createTag(cn.ROOT_LIST_ID)],
+            providesTags: () => [createTag(cn.ROOT_LIST_ID)],
             serializeQueryArgs: ({ endpointName, queryArgs }) =>
                 `${endpointName}${queryArgs.postId}`,
             forceRefetch: ({ currentArg, previousArg }) => currentArg !== previousArg,
@@ -46,17 +56,30 @@ export const postCommentsApi = createApi({
                 method: "POST",
                 url: `${resources.POSTS}/${body.postId}/${resources.COMMENTS}`,
             }),
-            // Is this a reply to another comment? Then we need to re-fetch the tree (which is going
-            // to have this reply) and the root comments list (to update the reply count which root
-            // comments have).
-            // Otherwise, just re-fetch the root comments list since the created comment belongs to
-            // root ones.
-            invalidatesTags: (result, error, arg) => ((result && arg.meta?.rootCommentId)
-                ? [createTag(arg.meta.rootCommentId), createTag(cn.ROOT_LIST_ID)]
-                : [createTag(cn.ROOT_LIST_ID)]),
+            invalidatesTags: invalidateReplyComments,
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 queryFulfilled
-                    .then(() => {
+                    .then(({ data }) => {
+                        const { rootCommentId } = arg.meta ?? {};
+
+                        if (rootCommentId) { // Reply to another comment
+                            dispatch(
+                                postCommentsApi.util.updateQueryData(
+                                    "getAllRootPostComments",
+                                    getAllRootPostCommentsArg(arg.postId),
+                                    (page) => incrementRootCommentReplyCount(page, rootCommentId),
+                                ),
+                            );
+                        } else { // Root level comment
+                            dispatch(
+                                postCommentsApi.util.updateQueryData(
+                                    "getAllRootPostComments",
+                                    getAllRootPostCommentsArg(arg.postId),
+                                    (page) => patchRootCommentPage(page, data),
+                                ),
+                            );
+                        }
+
                         // eslint-disable-next-line no-use-before-define -- [1]
                         updatePostCacheIfNeeded(dispatch, arg.meta, incrementPostCommentCount);
                     })
@@ -68,12 +91,34 @@ export const postCommentsApi = createApi({
                 method: "DELETE",
                 url: `${resources.POSTS}/${resources.COMMENTS}/${id}`,
             }),
-            invalidatesTags: (result, error, arg) => ((result && arg.meta?.rootCommentId)
-                ? [createTag(arg.meta.rootCommentId), createTag(cn.ROOT_LIST_ID)]
-                : [createTag(cn.ROOT_LIST_ID)]),
+            invalidatesTags: invalidateReplyComments,
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 queryFulfilled
                     .then(() => {
+                        const { rootCommentId } = arg.meta;
+                        const isRootComment = arg.id === rootCommentId;
+
+                        if (isRootComment) {
+                            dispatch(
+                                postCommentsApi.util.updateQueryData(
+                                    "getAllRootPostComments",
+                                    getAllRootPostCommentsArg(arg.meta.postId),
+                                    (page) => softRemoveRootComment(page, rootCommentId),
+                                ),
+                            );
+                        }
+
+                        // If it's not a root comment but a reply, we need only update the reply
+                        // count of its root comment. Other stuff will be tackled by invalidating
+                        // tags.
+                        dispatch(
+                            postCommentsApi.util.updateQueryData(
+                                "getAllRootPostComments",
+                                getAllRootPostCommentsArg(arg.meta.postId),
+                                (page) => decrementRootCommentReplyCount(page, rootCommentId),
+                            ),
+                        );
+
                         // eslint-disable-next-line no-use-before-define -- [1]
                         updatePostCacheIfNeeded(dispatch, arg.meta, decrementPostCommentCount);
                     })
@@ -86,24 +131,35 @@ export const postCommentsApi = createApi({
                 method: "PATCH",
                 url: `${resources.POSTS}/${resources.COMMENTS}/${id}`,
             }),
-            invalidatesTags: (result, error, arg) => ((result && arg.meta?.rootCommentId) // TODO duplicated code
-                ? [createTag(arg.meta.rootCommentId), createTag(cn.ROOT_LIST_ID)]
-                : [createTag(cn.ROOT_LIST_ID)]),
+            invalidatesTags: invalidateReplyComments,
+            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+                queryFulfilled
+                    .then(({ data }) => {
+                        dispatch(
+                            postCommentsApi.util.updateQueryData(
+                                "getAllRootPostComments",
+                                getAllRootPostCommentsArg(arg.meta.postId),
+                                (page) => patchRootComment(page, arg.id, data),
+                            ),
+                        );
+                    })
+                    .catch(console.error);
+            },
         }),
     }),
 });
 
 const updatePostCacheIfNeeded = (
     dispatch: ThunkDispatch<RootState, any, any>,
-    meta: Partial<tp.CommentMutationMeta> | undefined,
+    meta: Partial<tp.HasPostSlug> | undefined,
     onPostCacheUpdate: (post: PostDetailsResponse) => void,
 ) => {
-    if (!meta?.parentPostSlug) {
+    if (!meta?.postSlug) {
         return;
     }
 
     dispatch(
-        postsApi.util.updateQueryData("getPostBySlug", meta.parentPostSlug, onPostCacheUpdate),
+        postsApi.util.updateQueryData("getPostBySlug", meta.postSlug, onPostCacheUpdate),
     );
 };
 

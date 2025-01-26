@@ -39,7 +39,7 @@ export const ReplyCommentBox: FC<ReplyCommentBoxProps> = ({
             parentId: commentId,
             postId: post.id,
             meta: {
-                parentPostSlug: post?.slug,
+                postSlug: post?.slug,
                 rootCommentId,
             },
         })
@@ -50,7 +50,7 @@ export const ReplyCommentBox: FC<ReplyCommentBoxProps> = ({
     const title = useMemo(() => authorName && (
         <>
             {`${t("posts.post.comments.commentBox.reply.title")} `}
-            <Typography as='span' color="primary">{authorName}</Typography>
+            <Typography as="span" color="primary">{authorName}</Typography>
         </>
     ), [authorName, t]);
     const placeholder = t("posts.post.comments.commentBox.reply.placeholder");

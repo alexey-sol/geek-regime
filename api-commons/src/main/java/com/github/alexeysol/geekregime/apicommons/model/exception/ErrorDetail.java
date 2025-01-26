@@ -23,6 +23,7 @@ public class ErrorDetail {
     public enum Code {
         ABSENT("Absent"),
         ALREADY_EXISTS("AlreadyExists"),
+        ALREADY_REMOVED("AlreadyRemoved"),
         INVALID("Invalid"),
         MISMATCH("Mismatch");
 
@@ -42,6 +43,7 @@ public class ErrorDetail {
     static {
         mapCodeToStatus.put(Code.ABSENT, HttpStatus.NOT_FOUND);
         mapCodeToStatus.put(Code.ALREADY_EXISTS, HttpStatus.CONFLICT);
+        mapCodeToStatus.put(Code.ALREADY_REMOVED, HttpStatus.CONFLICT);
         mapCodeToStatus.put(Code.INVALID, HttpStatus.UNPROCESSABLE_ENTITY);
         mapCodeToStatus.put(Code.MISMATCH, HttpStatus.FORBIDDEN);
     }

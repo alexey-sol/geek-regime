@@ -33,7 +33,13 @@ export const Comment: FC<PropsWithChildren<CommentProps>> = ({
     const { rootCommentId } = useRootCommentContext();
 
     const {
-        closeBox, onSubmitSuccess, openEditBox, openReplyBox, showEditBox, showReplyBox,
+        closeBox,
+        onEditSuccess,
+        onReplySuccess,
+        openEditBox,
+        openReplyBox,
+        showEditBox,
+        showReplyBox,
     } = useCommentBox({
         onSubmit: onReply,
     });
@@ -43,7 +49,7 @@ export const Comment: FC<PropsWithChildren<CommentProps>> = ({
     } = useComment({ item });
 
     const commentBody = item.isDeleted
-        ? <Typography color="grey">{t("posts.post.comments.isDeleted.placeholder")}</Typography>
+        ? <Typography color="grey">{item.body}</Typography>
         : (
             <BodyTypographyStyled
                 dangerouslySetInnerHTML={createInnerHtml(item.body)}
@@ -105,7 +111,7 @@ export const Comment: FC<PropsWithChildren<CommentProps>> = ({
                             body={item.body}
                             commentId={item.id}
                             onClose={closeBox}
-                            onSubmit={onSubmitSuccess}
+                            onSubmit={onEditSuccess}
                             rootCommentId={rootCommentId}
                         />
                     )}
@@ -114,7 +120,7 @@ export const Comment: FC<PropsWithChildren<CommentProps>> = ({
                             authorName={item.author.details.name}
                             commentId={item.id}
                             onClose={closeBox}
-                            onSubmit={onSubmitSuccess}
+                            onSubmit={onReplySuccess}
                             rootCommentId={rootCommentId}
                         />
                     )}

@@ -59,8 +59,9 @@ export const useComment = ({ item }: HasItem<PostCommentBase>): UseCommentResult
         removePostCommentById({
             id: item.id,
             meta: {
+                postId: post.id,
+                postSlug: post.slug,
                 rootCommentId,
-                parentPostSlug: post.slug,
             },
         });
     }, [item.id, post, removePostCommentById, rootCommentId]);

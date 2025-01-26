@@ -14,7 +14,7 @@ import type * as tp from "./types";
 
 export const postsApi = createApi({
     reducerPath: "postsApi",
-    tagTypes: [cn.TAG_TYPE],
+    tagTypes: [cn.POSTS_TYPE],
     baseQuery: fetchBaseQuery({ baseUrl }),
     endpoints: (builder) => ({
         createPost: builder.mutation<PostDetailsResponse, tp.CreatePostArg>({
@@ -116,7 +116,7 @@ const updatePostCacheIfNeeded = (
 
     const caches = postsApi.util.selectInvalidatedBy(
         state,
-        [{ type: cn.TAG_TYPE, id }],
+        [{ type: cn.POSTS_TYPE, id }],
     );
 
     caches.forEach(({ endpointName, originalArgs }) => {

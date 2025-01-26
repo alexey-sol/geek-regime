@@ -1,4 +1,7 @@
-import { Expose, Transform, Type } from "class-transformer";
+import {
+    Expose, Transform, TransformFnParams, Type,
+} from "class-transformer";
+import { t } from "i18next";
 
 import { formatTimestamp } from "@/shared/utils/formatters/date";
 import { User } from "@/features/users/models/entities";
@@ -74,10 +77,14 @@ export class PostDetails extends PostPreview {
     }
 }
 
+const transformPostCommentBody = ({ value }: TransformFnParams) => (value
+    ? purifyHtml(value)
+    : t("posts.post.comments.isDeleted.placeholder"));
+
 export class PostCommentBase {
     @Expose()
-    @Transform(({ value }) => value && purifyHtml(value))
-    public body?: string;
+    @Transform(transformPostCommentBody)
+    public body: string;
 
     @Type(() => User)
     public author: User;
@@ -87,11 +94,11 @@ export class PostCommentBase {
         public createdAt: string,
         public updatedAt: string,
         author: User,
-        body?: string,
+        body?: string | null,
         public isDeleted = false,
     ) {
         this.author = author;
-        this.body = body;
+        this.body = body ?? "";
     }
 
     get formattedCreatedAt(): string {
@@ -112,7 +119,7 @@ export class PostComment extends PostCommentBase {
         createdAt: string,
         updatedAt: string,
         author: User,
-        body?: string,
+        body?: string | null,
         isDeleted?: boolean,
         public descendantCount = 0,
     ) {
@@ -140,7 +147,7 @@ export class PostCommentTree extends PostCommentBase {
         createdAt: string,
         updatedAt: string,
         author: User,
-        body?: string,
+        body?: string | null,
         isDeleted?: boolean,
         replies: PostCommentTree[] = [],
     ) {

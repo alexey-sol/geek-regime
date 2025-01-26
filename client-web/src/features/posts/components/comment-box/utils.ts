@@ -39,7 +39,7 @@ export const useCommentBox = ({
         };
     }, [closeBox]);
 
-    const onSubmitSuccess = useCallback(() => {
+    const onReplySuccess = useCallback(() => {
         onSubmit?.();
         closeBox();
     }, [closeBox, onSubmit]);
@@ -48,7 +48,8 @@ export const useCommentBox = ({
         body,
         closeBox,
         commentMode,
-        onSubmitSuccess,
+        onEditSuccess: closeBox,
+        onReplySuccess,
         openEditBox,
         openReplyBox,
         post,

@@ -48,7 +48,7 @@ export const CommentBox = memo(({
                 value={body}
             />
             {errorMessage && <FieldErrorMessage>{errorMessage}</FieldErrorMessage>}
-            <Button onClick={onSubmit}>
+            <Button disabled={disableSubmit} onClick={onSubmit}>
                 {t("shared.actions.send")}
             </Button>
         </CommentBoxStyled>

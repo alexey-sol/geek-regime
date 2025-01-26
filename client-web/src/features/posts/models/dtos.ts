@@ -15,6 +15,8 @@ export type PostCommentPageResponse = postComment["schemas"]["PostCommentPageRes
 
 export type PostCommentResponse = postComment["schemas"]["PostCommentResponse"];
 
+export type PostCommentResponseBase = postComment["schemas"]["PostCommentResponseBase"];
+
 export type PostCommentTreeResponse = postComment["schemas"]["PostCommentTreeResponse"];
 
 export type CreatePostCommentRequest = postComment["schemas"]["CreatePostCommentRequest"];

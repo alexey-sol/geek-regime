@@ -32,7 +32,10 @@ export const EditCommentBox: FC<EditCommentBoxProps> = ({
         updatePostCommentById({
             body: purifyHtml(body),
             id: commentId,
-            meta: { rootCommentId },
+            meta: {
+                postId: post.id,
+                rootCommentId,
+            },
         })
             .then(onSubmit)
             .catch(console.error);

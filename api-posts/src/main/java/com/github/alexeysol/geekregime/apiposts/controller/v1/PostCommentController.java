@@ -1,6 +1,5 @@
 package com.github.alexeysol.geekregime.apiposts.controller.v1;
 
-import com.github.alexeysol.geekregime.apicommons.constant.Default;
 import com.github.alexeysol.geekregime.apicommons.exception.ResourceException;
 import com.github.alexeysol.geekregime.apicommons.generated.model.*;
 import com.github.alexeysol.geekregime.apicommons.model.exception.ErrorDetail;
@@ -98,11 +97,15 @@ public class PostCommentController implements PostCommentApi {
     @Override
     public ResponseEntity<IdResponse> removePostCommentById(Long id) {
         var optionalParentPost = postCommentService.findPostCommentById(id).map(PostComment::getPost);
-        var result = postCommentService.removePostCommentById(id);
+        var optionalPostComment = postCommentService.findPostCommentById(id);
 
-        if (result == Default.NOT_FOUND_BY_ID) {
+        if (optionalPostComment.isEmpty()) {
             throw new ResourceException(new ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD));
+        } else if (optionalPostComment.get().getIsDeleted()) {
+            throw new ResourceException(new ErrorDetail(ErrorDetail.Code.ALREADY_REMOVED, ID_FIELD));
         }
+
+        postCommentService.softRemovePostComment(optionalPostComment.get());
 
         optionalParentPost.ifPresent(post -> postCommentService.updatePostCommentCount(post.getId()));
 

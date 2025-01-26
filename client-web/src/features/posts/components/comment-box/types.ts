@@ -14,5 +14,9 @@ export type ReplyCommentBoxProps = UseCommentBoxArg
         commentId?: HasId["id"];
     };
 
-export type EditCommentBoxProps = Omit<ReplyCommentBoxProps, "authorName" | "commentId">
-    & Required<Pick<ReplyCommentBoxProps, "commentId">>;
+export type EditCommentBoxProps = Omit<ReplyCommentBoxProps, "authorName"
+    | "commentId"
+    | "rootCommentId"
+> & Required<Pick<ReplyCommentBoxProps, "commentId"
+    | "rootCommentId">
+>;

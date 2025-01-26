@@ -49,7 +49,7 @@ export const PostComments: FC = memo(() => {
     });
 
     const {
-        closeBox, onSubmitSuccess, openReplyBox, showReplyBox,
+        closeBox, onReplySuccess, openReplyBox, showReplyBox,
     } = useCommentBox();
 
     const openReplyBoxButton = (
@@ -59,7 +59,7 @@ export const PostComments: FC = memo(() => {
     );
 
     const replyBoxOrButton = showReplyBox
-        ? <ReplyCommentBox onClose={closeBox} onSubmit={onSubmitSuccess} />
+        ? <ReplyCommentBox onClose={closeBox} onSubmit={onReplySuccess} />
         : openReplyBoxButton;
 
     return (

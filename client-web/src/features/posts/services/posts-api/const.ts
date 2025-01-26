@@ -1,2 +1,2 @@
-export const TAG_LIST_ID = "PostList";
-export const TAG_TYPE = "Posts" as const;
+export const POST_LIST_ID = "PostList";
+export const POSTS_TYPE = "Posts" as const;
