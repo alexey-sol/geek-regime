@@ -17,7 +17,7 @@ const initialValues: AuthenticateRequest = {
     password: "",
 };
 
-export const SignInForm: MemoizedAuthForm = memo(({ goTo }) => {
+export const SignInForm: MemoizedAuthForm = memo(({ goTo, onSubmit }) => {
     const formRef = useRef<FormikProps<AuthenticateRequest>>(null);
     const { t } = useTranslation();
 
@@ -26,7 +26,7 @@ export const SignInForm: MemoizedAuthForm = memo(({ goTo }) => {
         handleSubmit,
         isPending,
         yandexAuthUrl,
-    } = useSignInFormData({ formRef });
+    } = useSignInFormData({ formRef, onSubmit });
 
     const goToSignUp = useCallback(() => {
         if (goTo) {

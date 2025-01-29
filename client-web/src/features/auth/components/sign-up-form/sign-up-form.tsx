@@ -17,7 +17,7 @@ const initialValues: SignUpValues = {
     password: "",
 };
 
-export const SignUpForm: MemoizedAuthForm = memo(() => {
+export const SignUpForm: MemoizedAuthForm = memo(({ onSubmit }) => {
     const formRef = useRef<FormikProps<SignUpValues>>(null);
     const { t } = useTranslation();
 
@@ -25,7 +25,7 @@ export const SignUpForm: MemoizedAuthForm = memo(() => {
         handleChangeWrap,
         handleSubmit,
         isPending,
-    } = useSignUpFormData({ formRef });
+    } = useSignUpFormData({ formRef, onSubmit });
 
     return (
         <SignUpFormStyled>

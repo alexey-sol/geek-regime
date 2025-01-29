@@ -14,12 +14,16 @@ import type { AuthenticateRequest, CreateUserRequest } from "@/features/users/mo
 
 export type AuthPending = "get-profile" | "sign-in" | "sign-up" | "sign-out";
 
+type HasUnwrap<T = unknown> = {
+    unwrap: () => Promise<T>;
+};
+
 export type UseAuthApiResult = {
     pending?: AuthPending;
     profile?: User;
-    signIn: (arg: AuthenticateRequest) => void;
-    signOut: () => void;
-    signUp: (arg: CreateUserRequest) => void;
+    signIn: (arg: AuthenticateRequest) => HasUnwrap;
+    signOut: () => HasUnwrap;
+    signUp: (arg: CreateUserRequest) => HasUnwrap;
 };
 
 export const useAuthApi = (): UseAuthApiResult => {

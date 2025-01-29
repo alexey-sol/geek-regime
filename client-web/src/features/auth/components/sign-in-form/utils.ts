@@ -5,6 +5,11 @@ import type { FormikProps } from "formik";
 import { useAuthContext } from "@/features/auth/contexts/auth";
 import { authBaseUrl } from "@/features/auth/services/api/utils";
 import type { AuthenticateRequest } from "@/features/users/models/dtos";
+import { type AuthFormProps } from "@/features/auth/types";
+
+type UseSignInFormArg = Pick<AuthFormProps, "onSubmit"> & {
+    formRef: React.RefObject<FormikProps<AuthenticateRequest>>;
+};
 
 export type SignInFormData = {
     handleChangeWrap: (event: FormEvent, cb: FormEventHandler) => void;
@@ -13,19 +18,19 @@ export type SignInFormData = {
     yandexAuthUrl: string;
 };
 
-export const useSignInFormData = (
-    { formRef }: { formRef: React.RefObject<FormikProps<AuthenticateRequest>> },
-): SignInFormData => {
+export const useSignInFormData = ({ formRef, onSubmit }: UseSignInFormArg): SignInFormData => {
     const { pending, signIn } = useAuthContext();
 
-    const handleSubmit = useCallback(() => {
+    const handleSubmit = useCallback(async () => {
         const { isValid, values } = formRef.current ?? {};
         const hasValues = values && Object.values(values).every(Boolean);
 
         if (hasValues && isValid) {
-            signIn(values);
+            signIn(values).unwrap()
+                .then(onSubmit)
+                .catch(console.error);
         }
-    }, [formRef, signIn]);
+    }, [formRef, onSubmit, signIn]);
 
     const handleChangeWrap: SignInFormData["handleChangeWrap"] = useCallback((event, cb) => {
         // TODO show notification on error

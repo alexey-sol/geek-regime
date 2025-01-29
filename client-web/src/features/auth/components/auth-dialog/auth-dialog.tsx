@@ -25,7 +25,7 @@ export const AuthDialog: FC<AuthDialogProps> = ({ onClose }) => {
             width="narrow"
         >
             <DialogBodyStyled>
-                <Form goTo={goTo} />
+                <Form goTo={goTo} onSubmit={onClose} />
             </DialogBodyStyled>
         </BaseDialog>
     );

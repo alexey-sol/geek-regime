@@ -4,6 +4,7 @@ export type AuthView = "sign-in" | "sign-up";
 
 export type AuthFormProps = {
     goTo?: (view: AuthView) => void;
+    onSubmit?: () => void;
 };
 
 export type AuthForm = (props: AuthFormProps) => JSX.Element;
