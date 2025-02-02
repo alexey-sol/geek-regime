@@ -4,7 +4,8 @@ public enum ComparisonOperator {
     EQUAL("equal"),
     LIKE("like"),
     ILIKE("ilike"),
-    IN("in");
+    IN("in"),
+    SAME_OR_AFTER("sameOrAfter");
 
     private final String value;
 

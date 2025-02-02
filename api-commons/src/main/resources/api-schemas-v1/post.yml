@@ -170,6 +170,9 @@ components:
           type: integer
           format: int64
           minimum: 1
+    PostPagePeriod:
+      type: string
+      enum: [ "DAY", "WEEK", "MONTH", "YEAR", "OVERALL" ]
     # Refs:
     Page:
       type: Page

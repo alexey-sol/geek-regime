@@ -44,11 +44,13 @@ public class PostController implements PostApi {
         Long authorId,
         List<String> searchIn,
         String text,
+        PostPagePeriod period,
         @PageableDefault(size = PAGE_SIZE, sort = SORT_BY, direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        var searchFilter = getSearchFilterIfTextIsPresent(text, searchIn);
+        var searchTextFilter = getSearchFilterIfTextIsPresent(text, searchIn);
+        var searchPeriodFilter = getSearchFilter(period);
         var authorIdFilter = PostFilterUtil.createFilter(authorId, LogicalOperator.AND);
-        var plainFilters = PostFilterUtil.combinePlainFilters(authorIdFilter, searchFilter);
+        var plainFilters = PostFilterUtil.combinePlainFilters(authorIdFilter, searchTextFilter, searchPeriodFilter);
         var compositeFilter = PostFilterUtil.createFilter(plainFilters, LogicalOperator.AND);
 
         var response = findPosts(pageable, compositeFilter);
@@ -60,10 +62,13 @@ public class PostController implements PostApi {
     public ResponseEntity<BasePostPreviewPageResponse> findAllPosts(
         List<String> searchIn,
         String text,
+        PostPagePeriod period,
         @PageableDefault(size = PAGE_SIZE, sort = SORT_BY, direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        var searchFilter = getSearchFilterIfTextIsPresent(text, searchIn);
-        var compositeFilter = PostFilterUtil.createFilter(searchFilter, LogicalOperator.AND);
+        var searchTextFilter = getSearchFilterIfTextIsPresent(text, searchIn);
+        var searchPeriodFilter = getSearchFilter(period);
+        var plainFilters = PostFilterUtil.combinePlainFilters(searchTextFilter, searchPeriodFilter);
+        var compositeFilter = PostFilterUtil.createFilter(plainFilters, LogicalOperator.AND);
 
         var response = findPosts(pageable, compositeFilter);
 
@@ -78,6 +83,14 @@ public class PostController implements PostApi {
         return (Objects.isNull(searchIn) || searchIn.isEmpty())
             ? PostFilterUtil.createFilter(text, LogicalOperator.OR)
             : PostFilterUtil.createFilter(text, searchIn, LogicalOperator.OR);
+    }
+
+    private EntityFilter<FilterCriterion> getSearchFilter(PostPagePeriod period) {
+        var periodOrDefault =(Objects.isNull(period))
+            ? PostPagePeriod.OVERALL
+            : period;
+
+        return PostFilterUtil.createSameOrAfterFilter(periodOrDefault);
     }
 
     private BasePostPreviewPageResponse findPosts(

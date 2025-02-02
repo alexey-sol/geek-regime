@@ -188,6 +188,7 @@
                         <typeMapping>CreatePostCommentRequest=com.github.alexeysol.geekregime.apicommons.generated.model.CreatePostCommentRequest</typeMapping>
                         <typeMapping>UpdatePostCommentRequest=com.github.alexeysol.geekregime.apicommons.generated.model.UpdatePostCommentRequest</typeMapping>
                         <typeMapping>IdResponse=com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse</typeMapping>
+                        <typeMapping>PostPagePeriod=com.github.alexeysol.geekregime.apicommons.generated.model.PostPagePeriod</typeMapping>
                         <typeMapping>LocalDate=java.util.Date</typeMapping>
                         <typeMapping>OffsetDateTime=java.util.Date</typeMapping>
                     </typeMappings>

@@ -35,3 +35,13 @@ components:
       schema:
         type: string
         example: "Something I wanna find"
+    period:
+      name: period
+      description: The period where to search for posts
+      in: query
+      schema:
+        $ref: "#/components/schemas/PostPagePeriod"
+  # Schemas imported from api-commons
+  schemas:
+    PostPagePeriod:
+      type: PostPagePeriod

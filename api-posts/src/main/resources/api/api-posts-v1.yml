@@ -16,6 +16,7 @@ paths:
         - $ref: "./parameters-v1.yml#/components/parameters/id"
         - $ref: "./parameters-v1.yml#/components/parameters/searchIn"
         - $ref: "./parameters-v1.yml#/components/parameters/text"
+        - $ref: "./parameters-v1.yml#/components/parameters/period"
       responses:
         200:
           description: A list of posts
@@ -67,6 +68,7 @@ paths:
       parameters:
         - $ref: "./parameters-v1.yml#/components/parameters/searchIn"
         - $ref: "./parameters-v1.yml#/components/parameters/text"
+        - $ref: "./parameters-v1.yml#/components/parameters/period"
       responses:
         200:
           description: A list of posts

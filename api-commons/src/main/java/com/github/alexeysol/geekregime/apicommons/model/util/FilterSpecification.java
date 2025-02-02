@@ -4,6 +4,7 @@ import com.github.alexeysol.geekregime.apicommons.model.dto.query.FilterCriterio
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.*;
+import java.util.Date;
 import java.util.List;
 
 abstract public class FilterSpecification<Entity> implements Specification<Entity> {
@@ -34,6 +35,7 @@ abstract public class FilterSpecification<Entity> implements Specification<Entit
             case LIKE -> getLikePredicate();
             case ILIKE -> getLikeIgnoreCasePredicate();
             case IN -> getInPredicate();
+            case SAME_OR_AFTER -> getSameOrAfterPredicate();
         };
     }
 
@@ -64,6 +66,15 @@ abstract public class FilterSpecification<Entity> implements Specification<Entit
         }
 
         return in;
+    }
+
+    private Predicate getSameOrAfterPredicate() {
+        if (!(value instanceof Date dateValue)) {
+            return null;
+        }
+
+        var pathAsDate = root.get(key).as(Date.class);
+        return builder.greaterThanOrEqualTo(pathAsDate, dateValue);
     }
 }
 
