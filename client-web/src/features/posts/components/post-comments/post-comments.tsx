@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 
 import { useGetAllRootPostCommentsQuery } from "@/features/posts/services/post-comments-api";
 import { defaults } from "@/shared/const";
-import { normalizeGetAllPostCommentsArg } from "@/features/posts/utils/api";
+import { mapGetAllPostCommentsArg } from "@/features/posts/utils/api";
 import { useInfiniteScroll } from "@/shared/utils/hooks/use-infinite-scroll";
 import { hasMore } from "@/shared/utils/api";
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
@@ -30,7 +30,7 @@ export const PostComments: FC = memo(() => {
     const { profile } = useAuthContext();
     const { post } = useActivePost();
 
-    const arg = post && normalizeGetAllPostCommentsArg({
+    const arg = post && mapGetAllPostCommentsArg({
         postId: post.id,
         params: { page },
     });

@@ -4,8 +4,9 @@ import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import { selectPagingOptions } from "@/features/posts/slice/selectors";
 import { setPagingOptions } from "@/features/posts/slice";
 import { usePage } from "@/shared/utils/hooks/use-page";
-import { normalizeGetAllPostsArg } from "@/features/posts/utils/api";
+import { mapGetAllPostsArg } from "@/features/posts/utils/api";
 import { type PagingOptions } from "@/shared/types";
+import { usePostSearchParams } from "@/features/posts/utils/hooks/use-post-search-params";
 
 import { usePosts } from "./use-posts";
 import { type UsePostsPageArg, type UsePostsPageResult } from "./types";
@@ -23,7 +24,16 @@ export const usePostsPage = ({ filter }: UsePostsPageArg = {}): UsePostsPageResu
         setPagingOptions: onSetPagingOptions,
     });
 
-    const arg = normalizeGetAllPostsArg({ ...pagingOptions, filter, text: searchText });
+    const { period, sort } = usePostSearchParams();
+
+    const arg = mapGetAllPostsArg({
+        ...pagingOptions,
+        filter,
+        period,
+        sort,
+        text: searchText,
+    });
+
     const { isPending, posts } = usePosts({ arg, setTotalElements });
 
     return useMemo(() => ({

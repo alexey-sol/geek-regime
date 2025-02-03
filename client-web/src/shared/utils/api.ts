@@ -1,5 +1,6 @@
 import { defaults } from "@/shared/const";
 import {
+    type FilteredQueryParams,
     type FilteredSearchPagingQueryParams,
     type HasPagingQueryParams,
     type Page,
@@ -11,7 +12,7 @@ const PAGE_OFFSET = 1; // this is the value we subtract from page number when pa
 
 const normStartPage = defaults.START_PAGE - PAGE_OFFSET;
 
-export const normalizePagingQueryParams = ({
+export const mapPagingQueryParams = ({
     page = defaults.START_PAGE,
     size = defaults.PAGE_SIZE,
 }: PagingQueryParams = {}): Required<PagingQueryParams> => ({
@@ -19,29 +20,28 @@ export const normalizePagingQueryParams = ({
     size,
 });
 
-export const normalizeSearchPagingQueryParams = ({
+export const mapSearchPagingQueryParams = ({
     searchIn,
     text,
     ...pagingParams
 }: SearchPagingQueryParams): SearchPagingQueryParams => {
-    const params: SearchPagingQueryParams = normalizePagingQueryParams(pagingParams);
+    const params: SearchPagingQueryParams = mapPagingQueryParams(pagingParams);
 
     if (text !== undefined) {
         params.text = text;
-    }
 
-    if (searchIn) {
-        params.searchIn = searchIn;
+        if (searchIn) {
+            params.searchIn = searchIn;
+        }
     }
 
     return params;
 };
 
-export const normalizeFilteredSearchPagingQueryParams = <T>({
+export const mapFilteredQueryParams = <T>({
     filter,
-    ...rest
-}: FilteredSearchPagingQueryParams<T>): FilteredSearchPagingQueryParams<T> => {
-    const params: FilteredSearchPagingQueryParams<T> = normalizeSearchPagingQueryParams(rest);
+}: FilteredQueryParams<T>): FilteredQueryParams<T> => {
+    const params: FilteredSearchPagingQueryParams<T> = {};
 
     if (filter) {
         params.filter = filter;

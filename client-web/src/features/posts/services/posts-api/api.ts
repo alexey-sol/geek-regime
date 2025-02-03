@@ -41,9 +41,8 @@ export const postsApi = createApi({
             },
         }),
         getAllPosts: builder.query<PostPreviewPageResponse, tp.GetAllPostsArg | void>({
-            query: (arg) => {
-                const { params } = arg ?? {};
-                const { authorId } = params?.filter ?? {};
+            query: ({ filter, ...params } = {}) => {
+                const { authorId } = filter ?? {};
 
                 const url = (authorId)
                     ? `${resources.USERS}/${authorId}/${resources.POSTS}`

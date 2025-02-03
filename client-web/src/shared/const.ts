@@ -26,6 +26,8 @@ export const paths = {
 };
 
 export const SEARCH_PARAMS = {
+    PERIOD: "period",
+    SORT: "sort",
     TEXT: "text",
 };
 

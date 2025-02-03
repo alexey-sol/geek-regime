@@ -22,7 +22,7 @@ export type UseActivePostResult = {
     voteOnPost: (value: number) => void;
 };
 
-export type UsePostsPageArg = Pick<GetAllPostsArg["params"], "filter">;
+export type UsePostsPageArg = Pick<GetAllPostsArg, "filter">;
 
 export type UsePostsPageResult = {
     isPending: boolean;

@@ -13,11 +13,15 @@ export type PagingOptions = Pick<Page, "size" | "totalElements"> & {
 export type PagingQueryParams = Partial<Pick<PagingOptions, "page" | "size">>;
 
 export type SearchPagingQueryParams = PagingQueryParams & {
-    text?: string;
     searchIn?: string[];
+    text?: string;
 };
 
 export type FilteredSearchPagingQueryParams<T> = SearchPagingQueryParams & {
+    filter?: T;
+};
+
+export type FilteredQueryParams<T> = {
     filter?: T;
 };
 
@@ -35,8 +39,4 @@ export type HasPagingQueryParams = {
 
 export type HasSearchPagingQueryParams = {
     params: SearchPagingQueryParams;
-};
-
-export type HasFilteredSearchPagingQueryParams<T> = {
-    params: FilteredSearchPagingQueryParams<T>;
 };

@@ -31,6 +31,30 @@ export const en = {
                 bodyTooLong: "The comment is too long",
             },
         },
+        page: {
+            settings: {
+                applyButton: {
+                    title: "Apply",
+                },
+                period: {
+                    day: "Day",
+                    month: "Month",
+                    overall: "Overall",
+                    week: "Week",
+                    year: "Year",
+                },
+                periodSelect: {
+                    tooltip: "Period",
+                },
+                sort: {
+                    latest: "Latest",
+                    oldest: "Oldest",
+                },
+                sortSelect: {
+                    tooltip: "Show first",
+                },
+            },
+        },
         post: {
             comments: {
                 actions: {
@@ -121,6 +145,30 @@ export const ru = {
             validation: {
                 bodyEmpty: "Введите комментарий",
                 bodyTooLong: "Комментарий слишком длинный",
+            },
+        },
+        page: {
+            settings: {
+                applyButton: {
+                    title: "Применить",
+                },
+                period: {
+                    day: "Сутки",
+                    month: "Месяц",
+                    overall: "Все время",
+                    week: "Неделя",
+                    year: "Год",
+                },
+                periodSelect: {
+                    tooltip: "Период",
+                },
+                sort: {
+                    latest: "Новые",
+                    oldest: "Старые",
+                },
+                sortSelect: {
+                    tooltip: "Сначала показывать",
+                },
             },
         },
         post: {

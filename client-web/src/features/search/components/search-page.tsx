@@ -34,12 +34,13 @@ export const SearchPage: FC = () => {
     const [searchText, setSearchText] = useState(initialSearchText);
 
     const navigateToSearch = useCallback((pathname: string) => {
-        const search = searchText && createSearchParams({
-            text: searchText,
-        }).toString();
+        const urlSearchParams = new URLSearchParams(searchParams);
+        urlSearchParams.set(SEARCH_PARAMS.TEXT, searchText);
+
+        const search = searchText && createSearchParams(urlSearchParams).toString();
 
         navigate({ pathname, search });
-    }, [navigate, searchText]);
+    }, [navigate, searchParams, searchText]);
 
     return (
         <SearchPageStyled ref={elementRef}>
