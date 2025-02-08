@@ -1,7 +1,5 @@
 import { defaults } from "@/shared/const";
 import {
-    type FilteredQueryParams,
-    type FilteredSearchPagingQueryParams,
     type HasPagingQueryParams,
     type Page,
     type PagingQueryParams,
@@ -33,18 +31,6 @@ export const mapSearchPagingQueryParams = ({
         if (searchIn) {
             params.searchIn = searchIn;
         }
-    }
-
-    return params;
-};
-
-export const mapFilteredQueryParams = <T>({
-    filter,
-}: FilteredQueryParams<T>): FilteredQueryParams<T> => {
-    const params: FilteredSearchPagingQueryParams<T> = {};
-
-    if (filter) {
-        params.filter = filter;
     }
 
     return params;

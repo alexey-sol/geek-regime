@@ -5,9 +5,9 @@ import { type CreatePostRequest, type UpdatePostRequest } from "@/features/posts
 import { type HasAuthorId, type PeriodAndSortQueryParams } from "@/features/posts/types";
 import { type SearchPagingQueryParams } from "@/shared/types";
 
-export type GetAllPostsArg = SearchPagingQueryParams & PeriodAndSortQueryParams & {
-    filter?: Partial<HasAuthorId>;
-};
+export type GetAllPostsArg = SearchPagingQueryParams & PeriodAndSortQueryParams;
+
+export type GetAllPostsByAuthorArg = GetAllPostsArg & HasAuthorId;
 
 export type GetPostBySlugArg = PostDetails["slug"];
 

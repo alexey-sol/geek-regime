@@ -8,7 +8,7 @@ import {
 } from "@/features/posts/models/dtos";
 import { type RootState } from "@/app/store";
 
-import { baseUrl, createTag } from "./utils";
+import { baseUrl, createTag, provideTags } from "./utils";
 import * as cn from "./const";
 import type * as tp from "./types";
 
@@ -41,22 +41,18 @@ export const postsApi = createApi({
             },
         }),
         getAllPosts: builder.query<PostPreviewPageResponse, tp.GetAllPostsArg | void>({
-            query: ({ filter, ...params } = {}) => {
-                const { authorId } = filter ?? {};
-
-                const url = (authorId)
-                    ? `${resources.USERS}/${authorId}/${resources.POSTS}`
-                    : resources.POSTS;
-
-                return ({ params, url });
-            },
-            providesTags: (result) => {
-                const tag = createTag();
-
-                return result
-                    ? [...result.content.map(({ id }) => ({ type: tag.type, id })), tag]
-                    : [tag];
-            },
+            query: (params) => ({
+                params: params ?? undefined,
+                url: resources.POSTS,
+            }),
+            providesTags: (result) => provideTags(result?.content),
+        }),
+        getAllPostsByAuthor: builder.query<PostPreviewPageResponse, tp.GetAllPostsByAuthorArg>({
+            query: ({ authorId, ...params }) => ({
+                params,
+                url: `${resources.USERS}/${authorId}/${resources.POSTS}`,
+            }),
+            providesTags: (result) => provideTags(result?.content),
         }),
         getPostBySlug: builder.query<PostDetailsResponse, tp.GetPostBySlugArg>({
             query: (slug) => `${resources.POSTS}/${slug}`,
@@ -79,7 +75,9 @@ export const postsApi = createApi({
                 api.queryFulfilled
                     .then(({ data }) => {
                         // eslint-disable-next-line no-use-before-define -- [1]
-                        updatePostCacheIfNeeded(data, api.getState(), api.dispatch);
+                        updatePostListCacheIfNeeded("getAllPosts", data, api.getState(), api.dispatch);
+                        // eslint-disable-next-line no-use-before-define -- [1]
+                        updatePostListCacheIfNeeded("getAllPostsByAuthor", data, api.getState(), api.dispatch);
                     })
                     .catch(console.error);
             },
@@ -94,7 +92,9 @@ export const postsApi = createApi({
                 api.queryFulfilled
                     .then(({ data }) => {
                         // eslint-disable-next-line no-use-before-define -- [1]
-                        updatePostCacheIfNeeded(data, api.getState(), api.dispatch);
+                        updatePostListCacheIfNeeded("getAllPosts", data, api.getState(), api.dispatch);
+                        // eslint-disable-next-line no-use-before-define -- [1]
+                        updatePostListCacheIfNeeded("getAllPostsByAuthor", data, api.getState(), api.dispatch);
                     })
                     .catch(console.error);
             },
@@ -102,10 +102,11 @@ export const postsApi = createApi({
     }),
 });
 
-const updatePostCacheIfNeeded = (
+const updatePostListCacheIfNeeded = (
+    queryName: "getAllPosts" | "getAllPostsByAuthor",
     data: PostDetailsResponse,
     state: RootState,
-    dispatch: ThunkDispatch<RootState, any, any>,
+    dispatch: ThunkDispatch<RootState, unknown, any>,
 ) => {
     if (!data) {
         return;
@@ -119,11 +120,11 @@ const updatePostCacheIfNeeded = (
     );
 
     caches.forEach(({ endpointName, originalArgs }) => {
-        if (endpointName !== "getAllPosts") {
+        if (endpointName !== queryName) {
             return;
         }
 
-        dispatch(postsApi.util.updateQueryData("getAllPosts", originalArgs, (draftPosts) => {
+        dispatch(postsApi.util.updateQueryData(queryName, originalArgs, (draftPosts) => {
             const itemIndex = draftPosts.content.findIndex((post) => post.id === id);
 
             if (itemIndex >= 0) {
@@ -140,6 +141,7 @@ const updatePostCacheIfNeeded = (
 export const {
     useCreatePostMutation,
     useGetAllPostsQuery,
+    useGetAllPostsByAuthorQuery,
     useGetPostBySlugQuery,
     useUpdatePostByIdMutation,
     useVoteOnPostMutation,

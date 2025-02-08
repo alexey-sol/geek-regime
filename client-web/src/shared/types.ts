@@ -17,14 +17,6 @@ export type SearchPagingQueryParams = PagingQueryParams & {
     text?: string;
 };
 
-export type FilteredSearchPagingQueryParams<T> = SearchPagingQueryParams & {
-    filter?: T;
-};
-
-export type FilteredQueryParams<T> = {
-    filter?: T;
-};
-
 export type HasItem<E extends HasId> = {
     item: E;
 };

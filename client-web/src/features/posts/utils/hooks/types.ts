@@ -3,8 +3,10 @@ import { type PagingOptions } from "@/shared/types";
 import {
     type CreatePostArg,
     type GetAllPostsArg,
+    type GetAllPostsByAuthorArg,
     type UpdatePostByIdArg,
 } from "@/features/posts/services/posts-api/types";
+import type { UsePageResult } from "@/shared/utils/hooks/use-page";
 
 export type CreatePostOnSaveArg = Pick<CreatePostArg, "title" | "body">;
 
@@ -22,10 +24,20 @@ export type UseActivePostResult = {
     voteOnPost: (value: number) => void;
 };
 
-export type UsePostsPageArg = Pick<GetAllPostsArg, "filter">;
-
 export type UsePostsPageResult = {
     isPending: boolean;
     pagingOptions: PagingOptions;
     posts: PostPreview[];
 };
+
+export type UseGelAllPostsArg = Pick<UsePageResult, "setTotalElements"> & {
+    arg: GetAllPostsArg;
+};
+
+export type UseGetAllPostsResult = Pick<UsePostsPageResult, "isPending" | "posts">;
+
+export type UseGetAllPostsByAuthorArg = Pick<UsePageResult, "setTotalElements"> & {
+    arg?: GetAllPostsByAuthorArg;
+};
+
+export type UseGetAllPostsByAuthorResult = Pick<UsePostsPageResult, "isPending" | "posts">;

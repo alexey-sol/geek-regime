@@ -11,9 +11,9 @@ import { Tab } from "@/shared/components/tabs/tab";
 import { TabContextProvider } from "@/shared/components/tabs/tab-context";
 import { TabPanel } from "@/shared/components/tabs/tab-panel";
 import { ProfileHome } from "@/features/users/components/profile-home";
+import { PostsByAuthorPage } from "@/features/posts/components/posts-by-author-page";
 import { type HandleChange } from "@/shared/components/tabs/types";
 
-import { UserPostsPage } from "../user-posts-page";
 import { UserOverview } from "../user-overview";
 import { type HasUser } from "../../types";
 
@@ -81,7 +81,7 @@ export const Profile: FC<HasUser> = ({ user }) => {
                         </TabPanel>
 
                         <TabPanel value={postsPath}>
-                            <UserPostsPage />
+                            <PostsByAuthorPage />
                         </TabPanel>
 
                         <TabPanel value={commentsPath}>

@@ -1,5 +1,5 @@
 import React, { type FC } from "react";
-import { Link } from "react-router-dom";
+import { Link, useSearchParams } from "react-router-dom";
 import { useNavigate } from "react-router";
 
 import { SearchIconButton } from "@/shared/components/icon-button";
@@ -10,8 +10,13 @@ import { NavbarMenuStyled } from "./style";
 import { ProfileItem } from "./profile-item";
 
 export const NavbarMenu: FC = () => {
+    const [searchParams] = useSearchParams();
     const navigate = useNavigate();
-    const goToSearch = () => navigate(createAbsoluteSearchPath(paths.POSTS));
+
+    const goToSearch = () => navigate({
+        pathname: createAbsoluteSearchPath(paths.POSTS),
+        search: searchParams.toString(),
+    });
 
     return (
         <NavbarMenuStyled>

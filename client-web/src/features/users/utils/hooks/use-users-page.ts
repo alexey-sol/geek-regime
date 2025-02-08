@@ -12,6 +12,8 @@ import { type GetAllUsersArg } from "@/features/users/services/api/types";
 import { toUserList } from "../converters";
 import { normalizeGetAllUsersArg } from "../api";
 
+import { useUserSearchParams } from "./use-user-search-params";
+
 type UseUsersArg = Pick<UsePageResult, "setTotalElements"> & {
     arg: GetAllUsersArg;
 };
@@ -51,12 +53,12 @@ export const useUsersPage = (): UseUsersPageResult => {
         dispatch(setPagingOptions(options));
     }, [dispatch]);
 
-    const { pagingOptions, searchText, setTotalElements } = usePage({
+    const { pagingOptions, setTotalElements } = usePage({
         initialPagingOptions,
         setPagingOptions: onSetPagingOptions,
     });
 
-    const arg = normalizeGetAllUsersArg({ ...pagingOptions, text: searchText });
+    const arg = normalizeGetAllUsersArg({ ...pagingOptions, ...useUserSearchParams });
     const { isPending, users } = useUsers({ arg, setTotalElements });
 
     return useMemo(() => ({
