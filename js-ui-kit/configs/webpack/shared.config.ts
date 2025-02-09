@@ -6,7 +6,7 @@ import MiniCssExtractPlugin from "mini-css-extract-plugin";
 import configByMode, { getRules } from "@eggziom/geek-regime-js-configs/dist/webpack";
 import type { CallableOption } from "webpack-cli";
 
-const LIBRARY_TYPE = "commonjs2";
+const LIBRARY_TYPE = "module";
 
 const cwd = process.cwd();
 
@@ -26,6 +26,9 @@ const config: CallableOption = (env, argv) => merge(configByMode(env, argv), {
             filename: "global.css",
         }),
     ],
+    experiments: {
+        outputModule: true,
+    },
     externals: [nodeExternals()],
     resolve: {
         alias: {

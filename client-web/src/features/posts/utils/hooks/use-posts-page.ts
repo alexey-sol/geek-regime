@@ -12,14 +12,14 @@ import { toPostPreviewList } from "@/features/posts/utils/converters";
 
 import {
     type UseGetAllPostsResult,
-    type UseGelAllPostsArg,
+    type UseGetAllPostsArg,
     type UsePostsPageResult,
 } from "./types";
 
 const useGetAllPosts = ({
     arg,
     setTotalElements,
-}: UseGelAllPostsArg): UseGetAllPostsResult => {
+}: UseGetAllPostsArg): UseGetAllPostsResult => {
     const selectedFromResult = useGetAllPostsQuery(arg, {
         selectFromResult: ({ data, isFetching }) => ({
             isFetching,

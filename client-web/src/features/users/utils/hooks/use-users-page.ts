@@ -10,7 +10,7 @@ import { type PagingOptions } from "@/shared/types";
 import { type GetAllUsersArg } from "@/features/users/services/api/types";
 
 import { toUserList } from "../converters";
-import { normalizeGetAllUsersArg } from "../api";
+import { mapGetAllUsersArg } from "../api";
 
 import { useUserSearchParams } from "./use-user-search-params";
 
@@ -58,7 +58,7 @@ export const useUsersPage = (): UseUsersPageResult => {
         setPagingOptions: onSetPagingOptions,
     });
 
-    const arg = normalizeGetAllUsersArg({ ...pagingOptions, ...useUserSearchParams });
+    const arg = mapGetAllUsersArg({ ...pagingOptions, ...useUserSearchParams });
     const { isPending, users } = useUsers({ arg, setTotalElements });
 
     return useMemo(() => ({

@@ -1,6 +1,6 @@
 {
     "name": "@eggziom/geek-regime-js-ui-kit",
-    "version": "0.0.38",
+    "version": "0.0.39",
     "description": "UI kit for web client",
     "author": "Alexey Soloviev",
     "license": "UNLICENSED",
@@ -15,8 +15,9 @@
         "start": "npm run storybook",
         "storybook": "start-storybook -c configs/storybook",
         "build": "npm run build:webpack && npm run build:main",
-        "build:webpack": "webpack --mode=production --config configs/webpack.config.ts",
+        "build:webpack": "webpack --mode=production --config configs/webpack/shared.config.ts",
         "build:main": "tsc && tsc-alias",
+        "analyze": "webpack --config configs/webpack/analyze.config.ts",
         "prebuild": "rimraf dist",
         "prepare": "npm run build",
         "lint": "eslint . --ext .js,.jsx,.mjs,.ts,.tsx",

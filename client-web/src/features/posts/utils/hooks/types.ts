@@ -30,7 +30,7 @@ export type UsePostsPageResult = {
     posts: PostPreview[];
 };
 
-export type UseGelAllPostsArg = Pick<UsePageResult, "setTotalElements"> & {
+export type UseGetAllPostsArg = Pick<UsePageResult, "setTotalElements"> & {
     arg: GetAllPostsArg;
 };
 
