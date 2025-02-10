@@ -13,4 +13,8 @@ export const mixins = {
         padding-left: ${LAYOUT_ROW_INNER_PADDING_X};
         margin: 0 auto;
     `,
+    getEditorBorder: () => css`
+        border: 1px solid ${({ theme }) => theme.colors.grey};
+        border-radius: 0.25rem;
+    `,
 } as const;

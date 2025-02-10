@@ -1,7 +1,7 @@
 import React, { memo, type ReactNode, type RefObject } from "react";
 import { Button, Typography } from "@eggziom/geek-regime-js-ui-kit";
 import { useTranslation } from "react-i18next";
-import ReactQuill from "react-quill";
+import type Quill from "quill";
 
 import { CloseIconButton } from "@/shared/components/icon-button";
 import { FieldErrorMessage } from "@/shared/components/typography";
@@ -11,7 +11,7 @@ import { CommentEditorStyled, HeaderStyled, CommentBoxStyled } from "./style";
 export type CommentBoxProps = {
     body: string;
     disableSubmit?: boolean;
-    editorRef?: RefObject<ReactQuill>;
+    editorRef?: RefObject<Quill>;
     errorMessage?: string;
     onClose: () => void;
     onSubmit?: () => void;
@@ -43,9 +43,9 @@ export const CommentBox = memo(({
             </HeaderStyled>
             <CommentEditorStyled
                 editorRef={editorRef}
+                initialValue={body}
                 onChange={setBody}
                 placeholder={placeholder}
-                value={body}
             />
             {errorMessage && <FieldErrorMessage>{errorMessage}</FieldErrorMessage>}
             <Button disabled={disableSubmit} onClick={onSubmit}>

@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import { Editor } from "@/shared/components/editor";
+import { mixins } from "@/app/style/mixins";
 
 export const CommentBoxStyled = styled.section`
     display: flex;
@@ -12,8 +13,7 @@ export const CommentBoxStyled = styled.section`
 
 export const CommentEditorStyled = styled(Editor)`
     min-height: 10rem;
-    border: 1px solid ${({ theme }) => theme.colors.grey};
-    border-radius: 0.25rem;
+    ${mixins.getEditorBorder()};
 `;
 
 export const HeaderStyled = styled.section`

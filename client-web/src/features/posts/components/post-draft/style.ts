@@ -1,6 +1,7 @@
 import styled from "styled-components";
 
 import { Editor } from "@/shared/components/editor";
+import { mixins } from "@/app/style/mixins";
 
 export const PostDraftStyled = styled.section`
     position: relative;
@@ -12,10 +13,12 @@ export const PostDraftStyled = styled.section`
 `;
 
 export const TitleInputStyled = styled.input`
-    padding: 1.5rem;
-    border: none;
+    padding: 1rem 1.5rem;
     font-family: ${({ theme }) => theme.fonts.normal};
-    font-size: ${({ theme }) => theme.fontSizes.md};
+    font-size: ${({ theme }) => theme.fontSizes.xl};
+    font-weight: bold;
+    outline: none;
+    ${mixins.getEditorBorder()};
 `;
 
 export const BodyEditorWrapStyled = styled.section`
@@ -27,14 +30,10 @@ export const PostEditorStyled = styled(Editor)`
     top: 0;
     bottom: 0;
     width: 100%;
-
-    .ql-editor {
-        overflow-y: scroll;
-    }
+    ${mixins.getEditorBorder()};
 `;
 
 export const ControlsWrapStyled = styled.section`
     display: flex;
-    padding: 0 1.5rem;
     gap: 1rem;
 `;

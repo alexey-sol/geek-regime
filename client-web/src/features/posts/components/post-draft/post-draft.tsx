@@ -7,10 +7,10 @@ import React, {
     type ChangeEventHandler,
     type FC,
 } from "react";
-import ReactQuill from "react-quill";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { Button } from "@eggziom/geek-regime-js-ui-kit";
+import type Quill from "quill";
 
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import type { CreatePostOnSaveArg } from "@/features/posts/utils/hooks/types";
@@ -29,7 +29,7 @@ export type PostDraftProps = {
 };
 
 export const PostDraft: FC<PostDraftProps> = ({ post }) => {
-    const editorRef = useRef<ReactQuill>(null);
+    const editorRef = useRef<Quill>(null);
 
     const { savePost } = useActivePost();
 
@@ -71,12 +71,9 @@ export const PostDraft: FC<PostDraftProps> = ({ post }) => {
     useEffect(() => {
         const focusOnDraftBodyIfPossible = () => {
             if (editorRef.current) {
-                const { editor, value } = editorRef.current;
-                const index = typeof value.length === "number" ? value.length : 0;
+                const index = editorRef.current.getText().length;
 
-                if (editor) {
-                    editor.setSelection(index, index);
-                }
+                editorRef.current.setSelection(index);
             }
         };
 
@@ -94,9 +91,9 @@ export const PostDraft: FC<PostDraftProps> = ({ post }) => {
             <BodyEditorWrapStyled>
                 <PostEditorStyled
                     editorRef={editorRef}
+                    initialValue={values.body}
                     onChange={handleBodyChange}
                     placeholder={t("posts.draft.body.placeholder")}
-                    value={values.body}
                 />
             </BodyEditorWrapStyled>
 
