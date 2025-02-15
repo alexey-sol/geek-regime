@@ -1,6 +1,6 @@
 import React, { type FC } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Link, LinkButton, Typography } from "@eggziom/geek-regime-js-ui-kit";
 
 import { paths } from "@/shared/const";
 import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
@@ -13,13 +13,18 @@ import { useAuthContext } from "@/features/auth/contexts/auth";
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import { Divider } from "@/shared/components/divider";
 import { createInnerHtml } from "@/shared/utils/helpers/dom";
+import { Tooltip } from "@/shared/components/tooltip";
 
-import { ContentStyled, InfoStyled, PostDetailsStyled } from "./style";
+import {
+    ContentStyled, ControlsWrap, InfoStyled, PostDetailsStyled,
+} from "./style";
+import { usePostDetails } from "./utils";
 
 export const PostDetails: FC = () => {
     const { t } = useTranslation();
     const { post } = useActivePost();
     const { profile } = useAuthContext();
+    const { pending, removeButtonView, tryRemovePost } = usePostDetails();
 
     if (!post) {
         return null;
@@ -61,11 +66,21 @@ export const PostDetails: FC = () => {
                     : <ItemRatingReadonly meta={post.meta} />}
             </PostMeta>
 
-            <section>
-                <Link to={updatePostPath}>
+            <ControlsWrap>
+                <Link to={updatePostPath} view="secondary">
                     {t("posts.draft.actions.editPostButton.title")}
                 </Link>
-            </section>
+
+                <Tooltip message={t("shared.tooltips.tryAction")}>
+                    <LinkButton
+                        disabled={pending === "remove"}
+                        onClick={tryRemovePost}
+                        view={removeButtonView}
+                    >
+                        {t("posts.draft.actions.removePostButton.title")}
+                    </LinkButton>
+                </Tooltip>
+            </ControlsWrap>
         </PostDetailsStyled>
     );
 };

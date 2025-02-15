@@ -2,6 +2,8 @@ package com.github.alexeysol.geekregime.apiposts.model.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.*;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
@@ -73,15 +75,17 @@ public class Post {
     @Setter(value = AccessLevel.NONE)
     private Date updatedAt;
 
-    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
+    @OneToOne(mappedBy = "post")
     @PrimaryKeyJoinColumn
     private PostMeta meta;
 
     @OneToMany(mappedBy = "post")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<PostVote> votes;
 
     @OneToMany(mappedBy = "post")
+    @OnDelete(action = OnDeleteAction.CASCADE)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<PostComment> comments;
 }

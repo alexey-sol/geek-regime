@@ -143,6 +143,7 @@ export const {
     useGetAllPostsQuery,
     useGetAllPostsByAuthorQuery,
     useGetPostBySlugQuery,
+    useRemovePostByIdMutation,
     useUpdatePostByIdMutation,
     useVoteOnPostMutation,
 } = postsApi;

@@ -23,8 +23,7 @@ public class PostVote {
     @Setter(value = AccessLevel.NONE)
     private long id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "post_id", nullable = false)
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     private Post post;
 
     @Column(name = "user_id", nullable = false)

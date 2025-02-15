@@ -20,7 +20,6 @@ public class PostMeta {
 
     @OneToOne
     @MapsId
-    @JoinColumn(name = "post_id")
     private Post post;
 
     @Column

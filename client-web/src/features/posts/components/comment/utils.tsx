@@ -8,14 +8,12 @@ import {
     useRemovePostCommentByIdMutation,
     useUpdatePostCommentByIdMutation,
 } from "@/features/posts/services/post-comments-api";
-import { useToggle } from "@/shared/utils/hooks/use-toggle";
-import { useTimeout } from "@/shared/utils/hooks/use-timeout";
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import { type HasItem } from "@/shared/types";
 import * as postsCn from "@/features/posts/const";
+import { useTryAction } from "@/shared/utils/hooks/use-try-action";
 
 import { type PostCommentPending } from "./types";
-import * as cn from "./const";
 
 type UseCommentResult = {
     isAuthor: boolean;
@@ -39,18 +37,6 @@ export const useComment = ({ item }: HasItem<PostCommentBase>): UseCommentResult
         fixedCacheKey: postsCn.REMOVE_COMMENT_KEY,
     }); // TODO loader
 
-    const {
-        isOn: isRemoveModeOn,
-        off: disableRemoveMode,
-        on: enableRemoveMode,
-    } = useToggle();
-
-    useTimeout({
-        durationMs: cn.REMOVE_MODE_DURATION_MS,
-        onTimeout: disableRemoveMode,
-        skipTimeout: !isRemoveModeOn,
-    });
-
     const deleteComment = useCallback(() => {
         if (!post) {
             return;
@@ -66,6 +52,11 @@ export const useComment = ({ item }: HasItem<PostCommentBase>): UseCommentResult
         });
     }, [item.id, post, removePostCommentById, rootCommentId]);
 
+    const {
+        isTryModeOn: isTryRemoveModeOn,
+        tryOnAction: tryRemoveComment,
+    } = useTryAction({ onAction: deleteComment });
+
     const pending = useMemo<PostCommentPending | undefined>(() => {
         if (isLoadingRemove) {
             return "remove";
@@ -79,7 +70,7 @@ export const useComment = ({ item }: HasItem<PostCommentBase>): UseCommentResult
     return {
         isAuthor: profile ? profile.id === item.author.id : false,
         pending,
-        removeButtonView: isRemoveModeOn ? "secondary" : "primary",
-        tryRemoveComment: isRemoveModeOn ? deleteComment : enableRemoveMode,
+        removeButtonView: isTryRemoveModeOn ? "secondary" : "primary",
+        tryRemoveComment,
     };
 };

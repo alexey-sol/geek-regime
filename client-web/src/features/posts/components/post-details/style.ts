@@ -19,3 +19,8 @@ export const InfoStyled = styled.section`
     ${columnCss};
     row-gap: 0.5rem;
 `;
+
+export const ControlsWrap = styled.section`
+    display: flex;
+    column-gap: 1rem;
+`;

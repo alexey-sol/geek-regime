@@ -57,6 +57,9 @@ export const en = {
                 },
             },
         },
+        tooltips: {
+            tryAction: "Click twice to confirm the action",
+        },
     },
 };
 
@@ -118,6 +121,9 @@ export const ru = {
                     tooltip: "На предыдущую страницу",
                 },
             },
+        },
+        tooltips: {
+            tryAction: "Нажмите дважды, чтобы подтвердить действие",
         },
     },
 };

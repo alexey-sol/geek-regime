@@ -7,6 +7,7 @@ import { authListener } from "@/features/auth/slice/middlewares";
 import { postsApi } from "@/features/posts/services/posts-api";
 import { postCommentsApi } from "@/features/posts/services/post-comments-api";
 import { usersApi } from "@/features/users/services/api";
+import { postsListener } from "@/features/posts/slice/middlewares";
 
 import { rootReducer } from "./reducer";
 
@@ -15,6 +16,7 @@ export const store = configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware()
         .prepend(authListener.middleware)
+        .prepend(postsListener.middleware)
         .concat(authApi.middleware)
         .concat(postsApi.middleware)
         .concat(postCommentsApi.middleware)

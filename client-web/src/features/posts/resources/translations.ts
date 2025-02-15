@@ -62,7 +62,6 @@ export const en = {
                         title: "Hide replies",
                     },
                     removeCommentButton: {
-                        tooltip: "Click twice in order to confirm the action",
                         title: "Delete",
                     },
                     showEditCommentBoxButton: {
@@ -105,6 +104,11 @@ export const en = {
                 },
                 inactive: {
                     tooltip: "Like it",
+                },
+            },
+            query: {
+                mutation: {
+                    success: "The action succeeded",
                 },
             },
             rating: "Rating",
@@ -178,7 +182,6 @@ export const ru = {
                         title: "Скрыть ответы",
                     },
                     removeCommentButton: {
-                        tooltip: "Нажмите дважды, чтобы подтвердить действие",
                         title: "Удалить",
                     },
                     showEditCommentBoxButton: {
@@ -221,6 +224,11 @@ export const ru = {
                 },
                 inactive: {
                     tooltip: "Нравится",
+                },
+            },
+            query: {
+                mutation: {
+                    success: "Действие выполнено",
                 },
             },
             rating: "Рейтинг",

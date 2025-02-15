@@ -68,7 +68,7 @@ export const Comment: FC<PropsWithChildren<CommentProps>> = ({
                 {t("posts.post.comments.actions.showEditCommentBoxButton.title")}
             </LinkButton>
 
-            <Tooltip message={t("posts.post.comments.actions.removeCommentButton.tooltip")}>
+            <Tooltip message={t("shared.tooltips.tryAction")}>
                 <LinkButton
                     disabled={pending === "remove"}
                     fontSize="xs"
