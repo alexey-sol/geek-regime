@@ -2,7 +2,6 @@ package com.github.alexeysol.geekregime.apiposts.controller.v1;
 
 import com.github.alexeysol.geekregime.apicommons.exception.ResourceException;
 import com.github.alexeysol.geekregime.apicommons.generated.model.*;
-import com.github.alexeysol.geekregime.apicommons.model.exception.ErrorDetail;
 import com.github.alexeysol.geekregime.apiposts.generated.api.PostCommentApi;
 import com.github.alexeysol.geekregime.apiposts.mapper.PostCommentMapper;
 import com.github.alexeysol.geekregime.apiposts.model.entity.PostComment;
@@ -64,7 +63,7 @@ public class PostCommentController implements PostCommentApi {
         var parentPostExists = postService.postExistsById(request.getPostId());
 
         if (!parentPostExists) {
-            throw new ResourceException(new ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD));
+            throw new ResourceException(ErrorCode.ABSENT, ID_FIELD);
         }
 
         var postComment = postCommentMapper.toPostComment(request);
@@ -83,7 +82,7 @@ public class PostCommentController implements PostCommentApi {
         var optionalPostComment = postCommentService.findPostCommentById(id);
 
         if (optionalPostComment.isEmpty()) {
-            throw new ResourceException(new ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD));
+            throw new ResourceException(ErrorCode.ABSENT, ID_FIELD);
         }
 
         var postComment = postCommentMapper.toPostComment(request, optionalPostComment.get());
@@ -100,9 +99,9 @@ public class PostCommentController implements PostCommentApi {
         var optionalPostComment = postCommentService.findPostCommentById(id);
 
         if (optionalPostComment.isEmpty()) {
-            throw new ResourceException(new ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD));
+            throw new ResourceException(ErrorCode.ABSENT, ID_FIELD);
         } else if (optionalPostComment.get().getIsDeleted()) {
-            throw new ResourceException(new ErrorDetail(ErrorDetail.Code.ALREADY_REMOVED, ID_FIELD));
+            throw new ResourceException(ErrorCode.ALREADY_REMOVED, ID_FIELD);
         }
 
         postCommentService.softRemovePostComment(optionalPostComment.get());
@@ -119,7 +118,7 @@ public class PostCommentController implements PostCommentApi {
         var optionalPostComment = postCommentService.findPostCommentById(id);
 
         if (optionalPostComment.isEmpty()) {
-            throw new ResourceException(new ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD));
+            throw new ResourceException(ErrorCode.ABSENT, ID_FIELD);
         }
 
         var postComment = optionalPostComment.get();

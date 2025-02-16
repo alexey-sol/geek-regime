@@ -1,8 +1,8 @@
 package com.github.alexeysol.geekregime.apiaggregator.config;
 
 import com.github.alexeysol.geekregime.apicommons.constant.Default;
-import com.github.alexeysol.geekregime.apicommons.exception.SerializedApiException;
-import com.github.alexeysol.geekregime.apicommons.model.dto.shared.ApiExceptionDto;
+import com.github.alexeysol.geekregime.apicommons.exception.SerializedApiError;
+import com.github.alexeysol.geekregime.apicommons.generated.model.ApiError;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -15,28 +15,28 @@ import java.util.*;
 
 @ControllerAdvice
 public class AggregatorExceptionHandler extends ResponseEntityExceptionHandler {
-    @ExceptionHandler(value = { SerializedApiException.class })
+    @ExceptionHandler(value = { SerializedApiError.class })
     protected ResponseEntity<Object> handleSerializedApi(
-        SerializedApiException exception,
+        SerializedApiError exception,
         WebRequest request
     ) {
-        ApiExceptionDto body = createBody(exception);
+        ApiError body = createBody(exception);
         HttpStatus status = getStatus(body);
 
         return handleExceptionInternal(exception, body, new HttpHeaders(), status, request);
     }
 
-    private ApiExceptionDto createBody(SerializedApiException exception) {
-        return new SerializedApiException.Builder(exception.getJson())
+    private ApiError createBody(SerializedApiError exception) {
+        return new SerializedApiError.Builder(exception.getJson())
             .buildAll()
             .getResult();
     }
 
-    private HttpStatus getStatus(ApiExceptionDto exception) {
+    private HttpStatus getStatus(ApiError exception) {
         HttpStatus nullableStatus = HttpStatus.resolve(exception.getStatus());
 
         return (Objects.nonNull(nullableStatus))
             ? nullableStatus
-            : Default.API_EXCEPTION_HTTP_STATUS;
+            : Default.API_ERROR_HTTP_STATUS;
     }
 }

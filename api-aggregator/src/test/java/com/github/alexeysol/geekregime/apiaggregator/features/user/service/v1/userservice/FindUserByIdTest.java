@@ -1,6 +1,6 @@
 package com.github.alexeysol.geekregime.apiaggregator.features.user.service.v1.userservice;
 
-import com.github.alexeysol.geekregime.apicommons.exception.SerializedApiException;
+import com.github.alexeysol.geekregime.apicommons.exception.SerializedApiError;
 import com.github.tomakehurst.wiremock.client.ResponseDefinitionBuilder;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -41,7 +41,7 @@ public class FindUserByIdTest extends BaseUserServiceTest {
         wireMockServer.stubFor(getApiMappingBuilder(path, responseToReturn));
 
         Assertions.assertThrows(
-            SerializedApiException.class, () -> service.findUserById(absentId)
+            SerializedApiError.class, () -> service.findUserById(absentId)
         );
 
         wireMockServer.verify(getRequestedFor(urlPathEqualTo(path))

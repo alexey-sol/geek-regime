@@ -1,8 +1,8 @@
 package com.github.alexeysol.geekregime.apicommons.config;
 
-import com.github.alexeysol.geekregime.apicommons.model.dto.shared.ApiExceptionDto;
 import com.github.alexeysol.geekregime.apicommons.exception.ResourceException;
-import com.github.alexeysol.geekregime.apicommons.model.exception.ErrorDetail;
+import com.github.alexeysol.geekregime.apicommons.generated.model.ApiError;
+import com.github.alexeysol.geekregime.apicommons.generated.model.ApiErrorDetail;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -16,11 +16,11 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import javax.validation.constraints.NotNull;
 import java.util.*;
 
-public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
+public class ApiErrorHandler extends ResponseEntityExceptionHandler {
     private final boolean isProduction;
     private final String resource;
 
-    public ApiExceptionHandler(String resource, boolean isProduction) {
+    public ApiErrorHandler(String resource, boolean isProduction) {
         this.resource = resource;
         this.isProduction = isProduction;
     }
@@ -33,10 +33,10 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         HttpStatus status = exception.getStatus();
         String description = request.getDescription(false);
         String message = createMessage(exception);
-        List<ErrorDetail.View> details = createDetails(exception);
+        List<ApiErrorDetail> details = createDetails(exception);
         String trace = createTrace(exception);
 
-        ApiExceptionDto body = createBody(status, description, message, details, trace);
+        ApiError body = createBody(status, description, message, details, trace);
 
         return handleExceptionInternal(exception, body, new HttpHeaders(), status, request);
     }
@@ -45,15 +45,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return exception.getReason();
     }
 
-    private List<ErrorDetail.View> createDetails(ResponseStatusException exception) {
-        List<ErrorDetail.View> details = new ArrayList<>();
+    private List<ApiErrorDetail> createDetails(ResponseStatusException exception) {
+        List<ApiErrorDetail> details = new ArrayList<>();
 
         if (exception instanceof ResourceException) {
-            ErrorDetail.View detail = ((ResourceException) exception).getDetail();
-
-            if (Objects.nonNull(detail)) {
-                details.add(detail);
-            }
+            Optional<ApiErrorDetail> optionalDetail = ((ResourceException) exception).getApiErrorDetail();
+            optionalDetail.ifPresent(details::add);
         }
 
         return details;
@@ -70,10 +67,10 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         HttpStatus newStatus = HttpStatus.UNPROCESSABLE_ENTITY;
         String description = request.getDescription(false);
         String message = createMessage(exception);
-        List<ErrorDetail.View> details = createDetails(exception);
+        List<ApiErrorDetail> details = createDetails(exception);
         String trace = createTrace(exception);
 
-        ApiExceptionDto body = createBody(newStatus, description, message, details, trace);
+        ApiError body = createBody(newStatus, description, message, details, trace);
 
         return handleExceptionInternal(exception, body, headers, newStatus, request);
     }
@@ -92,12 +89,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return String.join(", ", defaultMessages);
     }
 
-    private List<ErrorDetail.View> createDetails(MethodArgumentNotValidException exception) {
+    private List<ApiErrorDetail> createDetails(MethodArgumentNotValidException exception) {
         BindingResult bindingResult = exception.getBindingResult();
 
         return bindingResult.getFieldErrors()
             .stream()
-            .map(detail -> new ErrorDetail.View(detail.getCode(), detail.getField()))
+            .map(detail -> new ApiErrorDetail(detail.getCode(), detail.getField()))
             .toList();
     }
 
@@ -105,11 +102,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
         return Arrays.toString(throwable.getStackTrace());
     }
 
-    private ApiExceptionDto createBody(
+    private ApiError createBody(
         HttpStatus status,
         String description,
         String message,
-        List<ErrorDetail.View> details,
+        List<ApiErrorDetail> details,
         String trace
     ) {
         final String URI_PREFIX = "uri=";
@@ -119,7 +116,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
             ? descriptionWithoutPrefix
             : description;
 
-        return new ApiExceptionDto(
+        return new ApiError(
             status.value(),
             path,
             resource,

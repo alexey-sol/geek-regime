@@ -5,7 +5,6 @@ import com.github.alexeysol.geekregime.apicommons.constant.database.LogicalOpera
 import com.github.alexeysol.geekregime.apicommons.exception.ResourceException;
 import com.github.alexeysol.geekregime.apicommons.generated.model.*;
 import com.github.alexeysol.geekregime.apicommons.model.dto.query.FilterCriterion;
-import com.github.alexeysol.geekregime.apicommons.model.exception.ErrorDetail;
 import com.github.alexeysol.geekregime.apicommons.model.util.EntityFilter;
 import com.github.alexeysol.geekregime.apiposts.generated.api.PostApi;
 import com.github.alexeysol.geekregime.apiposts.mapper.PostMapper;
@@ -117,7 +116,7 @@ public class PostController implements PostApi {
         var optionalPost = service.findPostBySlug(slug);
 
         if (optionalPost.isEmpty()) {
-            throw new ResourceException(new ErrorDetail(ErrorDetail.Code.ABSENT, SLUG_FIELD));
+            throw new ResourceException(ErrorCode.ABSENT, SLUG_FIELD);
         }
 
         var post = optionalPost.get();
@@ -144,7 +143,7 @@ public class PostController implements PostApi {
         var optionalPost = service.findPostById(id);
 
         if (optionalPost.isEmpty()) {
-            throw new ResourceException(new ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD));
+            throw new ResourceException(ErrorCode.ABSENT, ID_FIELD);
         }
 
         var post = mapper.toPost(request, optionalPost.get());
@@ -159,7 +158,7 @@ public class PostController implements PostApi {
         var result = service.removePostById(id);
 
         if (result == Default.NOT_FOUND_BY_ID) {
-            throw new ResourceException(new ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD));
+            throw new ResourceException(ErrorCode.ABSENT, ID_FIELD);
         }
 
         var response = mapper.toIdResponse(id);
@@ -172,7 +171,7 @@ public class PostController implements PostApi {
         var optionalPost = service.findPostById(postId);
 
         if (optionalPost.isEmpty()) {
-            throw new ResourceException(new ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD));
+            throw new ResourceException(ErrorCode.ABSENT, ID_FIELD);
         }
 
         var optionalPostVote = service.findPostVote(userId, postId);

@@ -1,19 +1,20 @@
 package com.github.alexeysol.geekregime.apicommons.exception;
 
 import com.github.alexeysol.geekregime.apicommons.constant.Default;
-import com.github.alexeysol.geekregime.apicommons.model.exception.ErrorDetail;
-import com.github.alexeysol.geekregime.apicommons.model.dto.shared.ApiExceptionDto;
+import com.github.alexeysol.geekregime.apicommons.generated.model.ApiError;
+import com.github.alexeysol.geekregime.apicommons.generated.model.ApiErrorDetail;
 import com.github.alexeysol.geekregime.apicommons.util.parser.Json;
 import com.github.alexeysol.geekregime.apicommons.util.ObjectCasting;
 import com.github.alexeysol.geekregime.apicommons.util.converter.MapConverter;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
-public class SerializedApiException extends RuntimeException {
-    // Expects serialized ApiExceptionDto as an argument.
-    public SerializedApiException(String dtoJson) {
+public class SerializedApiError extends RuntimeException {
+    // Expects serialized ApiError as an argument.
+    public SerializedApiError(String dtoJson) {
         super(dtoJson);
     }
 
@@ -21,10 +22,12 @@ public class SerializedApiException extends RuntimeException {
         return this.getMessage();
     }
 
-    // Deserializer for JSON passed to SerializedApiException.
+    // Deserializer for JSON passed to SerializedApiError.
     public static class Builder {
         private final Map<String, Object> rawData;
-        private final ApiExceptionDto result = new ApiExceptionDto();
+
+        @Getter
+        private final ApiError result = new ApiError();
 
         public Builder(String dtoJson) {
             this.rawData = Json.parse(dtoJson);
@@ -33,7 +36,7 @@ public class SerializedApiException extends RuntimeException {
         public Builder buildStatus() {
             int status = (rawData.containsKey("status"))
                 ? Integer.parseInt(String.valueOf(rawData.get("status")))
-                : Default.API_EXCEPTION_HTTP_STATUS.value();
+                : Default.API_ERROR_HTTP_STATUS.value();
 
             result.setStatus(status);
             return this;
@@ -71,8 +74,8 @@ public class SerializedApiException extends RuntimeException {
                 ? ObjectCasting.objectToList(rawData.get("details"), Map.class)
                 : new ArrayList<>();
 
-            List<ErrorDetail.View> details = unknownDetails.stream()
-                .map(detail -> MapConverter.toClass(detail, ErrorDetail.View.class))
+            List<ApiErrorDetail> details = unknownDetails.stream()
+                .map(detail -> MapConverter.toClass(detail, ApiErrorDetail.class))
                 .toList();
 
             result.setDetails(details);
@@ -105,10 +108,6 @@ public class SerializedApiException extends RuntimeException {
                 .buildDetails()
                 .buildTimestamp()
                 .buildTrace();
-        }
-
-        public ApiExceptionDto getResult() {
-            return result;
         }
     }
 }

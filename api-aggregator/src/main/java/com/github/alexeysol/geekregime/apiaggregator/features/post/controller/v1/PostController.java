@@ -2,7 +2,7 @@ package com.github.alexeysol.geekregime.apiaggregator.features.post.controller.v
 
 import com.github.alexeysol.geekregime.apiaggregator.features.post.mapper.PostMapper;
 import com.github.alexeysol.geekregime.apiaggregator.features.post.service.v1.PostService;
-import com.github.alexeysol.geekregime.apicommons.exception.SerializedApiException;
+import com.github.alexeysol.geekregime.apicommons.exception.SerializedApiError;
 import com.github.alexeysol.geekregime.apicommons.generated.model.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.MappingException;
@@ -84,7 +84,7 @@ public class PostController {
     private void cleanUpIfNeeded(Throwable exception, long postId) {
         // If there are issues with referenced resources (for example, the post's author doesn't
         // exist), delete the post.
-        if (exception instanceof SerializedApiException) {
+        if (exception instanceof SerializedApiError) {
             service.removePostById(postId);
         }
     }

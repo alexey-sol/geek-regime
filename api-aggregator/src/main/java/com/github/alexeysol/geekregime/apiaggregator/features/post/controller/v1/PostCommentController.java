@@ -2,7 +2,7 @@ package com.github.alexeysol.geekregime.apiaggregator.features.post.controller.v
 
 import com.github.alexeysol.geekregime.apiaggregator.features.post.mapper.PostCommentMapper;
 import com.github.alexeysol.geekregime.apiaggregator.features.post.service.v1.PostCommentService;
-import com.github.alexeysol.geekregime.apicommons.exception.SerializedApiException;
+import com.github.alexeysol.geekregime.apicommons.exception.SerializedApiError;
 import com.github.alexeysol.geekregime.apicommons.generated.model.*;
 import lombok.RequiredArgsConstructor;
 import org.modelmapper.MappingException;
@@ -74,7 +74,7 @@ public class PostCommentController {
     private void cleanUpIfNeeded(Throwable exception, long commentId) {
         // If there are issues with referenced resources (for example, the comment's author doesn't
         // exist), delete the comment.
-        if (exception instanceof SerializedApiException) {
+        if (exception instanceof SerializedApiError) {
             service.removePostCommentById(commentId);
         }
     }

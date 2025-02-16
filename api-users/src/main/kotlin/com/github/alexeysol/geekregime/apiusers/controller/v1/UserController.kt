@@ -2,13 +2,7 @@ package com.github.alexeysol.geekregime.apiusers.controller.v1
 
 import com.github.alexeysol.geekregime.apicommons.constant.Default.*
 import com.github.alexeysol.geekregime.apicommons.exception.ResourceException
-import com.github.alexeysol.geekregime.apicommons.generated.model.AuthenticateRequest
-import com.github.alexeysol.geekregime.apicommons.generated.model.CreateUserRequest
-import com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse
-import com.github.alexeysol.geekregime.apicommons.generated.model.UpdateUserRequest
-import com.github.alexeysol.geekregime.apicommons.generated.model.UserPageResponse
-import com.github.alexeysol.geekregime.apicommons.generated.model.UserResponse
-import com.github.alexeysol.geekregime.apicommons.model.exception.ErrorDetail
+import com.github.alexeysol.geekregime.apicommons.generated.model.*
 import com.github.alexeysol.geekregime.apiusers.constant.PathConstant.API_PREFIX_V1
 import com.github.alexeysol.geekregime.apiusers.constant.UserConstant.EMAIL_FIELD
 import com.github.alexeysol.geekregime.apiusers.constant.UserConstant.ID_FIELD
@@ -41,7 +35,7 @@ class UserController(
 ) : UserApi {
     override fun authenticate(request: AuthenticateRequest): ResponseEntity<UserResponse> {
         val user = request.email?.let { service.findUserByEmail(it) }
-            ?: throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT, EMAIL_FIELD))
+            ?: throw ResourceException(ErrorCode.ABSENT, EMAIL_FIELD)
 
         try {
             assertPassword(request.password, user.credentials);
@@ -50,7 +44,7 @@ class UserController(
 
             return ResponseEntity(response, HttpStatus.OK);
         } catch (exception: IllegalArgumentException) {
-            throw ResourceException(ErrorDetail(ErrorDetail.Code.MISMATCH, PASSWORD_FIELD))
+            throw ResourceException(ErrorCode.MISMATCH, PASSWORD_FIELD)
         }
     }
 
@@ -82,10 +76,10 @@ class UserController(
 
         val user = if (assumeId) {
             service.findUserById(idOrSlug.toLong())
-                ?: throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD))
+                ?: throw ResourceException(ErrorCode.ABSENT, ID_FIELD)
         } else {
             service.findUserBySlug(idOrSlug)
-                ?: throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT, SLUG_FIELD))
+                ?: throw ResourceException(ErrorCode.ABSENT, SLUG_FIELD)
         }
 
         val response = mapper.toUserResponse(user)
@@ -95,7 +89,7 @@ class UserController(
 
     override fun findUserByEmail(email: String): ResponseEntity<UserResponse> {
         val user = service.findUserByEmail(email)
-            ?: throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT, EMAIL_FIELD))
+            ?: throw ResourceException(ErrorCode.ABSENT, EMAIL_FIELD)
         val response = mapper.toUserResponse(user)
 
         return ResponseEntity(response, HttpStatus.OK)
@@ -103,7 +97,7 @@ class UserController(
 
     override fun createUser(request: CreateUserRequest): ResponseEntity<UserResponse> {
         if (service.userByEmailExists(request.email)) {
-            throw ResourceException(ErrorDetail(ErrorDetail.Code.ALREADY_EXISTS, EMAIL_FIELD))
+            throw ResourceException(ErrorCode.ALREADY_EXISTS, EMAIL_FIELD)
         }
 
         val user = mapper.toUser(request)
@@ -115,22 +109,22 @@ class UserController(
 
     override fun updateUser(request: UpdateUserRequest, id: Long): ResponseEntity<UserResponse> {
         if (!isValidPassword(request.oldPassword, request.newPassword)) {
-            throw ResourceException(ErrorDetail(ErrorDetail.Code.INVALID, NEW_PASSWORD_FIELD))
+            throw ResourceException(ErrorCode.INVALID, NEW_PASSWORD_FIELD)
         }
 
         request.email?.let {
             if (service.userByEmailExists(it)) {
-                throw ResourceException(ErrorDetail(ErrorDetail.Code.ALREADY_EXISTS, EMAIL_FIELD))
+                throw ResourceException(ErrorCode.ALREADY_EXISTS, EMAIL_FIELD)
             }
         }
 
         val user = service.findUserById(id)
-            ?: throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD))
+            ?: throw ResourceException(ErrorCode.ABSENT, ID_FIELD)
 
         try {
             assertPasswordsMatchIfNeeded(request.oldPassword, request.newPassword, user.credentials)
         } catch (exception: IllegalArgumentException) {
-            throw ResourceException(ErrorDetail(ErrorDetail.Code.MISMATCH, OLD_PASSWORD_FIELD))
+            throw ResourceException(ErrorCode.MISMATCH, OLD_PASSWORD_FIELD)
         }
 
         val entity = mapper.toUser(request, user)
@@ -151,7 +145,7 @@ class UserController(
         val isNotFound = result == NOT_FOUND_BY_ID
 
         if (isNotFound) {
-            throw ResourceException(ErrorDetail(ErrorDetail.Code.ABSENT, ID_FIELD))
+            throw ResourceException(ErrorCode.ABSENT, ID_FIELD)
         }
 
         val response = mapper.toIdResponse(id)

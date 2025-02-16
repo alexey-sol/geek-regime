@@ -24,3 +24,34 @@ components:
           type: integer
           format: int64
           minimum: 1
+    ErrorCode:
+      type: string
+      enum: [ "ABSENT", "ALREADY_EXISTS", "ALREADY_REMOVED", "INVALID", "MISMATCH" ]
+    ApiErrorDetail:
+      type: object
+      required: [ code, field ]
+      properties:
+        code:
+          type: string
+        field:
+          type: string
+    ApiError:
+      type: object
+      required: [ status, path, message, details, timestamp ]
+      properties:
+        status:
+          type: integer
+        path:
+          type: string
+        resource:
+          type: string
+        message:
+          type: string
+        details:
+          type: array
+          items:
+            $ref: "#/components/schemas/ApiErrorDetail"
+        timestamp:
+          type: string
+        trace:
+          type: string

@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregime.apicommons.util.http;
 
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.github.alexeysol.geekregime.apicommons.exception.SerializedApiException;
+import com.github.alexeysol.geekregime.apicommons.exception.SerializedApiError;
 import lombok.RequiredArgsConstructor;
 
 import java.net.http.HttpClient;
@@ -24,7 +24,7 @@ public class AppHttpClient {
         try {
             return new AppHttpResponse(response).content(reference);
         } catch (IllegalArgumentException exception) {
-            throw new SerializedApiException(response.body());
+            throw new SerializedApiError(response.body());
         }
     }
 }
