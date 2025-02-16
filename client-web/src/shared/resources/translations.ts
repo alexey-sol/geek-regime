@@ -14,8 +14,24 @@ export const en = {
             },
         },
         query: {
-            error: "Something went wrong",
-            success: "Done",
+            error: {
+                defaultMessage: "Something went wrong",
+                posts: {
+                    id: {
+                        ABSENT: "Post is not found",
+                    },
+                },
+                users: {
+                    email: {
+                        ALREADY_EXISTS: "This email is already occupied",
+                        ABSENT: "User doesn't exist or password is incorrect",
+                        MISMATCH: "User doesn't exist or password is incorrect",
+                    },
+                    id: {
+                        ABSENT: "User is not found",
+                    },
+                },
+            },
         },
         navbar: {
             authorsTab: {
@@ -79,8 +95,24 @@ export const ru = {
             },
         },
         query: {
-            error: "Что-то пошло не так",
-            success: "Готово",
+            error: {
+                defaultMessage: "Что-то пошло не так",
+                posts: {
+                    id: {
+                        ABSENT: "Статья не найдена",
+                    },
+                },
+                users: {
+                    email: {
+                        ALREADY_EXISTS: "Такой email уже занят",
+                        ABSENT: "Такого пользователя не существует или указан неверный пароль",
+                        MISMATCH: "Такого пользователя не существует или указан неверный пароль",
+                    },
+                    id: {
+                        ABSENT: "Пользователь не найден",
+                    },
+                },
+            },
         },
         navbar: {
             authorsTab: {

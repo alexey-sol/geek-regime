@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo } from "react";
+import httpStatus from "http-status";
 
 import { useAppDispatch } from "@/app/store/hooks";
 import {
@@ -9,14 +10,11 @@ import {
     useSignUpMutation,
 } from "@/features/auth/services/api";
 import { toUser } from "@/features/users/utils/converters";
-import type { User } from "@/features/users/models/entities";
-import type { AuthenticateRequest, CreateUserRequest } from "@/features/users/models/dtos";
+import { type User } from "@/features/users/models/entities";
+import { type AuthenticateRequest, type CreateUserRequest } from "@/features/users/models/dtos";
+import { type HasUnwrap } from "@/shared/types";
 
 export type AuthPending = "get-profile" | "sign-in" | "sign-up" | "sign-out";
-
-type HasUnwrap<T = unknown> = {
-    unwrap: () => Promise<T>;
-};
 
 export type UseAuthApiResult = {
     pending?: AuthPending;
@@ -30,7 +28,9 @@ export const useAuthApi = (): UseAuthApiResult => {
     const dispatch = useAppDispatch();
     const resetAuthState = useCallback(() => dispatch(authApi.util.resetApiState()), [dispatch]);
 
-    const getProfileResult = useGetProfileQuery(undefined, {
+    const getProfileResult = useGetProfileQuery({
+        disableFailureNotificationOnStatus: httpStatus.UNAUTHORIZED,
+    }, {
         selectFromResult: ({ data, error, isFetching }) => ({
             error,
             isFetching,

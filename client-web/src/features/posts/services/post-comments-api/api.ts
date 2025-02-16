@@ -1,4 +1,3 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { resources } from "@eggziom/geek-regime-js-commons";
 import type { ThunkDispatch } from "redux-thunk";
 
@@ -11,9 +10,9 @@ import {
 import { mergePageContent } from "@/shared/utils/api";
 import { postsApi } from "@/features/posts/services/posts-api";
 import type { RootState } from "@/app/store";
+import { appApi } from "@/app/store/api";
 
 import {
-    baseUrl,
     createTag,
     decrementPostCommentCount,
     decrementRootCommentReplyCount,
@@ -28,15 +27,18 @@ import {
 import * as cn from "./const";
 import type * as tp from "./types";
 
-export const postCommentsApi = createApi({
-    reducerPath: "postCommentsApi",
-    tagTypes: [cn.POST_COMMENTS_TYPE],
-    baseQuery: fetchBaseQuery({ baseUrl }),
+const { COMMENTS, POSTS } = resources;
+
+const appApiWithTag = appApi.enhanceEndpoints({
+    addTagTypes: [cn.POST_COMMENTS_TYPE],
+});
+
+export const postCommentsApi = appApiWithTag.injectEndpoints({
     endpoints: (builder) => ({
         getAllRootPostComments: builder.query<PostCommentPageResponse, tp.GetAllPostCommentsArg>({
             query: (arg) => ({
                 params: arg?.params,
-                url: `${resources.POSTS}/${arg.postId}/${resources.COMMENTS}`,
+                url: `/v1/${POSTS}/${arg.postId}/${COMMENTS}`,
             }),
             merge: mergePageContent,
             providesTags: () => [createTag(cn.ROOT_LIST_ID)],
@@ -46,7 +48,7 @@ export const postCommentsApi = createApi({
         }),
         getPostCommentTreeByParentId: builder.query<PostCommentTreeResponse, number>({
             query: (postCommentId) => ({
-                url: `${resources.COMMENTS}/${postCommentId}`,
+                url: `/v1/${COMMENTS}/${postCommentId}`,
             }),
             providesTags: (result) => (result ? [createTag(result.id)] : [cn.POST_COMMENTS_TYPE]),
         }),
@@ -54,7 +56,7 @@ export const postCommentsApi = createApi({
             query: ({ meta, ...body }) => ({
                 body,
                 method: "POST",
-                url: `${resources.POSTS}/${body.postId}/${resources.COMMENTS}`,
+                url: `/v1/${POSTS}/${body.postId}/${COMMENTS}`,
             }),
             invalidatesTags: invalidateReplyComments,
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
@@ -89,7 +91,7 @@ export const postCommentsApi = createApi({
         removePostCommentById: builder.mutation<PostCommentResponse, tp.RemovePostCommentByIdArg>({
             query: ({ id }) => ({
                 method: "DELETE",
-                url: `${resources.POSTS}/${resources.COMMENTS}/${id}`,
+                url: `/v1/${POSTS}/${COMMENTS}/${id}`,
             }),
             invalidatesTags: invalidateReplyComments,
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
@@ -129,7 +131,7 @@ export const postCommentsApi = createApi({
             query: ({ id, meta, ...body }) => ({
                 body,
                 method: "PATCH",
-                url: `${resources.POSTS}/${resources.COMMENTS}/${id}`,
+                url: `/v1/${POSTS}/${COMMENTS}/${id}`,
             }),
             invalidatesTags: invalidateReplyComments,
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {

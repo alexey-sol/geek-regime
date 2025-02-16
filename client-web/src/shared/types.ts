@@ -32,3 +32,11 @@ export type HasPagingQueryParams = {
 export type HasSearchPagingQueryParams = {
     params: SearchPagingQueryParams;
 };
+
+export type HasDisableFailureNotificationOnStatus = {
+    disableFailureNotificationOnStatus: number;
+};
+
+export type HasUnwrap<T = unknown> = {
+    unwrap: () => Promise<T>;
+};

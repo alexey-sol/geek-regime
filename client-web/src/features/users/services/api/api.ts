@@ -1,23 +1,24 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { resources } from "@eggziom/geek-regime-js-commons";
 
 import { type UserPageResponse, type UserResponse } from "@/features/users/models/dtos";
+import { appApi } from "@/app/store/api";
 
-import {
-    createTag,
-    usersBaseUrl as baseUrl,
-} from "./utils";
+import { createTag } from "./utils";
 import * as cn from "./const";
 import type * as tp from "./types";
 
-export const usersApi = createApi({
-    reducerPath: "usersApi",
-    tagTypes: [cn.TAG_TYPE],
-    baseQuery: fetchBaseQuery({ baseUrl }),
+const { USERS } = resources;
+
+const appApiWithTag = appApi.enhanceEndpoints({
+    addTagTypes: [cn.TAG_TYPE],
+});
+
+export const usersApi = appApiWithTag.injectEndpoints({
     endpoints: (builder) => ({
         getAllUsers: builder.query<UserPageResponse, tp.GetAllUsersArg | void>({
             query: (arg) => ({
                 params: arg?.params,
-                url: "",
+                url: `/v1/${USERS}`,
             }),
             providesTags: (result) => {
                 const tag = createTag();
@@ -28,7 +29,7 @@ export const usersApi = createApi({
             },
         }),
         getUserBySlug: builder.query<UserResponse, tp.GetUserBySlugArg>({
-            query: (slug) => slug,
+            query: (slug) => `/v1/${USERS}/${slug}`,
             providesTags: (result, error, id) => [createTag(id)],
         }),
     }),

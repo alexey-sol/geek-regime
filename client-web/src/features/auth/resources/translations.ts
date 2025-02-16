@@ -16,9 +16,6 @@ export const en = {
                     password: "Password",
                 },
             },
-            query: {
-                forbiddenOrNotFoundError: "User doesn't exist or password is invalid",
-            },
             oauth: {
                 providers: {
                     yandex: {
@@ -51,7 +48,6 @@ export const en = {
                 name: "Name",
             },
             query: {
-                emailAlreadyExistsError: "Such email is already occupied",
                 success: "You've signed up",
             },
             title: "Signing Up",
@@ -89,9 +85,6 @@ export const ru = {
                     password: "Пароль",
                 },
             },
-            query: {
-                forbiddenOrNotFoundError: "Пользователь не найден или указан неверный пароль",
-            },
             oauth: {
                 providers: {
                     yandex: {
@@ -124,7 +117,6 @@ export const ru = {
                 password: "Пароль *",
             },
             query: {
-                emailAlreadyExistsError: "Такой email уже занят",
                 success: "Регистрация прошла успешно",
             },
             title: "Регистрация",

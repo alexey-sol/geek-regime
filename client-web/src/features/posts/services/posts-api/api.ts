@@ -1,4 +1,3 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 import { resources } from "@eggziom/geek-regime-js-commons";
 import { type ThunkDispatch } from "redux-thunk";
 
@@ -7,21 +6,25 @@ import {
     type PostPreviewPageResponse,
 } from "@/features/posts/models/dtos";
 import { type RootState } from "@/app/store";
+import { appApi } from "@/app/store/api";
 
-import { baseUrl, createTag, provideTags } from "./utils";
+import { createTag, provideTags } from "./utils";
 import * as cn from "./const";
 import type * as tp from "./types";
 
-export const postsApi = createApi({
-    reducerPath: "postsApi",
-    tagTypes: [cn.POSTS_TYPE],
-    baseQuery: fetchBaseQuery({ baseUrl }),
+const { POSTS, USERS } = resources;
+
+const appApiWithTag = appApi.enhanceEndpoints({
+    addTagTypes: [cn.POSTS_TYPE],
+});
+
+export const postsApi = appApiWithTag.injectEndpoints({
     endpoints: (builder) => ({
         createPost: builder.mutation<PostDetailsResponse, tp.CreatePostArg>({
             query: (body) => ({
                 body,
                 method: "POST",
-                url: resources.POSTS,
+                url: `/v1/${POSTS}`,
             }),
             invalidatesTags: (result) => [createTag(result?.id)],
             async onQueryStarted(_, { dispatch, queryFulfilled }) {
@@ -43,25 +46,25 @@ export const postsApi = createApi({
         getAllPosts: builder.query<PostPreviewPageResponse, tp.GetAllPostsArg | void>({
             query: (params) => ({
                 params: params ?? undefined,
-                url: resources.POSTS,
+                url: `/v1/${POSTS}`,
             }),
             providesTags: (result) => provideTags(result?.content),
         }),
         getAllPostsByAuthor: builder.query<PostPreviewPageResponse, tp.GetAllPostsByAuthorArg>({
             query: ({ authorId, ...params }) => ({
                 params,
-                url: `${resources.USERS}/${authorId}/${resources.POSTS}`,
+                url: `/v1/${USERS}/${authorId}/${POSTS}`,
             }),
             providesTags: (result) => provideTags(result?.content),
         }),
         getPostBySlug: builder.query<PostDetailsResponse, tp.GetPostBySlugArg>({
-            query: (slug) => `${resources.POSTS}/${slug}`,
+            query: (slug) => `/v1/${POSTS}/${slug}`,
             providesTags: (result, error, id) => [createTag(id)],
         }),
         removePostById: builder.mutation<number, tp.RemovePostByIdArg>({
             query: (id) => ({
                 method: "DELETE",
-                url: `${resources.POSTS}/${id}`,
+                url: `/v1/${POSTS}/${id}`,
             }),
             invalidatesTags: (result, error, id) => [createTag(id)],
         }),
@@ -69,7 +72,7 @@ export const postsApi = createApi({
             query: ({ id, ...body }) => ({
                 body,
                 method: "PATCH",
-                url: `${resources.POSTS}/${id}`,
+                url: `/v1/${POSTS}/${id}`,
             }),
             async onQueryStarted(_, api) {
                 api.queryFulfilled
@@ -86,7 +89,7 @@ export const postsApi = createApi({
             query: ({ postId, userId, value }) => ({
                 body: { value },
                 method: "PUT",
-                url: `${resources.USERS}/${userId}/${resources.POSTS}/${postId}/vote`,
+                url: `/v1/${USERS}/${userId}/${POSTS}/${postId}/vote`,
             }),
             async onQueryStarted(_, api) {
                 api.queryFulfilled

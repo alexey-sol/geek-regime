@@ -1,6 +1,5 @@
 import { type HasId } from "@eggziom/geek-regime-js-commons";
 
-import { getApiPath } from "@/shared/utils/formatters/api-path";
 import {
     type PostCommentPageResponse,
     type PostCommentResponse,
@@ -9,10 +8,6 @@ import {
 
 import * as cn from "./const";
 import type * as tp from "./types";
-
-const API_VERSION = 1;
-
-export const baseUrl = getApiPath(API_VERSION);
 
 export const createTag = (id: string | number): {
     id: string | number;

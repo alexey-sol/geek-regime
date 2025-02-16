@@ -1,38 +1,39 @@
-import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { resources } from "@eggziom/geek-regime-js-commons";
 
 import type {
     AuthenticateRequest, CreateUserRequest, UserResponse,
 } from "@/features/users/models/dtos";
+import { appApi } from "@/app/store/api";
 
-import { authBaseUrl as baseUrl } from "./utils";
+import * as tp from "./types";
 
-export const authApi = createApi({
-    reducerPath: "authApi",
-    baseQuery: fetchBaseQuery({ baseUrl }),
+const { AUTH } = resources;
+
+export const authApi = appApi.injectEndpoints({
     endpoints: (builder) => ({
-        getProfile: builder.query<UserResponse, void>({
+        getProfile: builder.query<UserResponse, tp.GetProfileArg | void>({
             query: () => ({
-                url: "profile",
+                url: `/v1/${AUTH}/profile`,
             }),
         }),
         signIn: builder.mutation<UserResponse, AuthenticateRequest>({
             query: (body) => ({
                 body,
                 method: "POST",
-                url: "sign-in",
+                url: `/v1/${AUTH}/sign-in`,
             }),
         }),
         signOut: builder.mutation<boolean, void>({
             query: () => ({
                 method: "POST",
-                url: "sign-out",
+                url: `/v1/${AUTH}/sign-out`,
             }),
         }),
         signUp: builder.mutation<UserResponse, CreateUserRequest>({
             query: (body) => ({
                 body,
                 method: "POST",
-                url: "sign-up",
+                url: `/v1/${AUTH}/sign-up`,
             }),
         }),
     }),

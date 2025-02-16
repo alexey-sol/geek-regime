@@ -13,8 +13,11 @@ import { useAuthContext } from "@/features/auth/contexts/auth";
 import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
 
 import { isCreatePostOnSaveArg } from "./utils";
-import type {
-    ActivePostPending, CreatePostOnSaveArg, UpdatePostOnSaveArg, UseActivePostResult,
+import {
+    type ActivePostPending,
+    type CreatePostOnSaveArg,
+    type UpdatePostOnSaveArg,
+    type UseActivePostResult,
 } from "./types";
 
 const ONE_STEP_BACK = -1;
@@ -58,24 +61,27 @@ export const useActivePost = (): UseActivePostResult => {
     const { isFetching, post } = resultOnGet;
     const id = post?.id;
 
-    function save(arg: CreatePostOnSaveArg): void;
-    function save(arg: UpdatePostOnSaveArg): void;
-    function save(arg: CreatePostOnSaveArg | UpdatePostOnSaveArg): void {
+    function save(arg: CreatePostOnSaveArg, onSuccess?: () => void): void;
+    function save(arg: UpdatePostOnSaveArg, onSuccess?: () => void): void;
+    function save(arg: CreatePostOnSaveArg | UpdatePostOnSaveArg, onSuccess?: () => void): void {
         if (!profile) {
             // return;
         }
 
         const postExists = !!id;
+        let result;
 
         if (postExists) {
-            updatePostByIdMutation({ id, ...arg });
+            result = updatePostByIdMutation({ id, ...arg }).unwrap();
         } else if (!postExists && isCreatePostOnSaveArg(arg)) {
-            createPostMutation({ spaceId: 1, authorId: 1, ...arg }); // TODO spaceId is hardcoded
+            result = createPostMutation({ spaceId: 1, authorId: 1, ...arg }).unwrap(); // TODO spaceId is hardcoded
         }
+
+        result?.then(onSuccess).catch(console.error);
     }
 
-    const savePost: UseActivePostResult["savePost"] = useCallback((arg) =>
-        save(arg), [save]);
+    const savePost: UseActivePostResult["savePost"] = useCallback((arg, onSuccess) =>
+        save(arg, onSuccess), [save]);
 
     const voteOnPost: UseActivePostResult["voteOnPost"] = useCallback((value) => {
         if (!profile || !id) {

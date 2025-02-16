@@ -1,11 +1,15 @@
-import React, { useCallback, useMemo } from "react";
-import type { FormEvent, FormEventHandler } from "react";
-import type { FormikProps } from "formik";
+import React, {
+    useCallback, useMemo, type FormEvent, type FormEventHandler,
+} from "react";
+import { type FormikProps } from "formik";
+import { resources } from "@eggziom/geek-regime-js-commons";
 
 import { useAuthContext } from "@/features/auth/contexts/auth";
-import { authBaseUrl } from "@/features/auth/services/api/utils";
-import type { AuthenticateRequest } from "@/features/users/models/dtos";
+import { API_PREFIX } from "@/shared/const";
 import { type AuthFormProps } from "@/features/auth/types";
+import { type AuthenticateRequest } from "@/features/users/models/dtos";
+
+export const AUTH_BASE_URL = `${API_PREFIX}/v1/${resources.AUTH}`;
 
 type UseSignInFormArg = Pick<AuthFormProps, "onSubmit"> & {
     formRef: React.RefObject<FormikProps<AuthenticateRequest>>;
@@ -32,12 +36,12 @@ export const useSignInFormData = ({ formRef, onSubmit }: UseSignInFormArg): Sign
         }
     }, [formRef, onSubmit, signIn]);
 
+    // TODO need this wrap at all?
     const handleChangeWrap: SignInFormData["handleChangeWrap"] = useCallback((event, cb) => {
-        // TODO show notification on error
         cb(event);
     }, []);
 
-    const yandexAuthUrl = `${authBaseUrl}/yandex`;
+    const yandexAuthUrl = `${AUTH_BASE_URL}/yandex`;
 
     return useMemo(() => ({
         handleChangeWrap,

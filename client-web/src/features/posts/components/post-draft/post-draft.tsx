@@ -15,6 +15,9 @@ import type Quill from "quill";
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import type { CreatePostOnSaveArg } from "@/features/posts/utils/hooks/types";
 import type { PostDetails } from "@/features/posts/models/entities";
+import { notify } from "@/app/store/actions";
+import { createSuccessSnackbarArg } from "@/features/feedback/slice/utils";
+import { useAppDispatch } from "@/app/store/hooks";
 
 import {
     PostEditorStyled,
@@ -30,12 +33,11 @@ export type PostDraftProps = {
 
 export const PostDraft: FC<PostDraftProps> = ({ post }) => {
     const editorRef = useRef<Quill>(null);
-
+    const navigate = useNavigate();
+    const dispatch = useAppDispatch();
     const { savePost } = useActivePost();
-
     const { t } = useTranslation();
 
-    const navigate = useNavigate();
     const goBack = () => navigate(-1);
 
     const { body = "", title = "" } = post ?? {};
@@ -61,8 +63,11 @@ export const PostDraft: FC<PostDraftProps> = ({ post }) => {
     }, []);
 
     const handleClickOnSaveButton = useCallback(() => {
-        savePost(values);
-    }, [savePost, values]);
+        savePost(
+            values,
+            () => dispatch(notify(createSuccessSnackbarArg(t("posts.query.update.success")))),
+        );
+    }, [dispatch, savePost, t, values]);
 
     const savePostButtonTitle = post
         ? t("posts.draft.actions.updatePostButton.title")

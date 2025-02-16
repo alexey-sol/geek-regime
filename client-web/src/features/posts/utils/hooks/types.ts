@@ -18,8 +18,8 @@ export type UseActivePostResult = {
     pending?: ActivePostPending;
     post?: PostDetails;
     savePost: {
-        (arg: CreatePostOnSaveArg): void;
-        (arg: UpdatePostOnSaveArg): void;
+        (arg: CreatePostOnSaveArg, onSuccess?: () => void): void;
+        (arg: UpdatePostOnSaveArg, onSuccess?: () => void): void;
     };
     voteOnPost: (value: number) => void;
 };

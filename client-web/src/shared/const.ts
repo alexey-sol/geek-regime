@@ -36,3 +36,5 @@ export const DEFAULT_PAGING_OPTIONS: PagingOptions = {
     size: defaults.PAGE_SIZE,
     totalElements: 0,
 };
+
+export const API_PREFIX = "/api";

@@ -31,6 +31,14 @@ export const en = {
                 bodyTooLong: "The comment is too long",
             },
         },
+        query: {
+            remove: {
+                success: "Post removed",
+            },
+            update: {
+                success: "Post updated",
+            },
+        },
         page: {
             settings: {
                 applyButton: {
@@ -106,11 +114,6 @@ export const en = {
                     tooltip: "Like it",
                 },
             },
-            query: {
-                mutation: {
-                    success: "The action succeeded",
-                },
-            },
             rating: "Rating",
             updatedAt: "Updated at",
             viewCount: "View count",
@@ -149,6 +152,14 @@ export const ru = {
             validation: {
                 bodyEmpty: "Введите комментарий",
                 bodyTooLong: "Комментарий слишком длинный",
+            },
+        },
+        query: {
+            remove: {
+                success: "Статья удалена",
+            },
+            update: {
+                success: "Статья обновлена",
             },
         },
         page: {
@@ -224,11 +235,6 @@ export const ru = {
                 },
                 inactive: {
                     tooltip: "Нравится",
-                },
-            },
-            query: {
-                mutation: {
-                    success: "Действие выполнено",
                 },
             },
             rating: "Рейтинг",

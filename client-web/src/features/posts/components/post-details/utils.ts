@@ -1,11 +1,15 @@
 import { useCallback, useMemo } from "react";
 import { type LinkButtonProps } from "@eggziom/geek-regime-js-ui-kit";
 import { useNavigate } from "react-router";
+import { useTranslation } from "react-i18next";
 
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import { useTryAction } from "@/shared/utils/hooks/use-try-action";
 import { useRemovePostByIdMutation } from "@/features/posts/services/posts-api";
 import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
+import { useAppDispatch } from "@/app/store/hooks";
+import { notify } from "@/app/store/actions";
+import { createSuccessSnackbarArg } from "@/features/feedback/slice/utils";
 
 import { type PostDetailsPending } from "./types";
 
@@ -16,7 +20,9 @@ type UsePostDetailsResult = {
 };
 
 export const usePostDetails = (): UsePostDetailsResult => {
+    const dispatch = useAppDispatch();
     const navigate = useNavigate();
+    const { t } = useTranslation();
     const { post } = useActivePost();
 
     const [removePostById, {
@@ -27,12 +33,13 @@ export const usePostDetails = (): UsePostDetailsResult => {
         if (post) {
             try {
                 await removePostById(post.id).unwrap();
+                dispatch(notify(createSuccessSnackbarArg(t("posts.query.remove.success"))));
                 navigate(createAbsolutePostsPath());
             } catch (error: unknown) {
                 console.error(error);
             }
         }
-    }, [navigate, post, removePostById]);
+    }, [dispatch, navigate, post, removePostById, t]);
 
     const {
         isTryModeOn: isTryRemoveModeOn,
