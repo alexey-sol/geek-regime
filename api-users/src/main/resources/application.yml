@@ -35,16 +35,10 @@ spring:
         properties:
             hibernate:
                 format_sql: true
-                hbm2ddl:
-                    import_files: import.sql
-                    import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
                 search:
                     backend:
                         directory.type: local-heap
         show-sql: true
-    sql:
-        init:
-            mode: always
 
 ---
 
@@ -64,3 +58,29 @@ spring:
 server:
     error:
         include-stacktrace: on_param
+
+---
+
+spring:
+    config:
+        activate:
+            on-profile: seed-fake-data
+
+api-users:
+    fake-user-count: 60
+
+---
+
+spring:
+    config:
+        activate:
+            on-profile: seed-stub-data
+    jpa:
+        properties:
+            hibernate:
+                hbm2ddl:
+                    import_files: stub-data.sql
+                    import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
+    sql:
+        init:
+            mode: always
