@@ -6,7 +6,6 @@ import com.github.alexeysol.geekregime.apiusers.constant.FakerConstant.EMAIL_DOM
 import com.github.alexeysol.geekregime.apiusers.constant.FakerConstant.EMPTY
 import com.github.alexeysol.geekregime.apiusers.constant.FakerConstant.WHITESPACE
 import com.github.alexeysol.geekregime.apiusers.model.entity.User
-import java.util.*
 
 private val faker = getFaker()
 
@@ -31,7 +30,7 @@ object FakeUser {
         return user
     }
 
-    private fun generateName(): String = if (Random().nextBoolean())
+    private fun generateName(): String = if (is50PercentChance())
         faker.futurama().character() else faker.rickAndMorty().character()
 
     private fun generateEmail(name: String, userId: Long): String {

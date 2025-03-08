@@ -15,3 +15,5 @@ fun getRandomNumber(min: Int, max: Int): Int = Random().nextInt(max - min) + min
 fun generateCreatedAt(): Instant = faker.timeAndDate().past(FIVE_YEARS_IN_MS, TimeUnit.MILLISECONDS)
 
 fun generateUpdatedAt(from: Instant): Instant = faker.timeAndDate().between(from, Instant.now())
+
+fun is50PercentChance(): Boolean = Random().nextBoolean()

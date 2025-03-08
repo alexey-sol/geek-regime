@@ -15,9 +15,17 @@ Inside `launcher` directory, perform:
 
 3. Run `npm run dev:up`. It builds and runs the rest modules.
 
+The databases will be pre-populated with generated data (see what `seed-fake-data` profile does below).
+
 ## Run a JVM based module locally
 1. Install `api-commons` using Maven, so that it's globally available.
 2. Initialize required environmental variables (say, by adding `.env` file to the root).
 3. Perform `npm run local:up` in `launcher`. It will spin up databases.
    * This step is not required for `api-aggregator` since it doesn't connect to DB.
 4. Run/debug the app in IDE with `dev` profile.
+
+## Seed a database
+
+In order to seed `api-posts` or `api-users` database, run the application with one of these additional profiles:
+- `seed-fake-data` - generates a bunch of fake data;
+- `seed-stub-data` - imports stub data from `resources/stub-data.sql`.

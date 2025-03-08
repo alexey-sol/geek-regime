@@ -60,7 +60,7 @@ spring:
 
 api-posts:
     fake-post-count: 200
-    fake-user-count: 80 # it's less in api-users; we simulate deleted authors here
+    fake-user-count: 80 # in api-users, the number is lower; we simulate deleted authors here
 
 ---
 

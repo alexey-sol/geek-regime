@@ -30,8 +30,6 @@ spring:
         activate:
             on-profile: dev
     jpa:
-        hibernate:
-            ddl-auto: create
         properties:
             hibernate:
                 format_sql: true
@@ -65,6 +63,9 @@ spring:
     config:
         activate:
             on-profile: seed-fake-data
+    jpa:
+        hibernate:
+            ddl-auto: create
 
 api-users:
     fake-user-count: 60
@@ -78,6 +79,7 @@ spring:
     jpa:
         properties:
             hibernate:
+                ddl-auto: create
                 hbm2ddl:
                     import_files: stub-data.sql
                     import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor

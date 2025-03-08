@@ -4,7 +4,6 @@ import com.github.alexeysol.geekregime.apicommons.constant.Gender
 import com.github.alexeysol.geekregime.apiusers.constant.FakerConstant.WHITESPACE
 import com.github.alexeysol.geekregime.apiusers.model.entity.Details
 import com.github.alexeysol.geekregime.apiusers.model.entity.User
-import java.util.*
 
 private val faker = getFaker()
 
@@ -32,7 +31,7 @@ object FakeDetails {
         return paragraphs.joinToString(WHITESPACE)
     }
 
-    private fun generateGender(): Gender = if (Random().nextBoolean()) Gender.MALE else Gender.FEMALE
+    private fun generateGender(): Gender = if (is50PercentChance()) Gender.MALE else Gender.FEMALE
 
     private fun generateImage(): String = faker.avatar().image()
 }

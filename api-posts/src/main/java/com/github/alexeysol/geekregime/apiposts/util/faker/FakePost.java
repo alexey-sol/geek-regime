@@ -6,6 +6,7 @@ import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.util.PostDataUtil;
 import lombok.experimental.UtilityClass;
 
+import static com.github.alexeysol.geekregime.apiposts.constant.FakerConstant.*;
 import java.util.ArrayList;
 
 @UtilityClass
@@ -15,7 +16,7 @@ public class FakePost {
         var body = FakerUtil.generateBody();
 
         return Post.builder()
-            .userId(FakerUtil.getFaker().number().numberBetween(1, fakeUserCount + 1))
+            .userId(FakerUtil.getFaker().number().numberBetween(INITIAL_ENTITY_ID, fakeUserCount + INITIAL_ENTITY_ID))
             .title(title)
             .body(body)
             .excerpt(PostDataUtil.generateExcerpt(body))

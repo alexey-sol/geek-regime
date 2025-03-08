@@ -35,7 +35,7 @@ services:
                 API_COMMONS_VERSION: ${API_COMMONS_VERSION} # [1]
                 DOCKER_NAMESPACE: ${DOCKER_NAMESPACE}
                 REPOSITORY: api-users
-        command: mvn spring-boot:run -D spring-boot.run.profiles=dev
+        command: mvn spring-boot:run -D spring-boot.run.profiles=dev,seed-fake-data
 
     api-posts:
         container_name: geek-regime-api-posts_dev
@@ -46,7 +46,7 @@ services:
                 API_COMMONS_VERSION: ${API_COMMONS_VERSION} # [1]
                 DOCKER_NAMESPACE: ${DOCKER_NAMESPACE}
                 REPOSITORY: api-posts
-        command: mvn spring-boot:run -D spring-boot.run.profiles=dev
+        command: mvn spring-boot:run -D spring-boot.run.profiles=dev,seed-fake-data
 
     db-users:
         container_name: geek-regime-db-users_dev
