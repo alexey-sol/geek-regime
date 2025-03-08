@@ -48,7 +48,7 @@ public class Post {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private long spaceId;
 
-    @Column(nullable = false)
+    @Column(nullable = false, columnDefinition = "TEXT")
     @NotEmpty(message = "Title is required and must not be blank")
     private String title;
 
@@ -60,7 +60,7 @@ public class Post {
     @NotEmpty(message = "Excerpt is required and must not be blank")
     private String excerpt;
 
-    @Column(nullable = false, unique = true)
+    @Column(nullable = false, unique = true, columnDefinition = "TEXT")
     @NotEmpty(message = "Slug is required and must not be blank")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String slug;

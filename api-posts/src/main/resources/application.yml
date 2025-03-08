@@ -29,18 +29,9 @@ spring:
         activate:
             on-profile: dev
     jpa:
-        hibernate:
-            ddl-auto: create
         properties:
-            hibernate:
-                format_sql: true
-                hbm2ddl:
-                    import_files: import.sql
-                    import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
+            format_sql: true
         show-sql: true
-    sql:
-        init:
-            mode: always
 
 ---
 
@@ -56,3 +47,34 @@ spring:
 server:
     error:
         include-stacktrace: on_param
+
+---
+
+spring:
+    config:
+        activate:
+            on-profile: seed-fake-data
+    jpa:
+        hibernate:
+            ddl-auto: create
+
+api-posts:
+    fake-post-count: 200
+    fake-user-count: 80 # it's less in api-users; we simulate deleted authors here
+
+---
+
+spring:
+    config:
+        activate:
+            on-profile: seed-stub-data
+    jpa:
+        properties:
+            hibernate:
+                ddl-auto: create
+                hbm2ddl:
+                    import_files: stub-data.sql
+                    import_files_sql_extractor: org.hibernate.tool.hbm2ddl.MultipleLinesSqlCommandExtractor
+    sql:
+        init:
+            mode: always
