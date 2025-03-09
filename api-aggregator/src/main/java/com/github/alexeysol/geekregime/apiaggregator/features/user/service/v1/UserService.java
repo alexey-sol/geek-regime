@@ -4,9 +4,11 @@ import com.fasterxml.jackson.core.type.TypeReference;
 import com.github.alexeysol.geekregime.apiaggregator.shared.util.HttpEndpoint;
 import com.github.alexeysol.geekregime.apiaggregator.shared.util.UriUtil;
 import com.github.alexeysol.geekregime.apiaggregator.shared.util.source.ApiUsersSource;
+import com.github.alexeysol.geekregime.apicommons.exception.SerializedApiError;
 import com.github.alexeysol.geekregime.apicommons.generated.model.UserPageResponse;
 import com.github.alexeysol.geekregime.apicommons.generated.model.UserResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.net.http.HttpClient;
@@ -35,13 +37,34 @@ public class UserService {
     }
 
     public UserResponse findUserById(long id) {
+        return findUserById(id, List.of());
+    }
+
+    public UserResponse findUserById(long id, List<HttpStatus> httpErrorStatusesToIgnore) {
         var path = String.format("%s/%s", USERS, id);
 
         var uri = UriUtil.getApiUriBuilder(source.getBaseUrl(), path)
             .build()
             .toUri();
 
-        return new HttpEndpoint(httpClient, uri).request(new TypeReference<>() {});
+        try {
+            return new HttpEndpoint(httpClient, uri).request(new TypeReference<>() {});
+        } catch (SerializedApiError exception) {
+            var apiError = new SerializedApiError.Builder(exception.getJson())
+                .buildAll()
+                .getResult();
+            var isStatusToIgnore = toHttpStatusValues(httpErrorStatusesToIgnore).contains(apiError.getStatus());
+
+            if (!isStatusToIgnore) {
+                throw exception;
+            }
+        }
+
+        return null;
+    }
+
+    private List<Integer> toHttpStatusValues(List<HttpStatus> httpStatuses) {
+        return httpStatuses.stream().map(HttpStatus::value).toList();
     }
 
     public Map<Long, UserResponse> getMapAuthorIdToAuthor(List<Long> authorIds) {

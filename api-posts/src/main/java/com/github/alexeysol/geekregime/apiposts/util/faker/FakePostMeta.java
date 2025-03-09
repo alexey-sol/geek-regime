@@ -9,7 +9,7 @@ import java.util.List;
 
 @UtilityClass
 public class FakePostMeta {
-    private final int MAX_VIEW_COUNT = 9_999_999;
+    private final List<Integer> VIEW_COUNT_BOUNDS = List.of(0, 999, 9_999_999);
 
     public PostMeta generatePostMeta(Post post) {
         return generatePostMeta(post, List.of(), 0L);
@@ -20,10 +20,15 @@ public class FakePostMeta {
             .map(PostVote::getValue)
             .reduce(0L, Long::sum);
 
+        var maxViewCount = FakerUtil.getRandomElement(VIEW_COUNT_BOUNDS);
+        var viewCount = maxViewCount > 0
+            ? FakerUtil.getRandomNumber(0, maxViewCount)
+            : maxViewCount;
+
         return PostMeta.builder()
             .rating(rating)
             .commentCount(commentCount)
-            .viewCount(FakerUtil.getRandomNumber(0, MAX_VIEW_COUNT))
+            .viewCount(viewCount)
             .post(post)
             .build();
     }

@@ -5,6 +5,7 @@ import com.github.alexeysol.geekregime.apiaggregator.features.user.service.v1.Us
 import com.github.alexeysol.geekregime.apicommons.generated.model.*;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -44,7 +45,14 @@ public abstract class BasePostCommentMapper {
 
         modelMapper.createTypeMap(BasePostCommentTreeResponse.class, PostCommentTreeResponse.class)
             .addMappings(mapper -> mapper
-                .using(context -> userService.findUserById((long) context.getSource()))
+                .using(context -> {
+                    var userId = (long) context.getSource();
+                    return userService.findUserById(userId, List.of(HttpStatus.NOT_FOUND)); // [1]
+                })
                 .map(BasePostCommentTreeResponse::getAuthorId, PostCommentTreeResponse::setAuthor));
     }
 }
+
+// [1]. TODO should fetch the list of users, like in ToPostCommentResponseListConverter, not picking
+// them one by one, which is extremely ineffective. The difficulty here is that the source and the
+// target are trees, not flat lists.

@@ -43,6 +43,10 @@ public class FakerUtil {
         return random.nextInt(max - min) + min;
     }
 
+    public <T> T getRandomElement(List<T> list) {
+        return list.get(random.nextInt(list.size()));
+    }
+
     public boolean is50PercentChance() {
         return random.nextBoolean();
     }

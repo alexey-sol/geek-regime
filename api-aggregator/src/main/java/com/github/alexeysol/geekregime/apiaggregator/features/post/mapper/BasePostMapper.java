@@ -8,6 +8,7 @@ import com.github.alexeysol.geekregime.apicommons.generated.model.PostDetailsRes
 import com.github.alexeysol.geekregime.apicommons.generated.model.PostPreviewResponse;
 import lombok.Data;
 import org.modelmapper.ModelMapper;
+import org.springframework.http.HttpStatus;
 
 import java.util.List;
 
@@ -35,7 +36,10 @@ public abstract class BasePostMapper {
     private void init(ModelMapper modelMapper) {
         modelMapper.createTypeMap(BasePostDetailsResponse.class, PostDetailsResponse.class)
             .addMappings(mapper -> mapper
-                .using(context -> userService.findUserById((long) context.getSource()))
+                .using(context -> {
+                    var userId = (long) context.getSource();
+                    return userService.findUserById(userId, List.of(HttpStatus.NOT_FOUND));
+                })
                 .map(BasePostDetailsResponse::getAuthorId, PostDetailsResponse::setAuthor));
 
         modelMapper.createTypeMap(BasePostPreviewResponseList.class, PostPreviewResponseList.class)

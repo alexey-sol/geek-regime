@@ -138,10 +138,11 @@ public class DatabaseSeed {
 
     private List<PostVote> insertVotes(Post post) {
         var votes = new ArrayList<PostVote>();
+        var hasNegativeInclination = FakerUtil.is50PercentChance();
 
         if (FakerUtil.is50PercentChance()) {
             for (int userId = INITIAL_ENTITY_ID; userId < FakerUtil.getRandomNumber(0, fakeUserCount); userId++) {
-                var vote = FakePostVote.generatePostVote(post, userId);
+                var vote = FakePostVote.generatePostVote(post, userId, hasNegativeInclination);
 
                 entityManager.persist(vote);
 

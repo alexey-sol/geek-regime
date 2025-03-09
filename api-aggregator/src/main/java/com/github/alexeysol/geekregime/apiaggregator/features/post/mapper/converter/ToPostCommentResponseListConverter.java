@@ -14,6 +14,8 @@ public class ToPostCommentResponseListConverter extends AbstractConverter<
     List<BasePostCommentResponse>,
     List<PostCommentResponse>
 > {
+    static private class BasePostCommentResponseWrapper extends BasePostCommentResponse {}
+
     private final UserService userService;
     private final ModelMapper modelMapper;
 
@@ -30,7 +32,7 @@ public class ToPostCommentResponseListConverter extends AbstractConverter<
         return sources.stream()
             .map(source -> {
                 UserResponse author = mapAuthorIdToAuthor.get(source.getAuthorId());
-                return toPostPreviewResponse(source, author);
+                return toPostCommentResponse(source, author);
             })
             .toList();
     }
@@ -42,9 +44,14 @@ public class ToPostCommentResponseListConverter extends AbstractConverter<
             .toList();
     }
 
-    private PostCommentResponse toPostPreviewResponse(BasePostCommentResponse source, UserResponse author) {
-        PostCommentResponse target = modelMapper.map(source, PostCommentResponse.class);
+    private PostCommentResponse toPostCommentResponse(BasePostCommentResponse source, UserResponse author) {
+        var wrappedSource = modelMapper.map(source, BasePostCommentResponseWrapper.class); // [1]
+        var target = modelMapper.map(wrappedSource, PostCommentResponse.class);
         target.setAuthor(author);
         return modelMapper.map(target, PostCommentResponse.class);
     }
 }
+
+// [1]. We can't use BasePostCommentResponse directly here because it's going to trigger
+// implicit BasePostCommentResponse to PostCommentResponse mapping (which has a side effect,
+// unwanted in this case).

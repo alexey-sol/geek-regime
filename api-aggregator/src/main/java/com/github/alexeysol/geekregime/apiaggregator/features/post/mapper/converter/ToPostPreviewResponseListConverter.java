@@ -17,6 +17,8 @@ public class ToPostPreviewResponseListConverter extends AbstractConverter<
     List<BasePostPreviewResponse>,
     List<PostPreviewResponse>
 > {
+    static private class BasePostPreviewResponseWrapper extends BasePostPreviewResponse {}
+
     private final UserService userService;
     private final ModelMapper modelMapper;
 
@@ -46,7 +48,8 @@ public class ToPostPreviewResponseListConverter extends AbstractConverter<
     }
 
     private PostPreviewResponse toPostPreviewResponse(BasePostPreviewResponse source, UserResponse author) {
-        PostPreviewResponse target = modelMapper.map(source, PostPreviewResponse.class);
+        var wrappedSource = modelMapper.map(source, BasePostPreviewResponseWrapper.class);
+        PostPreviewResponse target = modelMapper.map(wrappedSource, PostPreviewResponse.class);
         target.setAuthor(author);
         return modelMapper.map(target, PostPreviewResponse.class);
     }
