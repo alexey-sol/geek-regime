@@ -2,7 +2,7 @@ import styled from "styled-components";
 
 import { BasePopup } from "@/shared/components/base-popup";
 
-export const TooltipWrapStyled = styled.section`
+export const TooltipWrapStyled = styled.span`
     position: relative;
 `;
 

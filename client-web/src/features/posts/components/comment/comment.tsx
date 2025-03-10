@@ -117,7 +117,7 @@ export const Comment: FC<PropsWithChildren<CommentProps>> = ({
                     )}
                     {showReplyBox && !isAuthor && (
                         <ReplyCommentBox
-                            authorName={item.author.details.name}
+                            authorName={item.author?.details.name}
                             commentId={item.id}
                             onClose={closeBox}
                             onSubmit={onReplySuccess}

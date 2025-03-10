@@ -16,7 +16,7 @@ export const ItemRatingReadonly: FC<HasPostMeta> = ({ meta }) => {
             icon={RatingIcon}
             label={getCappedCountLabel(meta.rating)}
             labelColor={ratingColor}
-            tooltipMessage={`${t("posts.post.rating")}: ${meta.rating}`}
+            tooltipMessage={`${t("posts.post.rating")}: ${meta.localizedRatingNumber}`}
         />
     );
 };

@@ -42,7 +42,7 @@ export const ItemRatingUpdatable: FC<HasPostMeta> = ({ meta }) => {
                 onClick={userVoteValue < NEUTRAL_VOTE_VALUE ? undoVoteOnPost : dislikePost}
             />
 
-            <Tooltip message={`${t("posts.post.rating")}: ${meta.rating}`}>
+            <Tooltip message={`${t("posts.post.rating")}: ${meta.localizedRatingNumber}`}>
                 <Typography color={ratingColor} fontSize="sm" weight='bolder'>
                     {getCappedCountLabel(meta.rating)}
                 </Typography>

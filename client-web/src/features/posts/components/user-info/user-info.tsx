@@ -1,18 +1,12 @@
 import React, { type FC } from "react";
-import { Link, Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit";
 
-import { createAbsoluteUsersPath } from "@/features/users/utils/helpers";
 import { useRelativeDateTime } from "@/shared/utils/hooks/use-relative-date-time";
 import { Tooltip } from "@/shared/components/tooltip";
-import { User } from "@/features/users/models/entities";
 
 import { UserInfoStyled } from "./style";
-
-type UserInfoProps = {
-    author: User;
-    createdAt: string;
-    formattedCreatedAt: string;
-};
+import { UserName } from "./user-name";
+import { type UserInfoProps } from "./types";
 
 export const UserInfo: FC<UserInfoProps> = ({
     author,
@@ -25,12 +19,7 @@ export const UserInfo: FC<UserInfoProps> = ({
 
     return (
         <UserInfoStyled>
-            <Link
-                data-testid="post-overview/author-slug-link"
-                to={createAbsoluteUsersPath(author.slug)}
-            >
-                {author.details.name}
-            </Link>
+            <UserName author={author} />
             &mdash;
             <Tooltip message={formattedCreatedAt}>
                 <Typography as="span" color="greyDark" fontSize="sm">

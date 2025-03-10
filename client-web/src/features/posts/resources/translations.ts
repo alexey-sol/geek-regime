@@ -64,6 +64,14 @@ export const en = {
             },
         },
         post: {
+            author: {
+                name: {
+                    default: {
+                        title: "Defunct account",
+                        tooltip: "This account is either removed or never existed",
+                    },
+                },
+            },
             comments: {
                 actions: {
                     hideRepliesButton: {
@@ -187,6 +195,14 @@ export const ru = {
             },
         },
         post: {
+            author: {
+                name: {
+                    default: {
+                        title: "Недействительный аккаунт",
+                        tooltip: "Аккаунта и не существовало либо он удален",
+                    },
+                },
+            },
             comments: {
                 actions: {
                     hideRepliesButton: {

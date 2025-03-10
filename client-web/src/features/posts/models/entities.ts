@@ -14,6 +14,14 @@ export class PostMeta {
         public viewCount: number,
         public commentCount: number,
     ) {}
+
+    get localizedRatingNumber(): string {
+        return this.rating.toLocaleString();
+    }
+
+    get localizedViewCountNumber(): string {
+        return this.viewCount.toLocaleString();
+    }
 }
 
 export class PostVote {
@@ -26,7 +34,7 @@ export class PostVote {
 
 export class PostPreview {
     @Type(() => User)
-    public author: User;
+    public author?: User;
 
     @Type(() => PostMeta)
     public meta: PostMeta;
@@ -38,7 +46,7 @@ export class PostPreview {
         public slug: string,
         public createdAt: string,
         public updatedAt: string,
-        author: User,
+        author?: User,
     ) {
         this.author = author;
     }
@@ -67,9 +75,9 @@ export class PostDetails extends PostPreview {
         slug: string,
         createdAt: string,
         updatedAt: string,
-        author: User,
         body: string,
         votes: PostVote[],
+        author?: User,
     ) {
         super(id, title, excerpt, slug, createdAt, updatedAt, author);
         this.body = body;
@@ -87,13 +95,13 @@ export class PostCommentBase {
     public body: string;
 
     @Type(() => User)
-    public author: User;
+    public author?: User;
 
     constructor(
         public id: number,
         public createdAt: string,
         public updatedAt: string,
-        author: User,
+        author?: User,
         body?: string | null,
         public isDeleted = false,
     ) {
@@ -112,13 +120,13 @@ export class PostCommentBase {
 
 export class PostComment extends PostCommentBase {
     @Type(() => User)
-    public author: User;
+    public author?: User;
 
     constructor(
         id: number,
         createdAt: string,
         updatedAt: string,
-        author: User,
+        author?: User,
         body?: string | null,
         isDeleted?: boolean,
         public descendantCount = 0,
@@ -137,7 +145,7 @@ export class PostComment extends PostCommentBase {
 
 export class PostCommentTree extends PostCommentBase {
     @Type(() => User)
-    public author: User;
+    public author?: User;
 
     @Type(() => PostCommentTree)
     public replies: PostCommentTree[]; // eslint-disable-line no-use-before-define
@@ -146,7 +154,7 @@ export class PostCommentTree extends PostCommentBase {
         id: number,
         createdAt: string,
         updatedAt: string,
-        author: User,
+        author?: User,
         body?: string | null,
         isDeleted?: boolean,
         replies: PostCommentTree[] = [],

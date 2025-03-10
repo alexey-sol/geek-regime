@@ -1,3 +1,13 @@
+const EN: Record<string, string> = {
+    POST_NOT_FOUND: "Post is not found",
+    USER_NOT_FOUND: "User is not found",
+};
+
+const RU: Record<string, string> = {
+    POST_NOT_FOUND: "Статья не найдена",
+    USER_NOT_FOUND: "Пользователь не найден",
+};
+
 export const en = {
     shared: {
         actions: {
@@ -18,7 +28,10 @@ export const en = {
                 defaultMessage: "Something went wrong",
                 posts: {
                     id: {
-                        ABSENT: "Post is not found",
+                        ABSENT: EN.POST_NOT_FOUND,
+                    },
+                    slug: {
+                        ABSENT: EN.POST_NOT_FOUND,
                     },
                 },
                 users: {
@@ -28,7 +41,10 @@ export const en = {
                         MISMATCH: "User doesn't exist or password is incorrect",
                     },
                     id: {
-                        ABSENT: "User is not found",
+                        ABSENT: EN.USER_NOT_FOUND,
+                    },
+                    slug: {
+                        ABSENT: EN.USER_NOT_FOUND,
                     },
                 },
             },
@@ -99,7 +115,10 @@ export const ru = {
                 defaultMessage: "Что-то пошло не так",
                 posts: {
                     id: {
-                        ABSENT: "Статья не найдена",
+                        ABSENT: RU.POST_NOT_FOUND,
+                    },
+                    slug: {
+                        ABSENT: RU.POST_NOT_FOUND,
                     },
                 },
                 users: {
@@ -109,7 +128,10 @@ export const ru = {
                         MISMATCH: "Такого пользователя не существует или указан неверный пароль",
                     },
                     id: {
-                        ABSENT: "Пользователь не найден",
+                        ABSENT: RU.USER_NOT_FOUND,
+                    },
+                    slug: {
+                        ABSENT: RU.USER_NOT_FOUND,
                     },
                 },
             },

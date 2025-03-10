@@ -16,13 +16,13 @@ components:
             $ref: "#/components/schemas/BasePostPreviewResponse"
     BasePostPreviewResponse:
       type: object
-      required: [ id, title, excerpt, slug, createdAt, updatedAt, authorId, spaceId ]
+      required: [ id, title, excerpt, slug, createdAt, updatedAt ]
       allOf:
         - $ref: "#/components/schemas/PostResponseBase"
         - $ref: "#/components/schemas/PostRefs"
     BasePostDetailsResponse: # DTO from base service containing scalar reference ID fields (foreign keys)
       type: object
-      required: [ id, title, excerpt, slug, createdAt, updatedAt, authorId, spaceId, body ]
+      required: [ id, title, excerpt, slug, createdAt, updatedAt, body ]
       allOf:
         - $ref: "#/components/schemas/PostResponseBase"
         - $ref: "#/components/schemas/PostRefs"
@@ -46,7 +46,7 @@ components:
             $ref: "#/components/schemas/PostPreviewResponse"
     PostPreviewResponse: # DTO from aggregator service containing populated reference fields
       type: object
-      required: [ id, title, excerpt, slug, createdAt, updatedAt, author ]
+      required: [ id, title, excerpt, slug, createdAt, updatedAt ]
       allOf:
         - $ref: "#/components/schemas/PostResponseBase"
         - type: object
@@ -55,7 +55,7 @@ components:
               $ref: "#/components/schemas/UserResponse"
     PostDetailsResponse:
       type: object
-      required: [ id, title, excerpt, slug, createdAt, updatedAt, body, author ]
+      required: [ id, title, excerpt, slug, createdAt, updatedAt, body ]
       allOf:
         - $ref: "#/components/schemas/PostResponseBase"
         - type: object
@@ -160,7 +160,6 @@ components:
           format: int64
     PostRefs: # scalar reference ID fields (foreign keys)
       type: object
-      required: [ authorId, spaceId ]
       properties:
         authorId:
           type: integer

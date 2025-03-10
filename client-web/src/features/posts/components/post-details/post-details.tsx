@@ -15,8 +15,10 @@ import { Divider } from "@/shared/components/divider";
 import { createInnerHtml } from "@/shared/utils/helpers/dom";
 import { Tooltip } from "@/shared/components/tooltip";
 
+import { UserName } from "../user-info";
+
 import {
-    ContentStyled, ControlsWrap, InfoStyled, PostDetailsStyled,
+    ContentStyled, ControlsWrap, InfoStyled, PostDetailsStyled, UserNameWrap,
 } from "./style";
 import { usePostDetails } from "./utils";
 
@@ -33,13 +35,13 @@ export const PostDetails: FC = () => {
     const updatePostPath = createAbsolutePostsPath(post.slug, paths.UPDATE);
 
     const hasUpdates = post.createdAt !== post.updatedAt;
-    const isRateable = profile && profile.id !== post.author.id;
+    const isRateable = profile && profile.id !== post.author?.id;
 
     return (
         <PostDetailsStyled>
-            <section>
-                <Typography>{post.author.details.name}</Typography>
-            </section>
+            <UserNameWrap>
+                <UserName author={post.author} />
+            </UserNameWrap>
 
             <ContentStyled>
                 <Typography as="h2">{post.title}</Typography>

@@ -83,9 +83,9 @@ export const Tooltip: FC<TooltipProps> = ({
 
     return (
         <TooltipWrapStyled>
-            <section className={className} ref={childrenWrapRef}>
+            <span className={className} ref={childrenWrapRef}>
                 {children}
-            </section>
+            </span>
 
             {showTooltip && (
                 <BasePopupStyled

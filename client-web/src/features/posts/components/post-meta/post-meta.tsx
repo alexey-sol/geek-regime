@@ -25,7 +25,7 @@ export const PostMeta: FC<PropsWithChildren<PostMetaProps>> = ({
             <MetaItem
                 icon={ViewIcon}
                 label={getCappedCountLabel(meta.viewCount)}
-                tooltipMessage={`${t("posts.post.viewCount")}: ${meta.viewCount}`}
+                tooltipMessage={`${t("posts.post.viewCount")}: ${meta.localizedViewCountNumber}`}
             />
         </PostMetaStyled>
     );

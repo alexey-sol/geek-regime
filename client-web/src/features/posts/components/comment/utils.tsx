@@ -68,7 +68,7 @@ export const useComment = ({ item }: HasItem<PostCommentBase>): UseCommentResult
     }, [isLoadingRemove, isLoadingUpdate]);
 
     return {
-        isAuthor: profile ? profile.id === item.author.id : false,
+        isAuthor: profile ? profile.id === item.author?.id : false,
         pending,
         removeButtonView: isTryRemoveModeOn ? "secondary" : "primary",
         tryRemoveComment,

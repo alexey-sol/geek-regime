@@ -10,6 +10,10 @@ export const PostDetailsStyled = styled.article`
     row-gap: 2rem;
 `;
 
+export const UserNameWrap = styled.section`
+    width: fit-content;
+`;
+
 export const ContentStyled = styled.article`
     ${columnCss};
     row-gap: 2rem;
