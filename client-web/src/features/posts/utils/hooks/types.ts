@@ -6,7 +6,8 @@ import {
     type GetAllPostsByAuthorArg,
     type UpdatePostByIdArg,
 } from "@/features/posts/services/posts-api/types";
-import type { UsePageResult } from "@/shared/utils/hooks/use-page";
+import { type UsePageResult } from "@/shared/utils/hooks/use-page";
+import { type ApiError } from "@/shared/models/dtos";
 
 export type CreatePostOnSaveArg = Pick<CreatePostArg, "title" | "body">;
 
@@ -14,7 +15,10 @@ export type UpdatePostOnSaveArg = Omit<UpdatePostByIdArg, "id">;
 
 export type ActivePostPending = "get" | "create" | "update" | "remove" | "vote";
 
+export type ActivePostErrors = Partial<Record<"get", ApiError>>;
+
 export type UseActivePostResult = {
+    errors: ActivePostErrors;
     pending?: ActivePostPending;
     post?: PostDetails;
     savePost: {

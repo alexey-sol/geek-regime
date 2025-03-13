@@ -11,14 +11,17 @@ import {
 } from "@/features/posts/services/posts-api";
 import { useAuthContext } from "@/features/auth/contexts/auth";
 import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
+import { omitUndefined } from "@/shared/utils/helpers/object";
+import { getApiErrorIfPossible } from "@/shared/utils/api";
 
-import { isCreatePostOnSaveArg } from "./utils";
 import {
+    type ActivePostErrors,
     type ActivePostPending,
     type CreatePostOnSaveArg,
     type UpdatePostOnSaveArg,
     type UseActivePostResult,
 } from "./types";
+import { isCreatePostOnSaveArg } from "./utils";
 
 const ONE_STEP_BACK = -1;
 
@@ -29,7 +32,8 @@ export const useActivePost = (): UseActivePostResult => {
     const { profile } = useAuthContext();
 
     const resultOnGet = useGetPostBySlugQuery(slug ?? skipToken, {
-        selectFromResult: ({ isFetching, data }) => ({
+        selectFromResult: ({ data, error, isFetching }) => ({
+            error,
             isFetching,
             post: data && toPostDetails(data),
         }),
@@ -58,7 +62,7 @@ export const useActivePost = (): UseActivePostResult => {
         }
     }, [navigate, slugAfterSaving, slug]);
 
-    const { isFetching, post } = resultOnGet;
+    const { post } = resultOnGet;
     const id = post?.id;
 
     function save(arg: CreatePostOnSaveArg, onSuccess?: () => void): void;
@@ -96,7 +100,7 @@ export const useActivePost = (): UseActivePostResult => {
     }, [id, profile, voteOnPostMutation]);
 
     const pending = useMemo<ActivePostPending | undefined>(() => {
-        if (isFetching) {
+        if (resultOnGet.isFetching) {
             return "get";
         } else if (resultOfCreate.isLoading) {
             return "create";
@@ -107,12 +111,18 @@ export const useActivePost = (): UseActivePostResult => {
         }
 
         return undefined;
-    }, [isFetching, resultOfCreate.isLoading, resultOfUpdate.isLoading, resultOfVote.isLoading]);
+    }, [resultOnGet.isFetching, resultOfCreate.isLoading, resultOfUpdate.isLoading,
+        resultOfVote.isLoading]);
+
+    const errors = useMemo<ActivePostErrors>(() => omitUndefined({
+        get: getApiErrorIfPossible(resultOnGet.error),
+    }), [resultOnGet.error]);
 
     return useMemo(() => ({
+        errors,
         pending,
         post,
         savePost,
         voteOnPost,
-    }), [pending, post, savePost, voteOnPost]);
+    }), [errors, pending, post, savePost, voteOnPost]);
 };

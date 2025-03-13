@@ -7,6 +7,7 @@ import { PostDetails } from "@/features/posts/components/post-details";
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import { PostComments } from "@/features/posts/components/post-comments";
 import { useInfiniteScroll } from "@/shared/utils/hooks/use-infinite-scroll";
+import { ApiErrorMessage } from "@/shared/components/api-error-message";
 
 export const PostDetailsViewStyled = styled.section`
     display: flex;
@@ -16,8 +17,7 @@ export const PostDetailsViewStyled = styled.section`
 
 export const PostDetailsView: FC = () => {
     const [showComments, setShowComments] = useState(false);
-
-    const { pending, post } = useActivePost();
+    const { errors, pending, post } = useActivePost();
 
     const onLoadMore = useCallback(() => {
         setShowComments(true);
@@ -31,7 +31,8 @@ export const PostDetailsView: FC = () => {
     return (
         <PostDetailsViewStyled>
             {Boolean(pending) && "loading..."}
-            <PostDetails />
+            {post && <PostDetails post={post} />}
+            {!!errors.get && <ApiErrorMessage error={errors.get} />}
             <section ref={sentryRef}>
                 {showComments && <PostComments />}
             </section>

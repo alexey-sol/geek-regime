@@ -25,7 +25,10 @@ export const en = {
         },
         query: {
             error: {
-                defaultMessage: "Something went wrong",
+                message: {
+                    default: "Something went wrong",
+                    prefix: "Got an error!",
+                },
                 posts: {
                     id: {
                         ABSENT: EN.POST_NOT_FOUND,
@@ -112,7 +115,10 @@ export const ru = {
         },
         query: {
             error: {
-                defaultMessage: "Что-то пошло не так",
+                message: {
+                    default: "Что-то пошло не так",
+                    prefix: "Ошибка!",
+                },
                 posts: {
                     id: {
                         ABSENT: RU.POST_NOT_FOUND,

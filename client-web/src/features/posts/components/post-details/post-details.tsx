@@ -10,10 +10,10 @@ import {
     PostMeta,
 } from "@/features/posts/components/post-meta";
 import { useAuthContext } from "@/features/auth/contexts/auth";
-import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import { Divider } from "@/shared/components/divider";
 import { createInnerHtml } from "@/shared/utils/helpers/dom";
 import { Tooltip } from "@/shared/components/tooltip";
+import { type PostDetails as Details } from "@/features/posts/models/entities";
 
 import { UserName } from "../user-info";
 
@@ -22,15 +22,14 @@ import {
 } from "./style";
 import { usePostDetails } from "./utils";
 
-export const PostDetails: FC = () => {
+type PostDetailsProps = {
+    post: Details;
+};
+
+export const PostDetails: FC<PostDetailsProps> = ({ post }) => {
     const { t } = useTranslation();
-    const { post } = useActivePost();
     const { profile } = useAuthContext();
     const { pending, removeButtonView, tryRemovePost } = usePostDetails();
-
-    if (!post) {
-        return null;
-    }
 
     const updatePostPath = createAbsolutePostsPath(post.slug, paths.UPDATE);
 

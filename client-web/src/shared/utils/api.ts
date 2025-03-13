@@ -1,3 +1,5 @@
+import { t } from "i18next";
+
 import { defaults } from "@/shared/const";
 import {
     type HasPagingQueryParams,
@@ -5,6 +7,8 @@ import {
     type PagingQueryParams,
     type SearchPagingQueryParams,
 } from "@/shared/types";
+import { type ApiError } from "@/shared/models/dtos";
+import { hasData, isApiError, isApiErrorDetail } from "@/shared/utils/guards";
 
 const PAGE_OFFSET = 1; // this is the value we subtract from page number when passing it to API
 
@@ -81,4 +85,19 @@ export const hasMore = <T>({
         && !isLoading
         && totalElements > 0
         && totalElements > contentLength;
+};
+
+export const getApiErrorIfPossible = (response: unknown): ApiError | undefined =>
+    (hasData(response) && isApiError(response.data) ? response.data : undefined);
+
+export const getErrorMessage = ({ details, resource }: ApiError): string => {
+    const messages = resource
+        ? details.filter(isApiErrorDetail)
+            .map(({ field, code }) => t(`shared.query.error.${resource}.${field}.${code}`))
+            .filter(Boolean)
+        : [];
+
+    return messages.length
+        ? messages.join(", ")
+        : t("shared.query.error.message.default");
 };

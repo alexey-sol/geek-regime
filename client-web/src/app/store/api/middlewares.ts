@@ -1,14 +1,13 @@
 import { createListenerMiddleware, isRejected } from "@reduxjs/toolkit";
-import { t } from "i18next";
 
 import { createFailureSnackbarArg } from "@/features/feedback/slice/utils";
 import { setSnackbar } from "@/features/feedback/slice";
 import {
     hasData,
     isApiError,
-    isApiErrorDetail,
     isFailureNotificationDisabled,
 } from "@/shared/utils/guards";
+import { getErrorMessage } from "@/shared/utils/api";
 
 import { notify } from "../actions";
 
@@ -28,23 +27,15 @@ appListener.startListening({
             return;
         }
 
-        const { details, resource, status } = action.payload.data;
+        const error = action.payload.data;
         const { arg } = action.meta;
 
-        if (isFailureNotificationDisabled(arg, status)) {
+        if (isFailureNotificationDisabled(arg, error.status)) {
             return;
         }
 
-        const messages = resource
-            ? details.filter(isApiErrorDetail)
-                .map(({ field, code }) => t(`shared.query.error.${resource}.${field}.${code}`))
-                .filter(Boolean)
-            : [];
+        const message = getErrorMessage(error);
 
-        const concatenatedMessage = messages.length
-            ? messages.join(", ")
-            : t("shared.query.error.defaultMessage");
-
-        listenerApi.dispatch(setSnackbar(createFailureSnackbarArg(concatenatedMessage)));
+        listenerApi.dispatch(setSnackbar(createFailureSnackbarArg(message)));
     },
 });
