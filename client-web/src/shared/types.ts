@@ -40,3 +40,6 @@ export type HasDisableFailureNotificationOnStatus = {
 export type HasUnwrap<T = unknown> = {
     unwrap: () => Promise<T>;
 };
+
+/** Make all the fields except "id" optional. */
+export type MaybeStubItem<T extends HasId> = Partial<Omit<T, "id">> & Pick<T, "id">;

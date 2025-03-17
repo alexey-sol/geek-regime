@@ -17,13 +17,11 @@ export const InnerStyled = styled.section`
 `;
 
 type PageProps = PropsWithChildren<Pick<UsePagingDataArg, "pathPrefix"> & {
-    isPending?: boolean;
     pagingOptions: PagingOptions;
 }>;
 
 export const Page: FC<PageProps> = ({
     children,
-    isPending,
     pagingOptions,
     pathPrefix,
 }) => {
@@ -32,7 +30,7 @@ export const Page: FC<PageProps> = ({
     return (
         <PageStyled>
             <InnerStyled>
-                {isPending ? "loading" : children}
+                {children}
             </InnerStyled>
 
             <Paging
