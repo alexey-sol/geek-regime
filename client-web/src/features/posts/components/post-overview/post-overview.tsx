@@ -35,7 +35,7 @@ export const PostOverview: FC<HasItem<MaybeStubItem<PostPreview>>> = ({ item }) 
                 </BodyStyled>
             </RouterDomLink>
             <PostOverviewFooter>
-                <Skeleton isLoading={isLoading} heightPx={20} widthPx={210}>
+                <Skeleton isLoading={isLoading} heightPx={30} widthPx={210}>
                     <UserInfo
                         author={item.author}
                         createdAt={item.createdAt ?? ""}

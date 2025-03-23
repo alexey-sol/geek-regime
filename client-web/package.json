@@ -19,7 +19,7 @@
     },
     "dependencies": {
         "@eggziom/geek-regime-js-commons": "0.0.47",
-        "@eggziom/geek-regime-js-ui-kit": "0.0.39",
+        "@eggziom/geek-regime-js-ui-kit": "0.0.41",
         "@reduxjs/toolkit": "2.3.0",
         "class-transformer": "0.5.1",
         "date-fns": "2.29.3",

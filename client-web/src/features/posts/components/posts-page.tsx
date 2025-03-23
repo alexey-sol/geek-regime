@@ -20,7 +20,7 @@ export const PageContentStyled = styled.section`
 export const PostsPage: FC<HasPathPrefix> = ({ pathPrefix }) => {
     const { isPending, pagingOptions, posts } = usePostsPage();
 
-    const postsOrStubs: HasId[] = useMemo(() => (isPending
+    const itemsOrStubs: HasId[] = useMemo(() => (isPending
         ? getStubItems(pagingOptions.size)
         : posts), [isPending, pagingOptions.size, posts]);
 
@@ -28,7 +28,7 @@ export const PostsPage: FC<HasPathPrefix> = ({ pathPrefix }) => {
         <Page pagingOptions={pagingOptions} pathPrefix={pathPrefix}>
             <PageContentStyled>
                 <PageSettings />
-                <ItemList ItemComponent={PostOverview} items={postsOrStubs} />
+                <ItemList ItemComponent={PostOverview} items={itemsOrStubs} />
             </PageContentStyled>
         </Page>
     );

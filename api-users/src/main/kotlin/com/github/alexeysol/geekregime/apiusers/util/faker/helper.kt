@@ -17,3 +17,5 @@ fun generateCreatedAt(): Instant = faker.timeAndDate().past(FIVE_YEARS_IN_MS, Ti
 fun generateUpdatedAt(from: Instant): Instant = faker.timeAndDate().between(from, Instant.now())
 
 fun is50PercentChance(): Boolean = Random().nextBoolean()
+
+fun is75PercentChance(): Boolean = Math.random() < 0.75

@@ -5,6 +5,7 @@ import React, {
 } from "react";
 
 import { type IconProps } from "@/components/icon";
+import { type FontSizeOrSizeProp } from "@/types/props";
 
 import { IconButtonStyled } from "./style";
 
@@ -23,9 +24,20 @@ export const BaseIconButton: FC<BaseIconButtonProps> = ({
     color,
     fontSize,
     icon: Icon,
+    size,
     ...rest
-}) => (
-    <IconButtonStyled role="button" {...rest}>
-        <Icon color={color} fontSize={fontSize} />
-    </IconButtonStyled>
-);
+}) => {
+    const fontSizeOrSize: FontSizeOrSizeProp = {};
+
+    if (fontSize) {
+        fontSizeOrSize.fontSize = fontSize;
+    } else if (size) {
+        fontSizeOrSize.size = size;
+    }
+
+    return (
+        <IconButtonStyled role="button" {...rest}>
+            <Icon color={color} {...fontSizeOrSize} />
+        </IconButtonStyled>
+    );
+};

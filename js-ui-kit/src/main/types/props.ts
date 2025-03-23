@@ -21,3 +21,13 @@ export type HasColor = {
 export type HasFontSize = {
     fontSize: FontSize;
 };
+
+export type FontSizeOrSizeProp =
+    | {
+        fontSize?: FontSize;
+        size?: never;
+    }
+    | {
+        fontSize?: never;
+        size?: string | number;
+    };

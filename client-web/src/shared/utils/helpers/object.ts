@@ -10,6 +10,6 @@ export const createStubItem = (): HasId => ({
     id: STUB_ID,
 });
 
-export const isStubItem = (item: HasId): boolean => item.id === STUB_ID;
+export const isStubItem = (item: HasId): item is HasId => item.id === STUB_ID;
 
 export const getStubItems = (size: number): HasId[] => Array(size).fill(createStubItem());
