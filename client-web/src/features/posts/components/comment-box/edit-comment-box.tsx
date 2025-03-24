@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import { purifyHtml } from "@/shared/utils/helpers/dom";
 import { useUpdatePostCommentByIdMutation } from "@/features/posts/services/post-comments-api";
-import * as postsCn from "@/features/posts/const";
+import { getUpdateCommentKey } from "@/features/posts/utils/api";
 
 import { type EditCommentBoxProps } from "./types";
 import { PostCommentBox } from "./post-comment-box";
@@ -19,8 +19,8 @@ export const EditCommentBox: FC<EditCommentBoxProps> = ({
     const { t } = useTranslation();
     const { post } = useActivePost();
     const [updatePostCommentById, { isLoading }] = useUpdatePostCommentByIdMutation({
-        fixedCacheKey: postsCn.UPDATE_COMMENT_KEY,
-    }); // TODO loader
+        fixedCacheKey: getUpdateCommentKey(commentId),
+    });
 
     const [body, setBody] = useState(initialBody);
 
@@ -46,7 +46,7 @@ export const EditCommentBox: FC<EditCommentBoxProps> = ({
 
     return (
         <PostCommentBox
-            body={body}
+            body={initialBody}
             disableSubmit={isLoading}
             onClose={onClose}
             onSubmit={handleSubmit}

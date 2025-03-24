@@ -6,7 +6,7 @@ import { useAuthContext } from "@/features/auth/contexts/auth";
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import { purifyHtml } from "@/shared/utils/helpers/dom";
 import { useCreatePostCommentMutation } from "@/features/posts/services/post-comments-api";
-import * as postsCn from "@/features/posts/const";
+import { getCreateCommentKey } from "@/features/posts/utils/api";
 
 import { PostCommentBox } from "./post-comment-box";
 import { type ReplyCommentBoxProps } from "./types";
@@ -23,8 +23,8 @@ export const ReplyCommentBox: FC<ReplyCommentBoxProps> = ({
     const { profile } = useAuthContext();
     const { post } = useActivePost();
     const [createPostComment, { isLoading }] = useCreatePostCommentMutation({
-        fixedCacheKey: postsCn.CREATE_COMMENT_KEY,
-    }); // TODO loader
+        fixedCacheKey: getCreateCommentKey(),
+    });
 
     const [body, setBody] = useState(initialBody);
 
@@ -57,7 +57,7 @@ export const ReplyCommentBox: FC<ReplyCommentBoxProps> = ({
 
     return (
         <PostCommentBox
-            body={body}
+            body={initialBody}
             disableSubmit={isLoading}
             onClose={onClose}
             onSubmit={handleSubmit}

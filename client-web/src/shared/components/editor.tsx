@@ -59,12 +59,9 @@ export const Editor: FC<EditorProps> = ({
                 onChange?.(quill.root.innerHTML);
             });
         }
-    // eslint-disable-next-line react-hooks/exhaustive-deps -- [1]
-    }, [editorRef, onChange]);
+    }, [editorRef, initialValue, onChange]);
 
     return (
         <EditorStyled className={className} id={CONTAINER_ID} />
     );
 };
-
-// [1]. Omitting "initialValue" since we want to set it only on mount.

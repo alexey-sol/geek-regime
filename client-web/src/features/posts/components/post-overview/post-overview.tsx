@@ -3,7 +3,7 @@ import { Link as RouterDomLink } from "react-router-dom";
 
 import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
 import { PostMeta } from "@/features/posts/components/post-meta";
-import { UserInfo } from "@/features/posts/components/user-info";
+import { AuthorInfo } from "@/features/posts/components/user-info";
 import { type PostPreview } from "@/features/posts/models/entities";
 import { MaybeStubItem, type HasItem } from "@/shared/types";
 import { Skeleton } from "@/shared/components/skeleton";
@@ -36,7 +36,7 @@ export const PostOverview: FC<HasItem<MaybeStubItem<PostPreview>>> = ({ item }) 
             </RouterDomLink>
             <PostOverviewFooter>
                 <Skeleton isLoading={isLoading} heightPx={30} widthPx={210}>
-                    <UserInfo
+                    <AuthorInfo
                         author={item.author}
                         createdAt={item.createdAt ?? ""}
                         formattedCreatedAt={item.formattedCreatedAt ?? ""}

@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 
 import { createAbsoluteUsersPath } from "@/features/users/utils/helpers";
 import { UserPicture } from "@/features/users/components/user-picture";
-import { User } from "@/features/users/models/entities";
+import { type User } from "@/features/users/models/entities";
 import { type HasItem, type MaybeStubItem } from "@/shared/types";
 import { isStubItem } from "@/shared/utils/helpers/object";
 import { Skeleton } from "@/shared/components/skeleton";

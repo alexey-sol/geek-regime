@@ -13,11 +13,11 @@ import { Button } from "@eggziom/geek-regime-js-ui-kit";
 import type Quill from "quill";
 
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
-import type { CreatePostOnSaveArg } from "@/features/posts/utils/hooks/types";
-import type { PostDetails } from "@/features/posts/models/entities";
 import { notify } from "@/app/store/actions";
 import { createSuccessSnackbarArg } from "@/features/feedback/slice/utils";
 import { useAppDispatch } from "@/app/store/hooks";
+import { Skeleton } from "@/shared/components/skeleton";
+import { type CreatePostOnSaveArg } from "@/features/posts/utils/hooks/types";
 
 import {
     PostEditorStyled,
@@ -27,22 +27,24 @@ import {
     TitleInputStyled,
 } from "./style";
 
-export type PostDraftProps = {
-    post?: PostDetails;
-};
-
-export const PostDraft: FC<PostDraftProps> = ({ post }) => {
+export const PostDraft: FC = () => {
     const editorRef = useRef<Quill>(null);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
-    const { savePost } = useActivePost();
+    const { pending, post, savePost } = useActivePost();
     const { t } = useTranslation();
+
+    const isLoading = !!pending;
 
     const goBack = () => navigate(-1);
 
     const { body = "", title = "" } = post ?? {};
     const initialValues: CreatePostOnSaveArg = useMemo(() => ({ body, title }), [body, title]);
     const [values, setValues] = useState<CreatePostOnSaveArg>(initialValues);
+
+    useEffect(() => {
+        setValues(initialValues);
+    }, [initialValues]);
 
     const handleBodyChange = useCallback((newBody: string) => {
         setValues((oldValues) => ({
@@ -87,30 +89,36 @@ export const PostDraft: FC<PostDraftProps> = ({ post }) => {
 
     return (
         <PostDraftStyled>
-            <TitleInputStyled
-                value={values.title}
-                onChange={handleTitleChange}
-                placeholder={t("posts.draft.title.placeholder")}
-            />
-
-            <BodyEditorWrapStyled>
-                <PostEditorStyled
-                    editorRef={editorRef}
-                    initialValue={values.body}
-                    onChange={handleBodyChange}
-                    placeholder={t("posts.draft.body.placeholder")}
+            <Skeleton isLoading={isLoading} heightPx={46}>
+                <TitleInputStyled
+                    value={values.title}
+                    onChange={handleTitleChange}
+                    placeholder={t("posts.draft.title.placeholder")}
                 />
-            </BodyEditorWrapStyled>
+            </Skeleton>
 
-            <ControlsWrapStyled>
-                <Button onClick={handleClickOnSaveButton} view="secondary">
-                    {savePostButtonTitle}
-                </Button>
+            <Skeleton isLoading={isLoading} heightPx={200}>
+                <BodyEditorWrapStyled>
+                    <PostEditorStyled
+                        editorRef={editorRef}
+                        initialValue={body}
+                        onChange={handleBodyChange}
+                        placeholder={t("posts.draft.body.placeholder")}
+                    />
+                </BodyEditorWrapStyled>
+            </Skeleton>
 
-                <Button onClick={goBack}>
-                    {t("posts.draft.actions.cancelButton.title")}
-                </Button>
-            </ControlsWrapStyled>
+            <Skeleton isLoading={isLoading} heightPx={36} widthPx={180}>
+                <ControlsWrapStyled>
+                    <Button disabled={isLoading} onClick={handleClickOnSaveButton} view="secondary">
+                        {savePostButtonTitle}
+                    </Button>
+
+                    <Button disabled={isLoading} onClick={goBack}>
+                        {t("posts.draft.actions.cancelButton.title")}
+                    </Button>
+                </ControlsWrapStyled>
+            </Skeleton>
         </PostDraftStyled>
     );
 };

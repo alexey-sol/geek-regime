@@ -4,20 +4,22 @@ import React, {
 import { LinkButton, Typography } from "@eggziom/geek-regime-js-ui-kit";
 import { useTranslation } from "react-i18next";
 
-import { UserInfo } from "@/features/posts/components/user-info";
+import { AuthorInfo } from "@/features/posts/components/user-info";
 import { type PostCommentBase } from "@/features/posts/models/entities";
-import { type HasItem } from "@/shared/types";
+import { type HasItem, MaybeStubItem } from "@/shared/types";
 import { createInnerHtml } from "@/shared/utils/helpers/dom";
 import { useRootCommentContext } from "@/features/posts/contexts/root-comment";
 import { useAuthContext } from "@/features/auth/contexts/auth";
 import { Tooltip } from "@/shared/components/tooltip";
+import { Skeleton } from "@/shared/components/skeleton";
+import { isStubItem } from "@/shared/utils/helpers/object";
 
 import { EditCommentBox, ReplyCommentBox, useCommentBox } from "../comment-box";
 
 import { BodyTypographyStyled, CommentStyled, CommentFooterStyled } from "./style";
 import { useComment } from "./utils";
 
-type CommentProps = HasItem<PostCommentBase> & {
+type CommentProps = HasItem<MaybeStubItem<PostCommentBase>> & {
     footerChildren?: ReactNode;
     onReply?: () => void;
 };
@@ -48,19 +50,23 @@ export const Comment: FC<PropsWithChildren<CommentProps>> = ({
         isAuthor, pending, removeButtonView, tryRemoveComment,
     } = useComment({ item });
 
+    const isLoading = isStubItem(item);
+
     const commentBody = item.isDeleted
         ? <Typography color="grey">{item.body}</Typography>
         : (
             <BodyTypographyStyled
-                dangerouslySetInnerHTML={createInnerHtml(item.body)}
+                dangerouslySetInnerHTML={createInnerHtml(item.body ?? "")}
                 isHighlighted={showEditBox}
             />
         );
 
+    const disableEditButtons = pending === "update" || pending === "remove";
+
     const editCommentButtons = useMemo(() => (
         <>
             <LinkButton
-                disabled={pending === "update"}
+                disabled={disableEditButtons}
                 fontSize="xs"
                 onClick={openEditBox}
                 view="primary"
@@ -70,7 +76,7 @@ export const Comment: FC<PropsWithChildren<CommentProps>> = ({
 
             <Tooltip message={t("shared.tooltips.tryAction")}>
                 <LinkButton
-                    disabled={pending === "remove"}
+                    disabled={disableEditButtons}
                     fontSize="xs"
                     onClick={tryRemoveComment}
                     view={removeButtonView}
@@ -79,7 +85,7 @@ export const Comment: FC<PropsWithChildren<CommentProps>> = ({
                 </LinkButton>
             </Tooltip>
         </>
-    ), [openEditBox, pending, removeButtonView, t, tryRemoveComment]);
+    ), [disableEditButtons, openEditBox, removeButtonView, t, tryRemoveComment]);
 
     const openReplyBoxButton = (
         <LinkButton fontSize="xs" onClick={openReplyBox} view="primary">
@@ -89,21 +95,30 @@ export const Comment: FC<PropsWithChildren<CommentProps>> = ({
 
     return (
         <CommentStyled>
-            <UserInfo
-                author={item.author}
-                createdAt={item.createdAt}
-                formattedCreatedAt={item.formattedCreatedAt}
-            />
-            {commentBody}
-            <CommentFooterStyled>
-                {footerChildren}
-                {!item.isDeleted && !!profile && (
-                    <>
-                        {!showEditBox && isAuthor && editCommentButtons}
-                        {!showReplyBox && !isAuthor && openReplyBoxButton}
-                    </>
-                )}
-            </CommentFooterStyled>
+            <Skeleton isLoading={isLoading} heightPx={30} widthPx={210}>
+                <AuthorInfo
+                    author={item.author}
+                    createdAt={item.createdAt ?? ""}
+                    formattedCreatedAt={item.formattedCreatedAt ?? ""}
+                />
+            </Skeleton>
+
+            <Skeleton isLoading={isLoading} heightPx={60}>
+                {commentBody}
+            </Skeleton>
+
+            <Skeleton isLoading={isLoading} heightPx={15} widthPx={150}>
+                <CommentFooterStyled>
+                    {footerChildren}
+                    {!item.isDeleted && !!profile && (
+                        <>
+                            {!showEditBox && isAuthor && editCommentButtons}
+                            {!showReplyBox && !isAuthor && openReplyBoxButton}
+                        </>
+                    )}
+                </CommentFooterStyled>
+            </Skeleton>
+
             {!!profile && (
                 <>
                     {showEditBox && isAuthor && (
@@ -126,6 +141,7 @@ export const Comment: FC<PropsWithChildren<CommentProps>> = ({
                     )}
                 </>
             )}
+
             {children}
         </CommentStyled>
     );

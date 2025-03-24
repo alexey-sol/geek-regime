@@ -19,13 +19,13 @@ export const PostsByAuthorPage: FC = () => {
         ? createAbsoluteUsersPath(user.slug, "posts")
         : "";
 
-    const postsOrStubs: HasId[] = useMemo(() => (isPending
+    const itemsOrStubs: HasId[] = useMemo(() => (isPending
         ? getStubItems(pagingOptions.size)
         : posts), [isPending, pagingOptions.size, posts]);
 
     return (
         <Page pagingOptions={pagingOptions} pathPrefix={pathPrefix}>
-            <ItemList ItemComponent={PostOverview} items={postsOrStubs} />
+            <ItemList ItemComponent={PostOverview} items={itemsOrStubs} />
         </Page>
     );
 };

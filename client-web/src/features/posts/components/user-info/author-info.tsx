@@ -5,13 +5,13 @@ import { useRelativeDateTime } from "@/shared/utils/hooks/use-relative-date-time
 import { Tooltip } from "@/shared/components/tooltip";
 import { UserPicture } from "@/features/users/components/user-picture";
 
-import { UserInfoStyled } from "./style";
+import { AuthorInfoStyled } from "./style";
 import { UserName } from "./user-name";
-import { type UserInfoProps } from "./types";
+import { type AuthorInfoProps } from "./types";
 
 const PICTURE_SIZE_PX = 30;
 
-export const UserInfo: FC<UserInfoProps> = ({
+export const AuthorInfo: FC<AuthorInfoProps> = ({
     author,
     createdAt,
     formattedCreatedAt,
@@ -21,7 +21,7 @@ export const UserInfo: FC<UserInfoProps> = ({
     } = useRelativeDateTime({ timestamp: createdAt });
 
     return (
-        <UserInfoStyled>
+        <AuthorInfoStyled>
             <UserPicture sizePx={PICTURE_SIZE_PX} user={author} />
             <UserName author={author} />
             &mdash;
@@ -30,6 +30,6 @@ export const UserInfo: FC<UserInfoProps> = ({
                     {relativeCreatedAt}
                 </Typography>
             </Tooltip>
-        </UserInfoStyled>
+        </AuthorInfoStyled>
     );
 };

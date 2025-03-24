@@ -8,6 +8,7 @@ import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import { PostComments } from "@/features/posts/components/post-comments";
 import { useInfiniteScroll } from "@/shared/utils/hooks/use-infinite-scroll";
 import { ApiErrorMessage } from "@/shared/components/api-error-message";
+import { createStubItem } from "@/shared/utils/helpers/object";
 
 export const PostDetailsViewStyled = styled.section`
     display: flex;
@@ -17,7 +18,7 @@ export const PostDetailsViewStyled = styled.section`
 
 export const PostDetailsView: FC = () => {
     const [showComments, setShowComments] = useState(false);
-    const { errors, pending, post } = useActivePost();
+    const { errors, post } = useActivePost();
 
     const onLoadMore = useCallback(() => {
         setShowComments(true);
@@ -28,10 +29,11 @@ export const PostDetailsView: FC = () => {
         onLoadMore,
     });
 
+    const itemOrStub = post ?? createStubItem();
+
     return (
         <PostDetailsViewStyled>
-            {Boolean(pending) && "loading..."}
-            {post && <PostDetails post={post} />}
+            <PostDetails post={itemOrStub} />
             {!!errors.get && <ApiErrorMessage error={errors.get} />}
             <section ref={sentryRef}>
                 {showComments && <PostComments />}

@@ -2,6 +2,8 @@ import React, { type ReactNode } from "react";
 import { type ButtonProps, LinkButton } from "@eggziom/geek-regime-js-ui-kit";
 
 import { type PostComment, type PostCommentTree } from "@/features/posts/models/entities";
+import { type MaybeStubItem } from "@/shared/types";
+import { getStubItems } from "@/shared/utils/helpers/object";
 
 import { Comment } from "../comment";
 
@@ -18,18 +20,33 @@ export const renderToggleReplyTreeButtonIfPossible = ({
         </LinkButton>
     );
 
-export const renderReplies = (commentTree: PostCommentTree): ReactNode => (
+const mapReplies = (
+    reply: MaybeStubItem<PostCommentTree>,
+    index: number,
+    replies: MaybeStubItem<PostCommentTree>[],
+) => {
+    const isFirst = index === 0;
+    const isLast = !!replies && replies.length - 1 === index;
+
+    return (
+        <ReplyItemStyled key={reply.id}>
+            <CommentBranchStyled isFirst={isFirst} isLast={isLast} />
+            <Comment item={reply}>
+                {/* eslint-disable-next-line no-use-before-define */}
+                {!!reply.replies?.length && renderReplies(reply)}
+            </Comment>
+        </ReplyItemStyled>
+    );
+};
+
+export const renderReplies = (commentTree: MaybeStubItem<PostCommentTree>): ReactNode => (
     <ReplyListStyled>
-        {commentTree.replies.map((reply, index) => (
-            <ReplyItemStyled key={reply.id}>
-                <CommentBranchStyled
-                    isFirst={index === 0}
-                    isLast={commentTree.replies.length - 1 === index}
-                />
-                <Comment item={reply}>
-                    {!!reply.replies.length && renderReplies(reply)}
-                </Comment>
-            </ReplyItemStyled>
-        ))}
+        {commentTree.replies?.map(mapReplies)}
+    </ReplyListStyled>
+);
+
+export const renderReplyStubs = (): ReactNode => (
+    <ReplyListStyled>
+        {getStubItems(1).map(mapReplies)}
     </ReplyListStyled>
 );

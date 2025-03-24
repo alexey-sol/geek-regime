@@ -9,33 +9,33 @@ import {
     useUpdatePostCommentByIdMutation,
 } from "@/features/posts/services/post-comments-api";
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
-import { type HasItem } from "@/shared/types";
-import * as postsCn from "@/features/posts/const";
+import { type HasItem, type MaybeStubItem } from "@/shared/types";
 import { useTryAction } from "@/shared/utils/hooks/use-try-action";
+import { getRemoveCommentKey, getUpdateCommentKey } from "@/features/posts/utils/api";
 
-import { type PostCommentPending } from "./types";
+import { type PostCommentPending } from "../../types";
 
 type UseCommentResult = {
     isAuthor: boolean;
-    pending?: PostCommentPending;
+    pending?: Extract<PostCommentPending, "update" | "remove">;
     removeButtonView: LinkButtonProps["view"];
     tryRemoveComment: () => void;
 };
 
-export const useComment = ({ item }: HasItem<PostCommentBase>): UseCommentResult => {
+export const useComment = ({ item }: HasItem<MaybeStubItem<PostCommentBase>>): UseCommentResult => {
     const { profile } = useAuthContext();
     const { post } = useActivePost();
     const { rootCommentId } = useRootCommentContext();
 
     const [, { isLoading: isLoadingUpdate }] = useUpdatePostCommentByIdMutation({
-        fixedCacheKey: postsCn.UPDATE_COMMENT_KEY,
-    }); // TODO loader
+        fixedCacheKey: getUpdateCommentKey(item.id),
+    });
 
     const [removePostCommentById, {
         isLoading: isLoadingRemove,
     }] = useRemovePostCommentByIdMutation({
-        fixedCacheKey: postsCn.REMOVE_COMMENT_KEY,
-    }); // TODO loader
+        fixedCacheKey: getRemoveCommentKey(item.id),
+    });
 
     const deleteComment = useCallback(() => {
         if (!post) {
@@ -57,7 +57,7 @@ export const useComment = ({ item }: HasItem<PostCommentBase>): UseCommentResult
         tryOnAction: tryRemoveComment,
     } = useTryAction({ onAction: deleteComment });
 
-    const pending = useMemo<PostCommentPending | undefined>(() => {
+    const pending = useMemo<UseCommentResult["pending"]>(() => {
         if (isLoadingRemove) {
             return "remove";
         } else if (isLoadingUpdate) {

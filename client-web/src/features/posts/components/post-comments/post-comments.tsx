@@ -1,80 +1,54 @@
-import React, {
-    type FC, memo, useCallback, useMemo, useState,
-} from "react";
-import { skipToken } from "@reduxjs/toolkit/query";
-import { LinkButton, Typography } from "@eggziom/geek-regime-js-ui-kit";
+import React, { type FC, memo, useMemo } from "react";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit";
 import { useTranslation } from "react-i18next";
+import { type HasId } from "@eggziom/geek-regime-js-commons";
 
-import { useGetAllRootPostCommentsQuery } from "@/features/posts/services/post-comments-api";
-import { defaults } from "@/shared/const";
-import { mapGetAllPostCommentsArg } from "@/features/posts/utils/api";
-import { useInfiniteScroll } from "@/shared/utils/hooks/use-infinite-scroll";
-import { hasMore } from "@/shared/utils/api";
-import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import { type PostCommentResponse } from "@/features/posts/models/dtos";
-import { toPostCommentList } from "@/features/posts/utils/converters";
 import { RootCommentContextProvider } from "@/features/posts/contexts/root-comment";
-import { useAuthContext } from "@/features/auth/contexts/auth";
+import { Skeleton } from "@/shared/components/skeleton";
+import { getStubItems } from "@/shared/utils/helpers/object";
 
-import { ReplyCommentBox, useCommentBox } from "../comment-box";
 import { ParentComment } from "../parent-comment";
 
 import { CommentListStyled, PostCommentsHeaderStyled, PostCommentsStyled } from "./style";
+import { usePostComments } from "./utils";
 
 const DEFAULT_POST_COMMENTS: PostCommentResponse[] = [];
 
 export const PostComments: FC = memo(() => {
-    const [page, setPage] = useState(defaults.START_PAGE);
-
     const { t } = useTranslation();
-    const { profile } = useAuthContext();
-    const { post } = useActivePost();
-
-    const arg = post && mapGetAllPostCommentsArg({
-        postId: post.id,
-        params: { page },
-    });
-
-    const result = useGetAllRootPostCommentsQuery(arg ?? skipToken);
-    const { content = DEFAULT_POST_COMMENTS } = result.data ?? {};
-    const postComments = useMemo(() => toPostCommentList(content), [content]);
-
-    const onLoadMore = useCallback(() => {
-        setPage(page + 1);
-    }, [page]);
-
-    const { sentryRef } = useInfiniteScroll<HTMLUListElement>({
-        hasMore: hasMore(result),
-        onLoadMore,
-    });
 
     const {
-        closeBox, onReplySuccess, openReplyBox, showReplyBox,
-    } = useCommentBox();
+        commentCount, pending, postComments, replyBoxOrButtonIfAvailable, sentryRef,
+    } = usePostComments();
 
-    const openReplyBoxButton = (
-        <LinkButton fontSize="xs" onClick={openReplyBox} view="primary">
-            {t("shared.actions.leaveComment")}
-        </LinkButton>
-    );
+    const itemsOrStubs: HasId[] = useMemo(() => {
+        const createItemStubs = pending === "create"
+            ? getStubItems(1)
+            : DEFAULT_POST_COMMENTS;
 
-    const replyBoxOrButton = showReplyBox
-        ? <ReplyCommentBox onClose={closeBox} onSubmit={onReplySuccess} />
-        : openReplyBoxButton;
+        const getListStubs = pending === "getRoots"
+            ? getStubItems(3)
+            : DEFAULT_POST_COMMENTS;
+
+        return [...createItemStubs, ...postComments, ...getListStubs];
+    }, [pending, postComments]);
 
     return (
         <PostCommentsStyled>
             <PostCommentsHeaderStyled>
-                <Typography as="h3">
-                    {`${t("posts.post.comments.title")} `}
-                    <Typography color="secondary" weight="bolder" fontSize="sm" as="span">
-                        {post?.meta.commentCount}
+                <Skeleton isLoading={pending === "getRoots"} heightPx={22} widthPx={100}>
+                    <Typography as="h3">
+                        {`${t("posts.post.comments.title")} `}
+                        <Typography color="secondary" weight="bolder" fontSize="sm" as="span">
+                            {commentCount}
+                        </Typography>
                     </Typography>
-                </Typography>
-                {profile && replyBoxOrButton}
+                </Skeleton>
+                {replyBoxOrButtonIfAvailable}
             </PostCommentsHeaderStyled>
             <CommentListStyled>
-                {postComments.map((comment) => (
+                {itemsOrStubs.map((comment) => (
                     <li key={comment.id}>
                         <RootCommentContextProvider item={comment}>
                             <ParentComment item={comment} />

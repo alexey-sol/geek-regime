@@ -4,12 +4,13 @@ export const omitUndefined = <T extends {}>(object: T): T => Object.fromEntries(
     Object.entries(object).filter(([, value]) => value !== undefined),
 ) as T;
 
-const STUB_ID = 0;
+const INITIAL_STUB_ID = -1;
 
-export const createStubItem = (): HasId => ({
-    id: STUB_ID,
+export const createStubItem = (stubId = INITIAL_STUB_ID): HasId => ({
+    id: stubId,
 });
 
-export const isStubItem = (item: HasId): item is HasId => item.id === STUB_ID;
+export const isStubItem = (item: HasId): item is HasId => item.id <= INITIAL_STUB_ID;
 
-export const getStubItems = (size: number): HasId[] => Array(size).fill(createStubItem());
+export const getStubItems = (size: number): HasId[] =>
+    Array.from(Array(size)).map((_, index) => createStubItem(INITIAL_STUB_ID - index));

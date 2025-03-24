@@ -14,16 +14,19 @@ import { Divider } from "@/shared/components/divider";
 import { createInnerHtml } from "@/shared/utils/helpers/dom";
 import { Tooltip } from "@/shared/components/tooltip";
 import { type PostDetails as Details } from "@/features/posts/models/entities";
+import { Skeleton } from "@/shared/components/skeleton";
+import { isStubItem } from "@/shared/utils/helpers/object";
+import { type MaybeStubItem } from "@/shared/types";
 
-import { UserName } from "../user-info";
+import { AuthorInfo } from "../user-info";
 
 import {
-    ContentStyled, ControlsWrap, InfoStyled, PostDetailsStyled, UserNameWrap,
+    ContentStyled, ControlsWrap, InfoStyled, PostDetailsStyled,
 } from "./style";
 import { usePostDetails } from "./utils";
 
 type PostDetailsProps = {
-    post: Details;
+    post: MaybeStubItem<Details>;
 };
 
 export const PostDetails: FC<PostDetailsProps> = ({ post }) => {
@@ -31,57 +34,76 @@ export const PostDetails: FC<PostDetailsProps> = ({ post }) => {
     const { profile } = useAuthContext();
     const { pending, removeButtonView, tryRemovePost } = usePostDetails();
 
-    const updatePostPath = createAbsolutePostsPath(post.slug, paths.UPDATE);
+    const updatePostPath = createAbsolutePostsPath(post.slug ?? "", paths.UPDATE);
 
     const hasUpdates = post.createdAt !== post.updatedAt;
     const isRateable = profile && profile.id !== post.author?.id;
 
+    const isLoading = isStubItem(post);
+
     return (
         <PostDetailsStyled>
-            <UserNameWrap>
-                <UserName author={post.author} />
-            </UserNameWrap>
+            <Skeleton isLoading={isLoading} heightPx={30} widthPx={210}>
+                <AuthorInfo
+                    author={post.author}
+                    createdAt={post.createdAt ?? ""}
+                    formattedCreatedAt={post.formattedCreatedAt ?? ""}
+                />
+            </Skeleton>
 
             <ContentStyled>
-                <Typography as="h2">{post.title}</Typography>
-                <Typography dangerouslySetInnerHTML={createInnerHtml(post.body)} />
+                <Skeleton isLoading={isLoading} heightPx={49}>
+                    <Typography as="h2">{post.title}</Typography>
+                </Skeleton>
+
+                <Skeleton isLoading={isLoading} heightPx={200}>
+                    <Typography dangerouslySetInnerHTML={createInnerHtml(post.body ?? "")} />
+                </Skeleton>
             </ContentStyled>
 
             <Divider />
 
-            <InfoStyled>
-                <Typography color="greyDarken" fontSize="sm">
-                    {`${t("posts.post.createdAt")}: ${post.formattedCreatedAt}`}
-                </Typography>
-
-                {hasUpdates && (
+            <Skeleton isLoading={isLoading} heightPx={38} widthPx={180}>
+                <InfoStyled>
                     <Typography color="greyDarken" fontSize="sm">
-                        {`${t("posts.post.updatedAt")}: ${post.formattedUpdatedAt}`}
+                        {`${t("posts.post.createdAt")}: ${post.formattedCreatedAt}`}
                     </Typography>
+
+                    {hasUpdates && (
+                        <Typography color="greyDarken" fontSize="sm">
+                            {`${t("posts.post.updatedAt")}: ${post.formattedUpdatedAt}`}
+                        </Typography>
+                    )}
+                </InfoStyled>
+            </Skeleton>
+
+            <Skeleton isLoading={isLoading} heightPx={17} widthPx={120}>
+                {post.meta && (
+                    <PostMeta meta={post.meta}>
+                        {isRateable
+                            ? <ItemRatingUpdatable meta={post.meta} />
+                            : <ItemRatingReadonly meta={post.meta} />}
+                    </PostMeta>
                 )}
-            </InfoStyled>
+            </Skeleton>
 
-            <PostMeta meta={post.meta}>
-                {isRateable
-                    ? <ItemRatingUpdatable meta={post.meta} />
-                    : <ItemRatingReadonly meta={post.meta} />}
-            </PostMeta>
+            <Skeleton isLoading={isLoading} heightPx={19} widthPx={120}>
+                <ControlsWrap>
+                    <Link to={updatePostPath} view="secondary">
+                        {t("posts.draft.actions.editPostButton.title")}
+                    </Link>
 
-            <ControlsWrap>
-                <Link to={updatePostPath} view="secondary">
-                    {t("posts.draft.actions.editPostButton.title")}
-                </Link>
-
-                <Tooltip message={t("shared.tooltips.tryAction")}>
-                    <LinkButton
-                        disabled={pending === "remove"}
-                        onClick={tryRemovePost}
-                        view={removeButtonView}
-                    >
-                        {t("posts.draft.actions.removePostButton.title")}
-                    </LinkButton>
-                </Tooltip>
-            </ControlsWrap>
+                    <Tooltip message={t("shared.tooltips.tryAction")}>
+                        <LinkButton
+                            disabled={pending === "remove"}
+                            onClick={tryRemovePost}
+                            view={removeButtonView}
+                        >
+                            {t("posts.draft.actions.removePostButton.title")}
+                        </LinkButton>
+                    </Tooltip>
+                </ControlsWrap>
+            </Skeleton>
         </PostDetailsStyled>
     );
 };

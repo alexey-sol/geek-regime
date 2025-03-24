@@ -1,3 +1,6 @@
+import { type HasId } from "@eggziom/geek-regime-js-commons";
+
+import { postCommentsApi } from "@/features/posts/services/post-comments-api";
 import { mapPagingQueryParams, mapSearchPagingQueryParams } from "@/shared/utils/api";
 import { type GetAllPostsArg, GetAllPostsByAuthorArg } from "@/features/posts/services/posts-api/types";
 import { type GetAllPostCommentsArg } from "@/features/posts/services/post-comments-api/types";
@@ -9,8 +12,8 @@ import {
 } from "../types";
 
 const MAP_SORT_VALUE_TO_QUERY_PARAM: Record<PostSortValue, string> = {
-    LATEST: "id,DESC",
-    OLDEST: "id,ASC",
+    LATEST: "createdAt,DESC",
+    OLDEST: "createdAt,ASC",
 };
 
 export const mapPeriodAndSortQueryParams = ({
@@ -60,3 +63,12 @@ export const mapGetAllPostCommentsArg = (
     ...arg,
     params: mapPagingQueryParams(arg.params),
 });
+
+export const getCreateCommentKey = (): string =>
+    postCommentsApi.endpoints.createPostComment.name;
+
+export const getRemoveCommentKey = (id: HasId["id"]): string =>
+    `${postCommentsApi.endpoints.removePostCommentById.name}-${id}`;
+
+export const getUpdateCommentKey = (id: HasId["id"]): string =>
+    `${postCommentsApi.endpoints.updatePostCommentById.name}-${id}`;

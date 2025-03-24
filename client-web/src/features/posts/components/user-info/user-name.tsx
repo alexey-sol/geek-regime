@@ -4,9 +4,9 @@ import { Link } from "@eggziom/geek-regime-js-ui-kit";
 import { createAbsoluteUsersPath } from "@/features/users/utils/helpers";
 
 import { DefunctAccountTitle } from "./defunct-account-title";
-import { type UserInfoProps } from "./types";
+import { type AuthorInfoProps } from "./types";
 
-export const UserName: FC<Pick<UserInfoProps, "author">> = ({ author }) => (author
+export const UserName: FC<Pick<AuthorInfoProps, "author">> = ({ author }) => (author
     ? (
         <Link
             data-testid="post-overview/author-slug-link"

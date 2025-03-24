@@ -18,7 +18,7 @@ export const ItemList = <E extends HasId>({ ItemComponent, items }: ItemListProp
     const list = (
         <ListStyled>
             {items.map((item, index) => (
-                <ListItemStyled key={item.id || index}>
+                <ListItemStyled key={item.id}>
                     {index > 0 && <Divider />}
                     <ItemComponent item={item} />
                 </ListItemStyled>

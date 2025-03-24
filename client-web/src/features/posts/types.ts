@@ -17,3 +17,5 @@ export type PeriodAndSortQueryParams = {
     period?: PostPagePeriod;
     sort?: string;
 };
+
+export type PostCommentPending = "getReplies" | "getRoots" | "create" | "update" | "remove";
