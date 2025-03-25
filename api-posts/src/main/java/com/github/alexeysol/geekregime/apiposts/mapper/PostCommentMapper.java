@@ -7,7 +7,7 @@ import com.github.alexeysol.geekregime.apiposts.service.v1.PostService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
-import java.util.List;
+import java.util.*;
 
 @Component
 public class PostCommentMapper extends BasePostCommentMapper {
@@ -31,7 +31,32 @@ public class PostCommentMapper extends BasePostCommentMapper {
     }
 
     public BasePostCommentTreeResponse toBasePostCommentTreeResponse(PostComment postComment) {
-        return modelMapper.map(postComment, BasePostCommentTreeResponse.class);
+        var response = modelMapper.map(postComment, BasePostCommentTreeResponse.class);
+        sortAllRepliesInTree(response, 0);
+
+        return response;
+    }
+
+    private void sortAllRepliesInTree(BasePostCommentTreeResponse postComment, int depth) {
+        sortRepliesByCreatedAtAsc(postComment);
+
+        for (BasePostCommentTreeResponse reply : postComment.getReplies()) {
+            sortAllRepliesInTree(reply, depth + 1);
+        }
+    }
+
+    private void sortRepliesByCreatedAtAsc(BasePostCommentTreeResponse postComment) {
+        var modifiableReplies = new ArrayList<>(postComment.getReplies());
+
+        modifiableReplies.sort(new Comparator<BasePostCommentTreeResponse>() {
+            public int compare(BasePostCommentTreeResponse left, BasePostCommentTreeResponse right) {
+                return (Objects.nonNull(left.getCreatedAt()) && Objects.nonNull(right.getCreatedAt()))
+                    ? left.getCreatedAt().compareTo(right.getCreatedAt())
+                    : 0;
+            }
+        });
+
+        postComment.setReplies(Collections.unmodifiableList(modifiableReplies));
     }
 
     public PostComment toPostComment(CreatePostCommentRequest request) {
