@@ -1,6 +1,5 @@
 import styled, { css } from "styled-components";
 import { Typography, type MapKeyToCss } from "@eggziom/geek-regime-js-ui-kit";
-import type { RefObject } from "react";
 
 export type ElementPositionX = "left" | "center-right" | "center" | "center-left" | "right";
 
@@ -9,7 +8,6 @@ export type ElementPositionY = "bottom" | "top";
 export type ElementPosition = [ElementPositionX, ElementPositionY];
 
 export type BasePopupStyledProps = {
-    anchorRef?: RefObject<HTMLElement>;
     hasGap?: boolean;
     position?: ElementPosition;
     view?: "dark";

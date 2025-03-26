@@ -24,11 +24,11 @@ export const PageSettings: FC = () => {
     };
 
     const mapPeriodValueToTranslation: Record<PostPagePeriod, string> = {
+        OVERALL: t("posts.page.settings.period.overall"),
         DAY: t("posts.page.settings.period.day"),
         WEEK: t("posts.page.settings.period.week"),
         MONTH: t("posts.page.settings.period.month"),
         YEAR: t("posts.page.settings.period.year"),
-        OVERALL: t("posts.page.settings.period.overall"),
     };
 
     return (

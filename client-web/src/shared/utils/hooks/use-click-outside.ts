@@ -1,36 +1,35 @@
-import { type RefObject, useEffect } from "react";
-import type { HasElementRef } from "@eggziom/geek-regime-js-ui-kit";
+import { useEffect } from "react";
+import { type HasElementRef } from "@eggziom/geek-regime-js-ui-kit";
 
 export type UseClickOutsideArg = HasElementRef & {
-    anchorRef?: RefObject<HTMLElement>;
     mouseEvent?: "click" | "mouseup" | "mousedown";
-    onAction: () => void;
+    onClose: () => void;
 };
 
 export const useClickOutside = ({
-    anchorRef,
     elementRef,
     mouseEvent = "click",
-    onAction,
+    onClose,
 }: UseClickOutsideArg): void => {
     useEffect(() => {
         const handleClick = ({ target }: Event) => {
-            if (!elementRef.current || !(target instanceof HTMLElement)) {
-                return;
-            }
+            setTimeout(() => { // [1]
+                const clickedOutside = target instanceof Node && elementRef.current
+                    && !elementRef.current.contains(target);
 
-            const clickedOutside = !elementRef.current.contains(target)
-                || !anchorRef?.current?.contains(target);
-
-            if (clickedOutside) {
-                onAction();
-            }
+                if (clickedOutside) {
+                    onClose();
+                }
+            });
         };
 
-        document.addEventListener(mouseEvent, handleClick);
+        document.addEventListener(mouseEvent, handleClick, true);
 
         return () => {
-            document.removeEventListener(mouseEvent, handleClick);
+            document.removeEventListener(mouseEvent, handleClick, true);
         };
-    }, [anchorRef, elementRef, mouseEvent, onAction]);
+    }, [elementRef, mouseEvent, onClose]);
 };
+
+// [1]. Delay the execution in the event loop a bit to fix immediate re-opening the popup if the
+// outside element that you've clicked on, happened to be a button that opens the popup.

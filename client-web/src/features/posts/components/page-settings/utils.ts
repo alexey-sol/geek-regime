@@ -7,7 +7,7 @@ import { isPeriodValue, isSortValue } from "@/features/posts/utils/guards";
 import { usePostSearchParams } from "@/features/posts/utils/hooks/use-post-search-params";
 import { type PostPagePeriod } from "@/features/posts/models/dtos";
 
-const INITIAL_PERIOD: PostPagePeriod = "DAY";
+const INITIAL_PERIOD: PostPagePeriod = "OVERALL";
 const INITIAL_SORT: PostSortValue = "LATEST";
 
 type SettingSetter = (value: string) => void;

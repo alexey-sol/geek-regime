@@ -1,32 +1,59 @@
-import React, { type FC, useRef } from "react";
+import React, { memo, useEffect, useRef } from "react";
 
 import { ProfileDropdown } from "@/features/auth/components/profile-dropdown";
-import { ProfileIconButton } from "@/shared/components/icon-button";
-import { useProfileItemData } from "@/shared/components/layout/navbar/navbar-menu/utils";
 import { AuthDialog } from "@/features/auth/components/auth-dialog";
+import { useAuthContext } from "@/features/auth/contexts/auth";
+import { useToggle } from "@/shared/utils/hooks/use-toggle";
+import { ProfileButton } from "@/features/users/components/button/profile-button";
 
 import { ProfileItemStyled } from "./style";
 
-export const ProfileItem: FC = () => {
+const PICTURE_SIZE_PX = 30;
+
+export const ProfileItem = memo(() => {
     const profileItemRef = useRef<HTMLElement>(null);
 
+    const { profile } = useAuthContext();
+
     const {
-        handleClick,
-        showAuthDialog,
-        showProfileDropdown,
-    } = useProfileItemData();
+        isOn: showProfileDropdown,
+        off: closeProfileDropdown,
+        on: openProfileDropdown,
+    } = useToggle();
+
+    const {
+        isOn: showAuthDialog,
+        off: closeAuthDialog,
+        on: openAuthDialog,
+    } = useToggle();
+
+    useEffect(() => {
+        if (profile) {
+            closeProfileDropdown();
+        } else {
+            closeAuthDialog();
+        }
+    }, [closeProfileDropdown, closeAuthDialog, profile]);
+
+    const handleClickOnProfileButton = profile
+        ? openProfileDropdown
+        : openAuthDialog;
 
     return (
         <ProfileItemStyled ref={profileItemRef}>
-            <ProfileIconButton onClick={handleClick} />
+            <ProfileButton
+                onClick={handleClickOnProfileButton}
+                sizePx={PICTURE_SIZE_PX}
+                user={profile}
+            />
 
             {showProfileDropdown && (
-                <ProfileDropdown anchorRef={profileItemRef} onClose={handleClick} />
+                <ProfileDropdown anchorRef={profileItemRef} onClose={closeProfileDropdown} />
             )}
 
             {showAuthDialog && (
-                <AuthDialog onClose={handleClick} />
+                <AuthDialog onClose={closeAuthDialog} />
             )}
         </ProfileItemStyled>
     );
-};
+});

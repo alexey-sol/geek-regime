@@ -7,7 +7,7 @@ export const PageSettingsStyled = styled.section`
     select {
         ${({ theme }) => css`
             box-sizing: border-box;
-            padding: 1rem 3rem 1rem 0;
+            padding: 1rem 3rem 1rem 0.5rem;
             border: none;
             border-bottom: 1px solid ${theme.colors.grey};
             appearance: none;

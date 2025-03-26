@@ -1,8 +1,10 @@
 import React, {
+    memo,
     useRef,
     type AriaRole,
     type FC,
     type PropsWithChildren,
+    type RefObject,
 } from "react";
 import ReactDOM from "react-dom";
 
@@ -13,13 +15,14 @@ import { getRootElement } from "@/shared/utils/helpers/dom";
 import { useClickOutside, UseClickOutsideArg } from "../utils/hooks/use-click-outside";
 
 export type BaseDropdownProps = PropsWithChildren<Pick<UseClickOutsideArg, "mouseEvent">
-    & Pick<BasePopupStyledProps, "anchorRef" | "position">
+    & Pick<BasePopupStyledProps, "position">
     & {
+        anchorRef?: RefObject<HTMLElement>;
         onClose: () => void;
         role?: AriaRole;
     }>;
 
-export const BaseDropdown: FC<BaseDropdownProps> = ({
+export const BaseDropdown: FC<BaseDropdownProps> = memo(({
     anchorRef,
     children,
     mouseEvent = "click",
@@ -30,10 +33,9 @@ export const BaseDropdown: FC<BaseDropdownProps> = ({
     const elementRef = useRef<HTMLElement>(null);
 
     useClickOutside({
-        anchorRef,
         elementRef,
         mouseEvent,
-        onAction: onClose,
+        onClose,
     });
 
     useKeyboardControls({
@@ -45,7 +47,6 @@ export const BaseDropdown: FC<BaseDropdownProps> = ({
 
     const dropdown = (
         <BasePopup
-            anchorRef={anchorRef}
             ref={elementRef}
             role={role}
             tabIndex={0}
@@ -56,4 +57,4 @@ export const BaseDropdown: FC<BaseDropdownProps> = ({
     );
 
     return ReactDOM.createPortal(dropdown, container);
-};
+});
