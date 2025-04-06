@@ -11,6 +11,7 @@ import { Tab } from "@/shared/components/tabs/tab";
 import { TabContextProvider } from "@/shared/components/tabs/tab-context";
 import { TabPanel } from "@/shared/components/tabs/tab-panel";
 import { ProfileHome } from "@/features/users/components/profile-home";
+import { ProfileSettings } from "@/features/users/components/profile-settings";
 import { PostsByAuthorPage } from "@/features/posts/components/posts-by-author-page";
 import { type HandleChange } from "@/shared/components/tabs/types";
 
@@ -90,7 +91,7 @@ export const Profile: FC<HasUser> = ({ user }) => {
 
                         {isAuthUser && ( // TODO must be a protected route
                             <TabPanel value={settingsPath}>
-                                Settings
+                                <ProfileSettings user={user} />
                             </TabPanel>
                         )}
                     </TabContextProvider>

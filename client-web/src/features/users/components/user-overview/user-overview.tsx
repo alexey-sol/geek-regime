@@ -38,7 +38,7 @@ export const UserOverview: FC<HasItem<MaybeStubItem<User>>> = ({ item }) => {
 
                 <Skeleton isLoading={isLoading} heightPx={19} widthPx={350}>
                     <OneLineTextStyled>
-                        {item.details?.description ?? t("users.user.defaultDescription")}
+                        {item.details?.description || t("users.user.defaultDescription")}
                     </OneLineTextStyled>
                 </Skeleton>
             </BodyStyled>

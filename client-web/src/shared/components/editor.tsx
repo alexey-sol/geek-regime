@@ -46,7 +46,8 @@ export const Editor: FC<EditorProps> = ({
         if (editorRef) {
             editorRef.current = quill;
         }
-    }, [editorRef, placeholder]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- [1]
+    }, [editorRef]);
 
     useEffect(() => {
         const quill = quillRef.current;
@@ -56,7 +57,10 @@ export const Editor: FC<EditorProps> = ({
             quill.setContents(delta);
 
             quill.on("text-change", () => {
-                onChange?.(quill.root.innerHTML);
+                const text = quill.getText().trim();
+                const html = quill.root.innerHTML;
+
+                onChange?.(text.length === 0 ? "" : html);
             });
         }
     }, [editorRef, initialValue, onChange]);
@@ -65,3 +69,6 @@ export const Editor: FC<EditorProps> = ({
         <EditorStyled className={className} id={CONTAINER_ID} />
     );
 };
+
+// [1]. Omitting placeholder since, as it turns out, there's no non-hacky way to update it without
+// reinitializing the whole editor.

@@ -42,10 +42,10 @@ export const en = {
                 title: "Sign up",
             },
             fields: {
-                confirmPassword: "Confirm password",
-                email: "Email",
-                password: "Password",
-                name: "Name",
+                confirmPassword: "Confirm password *",
+                email: "Email *",
+                password: "Password *",
+                name: "Name *",
             },
             query: {
                 success: "You've signed up",

@@ -5,16 +5,23 @@ import type {
 } from "@/features/users/models/dtos";
 import { appApi } from "@/app/store/api";
 
+import { createTag } from "./utils";
 import * as tp from "./types";
+import * as cn from "./const";
 
 const { AUTH } = resources;
 
-export const authApi = appApi.injectEndpoints({
+const appApiWithTag = appApi.enhanceEndpoints({
+    addTagTypes: [cn.PROFILE_ID],
+});
+
+export const authApi = appApiWithTag.injectEndpoints({
     endpoints: (builder) => ({
         getProfile: builder.query<UserResponse, tp.GetProfileArg | void>({
             query: () => ({
                 url: `/v1/${AUTH}/profile`,
             }),
+            providesTags: () => [createTag()],
         }),
         signIn: builder.mutation<UserResponse, AuthenticateRequest>({
             query: (body) => ({

@@ -2,6 +2,8 @@ import { resources } from "@eggziom/geek-regime-js-commons";
 
 import { type UserPageResponse, type UserResponse } from "@/features/users/models/dtos";
 import { appApi } from "@/app/store/api";
+import { authApi } from "@/features/auth/services/api";
+import * as authCn from "@/features/auth/services/api/const";
 
 import { createTag } from "./utils";
 import * as cn from "./const";
@@ -20,17 +22,28 @@ export const usersApi = appApiWithTag.injectEndpoints({
                 params: arg?.params,
                 url: `/v1/${USERS}`,
             }),
-            providesTags: (result) => {
-                const tag = createTag();
-
-                return result
-                    ? [...result.content.map(({ id }) => ({ type: tag.type, id })), tag]
-                    : [tag];
-            },
+            providesTags: () => [createTag(cn.TAG_TYPE)],
         }),
         getUserBySlug: builder.query<UserResponse, tp.GetUserBySlugArg>({
             query: (slug) => `/v1/${USERS}/${slug}`,
             providesTags: (result, error, id) => [createTag(id)],
+        }),
+        updateUserById: builder.mutation<UserResponse, tp.UpdateUserByIdArg>({
+            query: ({ id, ...body }) => ({
+                body,
+                method: "PATCH",
+                url: `/v1/${USERS}/${id}`,
+            }),
+            invalidatesTags: (result) => (result
+                ? [createTag(cn.TAG_TYPE), createTag(result.slug)]
+                : []),
+            async onQueryStarted(arg, { dispatch, queryFulfilled }) {
+                queryFulfilled
+                    .then(() => {
+                        dispatch(authApi.util.invalidateTags([authCn.PROFILE_ID]));
+                    })
+                    .catch(console.error);
+            },
         }),
     }),
 });
@@ -38,4 +51,5 @@ export const usersApi = appApiWithTag.injectEndpoints({
 export const {
     useGetAllUsersQuery,
     useGetUserBySlugQuery,
+    useUpdateUserByIdMutation,
 } = usersApi;

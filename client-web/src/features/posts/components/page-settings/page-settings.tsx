@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import { Tooltip } from "@/shared/components/tooltip";
 import { type PostPagePeriod } from "@/features/posts/models/dtos";
 import { type PostSortValue } from "@/features/posts/types";
+import { Select } from "@/shared/components/form/select";
 
 import { PageSettingsStyled } from "./style";
 import { usePageSettings } from "./utils";
@@ -34,19 +35,19 @@ export const PageSettings: FC = () => {
     return (
         <PageSettingsStyled>
             <Tooltip message={t("posts.page.settings.sortSelect.tooltip")}>
-                <select onChange={handleSortChange} value={settings.sort}>
+                <Select onChange={handleSortChange} value={settings.sort}>
                     {Object.entries(mapSortValueToTranslation).map(([value, translation]) => (
                         <option key={value} value={value}>{translation}</option>
                     ))}
-                </select>
+                </Select>
             </Tooltip>
 
             <Tooltip message={t("posts.page.settings.periodSelect.tooltip")}>
-                <select onChange={handlePeriodChange} value={settings.period}>
+                <Select onChange={handlePeriodChange} value={settings.period}>
                     {Object.entries(mapPeriodValueToTranslation).map(([value, translation]) => (
                         <option key={value} value={value}>{translation}</option>
                     ))}
-                </select>
+                </Select>
             </Tooltip>
 
             <Button fontSize="sm" onClick={handleSubmit} view="secondary">

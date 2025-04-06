@@ -1,8 +1,22 @@
 import { type HasId } from "@eggziom/geek-regime-js-commons";
 
-export const omitUndefined = <T extends {}>(object: T): T => Object.fromEntries(
-    Object.entries(object).filter(([, value]) => value !== undefined),
+export const omit = <T extends {}>(
+    object: T,
+    shouldOmit: (key: keyof T, value: T[keyof T]) => boolean,
+): T => Object.fromEntries(
+    Object.entries<T[keyof T]>(object)
+        .filter(([key, value]) => !shouldOmit(key as keyof T, value)),
 ) as T;
+
+export const omitFalsy = <T extends {}>(object: T): T => omit(
+    object,
+    (_, value) => !value,
+);
+
+export const omitUndefined = <T extends {}>(object: T): T => omit(
+    object,
+    (_, value: unknown) => value === undefined,
+);
 
 const INITIAL_STUB_ID = -1;
 

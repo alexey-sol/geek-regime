@@ -7,3 +7,5 @@ export type CreateUserRequest = user["schemas"]["CreateUserRequest"];
 export type AuthenticateRequest = user["schemas"]["AuthenticateRequest"];
 
 export type UserPageResponse = user["schemas"]["UserPageResponse"];
+
+export type UpdateUserRequest = user["schemas"]["UpdateUserRequest"];
