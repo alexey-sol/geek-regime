@@ -5,6 +5,7 @@ import type Quill from "quill";
 
 import { FieldErrorMessage } from "@/shared/components/typography";
 import { type EditorProps } from "@/shared/components/editor";
+import { type UpdateUserRequest } from "@/features/users/models/dtos";
 
 import { AboutEditorStyled } from "./styles";
 
@@ -15,7 +16,7 @@ type AboutEditorProps = Pick<EditorProps, "initialValue"> & {
 export const AboutEditor: FC<AboutEditorProps> = ({ errorMessage, initialValue }) => {
     const { t } = useTranslation();
     const editorRef = useRef<Quill>(null);
-    const { handleChange } = useFormikContext();
+    const { handleChange } = useFormikContext<UpdateUserRequest>();
 
     const onChange = useCallback((value: string) => {
         handleChange("details.about")(value);

@@ -54,7 +54,7 @@ export const en = {
                     },
                     gender: {
                         title: "Gender",
-                        tooltip: "Are you sure about that?",
+                        tooltip: "Are you sure?",
                     },
                     name: {
                         title: "Name",
@@ -87,9 +87,9 @@ export const en = {
         user: {
             defaultDescription: "User",
             gender: {
+                blank: "—",
                 female: "Female",
                 male: "Male",
-                notSpecified: "—",
             },
         },
     },
@@ -184,9 +184,9 @@ export const ru = {
         user: {
             defaultDescription: "Пользователь",
             gender: {
+                blank: "—",
                 female: "Женский",
                 male: "Мужской",
-                notSpecified: "—",
             },
         },
     },

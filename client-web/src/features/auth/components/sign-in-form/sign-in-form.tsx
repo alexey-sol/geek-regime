@@ -5,12 +5,11 @@ import { Typography } from "@eggziom/geek-regime-js-ui-kit";
 
 import { FormInput } from "@/shared/components/form/form-input";
 import { getSignInSchema } from "@/features/auth/utils/validation/schemas";
-import type { MemoizedAuthForm } from "@/features/auth/types";
-import type { AuthenticateRequest } from "@/features/users/models/dtos";
+import { type MemoizedAuthForm } from "@/features/auth/types";
+import { type AuthenticateRequest } from "@/features/users/models/dtos";
 
 import { ButtonStyled, LinkButtonStyled, SignInFormStyled } from "./style";
-import { useSignInFormData } from "./utils";
-import * as cn from "./const";
+import { useSignInForm } from "./utils";
 
 const initialValues: AuthenticateRequest = {
     email: "",
@@ -22,11 +21,10 @@ export const SignInForm: MemoizedAuthForm = memo(({ goTo, onSubmit }) => {
     const { t } = useTranslation();
 
     const {
-        handleChangeWrap,
         handleSubmit,
         isPending,
         yandexAuthUrl,
-    } = useSignInFormData({ formRef, onSubmit });
+    } = useSignInForm({ onSubmit });
 
     const goToSignUp = useCallback(() => {
         if (goTo) {
@@ -43,26 +41,24 @@ export const SignInForm: MemoizedAuthForm = memo(({ goTo, onSubmit }) => {
                 validateOnChange
                 validationSchema={getSignInSchema()}
             >
-                {({ errors, handleChange }) => (
+                {() => (
                     <Form>
                         <section>
                             <FormInput
                                 label={t("auth.signIn.local.fields.email")}
-                                name={cn.EMAIL_NAME}
-                                onChange={(event) => handleChangeWrap(event, handleChange)}
+                                name="email"
                                 type="text"
                             />
 
                             <FormInput
                                 label={t("auth.signIn.local.fields.password")}
-                                name={cn.PASSWORD_NAME}
-                                onChange={(event) => handleChangeWrap(event, handleChange)}
+                                name="password"
                                 type="password"
                             />
                         </section>
 
                         <ButtonStyled
-                            disabled={isPending || Object.keys(errors).length > 0}
+                            disabled={isPending}
                             isStretched
                             type="submit"
                         >

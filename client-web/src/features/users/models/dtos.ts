@@ -1,5 +1,7 @@
 import type { components as user } from "@eggziom/geek-regime-js-commons/dist/models/user-schemas-v1";
 
+export type Gender = user["schemas"]["Gender"];
+
 export type UserResponse = user["schemas"]["UserResponse"];
 
 export type CreateUserRequest = user["schemas"]["CreateUserRequest"];

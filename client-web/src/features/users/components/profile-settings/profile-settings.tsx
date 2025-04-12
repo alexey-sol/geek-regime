@@ -1,5 +1,5 @@
 import React, { type FC, useRef } from "react";
-import { Formik, type FormikProps } from "formik";
+import { Formik, FormikConfig, type FormikProps } from "formik";
 import { useTranslation } from "react-i18next";
 
 import { Divider } from "@/shared/components/divider";
@@ -10,6 +10,7 @@ import { useAppDispatch } from "@/app/store/hooks";
 import { mapUpdateUserByIdArg } from "@/features/users/utils/api";
 import { type HasUser } from "@/features/users/types";
 import { type UpdateUserRequest } from "@/features/users/models/dtos";
+import { getDateWithoutTime } from "@/shared/utils/formatters/date";
 
 import { useUpdateUserByIdMutation } from "../../services/api";
 
@@ -34,17 +35,21 @@ export const ProfileSettings: FC<HasUser> = ({ user }) => {
         oldPassword: "",
         details: {
             about: details.about ?? "",
+            birthDate: details.birthDate ? getDateWithoutTime(details.birthDate) : "",
             description: details.description ?? "",
             gender: details.gender,
             name: details.name,
         },
     };
 
-    const handleSubmit = (values: UpdateUserRequest) => {
+    const handleSubmit: FormikConfig<UpdateUserRequest>["onSubmit"] = (values, { resetForm }) => {
         const arg = mapUpdateUserByIdArg({ id, ...values }, initialValues);
         const result = updateUserById(arg).unwrap();
-        const onSuccess = () =>
+
+        const onSuccess = () => {
+            resetForm({ values }); // reset dirty state
             dispatch(notify(createSuccessSnackbarArg(t("users.query.update.success"))));
+        };
 
         result.then(onSuccess).catch(console.error);
     };
@@ -58,12 +63,12 @@ export const ProfileSettings: FC<HasUser> = ({ user }) => {
                 validateOnChange
                 validationSchema={getProfileSettingsSchema()}
             >
-                {({ errors, dirty, values }) => (
+                {() => (
                     <FormStyled>
-                        <SettingsProfile errors={errors} userDetails={details} values={values} />
+                        <SettingsProfile userDetails={details} />
                         <Divider />
                         <SettingsSecurity />
-                        <SettingsControls dirty={dirty} isPending={isLoading} />
+                        <SettingsControls isPending={isLoading} />
                     </FormStyled>
                 )}
             </Formik>

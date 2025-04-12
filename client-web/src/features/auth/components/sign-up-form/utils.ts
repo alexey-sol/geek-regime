@@ -1,7 +1,5 @@
-import React, { useCallback, useMemo } from "react";
-import type { FormEvent, FormEventHandler } from "react";
-import type { FormikProps } from "formik";
 import { useTranslation } from "react-i18next";
+import { type FormikConfig } from "formik";
 
 import { useAuthContext } from "@/features/auth/contexts/auth";
 import { toCreateUserRequest } from "@/features/auth/utils/converters";
@@ -15,43 +13,29 @@ export type SignUpValues = Pick<CreateUserRequest, "email" | "password">
     & Pick<CreateUserRequest["details"], "name">
     & { confirmPassword: string };
 
-type UseSignUpFormArg = Pick<AuthFormProps, "onSubmit"> & {
-    formRef: React.RefObject<FormikProps<SignUpValues>>;
-};
-
-export type SignUpFormData = {
-    handleChangeWrap: (event: FormEvent, cb: FormEventHandler) => void;
-    handleSubmit: () => void;
+type UseSignUpFormResult = {
+    handleSubmit: FormikConfig<SignUpValues>["onSubmit"];
     isPending: boolean;
 };
 
-export const useSignUpFormData = ({ formRef, onSubmit }: UseSignUpFormArg): SignUpFormData => {
+export const useSignUpForm = (
+    { onSubmit }: Pick<AuthFormProps, "onSubmit">,
+): UseSignUpFormResult => {
     const { t } = useTranslation();
     const dispatch = useAppDispatch();
     const { pending, signUp } = useAuthContext();
 
-    const handleSubmit = useCallback(async () => {
-        const { isValid, values } = formRef.current ?? {};
-        const hasValues = values && Object.values(values).every(Boolean);
+    const handleSubmit: UseSignUpFormResult["handleSubmit"] = (values) => {
+        signUp(toCreateUserRequest(values)).unwrap()
+            .then(() => {
+                onSubmit?.();
+                dispatch(notify(createSuccessSnackbarArg(t("auth.signUp.query.success"))));
+            })
+            .catch(console.error);
+    };
 
-        if (hasValues && isValid) {
-            signUp(toCreateUserRequest(values)).unwrap()
-                .then(() => {
-                    onSubmit?.();
-                    dispatch(notify(createSuccessSnackbarArg(t("auth.signUp.query.success"))));
-                })
-                .catch(console.error);
-        }
-    }, [dispatch, formRef, onSubmit, signUp, t]);
-
-    // TODO need this wrap at all?
-    const handleChangeWrap: SignUpFormData["handleChangeWrap"] = useCallback((event, cb) => {
-        cb(event);
-    }, []);
-
-    return useMemo(() => ({
-        handleChangeWrap,
+    return {
         handleSubmit,
         isPending: Boolean(pending),
-    }), [handleChangeWrap, handleSubmit, pending]);
+    };
 };

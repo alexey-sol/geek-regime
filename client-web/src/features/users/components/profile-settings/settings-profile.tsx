@@ -1,7 +1,7 @@
 import React, { type FC } from "react";
 import { Typography } from "@eggziom/geek-regime-js-ui-kit";
 import { useTranslation } from "react-i18next";
-import { Field, type FieldProps, FormikErrors } from "formik";
+import { Field, type FieldProps, useFormikContext } from "formik";
 import { sub } from "date-fns";
 
 import { FormInput } from "@/shared/components/form/form-input";
@@ -16,16 +16,15 @@ import { type UpdateUserRequest } from "../../models/dtos";
 
 import { FitContentWrapStyled, GridStyled, SectionStyled } from "./styles";
 
-const BIRTH_DATE_YEARS_AGO_LIMIT = 100;
+const BIRTH_DATE_YEARS_AGO_LIMIT = 150;
 
 type SettingsProfileProps = {
-    errors: FormikErrors<UpdateUserRequest>;
     userDetails: UserDetails;
-    values: UpdateUserRequest;
 };
 
-export const SettingsProfile: FC<SettingsProfileProps> = ({ errors, userDetails, values }) => {
+export const SettingsProfile: FC<SettingsProfileProps> = ({ userDetails }) => {
     const { t } = useTranslation();
+    const { errors, values } = useFormikContext<UpdateUserRequest>();
     const { mapGenderToTranslation } = useUserTranslation();
     const aboutErrorMessage = (errors.details as UpdateUserRequest["details"])?.about;
 

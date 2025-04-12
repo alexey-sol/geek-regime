@@ -1,9 +1,11 @@
 package com.github.alexeysol.geekregime.apiusers.util.faker
 
-import com.github.alexeysol.geekregime.apicommons.constant.Gender
+import com.github.alexeysol.geekregime.apicommons.generated.model.Gender
+import com.github.alexeysol.geekregime.apiusers.constant.FakerConstant.FIFTY_YEARS_IN_MS
 import com.github.alexeysol.geekregime.apiusers.constant.FakerConstant.WHITESPACE
 import com.github.alexeysol.geekregime.apiusers.model.entity.Details
 import com.github.alexeysol.geekregime.apiusers.model.entity.User
+import java.util.*
 
 private val faker = getFaker()
 
@@ -28,6 +30,7 @@ object FakeDetails {
             about = generateAbout(),
             gender = generateGender(),
             image = generateImage(),
+            birthDate = Date.from(generateCreatedAt(FIFTY_YEARS_IN_MS)),
             user = user
         )
     }

@@ -1,7 +1,8 @@
 import { Type } from "class-transformer";
-import type { Gender } from "@eggziom/geek-regime-js-commons";
 
 import { formatTimestamp } from "@/shared/utils/formatters/date";
+
+import { type Gender } from "./dtos";
 
 export class UserDetails {
     constructor(
@@ -11,8 +12,13 @@ export class UserDetails {
         public description?: string,
         public about?: string,
         public gender?: Gender,
+        public birthDate?: string,
         public image?: string,
     ) {}
+
+    get formattedBirthDate(): string {
+        return this.birthDate ? formatTimestamp(this.birthDate) : "";
+    }
 }
 
 export class User {

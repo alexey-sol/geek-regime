@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregime.apiusers.model.entity
 
 import com.fasterxml.jackson.annotation.JsonProperty
-import com.github.alexeysol.geekregime.apicommons.constant.Gender
+import com.github.alexeysol.geekregime.apicommons.generated.model.Gender
 import org.hibernate.annotations.OnDelete
 import org.hibernate.annotations.OnDeleteAction
 import lombok.ToString
@@ -35,7 +35,10 @@ data class Details(
 
     @Column
     @Enumerated(EnumType.STRING)
-    var gender: Gender? = null,
+    var gender: Gender? = Gender.BLANK,
+
+    @Column(name = "birth_date")
+    var birthDate: Date? = null,
 
     @JoinColumn(name = "user_id", nullable = false)
     @OneToOne(fetch = FetchType.LAZY)

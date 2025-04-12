@@ -12,7 +12,7 @@ fun getFaker(): Faker = faker
 
 fun getRandomNumber(min: Int, max: Int): Int = Random().nextInt(max - min) + min
 
-fun generateCreatedAt(): Instant = faker.timeAndDate().past(FIVE_YEARS_IN_MS, TimeUnit.MILLISECONDS)
+fun generateCreatedAt(pastMs: Long = FIVE_YEARS_IN_MS): Instant = faker.timeAndDate().past(pastMs, TimeUnit.MILLISECONDS)
 
 fun generateUpdatedAt(from: Instant): Instant = faker.timeAndDate().between(from, Instant.now())
 

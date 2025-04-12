@@ -1,16 +1,15 @@
-import { Gender } from "@eggziom/geek-regime-js-commons";
 import { useTranslation } from "react-i18next";
 
-type GenderOrDefault = Gender | "";
+import { type Gender } from "../../models/dtos";
 
-const MAP_GENDER_TO_TRANSLATION_KEY: Record<GenderOrDefault, string> = {
-    "": "users.user.gender.notSpecified",
+const MAP_GENDER_TO_TRANSLATION_KEY: Record<Gender, string> = {
+    BLANK: "users.user.gender.blank",
     FEMALE: "users.user.gender.female",
     MALE: "users.user.gender.male",
 };
 
 type UseUserTranslationResult = {
-    mapGenderToTranslation: Record<GenderOrDefault, string>;
+    mapGenderToTranslation: Record<Gender, string>;
 };
 
 export const useUserTranslation = (): UseUserTranslationResult => {
@@ -20,7 +19,7 @@ export const useUserTranslation = (): UseUserTranslationResult => {
         .reduce((acc, currentValue) => ({
             ...acc,
             [currentValue[0]]: t(currentValue[1]),
-        }), {} as Record<GenderOrDefault, string>);
+        }), {} as Record<Gender, string>);
 
     return {
         mapGenderToTranslation,

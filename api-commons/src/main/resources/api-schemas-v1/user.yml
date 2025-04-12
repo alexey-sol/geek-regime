@@ -52,8 +52,10 @@ components:
         image:
           type: string
         gender:
+          $ref: "./user.yml#/components/schemas/Gender"
+        birthDate:
           type: string
-          enum: [ "MALE", "FEMALE" ]
+          format: date-time
         createdAt:
           type: string
           format: date-time
@@ -92,8 +94,7 @@ components:
           type: string
           minLength: 1
         gender:
-          type: string
-          enum: [ "MALE", "FEMALE" ]
+          $ref: "./user.yml#/components/schemas/Gender"
     UpdateUserRequest:
       type: object
       properties:
@@ -123,8 +124,10 @@ components:
         image:
           type: string
         gender:
+          $ref: "./user.yml#/components/schemas/Gender"
+        birthDate:
           type: string
-          enum: [ "MALE", "FEMALE" ]
+          format: date-time
     AuthenticateRequest:
       type: object
       required: [ email, password ]
@@ -140,3 +143,6 @@ components:
     Page:
       type: Page
       $ref: "./common.yml#/components/schemas/Page"
+    Gender:
+      type: string
+      enum: [ "BLANK", "MALE", "FEMALE" ]

@@ -13,7 +13,7 @@ const ProfileHomeStyled = styled.section`
     grid-template-columns: repeat(2, auto);
     gap: 1.5rem;
     max-width: 50rem;
-    word-break: break-all;
+    word-break: break-word;
 `;
 
 export const ProfileHome: FC<HasUser> = ({ user }) => {
@@ -45,15 +45,14 @@ export const ProfileHome: FC<HasUser> = ({ user }) => {
                 </>
             )}
 
-            {/* TODO not implemented yet */}
-            {false && (
+            {details.birthDate && (
                 <>
                     <Typography as="h2" fontSize="md">
                         {t("users.profile.settings.profile.birthDate.title")}
                     </Typography>
 
                     <Typography>
-                        birthDate
+                        {details.formattedBirthDate}
                     </Typography>
                 </>
             )}

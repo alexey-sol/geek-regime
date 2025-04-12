@@ -4,11 +4,10 @@ import { Formik, type FormikProps } from "formik";
 
 import { FormInput } from "@/shared/components/form/form-input";
 import { getSignUpSchema } from "@/features/auth/utils/validation/schemas";
-import type { MemoizedAuthForm } from "@/features/auth/types";
+import { type MemoizedAuthForm } from "@/features/auth/types";
 
 import { ButtonStyled, FormStyled, SignUpFormStyled } from "./style";
-import { useSignUpFormData, type SignUpValues } from "./utils";
-import * as cn from "./const";
+import { useSignUpForm, type SignUpValues } from "./utils";
 
 const initialValues: SignUpValues = {
     confirmPassword: "",
@@ -22,10 +21,9 @@ export const SignUpForm: MemoizedAuthForm = memo(({ onSubmit }) => {
     const { t } = useTranslation();
 
     const {
-        handleChangeWrap,
         handleSubmit,
         isPending,
-    } = useSignUpFormData({ formRef, onSubmit });
+    } = useSignUpForm({ onSubmit });
 
     return (
         <SignUpFormStyled>
@@ -36,40 +34,36 @@ export const SignUpForm: MemoizedAuthForm = memo(({ onSubmit }) => {
                 validateOnChange
                 validationSchema={getSignUpSchema()}
             >
-                {({ errors, handleChange }) => (
+                {() => (
                     <FormStyled>
                         <section>
                             <FormInput
                                 label={t("auth.signUp.fields.email")}
-                                name={cn.EMAIL_NAME}
-                                onChange={(event) => handleChangeWrap(event, handleChange)}
+                                name="email"
                                 type="text"
                             />
 
                             <FormInput
                                 label={t("auth.signUp.fields.password")}
-                                name={cn.PASSWORD_NAME}
-                                onChange={(event) => handleChangeWrap(event, handleChange)}
+                                name="password"
                                 type="password"
                             />
 
                             <FormInput
                                 label={t("auth.signUp.fields.confirmPassword")}
-                                name={cn.CONFIRM_PASSWORD_NAME}
-                                onChange={(event) => handleChangeWrap(event, handleChange)}
+                                name="confirmPassword"
                                 type="password"
                             />
 
                             <FormInput
                                 label={t("auth.signUp.fields.name")}
-                                name={cn.USERNAME_NAME}
-                                onChange={(event) => handleChangeWrap(event, handleChange)}
+                                name="name"
                                 type="text"
                             />
                         </section>
 
                         <ButtonStyled
-                            disabled={isPending || Object.keys(errors).length > 0}
+                            disabled={isPending}
                             isStretched
                             type="submit"
                         >
