@@ -6,7 +6,6 @@ import software.amazon.awssdk.auth.credentials.SystemPropertyCredentialsProvider
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
-import software.amazon.awssdk.services.s3.model.PutObjectResponse;
 
 import java.net.URI;
 import java.nio.file.Paths;
@@ -14,8 +13,11 @@ import java.nio.file.Paths;
 @Component
 public class CloudObjectStorage {
     private final S3Client client;
+    private final AwsProperties awsProperties;
 
     public CloudObjectStorage(AwsProperties awsProperties) {
+        this.awsProperties = awsProperties;
+
         var accessKeyId = String.format("%s:%s", awsProperties.getS3TenantId(), awsProperties.getKeyId());
 
         System.setProperty("aws.accessKeyId", accessKeyId);
@@ -28,16 +30,23 @@ public class CloudObjectStorage {
             .build();
     }
 
-    public PutObjectResponse uploadFile(
+    public String uploadFile(
         String bucketName,
         String key,
         String objectPath
     ) {
-        var objectRequest = PutObjectRequest.builder()
+        var request = PutObjectRequest.builder()
             .bucket(bucketName)
             .key(key)
             .build();
+        var body = RequestBody.fromFile(Paths.get(objectPath));
 
-        return client.putObject(objectRequest, RequestBody.fromFile(Paths.get(objectPath)));
+        client.putObject(request, body);
+
+        var splitEndpoint = awsProperties.getS3Endpoint().split("://");
+        var scheme = splitEndpoint[0];
+        var domainName = splitEndpoint[1];
+
+        return String.format("%s://%s.%s/%s", scheme, bucketName, domainName, key);
     }
 }

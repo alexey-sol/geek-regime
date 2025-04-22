@@ -1,6 +1,7 @@
 package com.github.alexeysol.geekregime.apiusers.service.v1
 
 import com.github.alexeysol.geekregime.apicommons.constant.Default
+import com.github.alexeysol.geekregime.apicommons.util.storage.CloudObjectStorage
 import com.github.alexeysol.geekregime.apiusers.constant.UserConstant.SEARCH_LIMIT
 import com.github.alexeysol.geekregime.apiusers.model.entity.User
 import com.github.alexeysol.geekregime.apiusers.repository.UserRepository
@@ -9,10 +10,19 @@ import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.io.File
 import java.util.*
 
 @Service
-class UserService(val repository: UserRepository) {
+class UserService(
+    val repository: UserRepository,
+    val cloudObjectStorage: CloudObjectStorage
+) {
+    companion object {
+        private const val S3_BUCKET_NAME = "geek-regime-files"
+        private const val S3_USER_PICTURES_DIR = "user-pictures"
+    }
+
     fun findAllUsers(pageable: Pageable): Page<User> = repository.findAllUsers(pageable)
 
     fun findAllUsersById(ids: List<Long>, pageable: Pageable): Page<User> =
@@ -52,4 +62,13 @@ class UserService(val repository: UserRepository) {
     fun userByEmailExists(email: String): Boolean = repository.existsUserByEmail(email)
 
     fun userBySlugExists(slug: String): Boolean = repository.existsUserBySlug(slug)
+
+    fun saveUserPicture(picture: File): String {
+        val key = "$S3_USER_PICTURES_DIR/${picture.name}"
+        val imageUrl = cloudObjectStorage.uploadFile(S3_BUCKET_NAME, key, picture.path)
+
+        picture.delete()
+
+        return imageUrl
+    }
 }

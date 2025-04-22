@@ -22,12 +22,12 @@ import javax.transaction.Transactional
 class DatabaseSeed {
     companion object {
         private const val DEFAULT_ENTITY_COUNT = 0
-        private const val INVALID_FAKE_POST_COUNT = "fake-user-count value must be larger than $DEFAULT_ENTITY_COUNT"
+        private const val INVALID_FAKE_POST_COUNT = "faker.user-count value must be larger than $DEFAULT_ENTITY_COUNT"
         private const val ENTITY_MANAGER_NOT_INITIALIZED = "Entity manager is not initialized"
         private const val DATA_SOURCE_NOT_INITIALIZED = "Data source is not initialized"
     }
 
-    @Value("\${api-users.fake-user-count}")
+    @Value("\${service.faker.user-count}")
     private val fakeUserCount = DEFAULT_ENTITY_COUNT
 
     @Autowired

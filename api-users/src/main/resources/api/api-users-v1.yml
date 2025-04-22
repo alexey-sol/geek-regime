@@ -132,6 +132,31 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserResponse"
+  /users/{id}/picture:
+    put:
+      summary: Upload user picture
+      operationId: uploadUserPicture
+      tags:
+        - user
+      parameters:
+        - $ref: "./parameters-v1.yml#/components/parameters/id"
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                picture:
+                  type: string
+                  format: binary
+      responses:
+        200:
+          description: The updated user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
 components:
   # Schemas imported from api-commons
   schemas:

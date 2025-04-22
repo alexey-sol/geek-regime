@@ -22,17 +22,16 @@ import org.springframework.data.web.PageableDefault
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.annotation.Validated
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
+import org.springframework.web.multipart.MultipartFile
+import java.io.File
+import java.util.*
 import javax.validation.ConstraintViolationException
 
 @RestController
 @RequestMapping(path = [API_PREFIX_V1], produces = ["application/json"])
 @Validated
-class UserController(
-    val service: UserService,
-    val mapper: UserMapper
-) : UserApi {
+class UserController(val service: UserService, val mapper: UserMapper) : UserApi {
     override fun authenticate(request: AuthenticateRequest): ResponseEntity<UserResponse> {
         val user = request.email?.let { service.findUserByEmail(it) }
             ?: throw ResourceException(ErrorCode.ABSENT, EMAIL_FIELD)
@@ -151,5 +150,33 @@ class UserController(
         val response = mapper.toIdResponse(id)
 
         return ResponseEntity(response, HttpStatus.OK)
+    }
+
+    override fun uploadUserPicture(id: Long, picture: MultipartFile): ResponseEntity<UserResponse> {
+        val user = service.findUserById(id)
+            ?: throw ResourceException(ErrorCode.ABSENT, ID_FIELD)
+
+        val tempFile = convertMultipartFileToTempFile(picture)
+        val imageUrl = service.saveUserPicture(tempFile)
+
+        user.details.let {
+            it?.image = imageUrl
+            service.saveUser(user)
+        }
+
+        val response = mapper.toUserResponse(user)
+
+        return ResponseEntity(response, HttpStatus.OK)
+    }
+
+    private fun convertMultipartFileToTempFile(originalFile: MultipartFile): File {
+        val extension = originalFile.originalFilename?.substringAfterLast(".", "")
+        val tempFileName = UUID.randomUUID().toString()
+
+        val tempFile = File.createTempFile(tempFileName, ".$extension")
+        tempFile.deleteOnExit()
+        originalFile.transferTo(tempFile)
+
+        return tempFile
     }
 }

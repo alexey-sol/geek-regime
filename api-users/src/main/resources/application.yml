@@ -23,6 +23,14 @@ server:
     servlet:
         context-path: /api
 
+service:
+    aws:
+        key-id: ${AWS_KEY_ID}
+        key-secret: ${AWS_KEY_SECRET}
+        s3-tenant-id: ${AWS_S3_TENANT_ID}
+        s3-endpoint: ${AWS_S3_ENDPOINT}
+        s3-region: ${AWS_S3_REGION}
+
 ---
 
 spring:
@@ -67,8 +75,9 @@ spring:
         hibernate:
             ddl-auto: create
 
-api-users:
-    fake-user-count: 60
+service:
+    faker:
+        user-count: 60
 
 ---
 

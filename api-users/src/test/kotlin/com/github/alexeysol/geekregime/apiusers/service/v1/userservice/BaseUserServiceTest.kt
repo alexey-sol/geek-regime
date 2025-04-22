@@ -9,7 +9,7 @@ import org.springframework.data.domain.Pageable
 
 abstract class BaseUserServiceTest {
     protected val repository: UserRepository = mockk()
-    protected val service = UserService(repository)
+    protected val service = UserService(repository, mockk())
 
     protected val pageableStub = Pageable.ofSize(PAGE_SIZE)
     protected val defaultDetails = Details(name = "For we are many")
