@@ -3,6 +3,7 @@ package com.github.alexeysol.geekregime.apiusers.controller.v1
 import com.github.alexeysol.geekregime.apicommons.constant.Default.*
 import com.github.alexeysol.geekregime.apicommons.exception.ResourceException
 import com.github.alexeysol.geekregime.apicommons.generated.model.*
+import com.github.alexeysol.geekregime.apicommons.util.file.FileUtil
 import com.github.alexeysol.geekregime.apiusers.constant.PathConstant.API_PREFIX_V1
 import com.github.alexeysol.geekregime.apiusers.constant.UserConstant.EMAIL_FIELD
 import com.github.alexeysol.geekregime.apiusers.constant.UserConstant.ID_FIELD
@@ -25,7 +26,6 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
-import java.util.*
 import javax.validation.ConstraintViolationException
 
 @RestController
@@ -171,10 +171,7 @@ class UserController(val service: UserService, val mapper: UserMapper) : UserApi
 
     private fun convertMultipartFileToTempFile(originalFile: MultipartFile): File {
         val extension = originalFile.originalFilename?.substringAfterLast(".", "")
-        val tempFileName = UUID.randomUUID().toString()
-
-        val tempFile = File.createTempFile(tempFileName, ".$extension")
-        tempFile.deleteOnExit()
+        val tempFile = FileUtil.createTempFile(extension)
         originalFile.transferTo(tempFile)
 
         return tempFile

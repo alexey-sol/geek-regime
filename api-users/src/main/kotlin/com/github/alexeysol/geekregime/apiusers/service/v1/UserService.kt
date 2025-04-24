@@ -1,6 +1,8 @@
 package com.github.alexeysol.geekregime.apiusers.service.v1
 
 import com.github.alexeysol.geekregime.apicommons.constant.Default
+import com.github.alexeysol.geekregime.apicommons.util.file.FileUtil
+import com.github.alexeysol.geekregime.apicommons.util.file.ImageUtil
 import com.github.alexeysol.geekregime.apicommons.util.storage.CloudObjectStorage
 import com.github.alexeysol.geekregime.apiusers.constant.UserConstant.SEARCH_LIMIT
 import com.github.alexeysol.geekregime.apiusers.model.entity.User
@@ -10,8 +12,10 @@ import org.springframework.data.domain.PageImpl
 import org.springframework.data.domain.Pageable
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import java.awt.image.BufferedImage
 import java.io.File
 import java.util.*
+import javax.imageio.ImageIO
 
 @Service
 class UserService(
@@ -21,6 +25,8 @@ class UserService(
     companion object {
         private const val S3_BUCKET_NAME = "geek-regime-files"
         private const val S3_USER_PICTURES_DIR = "user-pictures"
+        private const val PICTURE_MAX_WIDTH_PX = 200
+        private const val PICTURE_MAX_HEIGHT_PX = 200
     }
 
     fun findAllUsers(pageable: Pageable): Page<User> = repository.findAllUsers(pageable)
@@ -64,11 +70,27 @@ class UserService(
     fun userBySlugExists(slug: String): Boolean = repository.existsUserBySlug(slug)
 
     fun saveUserPicture(picture: File): String {
+        val resultPicture = getResizedPicture(picture)
+
         val key = "$S3_USER_PICTURES_DIR/${picture.name}"
-        val imageUrl = cloudObjectStorage.uploadFile(S3_BUCKET_NAME, key, picture.path)
+        val imageUrl = cloudObjectStorage.uploadFile(S3_BUCKET_NAME, key, resultPicture.path)
 
         picture.delete()
+        resultPicture.delete()
 
         return imageUrl
+    }
+
+    fun getResizedPicture(pictureFile: File): File {
+        var resultPictureFile = pictureFile
+        val image: BufferedImage = ImageIO.read(pictureFile)
+
+        if (image.width > PICTURE_MAX_WIDTH_PX || image.height > PICTURE_MAX_HEIGHT_PX) {
+            val resizedImage = ImageUtil.resizeImage(image, PICTURE_MAX_WIDTH_PX, PICTURE_MAX_HEIGHT_PX)
+            resultPictureFile = FileUtil.createTempFile(pictureFile.extension)
+            ImageIO.write(resizedImage, pictureFile.extension, resultPictureFile)
+        }
+
+        return resultPictureFile
     }
 }
