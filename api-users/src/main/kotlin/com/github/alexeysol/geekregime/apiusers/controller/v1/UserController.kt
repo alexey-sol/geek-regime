@@ -159,8 +159,9 @@ class UserController(val service: UserService, val mapper: UserMapper) : UserApi
         val tempFile = convertMultipartFileToTempFile(picture)
         val imageUrl = service.saveUserPicture(tempFile)
 
-        user.details.let {
-            it?.image = imageUrl
+        user.details?.let { details ->
+            details.image?.let { image -> service.removeUserPictureByUrl(image) }
+            details.image = imageUrl
             service.saveUser(user)
         }
 
@@ -175,5 +176,20 @@ class UserController(val service: UserService, val mapper: UserMapper) : UserApi
         originalFile.transferTo(tempFile)
 
         return tempFile
+    }
+
+    override fun removeUserPicture(id: Long): ResponseEntity<UserResponse> {
+        val user = service.findUserById(id)
+            ?: throw ResourceException(ErrorCode.ABSENT, ID_FIELD)
+
+        user.details?.image?.let { image ->
+            service.removeUserPictureByUrl(image)
+            user.details?.image = null
+            service.saveUser(user)
+        }
+
+        val response = mapper.toUserResponse(user)
+
+        return ResponseEntity(response, HttpStatus.OK)
     }
 }

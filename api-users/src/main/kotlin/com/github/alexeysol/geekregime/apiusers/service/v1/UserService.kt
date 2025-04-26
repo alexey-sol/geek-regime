@@ -81,7 +81,7 @@ class UserService(
         return imageUrl
     }
 
-    fun getResizedPicture(pictureFile: File): File {
+    private fun getResizedPicture(pictureFile: File): File {
         var resultPictureFile = pictureFile
         val image: BufferedImage = ImageIO.read(pictureFile)
 
@@ -92,5 +92,18 @@ class UserService(
         }
 
         return resultPictureFile
+    }
+
+    fun removeUserPictureByUrl(url: String) {
+        val key = getKeyFromUrl(url)
+
+        if (key.isNotEmpty()) {
+            cloudObjectStorage.deleteFile(S3_BUCKET_NAME, key)
+        }
+    }
+
+    private fun getKeyFromUrl(url: String): String {
+        val s3BaseUrl = cloudObjectStorage.getBaseUrl(S3_BUCKET_NAME)
+        return url.substringAfterLast("$s3BaseUrl/", "")
     }
 }

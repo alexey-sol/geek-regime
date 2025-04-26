@@ -12,7 +12,7 @@ public class ApiPostsSource implements BaseUrl, ActiveProfile {
     private String activeProfile;
 
     @Getter
-    @Value("${api-posts.base-url}")
+    @Value("${service.app.base-url}")
     private String baseUrl;
 
     @Override

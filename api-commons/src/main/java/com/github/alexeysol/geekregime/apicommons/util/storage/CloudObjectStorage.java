@@ -5,6 +5,7 @@ import org.springframework.stereotype.Component;
 import software.amazon.awssdk.auth.credentials.SystemPropertyCredentialsProvider;
 import software.amazon.awssdk.core.sync.RequestBody;
 import software.amazon.awssdk.services.s3.S3Client;
+import software.amazon.awssdk.services.s3.model.DeleteObjectRequest;
 import software.amazon.awssdk.services.s3.model.PutObjectRequest;
 
 import java.net.URI;
@@ -30,23 +31,41 @@ public class CloudObjectStorage {
             .build();
     }
 
-    public String uploadFile(
-        String bucketName,
-        String key,
-        String objectPath
-    ) {
+    public String uploadFile(String bucketName, String key, String objectPath) {
         var request = PutObjectRequest.builder()
             .bucket(bucketName)
             .key(key)
             .build();
         var body = RequestBody.fromFile(Paths.get(objectPath));
 
-        client.putObject(request, body);
+        try {
+            client.putObject(request, body);
+        } catch (IllegalArgumentException exception) {
+            return null;
+        }
 
+        var baseUrl = getBaseUrl(bucketName);
+        return String.format("%s/%s", baseUrl, key);
+    }
+
+    public void deleteFile(String bucketName, String key) {
+        var request = DeleteObjectRequest.builder()
+            .bucket(bucketName)
+            .key(key)
+            .build();
+
+        try {
+            client.deleteObject(request);
+        } catch (IllegalArgumentException ignored) {};
+    }
+
+    public String getBaseUrl(String bucketName) {
         var splitEndpoint = awsProperties.getS3Endpoint().split("://");
         var scheme = splitEndpoint[0];
         var domainName = splitEndpoint[1];
 
-        return String.format("%s://%s.%s/%s", scheme, bucketName, domainName, key);
+        return String.format("%s://%s.%s", scheme, bucketName, domainName);
     }
 }
+
+// Official S3 code examples: https://github.com/awsdocs/aws-doc-sdk-examples/tree/main/javav2/example_code/s3

@@ -10,11 +10,11 @@ export const ProfileViewStyled = styled.section`
 `;
 
 export const ProfileView: FC = () => {
-    const { errors, pending, user } = useActiveUser();
+    const { errors, loading, user } = useActiveUser();
 
     return (
         <ProfileViewStyled>
-            {Boolean(pending) && "loading..."}
+            {Boolean(loading) && "loading..."}
             {user && <Profile user={user} />}
             {!!errors.get && <ApiErrorMessage error={errors.get} />}
         </ProfileViewStyled>

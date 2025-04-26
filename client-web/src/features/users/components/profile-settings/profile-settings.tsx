@@ -1,5 +1,5 @@
 import React, { type FC, useRef } from "react";
-import { Formik, FormikConfig, type FormikProps } from "formik";
+import { Formik, type FormikConfig, type FormikProps } from "formik";
 import { useTranslation } from "react-i18next";
 
 import { Divider } from "@/shared/components/divider";
@@ -73,7 +73,7 @@ export const ProfileSettings: FC<HasUser> = ({ user }) => {
                 )}
             </Formik>
 
-            <SettingsPicture userDetails={details} />
+            <SettingsPicture userDetails={details} userId={id} />
         </ProfileSettingsStyled>
     );
 };

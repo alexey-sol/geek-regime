@@ -10,3 +10,7 @@ export type GetAllUsersArg = HasSearchPagingQueryParams;
 export type GetUserBySlugArg = User["slug"];
 
 export type UpdateUserByIdArg = HasId & UpdateUserRequest;
+
+export type UploadUserPictureArg = HasId & {
+    formData: FormData;
+};

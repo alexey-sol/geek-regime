@@ -157,6 +157,20 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserResponse"
+    delete:
+      summary: Remove user's picture by user's ID
+      operationId: removeUserPicture
+      tags:
+        - user
+      parameters:
+        - $ref: "./parameters-v1.yml#/components/parameters/id"
+      responses:
+        200:
+          description: The updated user
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserResponse"
 components:
   # Schemas imported from api-commons
   schemas:

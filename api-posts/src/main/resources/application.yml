@@ -19,8 +19,9 @@ server:
     servlet:
         context-path: /api
 
-api-posts:
-    base-url: http://${API_POSTS_HOST}:${API_POSTS_PORT}
+service:
+    app:
+        base-url: http://${API_POSTS_HOST}:${API_POSTS_PORT}
 
 ---
 
@@ -58,9 +59,10 @@ spring:
         hibernate:
             ddl-auto: create
 
-api-posts:
-    fake-post-count: 200
-    fake-user-count: 80 # in api-users, the number is lower; we simulate deleted authors here
+service:
+    faker:
+        post-count: 200
+        user-count: 80 # in api-users, the number is lower; we simulate deleted authors here
 
 ---
 

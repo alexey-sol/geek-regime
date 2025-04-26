@@ -7,28 +7,28 @@ import { toUser } from "@/features/users/utils/converters";
 import { omitUndefined } from "@/shared/utils/helpers/object";
 import { getApiErrorIfPossible } from "@/shared/utils/api";
 
-import { type ActiveUserErrors, type ActiveUserPending, type UseActiveUserResult } from "./types";
+import { type ActiveUserErrors, type ActiveUserLoading, type UseActiveUserResult } from "./types";
 
 export const useActiveUser = (): UseActiveUserResult => {
     const { slug } = useParams();
 
     const resultOnGet = useGetUserBySlugQuery(slug ?? skipToken, {
-        selectFromResult: ({ data, error, isFetching }) => ({
+        selectFromResult: ({ data, error, isLoading }) => ({
             error,
-            isFetching,
+            isLoading,
             user: data && toUser(data),
         }),
     });
 
     const { user } = resultOnGet;
 
-    const pending = useMemo<ActiveUserPending | undefined>(() => {
-        if (resultOnGet.isFetching) {
+    const loading = useMemo<ActiveUserLoading | undefined>(() => {
+        if (resultOnGet.isLoading) {
             return "get";
         }
 
         return undefined;
-    }, [resultOnGet.isFetching]);
+    }, [resultOnGet.isLoading]);
 
     const errors = useMemo<ActiveUserErrors>(() => omitUndefined({
         get: getApiErrorIfPossible(resultOnGet.error),
@@ -36,7 +36,7 @@ export const useActiveUser = (): UseActiveUserResult => {
 
     return useMemo(() => ({
         errors,
-        pending,
+        loading,
         user,
-    }), [errors, pending, user]);
+    }), [errors, loading, user]);
 };

@@ -29,13 +29,13 @@ public class DatabaseSeed {
     private static final int DEFAULT_ENTITY_COUNT = 0;
     private static final int MAX_ROOT_COMMENT_COUNT = 50;
     private static final int MAX_REPLY_COUNT = 5;
-    private static final String INVALID_FAKE_POST_COUNT = String.format("fake-post-count value must be larger than %d", DEFAULT_ENTITY_COUNT);
+    private static final String INVALID_FAKE_POST_COUNT = String.format("faker.post-count value must be larger than %d", DEFAULT_ENTITY_COUNT);
     private static final String ENTITY_MANAGER_NOT_INITIALIZED = "Entity manager is not initialized";
     private static final String DATA_SOURCE_NOT_INITIALIZED = "Data source is not initialized";
 
-    @Value("${api-posts.fake-post-count}")
+    @Value("${service.faker.post-count}")
     private int fakePostCount = DEFAULT_ENTITY_COUNT;
-    @Value("${api-posts.fake-user-count}")
+    @Value("${service.faker.user-count}")
     private int fakeUserCount = DEFAULT_ENTITY_COUNT;
 
     private final EntityManager entityManager;
