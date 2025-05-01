@@ -7,7 +7,8 @@ import { UserPicture } from "@/features/users/components/user-picture";
 import { type User } from "@/features/users/models/entities";
 import { type HasItem, type MaybeStubItem } from "@/shared/types";
 import { isStubItem } from "@/shared/utils/helpers/object";
-import { Skeleton } from "@/shared/components/skeleton";
+import { Skeleton } from "@/shared/components/loaders";
+import { usePrefetch } from "@/features/users/services/api";
 
 import {
     BodyStyled, OneLineTextStyled, UserNameTitleStyled, UserOverviewStyled,
@@ -21,8 +22,10 @@ export const UserOverview: FC<HasItem<MaybeStubItem<User>>> = ({ item }) => {
     const userOrStub = isStubItem(item) ? undefined : item;
     const isLoading = isStubItem(item);
 
+    const prefetchUserBySlug = usePrefetch("getUserBySlug");
+
     return (
-        <UserOverviewStyled>
+        <UserOverviewStyled onMouseEnter={() => item.slug && prefetchUserBySlug(item.slug)}>
             <Skeleton isLoading={isLoading} heightPx={PICTURE_SIZE_PX} widthPx={PICTURE_SIZE_PX}>
                 <UserPicture sizePx={PICTURE_SIZE_PX} user={userOrStub} />
             </Skeleton>

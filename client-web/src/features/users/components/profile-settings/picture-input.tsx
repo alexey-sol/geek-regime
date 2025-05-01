@@ -1,6 +1,6 @@
 import React, { type FC, type Ref } from "react";
 
-import { Skeleton } from "@/shared/components/skeleton";
+import { Skeleton } from "@/shared/components/loaders";
 import { UserIcon } from "@/shared/components/icon";
 
 import { UploadFileInputLabelStyled, UploadFileInputStyled } from "./styles";

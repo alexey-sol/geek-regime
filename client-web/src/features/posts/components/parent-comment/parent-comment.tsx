@@ -5,6 +5,7 @@ import { type PostComment } from "@/features/posts/models/entities";
 import { type HasItem, type MaybeStubItem } from "@/shared/types";
 import { useRootCommentContext } from "@/features/posts/contexts/root-comment";
 import { useToggle } from "@/shared/utils/hooks/use-toggle";
+import { usePrefetch } from "@/features/posts/services/post-comments-api";
 
 import { Comment } from "../comment";
 
@@ -42,9 +43,13 @@ export const ParentComment: FC<HasItem<MaybeStubItem<PostComment>>> = memo(({ it
         title: t("posts.post.comments.actions.showRepliesButton.title"),
     });
 
-    const toggleReplyTreeButton = showReplyTree
-        ? closeReplyTreeButton
-        : openReplyTreeButton;
+    const prefetchPostCommentTreeByParentId = usePrefetch("getPostCommentTreeByParentId");
+
+    const toggleReplyTreeButton = (
+        <section onMouseEnter={() => !showReplyTree && prefetchPostCommentTreeByParentId(item.id)}>
+            {showReplyTree ? closeReplyTreeButton : openReplyTreeButton}
+        </section>
+    );
 
     const replies = commentTree && renderReplies(commentTree);
 

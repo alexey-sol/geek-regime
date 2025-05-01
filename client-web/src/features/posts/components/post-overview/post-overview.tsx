@@ -6,8 +6,9 @@ import { PostMeta } from "@/features/posts/components/post-meta";
 import { AuthorInfo } from "@/features/posts/components/user-info";
 import { type PostPreview } from "@/features/posts/models/entities";
 import { MaybeStubItem, type HasItem } from "@/shared/types";
-import { Skeleton } from "@/shared/components/skeleton";
+import { Skeleton } from "@/shared/components/loaders";
 import { isStubItem } from "@/shared/utils/helpers/object";
+import { usePrefetch } from "@/features/posts/services/posts-api";
 
 import { ItemRatingReadonly } from "../post-meta/item-rating-readonly";
 
@@ -18,8 +19,10 @@ import { OverviewExcerpt } from "./overview-excerpt";
 export const PostOverview: FC<HasItem<MaybeStubItem<PostPreview>>> = ({ item }) => {
     const isLoading = isStubItem(item);
 
+    const prefetchPostBySlug = usePrefetch("getPostBySlug");
+
     return (
-        <PostOverviewStyled>
+        <PostOverviewStyled onMouseEnter={() => item.slug && prefetchPostBySlug(item.slug)}>
             <RouterDomLink
                 data-testid="post-overview/post-slug-link"
                 to={createAbsolutePostsPath(item.slug ?? "")}

@@ -88,4 +88,5 @@ export const {
     useUpdateUserByIdMutation,
     useUploadUserPictureMutation,
     useRemoveUserPictureByUserIdMutation,
+    usePrefetch,
 } = usersApi;

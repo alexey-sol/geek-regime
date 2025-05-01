@@ -16,7 +16,7 @@ import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import { notify } from "@/app/store/actions";
 import { createSuccessSnackbarArg } from "@/features/feedback/slice/utils";
 import { useAppDispatch } from "@/app/store/hooks";
-import { Skeleton } from "@/shared/components/skeleton";
+import { Skeleton } from "@/shared/components/loaders";
 import { type CreatePostOnSaveArg } from "@/features/posts/utils/hooks/types";
 
 import {

@@ -171,6 +171,7 @@ export const {
     useCreatePostCommentMutation,
     useRemovePostCommentByIdMutation,
     useUpdatePostCommentByIdMutation,
+    usePrefetch,
 } = postCommentsApi;
 
 // [1]. The function depends on api, so we can't declare it before it.

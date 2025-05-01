@@ -14,7 +14,7 @@ import { Divider } from "@/shared/components/divider";
 import { createInnerHtml } from "@/shared/utils/helpers/dom";
 import { Tooltip } from "@/shared/components/tooltip";
 import { type PostDetails as Details } from "@/features/posts/models/entities";
-import { Skeleton } from "@/shared/components/skeleton";
+import { Skeleton } from "@/shared/components/loaders";
 import { isStubItem } from "@/shared/utils/helpers/object";
 import { type MaybeStubItem } from "@/shared/types";
 

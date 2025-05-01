@@ -5,7 +5,7 @@ import { type HasId } from "@eggziom/geek-regime-js-commons";
 
 import { type PostCommentResponse } from "@/features/posts/models/dtos";
 import { RootCommentContextProvider } from "@/features/posts/contexts/root-comment";
-import { Skeleton } from "@/shared/components/skeleton";
+import { Skeleton } from "@/shared/components/loaders";
 import { getStubItems } from "@/shared/utils/helpers/object";
 
 import { ParentComment } from "../parent-comment";

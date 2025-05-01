@@ -11,7 +11,7 @@ import { createInnerHtml } from "@/shared/utils/helpers/dom";
 import { useRootCommentContext } from "@/features/posts/contexts/root-comment";
 import { useAuthContext } from "@/features/auth/contexts/auth";
 import { Tooltip } from "@/shared/components/tooltip";
-import { Skeleton } from "@/shared/components/skeleton";
+import { Skeleton } from "@/shared/components/loaders";
 import { isStubItem } from "@/shared/utils/helpers/object";
 
 import { EditCommentBox, ReplyCommentBox, useCommentBox } from "../comment-box";
