@@ -5,12 +5,39 @@ import { getSaveEmailSchema, getSaveNameSchema } from "@/features/auth/utils/val
 
 type Schema = ReturnType<typeof yup.object>;
 
-export const getProfileSettingsSchema = (): Schema => yup.object({
-    newPassword: yup.string()
-        .oneOf([yup.ref("oldPassword")], t("auth.errors.validation.passwordsNotMatch")),
-    email: getSaveEmailSchema(),
+const isNotEmpty = (value?: string) => !!value?.length;
+
+const getConfirmPasswordSchema = (): yup.StringSchema => yup.string()
+    .when("newPassword", {
+        is: isNotEmpty,
+        then: yup.string().required(t("auth.errors.validation.confirmPasswordEmpty")),
+    })
+    .oneOf([yup.ref("newPassword")], t("auth.errors.validation.passwordsNotMatch"));
+
+const getCreatePasswordSchema = (): Schema => yup.object({
+    newPassword: yup.string(),
+    confirmPassword: getConfirmPasswordSchema(),
+});
+
+const getUpdatePasswordSchema = (): Schema => yup.object().shape({
     oldPassword: yup.string()
-        .oneOf([yup.ref("newPassword")], t("auth.errors.validation.passwordsNotMatch")),
+        .when("newPassword", {
+            is: isNotEmpty,
+            then: yup.string().required(t("users.profile.settings.validation.oldPasswordEmpty")),
+        }),
+    newPassword: yup.string()
+        .when("oldPassword", {
+            is: isNotEmpty,
+            then: yup.string().required(t("users.profile.settings.validation.newPasswordEmpty")),
+        }),
+    confirmPassword: getConfirmPasswordSchema(),
+}, [["oldPassword", "newPassword"]]);
+
+export const getProfileSettingsSchema = (hasCredentials: boolean): Schema => yup.object({
+    credentials: hasCredentials
+        ? getUpdatePasswordSchema()
+        : getCreatePasswordSchema(),
+    email: getSaveEmailSchema(),
     details: yup.object({
         about: yup.string()
             .max(2000, t("users.profile.settings.validation.aboutTooLong")),

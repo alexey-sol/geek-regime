@@ -1,13 +1,12 @@
 import * as yup from "yup";
 import { t } from "i18next";
-import StringSchema from "yup/lib/string";
 
-export const getSaveEmailSchema = (): StringSchema => yup.string()
+export const getSaveEmailSchema = (): yup.StringSchema => yup.string()
     .trim()
     .required(t("auth.errors.validation.emailEmpty"))
     .email(t("auth.errors.validation.emailInvalid"));
 
-export const getSaveNameSchema = (): StringSchema => yup.string()
+export const getSaveNameSchema = (): yup.StringSchema => yup.string()
     .trim()
     .required(t("auth.errors.validation.nameEmpty"))
     .min(3, t("auth.errors.validation.nameTooShort"))

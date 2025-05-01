@@ -69,7 +69,11 @@ class UserService(
 
     fun userBySlugExists(slug: String): Boolean = repository.existsUserBySlug(slug)
 
-    fun saveUserPicture(picture: File): String {
+    fun saveUserPicture(picture: File): String? {
+        if (Objects.isNull(picture.name)) {
+            return null
+        }
+
         val resultPicture = getResizedPicture(picture)
 
         val key = "$S3_USER_PICTURES_DIR/${picture.name}"

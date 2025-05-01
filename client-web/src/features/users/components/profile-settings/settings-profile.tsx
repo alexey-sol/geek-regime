@@ -12,9 +12,8 @@ import { getDateWithoutTime } from "@/shared/utils/formatters/date";
 import { type UserDetails } from "@/features/users/models/entities";
 import { AboutEditor } from "@/features/users/components/profile-settings/about-editor";
 
-import { type UpdateUserRequest } from "../../models/dtos";
-
 import { FitContentWrapStyled, GridStyled, SectionStyled } from "./styles";
+import { type ProfileSettingsValues } from "./types";
 
 const BIRTH_DATE_YEARS_AGO_LIMIT = 150;
 
@@ -24,14 +23,16 @@ type SettingsProfileProps = {
 
 export const SettingsProfile: FC<SettingsProfileProps> = ({ userDetails }) => {
     const { t } = useTranslation();
-    const { errors, values } = useFormikContext<UpdateUserRequest>();
+    const { errors, values } = useFormikContext<ProfileSettingsValues>();
     const { mapGenderToTranslation } = useUserTranslation();
-    const aboutErrorMessage = (errors.details as UpdateUserRequest["details"])?.about;
+    const aboutErrorMessage = (errors.details as ProfileSettingsValues["details"])?.about;
 
     const birthDateMin = getDateWithoutTime(sub(new Date(), {
         years: BIRTH_DATE_YEARS_AGO_LIMIT,
     }).toISOString());
     const birthDateMax = getDateWithoutTime(new Date().toISOString());
+
+    const disableGenderTooltip = !values?.details?.gender || values.details.gender === "BLANK";
 
     return (
         <SectionStyled>
@@ -68,7 +69,7 @@ export const SettingsProfile: FC<SettingsProfileProps> = ({ userDetails }) => {
 
                 <span>
                     <Tooltip
-                        disabled={!values?.details?.gender}
+                        disabled={disableGenderTooltip}
                         message={t("users.profile.settings.profile.gender.tooltip")}
                     >
                         <Field name="details.gender">

@@ -3,6 +3,7 @@ package com.github.alexeysol.geekregime.apiusers.mapper
 import com.github.alexeysol.geekregime.apicommons.generated.model.CreateUserRequest
 import com.github.alexeysol.geekregime.apicommons.generated.model.UpdateUserRequest
 import com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse
+import com.github.alexeysol.geekregime.apicommons.generated.model.UserMeta
 import com.github.alexeysol.geekregime.apicommons.generated.model.UserResponse
 import com.github.alexeysol.geekregime.apicommons.util.Slug
 import com.github.alexeysol.geekregime.apiusers.model.entity.Credentials
@@ -11,6 +12,7 @@ import com.github.alexeysol.geekregime.apiusers.service.v1.UserService
 import com.github.alexeysol.geekregime.apiusers.util.SecurityUtil
 import org.modelmapper.ModelMapper
 import org.springframework.stereotype.Component
+import java.util.Objects
 
 const val EMAIL_DELIMITER = "@"
 
@@ -22,8 +24,16 @@ class UserMapper(
     fun toUserListResponse(users: Iterable<User>): List<UserResponse> =
         users.map { toUserResponse(it) }
 
-    fun toUserResponse(user: User): UserResponse =
-        modelMapper.map(user, UserResponse::class.java)
+    fun toUserResponse(user: User): UserResponse {
+        val response = modelMapper.map(user, UserResponse::class.java)
+        response.meta = createMeta(user)
+
+        return response
+    }
+
+    private fun createMeta(user: User): UserMeta = UserMeta.builder()
+        .hasCredentials(Objects.nonNull(user.credentials))
+        .build()
 
     fun toUser(request: CreateUserRequest): User {
         val entity = modelMapper.map(request, User::class.java)

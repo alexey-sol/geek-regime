@@ -9,7 +9,7 @@ import { useTryAction } from "@/shared/utils/hooks/use-try-action";
 import { type UserDetails } from "@/features/users/models/entities";
 import { useRemoveUserPictureByUserIdMutation, useUploadUserPictureMutation } from "@/features/users/services/api";
 
-import { ColumnStyled, FitContentWrapStyled } from "./styles";
+import { ColumnStyled, ControlsWrapStyled, FitContentWrapStyled } from "./styles";
 import { PictureInput } from "./picture-input";
 
 type SettingsPictureProps = {
@@ -71,24 +71,24 @@ export const SettingsPicture: FC<SettingsPictureProps> = ({ userDetails, userId 
                 </Tooltip>
             </FitContentWrapStyled>
 
-            {file && (
-                <LinkButton
-                    disabled={disableButtons}
-                    onClick={resetFile}
-                    view="primary"
-                >
-                    {t("users.profile.settings.picture.actions.resetButton.title")}
-                </LinkButton>
-            )}
+            {!!file && (
+                <ControlsWrapStyled>
+                    <LinkButton
+                        disabled={disableButtons}
+                        onClick={() => uploadUserPicture(file)}
+                        view="secondary"
+                    >
+                        {t("users.profile.settings.picture.actions.saveButton.title")}
+                    </LinkButton>
 
-            {file && (
-                <LinkButton
-                    disabled={disableButtons}
-                    onClick={() => uploadUserPicture(file)}
-                    view="secondary"
-                >
-                    {t("users.profile.settings.picture.actions.saveButton.title")}
-                </LinkButton>
+                    <LinkButton
+                        disabled={disableButtons}
+                        onClick={resetFile}
+                        view="primary"
+                    >
+                        {t("users.profile.settings.picture.actions.resetButton.title")}
+                    </LinkButton>
+                </ControlsWrapStyled>
             )}
 
             {userDetails.image && (

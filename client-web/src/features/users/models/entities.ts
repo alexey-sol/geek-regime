@@ -21,9 +21,18 @@ export class UserDetails {
     }
 }
 
+export class UserMeta {
+    constructor(
+        public hasCredentials: boolean,
+    ) {}
+}
+
 export class User {
     @Type(() => UserDetails)
     public details: UserDetails;
+
+    @Type(() => UserMeta)
+    public meta: UserMeta;
 
     constructor(
         public id: number,
@@ -33,8 +42,10 @@ export class User {
         public email: string,
         public slug: string,
         details: UserDetails,
+        meta: UserMeta,
     ) {
         this.details = details;
+        this.meta = meta;
     }
 
     get formattedCreatedAt(): string {

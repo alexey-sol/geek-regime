@@ -38,11 +38,7 @@ public class CloudObjectStorage {
             .build();
         var body = RequestBody.fromFile(Paths.get(objectPath));
 
-        try {
-            client.putObject(request, body);
-        } catch (IllegalArgumentException exception) {
-            return null;
-        }
+        client.putObject(request, body);
 
         var baseUrl = getBaseUrl(bucketName);
         return String.format("%s/%s", baseUrl, key);
@@ -54,9 +50,7 @@ public class CloudObjectStorage {
             .key(key)
             .build();
 
-        try {
-            client.deleteObject(request);
-        } catch (IllegalArgumentException ignored) {};
+        client.deleteObject(request);
     }
 
     public String getBaseUrl(String bucketName) {

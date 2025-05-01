@@ -39,6 +39,9 @@ components:
         details:
           type: object
           $ref: "#/components/schemas/UserDetails"
+        meta:
+          type: object
+          $ref: "#/components/schemas/UserMeta"
     UserDetails:
       type: object
       required: [ name, image, gender, createdAt, updatedAt ]
@@ -62,6 +65,12 @@ components:
         updatedAt:
           type: string
           format: date-time
+    UserMeta:
+      type: object
+      required: [ hasCredentials ]
+      properties:
+        hasCredentials:
+          type: boolean
     # Request DTOs:
     CreateUserRequest:
       type: object

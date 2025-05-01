@@ -272,6 +272,7 @@
                                 <typeMapping>UserPageResponse=com.github.alexeysol.geekregime.apicommons.generated.model.UserPageResponse</typeMapping>
                                 <typeMapping>UserResponse=com.github.alexeysol.geekregime.apicommons.generated.model.UserResponse</typeMapping>
                                 <typeMapping>UserDetails=com.github.alexeysol.geekregime.apicommons.generated.model.UserDetails</typeMapping>
+                                <typeMapping>UserMeta=com.github.alexeysol.geekregime.apicommons.generated.model.UserMeta</typeMapping>
                                 <typeMapping>IdResponse=com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse</typeMapping>
                                 <typeMapping>AuthenticateRequest=com.github.alexeysol.geekregime.apicommons.generated.model.AuthenticateRequest</typeMapping>
                                 <typeMapping>CreateUserRequest=com.github.alexeysol.geekregime.apicommons.generated.model.CreateUserRequest</typeMapping>

@@ -6,6 +6,8 @@ import "quill/dist/quill.bubble.css";
 import styled from "styled-components";
 import { type HasClassName } from "@eggziom/geek-regime-js-ui-kit";
 
+import { setHtmlValue } from "@/shared/utils/helpers/editor";
+
 const CONTAINER_ID = "editor";
 const EDITOR_THEME = "bubble";
 
@@ -53,8 +55,7 @@ export const Editor: FC<EditorProps> = ({
         const quill = quillRef.current;
 
         if (quill) {
-            const delta = quill.clipboard.convert({ html: initialValue });
-            quill.setContents(delta);
+            setHtmlValue(quill, initialValue);
 
             quill.on("text-change", () => {
                 const text = quill.getText().trim();

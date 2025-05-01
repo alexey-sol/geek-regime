@@ -3,9 +3,9 @@ import { Button } from "@eggziom/geek-regime-js-ui-kit";
 import { useTranslation } from "react-i18next";
 import { useFormikContext } from "formik";
 
-import { type UpdateUserRequest } from "@/features/users/models/dtos";
-
 import { ControlsWrapStyled } from "./styles";
+import { publishResetAbout } from "./utils";
+import { type ProfileSettingsValues } from "./types";
 
 type SettingsControlsProps = {
     isPending: boolean;
@@ -13,13 +13,18 @@ type SettingsControlsProps = {
 
 export const SettingsControls: FC<SettingsControlsProps> = ({ isPending }) => {
     const { t } = useTranslation();
-    const { dirty } = useFormikContext<UpdateUserRequest>();
+    const { dirty, resetForm } = useFormikContext<ProfileSettingsValues>();
 
     const disableButtons = !dirty || isPending;
 
+    const resetValues = () => {
+        publishResetAbout();
+        resetForm();
+    };
+
     return (
         <ControlsWrapStyled>
-            <Button disabled={disableButtons}>
+            <Button disabled={disableButtons} onClick={resetValues}>
                 {t("users.profile.settings.actions.resetButton.title")}
             </Button>
 

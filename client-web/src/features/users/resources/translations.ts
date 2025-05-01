@@ -25,10 +25,10 @@ export const en = {
                             title: "Delete picture",
                         },
                         resetButton: {
-                            title: "Reset chosen picture",
+                            title: "Reset",
                         },
                         saveButton: {
-                            title: "Save chosen picture",
+                            title: "Save",
                         },
                         uploadButton: {
                             tooltip: "Click here to upload a picture",
@@ -65,6 +65,9 @@ export const en = {
                     title: "Profile",
                 },
                 security: {
+                    confirmPassword: {
+                        title: "Confirm new password",
+                    },
                     newPassword: {
                         title: "New password",
                     },
@@ -76,6 +79,8 @@ export const en = {
                 title: "Settings",
                 validation: {
                     aboutTooLong: "The about is too long",
+                    newPasswordEmpty: "Specify new password",
+                    oldPasswordEmpty: "Specify old password",
                 },
             },
         },
@@ -122,10 +127,10 @@ export const ru = {
                             title: "Удалить изображение",
                         },
                         resetButton: {
-                            title: "Сбросить выбранное изображение",
+                            title: "Сбросить",
                         },
                         saveButton: {
-                            title: "Сохранить выбранное изображение",
+                            title: "Сохранить",
                         },
                         uploadButton: {
                             tooltip: "Нажмите, чтобы загрузить изображение",
@@ -162,6 +167,9 @@ export const ru = {
                     title: "Профиль",
                 },
                 security: {
+                    confirmPassword: {
+                        title: "Новый пароль еще раз",
+                    },
                     newPassword: {
                         title: "Новый пароль",
                     },
@@ -173,6 +181,8 @@ export const ru = {
                 title: "Настройки",
                 validation: {
                     aboutTooLong: "Текст слишком длинный",
+                    newPasswordEmpty: "Введите новый пароль",
+                    oldPasswordEmpty: "Введите старый пароль",
                 },
             },
         },

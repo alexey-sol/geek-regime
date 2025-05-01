@@ -9,8 +9,6 @@ import { createSuccessSnackbarArg } from "@/features/feedback/slice/utils";
 import { useAppDispatch } from "@/app/store/hooks";
 import { mapUpdateUserByIdArg } from "@/features/users/utils/api";
 import { type HasUser } from "@/features/users/types";
-import { type UpdateUserRequest } from "@/features/users/models/dtos";
-import { getDateWithoutTime } from "@/shared/utils/formatters/date";
 
 import { useUpdateUserByIdMutation } from "../../services/api";
 
@@ -19,35 +17,34 @@ import { SettingsSecurity } from "./settings-security";
 import { SettingsPicture } from "./settings-picture";
 import { SettingsControls } from "./settings-controls";
 import { FormStyled, ProfileSettingsStyled } from "./styles";
+import { ProfileSettingsValues } from "./types";
+import { getInitialValues } from "./utils";
 
 export const ProfileSettings: FC<HasUser> = ({ user }) => {
     const { t } = useTranslation();
     const dispatch = useAppDispatch();
     const [updateUserById, { isLoading }] = useUpdateUserByIdMutation();
 
-    const formRef = useRef<FormikProps<UpdateUserRequest>>(null);
+    const formRef = useRef<FormikProps<ProfileSettingsValues>>(null);
 
-    const { details, email, id } = user;
+    const { details, id, meta } = user;
+    const initialValues = getInitialValues(user);
 
-    const initialValues: UpdateUserRequest = {
-        email,
-        newPassword: "",
-        oldPassword: "",
-        details: {
-            about: details.about ?? "",
-            birthDate: details.birthDate ? getDateWithoutTime(details.birthDate) : "",
-            description: details.description ?? "",
-            gender: details.gender,
-            name: details.name,
-        },
-    };
-
-    const handleSubmit: FormikConfig<UpdateUserRequest>["onSubmit"] = (values, { resetForm }) => {
+    const handleSubmit: FormikConfig<ProfileSettingsValues>["onSubmit"] = (
+        values,
+        { resetForm },
+    ) => {
         const arg = mapUpdateUserByIdArg({ id, ...values }, initialValues);
         const result = updateUserById(arg).unwrap();
 
         const onSuccess = () => {
-            resetForm({ values }); // reset dirty state
+            resetForm({ // [1]
+                values: {
+                    ...values,
+                    credentials: initialValues.credentials,
+                },
+            });
+
             dispatch(notify(createSuccessSnackbarArg(t("users.query.update.success"))));
         };
 
@@ -56,18 +53,18 @@ export const ProfileSettings: FC<HasUser> = ({ user }) => {
 
     return (
         <ProfileSettingsStyled>
-            <Formik<UpdateUserRequest>
+            <Formik<ProfileSettingsValues>
                 initialValues={initialValues}
                 innerRef={formRef}
                 onSubmit={handleSubmit}
                 validateOnChange
-                validationSchema={getProfileSettingsSchema()}
+                validationSchema={getProfileSettingsSchema(meta.hasCredentials)}
             >
                 {() => (
                     <FormStyled>
                         <SettingsProfile userDetails={details} />
                         <Divider />
-                        <SettingsSecurity />
+                        <SettingsSecurity hasCredentials={meta?.hasCredentials} />
                         <SettingsControls isPending={isLoading} />
                     </FormStyled>
                 )}
@@ -77,3 +74,6 @@ export const ProfileSettings: FC<HasUser> = ({ user }) => {
         </ProfileSettingsStyled>
     );
 };
+
+// [1]. Reset dirty state so that apply and reset buttons get disabled again after submitting. We
+// need to keep submitted values but empty password fields.
