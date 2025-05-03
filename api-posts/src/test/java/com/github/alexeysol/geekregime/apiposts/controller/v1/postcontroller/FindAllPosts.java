@@ -11,6 +11,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -44,7 +45,7 @@ public class FindAllPosts extends BasePostControllerTest {
         var postPreviewPageResponse = new BasePostPreviewPageResponse(postPreviewResponses,
                 postPage.getSize(), postPage.getTotalElements());
 
-        when(service.findAllPosts(Mockito.any(Pageable.class))).thenReturn(postPage);
+        when(service.findAllPosts(Mockito.any(Pageable.class), Mockito.any(Specification.class))).thenReturn(postPage);
         when(mapper.toBasePostPreviewListResponse(posts)).thenReturn(postPreviewResponses);
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl()))
@@ -69,7 +70,7 @@ public class FindAllPosts extends BasePostControllerTest {
         var emptyPostPreviewPageResponse = new BasePostPreviewPageResponse(new ArrayList<>(), emptyPage.getSize(),
             emptyPage.getTotalElements());
 
-        when(service.findAllPosts(Mockito.any(Pageable.class))).thenReturn(emptyPage);
+        when(service.findAllPosts(Mockito.any(Pageable.class), Mockito.any(Specification.class))).thenReturn(emptyPage);
         when(mapper.toBasePostPreviewListResponse(emptyList)).thenReturn(emptyPostPreviewResponseList);
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl()))

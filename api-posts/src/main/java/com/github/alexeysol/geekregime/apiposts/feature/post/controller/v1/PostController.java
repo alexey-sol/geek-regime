@@ -4,17 +4,16 @@ import com.github.alexeysol.geekregime.apicommons.constant.Default;
 import com.github.alexeysol.geekregime.apicommons.constant.database.LogicalOperator;
 import com.github.alexeysol.geekregime.apicommons.exception.ResourceException;
 import com.github.alexeysol.geekregime.apicommons.generated.model.*;
-import com.github.alexeysol.geekregime.apicommons.model.dto.query.FilterCriterion;
-import com.github.alexeysol.geekregime.apicommons.model.util.EntityFilter;
-import com.github.alexeysol.geekregime.apiposts.generated.api.PostApi;
 import com.github.alexeysol.geekregime.apiposts.feature.post.mapper.PostMapper;
 import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.feature.post.service.v1.PostService;
-import com.github.alexeysol.geekregime.apiposts.feature.post.util.PostFilterUtil;
+import com.github.alexeysol.geekregime.apiposts.feature.post.util.PostSpecificationUtil;
+import com.github.alexeysol.geekregime.apiposts.generated.api.PostApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,19 +21,22 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.ConstraintViolationException;
 import java.util.List;
-import java.util.Objects;
 
 import static com.github.alexeysol.geekregime.apicommons.constant.Default.*;
-import static com.github.alexeysol.geekregime.apiposts.shared.constant.PathConstant.*;
 import static com.github.alexeysol.geekregime.apiposts.feature.post.constant.PostConstant.*;
+import static com.github.alexeysol.geekregime.apiposts.shared.constant.PathConstant.*;
 
 @RestController
 @RequestMapping(path = API_PREFIX_V1, produces = "application/json")
 @Validated
 @RequiredArgsConstructor
 public class PostController implements PostApi {
+    private static final String CREATED_AT = "createdAt";
+    private static final String ID = "id";
+    private static final String USER_ID = "userId";
+    private static final String POSTS = "posts";
+
     private final PostService service;
     private final PostMapper mapper;
 
@@ -46,13 +48,30 @@ public class PostController implements PostApi {
         PostPagePeriod period,
         @PageableDefault(size = PAGE_SIZE, sort = SORT_BY, direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        var searchTextFilter = getSearchFilterIfTextIsPresent(text, searchIn);
-        var searchPeriodFilter = getSearchFilter(period);
-        var authorIdFilter = PostFilterUtil.createFilter(authorId, LogicalOperator.AND);
-        var plainFilters = PostFilterUtil.combinePlainFilters(authorIdFilter, searchTextFilter, searchPeriodFilter);
-        var compositeFilter = PostFilterUtil.createFilter(plainFilters, LogicalOperator.AND);
+        var searchTextFilter = PostSpecificationUtil.<Post>byLikeIgnoreCaseSearchText(text, searchIn);
+        var searchPeriodFilter = PostSpecificationUtil.<Post>bySameOrAfterPeriod(CREATED_AT, period);
+        var authorIdFilter = PostSpecificationUtil.<Post>byEqual(USER_ID, authorId);
+        var composedSpecification = PostSpecificationUtil.compose(LogicalOperator.AND, searchTextFilter, searchPeriodFilter, authorIdFilter);
 
-        var response = findPosts(pageable, compositeFilter);
+        var response = findPosts(pageable, composedSpecification);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Override
+    public ResponseEntity<BasePostPreviewPageResponse> findAllPostsBySpace(
+        Long spaceId,
+        List<String> searchIn,
+        String text,
+        PostPagePeriod period,
+        @PageableDefault(size = PAGE_SIZE, sort = SORT_BY, direction = Sort.Direction.DESC) Pageable pageable
+    ) {
+        var searchTextFilter = PostSpecificationUtil.<Post>byLikeIgnoreCaseSearchText(text, searchIn);
+        var searchPeriodFilter = PostSpecificationUtil.<Post>bySameOrAfterPeriod(CREATED_AT, period);
+        var spaceIdFilter = PostSpecificationUtil.<Post>byEqualAndIsMember(ID, spaceId, POSTS, Post.class);
+        var composedSpecification = PostSpecificationUtil.compose(LogicalOperator.AND, searchTextFilter, searchPeriodFilter, spaceIdFilter);
+
+        var response = findPosts(pageable, composedSpecification);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -64,48 +83,17 @@ public class PostController implements PostApi {
         PostPagePeriod period,
         @PageableDefault(size = PAGE_SIZE, sort = SORT_BY, direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        var searchTextFilter = getSearchFilterIfTextIsPresent(text, searchIn);
-        var searchPeriodFilter = getSearchFilter(period);
-        var plainFilters = PostFilterUtil.combinePlainFilters(searchTextFilter, searchPeriodFilter);
-        var compositeFilter = PostFilterUtil.createFilter(plainFilters, LogicalOperator.AND);
+        var searchTextFilter = PostSpecificationUtil.<Post>byLikeIgnoreCaseSearchText(text, searchIn);
+        var searchPeriodFilter = PostSpecificationUtil.<Post>bySameOrAfterPeriod(CREATED_AT, period);
+        var composedSpecification = PostSpecificationUtil.compose(LogicalOperator.AND, searchTextFilter, searchPeriodFilter);
 
-        var response = findPosts(pageable, compositeFilter);
+        var response = findPosts(pageable, composedSpecification);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    private EntityFilter<FilterCriterion> getSearchFilterIfTextIsPresent(String text, List<String> searchIn) {
-        if (Objects.isNull(text)) {
-            return null;
-        }
-
-        return (Objects.isNull(searchIn) || searchIn.isEmpty())
-            ? PostFilterUtil.createFilter(text, LogicalOperator.OR)
-            : PostFilterUtil.createFilter(text, searchIn, LogicalOperator.OR);
-    }
-
-    private EntityFilter<FilterCriterion> getSearchFilter(PostPagePeriod period) {
-        var periodOrDefault =(Objects.isNull(period))
-            ? PostPagePeriod.OVERALL
-            : period;
-
-        return PostFilterUtil.createSameOrAfterFilter(periodOrDefault);
-    }
-
-    private BasePostPreviewPageResponse findPosts(
-        Pageable pageable,
-        EntityFilter<EntityFilter<FilterCriterion>> filter
-    ) {
-        Page<Post> postPage;
-
-        try {
-            postPage = (Objects.isNull(filter))
-                ? service.findAllPosts(pageable)
-                : service.findAllPosts(pageable, filter);
-        } catch (IllegalArgumentException | ConstraintViolationException exception) {
-            throw new ResourceException(HttpStatus.UNPROCESSABLE_ENTITY, exception.getMessage());
-        }
-
+    private BasePostPreviewPageResponse findPosts(Pageable pageable, Specification<Post> specification) {
+        Page<Post> postPage = service.findAllPosts(pageable, specification);
         var basePostPreviewList = mapper.toBasePostPreviewListResponse(postPage.getContent());
 
         return new BasePostPreviewPageResponse(basePostPreviewList, postPage.getSize(), postPage.getTotalElements());

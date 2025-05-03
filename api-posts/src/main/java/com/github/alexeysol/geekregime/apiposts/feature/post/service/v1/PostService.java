@@ -1,18 +1,16 @@
 package com.github.alexeysol.geekregime.apiposts.feature.post.service.v1;
 
 import com.github.alexeysol.geekregime.apicommons.constant.Default;
-import com.github.alexeysol.geekregime.apicommons.model.dto.query.FilterCriterion;
-import com.github.alexeysol.geekregime.apicommons.model.util.EntityFilter;
-import com.github.alexeysol.geekregime.apicommons.util.database.FilterSpecificationUtil;
 import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.PostMeta;
 import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.PostVote;
 import com.github.alexeysol.geekregime.apiposts.feature.post.repository.PostMetaRepository;
 import com.github.alexeysol.geekregime.apiposts.feature.post.repository.PostRepository;
 import com.github.alexeysol.geekregime.apiposts.feature.post.repository.PostVoteRepository;
-import com.github.alexeysol.geekregime.apiposts.feature.post.util.PostFilterSpecificationFactory;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.*;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -28,16 +26,7 @@ public class PostService {
     private final PostMetaRepository postMetaRepository;
     private final PostVoteRepository postVoteRepository;
 
-    public Page<Post> findAllPosts(Pageable pageable) {
-        return postRepository.findAll(pageable);
-    }
-
-    public Page<Post> findAllPosts(
-        Pageable pageable,
-        EntityFilter<EntityFilter<FilterCriterion>> filter
-    ) {
-        var specificationUtils = new FilterSpecificationUtil<>(new PostFilterSpecificationFactory());
-        var specification = specificationUtils.createCompositeSpecification(filter);
+    public Page<Post> findAllPosts(Pageable pageable, Specification<Post> specification) {
         return postRepository.findAll(specification, pageable);
     }
 

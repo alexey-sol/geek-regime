@@ -24,6 +24,25 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BasePostPreviewPageResponse"
+  /spaces/{id}/posts:
+    get:
+      summary: Find all posts by space
+      operationId: findAllPostsBySpace
+      tags:
+        - post
+      x-spring-paginated: true
+      parameters:
+        - $ref: "./parameters-v1.yml#/components/parameters/id"
+        - $ref: "./parameters-v1.yml#/components/parameters/searchIn"
+        - $ref: "./parameters-v1.yml#/components/parameters/text"
+        - $ref: "./parameters-v1.yml#/components/parameters/period"
+      responses:
+        200:
+          description: A list of posts
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/BasePostPreviewPageResponse"
   /users/{userId}/posts/{postId}/vote:
     put:
       summary: Vote for the post on behalf of the user
