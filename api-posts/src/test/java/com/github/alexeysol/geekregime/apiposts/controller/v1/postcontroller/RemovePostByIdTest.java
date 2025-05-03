@@ -4,7 +4,7 @@ import com.github.alexeysol.geekregime.apicommons.constant.Default;
 import com.github.alexeysol.geekregime.apicommons.exception.ResourceException;
 import com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse;
 import com.github.alexeysol.geekregime.apicommons.util.parser.Json;
-import com.github.alexeysol.geekregime.apiposts.util.source.ApiPostsSource;
+import com.github.alexeysol.geekregime.apiposts.shared.source.ApiPostsSource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

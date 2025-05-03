@@ -1,6 +1,6 @@
 package com.github.alexeysol.geekregime.apiposts.repository.postrepository;
 
-import com.github.alexeysol.geekregime.apiposts.repository.PostRepository;
+import com.github.alexeysol.geekregime.apiposts.feature.post.repository.PostRepository;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.AutoConfigureTestEntityManager;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

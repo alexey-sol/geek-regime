@@ -2,9 +2,9 @@ package com.github.alexeysol.geekregime.apiposts.controller.v1.postcontroller;
 
 import com.github.alexeysol.geekregime.apicommons.generated.model.BasePostDetailsResponse;
 import com.github.alexeysol.geekregime.apicommons.util.parser.Json;
-import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
-import com.github.alexeysol.geekregime.apiposts.model.entity.PostMeta;
-import com.github.alexeysol.geekregime.apiposts.util.source.ApiPostsSource;
+import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.Post;
+import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.PostMeta;
+import com.github.alexeysol.geekregime.apiposts.shared.source.ApiPostsSource;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

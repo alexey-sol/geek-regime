@@ -62,6 +62,7 @@ spring:
 service:
     faker:
         post-count: 200
+        space-count: 30
         user-count: 80 # in api-users, the number is lower; we simulate deleted authors here
 
 ---

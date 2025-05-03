@@ -5,8 +5,8 @@ import com.github.alexeysol.geekregime.apicommons.generated.model.BasePostDetail
 import com.github.alexeysol.geekregime.apicommons.generated.model.UpdatePostRequest;
 import com.github.alexeysol.geekregime.apicommons.util.TestUtil;
 import com.github.alexeysol.geekregime.apicommons.util.parser.Json;
-import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
-import com.github.alexeysol.geekregime.apiposts.util.source.ApiPostsSource;
+import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.Post;
+import com.github.alexeysol.geekregime.apiposts.shared.source.ApiPostsSource;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Assertions;
@@ -39,7 +39,6 @@ public class UpdatePostTest extends BasePostControllerTest {
 
         var post = Post.builder()
             .userId(1L)
-            .spaceId(1L)
             .title("Test Post")
             .body("Hello World")
             .build();

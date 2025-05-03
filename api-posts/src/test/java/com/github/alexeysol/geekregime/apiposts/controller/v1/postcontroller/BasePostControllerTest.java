@@ -1,15 +1,15 @@
 package com.github.alexeysol.geekregime.apiposts.controller.v1.postcontroller;
 
-import com.github.alexeysol.geekregime.apiposts.service.v1.PostService;
-import com.github.alexeysol.geekregime.apiposts.mapper.PostMapper;
-import com.github.alexeysol.geekregime.apiposts.util.source.ApiPostsSource;
+import com.github.alexeysol.geekregime.apiposts.feature.post.service.v1.PostService;
+import com.github.alexeysol.geekregime.apiposts.feature.post.mapper.PostMapper;
+import com.github.alexeysol.geekregime.apiposts.shared.source.ApiPostsSource;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static com.github.alexeysol.geekregime.apicommons.constant.ResourceConstant.POSTS;
-import static com.github.alexeysol.geekregime.apiposts.constant.PathConstant.*;
+import static com.github.alexeysol.geekregime.apiposts.shared.constant.PathConstant.*;
 
 @SpringBootTest
 @AutoConfigureMockMvc

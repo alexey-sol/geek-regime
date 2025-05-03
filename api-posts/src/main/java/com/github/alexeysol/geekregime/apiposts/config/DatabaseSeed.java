@@ -1,9 +1,11 @@
 package com.github.alexeysol.geekregime.apiposts.config;
 
-import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
-import com.github.alexeysol.geekregime.apiposts.model.entity.PostComment;
-import com.github.alexeysol.geekregime.apiposts.model.entity.PostVote;
-import com.github.alexeysol.geekregime.apiposts.util.faker.*;
+import com.github.alexeysol.geekregime.apicommons.util.CollectionUtil;
+import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.Post;
+import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.PostComment;
+import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.PostVote;
+import com.github.alexeysol.geekregime.apiposts.feature.space.model.entity.Space;
+import com.github.alexeysol.geekregime.apiposts.shared.util.faker.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -19,7 +21,7 @@ import javax.transaction.Transactional;
 import java.time.Instant;
 import java.util.*;
 
-import static com.github.alexeysol.geekregime.apiposts.constant.FakerConstant.*;
+import static com.github.alexeysol.geekregime.apiposts.shared.constant.FakerConstant.*;
 import static java.lang.Math.toIntExact;
 
 @Profile({ "seed-fake-data" })
@@ -29,17 +31,27 @@ public class DatabaseSeed {
     private static final int DEFAULT_ENTITY_COUNT = 0;
     private static final int MAX_ROOT_COMMENT_COUNT = 50;
     private static final int MAX_REPLY_COUNT = 5;
-    private static final String INVALID_FAKE_POST_COUNT = String.format("faker.post-count value must be larger than %d", DEFAULT_ENTITY_COUNT);
+    private static final int MIN_POST_SPACE_COUNT = 1;
+    private static final int MAX_POST_SPACE_COUNT = 10;
+    private static final String MAX_ENTITY_COUNT_TOO_SMALL_FORMAT = "%s value must be larger than %d";
+    private static final String MAX_POST_COUNT_TOO_SMALL = String.format(MAX_ENTITY_COUNT_TOO_SMALL_FORMAT,
+        "service.faker.post-count", DEFAULT_ENTITY_COUNT);
+    private static final String MAX_SPACE_COUNT_TOO_SMALL = String.format(MAX_ENTITY_COUNT_TOO_SMALL_FORMAT,
+        "service.faker.space-count", DEFAULT_ENTITY_COUNT);
+
     private static final String ENTITY_MANAGER_NOT_INITIALIZED = "Entity manager is not initialized";
     private static final String DATA_SOURCE_NOT_INITIALIZED = "Data source is not initialized";
 
     @Value("${service.faker.post-count}")
     private int fakePostCount = DEFAULT_ENTITY_COUNT;
+    @Value("${service.faker.space-count}")
+    private int fakeSpaceCount = DEFAULT_ENTITY_COUNT;
     @Value("${service.faker.user-count}")
     private int fakeUserCount = DEFAULT_ENTITY_COUNT;
 
     private final EntityManager entityManager;
     private final DataSource dataSource;
+    private final List<Space> spaces = new ArrayList<>();
     private final List<Instant> createdAtList = new ArrayList<>();
     private final List<Instant> updatedAtList = new ArrayList<>();
     private final Map<Integer, Long> mapPostIdToCommentCount = new HashMap<>();
@@ -48,9 +60,14 @@ public class DatabaseSeed {
     @Bean
     @Transactional
     public void seedFakerData() {
-        Assert.isTrue(fakePostCount > DEFAULT_ENTITY_COUNT, INVALID_FAKE_POST_COUNT);
+        Assert.isTrue(fakePostCount > DEFAULT_ENTITY_COUNT, MAX_POST_COUNT_TOO_SMALL);
+        Assert.isTrue(fakeSpaceCount > DEFAULT_ENTITY_COUNT, MAX_SPACE_COUNT_TOO_SMALL);
         Assert.notNull(entityManager, ENTITY_MANAGER_NOT_INITIALIZED);
         Assert.notNull(dataSource, DATA_SOURCE_NOT_INITIALIZED);
+
+        for (int spaceId = INITIAL_ENTITY_ID; spaceId <= fakeSpaceCount; spaceId++) {
+            insertSpace(spaceId);
+        }
 
         for (int postId = INITIAL_ENTITY_ID; postId <= fakePostCount; postId++) {
             insertPostWithRelatedData(postId);
@@ -61,6 +78,14 @@ public class DatabaseSeed {
         for (int postId = INITIAL_ENTITY_ID; postId <= fakePostCount; postId++) {
             updateDates(jdbcTemplate, postId);
         }
+    }
+
+    private void insertSpace(int spaceId) {
+        var space = FakeSpace.generateSpace(spaceId, fakeSpaceCount);
+
+        entityManager.persist(space);
+
+        spaces.add(space);
     }
 
     private void insertPostWithRelatedData(int postId) {
@@ -87,6 +112,8 @@ public class DatabaseSeed {
 
     private Post insertPost(int postId) {
         var post = FakePost.generatePost(postId, fakeUserCount);
+        var postSpaceCount = FakerUtil.getRandomNumber(MIN_POST_SPACE_COUNT, MAX_POST_SPACE_COUNT);
+        post.setSpaces(CollectionUtil.randomSubList(spaces, postSpaceCount));
 
         entityManager.persist(post);
 

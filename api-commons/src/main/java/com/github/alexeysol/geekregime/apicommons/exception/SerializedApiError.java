@@ -4,7 +4,7 @@ import com.github.alexeysol.geekregime.apicommons.constant.Default;
 import com.github.alexeysol.geekregime.apicommons.generated.model.ApiError;
 import com.github.alexeysol.geekregime.apicommons.generated.model.ApiErrorDetail;
 import com.github.alexeysol.geekregime.apicommons.util.parser.Json;
-import com.github.alexeysol.geekregime.apicommons.util.ObjectCasting;
+import com.github.alexeysol.geekregime.apicommons.util.CollectionUtil;
 import com.github.alexeysol.geekregime.apicommons.util.converter.MapConverter;
 import lombok.Getter;
 
@@ -71,7 +71,7 @@ public class SerializedApiError extends RuntimeException {
 
         public Builder buildDetails() {
             List<Map> unknownDetails = (rawData.containsKey("details"))
-                ? ObjectCasting.objectToList(rawData.get("details"), Map.class)
+                ? CollectionUtil.objectToList(rawData.get("details"), Map.class)
                 : new ArrayList<>();
 
             List<ApiErrorDetail> details = unknownDetails.stream()

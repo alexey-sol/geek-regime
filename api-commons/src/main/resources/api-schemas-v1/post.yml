@@ -71,13 +71,9 @@ components:
     # Request DTOs:
     CreatePostRequest:
       type: object
-      required: [ authorId, spaceId, title, body ]
+      required: [ authorId, title, body ]
       properties:
         authorId:
-          type: integer
-          format: int64
-          minimum: 1
-        spaceId:
           type: integer
           format: int64
           minimum: 1
@@ -108,7 +104,7 @@ components:
     # Shared fields:
     PostResponseBase: # fields shared by all post response DTOs
       type: object
-      required: [ id, title, excerpt, slug, createdAt, updatedAt ]
+      required: [ id, title, excerpt, slug, createdAt, updatedAt, spaces ]
       properties:
         id:
           type: integer
@@ -143,6 +139,10 @@ components:
             commentCount:
               type: integer
               format: int64
+        spaces:
+          type: array
+          items:
+            $ref: "#/components/schemas/SpaceResponse"
     PostVote:
       type: object
       required: [ id, userId, value ]
@@ -165,10 +165,6 @@ components:
           type: integer
           format: int64
           minimum: 1
-        spaceId:
-          type: integer
-          format: int64
-          minimum: 1
     PostPagePeriod:
       type: string
       enum: [ "DAY", "WEEK", "MONTH", "YEAR", "OVERALL" ]
@@ -176,6 +172,9 @@ components:
     Page:
       type: Page
       $ref: "./common.yml#/components/schemas/Page"
+    SpaceResponse:
+      type: Page
+      $ref: "./space.yml#/components/schemas/SpaceResponse"
     UserResponse:
       type: UserResponse
       $ref: "./user.yml#/components/schemas/UserResponse"

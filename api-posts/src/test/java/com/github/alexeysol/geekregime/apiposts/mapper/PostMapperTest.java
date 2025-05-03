@@ -2,9 +2,10 @@ package com.github.alexeysol.geekregime.apiposts.mapper;
 
 import com.github.alexeysol.geekregime.apicommons.generated.model.CreatePostRequest;
 import com.github.alexeysol.geekregime.apicommons.generated.model.UpdatePostRequest;
-import com.github.alexeysol.geekregime.apiposts.constant.PostConstant;
-import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
-import com.github.alexeysol.geekregime.apiposts.service.v1.PostService;
+import com.github.alexeysol.geekregime.apiposts.feature.post.constant.PostConstant;
+import com.github.alexeysol.geekregime.apiposts.feature.post.mapper.PostMapper;
+import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.Post;
+import com.github.alexeysol.geekregime.apiposts.feature.post.service.v1.PostService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,14 +33,12 @@ public class PostMapperTest {
     public void whenToBasePostPreviewListResponse_thenReturnsBasePostPreviewListResponse() {
         var post = Post.builder()
             .userId(1L)
-            .spaceId(5L)
             .title("Test Post")
             .excerpt("Hello World")
             .slug("test-post")
             .build();
         var post2 = Post.builder()
             .userId(2L)
-            .spaceId(5L)
             .title("Der Titel")
             .excerpt("Der Something")
             .slug("der-titel")
@@ -62,7 +61,6 @@ public class PostMapperTest {
     public void whenToBasePostDetailsResponse_thenReturnsBasePostDetailsResponse() {
         var post = Post.builder()
             .userId(1L)
-            .spaceId(5L)
             .title("Test Post")
             .body("Hello World")
             .slug("test-post")
@@ -79,7 +77,6 @@ public class PostMapperTest {
     public void whenToPost_thenReturnsPostWithGeneratedSlug() {
         var createPostRequest = CreatePostRequest.builder()
             .authorId(1L)
-            .spaceId(1L)
             .title("Test Post")
             .body("Hello World")
             .build();
@@ -95,7 +92,6 @@ public class PostMapperTest {
     public void givenSlugExists_whenToPost_thenReturnsPostWithModifiedSlug() {
         var createPostRequest = CreatePostRequest.builder()
             .authorId(1L)
-            .spaceId(1L)
             .title("Test Post")
             .body("Hello World")
             .build();
@@ -111,7 +107,6 @@ public class PostMapperTest {
     public void whenToPost_thenReturnsPostWithGeneratedExcerpt() {
         var createPostRequest = CreatePostRequest.builder()
             .authorId(1L)
-            .spaceId(1L)
             .title("Test Post")
             .body("Hello World")
             .build();
@@ -173,8 +168,8 @@ public class PostMapperTest {
         when(postService.findPostById(postId)).thenReturn(Optional.of(oldPost));
 
         var result = postMapper.toPost(updatePostRequest, oldPost);
-        var exptectedExcerptStart = getExpectedExcerptStart(updatePostRequest.getBody());
-        Assertions.assertTrue(result.getExcerpt().startsWith(exptectedExcerptStart));
+        var expectedExcerptStart = getExpectedExcerptStart(updatePostRequest.getBody());
+        Assertions.assertTrue(result.getExcerpt().startsWith(expectedExcerptStart));
     }
 
     @Test

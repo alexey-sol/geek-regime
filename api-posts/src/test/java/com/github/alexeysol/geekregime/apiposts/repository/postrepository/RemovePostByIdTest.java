@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregime.apiposts.repository.postrepository;
 
-import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
-import com.github.alexeysol.geekregime.apiposts.repository.PostRepository;
+import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.Post;
+import com.github.alexeysol.geekregime.apiposts.feature.post.repository.PostRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

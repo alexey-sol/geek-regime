@@ -5,9 +5,9 @@ import com.github.alexeysol.geekregime.apicommons.generated.model.CreatePostRequ
 import com.github.alexeysol.geekregime.apicommons.generated.model.BasePostDetailsResponse;
 import com.github.alexeysol.geekregime.apicommons.util.TestUtil;
 import com.github.alexeysol.geekregime.apicommons.util.parser.Json;
-import com.github.alexeysol.geekregime.apiposts.model.entity.Post;
-import com.github.alexeysol.geekregime.apiposts.model.entity.PostMeta;
-import com.github.alexeysol.geekregime.apiposts.util.source.ApiPostsSource;
+import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.Post;
+import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.PostMeta;
+import com.github.alexeysol.geekregime.apiposts.shared.source.ApiPostsSource;
 import org.hamcrest.CoreMatchers;
 import org.hamcrest.MatcherAssert;
 import org.junit.jupiter.api.Assertions;
@@ -37,14 +37,12 @@ public class CreatePostTest extends BasePostControllerTest {
 
         var post = Post.builder()
             .userId(1L)
-            .spaceId(1L)
             .title("Test Post")
             .body("Hello World")
             .meta(new PostMeta())
             .build();
         var createPostRequest = CreatePostRequest.builder()
             .authorId(post.getUserId())
-            .spaceId(post.getSpaceId())
             .title(post.getTitle())
             .body(post.getBody())
             .build();
@@ -75,7 +73,6 @@ public class CreatePostTest extends BasePostControllerTest {
 
         var createPostRequest = CreatePostRequest.builder()
             .authorId(1L)
-            .spaceId(1L)
             .title(invalidTitle)
             .body("Hello World")
             .build();
@@ -99,14 +96,12 @@ public class CreatePostTest extends BasePostControllerTest {
 
         var post = Post.builder()
             .userId(absentUserId)
-            .spaceId(1L)
             .title("Test Post")
             .body("Hello World")
             .meta(new PostMeta())
             .build();
         var createPostRequest = CreatePostRequest.builder()
             .authorId(post.getUserId())
-            .spaceId(post.getSpaceId())
             .title(post.getTitle())
             .body(post.getBody())
             .build();
