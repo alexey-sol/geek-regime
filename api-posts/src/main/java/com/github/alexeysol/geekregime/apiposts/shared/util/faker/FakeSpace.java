@@ -4,15 +4,12 @@ import com.github.alexeysol.geekregime.apicommons.util.Slug;
 import com.github.alexeysol.geekregime.apiposts.feature.space.model.entity.Space;
 import lombok.experimental.UtilityClass;
 
-import static com.github.alexeysol.geekregime.apiposts.shared.constant.FakerConstant.*;
-
 @UtilityClass
 public class FakeSpace {
-    public Space generateSpace(int spaceId, int fakeUserCount) {
+    public Space generateSpace(int spaceId) {
         var title = generateTitle();
 
         return Space.builder()
-            .userId(FakerUtil.getFaker().number().numberBetween(INITIAL_ENTITY_ID, fakeUserCount + INITIAL_ENTITY_ID))
             .title(title)
             .description(FakerUtil.generateParagraphs(1, 3))
             .slug(generateSlug(title, spaceId))

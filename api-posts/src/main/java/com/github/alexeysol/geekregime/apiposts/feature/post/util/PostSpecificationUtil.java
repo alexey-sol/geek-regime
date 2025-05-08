@@ -9,7 +9,7 @@ import org.springframework.data.jpa.domain.Specification;
 
 import java.util.*;
 
-import static com.github.alexeysol.geekregime.apiposts.feature.post.constant.PostConstant.SEARCHABLE_FIELDS;
+import static com.github.alexeysol.geekregime.apiposts.feature.post.constant.PostConstant.*;
 
 @UtilityClass
 public class PostSpecificationUtil {

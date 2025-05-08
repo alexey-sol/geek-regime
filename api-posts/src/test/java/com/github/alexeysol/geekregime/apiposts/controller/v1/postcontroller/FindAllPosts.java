@@ -45,7 +45,7 @@ public class FindAllPosts extends BasePostControllerTest {
         var postPreviewPageResponse = new BasePostPreviewPageResponse(postPreviewResponses,
                 postPage.getSize(), postPage.getTotalElements());
 
-        when(service.findAllPosts(Mockito.any(Pageable.class), Mockito.any(Specification.class))).thenReturn(postPage);
+        when(service.findAllPosts(Mockito.any(Specification.class), Mockito.any(Pageable.class))).thenReturn(postPage);
         when(mapper.toBasePostPreviewListResponse(posts)).thenReturn(postPreviewResponses);
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl()))
@@ -70,7 +70,7 @@ public class FindAllPosts extends BasePostControllerTest {
         var emptyPostPreviewPageResponse = new BasePostPreviewPageResponse(new ArrayList<>(), emptyPage.getSize(),
             emptyPage.getTotalElements());
 
-        when(service.findAllPosts(Mockito.any(Pageable.class), Mockito.any(Specification.class))).thenReturn(emptyPage);
+        when(service.findAllPosts(Mockito.any(Specification.class), Mockito.any(Pageable.class))).thenReturn(emptyPage);
         when(mapper.toBasePostPreviewListResponse(emptyList)).thenReturn(emptyPostPreviewResponseList);
 
         mockMvc.perform(MockMvcRequestBuilders.get(getUrl()))

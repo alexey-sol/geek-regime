@@ -81,7 +81,7 @@ public class DatabaseSeed {
     }
 
     private void insertSpace(int spaceId) {
-        var space = FakeSpace.generateSpace(spaceId, fakeSpaceCount);
+        var space = FakeSpace.generateSpace(spaceId);
 
         entityManager.persist(space);
 

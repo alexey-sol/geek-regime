@@ -167,6 +167,15 @@
                         </configuration>
                     </execution>
                     <execution>
+                        <id>space</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/api-schemas-v1/space.yml</inputSpec>
+                        </configuration>
+                    </execution>
+                    <execution>
                         <id>user</id>
                         <goals>
                             <goal>generate</goal>

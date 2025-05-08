@@ -25,7 +25,8 @@ import java.util.List;
     @Index(columnList = "updated_at")
 })
 @EntityListeners(AuditingEntityListener.class)
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -83,7 +84,7 @@ public class Post {
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private List<PostComment> comments;
 
-    @ManyToMany(cascade = { CascadeType.ALL })
+    @ManyToMany(cascade = { CascadeType.ALL }, fetch = FetchType.LAZY)
     @JoinTable(
         name = "post_space",
         joinColumns = {

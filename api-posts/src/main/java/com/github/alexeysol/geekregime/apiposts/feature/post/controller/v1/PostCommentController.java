@@ -60,7 +60,7 @@ public class PostCommentController implements PostCommentApi {
 
     @Override
     public ResponseEntity<BasePostCommentResponse> createPostComment(CreatePostCommentRequest request, Long id) {
-        var parentPostExists = postService.postExistsById(request.getPostId());
+        var parentPostExists = postService.existsById(request.getPostId());
 
         if (!parentPostExists) {
             throw new ResourceException(ErrorCode.ABSENT, ID_FIELD);

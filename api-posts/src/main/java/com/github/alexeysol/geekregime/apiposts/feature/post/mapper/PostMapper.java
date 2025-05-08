@@ -4,15 +4,22 @@ import com.github.alexeysol.geekregime.apicommons.generated.model.*;
 import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.PostVote;
 import com.github.alexeysol.geekregime.apiposts.feature.post.service.v1.PostService;
+import com.github.alexeysol.geekregime.apiposts.feature.space.model.entity.Space;
+import com.github.alexeysol.geekregime.apiposts.feature.space.service.SpaceService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class PostMapper extends BasePostMapper {
-    public PostMapper(ModelMapper modelMapper, PostService service) {
-        super(modelMapper, service);
+    private final SpaceService spaceService;
+
+    public PostMapper(ModelMapper modelMapper, PostService postService, SpaceService spaceService) {
+        super(modelMapper, postService);
+        this.spaceService = spaceService;
     }
 
     public List<BasePostPreviewResponse> toBasePostPreviewListResponse(List<Post> posts) {
@@ -30,12 +37,39 @@ public class PostMapper extends BasePostMapper {
     }
 
     public Post toPost(CreatePostRequest request) {
-        return modelMapper.map(request, Post.class);
+        var post = modelMapper.map(request, Post.class);
+
+        var spacesToPersist = getSpacesToPersist(post.getSpaces());
+        post.setSpaces(spacesToPersist);
+
+        return post;
     }
 
     public Post toPost(UpdatePostRequest request, Post post) {
         modelMapper.map(request, post);
+
+        var spacesToPersist = getSpacesToPersist(post.getSpaces());
+        post.setSpaces(spacesToPersist);
+
         return post;
+    }
+
+    private List<Space> getSpacesToPersist(List<Space> spaces) {
+        if (Objects.isNull(spaces)) {
+            return new ArrayList<>();
+        }
+
+        var spaceSlugs = spaces.stream().map(Space::getSlug).toList();
+        var existingSpaces = spaceService.findAllSpacesBySlugs(spaceSlugs);
+
+        var newSpaces = spaces.stream().filter(space ->
+            existingSpaces.stream().noneMatch(existingSpace ->
+                existingSpace.getSlug().equals(space.getSlug()))).toList();
+
+        var spacesToPersist = new ArrayList<>(existingSpaces);
+        spacesToPersist.addAll(newSpaces);
+
+        return spacesToPersist;
     }
 
     public PostVote toPostVote(VoteOnPostRequest request, PostVote postVote) {

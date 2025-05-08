@@ -178,5 +178,7 @@ components:
       type: UpdatePostRequest
     VoteOnPostRequest:
       type: VoteOnPostRequest
+    SaveSpaceRequest:
+      type: SaveSpaceRequest
     IdResponse:
       type: IdResponse

@@ -1,13 +1,13 @@
-package com.github.alexeysol.geekregime.apiposts.feature.post.mapper.converters;
+package com.github.alexeysol.geekregime.apiposts.shared.mapper.converter;
 
 import com.github.alexeysol.geekregime.apicommons.util.Slug;
-import com.github.alexeysol.geekregime.apiposts.feature.post.service.v1.PostService;
+import com.github.alexeysol.geekregime.apiposts.shared.model.HasExistsBySlug;
 import org.modelmapper.AbstractConverter;
 
 public class TitleToSlugConverter extends AbstractConverter<String, String> {
-    private final PostService service;
+    private final HasExistsBySlug service;
 
-    public TitleToSlugConverter(PostService service) {
+    public TitleToSlugConverter(HasExistsBySlug service) {
         this.service = service;
     }
 
@@ -19,7 +19,7 @@ public class TitleToSlugConverter extends AbstractConverter<String, String> {
     private String generateSlug(String title) {
         String slug = Slug.generateSlug(title);
 
-        if (service.postExistsBySlug(slug)) {
+        if (service.existsBySlug(slug)) {
             slug += Slug.getSuffix();
         }
 

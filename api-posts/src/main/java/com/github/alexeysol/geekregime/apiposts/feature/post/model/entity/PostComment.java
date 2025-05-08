@@ -21,7 +21,8 @@ import java.util.List;
     @Index(columnList = "parent_id")
 })
 @EntityListeners(AuditingEntityListener.class)
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

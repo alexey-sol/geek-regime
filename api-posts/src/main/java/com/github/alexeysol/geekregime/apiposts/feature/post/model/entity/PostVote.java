@@ -11,7 +11,8 @@ import javax.validation.constraints.NotNull;
     @Index(columnList = "post_id"),
     @Index(columnList = "user_id, post_id")
 }, uniqueConstraints = @UniqueConstraint(columnNames={"user_id", "post_id"}))
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor

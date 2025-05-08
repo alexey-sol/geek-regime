@@ -16,13 +16,13 @@ components:
             $ref: "#/components/schemas/BasePostPreviewResponse"
     BasePostPreviewResponse:
       type: object
-      required: [ id, title, excerpt, slug, createdAt, updatedAt ]
+      required: [ id, title, excerpt, slug, createdAt, updatedAt, spaces ]
       allOf:
         - $ref: "#/components/schemas/PostResponseBase"
         - $ref: "#/components/schemas/PostRefs"
     BasePostDetailsResponse: # DTO from base service containing scalar reference ID fields (foreign keys)
       type: object
-      required: [ id, title, excerpt, slug, createdAt, updatedAt, body ]
+      required: [ id, title, excerpt, slug, createdAt, updatedAt, body, spaces ]
       allOf:
         - $ref: "#/components/schemas/PostResponseBase"
         - $ref: "#/components/schemas/PostRefs"
@@ -46,7 +46,7 @@ components:
             $ref: "#/components/schemas/PostPreviewResponse"
     PostPreviewResponse: # DTO from aggregator service containing populated reference fields
       type: object
-      required: [ id, title, excerpt, slug, createdAt, updatedAt ]
+      required: [ id, title, excerpt, slug, createdAt, updatedAt, spaces ]
       allOf:
         - $ref: "#/components/schemas/PostResponseBase"
         - type: object
@@ -55,7 +55,7 @@ components:
               $ref: "#/components/schemas/UserResponse"
     PostDetailsResponse:
       type: object
-      required: [ id, title, excerpt, slug, createdAt, updatedAt, body ]
+      required: [ id, title, excerpt, slug, createdAt, updatedAt, body, spaces ]
       allOf:
         - $ref: "#/components/schemas/PostResponseBase"
         - type: object
@@ -83,6 +83,10 @@ components:
         body:
           type: string
           minLength: 1
+        spaces:
+          type: array
+          items:
+            $ref: "#/components/schemas/SaveSpaceRequest"
     UpdatePostRequest:
       type: object
       properties:
@@ -92,6 +96,10 @@ components:
         body:
           type: string
           minLength: 1
+        spaces:
+          type: array
+          items:
+            $ref: "#/components/schemas/SaveSpaceRequest"
     VoteOnPostRequest:
       type: object
       required: [ value ]
@@ -175,6 +183,9 @@ components:
     SpaceResponse:
       type: Page
       $ref: "./space.yml#/components/schemas/SpaceResponse"
+    SaveSpaceRequest:
+      type: Page
+      $ref: "./space.yml#/components/schemas/SaveSpaceRequest"
     UserResponse:
       type: UserResponse
       $ref: "./user.yml#/components/schemas/UserResponse"

@@ -48,12 +48,14 @@ public class PostController implements PostApi {
         PostPagePeriod period,
         @PageableDefault(size = PAGE_SIZE, sort = SORT_BY, direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        var searchTextFilter = PostSpecificationUtil.<Post>byLikeIgnoreCaseSearchText(text, searchIn);
-        var searchPeriodFilter = PostSpecificationUtil.<Post>bySameOrAfterPeriod(CREATED_AT, period);
-        var authorIdFilter = PostSpecificationUtil.<Post>byEqual(USER_ID, authorId);
-        var composedSpecification = PostSpecificationUtil.compose(LogicalOperator.AND, searchTextFilter, searchPeriodFilter, authorIdFilter);
+        var filterSpecification = PostSpecificationUtil.<Post>compose(
+            LogicalOperator.AND,
+            PostSpecificationUtil.byLikeIgnoreCaseSearchText(text, searchIn),
+            PostSpecificationUtil.bySameOrAfterPeriod(CREATED_AT, period),
+            PostSpecificationUtil.byEqual(USER_ID, authorId)
+        );
 
-        var response = findPosts(pageable, composedSpecification);
+        var response = findPosts(filterSpecification, pageable);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -66,12 +68,14 @@ public class PostController implements PostApi {
         PostPagePeriod period,
         @PageableDefault(size = PAGE_SIZE, sort = SORT_BY, direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        var searchTextFilter = PostSpecificationUtil.<Post>byLikeIgnoreCaseSearchText(text, searchIn);
-        var searchPeriodFilter = PostSpecificationUtil.<Post>bySameOrAfterPeriod(CREATED_AT, period);
-        var spaceIdFilter = PostSpecificationUtil.<Post>byEqualAndIsMember(ID, spaceId, POSTS, Post.class);
-        var composedSpecification = PostSpecificationUtil.compose(LogicalOperator.AND, searchTextFilter, searchPeriodFilter, spaceIdFilter);
+        var filterSpecification = PostSpecificationUtil.<Post>compose(
+            LogicalOperator.AND,
+            PostSpecificationUtil.byLikeIgnoreCaseSearchText(text, searchIn),
+            PostSpecificationUtil.bySameOrAfterPeriod(CREATED_AT, period),
+            PostSpecificationUtil.byEqualAndIsMember(ID, spaceId, POSTS, Post.class)
+        );
 
-        var response = findPosts(pageable, composedSpecification);
+        var response = findPosts(filterSpecification, pageable);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
@@ -83,17 +87,19 @@ public class PostController implements PostApi {
         PostPagePeriod period,
         @PageableDefault(size = PAGE_SIZE, sort = SORT_BY, direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        var searchTextFilter = PostSpecificationUtil.<Post>byLikeIgnoreCaseSearchText(text, searchIn);
-        var searchPeriodFilter = PostSpecificationUtil.<Post>bySameOrAfterPeriod(CREATED_AT, period);
-        var composedSpecification = PostSpecificationUtil.compose(LogicalOperator.AND, searchTextFilter, searchPeriodFilter);
+        var filterSpecification = PostSpecificationUtil.<Post>compose(
+            LogicalOperator.AND,
+            PostSpecificationUtil.byLikeIgnoreCaseSearchText(text, searchIn),
+            PostSpecificationUtil.bySameOrAfterPeriod(CREATED_AT, period)
+        );
 
-        var response = findPosts(pageable, composedSpecification);
+        var response = findPosts(filterSpecification, pageable);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
 
-    private BasePostPreviewPageResponse findPosts(Pageable pageable, Specification<Post> specification) {
-        Page<Post> postPage = service.findAllPosts(pageable, specification);
+    private BasePostPreviewPageResponse findPosts(Specification<Post> specification, Pageable pageable) {
+        Page<Post> postPage = service.findAllPosts(specification, pageable);
         var basePostPreviewList = mapper.toBasePostPreviewListResponse(postPage.getContent());
 
         return new BasePostPreviewPageResponse(basePostPreviewList, postPage.getSize(), postPage.getTotalElements());

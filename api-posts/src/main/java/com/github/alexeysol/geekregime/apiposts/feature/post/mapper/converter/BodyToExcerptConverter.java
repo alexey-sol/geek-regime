@@ -1,4 +1,4 @@
-package com.github.alexeysol.geekregime.apiposts.feature.post.mapper.converters;
+package com.github.alexeysol.geekregime.apiposts.feature.post.mapper.converter;
 
 import com.github.alexeysol.geekregime.apiposts.feature.post.util.PostDataUtil;
 import org.modelmapper.AbstractConverter;

@@ -1,10 +1,10 @@
 package com.github.alexeysol.geekregime.apiposts.feature.post.mapper;
 
 import com.github.alexeysol.geekregime.apicommons.generated.model.*;
-import com.github.alexeysol.geekregime.apiposts.feature.post.mapper.converters.BodyToExcerptConverter;
-import com.github.alexeysol.geekregime.apiposts.feature.post.mapper.converters.TitleToSlugConverter;
+import com.github.alexeysol.geekregime.apiposts.feature.post.mapper.converter.BodyToExcerptConverter;
 import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.feature.post.service.v1.PostService;
+import com.github.alexeysol.geekregime.apiposts.shared.mapper.converter.TitleToSlugConverter;
 import org.modelmapper.ModelMapper;
 import org.modelmapper.spi.MappingContext;
 

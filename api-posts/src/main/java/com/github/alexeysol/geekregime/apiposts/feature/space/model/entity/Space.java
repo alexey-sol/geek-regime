@@ -18,7 +18,8 @@ import java.util.List;
     @Index(columnList = "slug", unique = true),
 })
 @EntityListeners(AuditingEntityListener.class)
-@Data
+@Getter
+@Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -32,8 +33,7 @@ public class Space {
     @NotEmpty(message = "Title is required and must not be blank")
     private String title;
 
-    @Column(nullable = false, columnDefinition = "TEXT")
-    @NotEmpty(message = "Description is required and must not be blank")
+    @Column(columnDefinition = "TEXT")
     private String description;
 
     @Column(nullable = false, unique = true, columnDefinition = "TEXT")
@@ -41,8 +41,8 @@ public class Space {
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
     private String slug;
 
-    @Column(name = "is_custom")
-    private Boolean isCustom = false;
+    @Column(name = "is_official")
+    private Boolean isOfficial = false;
 
     @Column(name = "created_at", updatable = false)
     @CreatedDate
@@ -53,10 +53,6 @@ public class Space {
     @LastModifiedDate
     @Setter(value = AccessLevel.NONE)
     private Date updatedAt;
-
-    @Column(name = "user_id")
-    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private long userId;
 
     @ManyToMany(mappedBy = "spaces", fetch = FetchType.LAZY)
     private List<Post> posts;

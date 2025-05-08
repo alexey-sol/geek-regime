@@ -173,6 +173,15 @@
                             <inputSpec>${project.basedir}/src/main/resources/api/api-post-comments-v1.yml</inputSpec>
                         </configuration>
                     </execution>
+                    <execution>
+                        <id>api-spaces</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/api/api-spaces-v1.yml</inputSpec>
+                        </configuration>
+                    </execution>
                 </executions>
 
                 <configuration>
@@ -192,6 +201,9 @@
                         <typeMapping>BasePostCommentTreeResponse=com.github.alexeysol.geekregime.apicommons.generated.model.BasePostCommentTreeResponse</typeMapping>
                         <typeMapping>CreatePostCommentRequest=com.github.alexeysol.geekregime.apicommons.generated.model.CreatePostCommentRequest</typeMapping>
                         <typeMapping>UpdatePostCommentRequest=com.github.alexeysol.geekregime.apicommons.generated.model.UpdatePostCommentRequest</typeMapping>
+                        <typeMapping>SpaceResponse=com.github.alexeysol.geekregime.apicommons.generated.model.SpaceResponse</typeMapping>
+                        <typeMapping>SpacePageResponse=com.github.alexeysol.geekregime.apicommons.generated.model.SpacePageResponse</typeMapping>
+                        <typeMapping>SaveSpaceRequest=com.github.alexeysol.geekregime.apicommons.generated.model.SaveSpaceRequest</typeMapping>
                         <typeMapping>IdResponse=com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse</typeMapping>
                         <typeMapping>PostPagePeriod=com.github.alexeysol.geekregime.apicommons.generated.model.PostPagePeriod</typeMapping>
                         <typeMapping>LocalDate=java.util.Date</typeMapping>

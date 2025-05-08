@@ -1,0 +1,46 @@
+openapi: 3.1.0
+info:
+  version: v1
+  title: api-spaces
+servers:
+  - url: http://localhost:3003/api/v1
+paths:
+  /spaces:
+    get:
+      summary: Find all spaces
+      operationId: findAllSpaces
+      tags:
+        - space
+      x-spring-paginated: true
+      parameters:
+        - $ref: "./parameters-v1.yml#/components/parameters/searchIn"
+        - $ref: "./parameters-v1.yml#/components/parameters/text"
+      responses:
+        200:
+          description: A list of spaces
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SpacePageResponse"
+  /spaces/{slug}:
+    get:
+      summary: Find space by slug
+      operationId: findSpaceBySlug
+      tags:
+        - space
+      parameters:
+        - $ref: "./parameters-v1.yml#/components/parameters/slug"
+      responses:
+        200:
+          description: The space
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SpaceResponse"
+components:
+  # Schemas imported from api-commons
+  schemas:
+    SpacePageResponse:
+      type: SpacePageResponse
+    SpaceResponse:
+      type: SpaceResponse

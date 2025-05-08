@@ -1,4 +1,4 @@
-package com.github.alexeysol.geekregime.apiposts.feature.post.mapper.converters;
+package com.github.alexeysol.geekregime.apiposts.feature.post.mapper.converter;
 
 import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.feature.post.service.v1.PostService;

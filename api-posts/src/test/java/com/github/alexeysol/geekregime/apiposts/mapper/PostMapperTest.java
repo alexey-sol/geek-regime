@@ -82,7 +82,7 @@ public class PostMapperTest {
             .build();
         var slug = "test-post";
 
-        when(postService.postExistsBySlug(slug)).thenReturn(false);
+        when(postService.existsBySlug(slug)).thenReturn(false);
 
         var result = postMapper.toPost(createPostRequest);
         Assertions.assertEquals(slug, result.getSlug());
@@ -97,7 +97,7 @@ public class PostMapperTest {
             .build();
         var slug = "test-post";
 
-        when(postService.postExistsBySlug(slug)).thenReturn(true);
+        when(postService.existsBySlug(slug)).thenReturn(true);
 
         var result = postMapper.toPost(createPostRequest);
         Assertions.assertNotEquals(slug, result.getSlug());
@@ -128,7 +128,7 @@ public class PostMapperTest {
         var slug = "new-title";
 
         when(postService.findPostById(postId)).thenReturn(Optional.of(oldPost));
-        when(postService.postExistsBySlug(slug)).thenReturn(true);
+        when(postService.existsBySlug(slug)).thenReturn(true);
 
         var result = postMapper.toPost(updatePostRequest, oldPost);
         Assertions.assertNotEquals(slug, result.getSlug());
@@ -148,7 +148,7 @@ public class PostMapperTest {
             .build();
 
         when(postService.findPostById(postId)).thenReturn(Optional.of(oldPost));
-        when(postService.postExistsBySlug(slug)).thenReturn(true);
+        when(postService.existsBySlug(slug)).thenReturn(true);
 
         var result = postMapper.toPost(updatePostRequest, oldPost);
         Assertions.assertEquals(slug, result.getSlug());
@@ -190,7 +190,7 @@ public class PostMapperTest {
             .build();
 
         when(postService.findPostById(postId)).thenReturn(Optional.of(oldPost));
-        when(postService.postExistsBySlug(slug)).thenReturn(false);
+        when(postService.existsBySlug(slug)).thenReturn(false);
 
         var result = postMapper.toPost(updatePostRequest, oldPost);
         Assertions.assertEquals(newTitle, result.getTitle());

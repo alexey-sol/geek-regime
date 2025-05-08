@@ -1,6 +1,7 @@
 package com.github.alexeysol.geekregime.apiposts.feature.post.service.v1;
 
 import com.github.alexeysol.geekregime.apicommons.constant.Default;
+import com.github.alexeysol.geekregime.apiposts.shared.model.HasExistsBySlug;
 import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.PostMeta;
 import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.PostVote;
@@ -21,12 +22,12 @@ import java.util.Optional;
 @Service
 @Validated
 @RequiredArgsConstructor
-public class PostService {
+public class PostService implements HasExistsBySlug {
     private final PostRepository postRepository;
     private final PostMetaRepository postMetaRepository;
     private final PostVoteRepository postVoteRepository;
 
-    public Page<Post> findAllPosts(Pageable pageable, Specification<Post> specification) {
+    public Page<Post> findAllPosts(Specification<Post> specification, Pageable pageable) {
         return postRepository.findAll(specification, pageable);
     }
 
@@ -81,11 +82,12 @@ public class PostService {
         post.getMeta().setRating(newRating);
     }
 
-    public boolean postExistsById(long id) {
+    public boolean existsById(long id) {
         return postRepository.existsPostById(id);
     }
 
-    public boolean postExistsBySlug(String slug) {
+    @Override
+    public boolean existsBySlug(String slug) {
         return postRepository.existsPostBySlug(slug);
     }
 
