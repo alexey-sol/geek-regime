@@ -7,6 +7,7 @@ import com.github.alexeysol.geekregime.apiposts.feature.post.mapper.PostCommentM
 import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.PostComment;
 import com.github.alexeysol.geekregime.apiposts.feature.post.service.v1.PostCommentService;
 import com.github.alexeysol.geekregime.apiposts.feature.post.service.v1.PostService;
+import com.github.alexeysol.geekregime.apiposts.shared.util.DataAccessHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -108,7 +109,7 @@ public class PostCommentController implements PostCommentApi {
 
         optionalParentPost.ifPresent(post -> postCommentService.updatePostCommentCount(post.getId()));
 
-        var response = postCommentMapper.toIdResponse(id);
+        var response = DataAccessHelper.getIdResponse(id);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

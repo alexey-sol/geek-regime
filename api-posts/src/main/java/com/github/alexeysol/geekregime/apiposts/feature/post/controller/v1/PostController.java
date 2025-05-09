@@ -7,7 +7,9 @@ import com.github.alexeysol.geekregime.apicommons.generated.model.*;
 import com.github.alexeysol.geekregime.apiposts.feature.post.mapper.PostMapper;
 import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.feature.post.service.v1.PostService;
-import com.github.alexeysol.geekregime.apiposts.feature.post.util.PostSpecificationUtil;
+import com.github.alexeysol.geekregime.apiposts.feature.space.model.entity.Space;
+import com.github.alexeysol.geekregime.apiposts.shared.util.DataAccessHelper;
+import com.github.alexeysol.geekregime.apiposts.shared.util.EntitySpecificationUtil;
 import com.github.alexeysol.geekregime.apiposts.generated.api.PostApi;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
@@ -48,11 +50,11 @@ public class PostController implements PostApi {
         PostPagePeriod period,
         @PageableDefault(size = PAGE_SIZE, sort = SORT_BY, direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        var filterSpecification = PostSpecificationUtil.<Post>compose(
+        var filterSpecification = EntitySpecificationUtil.<Post>compose(
             LogicalOperator.AND,
-            PostSpecificationUtil.byLikeIgnoreCaseSearchText(text, searchIn),
-            PostSpecificationUtil.bySameOrAfterPeriod(CREATED_AT, period),
-            PostSpecificationUtil.byEqual(USER_ID, authorId)
+            EntitySpecificationUtil.byLikeIgnoreCaseSearchText(text, searchIn),
+            EntitySpecificationUtil.bySameOrAfterPeriod(CREATED_AT, period),
+            EntitySpecificationUtil.byEqual(USER_ID, authorId)
         );
 
         var response = findPosts(filterSpecification, pageable);
@@ -68,11 +70,11 @@ public class PostController implements PostApi {
         PostPagePeriod period,
         @PageableDefault(size = PAGE_SIZE, sort = SORT_BY, direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        var filterSpecification = PostSpecificationUtil.<Post>compose(
+        var filterSpecification = EntitySpecificationUtil.<Post>compose(
             LogicalOperator.AND,
-            PostSpecificationUtil.byLikeIgnoreCaseSearchText(text, searchIn),
-            PostSpecificationUtil.bySameOrAfterPeriod(CREATED_AT, period),
-            PostSpecificationUtil.byEqualAndIsMember(ID, spaceId, POSTS, Post.class)
+            EntitySpecificationUtil.byLikeIgnoreCaseSearchText(text, searchIn),
+            EntitySpecificationUtil.bySameOrAfterPeriod(CREATED_AT, period),
+            EntitySpecificationUtil.byEqualAndIsMember(ID, spaceId, Space.class, POSTS)
         );
 
         var response = findPosts(filterSpecification, pageable);
@@ -87,10 +89,10 @@ public class PostController implements PostApi {
         PostPagePeriod period,
         @PageableDefault(size = PAGE_SIZE, sort = SORT_BY, direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        var filterSpecification = PostSpecificationUtil.<Post>compose(
+        var filterSpecification = EntitySpecificationUtil.<Post>compose(
             LogicalOperator.AND,
-            PostSpecificationUtil.byLikeIgnoreCaseSearchText(text, searchIn),
-            PostSpecificationUtil.bySameOrAfterPeriod(CREATED_AT, period)
+            EntitySpecificationUtil.byLikeIgnoreCaseSearchText(text, searchIn),
+            EntitySpecificationUtil.bySameOrAfterPeriod(CREATED_AT, period)
         );
 
         var response = findPosts(filterSpecification, pageable);
@@ -100,7 +102,7 @@ public class PostController implements PostApi {
 
     private BasePostPreviewPageResponse findPosts(Specification<Post> specification, Pageable pageable) {
         Page<Post> postPage = service.findAllPosts(specification, pageable);
-        var basePostPreviewList = mapper.toBasePostPreviewListResponse(postPage.getContent());
+        var basePostPreviewList = mapper.toBasePostPreviewResponseList(postPage.getContent());
 
         return new BasePostPreviewPageResponse(basePostPreviewList, postPage.getSize(), postPage.getTotalElements());
     }
@@ -155,7 +157,7 @@ public class PostController implements PostApi {
             throw new ResourceException(ErrorCode.ABSENT, ID_FIELD);
         }
 
-        var response = mapper.toIdResponse(id);
+        var response = DataAccessHelper.getIdResponse(id);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
     }

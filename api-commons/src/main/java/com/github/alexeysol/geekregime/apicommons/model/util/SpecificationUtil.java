@@ -16,14 +16,14 @@ public class SpecificationUtil {
     public <T> Specification<T> byEqualAndIsMember(
         String key,
         Object value,
-        String ownerTable,
-        Class<?> ownerEntity
+        Class<?> entity,
+        String ownerTable
     ) {
         return (root, query, builder) -> {
             query.distinct(true);
-            Root<?> ownerRoot = query.from(ownerEntity);
-            Expression<Collection<T>> owners = ownerRoot.get(ownerTable);
-            return builder.and(builder.equal(ownerRoot.get(key), value), builder.isMember(root, owners));
+            Root<?> entityRoot = query.from(entity);
+            Expression<Collection<T>> owners = entityRoot.get(ownerTable);
+            return builder.and(builder.equal(entityRoot.get(key), value), builder.isMember(root, owners));
         };
     }
 

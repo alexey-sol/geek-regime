@@ -22,6 +22,29 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SpacePageResponse"
+    put:
+      summary: Save spaces
+      description: Saves the list of provided spaces. If there's already a space with the same title, doesn't overwrite it.
+      operationId: saveSpaces
+      tags:
+        - space
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: "#/components/schemas/SaveSpaceRequest"
+      responses:
+        200:
+          description: The created post
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/SpaceResponse"
   /spaces/{slug}:
     get:
       summary: Find space by slug
@@ -37,6 +60,21 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/SpaceResponse"
+  /spaces/{id}:
+    delete:
+      summary: Remove space by ID
+      operationId: removeSpaceById
+      tags:
+        - space
+      parameters:
+        - $ref: "./parameters-v1.yml#/components/parameters/id"
+      responses:
+        200:
+          description: The ID of the removed space
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/IdResponse"
 components:
   # Schemas imported from api-commons
   schemas:
@@ -44,3 +82,7 @@ components:
       type: SpacePageResponse
     SpaceResponse:
       type: SpaceResponse
+    SaveSpaceRequest:
+      type: SaveSpaceRequest
+    IdResponse:
+      type: IdResponse

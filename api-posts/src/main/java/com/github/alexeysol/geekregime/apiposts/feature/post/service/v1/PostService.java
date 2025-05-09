@@ -1,6 +1,5 @@
 package com.github.alexeysol.geekregime.apiposts.feature.post.service.v1;
 
-import com.github.alexeysol.geekregime.apicommons.constant.Default;
 import com.github.alexeysol.geekregime.apiposts.shared.model.HasExistsBySlug;
 import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.PostMeta;
@@ -8,6 +7,7 @@ import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.PostVo
 import com.github.alexeysol.geekregime.apiposts.feature.post.repository.PostMetaRepository;
 import com.github.alexeysol.geekregime.apiposts.feature.post.repository.PostRepository;
 import com.github.alexeysol.geekregime.apiposts.feature.post.repository.PostVoteRepository;
+import com.github.alexeysol.geekregime.apiposts.shared.util.DataAccessHelper;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -66,7 +66,7 @@ public class PostService implements HasExistsBySlug {
     public long removePostById(long id) {
         postMetaRepository.removePostMetaById(id);
         int deletedRowCount = postRepository.removePostById(id);
-        return getMutationResult(id, deletedRowCount);
+        return DataAccessHelper.getMutationResult(id, deletedRowCount);
     }
 
     public void incrementViewCountAndSave(long postId) {
@@ -89,16 +89,5 @@ public class PostService implements HasExistsBySlug {
     @Override
     public boolean existsBySlug(String slug) {
         return postRepository.existsPostBySlug(slug);
-    }
-
-    // TODO move to shared (is also used in another service)
-    private long getMutationResult(long id, int mutatedRowCount) {
-        boolean isMutated = mutatedRowCount > 0;
-
-        if (isMutated) {
-            return id;
-        }
-
-        return Default.NOT_FOUND_BY_ID;
     }
 }

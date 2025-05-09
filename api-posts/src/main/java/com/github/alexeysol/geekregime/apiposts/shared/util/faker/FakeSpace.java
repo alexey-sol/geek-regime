@@ -13,7 +13,7 @@ public class FakeSpace {
             .title(title)
             .description(FakerUtil.generateParagraphs(1, 3))
             .slug(generateSlug(title, spaceId))
-            .isCustom(FakerUtil.is50PercentChance())
+            .isOfficial(FakerUtil.is50PercentChance())
             .build();
     }
 

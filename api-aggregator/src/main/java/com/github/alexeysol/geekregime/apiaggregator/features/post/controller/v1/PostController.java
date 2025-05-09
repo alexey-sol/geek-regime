@@ -26,7 +26,17 @@ public class PostController {
         @PathVariable long authorId,
         @RequestParam(required = false) Map<String, String> params
     ) {
-        var page = service.findAllPosts(authorId, params);
+        var page = service.findAllPostsByAuthor(authorId, params);
+        var postPreviews = mapper.toPostPreviewResponseList(page.getContent());
+        return new PostPreviewPageResponse(postPreviews, page.getSize(), page.getTotalElements());
+    }
+
+    @GetMapping("/spaces/{spaceId}/posts")
+    PostPreviewPageResponse findAllPostsBySpace(
+        @PathVariable long spaceId,
+        @RequestParam(required = false) Map<String, String> params
+    ) {
+        var page = service.findAllPostsBySpace(spaceId, params);
         var postPreviews = mapper.toPostPreviewResponseList(page.getContent());
         return new PostPreviewPageResponse(postPreviews, page.getSize(), page.getTotalElements());
     }

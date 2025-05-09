@@ -6,6 +6,7 @@ import com.github.alexeysol.geekregime.apiposts.feature.post.constant.PostConsta
 import com.github.alexeysol.geekregime.apiposts.feature.post.mapper.PostMapper;
 import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.feature.post.service.v1.PostService;
+import com.github.alexeysol.geekregime.apiposts.shared.util.DataAccessHelper;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +31,7 @@ public class PostMapperTest {
     }
 
     @Test
-    public void whenToBasePostPreviewListResponse_thenReturnsBasePostPreviewListResponse() {
+    public void whenToBasePostPreviewResponseList_thenReturnsBasePostPreviewResponseList() {
         var post = Post.builder()
             .userId(1L)
             .title("Test Post")
@@ -45,7 +46,7 @@ public class PostMapperTest {
             .build();
         List<Post> posts = List.of(post, post2);
 
-        var result = postMapper.toBasePostPreviewListResponse(posts);
+        var result = postMapper.toBasePostPreviewResponseList(posts);
         Assertions.assertEquals(posts.size(), result.size());
         Assertions.assertEquals(post.getTitle(), result.get(0).getTitle());
         Assertions.assertEquals(post.getExcerpt(), result.get(0).getExcerpt());
@@ -202,7 +203,7 @@ public class PostMapperTest {
     public void whenToIdResponse_thenReturnsIdResponse() {
         var postId = 1L;
 
-        var result = postMapper.toIdResponse(postId);
+        var result = DataAccessHelper.getIdResponse(postId);
         Assertions.assertEquals(postId, result.getId());
     }
 

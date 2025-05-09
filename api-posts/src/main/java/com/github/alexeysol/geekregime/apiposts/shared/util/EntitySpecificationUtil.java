@@ -1,4 +1,4 @@
-package com.github.alexeysol.geekregime.apiposts.feature.post.util;
+package com.github.alexeysol.geekregime.apiposts.shared.util;
 
 import com.github.alexeysol.geekregime.apicommons.constant.database.LogicalOperator;
 import com.github.alexeysol.geekregime.apicommons.generated.model.PostPagePeriod;
@@ -12,7 +12,7 @@ import java.util.*;
 import static com.github.alexeysol.geekregime.apiposts.feature.post.constant.PostConstant.*;
 
 @UtilityClass
-public class PostSpecificationUtil {
+public class EntitySpecificationUtil {
     public <T> Specification<T> byLikeIgnoreCaseSearchText(String text, List<String> searchIn) {
         if (Objects.isNull(text)) {
             return getDefault();
@@ -63,10 +63,10 @@ public class PostSpecificationUtil {
     public <T> Specification<T> byEqualAndIsMember(
         String key,
         Object value,
-        String ownerTable,
-        Class<?> ownerEntity
+        Class<?> entity,
+        String ownerTable
     ) {
-        return SpecificationUtil.byEqualAndIsMember(key, value, ownerTable, ownerEntity);
+        return SpecificationUtil.byEqualAndIsMember(key, value, entity, ownerTable);
     }
 
     @SafeVarargs

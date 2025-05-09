@@ -14,6 +14,7 @@ import java.net.http.HttpClient;
 import java.util.Map;
 
 import static com.github.alexeysol.geekregime.apicommons.constant.ResourceConstant.POSTS;
+import static com.github.alexeysol.geekregime.apicommons.constant.ResourceConstant.SPACES;
 import static com.github.alexeysol.geekregime.apicommons.constant.ResourceConstant.USERS;
 
 @Service
@@ -22,8 +23,14 @@ public class PostService {
     private final HttpClient httpClient;
     private final ApiPostsSource source;
 
-    public BasePostPreviewPageResponse findAllPosts(long authorId, Map<String, String> params) {
+    public BasePostPreviewPageResponse findAllPostsByAuthor(long authorId, Map<String, String> params) {
         String path = String.format("%s/%d/%s", USERS, authorId, POSTS);
+
+        return findAllPosts(path, params);
+    }
+
+    public BasePostPreviewPageResponse findAllPostsBySpace(long spaceId, Map<String, String> params) {
+        String path = String.format("%s/%d/%s", SPACES, spaceId, POSTS);
 
         return findAllPosts(path, params);
     }

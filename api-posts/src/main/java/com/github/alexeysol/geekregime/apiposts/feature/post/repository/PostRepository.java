@@ -9,9 +9,7 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 @Repository
-public interface PostRepository extends PagingAndSortingRepository<Post, Long>,
-    JpaSpecificationExecutor<Post> {
-
+public interface PostRepository extends PagingAndSortingRepository<Post, Long>, JpaSpecificationExecutor<Post> {
     @Query("SELECT p FROM Post p WHERE p.slug = :slug")
     @Transactional
     Post findPostBySlug(String slug);

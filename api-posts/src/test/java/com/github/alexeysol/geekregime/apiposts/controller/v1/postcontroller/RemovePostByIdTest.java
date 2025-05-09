@@ -30,7 +30,6 @@ public class RemovePostByIdTest extends BasePostControllerTest {
         var idResponse = new IdResponse(postId);
 
         when(service.removePostById(postId)).thenReturn(postId);
-        when(mapper.toIdResponse(postId)).thenReturn(idResponse);
 
         mockMvc.perform(MockMvcRequestBuilders.delete(getUrl(postId)))
             .andExpect(MockMvcResultMatchers.status().isOk())

@@ -6,5 +6,6 @@ import lombok.experimental.UtilityClass;
 public class ResourceConstant {
     public final String COMMENTS = "comments";
     public final String POSTS = "posts";
+    public final String SPACES = "spaces";
     public final String USERS = "users";
 }

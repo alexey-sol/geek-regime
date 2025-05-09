@@ -39,8 +39,7 @@ public abstract class BasePostMapper {
                 mapper.using(new BodyToExcerptConverter())
                     .map(CreatePostRequest::getBody, Post::setExcerpt);
 
-                mapper
-                    .using(MappingContext::getSource)
+                mapper.using(MappingContext::getSource)
                     .map(CreatePostRequest::getAuthorId, Post::setUserId);
             });
 

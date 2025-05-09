@@ -67,8 +67,4 @@ public class PostCommentMapper extends BasePostCommentMapper {
         modelMapper.map(request, postComment);
         return postComment;
     }
-
-    public IdResponse toIdResponse(Long id) {
-        return new IdResponse(id);
-    }
 }
