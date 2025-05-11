@@ -6,18 +6,19 @@ import com.github.alexeysol.geekregime.apiposts.feature.space.service.SpaceServi
 import org.modelmapper.AbstractConverter;
 import org.modelmapper.ModelMapper;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
-public class ToSpaceListConverter extends AbstractConverter<
+import static java.util.stream.Collectors.collectingAndThen;
+import static java.util.stream.Collectors.toCollection;
+
+public class ToUniqueSpaceListConverter extends AbstractConverter<
     List<SaveSpaceRequest>,
     List<Space>
 > {
     private final SpaceService spaceService;
     private final ModelMapper modelMapper;
 
-    public ToSpaceListConverter(SpaceService spaceService, ModelMapper modelMapper) {
+    public ToUniqueSpaceListConverter(SpaceService spaceService, ModelMapper modelMapper) {
         this.spaceService = spaceService;
         this.modelMapper = modelMapper;
     }
@@ -28,10 +29,10 @@ public class ToSpaceListConverter extends AbstractConverter<
             .map(source -> modelMapper.map(source, Space.class))
             .toList();
 
-        return getSpacesToPersist(spaces);
+        return getUniqueSpaces(spaces);
     }
 
-    private List<Space> getSpacesToPersist(List<Space> spaces) {
+    private List<Space> getUniqueSpaces(List<Space> spaces) {
         if (Objects.isNull(spaces)) {
             return new ArrayList<>();
         }
@@ -46,6 +47,8 @@ public class ToSpaceListConverter extends AbstractConverter<
         var spacesToPersist = new ArrayList<>(existingSpaces);
         spacesToPersist.addAll(newSpaces);
 
-        return spacesToPersist;
+        return spacesToPersist.stream()
+            .collect(collectingAndThen(toCollection(() -> new TreeSet<>(Comparator.comparing(Space::getSlug))),
+                ArrayList::new));
     }
 }

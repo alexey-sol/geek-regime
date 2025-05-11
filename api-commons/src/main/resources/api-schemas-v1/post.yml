@@ -85,6 +85,7 @@ components:
           minLength: 1
         spaces:
           type: array
+          maxItems: 10
           items:
             $ref: "#/components/schemas/SaveSpaceRequest"
     UpdatePostRequest:
@@ -98,6 +99,7 @@ components:
           minLength: 1
         spaces:
           type: array
+          maxItems: 10
           items:
             $ref: "#/components/schemas/SaveSpaceRequest"
     VoteOnPostRequest:

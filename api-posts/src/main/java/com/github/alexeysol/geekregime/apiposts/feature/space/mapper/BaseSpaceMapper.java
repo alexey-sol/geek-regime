@@ -2,7 +2,7 @@ package com.github.alexeysol.geekregime.apiposts.feature.space.mapper;
 
 import com.github.alexeysol.geekregime.apicommons.generated.model.SaveSpaceRequest;
 import com.github.alexeysol.geekregime.apicommons.util.Slug;
-import com.github.alexeysol.geekregime.apiposts.feature.space.mapper.converter.ToSpaceListConverter;
+import com.github.alexeysol.geekregime.apiposts.feature.space.mapper.converter.ToUniqueSpaceListConverter;
 import com.github.alexeysol.geekregime.apiposts.feature.space.model.entity.Space;
 import com.github.alexeysol.geekregime.apiposts.feature.space.service.SpaceService;
 import lombok.Data;
@@ -42,7 +42,7 @@ public abstract class BaseSpaceMapper {
 
         modelMapper.createTypeMap(SaveSpaceRequestList.class, SpaceList.class)
             .addMappings(mapper -> mapper
-                .using(new ToSpaceListConverter(spaceService, modelMapper))
+                .using(new ToUniqueSpaceListConverter(spaceService, modelMapper))
                 .map(SaveSpaceRequestList::getList, SpaceList::setList));
     }
 }
