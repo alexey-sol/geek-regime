@@ -5,3 +5,5 @@ export type AuthenticateRequest = user["schemas"]["AuthenticateRequest"];
 export type CreateUserRequest = user["schemas"]["CreateUserRequest"];
 
 export type UserResponse = user["schemas"]["UserResponse"];
+
+export type Gender = user["schemas"]["Gender"];

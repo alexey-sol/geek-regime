@@ -1,7 +1,6 @@
 import type { Profile } from "passport-yandex";
-import type { Gender } from "@eggziom/geek-regime-js-commons";
 
-import type { CreateUserRequest } from "@/user/model/dto";
+import type { CreateUserRequest, Gender } from "@/user/model/dto";
 
 const convertGender = (gender?: string): Gender | undefined => {
     switch (gender?.toUpperCase()) {

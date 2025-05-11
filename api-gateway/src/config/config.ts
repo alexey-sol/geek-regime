@@ -60,7 +60,7 @@ export class AppProxyMiddleware {
     private static readonly TARGET_URL = "http://localhost";
     private static readonly RESOURCES_TO_IGNORE = [resources.AUTH];
     private static readonly KNOWN_RESOURCES = [
-        resources.AUTH, resources.COMMENTS, resources.POSTS, resources.USERS,
+        resources.AUTH, resources.COMMENTS, resources.POSTS, resources.SPACES, resources.USERS,
     ];
 
     constructor(private readonly configService: ConfigService<AppConfig, true>) {}
@@ -87,11 +87,13 @@ export class AppProxyMiddleware {
 
     private getProxyTable = () => {
         const apiAggregatorCf = this.configService.get("apiAggregator", { infer: true });
+        const apiPostsCf = this.configService.get("apiPosts", { infer: true });
         const apiUsersCf = this.configService.get("apiUsers", { infer: true });
 
         return {
             [`/${resources.COMMENTS}`]: apiAggregatorCf.baseUrl,
             [`/${resources.POSTS}`]: apiAggregatorCf.baseUrl,
+            [`/${resources.SPACES}`]: apiPostsCf.baseUrl,
             [`/${resources.USERS}`]: apiUsersCf.baseUrl,
         };
     };

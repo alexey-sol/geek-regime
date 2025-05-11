@@ -6,5 +6,6 @@ export const resources = {
     AUTH: "auth",
     COMMENTS: "comments",
     POSTS: "posts",
+    SPACES: "spaces",
     USERS: "users",
 };
