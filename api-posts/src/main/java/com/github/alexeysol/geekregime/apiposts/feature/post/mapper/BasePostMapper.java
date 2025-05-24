@@ -6,6 +6,7 @@ import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.feature.post.service.v1.PostService;
 import com.github.alexeysol.geekregime.apiposts.shared.mapper.converter.TitleToSlugConverter;
 import org.modelmapper.ModelMapper;
+import org.modelmapper.PropertyMap;
 import org.modelmapper.spi.MappingContext;
 
 import java.util.Objects;
@@ -21,6 +22,13 @@ public abstract class BasePostMapper {
     }
 
     private void init(ModelMapper modelMapper) {
+        modelMapper.addMappings(new PropertyMap<UpdatePostRequest, Post>() {
+            @Override
+            protected void configure() {
+                skip(destination.getSpaces());
+            }
+        });
+
         modelMapper.createTypeMap(Post.class, BasePostDetailsResponse.class)
             .addMappings(mapper -> mapper
                 .using(MappingContext::getSource)

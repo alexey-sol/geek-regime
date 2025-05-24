@@ -9,6 +9,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
+import java.util.Objects;
 
 @Component
 public class PostMapper extends BasePostMapper {
@@ -34,17 +35,11 @@ public class PostMapper extends BasePostMapper {
     }
 
     public Post toPost(CreatePostRequest request) {
-        var spacesToPersist = spaceMapper.toSpaceList(request.getSpaces());
-        var post = modelMapper.map(request, Post.class);
-        post.setSpaces(spacesToPersist);
-
-        return post;
+        return modelMapper.map(request, Post.class);
     }
 
     public Post toPost(UpdatePostRequest request, Post post) {
-        var spacesToPersist = spaceMapper.toSpaceList(request.getSpaces());
         modelMapper.map(request, post);
-        post.setSpaces(spacesToPersist);
 
         return post;
     }
@@ -60,5 +55,14 @@ public class PostMapper extends BasePostMapper {
             .post(post)
             .value(request.getValue())
             .build();
+    }
+
+    public void setSpaces(Post post, List<SaveSpaceRequest> requests) {
+        if (Objects.isNull(requests) || requests.isEmpty()) {
+            return;
+        }
+
+        var spacesToPersist = spaceMapper.toSpaceList(requests);
+        post.setSpaces(spacesToPersist);
     }
 }

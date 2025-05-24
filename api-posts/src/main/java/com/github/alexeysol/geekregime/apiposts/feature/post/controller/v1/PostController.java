@@ -7,6 +7,7 @@ import com.github.alexeysol.geekregime.apicommons.generated.model.*;
 import com.github.alexeysol.geekregime.apiposts.feature.post.mapper.PostMapper;
 import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.feature.post.service.v1.PostService;
+import com.github.alexeysol.geekregime.apiposts.feature.space.mapper.SpaceMapper;
 import com.github.alexeysol.geekregime.apiposts.feature.space.model.entity.Space;
 import com.github.alexeysol.geekregime.apiposts.shared.util.DataAccessHelper;
 import com.github.alexeysol.geekregime.apiposts.shared.util.EntitySpecificationUtil;
@@ -41,6 +42,8 @@ public class PostController implements PostApi {
 
     private final PostService service;
     private final PostMapper mapper;
+
+    private final SpaceMapper spaceMapper;
 
     @Override
     public ResponseEntity<BasePostPreviewPageResponse> findAllPostsByAuthor(
@@ -128,6 +131,8 @@ public class PostController implements PostApi {
     @Override
     public ResponseEntity<BasePostDetailsResponse> createPost(CreatePostRequest request) {
         var post = mapper.toPost(request);
+        mapper.setSpaces(post, request.getSpaces());
+
         var createdPost = service.savePost(post);
         var response = mapper.toBasePostDetailsResponse(createdPost);
 
@@ -143,7 +148,12 @@ public class PostController implements PostApi {
         }
 
         var post = mapper.toPost(request, optionalPost.get());
+
         var updatedPost = service.savePost(post);
+        mapper.setSpaces(post, request.getSpaces());
+
+        service.savePost(updatedPost);
+
         var response = mapper.toBasePostDetailsResponse(updatedPost);
 
         return new ResponseEntity<>(response, HttpStatus.OK);
