@@ -13,6 +13,7 @@ import { useAuthContext } from "@/features/auth/contexts/auth";
 import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
 import { omitUndefined } from "@/shared/utils/helpers/object";
 import { getApiErrorIfPossible } from "@/shared/utils/api";
+import { mapCreateOrUpdatePostArg } from "@/features/posts/utils/api";
 
 import {
     type ActivePostErrors,
@@ -69,16 +70,17 @@ export const useActivePost = (): UseActivePostResult => {
     function save(arg: UpdatePostOnSaveArg, onSuccess?: () => void): void;
     function save(arg: CreatePostOnSaveArg | UpdatePostOnSaveArg, onSuccess?: () => void): void {
         if (!profile) {
-            // return;
+            throw new Error("Profile is required");
         }
 
         const postExists = !!id;
+        const mappedArg = mapCreateOrUpdatePostArg(arg);
         let result;
 
         if (postExists) {
-            result = updatePostByIdMutation({ id, ...arg }).unwrap();
-        } else if (!postExists && isCreatePostOnSaveArg(arg)) {
-            result = createPostMutation({ spaceId: 1, authorId: 1, ...arg }).unwrap(); // TODO spaceId is hardcoded
+            result = updatePostByIdMutation({ id, ...mappedArg }).unwrap();
+        } else if (!postExists && isCreatePostOnSaveArg(mappedArg)) {
+            result = createPostMutation({ authorId: profile.id, ...mappedArg }).unwrap();
         }
 
         result?.then(onSuccess).catch(console.error);

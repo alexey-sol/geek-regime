@@ -33,8 +33,9 @@ export const PostDetailsView: FC = () => {
 
     return (
         <PostDetailsViewStyled>
-            <PostDetails post={itemOrStub} />
-            {!!errors.get && <ApiErrorMessage error={errors.get} />}
+            {errors.get
+                ? <ApiErrorMessage error={errors.get} />
+                : <PostDetails post={itemOrStub} />}
             <section ref={sentryRef}>
                 {showComments && <PostComments />}
             </section>

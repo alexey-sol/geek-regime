@@ -1,4 +1,4 @@
-import { type HasDisableFailureNotificationOnStatus } from "@/shared/types";
+import { type HasDisableFailureNotificationOnStatus, type HasTitle } from "@/shared/types";
 import { type ApiError, type ApiErrorDetail, type ErrorCode } from "@/shared/models/dtos";
 
 export const hasDisableFailureNotificationOnStatus = (
@@ -53,3 +53,6 @@ export const isFailureNotificationDisabled = (
 ): boolean => hasOriginalArgs(metaArg)
     && hasDisableFailureNotificationOnStatus(metaArg.originalArgs)
     && metaArg.originalArgs.disableFailureNotificationOnStatus === responseStatus;
+
+export const hasTitle = (value: unknown): value is HasTitle => value instanceof Object
+    && "title" in value;

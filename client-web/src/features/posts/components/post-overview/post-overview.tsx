@@ -9,6 +9,7 @@ import { MaybeStubItem, type HasItem } from "@/shared/types";
 import { Skeleton } from "@/shared/components/loaders";
 import { isStubItem } from "@/shared/utils/helpers/object";
 import { usePrefetch } from "@/features/posts/services/posts-api";
+import { SpaceList } from "@/features/spaces/components/space-list";
 
 import { ItemRatingReadonly } from "../post-meta/item-rating-readonly";
 
@@ -37,6 +38,13 @@ export const PostOverview: FC<HasItem<MaybeStubItem<PostPreview>>> = ({ item }) 
                     </Skeleton>
                 </BodyStyled>
             </RouterDomLink>
+
+            <Skeleton isLoading={isLoading} heightPx={22} widthPx={300}>
+                {!!item.spaces?.length && (
+                    <SpaceList spaces={item.spaces} />
+                )}
+            </Skeleton>
+
             <PostOverviewFooter>
                 <Skeleton isLoading={isLoading} heightPx={30} widthPx={210}>
                     <AuthorInfo

@@ -34,6 +34,7 @@ export const baseTheme = {
         purple: purpleColor,
         purpleLight: "#9078a2",
         purpleLighten: "#b1a0bd",
+        purpleLightest: "#efdefa",
         red: "#fe4a49",
         redLight: "#fe9291",
         redLighten: "#fec8c8",

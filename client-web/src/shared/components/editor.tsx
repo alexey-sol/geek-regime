@@ -12,6 +12,8 @@ const CONTAINER_ID = "editor";
 const EDITOR_THEME = "bubble";
 
 const EditorStyled = styled.section`
+    word-break: break-word;
+
     .ql-editor {
         font-family: ${({ theme }) => theme.fonts.normal};
         font-size: ${({ theme }) => theme.fontSizes.md};

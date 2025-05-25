@@ -4,6 +4,7 @@ import {
 import { t } from "i18next";
 
 import { formatTimestamp } from "@/shared/utils/formatters/date";
+import { Space } from "@/features/spaces/models/entities";
 import { User } from "@/features/users/models/entities";
 import { purifyHtml } from "@/shared/utils/helpers/dom";
 
@@ -39,6 +40,9 @@ export class PostPreview {
     @Type(() => PostMeta)
     public meta: PostMeta;
 
+    @Type(() => Space)
+    public spaces: Space[];
+
     constructor(
         public id: number,
         public title: string,
@@ -46,10 +50,7 @@ export class PostPreview {
         public slug: string,
         public createdAt: string,
         public updatedAt: string,
-        author?: User,
-    ) {
-        this.author = author;
-    }
+    ) {}
 
     get formattedCreatedAt(): string {
         return formatTimestamp(this.createdAt);
@@ -68,6 +69,9 @@ export class PostDetails extends PostPreview {
     @Type(() => PostVote)
     public votes: PostVote[];
 
+    @Type(() => Space)
+    public spaces: Space[];
+
     constructor(
         id: number,
         title: string,
@@ -77,11 +81,14 @@ export class PostDetails extends PostPreview {
         updatedAt: string,
         body: string,
         votes: PostVote[],
+        spaces: Space[],
         author?: User,
     ) {
-        super(id, title, excerpt, slug, createdAt, updatedAt, author);
+        super(id, title, excerpt, slug, createdAt, updatedAt);
         this.body = body;
         this.votes = votes;
+        this.spaces = spaces;
+        this.author = author;
     }
 }
 

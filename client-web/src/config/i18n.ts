@@ -8,6 +8,7 @@ import { en as enAuth, ru as ruAuth } from "@/features/auth/resources/translatio
 import { en as enShared, ru as ruShared } from "@/shared/resources/translations";
 import { en as enPosts, ru as ruPosts } from "@/features/posts/resources/translations";
 import { en as enSearch, ru as ruSearch } from "@/features/search/resources/translations";
+import { en as enSpaces, ru as ruSpaces } from "@/features/spaces/resources/translations";
 import { en as enUsers, ru as ruUsers } from "@/features/users/resources/translations";
 
 i18n.use(LanguageDetector)
@@ -22,6 +23,7 @@ i18n.use(LanguageDetector)
                     ...enShared,
                     ...enPosts,
                     ...enSearch,
+                    ...enSpaces,
                     ...enUsers,
                 },
             },
@@ -31,6 +33,7 @@ i18n.use(LanguageDetector)
                     ...ruShared,
                     ...ruPosts,
                     ...ruSearch,
+                    ...ruSpaces,
                     ...ruUsers,
                 },
             },

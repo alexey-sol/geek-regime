@@ -44,3 +44,7 @@ export const Loader: FC<Partial<HasClassName>> = ({ className }) => (
         <LoaderStyled />
     </LoaderWrapStyled>
 );
+
+export const AppLoader = styled(Loader)`
+    height: 100vh;
+`;

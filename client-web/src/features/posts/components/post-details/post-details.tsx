@@ -17,6 +17,7 @@ import { type PostDetails as Details } from "@/features/posts/models/entities";
 import { Skeleton } from "@/shared/components/loaders";
 import { isStubItem } from "@/shared/utils/helpers/object";
 import { type MaybeStubItem } from "@/shared/types";
+import { SpaceList } from "@/features/spaces/components/space-list";
 
 import { AuthorInfo } from "../user-info";
 
@@ -60,6 +61,12 @@ export const PostDetails: FC<PostDetailsProps> = ({ post }) => {
                     <Typography dangerouslySetInnerHTML={createInnerHtml(post.body ?? "")} />
                 </Skeleton>
             </ContentStyled>
+
+            <Skeleton isLoading={isLoading} heightPx={22} widthPx={300}>
+                {!!post.spaces?.length && (
+                    <SpaceList spaces={post.spaces} />
+                )}
+            </Skeleton>
 
             <Divider />
 

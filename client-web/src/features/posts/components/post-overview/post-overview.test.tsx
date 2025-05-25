@@ -39,6 +39,7 @@ const RESPONSE: PostPreviewResponse = {
         viewCount: 0,
         commentCount: 0,
     },
+    spaces: [],
 };
 
 const POST = toPostPreview(RESPONSE);

@@ -25,6 +25,10 @@ export type HasPathPrefix = {
     pathPrefix: string;
 };
 
+export type HasTitle = {
+    title: string;
+};
+
 export type HasPagingQueryParams = {
     params: PagingQueryParams;
 };

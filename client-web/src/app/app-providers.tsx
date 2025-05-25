@@ -9,7 +9,7 @@ import "@eggziom/geek-regime-js-ui-kit/dist/main/global.css";
 
 import { store } from "@/app/store";
 import { theme } from "@/app/style/theme";
-import { Loader } from "@/shared/components/loaders";
+import { AppLoader } from "@/shared/components/loaders";
 import { AuthContextProvider } from "@/features/auth/contexts/auth";
 
 type WithProvider = (component: FC<void>) => FC<void>;
@@ -29,7 +29,7 @@ export const withTheme: WithProvider = (component) => () => (
 
 export const withRouter: WithProvider = (component) => () => (
     <BrowserRouter>
-        <Suspense fallback={<Loader />}>
+        <Suspense fallback={<AppLoader />}>
             {component()}
         </Suspense>
     </BrowserRouter>

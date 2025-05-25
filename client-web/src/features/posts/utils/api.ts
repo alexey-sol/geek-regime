@@ -2,8 +2,10 @@ import { type HasId } from "@eggziom/geek-regime-js-commons";
 
 import { postCommentsApi } from "@/features/posts/services/post-comments-api";
 import { mapPagingQueryParams, mapSearchPagingQueryParams } from "@/shared/utils/api";
+import { omitUndefined } from "@/shared/utils/helpers/object";
 import { type GetAllPostsArg, GetAllPostsByAuthorArg } from "@/features/posts/services/posts-api/types";
 import { type GetAllPostCommentsArg } from "@/features/posts/services/post-comments-api/types";
+import { type CreatePostOnSaveArg, type UpdatePostOnSaveArg } from "@/features/posts/utils/hooks/types";
 
 import {
     type PeriodAndSortQueryParams,
@@ -63,6 +65,15 @@ export const mapGetAllPostCommentsArg = (
     ...arg,
     params: mapPagingQueryParams(arg.params),
 });
+
+type SavePostArg = CreatePostOnSaveArg | UpdatePostOnSaveArg;
+
+export const mapCreateOrUpdatePostArg = ({ spaces, ...rest }: SavePostArg): SavePostArg =>
+    omitUndefined({
+        ...rest,
+        spaces: spaces?.filter(({ title }) => !!title.trim())
+            .map(({ title }) => ({ title })),
+    });
 
 export const getCreateCommentKey = (): string =>
     postCommentsApi.endpoints.createPostComment.name;

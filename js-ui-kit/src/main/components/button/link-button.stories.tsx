@@ -6,7 +6,7 @@ import { TYPOGRAPHY_TAG_NAMES } from "@/const";
 
 import { LinkButton, type LinkButtonProps } from ".";
 
-const VIEWS: LinkButtonProps["view"][] = ["primary", "secondary"];
+const VIEWS: LinkButtonProps["view"][] = ["plain", "primary", "secondary"];
 
 const getTitle = (view: LinkButtonProps["view"]) => `LinkButton (view = "${view}")`;
 

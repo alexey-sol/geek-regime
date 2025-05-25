@@ -18,8 +18,8 @@
         "test:clear": "npm run test -- --clearCache"
     },
     "dependencies": {
-        "@eggziom/geek-regime-js-commons": "0.0.50",
-        "@eggziom/geek-regime-js-ui-kit": "0.0.41",
+        "@eggziom/geek-regime-js-commons": "0.0.52",
+        "@eggziom/geek-regime-js-ui-kit": "0.0.43",
         "@reduxjs/toolkit": "2.3.0",
         "class-transformer": "0.5.1",
         "date-fns": "2.29.3",

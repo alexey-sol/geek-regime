@@ -27,8 +27,10 @@ export const en = {
         },
         errors: {
             validation: {
-                bodyEmpty: "Type in the comment",
-                bodyTooLong: "The comment is too long",
+                bodyEmpty: "Type in the text",
+                bodyTooLong: "The text is too long",
+                titleEmpty: "Type in the title",
+                titleTooLong: "The title is too long",
             },
         },
         query: {
@@ -36,7 +38,7 @@ export const en = {
                 success: "Post removed",
             },
             update: {
-                success: "Post updated",
+                success: "Post saved",
             },
         },
         page: {
@@ -123,6 +125,15 @@ export const en = {
                 },
             },
             rating: "Rating",
+            spaces: {
+                input: {
+                    placeholder: "A tag to add",
+                    submitButton: {
+                        tooltip: "Add",
+                    },
+                    tooltip: "No duplicates. Max tag count",
+                },
+            },
             updatedAt: "Updated at",
             viewCount: "View count",
         },
@@ -158,8 +169,10 @@ export const ru = {
         },
         errors: {
             validation: {
-                bodyEmpty: "Введите комментарий",
-                bodyTooLong: "Комментарий слишком длинный",
+                bodyEmpty: "Введите текст",
+                bodyTooLong: "Текст слишком длинный",
+                titleEmpty: "Введите заголовок",
+                titleTooLong: "Заголовок слишком длинный",
             },
         },
         query: {
@@ -254,6 +267,15 @@ export const ru = {
                 },
             },
             rating: "Рейтинг",
+            spaces: {
+                input: {
+                    placeholder: "Добавить тэг",
+                    submitButton: {
+                        tooltip: "Добавить",
+                    },
+                    tooltip: "Дубликаты недопустимы. Макс. число тегов",
+                },
+            },
             updatedAt: "Обновлено",
             viewCount: "Просмотров",
         },

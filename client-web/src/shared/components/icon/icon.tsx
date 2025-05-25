@@ -44,3 +44,9 @@ export const UserIcon: FC<IconProps> = (props) => (
         />
     </BaseIcon>
 );
+
+export const PlusIcon: FC<IconProps> = (props) => (
+    <BaseIcon viewBox="0 0 512 512" {...props}>
+        <polygon points="448,224 288,224 288,64 224,64 224,224 64,224 64,288 224,288 224,448 288,448 288,288 448,288 " />
+    </BaseIcon>
+);

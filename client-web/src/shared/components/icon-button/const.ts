@@ -1,3 +1,4 @@
+export const ARIA_LABEL_ADD_ITEM = "add item";
 export const ARIA_LABEL_CLOSE = "close";
 export const ARIA_LABEL_DISLIKE = "dislike";
 export const ARIA_LABEL_GO_BACK = "go back";

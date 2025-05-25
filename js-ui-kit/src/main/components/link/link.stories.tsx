@@ -8,7 +8,7 @@ import { Link, type LinkProps } from ".";
 
 type LinkView = LinkProps["view"];
 
-const views: LinkView[] = ["primary", "secondary"];
+const views: LinkView[] = ["plain", "primary", "secondary"];
 
 const getLinkTitle = (view: LinkView) => `Link (view = "${view}")`;
 

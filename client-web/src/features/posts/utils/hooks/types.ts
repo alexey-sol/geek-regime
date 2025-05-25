@@ -9,7 +9,7 @@ import {
 import { type UsePageResult } from "@/shared/utils/hooks/use-page";
 import { type ApiError } from "@/shared/models/dtos";
 
-export type CreatePostOnSaveArg = Pick<CreatePostArg, "title" | "body">;
+export type CreatePostOnSaveArg = Pick<CreatePostArg, "spaces" | "title" | "body">;
 
 export type UpdatePostOnSaveArg = Omit<UpdatePostByIdArg, "id">;
 

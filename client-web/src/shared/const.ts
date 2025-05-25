@@ -21,6 +21,7 @@ export const paths = {
     POSTS: "posts",
     SEARCH: "search",
     SETTINGS: "settings",
+    SPACES: "spaces",
     UPDATE: "update",
     USERS: "users",
 };
