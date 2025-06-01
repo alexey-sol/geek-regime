@@ -1,5 +1,12 @@
 export const en = {
     spaces: {
+        item: {
+            footer: {
+                nonOfficial: {
+                    title: "Custom",
+                },
+            },
+        },
         list: {
             actions: {
                 showLessButton: {
@@ -15,6 +22,13 @@ export const en = {
 
 export const ru = {
     spaces: {
+        item: {
+            footer: {
+                nonOfficial: {
+                    title: "Пользовательский",
+                },
+            },
+        },
         list: {
             actions: {
                 showLessButton: {

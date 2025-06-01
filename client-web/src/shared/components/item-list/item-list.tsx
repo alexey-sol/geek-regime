@@ -10,16 +10,21 @@ import { ListItemStyled, ListStyled, ItemListStyled } from "./style";
 type ItemListProps<E extends HasId> = {
     ItemComponent: ComponentType<{ item: E }>;
     items: E[];
+    noDividers?: boolean;
 };
 
-export const ItemList = <E extends HasId>({ ItemComponent, items }: ItemListProps<E>) => {
+export const ItemList = <E extends HasId>({
+    ItemComponent,
+    items,
+    noDividers = false,
+}: ItemListProps<E>) => {
     const { t } = useTranslation();
 
     const list = (
         <ListStyled>
             {items.map((item, index) => (
                 <ListItemStyled key={item.id}>
-                    {index > 0 && <Divider />}
+                    {!noDividers && index > 0 && <Divider />}
                     <ItemComponent item={item} />
                 </ListItemStyled>
             ))}

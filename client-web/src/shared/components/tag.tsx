@@ -1,6 +1,8 @@
 import React, { type FC, type MouseEventHandler, type PropsWithChildren } from "react";
 import styled from "styled-components";
-import { type HasColor, Typography, type TypographyProps } from "@eggziom/geek-regime-js-ui-kit";
+import {
+    HasClassName, type HasColor, Typography, type TypographyProps,
+} from "@eggziom/geek-regime-js-ui-kit";
 
 import { CloseIconButton } from "@/shared/components/icon-button";
 
@@ -13,15 +15,20 @@ export const TagStyled = styled.section<HasColor>`
     padding: 0.3rem 1rem;
     background-color: ${({ theme, color }) => theme.colors[color]};
     border-radius: 1rem;
-    text-wrap: nowrap;
+    word-break: break-word;
 `;
 
-export type TagProps = PropsWithChildren<Pick<TypographyProps, "fontSize">> & HasColor & {
+export type TagProps = PropsWithChildren<Pick<TypographyProps, "fontSize">>
+    & HasColor
+    & Partial<HasClassName>
+    & {
     onClose?: MouseEventHandler;
 };
 
-export const Tag: FC<TagProps> = ({ children, color, onClose }) => (
-    <TagStyled color={color}>
+export const Tag: FC<TagProps> = ({
+    children, className, color, onClose,
+}) => (
+    <TagStyled className={className} color={color}>
         <Typography as="span" fontSize="sm">{children}</Typography>
         {onClose && (
             <CloseIconButton disabled fontSize="xxs" onClick={onClose} />

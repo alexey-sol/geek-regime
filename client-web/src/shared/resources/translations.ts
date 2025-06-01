@@ -79,6 +79,9 @@ export const en = {
             searchButton: {
                 tooltip: "Search",
             },
+            spacesTab: {
+                title: "Tags",
+            },
         },
         paging: {
             content: {
@@ -177,6 +180,9 @@ export const ru = {
             },
             searchButton: {
                 tooltip: "Поиск",
+            },
+            spacesTab: {
+                title: "Тэги",
             },
         },
         paging: {

@@ -12,7 +12,7 @@ import { createTag, provideTags } from "./utils";
 import * as cn from "./const";
 import type * as tp from "./types";
 
-const { POSTS, USERS } = resources;
+const { POSTS, SPACES, USERS } = resources;
 
 const appApiWithTag = appApi.enhanceEndpoints({
     addTagTypes: [cn.POSTS_TYPE],
@@ -54,6 +54,13 @@ export const postsApi = appApiWithTag.injectEndpoints({
             query: ({ authorId, ...params }) => ({
                 params,
                 url: `/v1/${USERS}/${authorId}/${POSTS}`,
+            }),
+            providesTags: (result) => provideTags(result?.content),
+        }),
+        getAllPostsBySpace: builder.query<PostPreviewPageResponse, tp.GetAllPostsBySpaceArg>({
+            query: ({ spaceId, ...params }) => ({
+                params,
+                url: `/v1/${SPACES}/${spaceId}/${POSTS}`,
             }),
             providesTags: (result) => provideTags(result?.content),
         }),
@@ -145,6 +152,7 @@ export const {
     useCreatePostMutation,
     useGetAllPostsQuery,
     useGetAllPostsByAuthorQuery,
+    useGetAllPostsBySpaceQuery,
     useGetPostBySlugQuery,
     useRemovePostByIdMutation,
     useUpdatePostByIdMutation,

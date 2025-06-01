@@ -10,12 +10,11 @@ import { Skeleton } from "@/shared/components/loaders";
 import { isStubItem } from "@/shared/utils/helpers/object";
 import { usePrefetch } from "@/features/posts/services/posts-api";
 import { SpaceList } from "@/features/spaces/components/space-list";
+import { OverviewExcerpt, OverviewTitle } from "@/shared/components/typography";
 
 import { ItemRatingReadonly } from "../post-meta/item-rating-readonly";
 
 import { BodyStyled, PostOverviewFooter, PostOverviewStyled } from "./style";
-import { OverviewTitle } from "./overview-title";
-import { OverviewExcerpt } from "./overview-excerpt";
 
 export const PostOverview: FC<HasItem<MaybeStubItem<PostPreview>>> = ({ item }) => {
     const isLoading = isStubItem(item);
@@ -30,11 +29,13 @@ export const PostOverview: FC<HasItem<MaybeStubItem<PostPreview>>> = ({ item }) 
             >
                 <BodyStyled>
                     <Skeleton isLoading={isLoading} heightPx={44}>
-                        <OverviewTitle title={item.title ?? ""} />
+                        {!!item.title && (
+                            <OverviewTitle title={item.title}>{item.title}</OverviewTitle>
+                        )}
                     </Skeleton>
 
                     <Skeleton isLoading={isLoading} heightPx={44}>
-                        <OverviewExcerpt excerpt={item.excerpt ?? ""} />
+                        {!!item.excerpt && <OverviewExcerpt>{item.excerpt}</OverviewExcerpt>}
                     </Skeleton>
                 </BodyStyled>
             </RouterDomLink>

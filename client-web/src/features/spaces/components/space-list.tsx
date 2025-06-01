@@ -5,7 +5,7 @@ import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
 import { type Space } from "@/features/spaces/models/entities";
-import { createAbsoluteSpacesPath } from "@/features/spaces/utils/helpers";
+import { createAbsoluteSpacePostsPath } from "@/features/spaces/utils/helpers";
 import { SpaceTag } from "@/features/spaces/components/tag";
 import { Tag } from "@/shared/components/tag";
 
@@ -43,7 +43,7 @@ export const SpaceList: FC<SpaceListProps> = ({ spaces }) => {
         <SpaceListStyled>
             {resultSpaces.map(({ isOfficial, slug, title }) => (
                 <li key={slug}>
-                    <Link to={createAbsoluteSpacesPath(slug)}>
+                    <Link to={createAbsoluteSpacePostsPath(slug)}>
                         <SpaceTag isOfficial={isOfficial}>{title}</SpaceTag>
                     </Link>
                 </li>
@@ -52,7 +52,9 @@ export const SpaceList: FC<SpaceListProps> = ({ spaces }) => {
             {!showAll && sortedSpaces.length > MINIMIZED_LIST_LENGTH && (
                 <li>
                     <LinkButton onClick={() => setShowAll(true)} view="plain">
-                        <Tag color="greyLighten">{t("spaces.list.actions.showMoreButton.title")}</Tag>
+                        <Tag color="greyLighten">
+                            {t("spaces.list.actions.showMoreButton.title")}
+                        </Tag>
                     </LinkButton>
                 </li>
             )}
@@ -60,7 +62,9 @@ export const SpaceList: FC<SpaceListProps> = ({ spaces }) => {
             {showAll && (
                 <li>
                     <LinkButton onClick={() => setShowAll(false)} view="plain">
-                        <Tag color="greyLighten">{t("spaces.list.actions.showLessButton.title")}</Tag>
+                        <Tag color="greyLighten">
+                            {t("spaces.list.actions.showLessButton.title")}
+                        </Tag>
                     </LinkButton>
                 </li>
             )}

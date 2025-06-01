@@ -1,12 +1,4 @@
 import styled, { css } from "styled-components";
-import {
-    Typography,
-    type TypographyProps,
-} from "@eggziom/geek-regime-js-ui-kit";
-
-import { mixins } from "@/app/style/mixins";
-
-const TWO_LINES = 2;
 
 const columnCss = css`
     display: flex;
@@ -16,14 +8,6 @@ const columnCss = css`
 
 export const PostOverviewStyled = styled.article`
     ${columnCss};
-`;
-
-type TwoLineTextStyledProps = TypographyProps & {
-    lineHeight?: string;
-};
-
-export const TwoLineTextStyled = styled(Typography)<TwoLineTextStyledProps>`
-    ${({ lineHeight }) => lineHeight && mixins.getLineClampText(TWO_LINES, lineHeight)};
 `;
 
 export const BodyStyled = styled.section`

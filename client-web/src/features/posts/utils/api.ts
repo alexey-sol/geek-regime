@@ -3,7 +3,11 @@ import { type HasId } from "@eggziom/geek-regime-js-commons";
 import { postCommentsApi } from "@/features/posts/services/post-comments-api";
 import { mapPagingQueryParams, mapSearchPagingQueryParams } from "@/shared/utils/api";
 import { omitUndefined } from "@/shared/utils/helpers/object";
-import { type GetAllPostsArg, GetAllPostsByAuthorArg } from "@/features/posts/services/posts-api/types";
+import {
+    type GetAllPostsArg,
+    type GetAllPostsByAuthorArg,
+    type GetAllPostsBySpaceArg,
+} from "@/features/posts/services/posts-api/types";
 import { type GetAllPostCommentsArg } from "@/features/posts/services/post-comments-api/types";
 import { type CreatePostOnSaveArg, type UpdatePostOnSaveArg } from "@/features/posts/utils/hooks/types";
 
@@ -17,6 +21,8 @@ const MAP_SORT_VALUE_TO_QUERY_PARAM: Record<PostSortValue, string> = {
     LATEST: "createdAt,DESC",
     OLDEST: "createdAt,ASC",
 };
+
+const DEFAULT_SEARCH_IN = ["title", "body"];
 
 export const mapPeriodAndSortQueryParams = ({
     period,
@@ -39,7 +45,7 @@ type HasSort = Pick<PostsPageSettings, "sort">;
 
 export const mapGetAllPostsArg = ({
     period,
-    searchIn = ["title", "body"],
+    searchIn = DEFAULT_SEARCH_IN,
     sort,
     ...rest
 }: Omit<GetAllPostsArg, "sort"> & Partial<HasSort>): GetAllPostsArg => ({
@@ -50,13 +56,25 @@ export const mapGetAllPostsArg = ({
 export const mapGetAllPostsByAuthorArg = ({
     authorId,
     period,
-    searchIn = ["title", "body"],
+    searchIn = DEFAULT_SEARCH_IN,
     sort,
     ...rest
 }: Omit<GetAllPostsByAuthorArg, "sort"> & Partial<HasSort>): GetAllPostsByAuthorArg => ({
     ...mapSearchPagingQueryParams({ ...rest, searchIn }),
     ...mapPeriodAndSortQueryParams({ period, sort }),
     authorId,
+});
+
+export const mapGetAllPostsBySpaceArg = ({
+    period,
+    searchIn = DEFAULT_SEARCH_IN,
+    sort,
+    spaceId,
+    ...rest
+}: Omit<GetAllPostsBySpaceArg, "sort"> & Partial<HasSort>): GetAllPostsBySpaceArg => ({
+    ...mapSearchPagingQueryParams({ ...rest, searchIn }),
+    ...mapPeriodAndSortQueryParams({ period, sort }),
+    spaceId,
 });
 
 export const mapGetAllPostCommentsArg = (

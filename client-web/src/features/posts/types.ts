@@ -6,6 +6,10 @@ export type HasAuthorId = {
     authorId: HasId["id"];
 };
 
+export type HasSpaceId = {
+    spaceId: HasId["id"];
+};
+
 export type PostSortValue = "LATEST" | "OLDEST";
 
 export type PostsPageSettings = {

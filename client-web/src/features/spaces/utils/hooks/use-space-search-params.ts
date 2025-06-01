@@ -2,11 +2,11 @@ import { useSearchParams } from "react-router-dom";
 
 import { SEARCH_PARAMS } from "@/shared/const";
 
-type UseUserSearchParamsResult = {
+type UseSpaceSearchParamsResult = {
     text?: string;
 };
 
-export const useUserSearchParams = (): UseUserSearchParamsResult => {
+export const useSpaceSearchParams = (): UseSpaceSearchParamsResult => {
     const [searchParams] = useSearchParams();
 
     const textParam = searchParams.get(SEARCH_PARAMS.TEXT) ?? undefined;
