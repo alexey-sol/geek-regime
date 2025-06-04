@@ -24,4 +24,10 @@ public interface SpaceRepository extends PagingAndSortingRepository<Space, Long>
     Boolean existsSpaceBySlug(String slug);
 
     List<Space> findAllBySlugIn(List<String> slugs);
+
+    @Query(
+        value = "SELECT count(ps.post_id) FROM post_space ps WHERE ps.space_id = :spaceId",
+        nativeQuery = true
+    )
+    long countPostsBySpaceId(long spaceId);
 }

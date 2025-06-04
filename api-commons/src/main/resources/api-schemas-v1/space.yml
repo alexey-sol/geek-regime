@@ -17,6 +17,33 @@ components:
     # Response DTOs from aggregator service containing populated reference fields:
     SpaceResponse:
       type: object
+      required: [ id,  title, slug, createdAt, updatedAt, postCount ]
+      allOf:
+        - $ref: "#/components/schemas/SpaceResponseBase"
+        - type: object
+          properties:
+            postCount:
+              type: integer
+              format: int64
+    SpacePreviewResponse:
+      type: object
+      required: [ id,  title, slug, createdAt, updatedAt ]
+      allOf:
+        - $ref: "#/components/schemas/SpaceResponseBase"
+    # Request DTOs:
+    SaveSpaceRequest:
+      type: object
+      required: [ title ]
+      properties:
+        title:
+          type: string
+          minLength: 1
+        description:
+          type: string
+          minLength: 1
+    # Shared fields:
+    SpaceResponseBase:
+      type: object
       required: [ id,  title, slug, createdAt, updatedAt ]
       properties:
         id:
@@ -37,17 +64,6 @@ components:
         updatedAt:
           type: string
           format: date-time
-    # Request DTOs:
-    SaveSpaceRequest:
-      type: object
-      required: [ title ]
-      properties:
-        title:
-          type: string
-          minLength: 1
-        description:
-          type: string
-          minLength: 1
     # Refs:
     Page:
       type: Page

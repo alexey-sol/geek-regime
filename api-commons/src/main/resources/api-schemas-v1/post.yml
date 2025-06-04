@@ -152,7 +152,7 @@ components:
         spaces:
           type: array
           items:
-            $ref: "#/components/schemas/SpaceResponse"
+            $ref: "#/components/schemas/SpacePreviewResponse"
     PostVote:
       type: object
       required: [ id, userId, value ]
@@ -182,9 +182,9 @@ components:
     Page:
       type: Page
       $ref: "./common.yml#/components/schemas/Page"
-    SpaceResponse:
+    SpacePreviewResponse:
       type: Page
-      $ref: "./space.yml#/components/schemas/SpaceResponse"
+      $ref: "./space.yml#/components/schemas/SpacePreviewResponse"
     SaveSpaceRequest:
       type: Page
       $ref: "./space.yml#/components/schemas/SaveSpaceRequest"

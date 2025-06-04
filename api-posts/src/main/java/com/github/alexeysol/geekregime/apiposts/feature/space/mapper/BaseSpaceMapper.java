@@ -1,6 +1,7 @@
 package com.github.alexeysol.geekregime.apiposts.feature.space.mapper;
 
 import com.github.alexeysol.geekregime.apicommons.generated.model.SaveSpaceRequest;
+import com.github.alexeysol.geekregime.apicommons.generated.model.SpaceResponse;
 import com.github.alexeysol.geekregime.apicommons.util.Slug;
 import com.github.alexeysol.geekregime.apiposts.feature.space.mapper.converter.ToUniqueSpaceListConverter;
 import com.github.alexeysol.geekregime.apiposts.feature.space.model.entity.Space;
@@ -33,6 +34,7 @@ public abstract class BaseSpaceMapper {
 
     private void init(ModelMapper modelMapper) {
         Converter<String, String> convertToSlug = context -> Slug.generateSlug(context.getSource());
+        Converter<Long, Long> countPostsBySpaceId = context -> spaceService.countPostsBySpaceId(context.getSource());
 
         modelMapper.typeMap(SaveSpaceRequest.class, Space.class)
             .addMappings(mapper -> {
@@ -44,5 +46,9 @@ public abstract class BaseSpaceMapper {
             .addMappings(mapper -> mapper
                 .using(new ToUniqueSpaceListConverter(spaceService, modelMapper))
                 .map(SaveSpaceRequestList::getList, SpaceList::setList));
+
+        modelMapper.typeMap(Space.class, SpaceResponse.class)
+            .addMappings(mapper -> mapper.using(countPostsBySpaceId)
+                .map(Space::getId, SpaceResponse::setPostCount));
     }
 }

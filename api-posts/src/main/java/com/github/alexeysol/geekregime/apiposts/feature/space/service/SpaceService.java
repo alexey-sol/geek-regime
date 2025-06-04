@@ -38,6 +38,10 @@ public class SpaceService implements HasExistsBySlug {
         return repository.existsSpaceBySlug(slug);
     }
 
+    public long countPostsBySpaceId(long spaceId) {
+        return repository.countPostsBySpaceId(spaceId);
+    }
+
     @Transactional
     public List<Space> saveSpaceList(List<Space> spaces) {
         return spaces.stream()
