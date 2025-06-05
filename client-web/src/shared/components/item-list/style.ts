@@ -6,8 +6,6 @@ const columnCss = css`
     row-gap: 2rem;
 `;
 
-export const ItemListStyled = styled.section``;
-
 export const ListStyled = styled.ul`
     ${columnCss};
 `;

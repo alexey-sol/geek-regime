@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
-import { DEFAULT_PAGING_OPTIONS } from "@/shared/const";
+import { SPACE_PAGING_OPTIONS } from "@/features/spaces/const";
 import type { PagingOptions } from "@/shared/types";
 
 export type SpacesState = {
@@ -8,7 +8,7 @@ export type SpacesState = {
 };
 
 const initialState: SpacesState = {
-    pagingOptions: { ...DEFAULT_PAGING_OPTIONS },
+    pagingOptions: { ...SPACE_PAGING_OPTIONS },
 };
 
 export const spacesSlice = createSlice({

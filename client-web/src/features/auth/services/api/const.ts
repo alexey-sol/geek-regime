@@ -1,1 +1,1 @@
-export const PROFILE_ID = "Profile" as const;
+export const PROFILE_TYPE = "Profile" as const;

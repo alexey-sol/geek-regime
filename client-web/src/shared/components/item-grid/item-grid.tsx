@@ -3,30 +3,27 @@ import { Typography } from "@eggziom/geek-regime-js-ui-kit";
 import { useTranslation } from "react-i18next";
 import { HasId } from "@eggziom/geek-regime-js-commons";
 
-import { Divider } from "@/shared/components/divider";
+import { GridStyled, ItemGridStyled } from "./style";
 
-import { ListItemStyled, ListStyled } from "./style";
-
-type ItemListProps<E extends HasId> = {
+type ItemGridProps<E extends HasId> = {
     ItemComponent: ComponentType<{ item: E }>;
     items: E[];
 };
 
-export const ItemList = <E extends HasId>({
+export const ItemGrid = <E extends HasId>({
     ItemComponent,
     items,
-}: ItemListProps<E>) => {
+}: ItemGridProps<E>) => {
     const { t } = useTranslation();
 
-    const list = (
-        <ListStyled>
-            {items.map((item, index) => (
-                <ListItemStyled key={item.id}>
-                    {index > 0 && <Divider />}
+    const grid = (
+        <GridStyled>
+            {items.map((item) => (
+                <li key={item.id}>
                     <ItemComponent item={item} />
-                </ListItemStyled>
+                </li>
             ))}
-        </ListStyled>
+        </GridStyled>
     );
 
     const stub = (
@@ -36,8 +33,8 @@ export const ItemList = <E extends HasId>({
     );
 
     return (
-        <section>
-            {items.length > 0 ? list : stub}
-        </section>
+        <ItemGridStyled>
+            {items.length > 0 ? grid : stub}
+        </ItemGridStyled>
     );
 };

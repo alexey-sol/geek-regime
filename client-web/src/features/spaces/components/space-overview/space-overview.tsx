@@ -1,42 +1,55 @@
-import React, { type FC } from "react";
+import React, { type FC, type PropsWithChildren } from "react";
 import { useTranslation } from "react-i18next";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Link } from "react-router-dom";
 
-import { createAbsoluteSpacePostsPath, getSpaceTagColor } from "@/features/spaces/utils/helpers";
+import { createAbsoluteSpacePostsPath } from "@/features/spaces/utils/helpers";
 import { type HasItem, MaybeStubItem } from "@/shared/types";
 import { Skeleton } from "@/shared/components/loaders";
 import { isStubItem } from "@/shared/utils/helpers/object";
 import { Space } from "@/features/spaces/models/entities";
-import { OverviewExcerpt, OverviewTitle } from "@/shared/components/typography";
+import { OverviewTitle } from "@/shared/components/typography";
+import { EditIcon } from "@/shared/components/icon";
+import { Tooltip } from "@/shared/components/tooltip";
 
 import {
-    BodyStyled, LinkStyled, NoWrapTypography, SpaceOverviewStyled,
+    HeaderStyled, NonOfficialIconWrap, SpaceOverviewStyled,
 } from "./style";
 
-export const SpaceOverview: FC<HasItem<MaybeStubItem<Space>>> = ({ item }) => {
+export const SpaceOverview: FC<PropsWithChildren<HasItem<MaybeStubItem<Space>>>> = ({
+    children,
+    item,
+}) => {
     const { t } = useTranslation();
     const isLoading = isStubItem(item);
 
     return (
-        <Skeleton isLoading={isLoading} heightPx={85}>
-            <SpaceOverviewStyled color={getSpaceTagColor(item.isOfficial)}>
-                <BodyStyled>
+        <Skeleton isLoading={isLoading} heightPx={66}>
+            <Link to={createAbsoluteSpacePostsPath(item.slug ?? "")}>
+                <SpaceOverviewStyled color={item.isOfficial ? "secondary" : "primary"}>
                     {!!item.title && (
-                        <LinkStyled to={createAbsoluteSpacePostsPath(item.slug ?? "")}>
-                            <OverviewTitle as="p" title={item.title}>{item.title}</OverviewTitle>
+                        <HeaderStyled>
+                            <OverviewTitle as="p" title={item.title}>
+                                {item.title}
+                            </OverviewTitle>
 
                             {!item.isOfficial && (
-                                <NoWrapTypography fontSize="xs">
-                                    {t("spaces.item.footer.nonOfficial.title")}
-                                </NoWrapTypography>
+                                <Tooltip message={t("spaces.item.header.nonOfficial.tooltip")}>
+                                    <NonOfficialIconWrap onClick={(event) => event.preventDefault()}>
+                                        <EditIcon color="primary" />
+                                    </NonOfficialIconWrap>
+                                </Tooltip>
                             )}
-                        </LinkStyled>
+                        </HeaderStyled>
                     )}
 
-                    {!!item.description && (
-                        <OverviewExcerpt fontSize="xs">{item.description}</OverviewExcerpt>
-                    )}
-                </BodyStyled>
-            </SpaceOverviewStyled>
+                    {children}
+
+                    <Typography fontSize="xs">
+                        {`${t("spaces.item.footer.postCount.title")}: ${item.postCount}`}
+                    </Typography>
+                </SpaceOverviewStyled>
+            </Link>
         </Skeleton>
     );
 };

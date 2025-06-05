@@ -7,6 +7,8 @@ import {
 } from "@/features/posts/models/dtos";
 import { type RootState } from "@/app/store";
 import { appApi } from "@/app/store/api";
+import { spacesApi } from "@/features/spaces/services/api";
+import * as spaceCn from "@/features/spaces/services/api/const";
 
 import { createTag, provideTags } from "./utils";
 import * as cn from "./const";
@@ -38,6 +40,8 @@ export const postsApi = appApiWithTag.injectEndpoints({
                     dispatch(
                         postsApi.util.upsertQueryData("getPostBySlug", data.slug, data),
                     );
+
+                    dispatch(spacesApi.util.invalidateTags([spaceCn.SPACES_TYPE]));
                 } catch (error) {
                     console.error(error);
                 }
@@ -81,13 +85,15 @@ export const postsApi = appApiWithTag.injectEndpoints({
                 method: "PATCH",
                 url: `/v1/${POSTS}/${id}`,
             }),
-            async onQueryStarted(_, api) {
-                api.queryFulfilled
+            async onQueryStarted(_, { dispatch, getState, queryFulfilled }) {
+                queryFulfilled
                     .then(({ data }) => {
                         // eslint-disable-next-line no-use-before-define -- [1]
-                        updatePostListCacheIfNeeded("getAllPosts", data, api.getState(), api.dispatch);
+                        updatePostListCacheIfNeeded("getAllPosts", data, getState(), dispatch);
                         // eslint-disable-next-line no-use-before-define -- [1]
-                        updatePostListCacheIfNeeded("getAllPostsByAuthor", data, api.getState(), api.dispatch);
+                        updatePostListCacheIfNeeded("getAllPostsByAuthor", data, getState(), dispatch);
+
+                        dispatch(spacesApi.util.invalidateTags([spaceCn.SPACES_TYPE]));
                     })
                     .catch(console.error);
             },

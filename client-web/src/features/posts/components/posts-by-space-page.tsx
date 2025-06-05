@@ -1,6 +1,7 @@
 import React, { useMemo, type FC } from "react";
 import styled from "styled-components";
 import { type HasId } from "@eggziom/geek-regime-js-commons";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit";
 
 import { usePostsBySpacePage } from "@/features/posts/utils/hooks/use-posts-by-space-page";
 import { Page } from "@/shared/components/page";
@@ -31,11 +32,17 @@ export const PostsBySpacePage: FC<HasPathPrefix> = ({ pathPrefix }) => {
         ? getStubItems(pagingOptions.size)
         : posts), [isPending, pagingOptions.size, posts]);
 
+    const spaceDescription = !!space?.description && (
+        <Typography fontSize="sm">{space.description}</Typography>
+    );
+
     return (
         <Page pagingOptions={pagingOptions} pathPrefix={pathPrefix}>
             <PageContentStyled>
                 <PageSettings />
-                {spaceOrStub && <SpaceOverview item={spaceOrStub} />}
+                {spaceOrStub && (
+                    <SpaceOverview item={spaceOrStub}>{spaceDescription}</SpaceOverview>
+                )}
                 <ItemList ItemComponent={PostOverview} items={postsOrStubs} />
             </PageContentStyled>
         </Page>

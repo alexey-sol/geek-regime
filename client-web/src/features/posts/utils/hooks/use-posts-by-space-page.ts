@@ -11,7 +11,7 @@ import { type PagingOptions } from "@/shared/types";
 import { usePostSearchParams } from "@/features/posts/utils/hooks/use-post-search-params";
 import { useGetAllPostsBySpaceQuery } from "@/features/posts/services/posts-api";
 import { toPostPreviewList } from "@/features/posts/utils/converters";
-import { useGetSpaceBySlugQuery } from "@/features/spaces/services/spaces-api";
+import { useGetSpaceBySlugQuery } from "@/features/spaces/services/api";
 import { toSpace } from "@/features/spaces/utils/converters";
 
 import {

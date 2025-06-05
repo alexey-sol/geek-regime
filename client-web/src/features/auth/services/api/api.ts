@@ -12,7 +12,7 @@ import * as cn from "./const";
 const { AUTH } = resources;
 
 const appApiWithTag = appApi.enhanceEndpoints({
-    addTagTypes: [cn.PROFILE_ID],
+    addTagTypes: [cn.PROFILE_TYPE],
 });
 
 export const authApi = appApiWithTag.injectEndpoints({

@@ -7,7 +7,7 @@ import { usePage } from "@/shared/utils/hooks/use-page";
 import { mapGetAllSpacesArg } from "@/features/spaces/utils/api";
 import { type PagingOptions } from "@/shared/types";
 import { useSpaceSearchParams } from "@/features/spaces/utils/hooks/use-space-search-params";
-import { useGetAllSpacesQuery } from "@/features/spaces/services/spaces-api";
+import { useGetAllSpacesQuery } from "@/features/spaces/services/api";
 import { toSpaceList } from "@/features/spaces/utils/converters";
 
 import {

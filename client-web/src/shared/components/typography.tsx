@@ -5,26 +5,39 @@ import styled from "styled-components";
 import { mixins } from "@/app/style/mixins";
 import { useTypography } from "@/shared/utils/hooks/use-typography";
 
-const TWO_LINES = 2;
+const DEFAULT_MAX_LINE_COUNT = 1;
 
 type TwoLineTextStyledProps = TypographyProps & {
+    maxLineCount?: number;
     lineHeight?: string;
 };
 
 const TwoLineTextStyled = styled(Typography)<TwoLineTextStyledProps>`
-    ${({ lineHeight }) => lineHeight && mixins.getLineClampText(TWO_LINES, lineHeight)};
+    ${({
+        maxLineCount = DEFAULT_MAX_LINE_COUNT,
+        lineHeight,
+    }) => lineHeight && mixins.getLineClampText(maxLineCount, lineHeight)};
 `;
 
-export const OverviewTitle: FC<PropsWithChildren<Pick<TypographyProps, "as" | "title">>> = ({
+type OverviewTitleProps = PropsWithChildren<Pick<TypographyProps, "as" | "title">>
+    & Pick<TwoLineTextStyledProps, "maxLineCount">;
+
+export const OverviewTitle: FC<OverviewTitleProps> = ({
     as = "h2",
     children,
+    maxLineCount,
     title,
 }) => {
     const fontSize: FontSize = "lg";
     const { lineHeight } = useTypography({ fontSize });
 
     return (
-        <TwoLineTextStyled as={as} lineHeight={lineHeight} title={title}>
+        <TwoLineTextStyled
+            as={as}
+            maxLineCount={maxLineCount}
+            lineHeight={lineHeight}
+            title={title}
+        >
             {children}
         </TwoLineTextStyled>
     );

@@ -2,8 +2,13 @@ export const en = {
     spaces: {
         item: {
             footer: {
+                postCount: {
+                    title: "Post count",
+                },
+            },
+            header: {
                 nonOfficial: {
-                    title: "Custom",
+                    tooltip: "A user-defined tag",
                 },
             },
         },
@@ -24,8 +29,13 @@ export const ru = {
     spaces: {
         item: {
             footer: {
+                postCount: {
+                    title: "Статей",
+                },
+            },
+            header: {
                 nonOfficial: {
-                    title: "Пользовательский",
+                    tooltip: "Пользовательский тэг",
                 },
             },
         },

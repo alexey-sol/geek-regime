@@ -1,4 +1,4 @@
-import {type HasId, resources} from "@eggziom/geek-regime-js-commons";
+import { type HasId, resources } from "@eggziom/geek-regime-js-commons";
 
 import { type UserPageResponse, type UserResponse } from "@/features/users/models/dtos";
 import { appApi } from "@/app/store/api";
@@ -12,7 +12,7 @@ import type * as tp from "./types";
 const { USERS } = resources;
 
 const appApiWithTag = appApi.enhanceEndpoints({
-    addTagTypes: [cn.TAG_TYPE],
+    addTagTypes: [cn.USERS_TYPE],
 });
 
 export const usersApi = appApiWithTag.injectEndpoints({
@@ -22,7 +22,7 @@ export const usersApi = appApiWithTag.injectEndpoints({
                 params: arg?.params,
                 url: `/v1/${USERS}`,
             }),
-            providesTags: () => [createTag(cn.TAG_TYPE)],
+            providesTags: () => [createTag(cn.USERS_TYPE)],
         }),
         getUserBySlug: builder.query<UserResponse, tp.GetUserBySlugArg>({
             query: (slug) => `/v1/${USERS}/${slug}`,
@@ -35,12 +35,12 @@ export const usersApi = appApiWithTag.injectEndpoints({
                 url: `/v1/${USERS}/${id}`,
             }),
             invalidatesTags: (result) => (result
-                ? [createTag(cn.TAG_TYPE), createTag(result.slug)]
+                ? [createTag(cn.USERS_TYPE), createTag(result.slug)]
                 : []),
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 queryFulfilled
                     .then(() => {
-                        dispatch(authApi.util.invalidateTags([authCn.PROFILE_ID]));
+                        dispatch(authApi.util.invalidateTags([authCn.PROFILE_TYPE]));
                     })
                     .catch(console.error);
             },
@@ -53,12 +53,12 @@ export const usersApi = appApiWithTag.injectEndpoints({
                 url: `/v1/${USERS}/${id}/picture`,
             }),
             invalidatesTags: (result) => (result
-                ? [createTag(cn.TAG_TYPE), createTag(result.slug)]
+                ? [createTag(cn.USERS_TYPE), createTag(result.slug)]
                 : []),
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 queryFulfilled
                     .then(() => {
-                        dispatch(authApi.util.invalidateTags([authCn.PROFILE_ID]));
+                        dispatch(authApi.util.invalidateTags([authCn.PROFILE_TYPE]));
                     })
                     .catch(console.error);
             },
@@ -69,12 +69,12 @@ export const usersApi = appApiWithTag.injectEndpoints({
                 url: `/v1/${USERS}/${id}/picture`,
             }),
             invalidatesTags: (result) => (result
-                ? [createTag(cn.TAG_TYPE), createTag(result.slug)]
+                ? [createTag(cn.USERS_TYPE), createTag(result.slug)]
                 : []),
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 queryFulfilled
                     .then(() => {
-                        dispatch(authApi.util.invalidateTags([authCn.PROFILE_ID]));
+                        dispatch(authApi.util.invalidateTags([authCn.PROFILE_TYPE]));
                     })
                     .catch(console.error);
             },

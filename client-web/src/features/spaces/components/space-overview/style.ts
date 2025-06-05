@@ -1,31 +1,38 @@
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { Typography } from "@eggziom/geek-regime-js-ui-kit";
+import styled, { css } from "styled-components";
+import { type HasColor } from "@eggziom/geek-regime-js-ui-kit";
 
-import { TagStyled } from "@/shared/components/tag";
+type GetColorMixArg = HasColor & {
+    transparency: number;
+};
 
-export const SpaceOverviewStyled = styled(TagStyled)`
-    display: flex;
-    width: 100%;
-    padding-top: 1rem;
-    padding-bottom: 1rem;
-    background-color: ${({ theme, color }) => theme.colors[color]};
+const getColorMix = ({ color, transparency }: GetColorMixArg) => css`
+    color-mix(in srgb, ${({ theme }) => theme.colors[color]}, transparent ${transparency}%);
 `;
 
-export const LinkStyled = styled(Link)`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 1rem;
-`;
-
-export const BodyStyled = styled.section`
+export const SpaceOverviewStyled = styled.section<HasColor>`
     display: flex;
     flex-direction: column;
-    row-gap: 1rem;
     flex: 1;
+    row-gap: 1rem;
+    justify-content: center;
+    width: 100%;
+    height: 100%;
+    padding: 1rem 1.5rem;
+    border-radius: 0.5rem;
+    word-break: break-word;
+    transition: background ${({ theme }) => theme.durations.fast} ease;
+    background: ${({ color }) => getColorMix({ color, transparency: 85 })};
+
+    &:hover {
+        background: ${({ color }) => getColorMix({ color, transparency: 75 })};
+    }
 `;
 
-export const NoWrapTypography = styled(Typography)`
-    text-wrap: nowrap;
+export const HeaderStyled = styled.section`
+    display: flex;
+    justify-content: space-between;
+`;
+
+export const NonOfficialIconWrap = styled.section`
+    cursor: default;
 `;

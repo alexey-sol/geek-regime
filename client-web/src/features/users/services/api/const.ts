@@ -1,2 +1,2 @@
-export const TAG_LIST_ID = "UserList" as const;
-export const TAG_TYPE = "User" as const;
+export const USER_LIST_ID = "UserList" as const;
+export const USERS_TYPE = "Users" as const;

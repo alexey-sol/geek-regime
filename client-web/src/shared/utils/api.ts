@@ -46,12 +46,13 @@ export const mergePageContent = <T>(
     otherArgs: {
         arg?: HasPagingQueryParams;
     },
+    pageSize = defaults.PAGE_SIZE,
 ): Page<T> => {
     // If this is the start page number, or we need a specific, non-standard page size (when
     // sorting, for example), return fetched content as is.
     // Otherwise, merge the fetched content with the existing one for infinite scroll.
     const isStartPage = otherArgs.arg?.params.page === normStartPage;
-    const isSpecificSizeRequired = otherArgs.arg?.params.size !== defaults.PAGE_SIZE;
+    const isSpecificSizeRequired = otherArgs.arg?.params.size !== pageSize;
 
     if (isStartPage || isSpecificSizeRequired) {
         return response;
