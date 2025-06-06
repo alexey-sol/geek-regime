@@ -55,8 +55,10 @@ export const en = {
         errors: {
             validation: {
                 confirmPasswordEmpty: "Confirm password",
+                descriptionTooLong: "Description is too long",
                 emailEmpty: "Specify email",
                 emailInvalid: "Specify valid email",
+                emailTooLong: "Email is too long",
                 nameEmpty: "Specify name",
                 nameTooLong: "Name is too long",
                 nameTooShort: "Name is too short",
@@ -124,8 +126,10 @@ export const ru = {
         errors: {
             validation: {
                 confirmPasswordEmpty: "Введите пароль еще раз",
+                descriptionTooLong: "Описание слишком длинное",
                 emailEmpty: "Укажите email",
                 emailInvalid: "Укажите корректный email",
+                emailTooLong: "Email слишком длинный",
                 nameEmpty: "Укажите имя",
                 nameTooLong: "Имя слишком длинное",
                 nameTooShort: "Имя слишком короткое",

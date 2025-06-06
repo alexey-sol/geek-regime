@@ -79,7 +79,7 @@ components:
         email:
           type: string
           format: email
-          minLength: 1
+          maxLength: 256
         password:
           type: string
           minLength: 1
@@ -92,10 +92,12 @@ components:
       properties:
         name:
           type: string
-          minLength: 1
+          minLength: 3
+          maxLength: 256
         description:
           type: string
           minLength: 1
+          maxLength: 1024
         about:
           type: string
           minLength: 1
@@ -110,7 +112,7 @@ components:
         email:
           type: string
           format: email
-          minLength: 1
+          maxLength: 256
         oldPassword:
           type: string
           minLength: 1
@@ -125,13 +127,18 @@ components:
       properties:
         name:
           type: string
-          minLength: 1
+          minLength: 3
+          maxLength: 256
         description:
           type: string
+          minLength: 1
+          maxLength: 1024
         about:
           type: string
+          minLength: 1
         image:
           type: string
+          minLength: 1
         gender:
           $ref: "./user.yml#/components/schemas/Gender"
         birthDate:
@@ -144,7 +151,7 @@ components:
         email:
           type: string
           format: email
-          minLength: 1
+          maxLength: 256
         password:
           type: string
           minLength: 1

@@ -40,7 +40,11 @@ export const getProfileSettingsSchema = (hasCredentials: boolean): Schema => yup
     email: getSaveEmailSchema(),
     details: yup.object({
         about: yup.string()
+            .trim()
             .max(2000, t("users.profile.settings.validation.aboutTooLong")),
+        description: yup.string()
+            .trim()
+            .max(1024, t("users.profile.settings.validation.descriptionTooLong")),
         name: getSaveNameSchema(),
     }),
 });
