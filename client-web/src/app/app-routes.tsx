@@ -3,7 +3,7 @@ import { Navigate, Route, Routes } from "react-router-dom";
 
 import { paths } from "@/shared/const";
 
-const PostBySpaceListView = lazy(() => import("@/features/posts/views/post-by-space-list-view"));
+const PostBySpaceListView = lazy(() => import("@/features/spaces/views/post-by-space-list-view"));
 const PostCreateView = lazy(() => import("@/features/posts/views/post-create-view"));
 const PostDetailsView = lazy(() => import("@/features/posts/views/post-details-view"));
 const PostListView = lazy(() => import("@/features/posts/views/post-list-view"));

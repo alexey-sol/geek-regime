@@ -1,65 +1,47 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { skipToken } from "@reduxjs/toolkit/query";
-import { useParams } from "react-router";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import { selectPagingOptions } from "@/features/posts/slice/selectors";
 import { setPagingOptions } from "@/features/posts/slice";
 import { usePage } from "@/shared/utils/hooks/use-page";
-import { mapGetAllPostsBySpaceArg } from "@/features/posts/utils/api";
+import { mapGetAllPostsByAuthorArg } from "@/features/posts/utils/api";
 import { type PagingOptions } from "@/shared/types";
 import { usePostSearchParams } from "@/features/posts/utils/hooks/use-post-search-params";
-import { useGetAllPostsBySpaceQuery } from "@/features/posts/services/posts-api";
+import { useActiveUser } from "@/features/users/utils/hooks/use-active-user";
+import { useGetAllPostsByAuthorQuery } from "@/features/posts/services/posts-api";
 import { toPostPreviewList } from "@/features/posts/utils/converters";
-import { useGetSpaceBySlugQuery } from "@/features/spaces/services/api";
-import { toSpace } from "@/features/spaces/utils/converters";
+import { type UsePostsPageResult } from "@/features/posts/utils/hooks/types";
 
-import {
-    type UsePostsBySpaceResult,
-    type UsePostsBySpaceArg,
-    type UsePostsPageResult,
-    type UseSpaceResult,
-} from "./types";
+import { type UsePostsByAuthorArg, type UsePostsByAuthorResult } from "./types";
 
-export const useSpace = (): UseSpaceResult => {
-    const { slug } = useParams();
-
-    const { isFetchingSpace, space } = useGetSpaceBySlugQuery(slug ?? skipToken, {
-        selectFromResult: ({ data, isFetching }) => ({
-            isFetchingSpace: isFetching,
-            space: data && toSpace(data),
-        }),
-    });
-
-    return useMemo(() => ({
-        isFetchingSpace,
-        space,
-    }), [isFetchingSpace, space]);
-};
-
-export const usePostsBySpace = ({
+export const usePostsByAuthor = ({
     arg,
     setTotalElements,
-}: UsePostsBySpaceArg): UsePostsBySpaceResult => {
-    const { isFetchingPosts, posts, totalElements } = useGetAllPostsBySpaceQuery(arg ?? skipToken, {
+}: UsePostsByAuthorArg): UsePostsByAuthorResult => {
+    const selectedFromResult = useGetAllPostsByAuthorQuery(arg ?? skipToken, {
         selectFromResult: ({ data, isFetching }) => ({
-            isFetchingPosts: isFetching,
+            isFetching,
             posts: toPostPreviewList(data?.content ?? []),
             totalElements: data?.totalElements ?? 0,
         }),
     });
+
+    const { isFetching, posts, totalElements } = selectedFromResult;
 
     useEffect(() => {
         setTotalElements(totalElements);
     }, [totalElements, setTotalElements]);
 
     return useMemo(() => ({
-        isFetchingPosts,
+        isPending: isFetching,
         posts,
-    }), [isFetchingPosts, posts]);
+    }), [isFetching, posts]);
 };
 
-export const usePostsBySpacePage = (): UsePostsPageResult => {
+export const usePostsByAuthorPage = (): UsePostsPageResult => {
+    const { user } = useActiveUser();
+
     const initialPagingOptions = useAppSelector(selectPagingOptions);
 
     const dispatch = useAppDispatch();
@@ -74,25 +56,22 @@ export const usePostsBySpacePage = (): UsePostsPageResult => {
 
     const postSearchParams = usePostSearchParams();
 
-    const { isFetchingSpace, space } = useSpace();
-
-    const arg = space
-        ? mapGetAllPostsBySpaceArg({
+    const arg = user?.id
+        ? mapGetAllPostsByAuthorArg({
             ...pagingOptions,
             ...postSearchParams,
-            spaceId: space.id,
+            authorId: user?.id,
         })
         : undefined;
 
-    const { isFetchingPosts, posts } = usePostsBySpace({
+    const { isPending, posts } = usePostsByAuthor({
         arg,
         setTotalElements,
     });
 
     return useMemo(() => ({
-        isPending: isFetchingSpace || isFetchingPosts,
+        isPending,
         pagingOptions,
         posts,
-        space,
-    }), [isFetchingPosts, isFetchingSpace, pagingOptions, posts, space]);
+    }), [isPending, pagingOptions, posts]);
 };

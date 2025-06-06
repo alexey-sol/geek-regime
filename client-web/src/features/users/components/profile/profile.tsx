@@ -12,7 +12,7 @@ import { TabContextProvider } from "@/shared/components/tabs/tab-context";
 import { TabPanel } from "@/shared/components/tabs/tab-panel";
 import { ProfileHome } from "@/features/users/components/profile-home";
 import { ProfileSettings } from "@/features/users/components/profile-settings";
-import { PostsByAuthorPage } from "@/features/posts/components/posts-by-author-page";
+import { PostsByAuthorPage } from "@/features/users/components/posts-by-author-page";
 import { type HandleChange } from "@/shared/components/tabs/types";
 
 import { UserOverview } from "../user-overview";

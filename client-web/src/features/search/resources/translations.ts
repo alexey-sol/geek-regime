@@ -10,6 +10,12 @@ export const en = {
                     },
                     title: "Posts",
                 },
+                [resources.SPACES]: {
+                    input: {
+                        placeholder: "Search in tags",
+                    },
+                    title: "Tags",
+                },
                 [resources.USERS]: {
                     input: {
                         placeholder: "Search in authors",
@@ -30,6 +36,12 @@ export const ru = {
                         placeholder: "Поиск по статьям",
                     },
                     title: "Статьи",
+                },
+                [resources.SPACES]: {
+                    input: {
+                        placeholder: "Поиск по тэгам",
+                    },
+                    title: "Тэги",
                 },
                 [resources.USERS]: {
                     input: {
