@@ -16,6 +16,10 @@ export class PostMeta {
         public commentCount: number,
     ) {}
 
+    get localizedCommentCountNumber(): string {
+        return this.commentCount.toLocaleString();
+    }
+
     get localizedRatingNumber(): string {
         return this.rating.toLocaleString();
     }

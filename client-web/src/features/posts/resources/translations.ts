@@ -74,6 +74,7 @@ export const en = {
                     },
                 },
             },
+            commentCount: "Comment count",
             comments: {
                 actions: {
                     hideRepliesButton: {
@@ -216,6 +217,7 @@ export const ru = {
                     },
                 },
             },
+            commentCount: "Комментариев",
             comments: {
                 actions: {
                     hideRepliesButton: {

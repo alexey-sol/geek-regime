@@ -3,13 +3,10 @@ import { Typography } from "@eggziom/geek-regime-js-ui-kit";
 
 import { useRelativeDateTime } from "@/shared/utils/hooks/use-relative-date-time";
 import { Tooltip } from "@/shared/components/tooltip";
-import { UserPicture } from "@/features/users/components/user-picture";
 
 import { AuthorInfoStyled } from "./style";
-import { UserName } from "./user-name";
 import { type AuthorInfoProps } from "./types";
-
-const PICTURE_SIZE_PX = 30;
+import { DefunctUserName, UserName } from "./user-name";
 
 export const AuthorInfo: FC<AuthorInfoProps> = ({
     author,
@@ -22,8 +19,9 @@ export const AuthorInfo: FC<AuthorInfoProps> = ({
 
     return (
         <AuthorInfoStyled>
-            <UserPicture sizePx={PICTURE_SIZE_PX} user={author} />
-            <UserName author={author} />
+            {(author
+                ? <UserName author={author} />
+                : <DefunctUserName />)}
             &mdash;
             <Tooltip message={formattedCreatedAt}>
                 <Typography as="span" color="purpleLighten" fontSize="sm">

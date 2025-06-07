@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
 import { Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Link } from "react-router-dom";
 
 const oneLineTextCss = css`
     overflow: hidden;
@@ -7,7 +8,7 @@ const oneLineTextCss = css`
     text-overflow: ellipsis;
 `;
 
-export const UserOverviewStyled = styled.article`
+export const LinkStyled = styled(Link)`
     display: flex;
     column-gap: 1rem;
 `;

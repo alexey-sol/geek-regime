@@ -1,6 +1,5 @@
 import React, { type FC } from "react";
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 
 import { createAbsoluteUsersPath } from "@/features/users/utils/helpers";
 import { UserPicture } from "@/features/users/components/user-picture";
@@ -11,7 +10,7 @@ import { Skeleton } from "@/shared/components/loaders";
 import { usePrefetch } from "@/features/users/services/api";
 
 import {
-    BodyStyled, OneLineTextStyled, UserNameTitleStyled, UserOverviewStyled,
+    BodyStyled, LinkStyled, OneLineTextStyled, UserNameTitleStyled,
 } from "./style";
 
 const PICTURE_SIZE_PX = 50;
@@ -25,18 +24,19 @@ export const UserOverview: FC<HasItem<MaybeStubItem<User>>> = ({ item }) => {
     const prefetchUserBySlug = usePrefetch("getUserBySlug");
 
     return (
-        <UserOverviewStyled onMouseEnter={() => item.slug && prefetchUserBySlug(item.slug)}>
+        <LinkStyled
+            onMouseEnter={() => item.slug && prefetchUserBySlug(item.slug)}
+            to={createAbsoluteUsersPath(item.slug ?? "")}
+        >
             <Skeleton isLoading={isLoading} heightPx={PICTURE_SIZE_PX} widthPx={PICTURE_SIZE_PX}>
                 <UserPicture sizePx={PICTURE_SIZE_PX} user={userOrStub} />
             </Skeleton>
 
             <BodyStyled>
                 <Skeleton isLoading={isLoading} heightPx={22} widthPx={250}>
-                    <Link to={createAbsoluteUsersPath(item.slug ?? "")}>
-                        <UserNameTitleStyled as="h3" title={item.details?.name}>
-                            {`${item.details?.name} @${item.slug}`}
-                        </UserNameTitleStyled>
-                    </Link>
+                    <UserNameTitleStyled as="h3" title={item.details?.name}>
+                        {`${item.details?.name} @${item.slug}`}
+                    </UserNameTitleStyled>
                 </Skeleton>
 
                 <Skeleton isLoading={isLoading} heightPx={19} widthPx={350}>
@@ -45,6 +45,6 @@ export const UserOverview: FC<HasItem<MaybeStubItem<User>>> = ({ item }) => {
                     </OneLineTextStyled>
                 </Skeleton>
             </BodyStyled>
-        </UserOverviewStyled>
+        </LinkStyled>
     );
 };

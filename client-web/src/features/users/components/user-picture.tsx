@@ -10,20 +10,14 @@ type UserPictureProps = {
     user?: User;
 };
 
-/**
- * Renders the user's picture with a link to the source image or a placeholder if the user has no
- * picture.
- */
 export const UserPicture: FC<UserPictureProps> = ({ sizePx, user }) => (user?.details.image
     ? (
-        <a href={user.details.image} target="_blank" rel="noreferrer">
-            <UserImageStyled
-                alt={user.details.name}
-                height={sizePx}
-                src={user.details.image}
-                width={sizePx}
-            />
-        </a>
+        <UserImageStyled
+            alt={user.details.name}
+            height={sizePx}
+            src={user.details.image}
+            width={sizePx}
+        />
     )
     : (
         <UserIcon color="purpleLighten" size={sizePx} />
