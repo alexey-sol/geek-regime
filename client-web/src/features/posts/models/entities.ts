@@ -59,6 +59,10 @@ export class PostPreview {
     get formattedUpdatedAt(): string {
         return formatTimestamp(this.updatedAt);
     }
+
+    public isAuthor = (user?: User): boolean => !!user && user.id === this.author?.id;
+
+    public isRateable = (user?: User): boolean => !!user && !this.isAuthor(user);
 }
 
 export class PostDetails extends PostPreview {
@@ -123,6 +127,8 @@ export class PostCommentBase {
     get formattedUpdatedAt(): string {
         return formatTimestamp(this.updatedAt);
     }
+
+    public isAuthor = (user?: User): boolean => !!user && user.id === this.author?.id;
 }
 
 export class PostComment extends PostCommentBase {

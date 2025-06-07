@@ -14,6 +14,7 @@ import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
 import { omitUndefined } from "@/shared/utils/helpers/object";
 import { getApiErrorIfPossible } from "@/shared/utils/api";
 import { mapCreateOrUpdatePostArg } from "@/features/posts/utils/api";
+import { IllegalArgumentError } from "@/shared/utils/errors";
 
 import {
     type ActivePostErrors,
@@ -70,7 +71,7 @@ export const useActivePost = (): UseActivePostResult => {
     function save(arg: UpdatePostOnSaveArg, onSuccess?: () => void): void;
     function save(arg: CreatePostOnSaveArg | UpdatePostOnSaveArg, onSuccess?: () => void): void {
         if (!profile) {
-            throw new Error("Profile is required");
+            throw new IllegalArgumentError("User profile is required");
         }
 
         const postExists = !!id;
@@ -91,7 +92,7 @@ export const useActivePost = (): UseActivePostResult => {
 
     const voteOnPost: UseActivePostResult["voteOnPost"] = useCallback((value) => {
         if (!profile || !id) {
-            return; // TODO throw?
+            throw new IllegalArgumentError("User profile and post ID are required");
         }
 
         voteOnPostMutation({

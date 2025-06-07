@@ -12,7 +12,7 @@ type TwoLineTextStyledProps = TypographyProps & {
     lineHeight?: string;
 };
 
-const TwoLineTextStyled = styled(Typography)<TwoLineTextStyledProps>`
+const LineCountTextStyled = styled(Typography)<TwoLineTextStyledProps>`
     ${({
         maxLineCount = DEFAULT_MAX_LINE_COUNT,
         lineHeight,
@@ -32,27 +32,35 @@ export const OverviewTitle: FC<OverviewTitleProps> = ({
     const { lineHeight } = useTypography({ fontSize });
 
     return (
-        <TwoLineTextStyled
+        <LineCountTextStyled
             as={as}
             maxLineCount={maxLineCount}
             lineHeight={lineHeight}
             title={title}
         >
             {children}
-        </TwoLineTextStyled>
+        </LineCountTextStyled>
     );
 };
 
-export const OverviewExcerpt: FC<PropsWithChildren<Pick<TypographyProps, "fontSize">>> = ({
+type OverviewExcerptProps = PropsWithChildren<Pick<TypographyProps, "fontSize">>
+    & Pick<TwoLineTextStyledProps, "maxLineCount">;
+
+export const OverviewExcerpt: FC<OverviewExcerptProps> = ({
     children,
     fontSize = "md",
+    maxLineCount,
 }) => {
     const { lineHeight } = useTypography({ fontSize });
 
     return (
-        <TwoLineTextStyled fontSize={fontSize} lineHeight={lineHeight}>
+        <LineCountTextStyled
+            fontSize={fontSize}
+            lineHeight={lineHeight}
+            maxLineCount={maxLineCount}
+        >
             {children}
-        </TwoLineTextStyled>
+        </LineCountTextStyled>
     );
 };
 

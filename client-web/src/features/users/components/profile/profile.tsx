@@ -89,7 +89,7 @@ export const Profile: FC<HasUser> = ({ user }) => {
                             Comments
                         </TabPanel>
 
-                        {isAuthUser && ( // TODO must be a protected route
+                        {isAuthUser && (
                             <TabPanel value={settingsPath}>
                                 <ProfileSettings user={user} />
                             </TabPanel>

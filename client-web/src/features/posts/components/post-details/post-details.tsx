@@ -38,8 +38,8 @@ export const PostDetails: FC<PostDetailsProps> = ({ post }) => {
     const updatePostPath = createAbsolutePostsPath(post.slug ?? "", paths.UPDATE);
 
     const hasUpdates = post.createdAt !== post.updatedAt;
-    const isRateable = profile && profile.id !== post.author?.id;
-
+    const isAuthor = post.isAuthor?.(profile);
+    const isRateable = post.isRateable?.(profile);
     const isLoading = isStubItem(post);
 
     return (
@@ -95,21 +95,23 @@ export const PostDetails: FC<PostDetailsProps> = ({ post }) => {
             </Skeleton>
 
             <Skeleton isLoading={isLoading} heightPx={19} widthPx={120}>
-                <ControlsWrap>
-                    <Link to={updatePostPath} view="secondary">
-                        {t("posts.draft.actions.editPostButton.title")}
-                    </Link>
+                {isAuthor && (
+                    <ControlsWrap>
+                        <Link to={updatePostPath} view="secondary">
+                            {t("posts.draft.actions.editPostButton.title")}
+                        </Link>
 
-                    <Tooltip message={t("shared.tooltips.tryAction")}>
-                        <LinkButton
-                            disabled={pending === "remove"}
-                            onClick={tryRemovePost}
-                            view={removeButtonView}
-                        >
-                            {t("posts.draft.actions.removePostButton.title")}
-                        </LinkButton>
-                    </Tooltip>
-                </ControlsWrap>
+                        <Tooltip message={t("shared.tooltips.tryAction")}>
+                            <LinkButton
+                                disabled={pending === "remove"}
+                                onClick={tryRemovePost}
+                                view={removeButtonView}
+                            >
+                                {t("posts.draft.actions.removePostButton.title")}
+                            </LinkButton>
+                        </Tooltip>
+                    </ControlsWrap>
+                )}
             </Skeleton>
         </PostDetailsStyled>
     );

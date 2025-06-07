@@ -1,10 +1,12 @@
-import React, { type FC, useCallback } from "react";
+import React, { type FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 
 import { useAuthContext } from "@/features/auth/contexts/auth";
 import { createAbsoluteUsersPath } from "@/features/users/utils/helpers";
-import type { ElementPosition } from "@/shared/components/base-popup";
+import { type ElementPosition } from "@/shared/components/base-popup";
+import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
+import { paths } from "@/shared/const";
 
 import { ProfileButtonStyled, ProfileDropdownStyled, ProfileListStyled } from "./style";
 
@@ -21,17 +23,19 @@ export const ProfileDropdown: FC<ProfileDropdownProps> = ({ anchorRef, onClose }
 
     const { pending, profile, signOut } = useAuthContext();
 
-    const goToProfile = useCallback(() => {
-        if (profile) {
-            navigate(createAbsoluteUsersPath(profile.slug));
-        }
-
-        onClose();
-    }, [navigate, onClose, profile]);
-
     if (!profile) {
         return null;
     }
+
+    const goToCreatePost = () => {
+        navigate(createAbsolutePostsPath(paths.CREATE));
+        onClose();
+    };
+
+    const goToProfile = () => {
+        navigate(createAbsoluteUsersPath(profile.slug));
+        onClose();
+    };
 
     return (
         <ProfileDropdownStyled
@@ -40,6 +44,12 @@ export const ProfileDropdown: FC<ProfileDropdownProps> = ({ anchorRef, onClose }
             position={DROPDOWN_POSITION}
         >
             <ProfileListStyled>
+                <li>
+                    <ProfileButtonStyled onClick={goToCreatePost}>
+                        {t("auth.profile.actions.createPost")}
+                    </ProfileButtonStyled>
+                </li>
+
                 <li>
                     <ProfileButtonStyled onClick={goToProfile}>
                         {t("auth.profile.actions.profile")}

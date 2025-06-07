@@ -10,6 +10,7 @@ import { getCreateCommentKey } from "@/features/posts/utils/api";
 
 import { PostCommentBox } from "./post-comment-box";
 import { type ReplyCommentBoxProps } from "./types";
+import {IllegalArgumentError} from "@/shared/utils/errors";
 
 export const ReplyCommentBox: FC<ReplyCommentBoxProps> = ({
     authorName,
@@ -29,8 +30,8 @@ export const ReplyCommentBox: FC<ReplyCommentBoxProps> = ({
     const [body, setBody] = useState(initialBody);
 
     const handleSubmit = () => {
-        if (!post || !profile) {
-            return;
+        if (!profile || !post) {
+            throw new IllegalArgumentError("User profile and post are required");
         }
 
         createPostComment({

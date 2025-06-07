@@ -1,7 +1,9 @@
 import React, { type FC, lazy } from "react";
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Route, Routes } from "react-router-dom";
 
 import { paths } from "@/shared/const";
+import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
+import { AuthRoute, DefaultSearchRoute } from "@/shared/utils/routes";
 
 const PostBySpaceListView = lazy(() => import("@/features/spaces/views/post-by-space-list-view"));
 const PostCreateView = lazy(() => import("@/features/posts/views/post-create-view"));
@@ -13,18 +15,30 @@ const SearchView = lazy(() => import("@/features/search/views/search-view"));
 const SpaceListView = lazy(() => import("@/features/spaces/views/space-list-view"));
 const UserListView = lazy(() => import("@/features/users/views/user-list-view"));
 
-const DefaultSearchRoute = () => <Navigate to={`/${paths.SEARCH}/${paths.POSTS}`} />;
-
 export const AppRoutes: FC = () => (
     <Routes>
         <Route index element={<div>Home</div>} />
         <Route path={paths.POSTS}>
             <Route index element={<PostListView />} />
             <Route path={`${paths.PAGE}-:page`} element={<PostListView />} />
-            <Route path={paths.CREATE} element={<PostCreateView />} />
+            <Route
+                path={paths.CREATE}
+                element={(
+                    <AuthRoute redirectPath={createAbsolutePostsPath()}>
+                        <PostCreateView />
+                    </AuthRoute>
+                )}
+            />
             <Route path=":slug">
                 <Route index element={<PostDetailsView />} />
-                <Route path={paths.UPDATE} element={<PostUpdateView />} />
+                <Route
+                    path={paths.UPDATE}
+                    element={(
+                        <AuthRoute redirectPath={createAbsolutePostsPath()}>
+                            <PostUpdateView />
+                        </AuthRoute>
+                    )}
+                />
             </Route>
         </Route>
         <Route path={paths.USERS}>

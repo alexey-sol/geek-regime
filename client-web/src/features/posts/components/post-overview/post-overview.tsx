@@ -17,6 +17,7 @@ import { ItemRatingReadonly } from "../post-meta/item-rating-readonly";
 import { BodyStyled, PostOverviewFooter, PostOverviewStyled } from "./style";
 
 const TITLE_MAX_LINE_COUNT = 2;
+const EXCERPT_MAX_LINE_COUNT = 2;
 
 export const PostOverview: FC<HasItem<MaybeStubItem<PostPreview>>> = ({ item }) => {
     const isLoading = isStubItem(item);
@@ -39,7 +40,11 @@ export const PostOverview: FC<HasItem<MaybeStubItem<PostPreview>>> = ({ item }) 
                     </Skeleton>
 
                     <Skeleton isLoading={isLoading} heightPx={44}>
-                        {!!item.excerpt && <OverviewExcerpt>{item.excerpt}</OverviewExcerpt>}
+                        {!!item.excerpt && (
+                            <OverviewExcerpt maxLineCount={EXCERPT_MAX_LINE_COUNT}>
+                                {item.excerpt}
+                            </OverviewExcerpt>
+                        )}
                     </Skeleton>
                 </BodyStyled>
             </RouterDomLink>

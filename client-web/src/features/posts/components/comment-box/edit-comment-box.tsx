@@ -8,6 +8,7 @@ import { getUpdateCommentKey } from "@/features/posts/utils/api";
 
 import { type EditCommentBoxProps } from "./types";
 import { PostCommentBox } from "./post-comment-box";
+import {IllegalArgumentError} from "@/shared/utils/errors";
 
 export const EditCommentBox: FC<EditCommentBoxProps> = ({
     body: initialBody = "",
@@ -26,7 +27,7 @@ export const EditCommentBox: FC<EditCommentBoxProps> = ({
 
     const handleSubmit = () => {
         if (!post) {
-            return;
+            throw new IllegalArgumentError("Post is required");
         }
 
         updatePostCommentById({

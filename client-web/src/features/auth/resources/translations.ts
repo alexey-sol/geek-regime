@@ -2,6 +2,7 @@ export const en = {
     auth: {
         profile: {
             actions: {
+                createPost: "Write a post",
                 profile: "Profile",
                 signOut: "Sign out",
             },
@@ -73,6 +74,7 @@ export const ru = {
     auth: {
         profile: {
             actions: {
+                createPost: "Новая статья",
                 profile: "Профиль",
                 signOut: "Выйти",
             },

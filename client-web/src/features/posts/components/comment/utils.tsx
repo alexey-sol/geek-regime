@@ -12,6 +12,7 @@ import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import { type HasItem, type MaybeStubItem } from "@/shared/types";
 import { useTryAction } from "@/shared/utils/hooks/use-try-action";
 import { getRemoveCommentKey, getUpdateCommentKey } from "@/features/posts/utils/api";
+import { IllegalArgumentError } from "@/shared/utils/errors";
 
 import { type PostCommentPending } from "../../types";
 
@@ -39,7 +40,7 @@ export const useComment = ({ item }: HasItem<MaybeStubItem<PostCommentBase>>): U
 
     const deleteComment = useCallback(() => {
         if (!post) {
-            return;
+            throw new IllegalArgumentError("Post is required");
         }
 
         removePostCommentById({
@@ -68,7 +69,7 @@ export const useComment = ({ item }: HasItem<MaybeStubItem<PostCommentBase>>): U
     }, [isLoadingRemove, isLoadingUpdate]);
 
     return {
-        isAuthor: profile ? profile.id === item.author?.id : false,
+        isAuthor: item.isAuthor?.(profile) ?? false,
         pending,
         removeButtonView: isTryRemoveModeOn ? "secondary" : "primary",
         tryRemoveComment,
