@@ -35,7 +35,7 @@ export const SearchPage: FC = () => {
 
     const navigateToSearch = useCallback((pathname: string) => {
         const urlSearchParams = new URLSearchParams(searchParams);
-        urlSearchParams.set(SEARCH_PARAMS.TEXT, searchText);
+        urlSearchParams.set(SEARCH_PARAMS.TEXT, searchText.trim());
 
         const search = searchText && createSearchParams(urlSearchParams).toString();
 

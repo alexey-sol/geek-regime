@@ -3,6 +3,7 @@ import styled from "styled-components";
 export const NavbarMenuStyled = styled.section`
     display: flex;
     align-items: center;
+    gap: 1rem;
     height: 100%;
 `;
 

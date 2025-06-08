@@ -14,6 +14,7 @@ const resetStyle = css`
 
     body {
         margin: 0;
+        overflow-y: scroll;
     }
 
     button {

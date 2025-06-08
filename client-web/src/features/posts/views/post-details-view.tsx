@@ -7,7 +7,7 @@ import { PostDetails } from "@/features/posts/components/post-details";
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import { PostComments } from "@/features/posts/components/post-comments";
 import { useInfiniteScroll } from "@/shared/utils/hooks/use-infinite-scroll";
-import { ApiErrorMessage } from "@/shared/components/api-error-message";
+import { ApiErrorMessage } from "@/shared/components/typography";
 import { createStubItem } from "@/shared/utils/helpers/object";
 
 export const PostDetailsViewStyled = styled.section`

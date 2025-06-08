@@ -1,9 +1,12 @@
 import React, { type FC, type PropsWithChildren } from "react";
 import { type FontSize, Typography, type TypographyProps } from "@eggziom/geek-regime-js-ui-kit";
 import styled from "styled-components";
+import { useTranslation } from "react-i18next";
 
 import { mixins } from "@/app/style/mixins";
 import { useTypography } from "@/shared/utils/hooks/use-typography";
+import { getErrorMessage } from "@/shared/utils/api";
+import { type ApiError } from "@/shared/models/dtos";
 
 const DEFAULT_MAX_LINE_COUNT = 1;
 
@@ -67,3 +70,26 @@ export const OverviewExcerpt: FC<OverviewExcerptProps> = ({
 export const FieldErrorMessage: FC<TypographyProps> = (props) => (
     <Typography color="orange" fontSize="xs" {...props} />
 );
+
+const ErrorMessageStyled = styled(Typography)`
+    padding: 1rem 0;
+    text-align: center;
+`;
+
+export const ErrorMessage: FC<PropsWithChildren> = ({ children }) => (
+    <ErrorMessageStyled weight="bold">{children}</ErrorMessageStyled>
+);
+
+type ApiErrorMessageProps = {
+    error: ApiError;
+};
+
+export const ApiErrorMessage: FC<ApiErrorMessageProps> = ({ error }) => {
+    const { t } = useTranslation();
+    const prefix = t("shared.query.error.message.prefix");
+    const message = `${prefix} ${getErrorMessage(error)}`;
+
+    return (
+        <ErrorMessage>{message}</ErrorMessage>
+    );
+};

@@ -10,19 +10,31 @@ const MARGIN = "1rem";
 
 const mapViewToCss: MapKeyToCss<NonNullable<SnackbarStyledProps["view"]>> = {
     failure: css(({ theme: { colors } }) => css`
-        background-color: ${colors.redLighten};
-        border: 1px solid ${colors.redLight};
-        ${mixins.getIconFill(colors.red)};
+        background-color: ${colors.redLightest};
+        border: 1px solid ${colors.redLighten};
+        ${mixins.getIconFill(colors.redDarken)};
+
+        ${Typography} {
+            color: ${colors.redDarken};
+        }
     `),
     success: css(({ theme: { colors } }) => css`
-        background-color: ${colors.green};
-        border: 1px solid ${colors.greenDark};
+        background-color: ${colors.greenLightest};
+        border: 1px solid ${colors.greenLighten};
         ${mixins.getIconFill(colors.greenDarken)};
+
+        ${Typography} {
+            color: ${colors.greenDarken};
+        }
     `),
     warning: css(({ theme: { colors } }) => css`
         background-color: ${colors.orangeLighten};
         border: 1px solid ${colors.orangeLight};
-        ${mixins.getIconFill(colors.orange)};
+        ${mixins.getIconFill(colors.orangeDarken)};
+
+        ${Typography} {
+            color: ${colors.orangeDarken};
+        }
     `),
 };
 
@@ -32,8 +44,9 @@ export const SnackbarStyled = styled.section<SnackbarStyledProps>`
     top: ${MARGIN};
     right: ${MARGIN};
     display: flex;
+    align-items: center;
     max-width: 100%;
-    padding: 2rem;
+    padding: 1rem 2rem;
     margin-left: ${MARGIN};
     margin-bottom: ${MARGIN};
     column-gap: 2rem;

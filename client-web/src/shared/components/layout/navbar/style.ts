@@ -1,4 +1,6 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
+import { Link } from "react-router-dom";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit";
 
 import { mixins } from "@/app/style/mixins";
 
@@ -21,4 +23,28 @@ export const NavbarInnerStyled = styled.section`
 
 export const ListStyled = styled.ul`
     display: flex;
+    gap: 1rem;
+    height: 100%;
 `;
+
+type TabLinkStyledProps = {
+    $isActive?: boolean;
+};
+
+export const TabLinkStyled = styled(Link)<TabLinkStyledProps>(
+    ({ theme, $isActive }) => css`
+        display: flex;
+        align-items: center;
+        height: 100%;
+
+        ${Typography} {
+            color: ${($isActive ? theme.colors.secondary : theme.colors.purpleDark)};
+            font-weight: bold;
+            transition: color ${theme.durations.fast} ease;
+        }
+
+        &:hover ${Typography} {
+            color: ${!$isActive && theme.colors.purpleLight};
+        }
+    `,
+);

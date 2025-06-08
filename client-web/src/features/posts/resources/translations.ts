@@ -181,7 +181,7 @@ export const ru = {
                 success: "Статья удалена",
             },
             update: {
-                success: "Статья обновлена",
+                success: "Статья сохранена",
             },
         },
         page: {

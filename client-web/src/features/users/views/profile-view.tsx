@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { Profile } from "@/features/users/components/profile";
 import { useActiveUser } from "@/features/users/utils/hooks/use-active-user";
-import { ApiErrorMessage } from "@/shared/components/api-error-message";
+import { ApiErrorMessage } from "@/shared/components/typography";
 import { Loader } from "@/shared/components/loaders";
 
 const ProfileViewStyled = styled.section`

@@ -34,11 +34,11 @@ export const Snackbar: FC<SnackbarProps> = ({
 
     const snackbar = (
         <SnackbarStyled ref={elementRef} role="alert" {...rest}>
-            <Typography>
+            <Typography fontSize="sm">
                 {message}
             </Typography>
 
-            <CloseIconButton fontSize="xs" onClick={onClose} />
+            <CloseIconButton disabled fontSize="xs" onClick={onClose} />
         </SnackbarStyled>
     );
 

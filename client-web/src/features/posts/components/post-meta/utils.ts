@@ -14,7 +14,7 @@ export const getCappedCountLabel = (count: number): string => {
 
 export const getRatingColor = (rating: number): Color => {
     if (rating > 0) {
-        return "greenDarken";
+        return "green";
     } else if (rating < 0) {
         return "red";
     }

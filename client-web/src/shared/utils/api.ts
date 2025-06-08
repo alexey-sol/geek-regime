@@ -30,7 +30,7 @@ export const mapSearchPagingQueryParams = ({
     const params: SearchPagingQueryParams = mapPagingQueryParams(pagingParams);
 
     if (text !== undefined) {
-        params.text = text;
+        params.text = text.trim();
 
         if (searchIn) {
             params.searchIn = searchIn;

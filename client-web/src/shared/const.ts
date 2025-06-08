@@ -17,6 +17,7 @@ export const dom = {
 export const paths = {
     COMMENTS: "comments",
     CREATE: "create",
+    INDEX: "/",
     PAGE: "page",
     POSTS: "posts",
     SEARCH: "search",

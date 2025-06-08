@@ -8,16 +8,16 @@ const oneLineTextCss = css`
     text-overflow: ellipsis;
 `;
 
-export const LinkStyled = styled(Link)`
-    display: flex;
-    column-gap: 1rem;
-`;
-
 export const UserNameTitleStyled = styled(Typography)`
     transition: color ${({ theme }) => theme.durations.fast} ease;
     ${oneLineTextCss};
+`;
 
-    &:hover {
+export const LinkStyled = styled(Link)`
+    display: flex;
+    column-gap: 1rem;
+
+    &:hover ${UserNameTitleStyled} {
         color: ${({ theme }) => theme.colors.secondary};
     }
 `;

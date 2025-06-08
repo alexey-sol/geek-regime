@@ -25,6 +25,9 @@ export const en = {
                 tooltip: "Go back",
             },
         },
+        footer: {
+            content: "Not much is going on in this footer. Today is actually",
+        },
         query: {
             error: {
                 message: {
@@ -64,9 +67,6 @@ export const en = {
             },
         },
         navbar: {
-            authorsTab: {
-                title: "Authors",
-            },
             i18nButton: {
                 tooltip: "Select language",
             },
@@ -81,6 +81,16 @@ export const en = {
             },
             spacesTab: {
                 title: "Tags",
+            },
+            usersTab: {
+                title: "Authors",
+            },
+        },
+        page: {
+            error: {
+                notFound: {
+                    title: "The page doesn't exist",
+                },
             },
         },
         paging: {
@@ -127,6 +137,9 @@ export const ru = {
                 tooltip: "Назад",
             },
         },
+        footer: {
+            content: "Ничего сильно интересного в этом футере. Сегодня кстати",
+        },
         query: {
             error: {
                 message: {
@@ -166,9 +179,6 @@ export const ru = {
             },
         },
         navbar: {
-            authorsTab: {
-                title: "Авторы",
-            },
             i18nButton: {
                 tooltip: "Выбрать язык",
             },
@@ -183,6 +193,16 @@ export const ru = {
             },
             spacesTab: {
                 title: "Тэги",
+            },
+            usersTab: {
+                title: "Авторы",
+            },
+        },
+        page: {
+            error: {
+                notFound: {
+                    title: "Такой страницы не существует",
+                },
             },
         },
         paging: {
