@@ -113,6 +113,30 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/BasePostDetailsResponse"
+  /posts/id:
+    get:
+      summary: Find all posts by ID
+      operationId: findAllPostsById
+      tags:
+        - post
+      parameters:
+        - name: ids
+          in: query
+          description: The IDs of entities to search
+          schema:
+            type: array
+            items:
+              type: integer
+              format: int64
+      responses:
+        200:
+          description: A list of posts
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/BasePostPreviewResponse"
   /posts/{slug}:
     get:
       summary: Find post by slug

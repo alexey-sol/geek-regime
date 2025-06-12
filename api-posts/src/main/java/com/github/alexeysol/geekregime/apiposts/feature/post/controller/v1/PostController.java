@@ -111,6 +111,14 @@ public class PostController implements PostApi {
     }
 
     @Override
+    public ResponseEntity<List<BasePostPreviewResponse>> findAllPostsById(List<Long> ids) {
+        var posts = service.findAllPostsById(ids);
+        var response = mapper.toBasePostPreviewResponseList(posts);
+
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @Override
     public ResponseEntity<BasePostDetailsResponse> findPostBySlug(String slug) {
         var optionalPost = service.findPostBySlug(slug);
 

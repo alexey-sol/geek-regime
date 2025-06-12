@@ -50,7 +50,7 @@ components:
             $ref: "#/components/schemas/PostCommentResponse"
     PostCommentResponse:
       type: object
-      required: [ id, createdAt, updatedAt, author, descendantCount ]
+      required: [ id, createdAt, updatedAt, author, postId, descendantCount ]
       allOf:
         - $ref: "#/components/schemas/PostCommentResponseBase"
         - type: object
@@ -63,7 +63,7 @@ components:
               minimum: 0
     PostCommentTreeResponse:
       type: object
-      required: [ id, createdAt, updatedAt, postId, author, replies ]
+      required: [ id, createdAt, updatedAt, author, postId, replies ]
       allOf:
         - $ref: "#/components/schemas/PostCommentResponseBase"
         - type: object
@@ -113,6 +113,10 @@ components:
           type: string
         isDeleted:
           type: boolean
+        postId:
+          type: integer
+          format: int64
+          minimum: 1
         createdAt:
           type: string
           format: date-time

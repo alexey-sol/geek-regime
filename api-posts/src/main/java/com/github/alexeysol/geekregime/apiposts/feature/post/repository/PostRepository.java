@@ -8,8 +8,12 @@ import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Repository
 public interface PostRepository extends PagingAndSortingRepository<Post, Long>, JpaSpecificationExecutor<Post> {
+    List<Post> findAllPostsByIdIn(List<Long> ids);
+
     @Query("SELECT p FROM Post p WHERE p.slug = :slug")
     @Transactional
     Post findPostBySlug(String slug);

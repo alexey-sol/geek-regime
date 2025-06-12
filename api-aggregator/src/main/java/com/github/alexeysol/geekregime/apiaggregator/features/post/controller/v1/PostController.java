@@ -9,6 +9,7 @@ import org.modelmapper.MappingException;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Map;
 
 import static com.github.alexeysol.geekregime.apiaggregator.shared.constant.PathConstant.*;
@@ -48,6 +49,14 @@ public class PostController {
         var page = service.findAllPosts(params);
         var postPreviews = mapper.toPostPreviewResponseList(page.getContent());
         return new PostPreviewPageResponse(postPreviews, page.getSize(), page.getTotalElements());
+    }
+
+    @GetMapping("posts/id")
+    List<PostPreviewResponse> findAllPostsById(
+        @RequestParam(required = false) Map<String, String> params
+    ) {
+        var list = service.findAllPostsById(params);
+        return mapper.toPostPreviewResponseList(list);
     }
 
     @GetMapping("posts/{slug}")

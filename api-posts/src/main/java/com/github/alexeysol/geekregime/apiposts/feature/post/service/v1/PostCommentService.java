@@ -20,7 +20,7 @@ public class PostCommentService {
     private final PostCommentRepository postCommentRepository;
 
     public Page<PostComment> findAllPostCommentsByAuthorId(long authorId, Pageable pageable) {
-        return postCommentRepository.findPostCommentsByUserId(authorId, pageable);
+        return postCommentRepository.findPostCommentsByUserIdAndIsDeletedFalse(authorId, pageable);
     }
 
     public Page<PostComment> findAllRootPostCommentsByPostId(long postId, Pageable pageable) {

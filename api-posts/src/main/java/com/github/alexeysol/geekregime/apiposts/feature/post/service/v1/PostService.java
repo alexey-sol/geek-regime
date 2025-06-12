@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
 
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -29,6 +30,10 @@ public class PostService implements HasExistsBySlug {
 
     public Page<Post> findAllPosts(Specification<Post> specification, Pageable pageable) {
         return postRepository.findAll(specification, pageable);
+    }
+
+    public List<Post> findAllPostsById(List<Long> ids) {
+        return postRepository.findAllPostsByIdIn(ids);
     }
 
     public Optional<Post> findPostById(long id) {

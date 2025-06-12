@@ -11,7 +11,7 @@ import java.util.Optional;
 
 @Repository
 public interface PostCommentRepository extends PagingAndSortingRepository<PostComment, Long> {
-    Page<PostComment> findPostCommentsByUserId(long userId, Pageable pageable);
+    Page<PostComment> findPostCommentsByUserIdAndIsDeletedFalse(long userId, Pageable pageable);
 
     Page<PostComment> findPostCommentsByPostIdAndParentIsNull(long postId, Pageable pageable);
 
