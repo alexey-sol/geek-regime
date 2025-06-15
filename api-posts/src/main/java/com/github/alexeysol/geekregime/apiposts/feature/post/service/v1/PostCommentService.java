@@ -6,6 +6,7 @@ import com.github.alexeysol.geekregime.apiposts.feature.post.repository.PostRepo
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.validation.annotation.Validated;
@@ -19,8 +20,8 @@ public class PostCommentService {
     private final PostRepository postRepository;
     private final PostCommentRepository postCommentRepository;
 
-    public Page<PostComment> findAllPostCommentsByAuthorId(long authorId, Pageable pageable) {
-        return postCommentRepository.findPostCommentsByUserIdAndIsDeletedFalse(authorId, pageable);
+    public Page<PostComment> findAllRootPostComments(Specification<PostComment> specification, Pageable pageable) {
+        return postCommentRepository.findAll(specification, pageable);
     }
 
     public Page<PostComment> findAllRootPostCommentsByPostId(long postId, Pageable pageable) {

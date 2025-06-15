@@ -7,7 +7,6 @@ import com.github.alexeysol.geekregime.apicommons.generated.model.*;
 import com.github.alexeysol.geekregime.apiposts.feature.post.mapper.PostMapper;
 import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.Post;
 import com.github.alexeysol.geekregime.apiposts.feature.post.service.v1.PostService;
-import com.github.alexeysol.geekregime.apiposts.feature.space.mapper.SpaceMapper;
 import com.github.alexeysol.geekregime.apiposts.feature.space.model.entity.Space;
 import com.github.alexeysol.geekregime.apiposts.shared.util.DataAccessHelper;
 import com.github.alexeysol.geekregime.apiposts.shared.util.EntitySpecificationUtil;
@@ -42,8 +41,6 @@ public class PostController implements PostApi {
 
     private final PostService service;
     private final PostMapper mapper;
-
-    private final SpaceMapper spaceMapper;
 
     @Override
     public ResponseEntity<BasePostPreviewPageResponse> findAllPostsByAuthor(

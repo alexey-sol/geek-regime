@@ -1,5 +1,6 @@
 package com.github.alexeysol.geekregime.apiposts.feature.post.controller.v1;
 
+import com.github.alexeysol.geekregime.apicommons.constant.database.LogicalOperator;
 import com.github.alexeysol.geekregime.apicommons.exception.ResourceException;
 import com.github.alexeysol.geekregime.apicommons.generated.model.*;
 import com.github.alexeysol.geekregime.apiposts.generated.api.PostCommentApi;
@@ -8,6 +9,7 @@ import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.PostCo
 import com.github.alexeysol.geekregime.apiposts.feature.post.service.v1.PostCommentService;
 import com.github.alexeysol.geekregime.apiposts.feature.post.service.v1.PostService;
 import com.github.alexeysol.geekregime.apiposts.shared.util.DataAccessHelper;
+import com.github.alexeysol.geekregime.apiposts.shared.util.EntitySpecificationUtil;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
@@ -28,16 +30,28 @@ import static com.github.alexeysol.geekregime.apiposts.feature.post.constant.Pos
 @Validated
 @RequiredArgsConstructor
 public class PostCommentController implements PostCommentApi {
+    private static final String CREATED_AT = "createdAt";
+    private static final String IS_DELETED = "isDeleted";
+    private static final String USER_ID = "userId";
+
     private final PostService postService;
     private final PostCommentService postCommentService;
     private final PostCommentMapper postCommentMapper;
 
     @Override
-    public ResponseEntity<BasePostCommentPageResponse> findAllPostCommentsByAuthor( // TODO find root comments?
+    public ResponseEntity<BasePostCommentPageResponse> findAllRootPostCommentsByAuthor(
         Long authorId,
+        PostPagePeriod period,
         @PageableDefault(size = PAGE_SIZE, sort = SORT_BY, direction = Sort.Direction.DESC) Pageable pageable
     ) {
-        var postCommentPage = postCommentService.findAllPostCommentsByAuthorId(authorId, pageable);
+        var filterSpecification = EntitySpecificationUtil.<PostComment>compose(
+            LogicalOperator.AND,
+            EntitySpecificationUtil.bySameOrAfterPeriod(CREATED_AT, period),
+            EntitySpecificationUtil.byEqual(USER_ID, authorId),
+            EntitySpecificationUtil.byEqual(IS_DELETED, false)
+        );
+
+        var postCommentPage = postCommentService.findAllRootPostComments(filterSpecification, pageable);
         var response = toPageResponse(postCommentPage);
 
         return new ResponseEntity<>(response, HttpStatus.OK);

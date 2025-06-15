@@ -3,6 +3,7 @@ package com.github.alexeysol.geekregime.apiposts.feature.post.repository;
 import com.github.alexeysol.geekregime.apiposts.feature.post.model.entity.PostComment;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Repository;
@@ -10,9 +11,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Optional;
 
 @Repository
-public interface PostCommentRepository extends PagingAndSortingRepository<PostComment, Long> {
-    Page<PostComment> findPostCommentsByUserIdAndIsDeletedFalse(long userId, Pageable pageable);
-
+public interface PostCommentRepository extends PagingAndSortingRepository<PostComment, Long>, JpaSpecificationExecutor<PostComment> {
     Page<PostComment> findPostCommentsByPostIdAndParentIsNull(long postId, Pageable pageable);
 
     long countByPostIdAndIsDeletedIsFalse(long postId);

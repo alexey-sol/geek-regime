@@ -8,12 +8,13 @@ paths:
   /users/{id}/comments:
     get:
       summary: Find all root-level post comments of author
-      operationId: findAllPostCommentsByAuthor
+      operationId: findAllRootPostCommentsByAuthor
       tags:
         - post-comment
       x-spring-paginated: true
       parameters:
         - $ref: "./parameters-v1.yml#/components/parameters/id"
+        - $ref: "./parameters-v1.yml#/components/parameters/period"
       responses:
         200:
           description: A page of all root-level post comments of author
