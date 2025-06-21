@@ -1,16 +1,16 @@
 import React, { type FC, useMemo } from "react";
-import { type HasId } from "@eggziom/geek-regime-js-commons";
+import { type HasId, resources } from "@eggziom/geek-regime-js-commons";
 import styled from "styled-components";
 
 import { Page } from "@/shared/components/page";
 import { createAbsoluteUsersPath } from "@/features/users/utils/helpers";
 import { useActiveUser } from "@/features/users/utils/hooks/use-active-user";
 import { ItemList } from "@/shared/components/item-list";
-import { PostOverview } from "@/features/posts/components/post-overview";
 import { getStubItems } from "@/shared/utils/helpers/object";
-import { PageSettings } from "@/features/posts/components/page-settings";
+import { PageSettings } from "@/shared/components/page-settings";
+import { usePostCommentsByAuthorPage } from "@/features/posts/utils/hooks/use-post-comments-by-author-page";
 
-import { usePostsByAuthorPage } from "../utils/hooks/use-posts-by-author-page";
+import { ProfilePostComment } from "./profile-post-comment";
 
 export const PageContentStyled = styled.section`
     display: flex;
@@ -18,24 +18,23 @@ export const PageContentStyled = styled.section`
     gap: 2rem;
 `;
 
-export const PostsByAuthorPage: FC = () => {
+export const PostCommentsByAuthorPage: FC = () => {
     const { user } = useActiveUser();
-
-    const { isPending, pagingOptions, posts } = usePostsByAuthorPage();
+    const { isPending, items, pagingOptions } = usePostCommentsByAuthorPage();
 
     const pathPrefix = user
-        ? createAbsoluteUsersPath(user.slug, "posts")
+        ? createAbsoluteUsersPath(user.slug, resources.COMMENTS)
         : "";
 
     const itemsOrStubs: HasId[] = useMemo(() => (isPending
         ? getStubItems(pagingOptions.size)
-        : posts), [isPending, pagingOptions.size, posts]);
+        : items), [isPending, items, pagingOptions.size]);
 
     return (
         <Page pagingOptions={pagingOptions} pathPrefix={pathPrefix}>
             <PageContentStyled>
                 <PageSettings />
-                <ItemList ItemComponent={PostOverview} items={itemsOrStubs} />
+                <ItemList ItemComponent={ProfilePostComment} items={itemsOrStubs} />
             </PageContentStyled>
         </Page>
     );

@@ -1,8 +1,8 @@
 import { type HasId } from "@eggziom/geek-regime-js-commons";
 
-import { type HasPagingQueryParams } from "@/shared/types";
+import { type HasPagingQueryParams, type HasPeriodAndSortQueryParams } from "@/shared/types";
 import { type CreatePostCommentRequest, type UpdatePostCommentRequest } from "@/features/posts/models/dtos";
-import { type RootCommentContextValue } from "@/features/posts/contexts/root-comment";
+import { type HasAuthorId } from "@/features/posts/types";
 
 type HasPostId = {
     postId: HasId["id"];
@@ -12,9 +12,14 @@ export type HasPostSlug = {
     postSlug: string;
 };
 
-export type HasRootCommentId = Pick<RootCommentContextValue, "rootCommentId">;
+export type HasRootCommentId = {
+    rootCommentId: HasId["id"];
+};
 
 export type GetAllPostCommentsArg = HasPagingQueryParams & HasPostId;
+
+export type GetPostCommentsByAuthorArg = HasPagingQueryParams & HasPeriodAndSortQueryParams
+    & HasAuthorId;
 
 export type CreatePostCommentArg = CreatePostCommentRequest & {
     meta: Partial<HasRootCommentId> & HasPostSlug;

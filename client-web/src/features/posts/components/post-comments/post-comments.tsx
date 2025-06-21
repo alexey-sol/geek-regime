@@ -51,7 +51,7 @@ export const PostComments: FC = memo(() => {
                 {itemsOrStubs.map((comment) => (
                     <li key={comment.id}>
                         <RootCommentContextProvider item={comment}>
-                            <ParentComment item={comment} />
+                            <ParentComment />
                         </RootCommentContextProvider>
                     </li>
                 ))}

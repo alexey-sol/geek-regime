@@ -26,7 +26,7 @@ type UseCommentResult = {
 export const useComment = ({ item }: HasItem<MaybeStubItem<PostCommentBase>>): UseCommentResult => {
     const { profile } = useAuthContext();
     const { post } = useActivePost();
-    const { rootCommentId } = useRootCommentContext();
+    const { rootComment } = useRootCommentContext();
 
     const [, { isLoading: isLoadingUpdate }] = useUpdatePostCommentByIdMutation({
         fixedCacheKey: getUpdateCommentKey(item.id),
@@ -48,10 +48,10 @@ export const useComment = ({ item }: HasItem<MaybeStubItem<PostCommentBase>>): U
             meta: {
                 postId: post.id,
                 postSlug: post.slug,
-                rootCommentId,
+                rootCommentId: rootComment.id,
             },
         });
-    }, [item.id, post, removePostCommentById, rootCommentId]);
+    }, [item.id, post, removePostCommentById, rootComment.id]);
 
     const {
         isTryModeOn: isTryRemoveModeOn,

@@ -1,12 +1,12 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect } from "react";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
-import { selectPagingOptions } from "@/features/posts/slice/selectors";
-import { setPagingOptions } from "@/features/posts/slice";
+import { selectPagingOptions } from "@/features/posts/slice/posts/selectors";
+import { setPagingOptions } from "@/features/posts/slice/posts";
 import { usePage } from "@/shared/utils/hooks/use-page";
 import { mapGetAllPostsArg } from "@/features/posts/utils/api";
 import { type PagingOptions } from "@/shared/types";
-import { usePostSearchParams } from "@/features/posts/utils/hooks/use-post-search-params";
+import { usePageSearchParams } from "@/shared/utils/hooks/use-page-search-params";
 import { useGetAllPostsQuery } from "@/features/posts/services/posts-api";
 import { toPostPreviewList } from "@/features/posts/utils/converters";
 
@@ -20,24 +20,19 @@ const useGetAllPosts = ({
     arg,
     setTotalElements,
 }: UseGetAllPostsArg): UseGetAllPostsResult => {
-    const selectedFromResult = useGetAllPostsQuery(arg, {
+    const { isPending, items, totalElements } = useGetAllPostsQuery(arg, {
         selectFromResult: ({ data, isFetching }) => ({
-            isFetching,
-            posts: toPostPreviewList(data?.content ?? []),
+            isPending: isFetching,
+            items: toPostPreviewList(data?.content ?? []),
             totalElements: data?.totalElements ?? 0,
         }),
     });
-
-    const { isFetching, posts, totalElements } = selectedFromResult;
 
     useEffect(() => {
         setTotalElements(totalElements);
     }, [totalElements, setTotalElements]);
 
-    return useMemo(() => ({
-        isPending: isFetching,
-        posts,
-    }), [isFetching, posts]);
+    return { isPending, items };
 };
 
 export const usePostsPage = (): UsePostsPageResult => {
@@ -53,18 +48,14 @@ export const usePostsPage = (): UsePostsPageResult => {
         setPagingOptions: onSetPagingOptions,
     });
 
-    const postSearchParams = usePostSearchParams();
+    const searchParams = usePageSearchParams();
 
     const arg = mapGetAllPostsArg({
         ...pagingOptions,
-        ...postSearchParams,
+        ...searchParams,
     });
 
-    const { isPending, posts } = useGetAllPosts({ arg, setTotalElements });
+    const { isPending, items } = useGetAllPosts({ arg, setTotalElements });
 
-    return useMemo(() => ({
-        isPending,
-        pagingOptions,
-        posts,
-    }), [isPending, pagingOptions, posts]);
+    return { isPending, items, pagingOptions };
 };

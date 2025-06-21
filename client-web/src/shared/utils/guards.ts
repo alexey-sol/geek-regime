@@ -1,5 +1,9 @@
-import { type HasDisableFailureNotificationOnStatus, type HasTitle } from "@/shared/types";
-import { type ApiError, type ApiErrorDetail, type ErrorCode } from "@/shared/models/dtos";
+import {
+    type SortValue, type HasDisableFailureNotificationOnStatus, type HasTitle,
+} from "@/shared/types";
+import {
+    type PagePeriod, type ApiError, type ApiErrorDetail, type ErrorCode,
+} from "@/shared/models/dtos";
 
 export const hasDisableFailureNotificationOnStatus = (
     value: unknown,
@@ -56,3 +60,13 @@ export const isFailureNotificationDisabled = (
 
 export const hasTitle = (value: unknown): value is HasTitle => value instanceof Object
     && "title" in value;
+
+const PERIOD_VALUES: PagePeriod[] = ["OVERALL", "DAY", "WEEK", "MONTH", "YEAR"];
+
+export const isPeriodValue = (value: unknown): value is PagePeriod => typeof value === "string"
+    && PERIOD_VALUES.includes(value as PagePeriod);
+
+const SORT_VALUES: SortValue[] = ["LATEST", "OLDEST"];
+
+export const isSortValue = (value: unknown): value is SortValue => typeof value === "string"
+    && SORT_VALUES.includes(value as SortValue);

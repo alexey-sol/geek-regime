@@ -12,27 +12,28 @@ import { TabContextProvider } from "@/shared/components/tabs/tab-context";
 import { TabPanel } from "@/shared/components/tabs/tab-panel";
 import { ProfileHome } from "@/features/users/components/profile-home";
 import { ProfileSettings } from "@/features/users/components/profile-settings";
-import { PostsByAuthorPage } from "@/features/users/components/posts-by-author-page";
+import { PostsByAuthorPage } from "@/features/posts/components/posts-by-author-page";
+import { PostCommentsByAuthorPage } from "@/features/posts/components/post-comments-by-author-page";
 import { type HandleChange } from "@/shared/components/tabs/types";
 
 import { UserOverview } from "../user-overview";
 import { type HasUser } from "../../types";
 
-export const ProfileStyled = styled.section`
+const ProfileStyled = styled.section`
     display: flex;
     justify-content: space-between;
     column-gap: 1rem;
     height: 100%;
 `;
 
-export const TabsWrapStyled = styled.section`
+const TabsWrapStyled = styled.section`
     display: flex;
     flex-direction: column;
     row-gap: 3rem;
     width: 100%;
 `;
 
-export const ContentWrapStyled = styled.section`
+const ContentWrapStyled = styled.section`
     display: flex;
     flex-direction: column;
     row-gap: 2rem;
@@ -86,7 +87,7 @@ export const Profile: FC<HasUser> = ({ user }) => {
                         </TabPanel>
 
                         <TabPanel value={commentsPath}>
-                            Comments
+                            <PostCommentsByAuthorPage />
                         </TabPanel>
 
                         {isAuthUser && (

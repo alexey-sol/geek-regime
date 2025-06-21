@@ -1,7 +1,6 @@
 import React, {
     type FC, type PropsWithChildren, useCallback, useMemo,
 } from "react";
-import { type HasId } from "@eggziom/geek-regime-js-commons";
 
 import { getUseContextOrThrowError } from "@/shared/utils/helpers/context";
 import { useLazyGetPostCommentTreeByParentIdQuery } from "@/features/posts/services/post-comments-api";
@@ -17,7 +16,7 @@ export type RootCommentContextValue = {
     commentTree?: PostCommentTree;
     getReplies: () => void;
     pending?: Extract<PostCommentPending, "getReplies">;
-    rootCommentId: HasId["id"];
+    rootComment: MaybeStubItem<PostComment>;
 };
 
 export const RootCommentContext = React.createContext<RootCommentContextValue | null>(null);
@@ -49,8 +48,8 @@ export const RootCommentContextProvider: FC<RootCommentContextProviderProps> = (
         commentTree,
         getReplies,
         pending,
-        rootCommentId: item.id,
-    }), [commentTree, getReplies, item.id, pending]);
+        rootComment: item,
+    }), [commentTree, getReplies, item, pending]);
 
     return (
         <RootCommentContext.Provider value={value}>

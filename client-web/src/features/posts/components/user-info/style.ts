@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { Link } from "@eggziom/geek-regime-js-ui-kit";
+import { Link, Typography } from "@eggziom/geek-regime-js-ui-kit";
 
 const rowCss = css`
     display: flex;
@@ -9,4 +9,8 @@ const rowCss = css`
 
 export const AuthorInfoStyled = styled.section(() => rowCss);
 
-export const LinkStyled = styled(Link)(() => rowCss);
+export const LinkStyled = styled(Link)`
+    ${Typography} {
+        ${rowCss};
+    }
+`;

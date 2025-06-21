@@ -11,8 +11,6 @@ export type UpdatePostRequest = post["schemas"]["UpdatePostRequest"];
 
 export type PostPreviewPageResponse = post["schemas"]["PostPreviewPageResponse"];
 
-export type PostPagePeriod = post["schemas"]["PostPagePeriod"];
-
 export type PostCommentPageResponse = postComment["schemas"]["PostCommentPageResponse"];
 
 export type PostCommentResponse = postComment["schemas"]["PostCommentResponse"];

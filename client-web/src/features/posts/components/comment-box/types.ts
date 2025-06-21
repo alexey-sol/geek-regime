@@ -1,14 +1,13 @@
 import { type HasId } from "@eggziom/geek-regime-js-commons";
 
 import { type CommentBoxProps } from "@/shared/components/comment-box";
-
-import { type RootCommentContextValue } from "../../contexts/root-comment";
+import { type HasRootCommentId } from "@/features/posts/services/post-comments-api/types";
 
 export type UseCommentBoxArg = Partial<Pick<CommentBoxProps, "body" | "onSubmit">>;
 
 export type ReplyCommentBoxProps = UseCommentBoxArg
     & Pick<CommentBoxProps, "onClose">
-    & Partial<Pick<RootCommentContextValue, "rootCommentId">>
+    & Partial<HasRootCommentId>
     & {
         authorName?: string;
         commentId?: HasId["id"];
@@ -17,6 +16,4 @@ export type ReplyCommentBoxProps = UseCommentBoxArg
 export type EditCommentBoxProps = Omit<ReplyCommentBoxProps, "authorName"
     | "commentId"
     | "rootCommentId"
-> & Required<Pick<ReplyCommentBoxProps, "commentId"
-    | "rootCommentId">
->;
+> & Required<Pick<ReplyCommentBoxProps, "commentId" | "rootCommentId">>;

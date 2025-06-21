@@ -8,7 +8,7 @@ import { PostOverview } from "@/features/posts/components/post-overview";
 import { ItemList } from "@/shared/components/item-list";
 import { createStubItem, getStubItems } from "@/shared/utils/helpers/object";
 import { SpaceOverview } from "@/features/spaces/components/space-overview/space-overview";
-import { PageSettings } from "@/features/posts/components/page-settings";
+import { PageSettings } from "@/shared/components/page-settings";
 import { type HasPathPrefix } from "@/shared/types";
 
 import { usePostsBySpacePage } from "../utils/hooks/use-posts-by-space-page";
@@ -21,7 +21,7 @@ export const PageContentStyled = styled.section`
 
 export const PostsBySpacePage: FC<HasPathPrefix> = ({ pathPrefix }) => {
     const {
-        isPending, pagingOptions, posts, space,
+        isPending, items, pagingOptions, space,
     } = usePostsBySpacePage();
 
     const spaceOrStub = useMemo(() => (isPending
@@ -30,7 +30,7 @@ export const PostsBySpacePage: FC<HasPathPrefix> = ({ pathPrefix }) => {
 
     const postsOrStubs: HasId[] = useMemo(() => (isPending
         ? getStubItems(pagingOptions.size)
-        : posts), [isPending, pagingOptions.size, posts]);
+        : items), [isPending, items, pagingOptions.size]);
 
     const spaceDescription = !!space?.description && (
         <Typography fontSize="sm">{space.description}</Typography>

@@ -1,42 +1,40 @@
-import { useCallback, useEffect, useMemo } from "react";
+import { useCallback, useEffect } from "react";
 import { skipToken } from "@reduxjs/toolkit/query";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
-import { selectPagingOptions } from "@/features/posts/slice/selectors";
-import { setPagingOptions } from "@/features/posts/slice";
+import { selectPagingOptions } from "@/features/posts/slice/posts/selectors";
+import { setPagingOptions } from "@/features/posts/slice/posts";
 import { usePage } from "@/shared/utils/hooks/use-page";
 import { mapGetAllPostsByAuthorArg } from "@/features/posts/utils/api";
 import { type PagingOptions } from "@/shared/types";
-import { usePostSearchParams } from "@/features/posts/utils/hooks/use-post-search-params";
+import { usePageSearchParams } from "@/shared/utils/hooks/use-page-search-params";
 import { useActiveUser } from "@/features/users/utils/hooks/use-active-user";
 import { useGetAllPostsByAuthorQuery } from "@/features/posts/services/posts-api";
 import { toPostPreviewList } from "@/features/posts/utils/converters";
-import { type UsePostsPageResult } from "@/features/posts/utils/hooks/types";
 
-import { type UsePostsByAuthorArg, type UsePostsByAuthorResult } from "./types";
+import {
+    type UsePostsPageResult,
+    type UsePostsByAuthorArg,
+    type UsePostsByAuthorResult,
+} from "./types";
 
 export const usePostsByAuthor = ({
     arg,
     setTotalElements,
 }: UsePostsByAuthorArg): UsePostsByAuthorResult => {
-    const selectedFromResult = useGetAllPostsByAuthorQuery(arg ?? skipToken, {
+    const { isPending, items, totalElements } = useGetAllPostsByAuthorQuery(arg ?? skipToken, {
         selectFromResult: ({ data, isFetching }) => ({
-            isFetching,
-            posts: toPostPreviewList(data?.content ?? []),
+            isPending: isFetching,
+            items: toPostPreviewList(data?.content ?? []),
             totalElements: data?.totalElements ?? 0,
         }),
     });
-
-    const { isFetching, posts, totalElements } = selectedFromResult;
 
     useEffect(() => {
         setTotalElements(totalElements);
     }, [totalElements, setTotalElements]);
 
-    return useMemo(() => ({
-        isPending: isFetching,
-        posts,
-    }), [isFetching, posts]);
+    return { isPending, items };
 };
 
 export const usePostsByAuthorPage = (): UsePostsPageResult => {
@@ -54,24 +52,20 @@ export const usePostsByAuthorPage = (): UsePostsPageResult => {
         setPagingOptions: onSetPagingOptions,
     });
 
-    const postSearchParams = usePostSearchParams();
+    const searchParams = usePageSearchParams();
 
     const arg = user?.id
         ? mapGetAllPostsByAuthorArg({
             ...pagingOptions,
-            ...postSearchParams,
+            ...searchParams,
             authorId: user?.id,
         })
         : undefined;
 
-    const { isPending, posts } = usePostsByAuthor({
+    const { isPending, items } = usePostsByAuthor({
         arg,
         setTotalElements,
     });
 
-    return useMemo(() => ({
-        isPending,
-        pagingOptions,
-        posts,
-    }), [isPending, pagingOptions, posts]);
+    return { isPending, items, pagingOptions };
 };

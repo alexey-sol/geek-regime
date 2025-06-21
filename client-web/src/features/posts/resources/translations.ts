@@ -41,30 +41,6 @@ export const en = {
                 success: "Post saved",
             },
         },
-        page: {
-            settings: {
-                applyButton: {
-                    title: "Apply",
-                },
-                period: {
-                    day: "Day",
-                    month: "Month",
-                    overall: "Overall",
-                    week: "Week",
-                    year: "Year",
-                },
-                periodSelect: {
-                    tooltip: "Period",
-                },
-                sort: {
-                    latest: "Latest",
-                    oldest: "Oldest",
-                },
-                sortSelect: {
-                    tooltip: "Show first",
-                },
-            },
-        },
         post: {
             author: {
                 name: {
@@ -103,8 +79,13 @@ export const en = {
                         title: "Reply to",
                     },
                 },
-                isDeleted: {
-                    placeholder: "The comment has been deleted.",
+                item: {
+                    isDeleted: {
+                        placeholder: "The comment has been deleted.",
+                    },
+                    post: {
+                        title: "Commented on",
+                    },
                 },
                 title: "Comments",
             },
@@ -184,30 +165,6 @@ export const ru = {
                 success: "Статья сохранена",
             },
         },
-        page: {
-            settings: {
-                applyButton: {
-                    title: "Применить",
-                },
-                period: {
-                    day: "Сутки",
-                    month: "Месяц",
-                    overall: "Все время",
-                    week: "Неделя",
-                    year: "Год",
-                },
-                periodSelect: {
-                    tooltip: "Период",
-                },
-                sort: {
-                    latest: "Новые",
-                    oldest: "Старые",
-                },
-                sortSelect: {
-                    tooltip: "Сначала показывать",
-                },
-            },
-        },
         post: {
             author: {
                 name: {
@@ -246,8 +203,13 @@ export const ru = {
                         title: "Ответить",
                     },
                 },
-                isDeleted: {
-                    placeholder: "Комментарий удален.",
+                item: {
+                    isDeleted: {
+                        placeholder: "Комментарий удален.",
+                    },
+                    post: {
+                        title: "Комментарий к",
+                    },
                 },
                 title: "Комментарии",
             },

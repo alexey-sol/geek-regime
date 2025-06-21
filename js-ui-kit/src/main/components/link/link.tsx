@@ -14,13 +14,14 @@ export type LinkProps = PropsWithChildren<Pick<RouterDomLinkProps, "to" | "repla
 export const Link: FC<LinkProps> = ({
     as: tagName = "span",
     children,
+    className,
     color,
     to,
     replace,
     view,
     ...rest
 }) => (
-    <LinkStyled color={color} to={to} replace={replace} view={view}>
+    <LinkStyled color={color} className={className} to={to} replace={replace} view={view}>
         <Typography as={tagName} {...rest}>
             {children}
         </Typography>

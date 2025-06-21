@@ -92,6 +92,28 @@ export const en = {
                     title: "The page doesn't exist",
                 },
             },
+            settings: {
+                applyButton: {
+                    title: "Apply",
+                },
+                period: {
+                    day: "Day",
+                    month: "Month",
+                    overall: "Overall",
+                    week: "Week",
+                    year: "Year",
+                },
+                periodSelect: {
+                    tooltip: "Period",
+                },
+                sort: {
+                    latest: "Latest",
+                    oldest: "Oldest",
+                },
+                sortSelect: {
+                    tooltip: "Show first",
+                },
+            },
         },
         paging: {
             content: {
@@ -202,6 +224,28 @@ export const ru = {
             error: {
                 notFound: {
                     title: "Такой страницы не существует",
+                },
+            },
+            settings: {
+                applyButton: {
+                    title: "Применить",
+                },
+                period: {
+                    day: "Сутки",
+                    month: "Месяц",
+                    overall: "Все время",
+                    week: "Неделя",
+                    year: "Год",
+                },
+                periodSelect: {
+                    tooltip: "Период",
+                },
+                sort: {
+                    latest: "Новые",
+                    oldest: "Старые",
+                },
+                sortSelect: {
+                    tooltip: "Сначала показывать",
                 },
             },
         },

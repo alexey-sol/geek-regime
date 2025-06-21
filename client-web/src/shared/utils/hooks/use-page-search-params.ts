@@ -1,14 +1,15 @@
 import { useSearchParams } from "react-router-dom";
 
 import { SEARCH_PARAMS } from "@/shared/const";
-import { isPeriodValue, isSortValue } from "@/features/posts/utils/guards";
-import { type PostsPageSettings } from "@/features/posts/types";
+import { type SortValue, type PeriodAndSortQueryParams } from "@/shared/types";
 
-type UsePostSearchParamsResult = Partial<PostsPageSettings> & {
+import { isPeriodValue, isSortValue } from "../guards";
+
+type UsePageSearchParamsResult = PeriodAndSortQueryParams<SortValue> & {
     text?: string;
 };
 
-export const usePostSearchParams = (): UsePostSearchParamsResult => {
+export const usePageSearchParams = (): UsePageSearchParamsResult => {
     const [searchParams] = useSearchParams();
 
     const periodParam = searchParams.get(SEARCH_PARAMS.PERIOD);

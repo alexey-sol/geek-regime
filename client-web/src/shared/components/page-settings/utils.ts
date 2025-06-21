@@ -2,23 +2,25 @@ import { ChangeEventHandler, useCallback, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import { SEARCH_PARAMS } from "@/shared/const";
-import { type PostSortValue, type PostsPageSettings } from "@/features/posts/types";
-import { isPeriodValue, isSortValue } from "@/features/posts/utils/guards";
-import { usePostSearchParams } from "@/features/posts/utils/hooks/use-post-search-params";
-import { type PostPagePeriod } from "@/features/posts/models/dtos";
+import { usePageSearchParams } from "@/shared/utils/hooks/use-page-search-params";
+import { type SortValue, type PeriodAndSortQueryParams } from "@/shared/types";
+import { PagePeriod } from "@/shared/models/dtos";
+import { isPeriodValue, isSortValue } from "@/shared/utils/guards";
 
-const INITIAL_PERIOD: PostPagePeriod = "OVERALL";
-const INITIAL_SORT: PostSortValue = "LATEST";
+const INITIAL_PERIOD: PagePeriod = "OVERALL";
+const INITIAL_SORT: SortValue = "LATEST";
 
 type SettingSetter = (value: string) => void;
 
 type SelectChangeEventHandler = ChangeEventHandler<{ value: string }>;
 
+type Settings = Required<PeriodAndSortQueryParams<SortValue>>;
+
 type UsePageSettingsResult = {
     handlePeriodChange: SelectChangeEventHandler;
     handleSortChange: SelectChangeEventHandler;
     handleSubmit: () => void;
-    settings: PostsPageSettings;
+    settings: Settings;
 };
 
 export const usePageSettings = (): UsePageSettingsResult => {
@@ -27,9 +29,9 @@ export const usePageSettings = (): UsePageSettingsResult => {
     const {
         period: initialPeriod = INITIAL_PERIOD,
         sort: initialSort = INITIAL_SORT,
-    } = usePostSearchParams();
+    } = usePageSearchParams();
 
-    const [settings, setSettings] = useState<PostsPageSettings>({
+    const [settings, setSettings] = useState<Settings>({
         period: initialPeriod,
         sort: initialSort,
     });

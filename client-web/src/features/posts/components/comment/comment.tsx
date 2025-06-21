@@ -1,22 +1,19 @@
 import React, {
     type FC, type PropsWithChildren, type ReactNode, useMemo,
 } from "react";
-import { LinkButton, Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { LinkButton } from "@eggziom/geek-regime-js-ui-kit";
 import { useTranslation } from "react-i18next";
 
-import { AuthorInfo } from "@/features/posts/components/user-info";
 import { type PostCommentBase } from "@/features/posts/models/entities";
 import { type HasItem, MaybeStubItem } from "@/shared/types";
-import { createInnerHtml } from "@/shared/utils/helpers/dom";
 import { useRootCommentContext } from "@/features/posts/contexts/root-comment";
 import { useAuthContext } from "@/features/auth/contexts/auth";
 import { Tooltip } from "@/shared/components/tooltip";
-import { Skeleton } from "@/shared/components/loaders";
 import { isStubItem } from "@/shared/utils/helpers/object";
 
+import { CommentContent, CommentContentStyled } from "../comment-content";
 import { EditCommentBox, ReplyCommentBox, useCommentBox } from "../comment-box";
 
-import { BodyTypographyStyled, CommentStyled, CommentFooterStyled } from "./style";
 import { useComment } from "./utils";
 
 type CommentProps = HasItem<MaybeStubItem<PostCommentBase>> & {
@@ -32,7 +29,7 @@ export const Comment: FC<PropsWithChildren<CommentProps>> = ({
 }) => {
     const { t } = useTranslation();
     const { profile } = useAuthContext();
-    const { rootCommentId } = useRootCommentContext();
+    const { rootComment } = useRootCommentContext();
 
     const {
         closeBox,
@@ -51,15 +48,6 @@ export const Comment: FC<PropsWithChildren<CommentProps>> = ({
     } = useComment({ item });
 
     const isLoading = isStubItem(item);
-
-    const commentBody = item.isDeleted
-        ? <Typography color="grey">{item.body}</Typography>
-        : (
-            <BodyTypographyStyled
-                dangerouslySetInnerHTML={createInnerHtml(item.body ?? "")}
-                isHighlighted={showEditBox}
-            />
-        );
 
     const disableEditButtons = pending === "update" || pending === "remove";
 
@@ -94,30 +82,16 @@ export const Comment: FC<PropsWithChildren<CommentProps>> = ({
     );
 
     return (
-        <CommentStyled>
-            <Skeleton isLoading={isLoading} heightPx={30} widthPx={210}>
-                <AuthorInfo
-                    author={item.author}
-                    createdAt={item.createdAt ?? ""}
-                    formattedCreatedAt={item.formattedCreatedAt ?? ""}
-                />
-            </Skeleton>
-
-            <Skeleton isLoading={isLoading} heightPx={60}>
-                {commentBody}
-            </Skeleton>
-
-            <Skeleton isLoading={isLoading} heightPx={15} widthPx={150}>
-                <CommentFooterStyled>
-                    {footerChildren}
-                    {!item.isDeleted && !!profile && (
-                        <>
-                            {!showEditBox && isAuthor && editCommentButtons}
-                            {!showReplyBox && !isAuthor && openReplyBoxButton}
-                        </>
-                    )}
-                </CommentFooterStyled>
-            </Skeleton>
+        <CommentContentStyled>
+            <CommentContent isHighlighted={showEditBox} isLoading={isLoading} item={item}>
+                {footerChildren}
+                {!item.isDeleted && !!profile && (
+                    <>
+                        {!showEditBox && isAuthor && editCommentButtons}
+                        {!showReplyBox && !isAuthor && openReplyBoxButton}
+                    </>
+                )}
+            </CommentContent>
 
             {!!profile && (
                 <>
@@ -127,7 +101,7 @@ export const Comment: FC<PropsWithChildren<CommentProps>> = ({
                             commentId={item.id}
                             onClose={closeBox}
                             onSubmit={onEditSuccess}
-                            rootCommentId={rootCommentId}
+                            rootCommentId={rootComment.id}
                         />
                     )}
                     {showReplyBox && !isAuthor && (
@@ -136,13 +110,13 @@ export const Comment: FC<PropsWithChildren<CommentProps>> = ({
                             commentId={item.id}
                             onClose={closeBox}
                             onSubmit={onReplySuccess}
-                            rootCommentId={rootCommentId}
+                            rootCommentId={rootComment.id}
                         />
                     )}
                 </>
             )}
 
             {children}
-        </CommentStyled>
+        </CommentContentStyled>
     );
 };

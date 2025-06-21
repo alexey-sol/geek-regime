@@ -1,7 +1,7 @@
 import { plainToClass } from "class-transformer";
 
 import {
-    PostComment, PostCommentTree, PostDetails, PostPreview,
+    ProfilePostComment, PostComment, PostCommentTree, PostDetails, PostPreview,
 } from "@/features/posts/models/entities";
 import {
     type PostCommentResponse,
@@ -21,6 +21,25 @@ export const toPostPreviewList = (list: PostPreviewResponse[]): PostPreview[] =>
 
 export const toPostComment = (response: PostCommentResponse): PostComment =>
     plainToClass(PostComment, response);
+
+export const toProfilePostComment = (
+    comment: PostCommentResponse,
+    post: PostPreviewResponse,
+): ProfilePostComment => plainToClass(ProfilePostComment, {
+    ...comment,
+    post,
+});
+
+export const toProfilePostCommentList = (
+    comments: PostCommentResponse[],
+    posts: PostPreviewResponse[],
+): ProfilePostComment[] =>
+    comments.map((item) => {
+        const post = posts.find(({ id }) => id === item.postId);
+
+        return post && toProfilePostComment(item, post);
+    })
+        .filter((item): item is ProfilePostComment => !!item);
 
 export const toPostCommentList = (list: PostCommentResponse[]): PostComment[] =>
     list.map((response) => toPostComment(response));

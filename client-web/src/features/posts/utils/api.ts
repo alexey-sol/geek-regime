@@ -8,16 +8,12 @@ import {
     type GetAllPostsByAuthorArg,
     type GetAllPostsBySpaceArg,
 } from "@/features/posts/services/posts-api/types";
-import { type GetAllPostCommentsArg } from "@/features/posts/services/post-comments-api/types";
+import { type GetPostCommentsByAuthorArg, type GetAllPostCommentsArg } from "@/features/posts/services/post-comments-api/types";
 import { type CreatePostOnSaveArg, type UpdatePostOnSaveArg } from "@/features/posts/utils/hooks/types";
+import { type PeriodAndSortQueryParams, type PagingQueryParams, type SortValue } from "@/shared/types";
+import { type HasAuthorId } from "@/features/posts/types";
 
-import {
-    type PeriodAndSortQueryParams,
-    type PostSortValue,
-    type PostsPageSettings,
-} from "../types";
-
-const MAP_SORT_VALUE_TO_QUERY_PARAM: Record<PostSortValue, string> = {
+const MAP_SORT_VALUE_TO_QUERY_PARAM: Record<SortValue, string> = {
     LATEST: "createdAt,DESC",
     OLDEST: "createdAt,ASC",
 };
@@ -27,7 +23,7 @@ const DEFAULT_SEARCH_IN = ["title", "body"];
 export const mapPeriodAndSortQueryParams = ({
     period,
     sort,
-}: Partial<PostsPageSettings>): PeriodAndSortQueryParams => {
+}: PeriodAndSortQueryParams<SortValue>): PeriodAndSortQueryParams => {
     const params: PeriodAndSortQueryParams = {};
 
     if (period !== undefined) {
@@ -41,7 +37,7 @@ export const mapPeriodAndSortQueryParams = ({
     return params;
 };
 
-type HasSort = Pick<PostsPageSettings, "sort">;
+type HasSort = Pick<PeriodAndSortQueryParams<SortValue>, "sort">;
 
 export const mapGetAllPostsArg = ({
     period,
@@ -82,6 +78,22 @@ export const mapGetAllPostCommentsArg = (
 ): GetAllPostCommentsArg => ({
     ...arg,
     params: mapPagingQueryParams(arg.params),
+});
+
+type MapGetPostCommentsByAuthorArg = PagingQueryParams & PeriodAndSortQueryParams<SortValue>
+    & HasAuthorId;
+
+export const mapGetProfilePostCommentsArg = ({
+    authorId,
+    period,
+    sort,
+    ...rest
+}: MapGetPostCommentsByAuthorArg): GetPostCommentsByAuthorArg => ({
+    authorId,
+    params: {
+        ...mapPagingQueryParams(rest),
+        ...mapPeriodAndSortQueryParams({ period, sort }),
+    },
 });
 
 type SavePostArg = CreatePostOnSaveArg | UpdatePostOnSaveArg;

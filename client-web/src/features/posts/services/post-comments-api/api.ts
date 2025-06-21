@@ -19,7 +19,7 @@ import {
     getAllRootPostCommentsArg,
     incrementPostCommentCount,
     incrementRootCommentReplyCount,
-    invalidateReplyComments,
+    invalidateReplyOrProfileComments,
     patchRootComment,
     patchRootCommentPage,
     softRemoveRootComment,
@@ -27,7 +27,7 @@ import {
 import * as cn from "./const";
 import type * as tp from "./types";
 
-const { COMMENTS, POSTS } = resources;
+const { COMMENTS, POSTS, USERS } = resources;
 
 const appApiWithTag = appApi.enhanceEndpoints({
     addTagTypes: [cn.POST_COMMENTS_TYPE],
@@ -46,6 +46,13 @@ export const postCommentsApi = appApiWithTag.injectEndpoints({
                 `${endpointName}${queryArgs.postId}`,
             forceRefetch: ({ currentArg, previousArg }) => currentArg !== previousArg,
         }),
+        getPostCommentsByAuthor: builder.query<PostCommentPageResponse, tp.GetPostCommentsByAuthorArg>({
+            query: (arg) => ({
+                params: arg?.params,
+                url: `/v1/${USERS}/${arg.authorId}/${COMMENTS}`,
+            }),
+            providesTags: () => [createTag(cn.PROFILE_COMMENTS_ID)],
+        }),
         getPostCommentTreeByParentId: builder.query<PostCommentTreeResponse, number>({
             query: (postCommentId) => ({
                 url: `/v1/${COMMENTS}/${postCommentId}`,
@@ -58,7 +65,7 @@ export const postCommentsApi = appApiWithTag.injectEndpoints({
                 method: "POST",
                 url: `/v1/${POSTS}/${body.postId}/${COMMENTS}`,
             }),
-            invalidatesTags: invalidateReplyComments,
+            invalidatesTags: invalidateReplyOrProfileComments,
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 queryFulfilled
                     .then(({ data }) => {
@@ -93,7 +100,7 @@ export const postCommentsApi = appApiWithTag.injectEndpoints({
                 method: "DELETE",
                 url: `/v1/${POSTS}/${COMMENTS}/${id}`,
             }),
-            invalidatesTags: invalidateReplyComments,
+            invalidatesTags: invalidateReplyOrProfileComments,
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 queryFulfilled
                     .then(() => {
@@ -133,7 +140,7 @@ export const postCommentsApi = appApiWithTag.injectEndpoints({
                 method: "PATCH",
                 url: `/v1/${POSTS}/${COMMENTS}/${id}`,
             }),
-            invalidatesTags: invalidateReplyComments,
+            invalidatesTags: invalidateReplyOrProfileComments,
             async onQueryStarted(arg, { dispatch, queryFulfilled }) {
                 queryFulfilled
                     .then(({ data }) => {
@@ -167,6 +174,7 @@ const updatePostCacheIfNeeded = (
 
 export const {
     useGetAllRootPostCommentsQuery,
+    useGetPostCommentsByAuthorQuery,
     useLazyGetPostCommentTreeByParentIdQuery,
     useCreatePostCommentMutation,
     useRemovePostCommentByIdMutation,

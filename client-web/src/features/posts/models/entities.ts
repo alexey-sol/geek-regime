@@ -102,7 +102,7 @@ export class PostDetails extends PostPreview {
 
 const transformPostCommentBody = ({ value }: TransformFnParams) => (value
     ? purifyHtml(value)
-    : t("posts.post.comments.isDeleted.placeholder"));
+    : t("posts.post.comments.item.isDeleted.placeholder"));
 
 export class PostCommentBase {
     @Expose()
@@ -116,6 +116,7 @@ export class PostCommentBase {
         public id: number,
         public createdAt: string,
         public updatedAt: string,
+        public postId?: number,
         author?: User,
         body?: string | null,
         public isDeleted = false,
@@ -143,12 +144,39 @@ export class PostComment extends PostCommentBase {
         id: number,
         createdAt: string,
         updatedAt: string,
+        postId?: number,
         author?: User,
         body?: string | null,
         isDeleted?: boolean,
         public descendantCount = 0,
     ) {
-        super(id, createdAt, updatedAt, author, body, isDeleted);
+        super(id, createdAt, updatedAt, postId, author, body, isDeleted);
+    }
+
+    get formattedCreatedAt(): string {
+        return formatTimestamp(this.createdAt);
+    }
+
+    get formattedUpdatedAt(): string {
+        return formatTimestamp(this.updatedAt);
+    }
+}
+
+export class ProfilePostComment extends PostComment {
+    @Type(() => PostPreview)
+    public post: PostPreview;
+
+    constructor(
+        id: number,
+        createdAt: string,
+        updatedAt: string,
+        post?: PostPreview,
+        author?: User,
+        body?: string | null,
+        isDeleted?: boolean,
+        descendantCount = 0,
+    ) {
+        super(id, createdAt, updatedAt, post?.id, author, body, isDeleted, descendantCount);
     }
 
     get formattedCreatedAt(): string {
@@ -171,12 +199,13 @@ export class PostCommentTree extends PostCommentBase {
         id: number,
         createdAt: string,
         updatedAt: string,
+        postId?: number,
         author?: User,
         body?: string | null,
         isDeleted?: boolean,
         replies: PostCommentTree[] = [],
     ) {
-        super(id, createdAt, updatedAt, author, body, isDeleted);
+        super(id, createdAt, updatedAt, postId, author, body, isDeleted);
         this.replies = replies;
     }
 

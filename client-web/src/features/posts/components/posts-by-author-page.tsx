@@ -1,14 +1,16 @@
-import React, { useMemo, type FC } from "react";
+import React, { type FC, useMemo } from "react";
+import { type HasId, resources } from "@eggziom/geek-regime-js-commons";
 import styled from "styled-components";
-import { type HasId } from "@eggziom/geek-regime-js-commons";
 
-import { usePostsPage } from "@/features/posts/utils/hooks/use-posts-page";
-import { Page } from "@/shared/components/page";
-import { PostOverview } from "@/features/posts/components/post-overview";
-import { ItemList } from "@/shared/components/item-list";
-import { getStubItems } from "@/shared/utils/helpers/object";
 import { PageSettings } from "@/shared/components/page-settings";
-import { type HasPathPrefix } from "@/shared/types";
+import { Page } from "@/shared/components/page";
+import { createAbsoluteUsersPath } from "@/features/users/utils/helpers";
+import { useActiveUser } from "@/features/users/utils/hooks/use-active-user";
+import { ItemList } from "@/shared/components/item-list";
+import { PostOverview } from "@/features/posts/components/post-overview";
+import { getStubItems } from "@/shared/utils/helpers/object";
+
+import { usePostsByAuthorPage } from "../utils/hooks/use-posts-by-author-page";
 
 export const PageContentStyled = styled.section`
     display: flex;
@@ -16,8 +18,14 @@ export const PageContentStyled = styled.section`
     gap: 2rem;
 `;
 
-export const PostsPage: FC<HasPathPrefix> = ({ pathPrefix }) => {
-    const { isPending, items, pagingOptions } = usePostsPage();
+export const PostsByAuthorPage: FC = () => {
+    const { user } = useActiveUser();
+
+    const { isPending, items, pagingOptions } = usePostsByAuthorPage();
+
+    const pathPrefix = user
+        ? createAbsoluteUsersPath(user.slug, resources.POSTS)
+        : "";
 
     const itemsOrStubs: HasId[] = useMemo(() => (isPending
         ? getStubItems(pagingOptions.size)

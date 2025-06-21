@@ -17,16 +17,16 @@ export const createTag = (id: string | number): {
     type: cn.POST_COMMENTS_TYPE,
 });
 
-// Invalidate only descendant comments (replies to another comments). Root comments will be
-// updated manually.
-export const invalidateReplyComments = <R>(
+// Invalidate only descendant comments (which are replies to another comments, since root
+// comments will be updated manually) or comments from the user profile section.
+export const invalidateReplyOrProfileComments = <R>(
     resultList: R | undefined,
     error: unknown,
     arg: { meta: Partial<tp.HasRootCommentId> },
 ): Array<ReturnType<typeof createTag>> => ((resultList && arg.meta.rootCommentId)
         // There's no rootCommentId only when creating a root comment (i.e. commenting the post).
-        ? [createTag(arg.meta.rootCommentId)]
-        : []);
+        ? [createTag(arg.meta.rootCommentId), createTag(cn.PROFILE_COMMENTS_ID)]
+        : [createTag(cn.PROFILE_COMMENTS_ID)]);
 
 export const decrementPostCommentCount = (post: PostDetailsResponse): void => {
     if (post.meta) {

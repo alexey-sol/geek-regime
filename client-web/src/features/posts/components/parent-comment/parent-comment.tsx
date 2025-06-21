@@ -1,8 +1,6 @@
-import React, { type FC, memo, useMemo } from "react";
+import React, { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
-import { type PostComment } from "@/features/posts/models/entities";
-import { type HasItem, type MaybeStubItem } from "@/shared/types";
 import { useRootCommentContext } from "@/features/posts/contexts/root-comment";
 import { useToggle } from "@/shared/utils/hooks/use-toggle";
 import { usePrefetch } from "@/features/posts/services/post-comments-api";
@@ -15,7 +13,7 @@ import {
 
 const DEFAULT_COUNT = 0;
 
-export const ParentComment: FC<HasItem<MaybeStubItem<PostComment>>> = memo(({ item }) => {
+export const ParentComment = memo(() => {
     const { t } = useTranslation();
 
     const {
@@ -24,7 +22,9 @@ export const ParentComment: FC<HasItem<MaybeStubItem<PostComment>>> = memo(({ it
         on: setShowReplyTreeOn,
     } = useToggle();
 
-    const { commentTree, getReplies, pending } = useRootCommentContext();
+    const {
+        commentTree, getReplies, pending, rootComment,
+    } = useRootCommentContext();
 
     const getAndShowReplies = () => {
         setShowReplyTreeOn();
@@ -32,21 +32,21 @@ export const ParentComment: FC<HasItem<MaybeStubItem<PostComment>>> = memo(({ it
     };
 
     const closeReplyTreeButton = renderToggleReplyTreeButtonIfPossible({
-        descendantCount: item.descendantCount ?? DEFAULT_COUNT,
+        descendantCount: rootComment.descendantCount ?? DEFAULT_COUNT,
         onClick: setShowReplyTreeOff,
         title: t("posts.post.comments.actions.hideRepliesButton.title"),
     });
 
     const openReplyTreeButton = renderToggleReplyTreeButtonIfPossible({
-        descendantCount: item.descendantCount ?? DEFAULT_COUNT,
+        descendantCount: rootComment.descendantCount ?? DEFAULT_COUNT,
         onClick: getAndShowReplies,
         title: t("posts.post.comments.actions.showRepliesButton.title"),
     });
 
     const prefetchPostCommentTreeByParentId = usePrefetch("getPostCommentTreeByParentId");
 
-    const toggleReplyTreeButton = (
-        <section onMouseEnter={() => !showReplyTree && prefetchPostCommentTreeByParentId(item.id)}>
+    const toggleReplyTreeButton = !!rootComment.descendantCount && (
+        <section onMouseEnter={() => !showReplyTree && prefetchPostCommentTreeByParentId(rootComment.id)}>
             {showReplyTree ? closeReplyTreeButton : openReplyTreeButton}
         </section>
     );
@@ -59,7 +59,7 @@ export const ParentComment: FC<HasItem<MaybeStubItem<PostComment>>> = memo(({ it
 
     return (
         <Comment
-            item={item}
+            item={rootComment}
             footerChildren={toggleReplyTreeButton}
             onReply={getAndShowReplies}
         >

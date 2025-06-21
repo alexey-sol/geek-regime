@@ -4,6 +4,7 @@ import { type ThunkDispatch } from "redux-thunk";
 import {
     type PostDetailsResponse,
     type PostPreviewPageResponse,
+    type PostPreviewResponse,
 } from "@/features/posts/models/dtos";
 import { type RootState } from "@/app/store";
 import { appApi } from "@/app/store/api";
@@ -28,7 +29,9 @@ export const postsApi = appApiWithTag.injectEndpoints({
                 method: "POST",
                 url: `/v1/${POSTS}`,
             }),
-            invalidatesTags: (result) => [createTag(result?.id)],
+            invalidatesTags: (result) => (result
+                ? [createTag()]
+                : []),
             async onQueryStarted(_, { dispatch, queryFulfilled }) {
                 try {
                     const { data } = await queryFulfilled;
@@ -68,6 +71,13 @@ export const postsApi = appApiWithTag.injectEndpoints({
             }),
             providesTags: (result) => provideTags(result?.content),
         }),
+        getAllPostsById: builder.query<PostPreviewResponse[], tp.GetAllPostsByIdArg>({
+            query: (params) => ({
+                params,
+                url: `/v1/${POSTS}/id`,
+            }),
+            providesTags: (result) => provideTags(result),
+        }),
         getPostBySlug: builder.query<PostDetailsResponse, tp.GetPostBySlugArg>({
             query: (slug) => `/v1/${POSTS}/${slug}`,
             providesTags: (result, error, id) => [createTag(id)],
@@ -77,7 +87,9 @@ export const postsApi = appApiWithTag.injectEndpoints({
                 method: "DELETE",
                 url: `/v1/${POSTS}/${id}`,
             }),
-            invalidatesTags: (result, error, id) => [createTag(id)],
+            invalidatesTags: (result, error, id) => (result
+                ? [createTag(cn.POSTS_TYPE), createTag(id)]
+                : []),
         }),
         updatePostById: builder.mutation<PostDetailsResponse, tp.UpdatePostByIdArg>({
             query: ({ id, ...body }) => ({
@@ -159,6 +171,7 @@ export const {
     useGetAllPostsQuery,
     useGetAllPostsByAuthorQuery,
     useGetAllPostsBySpaceQuery,
+    useGetAllPostsByIdQuery,
     useGetPostBySlugQuery,
     useRemovePostByIdMutation,
     useUpdatePostByIdMutation,

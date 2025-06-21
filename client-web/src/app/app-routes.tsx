@@ -7,7 +7,7 @@ import { paths } from "@/shared/const";
 import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
 import { AuthRoute, DefaultSearchRoute } from "@/shared/utils/routes";
 
-const PostBySpaceListView = lazy(() => import("@/features/spaces/views/post-by-space-list-view"));
+const PostBySpaceListView = lazy(() => import("@/features/posts/views/post-by-space-list-view"));
 const PostCreateView = lazy(() => import("@/features/posts/views/post-create-view"));
 const PostDetailsView = lazy(() => import("@/features/posts/views/post-details-view"));
 const PostUpdateView = lazy(() => import("@/features/posts/views/post-update-view"));
