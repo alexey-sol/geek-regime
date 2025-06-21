@@ -205,7 +205,7 @@
                         <typeMapping>SpacePageResponse=com.github.alexeysol.geekregime.apicommons.generated.model.SpacePageResponse</typeMapping>
                         <typeMapping>SaveSpaceRequest=com.github.alexeysol.geekregime.apicommons.generated.model.SaveSpaceRequest</typeMapping>
                         <typeMapping>IdResponse=com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse</typeMapping>
-                        <typeMapping>PostPagePeriod=com.github.alexeysol.geekregime.apicommons.generated.model.PostPagePeriod</typeMapping>
+                        <typeMapping>PagePeriod=com.github.alexeysol.geekregime.apicommons.generated.model.PagePeriod</typeMapping>
                         <typeMapping>LocalDate=java.util.Date</typeMapping>
                         <typeMapping>OffsetDateTime=java.util.Date</typeMapping>
                     </typeMappings>

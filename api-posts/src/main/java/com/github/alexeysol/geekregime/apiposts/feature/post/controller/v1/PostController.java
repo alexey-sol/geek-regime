@@ -47,7 +47,7 @@ public class PostController implements PostApi {
         Long authorId,
         List<String> searchIn,
         String text,
-        PostPagePeriod period,
+        PagePeriod period,
         @PageableDefault(size = PAGE_SIZE, sort = SORT_BY, direction = Sort.Direction.DESC) Pageable pageable
     ) {
         var filterSpecification = EntitySpecificationUtil.<Post>compose(
@@ -67,7 +67,7 @@ public class PostController implements PostApi {
         Long spaceId,
         List<String> searchIn,
         String text,
-        PostPagePeriod period,
+        PagePeriod period,
         @PageableDefault(size = PAGE_SIZE, sort = SORT_BY, direction = Sort.Direction.DESC) Pageable pageable
     ) {
         var filterSpecification = EntitySpecificationUtil.<Post>compose(
@@ -86,7 +86,7 @@ public class PostController implements PostApi {
     public ResponseEntity<BasePostPreviewPageResponse> findAllPosts(
         List<String> searchIn,
         String text,
-        PostPagePeriod period,
+        PagePeriod period,
         @PageableDefault(size = PAGE_SIZE, sort = SORT_BY, direction = Sort.Direction.DESC) Pageable pageable
     ) {
         var filterSpecification = EntitySpecificationUtil.<Post>compose(

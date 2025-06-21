@@ -177,18 +177,18 @@ components:
           type: integer
           format: int64
           minimum: 1
-    PostPagePeriod:
-      type: string
-      enum: [ "DAY", "WEEK", "MONTH", "YEAR", "OVERALL" ]
     # Refs:
     Page:
       type: Page
       $ref: "./common.yml#/components/schemas/Page"
+    PagePeriod:
+      type: string
+      $ref: "./common.yml#/components/schemas/PagePeriod"
     SpacePreviewResponse:
-      type: Page
+      type: SpacePreviewResponse
       $ref: "./space.yml#/components/schemas/SpacePreviewResponse"
     SaveSpaceRequest:
-      type: Page
+      type: SaveSpaceRequest
       $ref: "./space.yml#/components/schemas/SaveSpaceRequest"
     UserResponse:
       type: UserResponse

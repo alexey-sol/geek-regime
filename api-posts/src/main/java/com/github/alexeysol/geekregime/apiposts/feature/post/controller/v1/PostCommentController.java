@@ -41,7 +41,7 @@ public class PostCommentController implements PostCommentApi {
     @Override
     public ResponseEntity<BasePostCommentPageResponse> findAllRootPostCommentsByAuthor(
         Long authorId,
-        PostPagePeriod period,
+        PagePeriod period,
         @PageableDefault(size = PAGE_SIZE, sort = SORT_BY, direction = Sort.Direction.DESC) Pageable pageable
     ) {
         var filterSpecification = EntitySpecificationUtil.<PostComment>compose(

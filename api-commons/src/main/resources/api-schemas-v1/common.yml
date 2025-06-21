@@ -16,6 +16,9 @@ components:
           type: integer
           format: int64
           minimum: 0
+    PagePeriod:
+      type: string
+      enum: [ "DAY", "WEEK", "MONTH", "YEAR", "OVERALL" ]
     IdResponse:
       type: object
       required: [ id ]

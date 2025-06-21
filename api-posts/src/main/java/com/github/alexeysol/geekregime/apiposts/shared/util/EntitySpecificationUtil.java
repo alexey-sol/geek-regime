@@ -1,7 +1,7 @@
 package com.github.alexeysol.geekregime.apiposts.shared.util;
 
 import com.github.alexeysol.geekregime.apicommons.constant.database.LogicalOperator;
-import com.github.alexeysol.geekregime.apicommons.generated.model.PostPagePeriod;
+import com.github.alexeysol.geekregime.apicommons.generated.model.PagePeriod;
 import com.github.alexeysol.geekregime.apicommons.model.util.SpecificationUtil;
 import lombok.experimental.UtilityClass;
 import org.apache.commons.lang3.time.DateUtils;
@@ -36,15 +36,15 @@ public class EntitySpecificationUtil {
         return specification;
     }
 
-    public <T> Specification<T> bySameOrAfterPeriod(String key, PostPagePeriod period) {
-        var periodOrDefault = (Objects.isNull(period)) ? PostPagePeriod.OVERALL : period;
+    public <T> Specification<T> bySameOrAfterPeriod(String key, PagePeriod period) {
+        var periodOrDefault = (Objects.isNull(period)) ? PagePeriod.OVERALL : period;
         var optionalDate = getDateFromPeriod(periodOrDefault);
 
         return optionalDate.map(date ->
             SpecificationUtil.<T>bySameOrAfter(key, date)).orElse(getDefault());
     }
 
-    private Optional<Date> getDateFromPeriod(PostPagePeriod period) {
+    private Optional<Date> getDateFromPeriod(PagePeriod period) {
         var now = new Date();
 
         return switch (period) {

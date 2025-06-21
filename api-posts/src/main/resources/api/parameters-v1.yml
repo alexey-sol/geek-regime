@@ -40,8 +40,8 @@ components:
       description: The period where to search for posts
       in: query
       schema:
-        $ref: "#/components/schemas/PostPagePeriod"
+        $ref: "#/components/schemas/PagePeriod"
   # Schemas imported from api-commons
   schemas:
-    PostPagePeriod:
-      type: PostPagePeriod
+    PagePeriod:
+      type: PagePeriod
