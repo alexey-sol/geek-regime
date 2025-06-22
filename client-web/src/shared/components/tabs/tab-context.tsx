@@ -44,4 +44,6 @@ export const TabContextProvider: FC<TabsContextProps> = ({
     );
 };
 
+TabContext.displayName = "TabContext";
+
 export const useTabContext = getUseContextOrThrowError<TabContextValue>(TabContext);

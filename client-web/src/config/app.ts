@@ -1,4 +1,4 @@
-import { InvalidConfigError } from "@/shared/utils/errors";
+import { IllegalArgumentError } from "@/shared/utils/errors";
 
 const config = {
     appName: process.env.APP_NAME,
@@ -14,7 +14,7 @@ const isAppConfig = (item: unknown): item is AppConfig => item instanceof Object
     && Object.values(item).every((value) => value !== undefined);
 
 if (!isAppConfig(config)) {
-    throw new InvalidConfigError("Config contains undefined values");
+    throw new IllegalArgumentError("Config must not contain undefined values");
 }
 
 export const appConfig = config;

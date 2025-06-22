@@ -1,6 +1,6 @@
 import Quill from "quill";
 import React, {
-    useEffect, useRef, type MutableRefObject, type FC,
+    useEffect, useRef, memo, type MutableRefObject,
 } from "react";
 import "quill/dist/quill.bubble.css";
 import styled from "styled-components";
@@ -30,7 +30,7 @@ export type EditorProps = Partial<HasClassName> & Pick<Quill["options"], "placeh
     onChange?: (value: string) => void;
 };
 
-export const Editor: FC<EditorProps> = ({
+export const Editor = memo<EditorProps>(({
     className,
     editorRef,
     initialValue = "",
@@ -71,7 +71,7 @@ export const Editor: FC<EditorProps> = ({
     return (
         <EditorStyled className={className} id={CONTAINER_ID} />
     );
-};
+});
 
 // [1]. Omitting placeholder since, as it turns out, there's no non-hacky way to update it without
 // reinitializing the whole editor.

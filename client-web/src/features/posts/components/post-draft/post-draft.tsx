@@ -114,7 +114,7 @@ export const PostDraft: FC = () => {
                     </Skeleton>
 
                     <Skeleton isLoading={isLoading} heightPx={200}>
-                        <DraftEditor initialValue={values.body} />
+                        <DraftEditor initialValue={body} />
                     </Skeleton>
 
                     <Skeleton isLoading={isLoading} heightPx={22} widthPx={300}>

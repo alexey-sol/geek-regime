@@ -2,15 +2,15 @@ import { type Context, useContext } from "react";
 
 import { ContextOutsideProviderError } from "@/shared/utils/errors";
 
-const useCustomContext = <Value>(Ctx: Context<Value | null>): Value | never => {
+const useAppContext = <Value>(Ctx: Context<Value | null>): Value | never => {
     const context = useContext(Ctx);
 
     if (context === null) {
-        throw new ContextOutsideProviderError();
+        throw new ContextOutsideProviderError(Ctx.displayName);
     }
 
     return context;
 };
 
 export const getUseContextOrThrowError = <Value>(Ctx: Context<Value | null>): () => Value | never =>
-    () => useCustomContext<Value>(Ctx);
+    () => useAppContext<Value>(Ctx);

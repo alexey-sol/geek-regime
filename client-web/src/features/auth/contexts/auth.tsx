@@ -15,4 +15,6 @@ export const AuthContextProvider: FC<PropsWithChildren> = ({ children }) => {
     );
 };
 
+AuthContext.displayName = "AuthContext";
+
 export const useAuthContext = getUseContextOrThrowError<UseAuthApiResult>(AuthContext);

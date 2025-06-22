@@ -58,4 +58,6 @@ export const RootCommentContextProvider: FC<RootCommentContextProviderProps> = (
     );
 };
 
+RootCommentContext.displayName = "RootCommentContext";
+
 export const useRootCommentContext = getUseContextOrThrowError(RootCommentContext);

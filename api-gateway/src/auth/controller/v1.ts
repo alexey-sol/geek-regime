@@ -61,6 +61,7 @@ export class AuthControllerV1 {
         res.cookie(ct.AUTH_TOKEN_KEY, accessToken, {
             httpOnly: true,
             maxAge: this.getMaxAge(),
+            sameSite: "strict",
         });
     }
 

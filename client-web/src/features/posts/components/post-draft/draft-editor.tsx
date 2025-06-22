@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useRef } from "react";
+import React, { type FC, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { useFormikContext } from "formik";
 import type Quill from "quill";
@@ -12,7 +12,7 @@ type DraftEditorProps = {
     initialValue?: string;
 };
 
-export const DraftEditor = memo<DraftEditorProps>(({ initialValue }) => {
+export const DraftEditor: FC<DraftEditorProps> = ({ initialValue }) => {
     const editorRef = useRef<Quill>(null);
     const { errors, handleChange } = useFormikContext<CreatePostOnSaveArg>();
     const { t } = useTranslation();
@@ -33,4 +33,4 @@ export const DraftEditor = memo<DraftEditorProps>(({ initialValue }) => {
             {errors?.body && <FieldErrorMessage>{errors?.body}</FieldErrorMessage>}
         </RelativePositionWrapStyled>
     );
-});
+};
