@@ -25,6 +25,7 @@ import java.util.List;
     @Index(columnList = "updated_at")
 })
 @EntityListeners(AuditingEntityListener.class)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Getter
 @Setter
 @Builder
@@ -58,6 +59,7 @@ public class Post {
     @Column(nullable = false, unique = true, columnDefinition = "TEXT")
     @NotEmpty(message = "Slug is required and must not be blank")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @EqualsAndHashCode.Include()
     private String slug;
 
     @Column(name = "created_at", updatable = false)

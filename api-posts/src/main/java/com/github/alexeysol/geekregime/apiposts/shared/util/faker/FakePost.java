@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 @UtilityClass
 public class FakePost {
-    public Post generatePost(int postId, int fakeUserCount) {
+    public Post generatePost(int fakeUserCount) {
         var title = generateTitle();
         var body = FakerUtil.generateHtmlParagraphs();
 
@@ -20,7 +20,7 @@ public class FakePost {
             .title(title)
             .body(body)
             .excerpt(PostDataUtil.generateExcerpt(body))
-            .slug(generateSlug(title, postId))
+            .slug(Slug.generateSlug(title))
             .build();
     }
 
@@ -32,9 +32,5 @@ public class FakePost {
         }
 
         return String.join(FakerConstant.WHITESPACE, paragraphs);
-    }
-
-    private String generateSlug(String title, int postId) {
-        return String.format("%s-%d", Slug.generateSlug(title), postId);
     }
 }

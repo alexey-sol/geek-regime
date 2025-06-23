@@ -18,6 +18,7 @@ import java.util.List;
     @Index(columnList = "slug", unique = true),
 })
 @EntityListeners(AuditingEntityListener.class)
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 @Getter
 @Setter
 @Builder
@@ -39,6 +40,7 @@ public class Space {
     @Column(nullable = false, unique = true, columnDefinition = "TEXT")
     @NotEmpty(message = "Slug is required and must not be blank")
     @JsonProperty(access = JsonProperty.Access.READ_ONLY)
+    @EqualsAndHashCode.Include()
     private String slug;
 
     @Column(name = "is_official")

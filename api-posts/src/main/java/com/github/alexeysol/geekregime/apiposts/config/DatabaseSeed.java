@@ -51,6 +51,7 @@ public class DatabaseSeed {
 
     private final EntityManager entityManager;
     private final DataSource dataSource;
+    private final List<Post> posts = new ArrayList<>();
     private final List<Space> spaces = new ArrayList<>();
     private final List<Instant> createdAtList = new ArrayList<>();
     private final List<Instant> updatedAtList = new ArrayList<>();
@@ -66,7 +67,7 @@ public class DatabaseSeed {
         Assert.notNull(dataSource, DATA_SOURCE_NOT_INITIALIZED);
 
         for (int spaceId = INITIAL_ENTITY_ID; spaceId <= fakeSpaceCount; spaceId++) {
-            insertSpace(spaceId);
+            insertSpace();
         }
 
         for (int postId = INITIAL_ENTITY_ID; postId <= fakePostCount; postId++) {
@@ -80,18 +81,23 @@ public class DatabaseSeed {
         }
     }
 
-    private void insertSpace(int spaceId) {
-        var space = FakeSpace.generateSpace(spaceId);
+    private void insertSpace() {
+        var space = FakeSpace.generateSpace();
 
-        entityManager.persist(space);
+        if (spaces.contains(space)) {
+            insertSpace();
+            return;
+        }
 
         spaces.add(space);
+
+        entityManager.persist(space);
     }
 
     private void insertPostWithRelatedData(int postId) {
         initializePostState(postId);
 
-        var post = insertPost(postId);
+        var post = insertPost();
 
         insertComments(post);
 
@@ -110,8 +116,15 @@ public class DatabaseSeed {
         mapPostIdToCommentCount.put(postId, 0L);
     }
 
-    private Post insertPost(int postId) {
-        var post = FakePost.generatePost(postId, fakeUserCount);
+    private Post insertPost() {
+        var post = FakePost.generatePost(fakeUserCount);
+
+        if (posts.contains(post)) {
+            return insertPost();
+        }
+
+        posts.add(post);
+
         var postSpaceCount = FakerUtil.getRandomNumber(MIN_POST_SPACE_COUNT, MAX_POST_SPACE_COUNT);
         post.setSpaces(CollectionUtil.randomSubList(spaces, postSpaceCount));
 
