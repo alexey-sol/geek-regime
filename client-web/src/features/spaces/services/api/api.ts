@@ -2,6 +2,8 @@ import { resources } from "@eggziom/geek-regime-js-commons";
 
 import { type SpacePageResponse, type SpaceResponse } from "@/features/spaces/models/dtos";
 import { appApi } from "@/app/store/api";
+import { mergePageContent } from "@/shared/utils/api";
+import { type HasPagingQueryParams } from "@/shared/types";
 
 import { provideTags } from "./utils";
 import * as cn from "./const";
@@ -22,6 +24,16 @@ export const spacesApi = appApiWithTag.injectEndpoints({
             }),
             providesTags: (result) => provideTags(result?.content),
         }),
+        getAllMergedSpaces: builder.query<SpacePageResponse, HasPagingQueryParams>({
+            query: (arg) => ({
+                params: arg?.params ?? undefined,
+                url: `/v1/${SPACES}`,
+            }),
+            merge: mergePageContent,
+            providesTags: (result) => provideTags(result?.content),
+            serializeQueryArgs: ({ endpointName }) => `${endpointName}`,
+            forceRefetch: ({ currentArg, previousArg }) => currentArg !== previousArg,
+        }),
         getSpaceBySlug: builder.query<SpaceResponse, tp.GetSpaceBySlugArg>({
             query: (slug) => `/v1/${SPACES}/${slug}`,
         }),
@@ -30,5 +42,6 @@ export const spacesApi = appApiWithTag.injectEndpoints({
 
 export const {
     useGetAllSpacesQuery,
+    useGetAllMergedSpacesQuery,
     useGetSpaceBySlugQuery,
 } = spacesApi;

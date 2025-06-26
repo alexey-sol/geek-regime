@@ -6,5 +6,6 @@ export class Space {
         public postCount: number,
         public description?: string,
         public isOfficial = false,
+        public isActive = false,
     ) {}
 }

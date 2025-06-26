@@ -1,10 +1,9 @@
 import React, {
-    type FC, useEffect, useMemo, useRef,
+    type FC, useMemo, useRef,
 } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
 import { Button } from "@eggziom/geek-regime-js-ui-kit";
-import type Quill from "quill";
 import {
     ErrorMessage, Field, Formik, type FormikConfig, type FormikProps, type FieldProps,
 } from "formik";
@@ -14,14 +13,13 @@ import { notify } from "@/app/store/actions";
 import { createSuccessSnackbarArg } from "@/features/feedback/slice/utils";
 import { useAppDispatch } from "@/app/store/hooks";
 import { Skeleton } from "@/shared/components/loaders";
-import { type CreatePostOnSaveArg } from "@/features/posts/utils/hooks/types";
-import { type SaveSpaceRequest } from "@/features/spaces/models/dtos";
-import { type Space } from "@/features/spaces/models/entities";
 import { getPostSchema } from "@/features/posts/utils/validation/schemas";
+import { toSaveSpaceRequestList } from "@/features/spaces/utils/converters";
 
 import { DraftEditor } from "./draft-editor";
-import { handleTitleKeyDown, omitBlankSpace } from "./utils";
+import { createSpaceValues, handleTitleKeyDown, pickActiveSpaces } from "./utils";
 import { DraftSpaceList } from "./draft-space-list";
+import { type SavePostValues } from "./types";
 import {
     ControlsWrapStyled,
     FieldErrorMessageStyled,
@@ -29,13 +27,10 @@ import {
     RelativePositionWrapStyled,
     TitleInputStyled,
 } from "./style";
-import { BLANK_SPACE } from "./const";
-
-const DEFAULT_SPACES: (SaveSpaceRequest & Pick<Space, "isOfficial">)[] = [];
+import { DEFAULT_SPACES, MAX_SPACE_COUNT } from "./const";
 
 export const PostDraft: FC = () => {
-    const formRef = useRef<FormikProps<CreatePostOnSaveArg>>(null);
-    const editorRef = useRef<Quill>(null);
+    const formRef = useRef<FormikProps<SavePostValues>>(null);
     const navigate = useNavigate();
     const dispatch = useAppDispatch();
     const { pending, post, savePost } = useActivePost();
@@ -46,21 +41,27 @@ export const PostDraft: FC = () => {
     const goBack = () => navigate(-1);
 
     const { body = "", spaces = DEFAULT_SPACES, title = "" } = post ?? {};
-    const initialValues: CreatePostOnSaveArg = useMemo(() => ({
+    const initialValues: SavePostValues = useMemo(() => ({
         body,
-        spaces: [BLANK_SPACE, ...spaces],
+        spaces: createSpaceValues(spaces),
         title,
     }), [body, spaces, title]);
 
-    const handleSubmit: FormikConfig<CreatePostOnSaveArg>["onSubmit"] = (values) => {
-        const normValues = {
+    const handleSubmit: FormikConfig<SavePostValues>["onSubmit"] = (values) => {
+        const mappedValues = {
             ...values,
-            spaces: omitBlankSpace(values.spaces),
+            spaces: toSaveSpaceRequestList(pickActiveSpaces(values.spaces)),
         };
+
+        const isValid = mappedValues.spaces.length <= MAX_SPACE_COUNT;
+
+        if (!isValid) {
+            return;
+        }
 
         try {
             savePost(
-                normValues,
+                mappedValues,
                 () => dispatch(notify(createSuccessSnackbarArg(t("posts.query.update.success")))),
             );
         } catch (error) {
@@ -72,68 +73,54 @@ export const PostDraft: FC = () => {
         ? t("posts.draft.actions.updatePostButton.title")
         : t("posts.draft.actions.createPostButton.title");
 
-    useEffect(() => {
-        const focusOnDraftBodyIfPossible = () => {
-            if (editorRef.current) {
-                const index = editorRef.current.getText().length;
-
-                editorRef.current.setSelection(index);
-            }
-        };
-
-        focusOnDraftBodyIfPossible();
-    }, []);
-
     return (
-        <Formik<CreatePostOnSaveArg>
+        <Formik<SavePostValues>
             enableReinitialize
             innerRef={formRef}
             initialValues={initialValues}
             onSubmit={handleSubmit}
             validationSchema={getPostSchema()}
         >
-            {({ values }) => (
-                <PostDraftFormStyled>
-                    <Skeleton isLoading={isLoading} heightPx={46}>
-                        <RelativePositionWrapStyled>
-                            <Field name="title">
-                                {({ field }: FieldProps<string>) => (
-                                    <TitleInputStyled
-                                        onKeyDown={handleTitleKeyDown}
-                                        placeholder={t("posts.draft.title.placeholder")}
-                                        type="text"
-                                        {...field}
-                                    />
-                                )}
-                            </Field>
+            <PostDraftFormStyled>
+                <Skeleton isLoading={isLoading} heightPx={46}>
+                    <RelativePositionWrapStyled>
+                        <Field name="title">
+                            {({ field }: FieldProps<string>) => (
+                                <TitleInputStyled
+                                    onKeyDown={handleTitleKeyDown}
+                                    placeholder={t("posts.draft.title.placeholder")}
+                                    type="text"
+                                    {...field}
+                                />
+                            )}
+                        </Field>
 
-                            <ErrorMessage name="title">
-                                {(errorMessage) => <FieldErrorMessageStyled>{errorMessage}</FieldErrorMessageStyled>}
-                            </ErrorMessage>
-                        </RelativePositionWrapStyled>
-                    </Skeleton>
+                        <ErrorMessage name="title">
+                            {(errorMessage) => <FieldErrorMessageStyled>{errorMessage}</FieldErrorMessageStyled>}
+                        </ErrorMessage>
+                    </RelativePositionWrapStyled>
+                </Skeleton>
 
-                    <Skeleton isLoading={isLoading} heightPx={200}>
-                        <DraftEditor initialValue={body} />
-                    </Skeleton>
+                <Skeleton isLoading={isLoading} heightPx={200}>
+                    <DraftEditor initialValue={body} />
+                </Skeleton>
 
-                    <Skeleton isLoading={isLoading} heightPx={22} widthPx={300}>
-                        <DraftSpaceList />
-                    </Skeleton>
+                <Skeleton isLoading={isLoading} heightPx={22}>
+                    <DraftSpaceList />
+                </Skeleton>
 
-                    <Skeleton isLoading={isLoading} heightPx={36} widthPx={180}>
-                        <ControlsWrapStyled>
-                            <Button disabled={isLoading} type="submit" view="secondary">
-                                {savePostButtonTitle}
-                            </Button>
+                <Skeleton isLoading={isLoading} heightPx={36} widthPx={180}>
+                    <ControlsWrapStyled>
+                        <Button disabled={isLoading} type="submit" view="secondary">
+                            {savePostButtonTitle}
+                        </Button>
 
-                            <Button disabled={isLoading} onClick={goBack}>
-                                {t("posts.draft.actions.cancelButton.title")}
-                            </Button>
-                        </ControlsWrapStyled>
-                    </Skeleton>
-                </PostDraftFormStyled>
-            )}
+                        <Button disabled={isLoading} onClick={goBack}>
+                            {t("posts.draft.actions.cancelButton.title")}
+                        </Button>
+                    </ControlsWrapStyled>
+                </Skeleton>
+            </PostDraftFormStyled>
         </Formik>
     );
 };

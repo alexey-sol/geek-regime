@@ -1,13 +1,7 @@
-import styled, { css } from "styled-components";
+import styled from "styled-components";
 import { type HasColor } from "@eggziom/geek-regime-js-ui-kit";
 
-type GetColorMixArg = HasColor & {
-    transparency: number;
-};
-
-const getColorMix = ({ color, transparency }: GetColorMixArg) => css`
-    color-mix(in srgb, ${({ theme }) => theme.colors[color]}, transparent ${transparency}%);
-`;
+import { mixins } from "@/app/style/mixins";
 
 export const SpaceOverviewStyled = styled.section<HasColor>`
     display: flex;
@@ -21,10 +15,10 @@ export const SpaceOverviewStyled = styled.section<HasColor>`
     border-radius: 0.5rem;
     word-break: break-word;
     transition: background ${({ theme }) => theme.durations.fast} ease;
-    background: ${({ color }) => getColorMix({ color, transparency: 85 })};
+    background: ${({ color }) => mixins.getColorMix(color, 85)};
 
     &:hover {
-        background: ${({ color }) => getColorMix({ color, transparency: 75 })};
+        background: ${({ color }) => mixins.getColorMix(color, 75)};
     }
 `;
 

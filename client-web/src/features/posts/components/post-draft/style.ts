@@ -8,7 +8,7 @@ import { FieldErrorMessage } from "@/shared/components/typography";
 export const PostDraftFormStyled = styled(Form)`
     position: relative;
     display: grid;
-    grid-template-rows: auto 1fr auto;
+    grid-template-rows: auto minmax(60vh, 1fr) auto auto;;
     width: 100%;
     height: 100%;
     row-gap: 2rem;
@@ -28,7 +28,7 @@ export const RelativePositionWrapStyled = styled.section`
     position: relative;
 `;
 
-export const PostEditorStyled = styled(Editor)`
+export const DraftEditorStyled = styled(Editor)`
     position: absolute;
     top: 0;
     bottom: 0;
@@ -41,6 +41,10 @@ export const ControlsWrapStyled = styled.section`
     gap: 1rem;
 `;
 
+export const FieldErrorMessageStyled = styled(FieldErrorMessage)`
+    position: absolute;
+`;
+
 export const TagInputStyled = styled.input`
     border: none;
     background: none;
@@ -51,8 +55,4 @@ export const DraftSpaceListStyled = styled.ul`
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-`;
-
-export const FieldErrorMessageStyled = styled(FieldErrorMessage)`
-    position: absolute;
 `;

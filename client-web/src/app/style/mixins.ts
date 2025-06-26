@@ -1,5 +1,5 @@
 import { css } from "styled-components";
-import { baseMixins } from "@eggziom/geek-regime-js-ui-kit";
+import { baseMixins, type Color } from "@eggziom/geek-regime-js-ui-kit";
 
 const LAYOUT_ROW_INNER_PADDING_X = "3rem";
 
@@ -16,5 +16,8 @@ export const mixins = {
     getEditorBorder: () => css`
         border: 1px solid ${({ theme }) => theme.colors.grey};
         border-radius: 0.25rem;
+    `,
+    getColorMix: (color: Color, transparency: number) => css`
+        color-mix(in srgb, ${({ theme }) => theme.colors[color]}, transparent ${transparency}%);
     `,
 } as const;

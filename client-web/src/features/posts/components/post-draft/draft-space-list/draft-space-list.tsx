@@ -1,0 +1,126 @@
+import React, {
+    type FC, Fragment, useCallback, useEffect, useMemo, useRef, useState,
+} from "react";
+import { useTranslation } from "react-i18next";
+import { FieldArray, type FieldArrayRenderProps, useFormikContext } from "formik";
+import { LinkButton, LinkButtonProps } from "@eggziom/geek-regime-js-ui-kit";
+
+import { Tag } from "@/shared/components/tag";
+import { useGetAllMergedSpacesQuery } from "@/features/spaces/services/api";
+import { toSpaceList } from "@/features/spaces/utils/converters";
+import { defaults } from "@/shared/const";
+import { type Space } from "@/features/spaces/models/entities";
+import { mapPagingQueryParams } from "@/shared/utils/api";
+import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
+import { Skeleton } from "@/shared/components/loaders";
+
+import { type SavePostValues } from "../types";
+import { DraftSpaceListStyled } from "../style";
+import { BLANK_SPACE_INDEX, DEFAULT_SPACES, MAX_SPACE_COUNT } from "../const";
+import { createSpaceValues, pickActiveSpaces, toActiveSpaceList } from "../utils";
+
+import { AppendSpaceField, SpaceField } from "./fields";
+
+export const DraftSpaceList: FC = () => {
+    const allSpacesRef = useRef<Partial<Space>[]>(DEFAULT_SPACES);
+    const arrayHelpersRef = useRef<FieldArrayRenderProps>();
+
+    const { t } = useTranslation();
+    const { values, setFieldValue } = useFormikContext<SavePostValues>();
+    const [page, setPage] = useState(defaults.START_PAGE);
+    const { post } = useActivePost();
+
+    const spacesToMakeActive = post?.spaces ?? DEFAULT_SPACES;
+
+    const onLoadMore = useCallback<NonNullable<LinkButtonProps["onClick"]>>((event) => {
+        event.preventDefault();
+        setPage(page + 1);
+    }, [page]);
+
+    const params = mapPagingQueryParams({ page });
+
+    const { isLoadingSpaces, spaces, totalElements } = useGetAllMergedSpacesQuery({ params }, {
+        selectFromResult: ({ data, isLoading }) => ({
+            isLoadingSpaces: isLoading,
+            spaces: toSpaceList(data?.content ?? []),
+            totalElements: data?.totalElements ?? 0,
+        }),
+    });
+
+    allSpacesRef.current = useMemo(() => createSpaceValues([
+        ...toActiveSpaceList(spacesToMakeActive),
+        ...values.spaces,
+        ...spaces,
+    ]), [spacesToMakeActive, spaces, values.spaces]);
+
+    useEffect(() => {
+        setFieldValue("spaces", allSpacesRef.current, false);
+    }, [setFieldValue, allSpacesRef.current.length]);
+
+    const hasMore = spaces.length < totalElements;
+
+    const toggleSpace = (space: Partial<Space>, index: number) => {
+        const activeSpaces = pickActiveSpaces(values.spaces);
+        const isCapped = !space.isActive && activeSpaces.length >= MAX_SPACE_COUNT;
+
+        if (isCapped) {
+            return;
+        }
+
+        const toggledSpace: Partial<Space> = {
+            ...space,
+            isActive: !space.isActive,
+        };
+
+        arrayHelpersRef.current?.replace(index, toggledSpace);
+    };
+
+    return (
+        <Skeleton isLoading={isLoadingSpaces} heightPx={22}>
+            <FieldArray name="spaces">
+                {(helpers) => {
+                    arrayHelpersRef.current = helpers;
+
+                    return (
+                        <DraftSpaceListStyled>
+                            {!!values.spaces?.length && values.spaces.map((space, index) => (
+                            // eslint-disable-next-line react/no-array-index-key
+                                <Fragment key={index}>
+                                    {index === BLANK_SPACE_INDEX
+                                        ? (
+                                            <li>
+                                                <AppendSpaceField
+                                                    index={index}
+                                                    replace={helpers.replace}
+                                                    unshift={helpers.unshift}
+                                                />
+                                            </li>
+                                        )
+                                        : (
+                                            <li>
+                                                <SpaceField
+                                                    index={index}
+                                                    space={space}
+                                                    onClick={() => toggleSpace(space, index)}
+                                                />
+                                            </li>
+                                        )}
+                                </Fragment>
+                            ))}
+
+                            {hasMore && (
+                                <li>
+                                    <LinkButton onClick={onLoadMore} view="plain">
+                                        <Tag color="greyLighten">
+                                            {t("spaces.list.actions.showMoreButton.title")}
+                                        </Tag>
+                                    </LinkButton>
+                                </li>
+                            )}
+                        </DraftSpaceListStyled>
+                    );
+                }}
+            </FieldArray>
+        </Skeleton>
+    );
+};
