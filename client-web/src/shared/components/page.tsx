@@ -2,8 +2,8 @@ import React, { type FC, type PropsWithChildren } from "react";
 import styled from "styled-components";
 
 import { Paging } from "@/shared/components/paging";
-import type { PagingOptions } from "@/shared/types";
-import type { UsePagingDataArg } from "@/shared/components/paging/types";
+import { type PagingOptions } from "@/shared/types";
+import { type UsePagingDataArg } from "@/shared/components/paging/types";
 
 export const PageStyled = styled.section`
     display: flex;

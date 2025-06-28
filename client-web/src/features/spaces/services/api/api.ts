@@ -3,7 +3,6 @@ import { resources } from "@eggziom/geek-regime-js-commons";
 import { type SpacePageResponse, type SpaceResponse } from "@/features/spaces/models/dtos";
 import { appApi } from "@/app/store/api";
 import { mergePageContent } from "@/shared/utils/api";
-import { type HasPagingQueryParams } from "@/shared/types";
 
 import { provideTags } from "./utils";
 import * as cn from "./const";
@@ -24,14 +23,15 @@ export const spacesApi = appApiWithTag.injectEndpoints({
             }),
             providesTags: (result) => provideTags(result?.content),
         }),
-        getAllMergedSpaces: builder.query<SpacePageResponse, HasPagingQueryParams>({
+        getAllMergedSpaces: builder.query<SpacePageResponse, tp.GetAllMergedSpacesArg>({
             query: (arg) => ({
                 params: arg?.params ?? undefined,
                 url: `/v1/${SPACES}`,
             }),
             merge: mergePageContent,
             providesTags: (result) => provideTags(result?.content),
-            serializeQueryArgs: ({ endpointName }) => `${endpointName}`,
+            serializeQueryArgs: ({ endpointName, queryArgs }) =>
+                `${endpointName}${queryArgs.meta?.locationKey ?? ""}`,
             forceRefetch: ({ currentArg, previousArg }) => currentArg !== previousArg,
         }),
         getSpaceBySlug: builder.query<SpaceResponse, tp.GetSpaceBySlugArg>({

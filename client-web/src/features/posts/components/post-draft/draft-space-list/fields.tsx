@@ -6,16 +6,18 @@ import {
 
 import { AddItemIconButton } from "@/shared/components/icon-button";
 import { FieldErrorMessage } from "@/shared/components/typography";
-import { Tooltip } from "@/shared/components/tooltip";
 import { hasTitle } from "@/shared/utils/guards";
 import { TagStyled } from "@/shared/components/tag";
 import { SpaceTag } from "@/features/spaces/components/tag";
 import { type Space } from "@/features/spaces/models/entities";
+import { normalizeString } from "@/shared/utils/helpers/string";
 
 import { type SavePostValues } from "../types";
-import { RelativePositionWrapStyled, TagInputStyled } from "../style";
-import { BLANK_SPACE, BLANK_SPACE_INDEX, MAX_SPACE_COUNT } from "../const";
+import { RelativePositionWrapStyled } from "../style";
+import { BLANK_SPACE, BLANK_SPACE_INDEX } from "../const";
 import { omitBlankSpace } from "../utils";
+
+import { TagInputStyled } from "./style";
 
 type AppendSpaceFieldProps = Pick<ArrayHelpers, "replace" | "unshift"> & {
     index: number;
@@ -27,14 +29,14 @@ export const AppendSpaceField: FC<AppendSpaceFieldProps> = ({ index, replace, un
 
     const spaceError = errors?.spaces?.[BLANK_SPACE_INDEX];
     const spaceErrorMessage = hasTitle(spaceError) && spaceError.title;
-    const tagInputTooltip = `${t("posts.post.spaces.input.tooltip")}: ${MAX_SPACE_COUNT}`;
 
     const isValidSpaceTitle = (spaceTitle: string) => {
         const spacesToPersist = omitBlankSpace(values.spaces);
 
         return (
             !!spaceTitle
-            && !spacesToPersist.find(({ title }) => spaceTitle === title)
+            && !spacesToPersist.find(({ title }) =>
+                normalizeString(spaceTitle) === normalizeString(title))
             && !errors.spaces
         );
     };
@@ -59,30 +61,28 @@ export const AppendSpaceField: FC<AppendSpaceFieldProps> = ({ index, replace, un
         <RelativePositionWrapStyled>
             <Field name={`spaces.${index}.title`}>
                 {({ field }: FieldProps<string>) => (
-                    <Tooltip message={tagInputTooltip}>
-                        <TagStyled color="greyLighten">
-                            <TagInputStyled
-                                {...field}
-                                autoComplete="off"
-                                placeholder={t("posts.post.spaces.input.placeholder")}
-                                onKeyDown={(event) => {
-                                    if (event.key === "Enter") {
-                                        event.preventDefault();
-                                        appendSpace(field.value);
-                                    }
-                                }}
-                            />
-
-                            <AddItemIconButton
-                                disabled
-                                fontSize="xxs"
-                                onClick={(event) => {
+                    <TagStyled color="greyLighten">
+                        <TagInputStyled
+                            {...field}
+                            autoComplete="off"
+                            placeholder={t("posts.post.spaces.input.placeholder")}
+                            onKeyDown={(event) => {
+                                if (event.key === "Enter") {
                                     event.preventDefault();
                                     appendSpace(field.value);
-                                }}
-                            />
-                        </TagStyled>
-                    </Tooltip>
+                                }
+                            }}
+                        />
+
+                        <AddItemIconButton
+                            disabled
+                            fontSize="xxs"
+                            onClick={(event) => {
+                                event.preventDefault();
+                                appendSpace(field.value);
+                            }}
+                        />
+                    </TagStyled>
                 )}
             </Field>
 

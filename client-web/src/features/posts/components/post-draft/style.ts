@@ -44,15 +44,3 @@ export const ControlsWrapStyled = styled.section`
 export const FieldErrorMessageStyled = styled(FieldErrorMessage)`
     position: absolute;
 `;
-
-export const TagInputStyled = styled.input`
-    border: none;
-    background: none;
-    outline: none;
-`;
-
-export const DraftSpaceListStyled = styled.ul`
-    display: flex;
-    flex-wrap: wrap;
-    gap: 0.5rem;
-`;

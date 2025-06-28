@@ -108,12 +108,15 @@ export const en = {
             },
             rating: "Rating",
             spaces: {
+                footer: {
+                    text: "No tag duplicates. If a newly added tag already exists, it's going to "
+                        + "be merged with the existing one. Max tag count to select",
+                },
                 input: {
                     placeholder: "A tag to add",
                     submitButton: {
                         tooltip: "Add",
                     },
-                    tooltip: "No duplicates. Max tag count",
                 },
             },
             updatedAt: "Updated at",
@@ -232,12 +235,15 @@ export const ru = {
             },
             rating: "Рейтинг",
             spaces: {
+                footer: {
+                    text: "Тэги-дубликаты недопустимы. Если такой добавленный тэг уже существует, "
+                        + "он будет смержен с существующим. Макс. число тэгов для выбора",
+                },
                 input: {
                     placeholder: "Добавить тэг",
                     submitButton: {
                         tooltip: "Добавить",
                     },
-                    tooltip: "Дубликаты недопустимы. Макс. число тэгов",
                 },
             },
             updatedAt: "Обновлено",

@@ -2,6 +2,7 @@ import { type KeyboardEventHandler } from "react";
 
 import { type Space } from "@/features/spaces/models/entities";
 import { BLANK_SPACE } from "@/features/posts/components/post-draft/const";
+import { normalizeString } from "@/shared/utils/helpers/string";
 
 export const handleTitleKeyDown: KeyboardEventHandler<HTMLInputElement> = (event) => {
     if (event.key === "Enter") {
@@ -11,7 +12,7 @@ export const handleTitleKeyDown: KeyboardEventHandler<HTMLInputElement> = (event
 
 const filterDuplicateSpaces = (spaces: Partial<Space>[]): Partial<Space>[] =>
     spaces.filter((a, index, array) =>
-        array.findIndex((b) => (b.title?.trim() === a.title?.trim())) === index);
+        array.findIndex((b) => (normalizeString(a.title) === normalizeString(b.title))) === index);
 
 export const createSpaceValues = (spaces: Partial<Space>[]): Partial<Space>[] =>
     filterDuplicateSpaces([BLANK_SPACE, ...spaces]);
