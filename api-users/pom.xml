@@ -274,11 +274,14 @@
                                 <typeMapping>UserDetails=com.github.alexeysol.geekregime.apicommons.generated.model.UserDetails</typeMapping>
                                 <typeMapping>UserMeta=com.github.alexeysol.geekregime.apicommons.generated.model.UserMeta</typeMapping>
                                 <typeMapping>IdResponse=com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse</typeMapping>
+                                <typeMapping>EmailConfirmationResponse=com.github.alexeysol.geekregime.apicommons.generated.model.EmailConfirmationResponse</typeMapping>
                                 <typeMapping>AuthenticateRequest=com.github.alexeysol.geekregime.apicommons.generated.model.AuthenticateRequest</typeMapping>
                                 <typeMapping>CreateUserRequest=com.github.alexeysol.geekregime.apicommons.generated.model.CreateUserRequest</typeMapping>
                                 <typeMapping>CreateUserDetails=com.github.alexeysol.geekregime.apicommons.generated.model.CreateUserDetails</typeMapping>
                                 <typeMapping>UpdateUserRequest=com.github.alexeysol.geekregime.apicommons.generated.model.UpdateUserRequest</typeMapping>
                                 <typeMapping>UpdateUserDetails=com.github.alexeysol.geekregime.apicommons.generated.model.UpdateUserDetails</typeMapping>
+                                <typeMapping>CreateEmailConfirmationRequest=com.github.alexeysol.geekregime.apicommons.generated.model.CreateEmailConfirmationRequest</typeMapping>
+                                <typeMapping>ConfirmEmailRequest=com.github.alexeysol.geekregime.apicommons.generated.model.ConfirmEmailRequest</typeMapping>
                                 <typeMapping>LocalDate=java.util.Date</typeMapping>
                                 <typeMapping>OffsetDateTime=java.util.Date</typeMapping>
                             </typeMappings>

@@ -24,6 +24,40 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/UserResponse"
+  /users/confirmation/email:
+    post:
+      summary: Create email confirmation code for user by email
+      operationId: createEmailConfirmation
+      tags:
+        - user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CreateEmailConfirmationRequest"
+      responses:
+        200:
+          description: The email confirmation code
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmailConfirmationResponse"
+    patch:
+      summary: Confirm email
+      operationId: confirmEmail
+      tags:
+        - user
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/ConfirmEmailRequest"
+      responses:
+        204:
+          description: Empty response
+          content: {}
   /users:
     get:
       summary: Find all users
@@ -186,5 +220,11 @@ components:
       type: UpdateUserRequest
     AuthenticateRequest:
       type: AuthenticateRequest
+    CreateEmailConfirmationRequest:
+      type: CreateEmailConfirmationRequest
+    ConfirmEmailRequest:
+      type: ConfirmEmailRequest
     IdResponse:
       type: IdResponse
+    EmailConfirmationResponse:
+      type: EmailConfirmationResponse

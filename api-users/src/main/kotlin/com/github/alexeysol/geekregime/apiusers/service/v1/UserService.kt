@@ -110,4 +110,8 @@ class UserService(
         val s3BaseUrl = cloudObjectStorage.getBaseUrl(S3_BUCKET_NAME)
         return url.substringAfterLast("$s3BaseUrl/", "")
     }
+
+    fun removeEmailConfirmationCode(userId: Long, code: String) {
+        repository.removeEmailConfirmationCode(userId, code)
+    }
 }

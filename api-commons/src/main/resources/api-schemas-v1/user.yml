@@ -71,6 +71,13 @@ components:
       properties:
         hasCredentials:
           type: boolean
+        hasConfirmedEmail:
+          type: boolean
+    EmailConfirmationResponse:
+      type: object
+      properties:
+        code:
+          type: string
     # Request DTOs:
     CreateUserRequest:
       type: object
@@ -155,6 +162,25 @@ components:
         password:
           type: string
           minLength: 1
+    HasDisableEmailConfirmation:
+      type: object
+      properties:
+        disableEmailConfirmation:
+          type: boolean
+    CreateEmailConfirmationRequest:
+      type: object
+      properties:
+        email:
+          type: string
+          format: email
+    ConfirmEmailRequest:
+      type: object
+      properties:
+        code:
+          type: string
+        email:
+          type: string
+          format: email
     # Refs:
     Page:
       type: Page

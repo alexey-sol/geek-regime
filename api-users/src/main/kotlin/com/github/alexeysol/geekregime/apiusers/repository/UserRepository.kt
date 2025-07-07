@@ -61,4 +61,9 @@ interface UserRepository : SearchableRepository<User, Long> {
     @Transactional
     @Modifying
     fun updateLastSeenAtByUserId(id: Long, lastSeenAt: Date)
+
+    @Query("DELETE FROM Codes c WHERE c.userId = :userId AND c.emailConfirmation = :code")
+    @Transactional
+    @Modifying
+    fun removeEmailConfirmationCode(userId: Long, code: String)
 }

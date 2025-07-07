@@ -1,6 +1,7 @@
 package com.github.alexeysol.geekregime.apiusers.mapper
 
 import com.github.alexeysol.geekregime.apicommons.generated.model.CreateUserRequest
+import com.github.alexeysol.geekregime.apicommons.generated.model.EmailConfirmationResponse
 import com.github.alexeysol.geekregime.apicommons.generated.model.UpdateUserRequest
 import com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse
 import com.github.alexeysol.geekregime.apicommons.generated.model.UserMeta
@@ -12,7 +13,7 @@ import com.github.alexeysol.geekregime.apiusers.service.v1.UserService
 import com.github.alexeysol.geekregime.apiusers.util.SecurityUtil
 import org.modelmapper.ModelMapper
 import org.springframework.stereotype.Component
-import java.util.Objects
+import java.util.*
 
 const val EMAIL_DELIMITER = "@"
 
@@ -33,6 +34,7 @@ class UserMapper(
 
     private fun createMeta(user: User): UserMeta = UserMeta.builder()
         .hasCredentials(Objects.nonNull(user.credentials))
+        .hasConfirmedEmail(Objects.isNull(user.codes?.emailConfirmation))
         .build()
 
     fun toUser(request: CreateUserRequest): User {
@@ -65,6 +67,8 @@ class UserMapper(
     }
 
     fun toIdResponse(id: Long): IdResponse = IdResponse(id)
+
+    fun toEmailConfirmationResponse(code: String): EmailConfirmationResponse = EmailConfirmationResponse(code)
 
     private fun generateSlug(email: String): String {
         val username = email.split(EMAIL_DELIMITER)[0]

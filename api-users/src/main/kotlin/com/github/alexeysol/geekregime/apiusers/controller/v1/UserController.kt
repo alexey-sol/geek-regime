@@ -14,6 +14,7 @@ import com.github.alexeysol.geekregime.apiusers.constant.UserConstant.SEARCHABLE
 import com.github.alexeysol.geekregime.apiusers.constant.UserConstant.SLUG_FIELD
 import com.github.alexeysol.geekregime.apiusers.generated.api.UserApi
 import com.github.alexeysol.geekregime.apiusers.mapper.UserMapper
+import com.github.alexeysol.geekregime.apiusers.model.entity.Codes
 import com.github.alexeysol.geekregime.apiusers.service.v1.UserService
 import com.github.alexeysol.geekregime.apiusers.util.assertPassword
 import com.github.alexeysol.geekregime.apiusers.util.assertPasswordsMatchIfNeeded
@@ -26,6 +27,7 @@ import org.springframework.validation.annotation.Validated
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.multipart.MultipartFile
 import java.io.File
+import java.util.*
 import javax.validation.ConstraintViolationException
 
 @RestController
@@ -104,6 +106,32 @@ class UserController(val service: UserService, val mapper: UserMapper) : UserApi
         val response = mapper.toUserResponse(createdUser)
 
         return ResponseEntity(response, HttpStatus.OK)
+    }
+
+    override fun createEmailConfirmation(request: CreateEmailConfirmationRequest): ResponseEntity<EmailConfirmationResponse> {
+        val user = service.findUserByEmail(request.email)
+            ?: throw ResourceException(ErrorCode.ABSENT, EMAIL_FIELD)
+
+        val code = generateUuid()
+        user.codes = Codes(code, user)
+        service.saveUser(user)
+
+        val response = mapper.toEmailConfirmationResponse(code)
+
+        return ResponseEntity(response, HttpStatus.OK)
+    }
+
+    private fun generateUuid() = UUID.randomUUID().toString()
+
+    override fun confirmEmail(request: ConfirmEmailRequest): ResponseEntity<Void> {
+        val user = service.findUserByEmail(request.email)
+            ?: throw ResourceException(ErrorCode.ABSENT, EMAIL_FIELD)
+
+        user.id?.let {
+            service.removeEmailConfirmationCode(it, request.code)
+        }
+
+        return ResponseEntity(HttpStatus.NO_CONTENT)
     }
 
     override fun updateUser(request: UpdateUserRequest, id: Long): ResponseEntity<UserResponse> {

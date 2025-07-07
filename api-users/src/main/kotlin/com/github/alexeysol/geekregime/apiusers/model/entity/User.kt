@@ -55,4 +55,8 @@ data class User(
     @PrimaryKeyJoinColumn
     @OneToOne(mappedBy = "user", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     var credentials: Credentials? = null,
+
+    @PrimaryKeyJoinColumn
+    @OneToOne(mappedBy = "user", cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+    var codes: Codes? = null,
 )

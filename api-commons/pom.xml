@@ -145,7 +145,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/api-schemas-v1/common.yml</inputSpec>
+                            <inputSpec>src/main/resources/api-schemas-v1/common.yml</inputSpec>
                         </configuration>
                     </execution>
                     <execution>
@@ -154,7 +154,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/api-schemas-v1/post.yml</inputSpec>
+                            <inputSpec>src/main/resources/api-schemas-v1/post.yml</inputSpec>
                         </configuration>
                     </execution>
                     <execution>
@@ -163,7 +163,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/api-schemas-v1/post-comment.yml</inputSpec>
+                            <inputSpec>src/main/resources/api-schemas-v1/post-comment.yml</inputSpec>
                         </configuration>
                     </execution>
                     <execution>
@@ -172,7 +172,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/api-schemas-v1/space.yml</inputSpec>
+                            <inputSpec>src/main/resources/api-schemas-v1/space.yml</inputSpec>
                         </configuration>
                     </execution>
                     <execution>
@@ -181,7 +181,7 @@
                             <goal>generate</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/api-schemas-v1/user.yml</inputSpec>
+                            <inputSpec>src/main/resources/api-schemas-v1/user.yml</inputSpec>
                         </configuration>
                     </execution>
                 </executions>
