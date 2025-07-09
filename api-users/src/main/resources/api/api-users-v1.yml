@@ -25,6 +25,24 @@ paths:
               schema:
                 $ref: "#/components/schemas/UserResponse"
   /users/confirmation/email:
+    get:
+      summary: Get email confirmation code by user email
+      operationId: getEmailConfirmationCodeByEmail
+      tags:
+        - user
+      parameters:
+        - name: email
+          in: query
+          description: The email of the user
+          schema:
+            type: string
+      responses:
+        200:
+          description: The email confirmation code
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/EmailConfirmationResponse"
     post:
       summary: Create email confirmation code for user by email
       operationId: createEmailConfirmation

@@ -68,7 +68,7 @@ class UserMapper(
 
     fun toIdResponse(id: Long): IdResponse = IdResponse(id)
 
-    fun toEmailConfirmationResponse(code: String): EmailConfirmationResponse = EmailConfirmationResponse(code)
+    fun toEmailConfirmationResponse(code: String?): EmailConfirmationResponse = EmailConfirmationResponse(code)
 
     private fun generateSlug(email: String): String {
         val username = email.split(EMAIL_DELIMITER)[0]

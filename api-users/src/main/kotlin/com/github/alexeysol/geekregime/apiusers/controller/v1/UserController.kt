@@ -108,6 +108,16 @@ class UserController(val service: UserService, val mapper: UserMapper) : UserApi
         return ResponseEntity(response, HttpStatus.OK)
     }
 
+    override fun getEmailConfirmationCodeByEmail(email: String): ResponseEntity<EmailConfirmationResponse> {
+        val user = service.findUserByEmail(email)
+            ?: throw ResourceException(ErrorCode.ABSENT, EMAIL_FIELD)
+
+        val code = user.codes?.emailConfirmation;
+        val response = mapper.toEmailConfirmationResponse(code)
+
+        return ResponseEntity(response, HttpStatus.OK)
+    }
+
     override fun createEmailConfirmation(request: CreateEmailConfirmationRequest): ResponseEntity<EmailConfirmationResponse> {
         val user = service.findUserByEmail(request.email)
             ?: throw ResourceException(ErrorCode.ABSENT, EMAIL_FIELD)
