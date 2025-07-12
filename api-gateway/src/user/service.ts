@@ -1,19 +1,27 @@
 import { ConfigService } from "@nestjs/config";
 import { HttpService } from "@nestjs/axios";
-import { Injectable } from "@nestjs/common";
+import {Injectable, Logger} from "@nestjs/common";
 import {
     catchError, firstValueFrom, map,
 } from "rxjs";
-import { HasId, resources } from "@eggziom/geek-regime-js-commons";
+import { type HasId, resources } from "@eggziom/geek-regime-js-commons";
 
 import { AppConfig } from "@/config/type";
-import type { AuthenticateRequest, CreateUserRequest, UserResponse } from "@/user/model/dto";
-import type { ResponseDataGetter } from "@/shared/type/api";
+import {
+    type AuthenticateRequest,
+    type CreateEmailConfirmationRequest,
+    type CreateUserRequest,
+    type EmailConfirmationResponse,
+    type ConfirmEmailRequest,
+    type UserResponse,
+} from "@/user/model/dto";
+import { type ResponseDataGetter } from "@/shared/type/api";
 
 import { getUsersApiPath } from "./api";
 
 @Injectable()
 export class UsersService {
+    private readonly logger = new Logger(UsersService.name);
     private readonly apiPath: string;
 
     constructor(
@@ -30,10 +38,50 @@ export class UsersService {
                 .post(this.apiPath, request)
                 .pipe(this.getData<UserResponse>())
                 .pipe(catchError((error) => {
+                    this.logger.error(error);
                     throw error;
                 })),
         );
     }
+
+    async getEmailConfirmationCodeByEmail(email: string): Promise<EmailConfirmationResponse> {
+        return firstValueFrom(
+            this.httpService
+                .get(this.emailConfirmationApiPath(), {
+                    params: { email },
+                })
+                .pipe(this.getData<EmailConfirmationResponse>())
+                .pipe(catchError((error) => {
+                    this.logger.error(error);
+                    throw error;
+                })),
+        );
+    }
+
+    async createEmailConfirmation(request: CreateEmailConfirmationRequest): Promise<EmailConfirmationResponse> {
+        return firstValueFrom(
+            this.httpService
+                .post(this.emailConfirmationApiPath(), request)
+                .pipe(this.getData<EmailConfirmationResponse>())
+                .pipe(catchError((error) => {
+                    this.logger.error(error);
+                    throw error;
+                })),
+        );
+    }
+
+    async confirmEmail(request: ConfirmEmailRequest): Promise<void> {
+        await firstValueFrom(
+            this.httpService
+                .patch(this.emailConfirmationApiPath(), request)
+                .pipe(catchError((error) => {
+                    this.logger.error(error);
+                    throw error;
+                })),
+        );
+    }
+
+    private emailConfirmationApiPath = () => `${this.apiPath}/${resources.CONFIRMATION}/email`;
 
     async findUserById(id: HasId["id"]): Promise<UserResponse> {
         return firstValueFrom(
@@ -41,6 +89,7 @@ export class UsersService {
                 .get(this.findUserByIdApiPath(id))
                 .pipe(this.getData<UserResponse>())
                 .pipe(catchError((error) => {
+                    this.logger.error(error);
                     throw error;
                 })),
         );
@@ -54,6 +103,7 @@ export class UsersService {
                 .get(this.findUserByEmailApiPath(email))
                 .pipe(this.getData<UserResponse>())
                 .pipe(catchError((error) => {
+                    this.logger.error(error);
                     throw error;
                 })),
         );
@@ -69,6 +119,7 @@ export class UsersService {
                 .post(this.getAuthenticateApiPath(), request)
                 .pipe(this.getData<UserResponse>())
                 .pipe(catchError((error) => {
+                    this.logger.error(error);
                     throw error;
                 })),
         );

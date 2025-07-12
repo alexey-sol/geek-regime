@@ -43,7 +43,14 @@ export const clientWebConfig = registerAs(ct.CLIENT_WEB, () => ({
         env.CLIENT_WEB_PORT_EXTERNAL}`,
 }));
 
+export const mailerConfig = registerAs(ct.MAILER, () => ({
+    apiKey: env.MAILER_API_KEY,
+    endpoint: env.MAILER_ENDPOINT,
+    senderEmail: env.MAILER_SENDER_EMAIL,
+}));
+
 export const processConfig = registerAs(ct.PROCESS, () => ({
+    appName: env.APP_NAME,
     env: env.NODE_ENV,
 }));
 
@@ -58,9 +65,10 @@ export const validationPipeConfig = registerAs("validationPipe", () => {
 
 export class AppProxyMiddleware {
     private static readonly TARGET_URL = "http://localhost";
-    private static readonly RESOURCES_TO_IGNORE = [resources.AUTH];
+    private static readonly RESOURCES_TO_IGNORE = [resources.AUTH, resources.CONFIRMATION];
     private static readonly KNOWN_RESOURCES = [
-        resources.AUTH, resources.COMMENTS, resources.POSTS, resources.SPACES, resources.USERS,
+        resources.AUTH, resources.COMMENTS, resources.CONFIRMATION, resources.POSTS,
+        resources.SPACES, resources.USERS,
     ];
 
     constructor(private readonly configService: ConfigService<AppConfig, true>) {}

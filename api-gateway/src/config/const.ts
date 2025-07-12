@@ -4,6 +4,7 @@ export const API_GATEWAY = "apiGateway";
 export const API_POSTS = "apiPosts";
 export const API_USERS = "apiUsers";
 export const CLIENT_WEB = "clientWeb";
+export const MAILER = "mailer";
 export const PROCESS = "process";
 export const URL_SCHEME = "http";
 export const VALIDATION_PIPE = "validationPipe";

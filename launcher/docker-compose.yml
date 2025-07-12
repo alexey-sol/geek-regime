@@ -22,6 +22,7 @@ services:
             - API_POSTS_PORT
             - API_USERS_HOST
             - API_USERS_PORT
+            - APP_NAME
             - CLIENT_WEB_HOST_EXTERNAL
             - CLIENT_WEB_PORT_EXTERNAL
             - JWT_EXPIRES_IN

@@ -29,7 +29,7 @@ components:
           minimum: 1
     ErrorCode:
       type: string
-      enum: [ "ABSENT", "ALREADY_EXISTS", "ALREADY_REMOVED", "INVALID", "MISMATCH" ]
+      enum: [ "ABSENT", "ALREADY_EXISTS", "ALREADY_REMOVED", "INTEGRATION_ERROR", "INVALID", "MISMATCH" ]
     ApiErrorDetail:
       type: object
       required: [ code, field ]

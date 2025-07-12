@@ -1,13 +1,15 @@
-import { Request, Response } from "express";
-import { Catch, HttpException, HttpStatus } from "@nestjs/common";
+import { type Request, type Response } from "express";
+import {
+    Catch, HttpException, HttpStatus, type ArgumentsHost, type ExceptionFilter,
+} from "@nestjs/common";
 import { AxiosError } from "axios";
-import type { ArgumentsHost, ExceptionFilter } from "@nestjs/common";
 import { resources } from "@eggziom/geek-regime-js-commons";
 
 import { ProcessConfigService } from "@/config/service";
 import { getResource } from "@/shared/util/url";
+import { type ApiError } from "@/shared/model/dto";
 
-import type { ApiExceptionData } from "./type";
+import { type ApiExceptionData } from "./type";
 
 const DEFAULT_ERROR_STATUS = HttpStatus.INTERNAL_SERVER_ERROR;
 
@@ -26,7 +28,9 @@ export class ApiExceptionFilter implements ExceptionFilter {
 
 @Catch(HttpException)
 export class HttpExceptionFilter implements ExceptionFilter {
-    private static KNOWN_RESOURCES: string[] = [resources.POSTS, resources.USERS, resources.AUTH];
+    private static KNOWN_RESOURCES: string[] = [
+        resources.AUTH, resources.CONFIRMATION, resources.POSTS, resources.USERS,
+    ];
 
     constructor(private readonly processConfigService: ProcessConfigService) {}
 
@@ -38,9 +42,10 @@ export class HttpExceptionFilter implements ExceptionFilter {
         const { isProduction } = this.processConfigService;
         const status = exception.getStatus();
         const trace = exception.stack ?? null;
+        const responseAsApiError = exception.getResponse() as ApiError;
 
         response.status(status).json({
-            details: [],
+            details: responseAsApiError?.details ?? [],
             message: exception.message,
             path: request.path,
             resource: getResource(request.path, HttpExceptionFilter.KNOWN_RESOURCES),

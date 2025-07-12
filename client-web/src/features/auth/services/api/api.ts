@@ -1,11 +1,11 @@
 import { resources } from "@eggziom/geek-regime-js-commons";
 
-import type {
-    AuthenticateRequest, CreateUserRequest, UserResponse,
+import {
+    AuthenticateRequest, CreateEmailConfirmationRequest, CreateUserRequest, UserResponse,
 } from "@/features/users/models/dtos";
 import { appApi } from "@/app/store/api";
 
-import { createTag } from "./utils";
+import { createTag, transformAuthResponse } from "./utils";
 import * as tp from "./types";
 import * as cn from "./const";
 
@@ -23,12 +23,19 @@ export const authApi = appApiWithTag.injectEndpoints({
             }),
             providesTags: () => [createTag()],
         }),
-        signIn: builder.mutation<UserResponse, AuthenticateRequest>({
+        resendEmailConfirmation: builder.query<void, CreateEmailConfirmationRequest>({
+            query: (params) => ({
+                url: `/v1/${AUTH}/confirmation/email/resend`,
+                params: new URLSearchParams(params),
+            }),
+        }),
+        signIn: builder.mutation<tp.AuthResponse, AuthenticateRequest>({
             query: (body) => ({
                 body,
                 method: "POST",
                 url: `/v1/${AUTH}/sign-in`,
             }),
+            transformResponse: transformAuthResponse,
         }),
         signOut: builder.mutation<boolean, void>({
             query: () => ({
@@ -36,18 +43,20 @@ export const authApi = appApiWithTag.injectEndpoints({
                 url: `/v1/${AUTH}/sign-out`,
             }),
         }),
-        signUp: builder.mutation<UserResponse, CreateUserRequest>({
+        signUp: builder.mutation<tp.AuthResponse, CreateUserRequest>({
             query: (body) => ({
                 body,
                 method: "POST",
                 url: `/v1/${AUTH}/sign-up`,
             }),
+            transformResponse: transformAuthResponse,
         }),
     }),
 });
 
 export const {
     useGetProfileQuery,
+    useLazyResendEmailConfirmationQuery,
     useSignInMutation,
     useSignOutMutation,
     useSignUpMutation,

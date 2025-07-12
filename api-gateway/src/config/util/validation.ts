@@ -49,6 +49,10 @@ class EnvironmentVariables {
 
     @IsString()
     @IsNotEmpty()
+    APP_NAME: string;
+
+    @IsString()
+    @IsNotEmpty()
     CLIENT_WEB_HOST_EXTERNAL: string;
 
     @IsInt()
@@ -63,6 +67,18 @@ class EnvironmentVariables {
     @IsString()
     @IsNotEmpty()
     JWT_SECRET: string;
+
+    @IsString()
+    @IsNotEmpty()
+    MAILER_API_KEY: string;
+
+    @IsString()
+    @IsNotEmpty()
+    MAILER_ENDPOINT: string;
+
+    @IsString()
+    @IsNotEmpty()
+    MAILER_SENDER_EMAIL: string;
 
     @IsEnum(NodeEnv)
     @Optional()
