@@ -5,6 +5,10 @@
     "author": "Alexey Soloviev",
     "private": true,
     "license": "UNLICENSED",
+    "engines" : {
+        "npm" : ">=10.0.0 <11.0.0",
+        "node" : ">=18.0.0 <19.0.0"
+    },
     "scripts": {
         "start": "webpack serve --mode=development --config configs/webpack/shared.config.ts",
         "build": "webpack --mode=production --config configs/webpack/shared.config.ts",

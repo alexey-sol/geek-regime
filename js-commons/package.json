@@ -9,6 +9,10 @@
     "sideEffects": [
         "**/*.d.ts"
     ],
+    "engines" : {
+        "npm" : ">=10.0.0 <11.0.0",
+        "node" : ">=18.0.0 <19.0.0"
+    },
     "scripts": {
         "build": "npm run build:core && npm run build:types && npm run build:schemas:local",
         "build:core": "node configs/esbuild.config.mjs",
