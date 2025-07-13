@@ -138,7 +138,11 @@ class UserController(val service: UserService, val mapper: UserMapper) : UserApi
             ?: throw ResourceException(ErrorCode.ABSENT, EMAIL_FIELD)
 
         user.id?.let {
-            service.removeEmailConfirmationCode(it, request.code)
+            if (request.code == null) {
+                service.removeAllEmailConfirmationCodes(it)
+            } else {
+                service.removeEmailConfirmationCode(it, request.code)
+            }
         }
 
         return ResponseEntity(HttpStatus.NO_CONTENT)

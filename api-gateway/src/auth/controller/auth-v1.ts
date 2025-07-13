@@ -120,6 +120,12 @@ export class AuthControllerV1 {
         }
 
         const user = await this.authService.createOrFindUser(req.user);
+
+        // There's a case when the user might try to sign up with a password and didn't confirm
+        // their email. And now they're signing up using OAuth. In this scenario, confirm the
+        // email automatically.
+        await this.authService.confirmEmail({ email: user.email });
+
         this.signAuthToken(res, user.id);
 
         return {

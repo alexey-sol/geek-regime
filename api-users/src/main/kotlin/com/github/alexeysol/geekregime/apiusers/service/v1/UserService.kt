@@ -111,6 +111,10 @@ class UserService(
         return url.substringAfterLast("$s3BaseUrl/", "")
     }
 
+    fun removeAllEmailConfirmationCodes(userId: Long) {
+        repository.removeAllEmailConfirmationCodes(userId)
+    }
+
     fun removeEmailConfirmationCode(userId: Long, code: String) {
         repository.removeEmailConfirmationCode(userId, code)
     }
