@@ -22,7 +22,7 @@ const config: JestConfigWithTsJest = {
         [transformOptions.regExps.FILE_MOCK]: transformOptions.defaults.FILE_MOCK,
     },
     transformIgnorePatterns: [
-        "<rootDir>/node_modules/(?!(lodash-es|@popperjs)/)",
+        "<rootDir>/node_modules/(?!(lodash-es|@popperjs|@eggziom)/)",
     ],
     verbose: true,
 };

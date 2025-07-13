@@ -1,13 +1,13 @@
 {
     "name": "@eggziom/geek-regime-js-configs",
-    "version": "0.0.10",
+    "version": "0.0.11",
     "description": "Configuration files for JS based modules",
     "author": "Alexey Soloviev",
     "license": "UNLICENSED",
     "types": "dist/index.d.ts",
-    "engines" : {
-        "npm" : ">=10.0.0 <11.0.0",
-        "node" : ">=18.0.0 <19.0.0"
+    "engines": {
+        "npm": ">=10.0.0 <11.0.0",
+        "node": ">=18.0.0 <19.0.0"
     },
     "scripts": {
         "build": "tsc",
