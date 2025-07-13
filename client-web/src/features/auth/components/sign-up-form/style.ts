@@ -16,3 +16,9 @@ export const FormStyled = styled(Form)`
 export const ButtonStyled = styled(Button)`
     margin-top: 1rem;
 `;
+
+export const CheckboxLabelStyled = styled.label`
+    display: flex;
+    gap: 0.25rem;
+    margin-bottom: 1rem;
+`;

@@ -2,7 +2,7 @@ import {
     type SortValue, type HasDisableFailureNotificationOnStatus, type HasTitle,
 } from "@/shared/types";
 import {
-    type PagePeriod, type ApiError, type ApiErrorDetail, type ErrorCode,
+    type PagePeriod, type ApiError, type ApiErrorDetail,
 } from "@/shared/models/dtos";
 
 export const hasDisableFailureNotificationOnStatus = (
@@ -26,13 +26,6 @@ type HasData<T> = {
 export const hasData = <T>(value: unknown): value is HasData<T> => value instanceof Object
     && "data" in value;
 
-const ERROR_CODES: ErrorCode[] = [
-    "ABSENT", "ALREADY_EXISTS", "ALREADY_REMOVED", "INVALID", "MISMATCH",
-];
-
-export const isErrorCode = (value: unknown): value is ErrorCode => typeof value === "string"
-    && ERROR_CODES.includes(value as ErrorCode);
-
 export const isApiError = (value: unknown): value is ApiError => value instanceof Object
     && "status" in value
     && typeof value.status === "number"
@@ -47,7 +40,7 @@ export const isApiError = (value: unknown): value is ApiError => value instanceo
 
 export const isApiErrorDetail = (value: unknown): value is ApiErrorDetail => value instanceof Object
     && "code" in value
-    && isErrorCode(value.code)
+    && typeof value.code === "string"
     && "field" in value
     && typeof value.field === "string";
 

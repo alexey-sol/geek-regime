@@ -1,4 +1,4 @@
-import React, { type FC } from "react";
+import React, { memo } from "react";
 import { Button } from "@eggziom/geek-regime-js-ui-kit";
 import { useTranslation } from "react-i18next";
 
@@ -10,7 +10,7 @@ import { type PagePeriod } from "@/shared/models/dtos";
 import { PageSettingsStyled } from "./style";
 import { usePageSettings } from "./utils";
 
-export const PageSettings: FC = () => {
+export const PageSettings = memo(() => {
     const { t } = useTranslation();
     const {
         handlePeriodChange,
@@ -55,4 +55,4 @@ export const PageSettings: FC = () => {
             </Button>
         </PageSettingsStyled>
     );
-};
+});

@@ -9,7 +9,7 @@ import { createTag, transformAuthResponse } from "./utils";
 import * as tp from "./types";
 import * as cn from "./const";
 
-const { AUTH } = resources;
+const { AUTH, CONFIRMATION } = resources;
 
 const appApiWithTag = appApi.enhanceEndpoints({
     addTagTypes: [cn.PROFILE_TYPE],
@@ -22,12 +22,6 @@ export const authApi = appApiWithTag.injectEndpoints({
                 url: `/v1/${AUTH}/profile`,
             }),
             providesTags: () => [createTag()],
-        }),
-        resendEmailConfirmation: builder.query<void, CreateEmailConfirmationRequest>({
-            query: (params) => ({
-                url: `/v1/${AUTH}/confirmation/email/resend`,
-                params: new URLSearchParams(params),
-            }),
         }),
         signIn: builder.mutation<tp.AuthResponse, AuthenticateRequest>({
             query: (body) => ({
@@ -50,6 +44,12 @@ export const authApi = appApiWithTag.injectEndpoints({
                 url: `/v1/${AUTH}/sign-up`,
             }),
             transformResponse: transformAuthResponse,
+        }),
+        resendEmailConfirmation: builder.query<void, CreateEmailConfirmationRequest>({
+            query: (params) => ({
+                url: `/v1/${CONFIRMATION}/email/resend`,
+                params: new URLSearchParams(params),
+            }),
         }),
     }),
 });

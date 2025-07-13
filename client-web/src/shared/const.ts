@@ -16,7 +16,10 @@ export const dom = {
 
 export const paths = {
     COMMENTS: "comments",
+    CONFIRMATION: "confirmation",
     CREATE: "create",
+    DONE: "done",
+    EMAIL: "email",
     INDEX: "/",
     PAGE: "page",
     POSTS: "posts",

@@ -18,7 +18,7 @@
         "test:clear": "npm run test -- --clearCache"
     },
     "dependencies": {
-        "@eggziom/geek-regime-js-commons": "0.0.55",
+        "@eggziom/geek-regime-js-commons": "0.0.64",
         "@eggziom/geek-regime-js-ui-kit": "0.0.47",
         "@reduxjs/toolkit": "2.3.0",
         "class-transformer": "0.5.1",
@@ -31,6 +31,7 @@
         "i18next-browser-languagedetector": "6.1.5",
         "joi": "17.6.0",
         "lodash.debounce": "4.0.8",
+        "lodash.throttle": "4.1.1",
         "quill": "2.0.3",
         "react": "18.1.0",
         "react-dom": "18.1.0",

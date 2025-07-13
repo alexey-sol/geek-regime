@@ -1,5 +1,29 @@
 export const en = {
     auth: {
+        confirmation: {
+            done: {
+                view: {
+                    text: "The account has been successfully confirmed.",
+                },
+            },
+            email: {
+                query: {
+                    resendEmail: {
+                        success: "The email's been sent",
+                    },
+                },
+                view: {
+                    actions: {
+                        resendButton: {
+                            title: "Resend confirmation email",
+                        },
+                    },
+                    text: "Almost done. Please now check your email and follow the link we've "
+                        + "sent you, to confirm your email address. Check your Spam folder if "
+                        + "there's no email.",
+                },
+            },
+        },
         profile: {
             actions: {
                 createPost: "Write a post",
@@ -44,6 +68,7 @@ export const en = {
             },
             fields: {
                 confirmPassword: "Confirm password *",
+                disableEmailConfirmation: "Disable email confirmation (test)",
                 email: "Email *",
                 password: "Password *",
                 name: "Name *",
@@ -72,6 +97,30 @@ export const en = {
 
 export const ru = {
     auth: {
+        confirmation: {
+            done: {
+                view: {
+                    text: "Учетная запись успешно подтверждена.",
+                },
+            },
+            email: {
+                query: {
+                    resendEmail: {
+                        success: "Письмо отправлено",
+                    },
+                },
+                view: {
+                    actions: {
+                        resendButton: {
+                            title: "Отправить письмо еще раз",
+                        },
+                    },
+                    text: "Почти готово. Пожалуйста, проверьте свой email и перейдите по ссылке, "
+                        + "которую мы отправили вам, чтобы подтвердить свой адрес электронной "
+                        + "почты. Загляните в папку Спам, если не видите письма.",
+                },
+            },
+        },
         profile: {
             actions: {
                 createPost: "Новая статья",
@@ -116,6 +165,7 @@ export const ru = {
             },
             fields: {
                 confirmPassword: "Пароль еще раз *",
+                disableEmailConfirmation: "Отключить подтверждение email (тест)",
                 email: "Email *",
                 name: "Имя *",
                 password: "Пароль *",

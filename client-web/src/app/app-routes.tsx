@@ -2,6 +2,8 @@ import React, { type FC, lazy } from "react";
 import { Navigate, Route, Routes } from "react-router-dom";
 
 import PostListView from "@/features/posts/views/post-list-view"; // [1]
+import { ConfirmationDoneView } from "@/features/auth/views/confirmation-done-view";
+import { ConfirmationEmailView } from "@/features/auth/views/confirmation-email-view";
 import { NotFoundView } from "@/shared/views/not-found-view";
 import { paths } from "@/shared/const";
 import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
@@ -70,6 +72,11 @@ export const AppRoutes: FC = () => (
                 <Route index element={<SearchView />} />
                 <Route path={`${paths.PAGE}-:page`} element={<SearchView />} />
             </Route>
+        </Route>
+        <Route path={paths.CONFIRMATION}>
+            <Route index element={<Navigate to={paths.INDEX} />} />
+            <Route path={paths.EMAIL} element={<ConfirmationEmailView />} />
+            <Route path={paths.DONE} element={<ConfirmationDoneView />} />
         </Route>
         <Route path="*" element={<NotFoundView />} />
     </Routes>

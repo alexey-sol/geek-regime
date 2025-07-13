@@ -1,7 +1,9 @@
 import { resources } from "@eggziom/geek-regime-js-commons";
 import { type FormikConfig } from "formik";
+import { useNavigate } from "react-router";
 
 import { useAuthContext } from "@/features/auth/contexts/auth";
+import { createConfirmationEmailPath } from "@/features/auth/utils/helpers";
 import { API_PREFIX } from "@/shared/const";
 import { type AuthFormProps } from "@/features/auth/types";
 import { type AuthenticateRequest } from "@/features/users/models/dtos";
@@ -17,11 +19,18 @@ type UseSignInFormResult = {
 export const useSignInForm = (
     { onSubmit }: Pick<AuthFormProps, "onSubmit">,
 ): UseSignInFormResult => {
+    const navigate = useNavigate();
     const { pending, signIn } = useAuthContext();
 
     const handleSubmit: UseSignInFormResult["handleSubmit"] = (values) => {
         signIn(values).unwrap()
-            .then(onSubmit)
+            .then(({ confirmation }) => {
+                onSubmit?.();
+
+                if (confirmation === "email") {
+                    navigate(createConfirmationEmailPath(values.email));
+                }
+            })
             .catch(console.error);
     };
 

@@ -13,15 +13,16 @@ import { toUser } from "@/features/users/utils/converters";
 import { type User } from "@/features/users/models/entities";
 import { type AuthenticateRequest, type CreateUserRequest } from "@/features/users/models/dtos";
 import { type HasUnwrap } from "@/shared/types";
+import { type AuthResponse } from "@/features/auth/services/api/types";
 
 export type AuthPending = "get-profile" | "sign-in" | "sign-up" | "sign-out";
 
 export type UseAuthApiResult = {
     pending?: AuthPending;
     profile?: User;
-    signIn: (arg: AuthenticateRequest) => HasUnwrap;
+    signIn: (arg: AuthenticateRequest) => HasUnwrap<AuthResponse>;
     signOut: () => HasUnwrap;
-    signUp: (arg: CreateUserRequest) => HasUnwrap;
+    signUp: (arg: CreateUserRequest) => HasUnwrap<AuthResponse>;
 };
 
 export const useAuthApi = (): UseAuthApiResult => {
@@ -40,9 +41,10 @@ export const useAuthApi = (): UseAuthApiResult => {
 
     const [signIn, signInResult] = useSignInMutation({
         selectFromResult: ({ data, error, isLoading }) => ({
+            confirmation: data?.confirmation,
             error,
             isLoading,
-            profile: data && toUser(data),
+            profile: data?.profile && toUser(data.profile),
         }),
     });
 
@@ -50,9 +52,11 @@ export const useAuthApi = (): UseAuthApiResult => {
 
     const [signUp, signUpResult] = useSignUpMutation({
         selectFromResult: ({ data, error, isLoading }) => ({
+            confirmation: data?.confirmation,
             error,
             isLoading,
-            profile: data && toUser(data),
+            profile: data?.profile && toUser(data.profile),
+            data,
         }),
     });
 

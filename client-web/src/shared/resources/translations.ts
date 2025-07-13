@@ -30,6 +30,12 @@ export const en = {
         },
         query: {
             error: {
+                auth: {
+                    email: {
+                        INTEGRATION_ERROR: "Couldn't send a confirmation email. Please sign in "
+                            + "and resend it",
+                    },
+                },
                 message: {
                     default: "Something went wrong",
                     prefix: "Got an error!",
@@ -164,6 +170,12 @@ export const ru = {
         },
         query: {
             error: {
+                auth: {
+                    email: {
+                        INTEGRATION_ERROR: "Ошибка при отправке письма для подтверждения email. "
+                            + "Пожалуйста, войдите в учетную запись и отправьте еще раз",
+                    },
+                },
                 message: {
                     default: "Что-то пошло не так",
                     prefix: "Ошибка!",

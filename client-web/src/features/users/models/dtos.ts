@@ -8,6 +8,10 @@ export type CreateUserRequest = user["schemas"]["CreateUserRequest"];
 
 export type AuthenticateRequest = user["schemas"]["AuthenticateRequest"];
 
+export type HasDisableEmailConfirmation = user["schemas"]["HasDisableEmailConfirmation"];
+
 export type UserPageResponse = user["schemas"]["UserPageResponse"];
 
 export type UpdateUserRequest = user["schemas"]["UpdateUserRequest"];
+
+export type CreateEmailConfirmationRequest = user["schemas"]["CreateEmailConfirmationRequest"];

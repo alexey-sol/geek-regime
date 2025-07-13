@@ -1,16 +1,20 @@
 import React, { memo, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { Formik, type FormikProps } from "formik";
+import { Field, Formik, type FormikProps } from "formik";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit";
 
 import { FormInput } from "@/shared/components/form/form-input";
 import { getSignUpSchema } from "@/features/auth/utils/validation/schemas";
 import { type MemoizedAuthForm } from "@/features/auth/types";
 
-import { ButtonStyled, FormStyled, SignUpFormStyled } from "./style";
+import {
+    ButtonStyled, CheckboxLabelStyled, FormStyled, SignUpFormStyled,
+} from "./style";
 import { useSignUpForm, type SignUpValues } from "./utils";
 
 const initialValues: SignUpValues = {
     confirmPassword: "",
+    disableEmailConfirmation: false,
     email: "",
     name: "",
     password: "",
@@ -60,6 +64,14 @@ export const SignUpForm: MemoizedAuthForm = memo(({ onSubmit }) => {
                                 name="name"
                                 type="text"
                             />
+
+                            {/* eslint-disable-next-line jsx-a11y/label-has-associated-control */}
+                            <CheckboxLabelStyled>
+                                <Field name="disableEmailConfirmation" type="checkbox" />
+                                <Typography fontSize="sm">
+                                    {t("auth.signUp.fields.disableEmailConfirmation")}
+                                </Typography>
+                            </CheckboxLabelStyled>
                         </section>
 
                         <ButtonStyled
