@@ -187,6 +187,58 @@
         <testSourceDirectory>${project.basedir}/src/test/kotlin</testSourceDirectory>
         <plugins>
             <plugin>
+                <groupId>org.openapitools</groupId>
+                <artifactId>openapi-generator-maven-plugin</artifactId>
+                <version>7.5.0</version>
+                <executions>
+                    <execution>
+                        <id>api-users</id>
+                        <goals>
+                            <goal>generate</goal>
+                        </goals>
+                        <configuration>
+                            <inputSpec>${project.basedir}/src/main/resources/api/api-users-v1.yml</inputSpec>
+                            <output>${project.build.directory}/generated-sources/kotlin</output>
+                            <generatorName>spring</generatorName>
+                            <library>spring-boot</library>
+                            <apiPackage>com.github.alexeysol.geekregime.apiusers.generated.api</apiPackage>
+                            <modelPackage>com.github.alexeysol.geekregime.apiusers.generated.model</modelPackage>
+                            <typeMappings>
+                                <typeMapping>UserPageResponse=com.github.alexeysol.geekregime.apicommons.generated.model.UserPageResponse</typeMapping>
+                                <typeMapping>UserResponse=com.github.alexeysol.geekregime.apicommons.generated.model.UserResponse</typeMapping>
+                                <typeMapping>UserDetails=com.github.alexeysol.geekregime.apicommons.generated.model.UserDetails</typeMapping>
+                                <typeMapping>UserMeta=com.github.alexeysol.geekregime.apicommons.generated.model.UserMeta</typeMapping>
+                                <typeMapping>IdResponse=com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse</typeMapping>
+                                <typeMapping>EmailConfirmationResponse=com.github.alexeysol.geekregime.apicommons.generated.model.EmailConfirmationResponse</typeMapping>
+                                <typeMapping>AuthenticateRequest=com.github.alexeysol.geekregime.apicommons.generated.model.AuthenticateRequest</typeMapping>
+                                <typeMapping>CreateUserRequest=com.github.alexeysol.geekregime.apicommons.generated.model.CreateUserRequest</typeMapping>
+                                <typeMapping>CreateUserDetails=com.github.alexeysol.geekregime.apicommons.generated.model.CreateUserDetails</typeMapping>
+                                <typeMapping>UpdateUserRequest=com.github.alexeysol.geekregime.apicommons.generated.model.UpdateUserRequest</typeMapping>
+                                <typeMapping>UpdateUserDetails=com.github.alexeysol.geekregime.apicommons.generated.model.UpdateUserDetails</typeMapping>
+                                <typeMapping>CreateEmailConfirmationRequest=com.github.alexeysol.geekregime.apicommons.generated.model.CreateEmailConfirmationRequest</typeMapping>
+                                <typeMapping>ConfirmEmailRequest=com.github.alexeysol.geekregime.apicommons.generated.model.ConfirmEmailRequest</typeMapping>
+                                <typeMapping>LocalDate=java.util.Date</typeMapping>
+                                <typeMapping>OffsetDateTime=java.util.Date</typeMapping>
+                            </typeMappings>
+                            <configOptions>
+                                <additionalModelTypeAnnotations>
+                                    @lombok.Builder
+                                    @lombok.AllArgsConstructor
+                                    @lombok.NoArgsConstructor
+                                </additionalModelTypeAnnotations>
+                                <documentationProvider>source</documentationProvider>
+                                <generatedConstructorWithRequiredArgs>false</generatedConstructorWithRequiredArgs>
+                                <interfaceOnly>true</interfaceOnly>
+                                <skipDefaultInterface>true</skipDefaultInterface>
+                                <sourceFolder>src/main/kotlin</sourceFolder>
+                                <useTags>true</useTags>
+                            </configOptions>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
@@ -245,59 +297,22 @@
                         </goals>
                         <configuration>
                             <sourceDirs>
+                                <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
                                 <sourceDir>${project.build.directory}/generated-sources/kotlin/src/main/kotlin</sourceDir>
                             </sourceDirs>
                         </configuration>
                     </execution>
-                </executions>
-            </plugin>
-
-            <plugin>
-                <groupId>org.openapitools</groupId>
-                <artifactId>openapi-generator-maven-plugin</artifactId>
-                <version>7.5.0</version>
-                <executions>
                     <execution>
-                        <id>api-users</id>
+                        <id>test-compile</id>
+                        <phase>process-test-sources</phase>
                         <goals>
-                            <goal>generate</goal>
+                            <goal>test-compile</goal>
                         </goals>
                         <configuration>
-                            <inputSpec>${project.basedir}/src/main/resources/api/api-users-v1.yml</inputSpec>
-                            <generatorName>spring</generatorName>
-                            <library>spring-boot</library>
-                            <apiPackage>com.github.alexeysol.geekregime.apiusers.generated.api</apiPackage>
-                            <modelPackage>com.github.alexeysol.geekregime.apiusers.generated.model</modelPackage>
-                            <typeMappings>
-                                <typeMapping>UserPageResponse=com.github.alexeysol.geekregime.apicommons.generated.model.UserPageResponse</typeMapping>
-                                <typeMapping>UserResponse=com.github.alexeysol.geekregime.apicommons.generated.model.UserResponse</typeMapping>
-                                <typeMapping>UserDetails=com.github.alexeysol.geekregime.apicommons.generated.model.UserDetails</typeMapping>
-                                <typeMapping>UserMeta=com.github.alexeysol.geekregime.apicommons.generated.model.UserMeta</typeMapping>
-                                <typeMapping>IdResponse=com.github.alexeysol.geekregime.apicommons.generated.model.IdResponse</typeMapping>
-                                <typeMapping>EmailConfirmationResponse=com.github.alexeysol.geekregime.apicommons.generated.model.EmailConfirmationResponse</typeMapping>
-                                <typeMapping>AuthenticateRequest=com.github.alexeysol.geekregime.apicommons.generated.model.AuthenticateRequest</typeMapping>
-                                <typeMapping>CreateUserRequest=com.github.alexeysol.geekregime.apicommons.generated.model.CreateUserRequest</typeMapping>
-                                <typeMapping>CreateUserDetails=com.github.alexeysol.geekregime.apicommons.generated.model.CreateUserDetails</typeMapping>
-                                <typeMapping>UpdateUserRequest=com.github.alexeysol.geekregime.apicommons.generated.model.UpdateUserRequest</typeMapping>
-                                <typeMapping>UpdateUserDetails=com.github.alexeysol.geekregime.apicommons.generated.model.UpdateUserDetails</typeMapping>
-                                <typeMapping>CreateEmailConfirmationRequest=com.github.alexeysol.geekregime.apicommons.generated.model.CreateEmailConfirmationRequest</typeMapping>
-                                <typeMapping>ConfirmEmailRequest=com.github.alexeysol.geekregime.apicommons.generated.model.ConfirmEmailRequest</typeMapping>
-                                <typeMapping>LocalDate=java.util.Date</typeMapping>
-                                <typeMapping>OffsetDateTime=java.util.Date</typeMapping>
-                            </typeMappings>
-                            <configOptions>
-                                <additionalModelTypeAnnotations>
-                                    @lombok.Builder
-                                    @lombok.AllArgsConstructor
-                                    @lombok.NoArgsConstructor
-                                </additionalModelTypeAnnotations>
-                                <documentationProvider>source</documentationProvider>
-                                <generatedConstructorWithRequiredArgs>false</generatedConstructorWithRequiredArgs>
-                                <interfaceOnly>true</interfaceOnly>
-                                <skipDefaultInterface>true</skipDefaultInterface>
-                                <sourceFolder>src/main/kotlin</sourceFolder>
-                                <useTags>true</useTags>
-                            </configOptions>
+                            <sourceDirs>
+                                <sourceDir>${project.basedir}/src/main/kotlin</sourceDir>
+                                <sourceDir>${project.build.directory}/generated-sources/kotlin/src/main/kotlin</sourceDir>
+                            </sourceDirs>
                         </configuration>
                     </execution>
                 </executions>

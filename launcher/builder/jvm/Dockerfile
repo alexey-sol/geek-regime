@@ -19,5 +19,5 @@ WORKDIR /app
 
 COPY ./$REPOSITORY/pom.xml ./pom.xml
 RUN mvn dependency:go-offline -B
-COPY ./$REPOSITORY/src ./src
+COPY ./$REPOSITORY/src/main ./src/main
 RUN mvn package -D maven.test.skip

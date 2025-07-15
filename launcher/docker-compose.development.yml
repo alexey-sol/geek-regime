@@ -15,38 +15,21 @@ services:
 
     api-aggregator:
         container_name: geek-regime-api-aggregator_dev
-        build:
-            context: ../
-            dockerfile: $PWD/builder/jvm/Dockerfile
-            args:
-                API_COMMONS_VERSION: ${API_COMMONS_VERSION} # [1]
-                DOCKER_NAMESPACE: ${DOCKER_NAMESPACE}
-                REPOSITORY: api-aggregator
         command: mvn spring-boot:run -D spring-boot.run.profiles=dev
         volumes:
             - ../api-aggregator:/app
 
     api-users:
         container_name: geek-regime-api-users_dev
-        build:
-            context: ../
-            dockerfile: $PWD/builder/jvm/Dockerfile
-            args:
-                API_COMMONS_VERSION: ${API_COMMONS_VERSION} # [1]
-                DOCKER_NAMESPACE: ${DOCKER_NAMESPACE}
-                REPOSITORY: api-users
         command: mvn spring-boot:run -D spring-boot.run.profiles=dev,seed-fake-data
+        volumes:
+            - ../api-users:/app
 
     api-posts:
         container_name: geek-regime-api-posts_dev
-        build:
-            context: ../
-            dockerfile: $PWD/builder/jvm/Dockerfile
-            args:
-                API_COMMONS_VERSION: ${API_COMMONS_VERSION} # [1]
-                DOCKER_NAMESPACE: ${DOCKER_NAMESPACE}
-                REPOSITORY: api-posts
         command: mvn spring-boot:run -D spring-boot.run.profiles=dev,seed-fake-data
+        volumes:
+            - ../api-posts:/app
 
     db-users:
         container_name: geek-regime-db-users_dev

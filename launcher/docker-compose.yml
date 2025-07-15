@@ -32,6 +32,13 @@ services:
             - YANDEX_CLIENT_SECRET
 
     api-aggregator:
+        build:
+            context: ../
+            dockerfile: $PWD/builder/jvm/Dockerfile
+            args:
+                API_COMMONS_VERSION: ${API_COMMONS_VERSION} # [1]
+                DOCKER_NAMESPACE: ${DOCKER_NAMESPACE}
+                REPOSITORY: api-aggregator
         restart: always
         ports:
             - ${API_AGGREGATOR_PORT_EXTERNAL}:${API_AGGREGATOR_PORT}
@@ -47,6 +54,13 @@ services:
             - API_USERS_PORT
 
     api-users:
+        build:
+            context: ../
+            dockerfile: $PWD/builder/jvm/Dockerfile
+            args:
+                API_COMMONS_VERSION: ${API_COMMONS_VERSION} # [1]
+                DOCKER_NAMESPACE: ${DOCKER_NAMESPACE}
+                REPOSITORY: api-users
         restart: always
         ports:
             - ${API_USERS_PORT_EXTERNAL}:${API_USERS_PORT}
@@ -67,10 +81,15 @@ services:
             - DB_USERS_PASSWORD
             - DB_USERS_PORT
             - DB_USERS_USER
-        volumes:
-            - ../api-users:/app
 
     api-posts:
+        build:
+            context: ../
+            dockerfile: $PWD/builder/jvm/Dockerfile
+            args:
+                API_COMMONS_VERSION: ${API_COMMONS_VERSION} # [1]
+                DOCKER_NAMESPACE: ${DOCKER_NAMESPACE}
+                REPOSITORY: api-posts
         restart: always
         ports:
             - ${API_POSTS_PORT_EXTERNAL}:${API_POSTS_PORT}
@@ -87,8 +106,6 @@ services:
             - DB_POSTS_PASSWORD
             - DB_POSTS_PORT
             - DB_POSTS_USER
-        volumes:
-            - ../api-posts:/app
 
     db-users:
         image: postgres:14.3-alpine

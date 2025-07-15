@@ -6,15 +6,34 @@ services:
         build:
             context: ../api-gateway
             dockerfile: $PWD/builder/api-gateway/Dockerfile.production
-        command: npm start
+        command: npm run start:prod
         volumes:
             - ../client-web/dist:/public
 
+    api-aggregator:
+        container_name: geek-regime-api-aggregator_prod
+        command: mvn spring-boot:run -D spring-boot.run.profiles=prod
+
     api-users:
+        container_name: geek-regime-api-users_prod
+        command: mvn spring-boot:run -D spring-boot.run.profiles=prod,seed-fake-data # [1]
         volumes:
             - api-users-search-data_prod:${API_USERS_SEARCH_DATA_PATH}
 
+    api-posts:
+        container_name: geek-regime-api-posts_prod
+        command: mvn spring-boot:run -D spring-boot.run.profiles=prod,seed-fake-data # [1]
+
+    client-web:
+        container_name: geek-regime-client-web_prod
+        build:
+            context: ../client-web
+            dockerfile: $PWD/builder/client-web/Dockerfile.production
+        command: nginx -g "daemon off;"
+        tty: true
+
 volumes:
-    api-posts-search-data_prod:
     api-users-search-data_prod:
         driver: local
+
+# [1]. Seeding DBs with fake data for demo purposes.
