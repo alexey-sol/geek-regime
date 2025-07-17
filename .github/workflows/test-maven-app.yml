@@ -1,0 +1,39 @@
+on:
+    workflow_call:
+        inputs:
+            api-commons-path:
+                required: false
+                type: string
+            app-path:
+                required: true
+                type: string
+            environment:
+                required: true
+                type: string
+
+env:
+    EXPORT_ENV_SCRIPT: ".github/util/export-env.sh"
+
+jobs:
+    test-maven-app:
+        name: "Test: \"${{ github.event.head_commit.message }}\""
+        environment: ${{ inputs.environment }}
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Set up JDK 17
+              uses: actions/setup-java@v4
+              with:
+                  java-version: '17'
+                  distribution: 'temurin'
+            - name: Install dependencies
+              shell: bash
+              if: ${{ inputs.api-commons-path != '' }}
+              run: cd ${{ inputs.api-commons-path }} && mvn install
+            - name: Test
+              shell: bash
+              run: |
+                  chmod +x ${{ env.EXPORT_ENV_SCRIPT }}
+                  . ${{ env.EXPORT_ENV_SCRIPT }} '${{ toJSON(secrets) }}'
+
+                  cd ${{ inputs.app-path }} && mvn test

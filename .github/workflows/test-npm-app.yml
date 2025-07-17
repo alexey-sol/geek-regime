@@ -1,0 +1,19 @@
+on:
+    workflow_call:
+        inputs:
+            app-path:
+                required: true
+                type: string
+
+jobs:
+    test-npm-app:
+        name: "Test: \"${{ github.event.head_commit.message }}\""
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v4
+            - name: Set up Node 18
+              uses: actions/setup-node@v4
+              with:
+                  node-version: "18"
+            - name: Test
+              run: cd ${{ inputs.app-path }} && npm ci && npm run test

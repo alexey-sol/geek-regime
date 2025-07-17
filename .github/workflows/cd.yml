@@ -1,18 +1,63 @@
-name: CD
+name: cd
 
 on:
     push:
-        branches: [ production ]
+        branches: [ develop, production ]
+
+env:
+    BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
 
 jobs:
-    test:
-        name: "Test client-web: \"${{ github.event.head_commit.message }}\""
+    prepare: # [1]
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
-            - name: Setup Node
-              uses: actions/setup-node@v2
-              with:
-                  node-version: "18"
-            - name: Test
-              run: cd client-web && npm ci && npm run test
+            - run: echo "The current branch is \"${{ env.BRANCH_NAME }}\""
+        outputs:
+            environment: ${{ env.BRANCH_NAME }} # [2]
+    test-api-commons:
+        uses: ./.github/workflows/test-maven-app.yml
+        with:
+            app-path: api-commons
+            environment: ${{ needs.prepare.outputs.environment }}
+        secrets: inherit
+        needs: prepare
+    test-api-aggregator:
+        uses: ./.github/workflows/test-maven-app.yml
+        with:
+            api-commons-path: api-commons
+            app-path: api-aggregator
+            environment: ${{ needs.prepare.outputs.environment }}
+        secrets: inherit
+        needs: prepare
+    test-api-posts:
+        uses: ./.github/workflows/test-maven-app.yml
+        with:
+            api-commons-path: api-commons
+            app-path: api-posts
+            environment: ${{ needs.prepare.outputs.environment }}
+        secrets: inherit
+        needs: prepare
+    test-api-users:
+        uses: ./.github/workflows/test-maven-app.yml
+        with:
+            api-commons-path: api-commons
+            app-path: api-users
+            environment: ${{ needs.prepare.outputs.environment }}
+        secrets: inherit
+        needs: prepare
+    test-client-web:
+        uses: ./.github/workflows/test-npm-app.yml
+        with:
+            app-path: client-web
+        needs: prepare
+    test-js-ui-kit:
+        uses: ./.github/workflows/test-npm-app.yml
+        with:
+            app-path: js-ui-kit
+        needs: prepare
+
+# [1]. We can't access "env" in "with" section, so we just pass the needed variables across
+# the jobs, as an output of the "prepare" job.
+
+# [2]. The branch name must equal the environment name so that, for example, a "production"
+# build gets secrets from "production" environment.
