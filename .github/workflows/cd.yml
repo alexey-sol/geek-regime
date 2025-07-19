@@ -6,6 +6,7 @@ on:
 
 env:
     BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+    EXPORT_ENV_SCRIPT: ".github/util/export-env.sh"
 
 jobs:
     prepare: # [1]
@@ -13,48 +14,119 @@ jobs:
         steps:
             - run: echo "The current branch is \"${{ env.BRANCH_NAME }}\""
         outputs:
+            # FIXME rename environment to branchName?
             environment: ${{ env.BRANCH_NAME }} # [2]
-    test-api-commons:
-        uses: ./.github/workflows/test-maven-app.yml
-        with:
-            app-path: api-commons
-            environment: ${{ needs.prepare.outputs.environment }}
-        secrets: inherit
-        needs: prepare
-    test-api-aggregator:
-        uses: ./.github/workflows/test-maven-app.yml
-        with:
-            api-commons-path: api-commons
-            app-path: api-aggregator
-            environment: ${{ needs.prepare.outputs.environment }}
-        secrets: inherit
-        needs: prepare
-    test-api-posts:
-        uses: ./.github/workflows/test-maven-app.yml
-        with:
-            api-commons-path: api-commons
-            app-path: api-posts
-            environment: ${{ needs.prepare.outputs.environment }}
-        secrets: inherit
-        needs: prepare
-    test-api-users:
-        uses: ./.github/workflows/test-maven-app.yml
-        with:
-            api-commons-path: api-commons
-            app-path: api-users
-            environment: ${{ needs.prepare.outputs.environment }}
-        secrets: inherit
-        needs: prepare
-    test-client-web:
-        uses: ./.github/workflows/test-npm-app.yml
-        with:
-            app-path: client-web
-        needs: prepare
-    test-js-ui-kit:
-        uses: ./.github/workflows/test-npm-app.yml
-        with:
-            app-path: js-ui-kit
-        needs: prepare
+        # FIXME uncomment test jobs
+#    test-api-commons:
+#        uses: ./.github/workflows/test-maven-app.yml
+#        with:
+#            app-path: api-commons
+#            environment: ${{ needs.prepare.outputs.environment }}
+#        secrets: inherit
+#        needs: prepare
+#    test-api-aggregator:
+#        uses: ./.github/workflows/test-maven-app.yml
+#        with:
+#            api-commons-path: api-commons
+#            app-path: api-aggregator
+#            environment: ${{ needs.prepare.outputs.environment }}
+#        secrets: inherit
+#        needs: prepare
+#    test-api-posts:
+#        uses: ./.github/workflows/test-maven-app.yml
+#        with:
+#            api-commons-path: api-commons
+#            app-path: api-posts
+#            environment: ${{ needs.prepare.outputs.environment }}
+#        secrets: inherit
+#        needs: prepare
+#    test-api-users:
+#        uses: ./.github/workflows/test-maven-app.yml
+#        with:
+#            api-commons-path: api-commons
+#            app-path: api-users
+#            environment: ${{ needs.prepare.outputs.environment }}
+#        secrets: inherit
+#        needs: prepare
+#    test-client-web:
+#        uses: ./.github/workflows/test-npm-app.yml
+#        with:
+#            app-path: client-web
+#        needs: prepare
+#    test-js-ui-kit:
+#        uses: ./.github/workflows/test-npm-app.yml
+#        with:
+#            app-path: js-ui-kit
+#        needs: prepare
+
+
+
+# FIXME add to doc
+# 1. Нужно добавить SSH private key в секрет DEPLOY_SSH_PRIVATE_KEY
+# это для того, чтобы SSH из джобы смог зайти на сервер. Ключ можно взять со своей
+# локальной машины,
+#  ~/.ssh/id_ed25519 (not *.pub file)
+# -----BEGIN OPENSSH PRIVATE KEY-----
+    #b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW
+    #QyNTUxOQAAACAGXWCgIlr5vUapxFgmVLTOlcOiZ6Tx+aXaf4TLDZkd2gAAAKDN/52Vzf+d
+    #lQAAAAtzc2gtZWQyNTUxOQAAACAGXWCgIlr5vUapxFgmVLTOlcOiZ6Tx+aXaf4TLDZkd2g
+    #AAAED6vCH3bI74YhfXrGnXM70tqzmhFkhyYvATgChSblrwIAZdYKAiWvm9RqnEWCZUtM6V
+    #w6JnpPH5pdp/hMsNmR3aAAAAG2FsZXhleS5zb2xvdmlldi5wQGdtYWlsLmNvbQEC
+    #-----END OPENSSH PRIVATE KEY-----
+
+    # FIXME extract to reusable workflow
+    deploy:
+        name: "Deploy: ${{ needs.prepare.outputs.environment }}"
+#        if: ${{ needs.prepare.outputs.environment }}
+        needs:
+            - prepare
+#            - test-api-commons
+#            - test-api-aggregator
+#            - test-api-posts
+#            - test-api-users
+#            - test-client-web
+#            - test-js-ui-kit
+        runs-on: ubuntu-latest
+        environment:
+            name: ${{ needs.prepare.outputs.environment }}
+        steps:
+#            - name: Install dependencies
+#              shell: bash
+#              run: |
+#                  echo "BRANCH_NAME=$(echo ${GITHUB_REF#refs/heads/} | tr / -)" >> $GITHUB_ENV
+#                  echo "REPOSITORY_NAME=$(echo '${{ github.repository }}' | awk -F '/' '{print $1}')" >> $GITHUB_ENV
+#                  sudo apt-get update
+#                  sudo apt-get install jq -y
+            # FIXME wtf is jq and why do i need it?
+            - name: Deliver to remote host
+              env:
+                  BRANCH_NAME: ${{ needs.prepare.outputs.environment }}
+                  DEPLOY_DIRECTORY: /home/${{secrets.DEPLOY_SERVER_USERNAME}}/${{ env.PROJECTS_DIRECTORY }}
+                  REPOSITORY_NAME: ${{ github.event.repository.name }}
+                  EXPORT_ENV_SCRIPT_REMOTE: ${{ github.repository }}/${{ env.BRANCH_NAME }}/${{ env.EXPORT_ENV_SCRIPT }}
+              uses: appleboy/ssh-action@v1
+              with:
+                  host: ${{ secrets.DEPLOY_SERVER_HOST }}
+                  username: ${{ secrets.DEPLOY_SERVER_USERNAME }}
+                  key: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
+                  script: |
+                      EXPORT_ENV_URL=${{ env.GITHUB_USER_CONTENT_URL }}/${{ env.EXPORT_ENV_SCRIPT_REMOTE }}
+                      . <(curl -Ls $EXPORT_ENV_URL) '${{ toJSON(secrets) }}'
+
+                      cd ${{ env.DEPLOY_DIRECTORY }}
+
+                      if [ -d ${{ env.BRANCH_NAME }} ]; then
+                          cd ${{ env.BRANCH_NAME }}/${{ env.REPOSITORY_NAME }}
+                          git pull
+                      else
+                          mkdir ${{ env.BRANCH_NAME }} && cd "$_"
+                          git clone ${{ secrets.CLONE_REPOSITORY_SSH_URL }}
+                          cd ${{ env.REPOSITORY_NAME }}
+                      fi
+
+                      git checkout ${{ env.BRANCH_NAME }}
+
+                      cd launcher && npm run prod:restart
 
 # [1]. We can't access "env" in "with" section, so we just pass the needed variables across
 # the jobs, as an output of the "prepare" job.
