@@ -29,6 +29,14 @@ services:
         build:
             context: ../client-web
             dockerfile: $PWD/builder/client-web/Dockerfile.production
+            args: # [2]
+                - API_GATEWAY_HOST
+                - API_GATEWAY_PORT
+                - APP_NAME
+                - CLIENT_WEB_HOST
+                - CLIENT_WEB_PORT
+                - CLIENT_WEB_WEBSOCKET_URL
+                - NODE_ENV
         command: nginx -g "daemon off;"
         tty: true
 
@@ -37,3 +45,7 @@ volumes:
         driver: local
 
 # [1]. Seeding DBs with fake data for demo purposes.
+
+# [2]. While dev gets environment variables from .env file, the prod build relies on GitHub
+# secrets. It seems that passing those secrets to Dockerfile is the only way to ensure that
+# build gets variables.

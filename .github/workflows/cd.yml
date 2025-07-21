@@ -6,6 +6,7 @@ on:
 
 env:
     BRANCH_NAME: ${{ github.head_ref || github.ref_name }}
+    EXPORT_ENV_SCRIPT: .github/util/export-env.sh
 
 jobs:
     prepare: # [1]
@@ -13,51 +14,76 @@ jobs:
         steps:
             - run: echo "The current branch is \"${{ env.BRANCH_NAME }}\""
         outputs:
-            environment: ${{ env.BRANCH_NAME }} # [2]
+            branchName: ${{ env.BRANCH_NAME }}
+            exportEnvScript: ${{ env.EXPORT_ENV_SCRIPT }}
+
     test-api-commons:
         uses: ./.github/workflows/test-maven-app.yml
         with:
             app-path: api-commons
-            environment: ${{ needs.prepare.outputs.environment }}
+            environment: ${{ needs.prepare.outputs.branchName }}
+            exportEnvScript: ${{ needs.prepare.outputs.exportEnvScript }}
         secrets: inherit
         needs: prepare
+
     test-api-aggregator:
         uses: ./.github/workflows/test-maven-app.yml
         with:
             api-commons-path: api-commons
             app-path: api-aggregator
-            environment: ${{ needs.prepare.outputs.environment }}
+            environment: ${{ needs.prepare.outputs.branchName }}
+            exportEnvScript: ${{ needs.prepare.outputs.exportEnvScript }}
         secrets: inherit
         needs: prepare
+
     test-api-posts:
         uses: ./.github/workflows/test-maven-app.yml
         with:
             api-commons-path: api-commons
             app-path: api-posts
-            environment: ${{ needs.prepare.outputs.environment }}
+            environment: ${{ needs.prepare.outputs.branchName }}
+            exportEnvScript: ${{ needs.prepare.outputs.exportEnvScript }}
         secrets: inherit
         needs: prepare
+
     test-api-users:
         uses: ./.github/workflows/test-maven-app.yml
         with:
             api-commons-path: api-commons
             app-path: api-users
-            environment: ${{ needs.prepare.outputs.environment }}
+            environment: ${{ needs.prepare.outputs.branchName }}
+            exportEnvScript: ${{ needs.prepare.outputs.exportEnvScript }}
         secrets: inherit
         needs: prepare
+
     test-client-web:
         uses: ./.github/workflows/test-npm-app.yml
         with:
             app-path: client-web
         needs: prepare
+
     test-js-ui-kit:
         uses: ./.github/workflows/test-npm-app.yml
         with:
             app-path: js-ui-kit
         needs: prepare
 
+    deploy:
+        uses: ./.github/workflows/deploy-app.yml
+        with:
+            branchName: ${{ needs.prepare.outputs.branchName }}
+            exportEnvScript: ${{ needs.prepare.outputs.exportEnvScript }}
+        secrets: inherit
+        needs:
+            - prepare
+            - test-api-commons
+            - test-api-aggregator
+            - test-api-posts
+            - test-api-users
+            - test-client-web
+            - test-js-ui-kit
+
 # [1]. We can't access "env" in "with" section, so we just pass the needed variables across
 # the jobs, as an output of the "prepare" job.
-
-# [2]. The branch name must equal the environment name so that, for example, a "production"
-# build gets secrets from "production" environment.
+# The branch name must equal the environment name so that, for example, a "production" build
+# gets secrets from "production" environment.

@@ -10,9 +10,9 @@ on:
             environment:
                 required: true
                 type: string
-
-env:
-    EXPORT_ENV_SCRIPT: ".github/util/export-env.sh"
+            exportEnvScript:
+                required: true
+                type: string
 
 jobs:
     test-maven-app:
@@ -33,7 +33,7 @@ jobs:
             - name: Test
               shell: bash
               run: |
-                  chmod +x ${{ env.EXPORT_ENV_SCRIPT }}
-                  . ${{ env.EXPORT_ENV_SCRIPT }} '${{ toJSON(secrets) }}'
+                  chmod +x ${{ inputs.exportEnvScript }}
+                  . ${{ inputs.exportEnvScript }} '${{ toJSON(secrets) }}'
 
                   cd ${{ inputs.app-path }} && mvn test

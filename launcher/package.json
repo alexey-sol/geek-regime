@@ -6,8 +6,9 @@
     "private": true,
     "license": "UNLICENSED",
     "scripts": {
-        "prod:up": "docker compose -f docker-compose.yml -f docker-compose.production.yml up",
+        "prod:up": "docker compose -f docker-compose.yml -f docker-compose.production.yml up --build --detach",
         "prod:down": "docker compose -f docker-compose.yml -f docker-compose.production.yml down",
+        "prod:restart": "npm run prod:down && npm run prod:up",
         "dev:up": "docker compose -f docker-compose.yml -f docker-compose.development.yml up",
         "dev:down": "docker compose -f docker-compose.yml -f docker-compose.development.yml down",
         "local:up": "docker compose -f docker-compose.yml -f docker-compose.development.yml up db-users db-posts",

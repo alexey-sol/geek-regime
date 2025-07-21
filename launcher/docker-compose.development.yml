@@ -51,6 +51,13 @@ services:
             - ../client-web:/app
             # - /app/node_modules
         tty: true
+        environment:
+            - API_GATEWAY_HOST
+            - API_GATEWAY_PORT
+            - APP_NAME
+            - CLIENT_WEB_HOST
+            - CLIENT_WEB_PORT
+            - CLIENT_WEB_WEBSOCKET_URL
 
 volumes:
     db-posts-data_dev:

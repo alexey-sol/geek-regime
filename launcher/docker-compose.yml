@@ -27,6 +27,9 @@ services:
             - CLIENT_WEB_PORT_EXTERNAL
             - JWT_EXPIRES_IN
             - JWT_SECRET
+            - MAILER_API_KEY
+            - MAILER_ENDPOINT
+            - MAILER_SENDER_EMAIL
             - NODE_ENV
             - YANDEX_CLIENT_ID
             - YANDEX_CLIENT_SECRET
@@ -141,13 +144,6 @@ services:
             - api-gateway
         networks:
             - geek-regime-external
-        environment:
-            - API_GATEWAY_HOST
-            - API_GATEWAY_PORT
-            - APP_NAME
-            - CLIENT_WEB_HOST
-            - CLIENT_WEB_PORT
-            - CLIENT_WEB_WEBSOCKET_URL
 
 networks:
     geek-regime-internal:

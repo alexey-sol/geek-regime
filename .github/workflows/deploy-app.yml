@@ -1,0 +1,61 @@
+on:
+    workflow_call:
+        inputs:
+            branchName:
+                required: true
+                type: string
+            exportEnvScript:
+                required: false
+                type: string
+
+env:
+    DEPLOY_DIRECTORY: ~/stands
+    GITHUB_USER_CONTENT_URL: https://raw.githubusercontent.com
+
+jobs:
+    deploy:
+        name: "Deploy: ${{ inputs.branchName }}"
+        runs-on: ubuntu-latest
+        environment:
+            name: ${{ inputs.branchName }}
+        steps:
+            - name: Deliver to remote host
+              env:
+                  EXPORT_ENV_SCRIPT_URL: ${{ env.GITHUB_USER_CONTENT_URL }}/${{ github.repository }}/${{ inputs.branchName }}/${{ inputs.exportEnvScript }}
+                  REPOSITORY_NAME: ${{ github.event.repository.name }}
+              uses: appleboy/ssh-action@v1
+              with:
+                  host: ${{ secrets.DEPLOY_SERVER_HOST }}
+                  username: ${{ secrets.DEPLOY_SERVER_USERNAME }}
+                  key: ${{ secrets.DEPLOY_SSH_PRIVATE_KEY }}
+                  script: |
+                      if ! [ -x "$(command -v jq)" ]; then
+                          sudo apt-get update
+                          sudo apt-get install jq -y
+                      fi
+
+                      export NVM_DIR=~/.nvm
+                      source ~/.nvm/nvm.sh
+
+                      EXPORT_ENV_URL=${{ env.EXPORT_ENV_SCRIPT_URL }}
+                      . <(curl -Ls $EXPORT_ENV_URL) '${{ toJSON(secrets) }}'
+
+                      mkdir -p ${{ env.DEPLOY_DIRECTORY }} && cd ${{ env.DEPLOY_DIRECTORY }}
+
+                      if [ -d ${{ inputs.branchName }} ]; then
+                          cd ${{ inputs.branchName }}/${{ env.REPOSITORY_NAME }}
+                          git pull
+                      else
+                          mkdir ${{ inputs.branchName }} && cd "$_"
+                          git clone ${{ secrets.CLONE_REPOSITORY_SSH_URL }}
+                          cd ${{ env.REPOSITORY_NAME }}
+                      fi
+
+                      git checkout ${{ inputs.branchName }}
+
+                      cd launcher && npm run prod:restart
+
+# - jq is needed to parse GH secrets so that they can be set in the system as environment
+# variables.
+# - NVM_DIR setup is necessary when using NVM, otherwise the script will fail with "bash: npm:
+# command not found".
