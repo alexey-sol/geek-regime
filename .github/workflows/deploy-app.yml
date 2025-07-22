@@ -5,11 +5,11 @@ on:
                 required: true
                 type: string
             exportEnvScript:
-                required: false
+                required: true
                 type: string
 
 env:
-    DEPLOY_DIRECTORY: ~/stands
+    DEPLOY_DIR: ~/stands
     GITHUB_USER_CONTENT_URL: https://raw.githubusercontent.com
 
 jobs:
@@ -19,7 +19,7 @@ jobs:
         environment:
             name: ${{ inputs.branchName }}
         steps:
-            - name: Deliver to remote host
+            - name: Deliver to stand and start
               env:
                   EXPORT_ENV_SCRIPT_URL: ${{ env.GITHUB_USER_CONTENT_URL }}/${{ github.repository }}/${{ inputs.branchName }}/${{ inputs.exportEnvScript }}
                   REPOSITORY_NAME: ${{ github.event.repository.name }}
@@ -40,7 +40,7 @@ jobs:
                       EXPORT_ENV_URL=${{ env.EXPORT_ENV_SCRIPT_URL }}
                       . <(curl -Ls $EXPORT_ENV_URL) '${{ toJSON(secrets) }}'
 
-                      mkdir -p ${{ env.DEPLOY_DIRECTORY }} && cd ${{ env.DEPLOY_DIRECTORY }}
+                      mkdir -p ${{ env.DEPLOY_DIR }} && cd "$_"
 
                       if [ -d ${{ inputs.branchName }} ]; then
                           cd ${{ inputs.branchName }}/${{ env.REPOSITORY_NAME }}
