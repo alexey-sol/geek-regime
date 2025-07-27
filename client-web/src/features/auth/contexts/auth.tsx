@@ -1,6 +1,6 @@
 import React, { type FC, type PropsWithChildren } from "react";
+import { getUseContextOrThrowError } from "@eggziom/geek-regime-js-ui-kit";
 
-import { getUseContextOrThrowError } from "@/shared/utils/helpers/context";
 import { useAuthApi, UseAuthApiResult } from "@/features/auth/utils/hooks";
 
 export const AuthContext = React.createContext<UseAuthApiResult | null>(null);

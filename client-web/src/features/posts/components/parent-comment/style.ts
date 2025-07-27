@@ -1,6 +1,8 @@
 import styled, { css } from "styled-components";
 import { Color } from "@eggziom/geek-regime-js-ui-kit";
 
+import { PICTURE_SIZE_PX } from "../user-info/const";
+
 export const commentListLayoutCss = css`
     display: flex;
     flex-direction: column;
@@ -24,8 +26,8 @@ type CommentBranchStyledProps = {
     isLast?: boolean;
 };
 
-// TODO item height is most likely gonna change when I add user pic in the user info
-const BRANCH_RECIPIENT_ITEM_HEIGHT = "1rem";
+const branchLeafItemHeight = `${Math.floor(PICTURE_SIZE_PX / 2)}px`;
+
 const BRANCH_WIDTH = "1rem";
 const BRANCH_BORDER_RADIUS = "0.75rem";
 const BRANCH_COLOR: Color = "grey";
@@ -38,7 +40,7 @@ export const CommentBranchStyled = styled.section<CommentBranchStyledProps>(
         top: 0;
         left: -1.5rem;
         width: ${BRANCH_WIDTH};
-        height: ${isLast ? BRANCH_RECIPIENT_ITEM_HEIGHT : "100%"};
+        height: ${isLast ? branchLeafItemHeight : "100%"};
         border-bottom: ${isLast ? `1px solid ${theme.colors[BRANCH_COLOR]}` : "none"};
         border-left: 1px solid ${theme.colors[BRANCH_COLOR]};
         border-bottom-left-radius: ${isLast ? BRANCH_BORDER_RADIUS : 0};
@@ -48,7 +50,7 @@ export const CommentBranchStyled = styled.section<CommentBranchStyledProps>(
             &:before {
                 position: absolute;
                 width: ${BRANCH_WIDTH};
-                height: ${BRANCH_RECIPIENT_ITEM_HEIGHT};
+                height: ${branchLeafItemHeight};
                 border-bottom: 1px solid ${theme.colors[BRANCH_COLOR]};
                 border-bottom-left-radius: ${BRANCH_BORDER_RADIUS};
                 content: "";
@@ -68,4 +70,3 @@ export const CommentBranchStyled = styled.section<CommentBranchStyledProps>(
         }
     `,
 );
-

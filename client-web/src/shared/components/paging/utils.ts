@@ -7,12 +7,12 @@ import {
 import { useNavigate } from "react-router";
 import { useTheme } from "styled-components";
 import { useSearchParams } from "react-router-dom";
+import { useWindowSize } from "@eggziom/geek-regime-js-ui-kit";
 
 import { range } from "@/shared/utils/helpers/range";
 import { defaults } from "@/shared/const";
-import { useWindowSize } from "@/shared/utils/hooks/use-window-size";
 
-import type { PagingData, UsePagingDataArg } from "./types";
+import { type PagingData, type UsePagingDataArg } from "./types";
 
 const { START_PAGE } = defaults;
 

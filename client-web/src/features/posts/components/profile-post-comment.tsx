@@ -1,13 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import { Link, Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Link, Skeleton, Typography } from "@eggziom/geek-regime-js-ui-kit";
 import { useTranslation } from "react-i18next";
 
 import { type HasItem, type MaybeStubItem } from "@/shared/types";
 import { type ProfilePostComment as ProfilePostCommentEntity } from "@/features/posts/models/entities";
 import { isStubItem } from "@/shared/utils/helpers/object";
 import { usePrefetch } from "@/features/posts/services/posts-api";
-import { Skeleton } from "@/shared/components/loaders";
 import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
 
 import { CommentContent } from "./comment-content";

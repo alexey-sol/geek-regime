@@ -1,6 +1,7 @@
 import styled, { css } from "styled-components";
 import React, { type FC } from "react";
-import { HasClassName } from "@eggziom/geek-regime-js-ui-kit";
+
+import { type HasClassName } from "@/types/props";
 
 const LoaderWrapStyled = styled.section`
     display: flex;
@@ -44,7 +45,3 @@ export const Loader: FC<Partial<HasClassName>> = ({ className }) => (
         <LoaderStyled />
     </LoaderWrapStyled>
 );
-
-export const AppLoader = styled(Loader)`
-    height: 100vh;
-`;

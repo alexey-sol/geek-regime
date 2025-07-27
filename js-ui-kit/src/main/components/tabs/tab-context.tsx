@@ -2,8 +2,9 @@ import React, {
     type FC, type PropsWithChildren, useCallback, useMemo, useState,
 } from "react";
 
-import { getUseContextOrThrowError } from "@/shared/utils/helpers/context";
-import type { HandleChange } from "@/shared/components/tabs/types";
+import { getUseContextOrThrowError } from "@/utils/context";
+
+import { type HandleChange } from "./types";
 
 type TabContextValue = {
     onChange: HandleChange;

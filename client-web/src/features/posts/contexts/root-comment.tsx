@@ -1,8 +1,8 @@
 import React, {
     type FC, type PropsWithChildren, useCallback, useMemo,
 } from "react";
+import { getUseContextOrThrowError } from "@eggziom/geek-regime-js-ui-kit";
 
-import { getUseContextOrThrowError } from "@/shared/utils/helpers/context";
 import { useLazyGetPostCommentTreeByParentIdQuery } from "@/features/posts/services/post-comments-api";
 import { toPostCommentTree } from "@/features/posts/utils/converters";
 import { type HasItem, type MaybeStubItem } from "@/shared/types";

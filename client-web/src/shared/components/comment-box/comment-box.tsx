@@ -1,9 +1,8 @@
 import React, { memo, type ReactNode, type RefObject } from "react";
-import { Button, Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Button, CloseIconButton, Typography } from "@eggziom/geek-regime-js-ui-kit";
 import { useTranslation } from "react-i18next";
 import type Quill from "quill";
 
-import { CloseIconButton } from "@/shared/components/icon-button";
 import { FieldErrorMessage } from "@/shared/components/typography";
 
 import { CommentEditorStyled, HeaderStyled, CommentBoxStyled } from "./style";

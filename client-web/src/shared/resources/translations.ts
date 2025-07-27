@@ -17,14 +17,6 @@ export const en = {
             leaveComment: "Leave a comment",
             send: "Send",
         },
-        dialog: {
-            closeButton: {
-                tooltip: "Close",
-            },
-            goBackButton: {
-                tooltip: "Go back",
-            },
-        },
         footer: {
             content: "Not much is going on in this footer. Today is actually",
         },
@@ -156,14 +148,6 @@ export const ru = {
             done: "Готово",
             leaveComment: "Прокомментировать",
             send: "Отправить",
-        },
-        dialog: {
-            closeButton: {
-                tooltip: "Закрыть",
-            },
-            goBackButton: {
-                tooltip: "Назад",
-            },
         },
         footer: {
             content: "Ничего сильно интересного в этом футере. Сегодня кстати",

@@ -3,7 +3,7 @@ import React, { type FC } from "react";
 import { type BaseButtonProps } from "@/components/button/base-button";
 
 import { Typography } from "../typography";
-import type { BaseIconButtonProps } from "../icon-button";
+import type { BaseIconButtonProps } from "../base-icon-button";
 
 import { ButtonStyled, type ButtonStyledProps } from "./style";
 

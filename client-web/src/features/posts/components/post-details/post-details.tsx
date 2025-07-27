@@ -1,6 +1,8 @@
 import React, { type FC } from "react";
 import { useTranslation } from "react-i18next";
-import { Link, LinkButton, Typography } from "@eggziom/geek-regime-js-ui-kit";
+import {
+    Divider, Link, LinkButton, Skeleton, Tooltip, Typography,
+} from "@eggziom/geek-regime-js-ui-kit";
 
 import { paths } from "@/shared/const";
 import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
@@ -10,11 +12,8 @@ import {
     PostMeta,
 } from "@/features/posts/components/post-meta";
 import { useAuthContext } from "@/features/auth/contexts/auth";
-import { Divider } from "@/shared/components/divider";
 import { createInnerHtml } from "@/shared/utils/helpers/dom";
-import { Tooltip } from "@/shared/components/tooltip";
 import { type PostDetails as Details } from "@/features/posts/models/entities";
-import { Skeleton } from "@/shared/components/loaders";
 import { isStubItem } from "@/shared/utils/helpers/object";
 import { type MaybeStubItem } from "@/shared/types";
 import { SpaceList } from "@/features/spaces/components/space-list";
@@ -97,10 +96,6 @@ export const PostDetails: FC<PostDetailsProps> = ({ post }) => {
             <Skeleton isLoading={isLoading} heightPx={19} widthPx={120}>
                 {isAuthor && (
                     <ControlsWrap>
-                        <Link to={updatePostPath} view="secondary">
-                            {t("posts.draft.actions.editPostButton.title")}
-                        </Link>
-
                         <Tooltip message={t("shared.tooltips.tryAction")}>
                             <LinkButton
                                 disabled={pending === "remove"}
@@ -110,6 +105,10 @@ export const PostDetails: FC<PostDetailsProps> = ({ post }) => {
                                 {t("posts.draft.actions.removePostButton.title")}
                             </LinkButton>
                         </Tooltip>
+
+                        <Link to={updatePostPath} view="secondary">
+                            {t("posts.draft.actions.editPostButton.title")}
+                        </Link>
                     </ControlsWrap>
                 )}
             </Skeleton>

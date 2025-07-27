@@ -9,8 +9,6 @@ import React, {
 import ReactDOM from "react-dom";
 import styled from "styled-components";
 
-import { getRootElement } from "@/shared/utils/helpers/dom";
-
 const OverlayStyled = styled.section`
     position: fixed;
     z-index: ${({ theme }) => theme.zIndex.modal};
@@ -60,7 +58,5 @@ export const Overlay: FC<OverlayProps> = ({
         </OverlayStyled>
     );
 
-    const resultContainer = container ?? getRootElement();
-
-    return ReactDOM.createPortal(overlay, resultContainer);
+    return ReactDOM.createPortal(overlay, container ?? document.body);
 };

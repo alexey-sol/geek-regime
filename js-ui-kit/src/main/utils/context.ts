@@ -1,6 +1,6 @@
 import { type Context, useContext } from "react";
 
-import { ContextOutsideProviderError } from "@/shared/utils/errors";
+import { ContextOutsideProviderError } from "./errors";
 
 const useAppContext = <Value>(Ctx: Context<Value | null>): Value | never => {
     const context = useContext(Ctx);

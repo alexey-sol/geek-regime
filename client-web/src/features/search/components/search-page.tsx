@@ -4,11 +4,11 @@ import React, {
 import { createSearchParams, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router";
+import { TabContextProvider } from "@eggziom/geek-regime-js-ui-kit";
 
 import { createAbsoluteSearchPath } from "@/features/search/utils/helpers";
 import { SearchBox } from "@/features/search/components/search-box";
 import { SearchOutput } from "@/features/search/components/search-output";
-import { TabContextProvider } from "@/shared/components/tabs/tab-context";
 import { SEARCH_PARAMS } from "@/shared/const";
 
 const SearchPageStyled = styled.section`

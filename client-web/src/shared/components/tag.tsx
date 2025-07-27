@@ -1,10 +1,8 @@
 import React, { type FC, type MouseEventHandler, type PropsWithChildren } from "react";
 import styled, { css } from "styled-components";
 import {
-    type HasClassName, type HasColor, Typography, type TypographyProps,
+    type HasClassName, type HasColor, Typography, type TypographyProps, CloseIconButton,
 } from "@eggziom/geek-regime-js-ui-kit";
-
-import { CloseIconButton } from "@/shared/components/icon-button";
 
 type TagStyledProps = Partial<HasColor> & {
     isClickable?: boolean;
@@ -48,7 +46,7 @@ export const Tag: FC<TagProps> = ({
         <TagStyled className={className} color={color} isClickable={isClickable} onClick={onClick}>
             <Typography as="span" fontSize="sm">{children}</Typography>
             {onClose && (
-                <CloseIconButton disabled fontSize="xxs" onClick={onClose} />
+                <CloseIconButton fontSize="xxs" onClick={onClose} />
             )}
         </TagStyled>
     );

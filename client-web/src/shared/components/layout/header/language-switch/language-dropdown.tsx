@@ -1,7 +1,7 @@
 import React, { type FC } from "react";
+import { type ElementPosition } from "@eggziom/geek-regime-js-ui-kit";
 
 import { useLanguage } from "@/shared/utils/language";
-import type { ElementPosition } from "@/shared/components/base-popup";
 
 import { getFilteredLanguages, getLanguageTitle } from "./utils";
 import { LanguageDropdownStyled, SwitchButtonStyled } from "./style";
@@ -9,7 +9,7 @@ import { LanguageDropdownStyled, SwitchButtonStyled } from "./style";
 const DROPDOWN_POSITION: ElementPosition = ["center", "bottom"];
 
 export type LanguageDropdownProps = {
-    anchorRef?: React.RefObject<HTMLElement>;
+    anchorRef: React.RefObject<HTMLElement>;
     onClose: () => void;
 };
 

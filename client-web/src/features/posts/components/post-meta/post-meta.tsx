@@ -1,7 +1,7 @@
 import React, { type FC, PropsWithChildren } from "react";
 import { useTranslation } from "react-i18next";
+import { MessageIcon, ViewIcon } from "@eggziom/geek-regime-js-ui-kit";
 
-import { MessageIcon, ViewIcon } from "@/shared/components/icon";
 import { type PostMeta as Meta } from "@/features/posts/models/entities";
 
 import { MetaItem } from "./meta-item";

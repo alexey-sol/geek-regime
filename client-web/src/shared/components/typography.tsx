@@ -1,10 +1,11 @@
 import React, { type FC, type PropsWithChildren } from "react";
-import { type FontSize, Typography, type TypographyProps } from "@eggziom/geek-regime-js-ui-kit";
+import {
+    type FontSize, Typography, type TypographyProps, useTypography,
+} from "@eggziom/geek-regime-js-ui-kit";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 
 import { mixins } from "@/app/style/mixins";
-import { useTypography } from "@/shared/utils/hooks/use-typography";
 import { getErrorMessage } from "@/shared/utils/api";
 import { type ApiError } from "@/shared/models/dtos";
 

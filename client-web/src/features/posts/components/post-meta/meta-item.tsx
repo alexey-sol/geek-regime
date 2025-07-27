@@ -1,7 +1,7 @@
 import React, { type ComponentType, type FC } from "react";
-import { type Color, type IconProps, Typography } from "@eggziom/geek-regime-js-ui-kit";
-
-import { Tooltip } from "@/shared/components/tooltip";
+import {
+    type Color, type IconProps, Typography, Tooltip,
+} from "@eggziom/geek-regime-js-ui-kit";
 
 import { MetaItemStyled } from "./style";
 

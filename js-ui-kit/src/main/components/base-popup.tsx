@@ -1,5 +1,8 @@
 import styled, { css } from "styled-components";
-import { Typography, type MapKeyToCss } from "@eggziom/geek-regime-js-ui-kit";
+
+import { type MapKeyToCss } from "@/types/theme";
+
+import { Typography } from "./typography";
 
 export type ElementPositionX = "left" | "center-right" | "center" | "center-left" | "right";
 

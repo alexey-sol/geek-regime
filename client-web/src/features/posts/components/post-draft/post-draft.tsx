@@ -3,7 +3,7 @@ import React, {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
-import { Button } from "@eggziom/geek-regime-js-ui-kit";
+import { Button, Skeleton } from "@eggziom/geek-regime-js-ui-kit";
 import {
     ErrorMessage, Field, Formik, type FormikConfig, type FormikProps, type FieldProps,
 } from "formik";
@@ -12,7 +12,6 @@ import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import { notify } from "@/app/store/actions";
 import { createSuccessSnackbarArg } from "@/features/feedback/slice/utils";
 import { useAppDispatch } from "@/app/store/hooks";
-import { Skeleton } from "@/shared/components/loaders";
 import { getPostSchema } from "@/features/posts/utils/validation/schemas";
 import { toSaveSpaceRequestList } from "@/features/spaces/utils/converters";
 
@@ -111,12 +110,12 @@ export const PostDraft: FC = () => {
 
                 <Skeleton isLoading={isLoading} heightPx={36} widthPx={180}>
                     <ControlsWrapStyled>
-                        <Button disabled={isLoading} type="submit" view="secondary">
-                            {savePostButtonTitle}
-                        </Button>
-
                         <Button disabled={isLoading} onClick={goBack}>
                             {t("posts.draft.actions.cancelButton.title")}
+                        </Button>
+
+                        <Button disabled={isLoading} type="submit" view="secondary">
+                            {savePostButtonTitle}
                         </Button>
                     </ControlsWrapStyled>
                 </Skeleton>

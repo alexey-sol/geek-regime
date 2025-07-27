@@ -1,5 +1,5 @@
-import { useToggle } from "@/shared/utils/hooks/use-toggle";
-import { useTimeout } from "@/shared/utils/hooks/use-timeout";
+import { useTimeout } from "./use-timeout";
+import { useToggle } from "./use-toggle";
 
 const TRY_MODE_DURATION_MS = 3000;
 

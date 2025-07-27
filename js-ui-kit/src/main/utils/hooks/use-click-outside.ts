@@ -1,5 +1,6 @@
 import { useEffect } from "react";
-import { type HasElementRef } from "@eggziom/geek-regime-js-ui-kit";
+
+import { type HasElementRef } from "@/types/props";
 
 export type UseClickOutsideArg = HasElementRef & {
     mouseEvent?: "click" | "mouseup" | "mousedown";

@@ -1,10 +1,10 @@
 import React, { type FC } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router";
+import { type ElementPosition } from "@eggziom/geek-regime-js-ui-kit";
 
 import { useAuthContext } from "@/features/auth/contexts/auth";
 import { createAbsoluteUsersPath } from "@/features/users/utils/helpers";
-import { type ElementPosition } from "@/shared/components/base-popup";
 import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
 import { paths } from "@/shared/const";
 
@@ -13,7 +13,7 @@ import { ProfileButtonStyled, ProfileDropdownStyled, ProfileListStyled } from ".
 const DROPDOWN_POSITION: ElementPosition = ["center-left", "bottom"];
 
 export type ProfileDropdownProps = {
-    anchorRef?: React.RefObject<HTMLElement>;
+    anchorRef: React.RefObject<HTMLElement>;
     onClose: () => void;
 };
 

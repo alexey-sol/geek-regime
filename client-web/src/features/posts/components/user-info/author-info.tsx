@@ -1,8 +1,7 @@
 import React, { type FC } from "react";
-import { Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Tooltip, Typography } from "@eggziom/geek-regime-js-ui-kit";
 
 import { useRelativeDateTime } from "@/shared/utils/hooks/use-relative-date-time";
-import { Tooltip } from "@/shared/components/tooltip";
 
 import { AuthorInfoStyled } from "./style";
 import { type AuthorInfoProps } from "./types";

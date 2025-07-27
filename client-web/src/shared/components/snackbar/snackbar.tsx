@@ -1,8 +1,7 @@
 import React, { type FC, useRef } from "react";
 import ReactDOM from "react-dom";
-import { Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { CloseIconButton, Typography } from "@eggziom/geek-regime-js-ui-kit";
 
-import { CloseIconButton } from "@/shared/components/icon-button";
 import { getRootElement } from "@/shared/utils/helpers/dom";
 import { useSnackbarData } from "@/shared/components/snackbar/utils";
 import type { SnackbarArg } from "@/features/feedback/models/entities";
@@ -38,7 +37,7 @@ export const Snackbar: FC<SnackbarProps> = ({
                 {message}
             </Typography>
 
-            <CloseIconButton disabled fontSize="xs" onClick={onClose} />
+            <CloseIconButton fontSize="xs" onClick={onClose} />
         </SnackbarStyled>
     );
 

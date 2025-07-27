@@ -1,18 +1,18 @@
 import React, {
     type FC, type PropsWithChildren, useEffect, useMemo, useRef, useState,
 } from "react";
-import { HasClassName, Typography } from "@eggziom/geek-regime-js-ui-kit";
 
-import { useToggle } from "@/shared/utils/hooks/use-toggle";
-import type {
-    ElementPosition, ElementPositionX, ElementPositionY,
-} from "@/shared/components/base-popup";
+import { type HasClassName } from "@/types/props";
+import { useToggle } from "@/utils/hooks/use-toggle";
+
+import { type ElementPosition, type ElementPositionX, type ElementPositionY } from "../base-popup";
+import { Typography } from "../typography";
 
 import { BasePopupStyled, TooltipWrapStyled } from "./style";
 
 export type TooltipProps = PropsWithChildren<Partial<HasClassName> & {
     disabled?: boolean;
-    message: string;
+    message?: string;
 }>;
 
 export const Tooltip: FC<TooltipProps> = ({
@@ -79,7 +79,7 @@ export const Tooltip: FC<TooltipProps> = ({
         }
     }, [disabled, isOn]);
 
-    const showTooltip = !disabled && isOn;
+    const showTooltip = !disabled && isOn && !!message;
 
     return (
         <TooltipWrapStyled>

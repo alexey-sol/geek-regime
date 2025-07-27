@@ -1,8 +1,7 @@
 import React, { memo } from "react";
-import { Button } from "@eggziom/geek-regime-js-ui-kit";
+import { Button, Tooltip } from "@eggziom/geek-regime-js-ui-kit";
 import { useTranslation } from "react-i18next";
 
-import { Tooltip } from "@/shared/components/tooltip";
 import { Select } from "@/shared/components/form/select";
 import { type SortValue } from "@/shared/types";
 import { type PagePeriod } from "@/shared/models/dtos";

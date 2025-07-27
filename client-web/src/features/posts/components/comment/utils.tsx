@@ -1,5 +1,5 @@
 import { useCallback, useMemo } from "react";
-import { type LinkButtonProps } from "@eggziom/geek-regime-js-ui-kit";
+import { useTryAction, type LinkButtonProps } from "@eggziom/geek-regime-js-ui-kit";
 
 import { PostCommentBase } from "@/features/posts/models/entities";
 import { useAuthContext } from "@/features/auth/contexts/auth";
@@ -10,7 +10,6 @@ import {
 } from "@/features/posts/services/post-comments-api";
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import { type HasItem, type MaybeStubItem } from "@/shared/types";
-import { useTryAction } from "@/shared/utils/hooks/use-try-action";
 import { getRemoveCommentKey, getUpdateCommentKey } from "@/features/posts/utils/api";
 import { IllegalArgumentError } from "@/shared/utils/errors";
 

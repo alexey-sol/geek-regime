@@ -5,10 +5,10 @@ import { useLocation } from "react-router-dom";
 import { useParams } from "react-router";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
+import { SearchIconButton } from "@eggziom/geek-regime-js-ui-kit";
 
 import { Input } from "@/shared/components/form/input";
 import { paths } from "@/shared/const";
-import { SearchIconButton } from "@/shared/components/icon-button";
 
 import { createAbsoluteSearchPath, getSearchBoxPlaceholderKey } from "../utils/helpers";
 
@@ -77,7 +77,7 @@ export const SearchBox = memo<SearchBoxProps>(({ navigateToSearch, searchText, s
             />
 
             <SearchIconButtonWrapper>
-                <SearchIconButton type='submit' />
+                <SearchIconButton title={t("shared.navbar.searchButton.tooltip")} type='submit' />
             </SearchIconButtonWrapper>
         </SearchFormStyled>
     );

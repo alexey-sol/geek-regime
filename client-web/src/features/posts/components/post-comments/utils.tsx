@@ -2,7 +2,7 @@ import React, {
     type ReactNode, type RefObject, useCallback, useMemo, useState,
 } from "react";
 import { skipToken } from "@reduxjs/toolkit/query";
-import { LinkButton } from "@eggziom/geek-regime-js-ui-kit";
+import { LinkButton, useInfiniteScroll } from "@eggziom/geek-regime-js-ui-kit";
 import { useTranslation } from "react-i18next";
 
 import {
@@ -10,7 +10,6 @@ import {
 } from "@/features/posts/services/post-comments-api";
 import { defaults } from "@/shared/const";
 import { getCreateCommentKey, mapGetAllPostCommentsArg } from "@/features/posts/utils/api";
-import { useInfiniteScroll } from "@/shared/utils/hooks/use-infinite-scroll";
 import { hasMore } from "@/shared/utils/api";
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import { type PostCommentResponse } from "@/features/posts/models/dtos";

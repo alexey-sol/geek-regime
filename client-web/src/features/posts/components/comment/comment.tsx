@@ -1,14 +1,13 @@
 import React, {
     type FC, type PropsWithChildren, type ReactNode, useMemo,
 } from "react";
-import { LinkButton } from "@eggziom/geek-regime-js-ui-kit";
+import { LinkButton, Tooltip } from "@eggziom/geek-regime-js-ui-kit";
 import { useTranslation } from "react-i18next";
 
 import { type PostCommentBase } from "@/features/posts/models/entities";
 import { type HasItem, MaybeStubItem } from "@/shared/types";
 import { useRootCommentContext } from "@/features/posts/contexts/root-comment";
 import { useAuthContext } from "@/features/auth/contexts/auth";
-import { Tooltip } from "@/shared/components/tooltip";
 import { isStubItem } from "@/shared/utils/helpers/object";
 
 import { CommentContent, CommentContentStyled } from "../comment-content";

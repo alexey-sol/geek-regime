@@ -1,2 +1,1 @@
-export * from "./base-icon-button";
-export * from "./style";
+export * from "./icon-button";

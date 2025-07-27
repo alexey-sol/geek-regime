@@ -1,8 +1,8 @@
 import React, { type FC } from "react";
-import { LinkButton } from "@eggziom/geek-regime-js-ui-kit";
+import { LinkButton, ProfileIconButton } from "@eggziom/geek-regime-js-ui-kit";
+import { useTranslation } from "react-i18next";
 
 import { type User } from "@/features/users/models/entities";
-import { ProfileIconButton } from "@/shared/components/icon-button";
 
 import { UserImageStyled } from "../style";
 
@@ -16,15 +16,19 @@ export const ProfileButton: FC<ProfileButtonProps> = ({
     onClick,
     sizePx,
     user,
-}) => (user?.details?.image
-    ? (
-        <LinkButton onClick={onClick}>
-            <UserImageStyled
-                alt={user.details.name}
-                height={sizePx}
-                src={user.details.image}
-                width={sizePx}
-            />
-        </LinkButton>
-    )
-    : <ProfileIconButton onClick={onClick} />);
+}) => {
+    const { t } = useTranslation();
+
+    return user?.details?.image
+        ? (
+            <LinkButton onClick={onClick}>
+                <UserImageStyled
+                    alt={user.details.name}
+                    height={sizePx}
+                    src={user.details.image}
+                    width={sizePx}
+                />
+            </LinkButton>
+        )
+        : <ProfileIconButton onClick={onClick} title={t("shared.navbar.profileButton.tooltip")} />;
+};

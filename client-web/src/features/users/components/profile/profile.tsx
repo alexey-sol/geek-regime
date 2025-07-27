@@ -2,19 +2,17 @@ import React, { type FC, useCallback } from "react";
 import styled from "styled-components";
 import { useNavigate, useParams } from "react-router";
 import { useTranslation } from "react-i18next";
+import {
+    type HandleChange, Tab, TabBar, TabContextProvider, TabPanel,
+} from "@eggziom/geek-regime-js-ui-kit";
 
 import { useAuthContext } from "@/features/auth/contexts/auth";
 import { paths } from "@/shared/const";
 import { createAbsoluteUsersPath } from "@/features/users/utils/helpers";
-import { TabBar } from "@/shared/components/tabs/tab-bar";
-import { Tab } from "@/shared/components/tabs/tab";
-import { TabContextProvider } from "@/shared/components/tabs/tab-context";
-import { TabPanel } from "@/shared/components/tabs/tab-panel";
 import { ProfileHome } from "@/features/users/components/profile-home";
 import { ProfileSettings } from "@/features/users/components/profile-settings";
 import { PostsByAuthorPage } from "@/features/posts/components/posts-by-author-page";
 import { PostCommentsByAuthorPage } from "@/features/posts/components/post-comments-by-author-page";
-import { type HandleChange } from "@/shared/components/tabs/types";
 
 import { UserOverview } from "../user-overview";
 import { type HasUser } from "../../types";

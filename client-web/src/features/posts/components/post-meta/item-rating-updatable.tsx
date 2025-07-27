@@ -1,9 +1,9 @@
 import React, { type FC } from "react";
-import { Typography } from "@eggziom/geek-regime-js-ui-kit";
+import {
+    DislikeIconButton, LikeIconButton, Tooltip, Typography,
+} from "@eggziom/geek-regime-js-ui-kit";
 import { useTranslation } from "react-i18next";
 
-import { Tooltip } from "@/shared/components/tooltip";
-import { DislikeIconButton, LikeIconButton } from "@/shared/components/icon-button";
 import { useAuthContext } from "@/features/auth/contexts/auth";
 
 import { useActivePost } from "../../utils/hooks/use-active-post";

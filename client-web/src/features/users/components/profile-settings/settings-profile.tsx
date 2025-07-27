@@ -1,11 +1,10 @@
 import React, { type FC } from "react";
-import { Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Tooltip, Typography } from "@eggziom/geek-regime-js-ui-kit";
 import { useTranslation } from "react-i18next";
 import { Field, type FieldProps, useFormikContext } from "formik";
 import { sub } from "date-fns";
 
 import { FormInput } from "@/shared/components/form/form-input";
-import { Tooltip } from "@/shared/components/tooltip";
 import { useUserTranslation } from "@/features/users/utils/hooks/use-user-translation";
 import { Select } from "@/shared/components/form/select";
 import { getDateWithoutTime } from "@/shared/utils/formatters/date";

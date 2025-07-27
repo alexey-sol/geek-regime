@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { Typography } from "@eggziom/geek-regime-js-ui-kit";
+
+import { Typography } from "../typography";
 
 export type BaseDialogStyledProps = {
     width?: "auto" | "normal" | "narrow";

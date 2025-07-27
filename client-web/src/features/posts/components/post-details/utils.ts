@@ -1,10 +1,9 @@
 import { useCallback, useMemo } from "react";
-import { type LinkButtonProps } from "@eggziom/geek-regime-js-ui-kit";
+import { useTryAction, type LinkButtonProps } from "@eggziom/geek-regime-js-ui-kit";
 import { useNavigate } from "react-router";
 import { useTranslation } from "react-i18next";
 
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
-import { useTryAction } from "@/shared/utils/hooks/use-try-action";
 import { useRemovePostByIdMutation } from "@/features/posts/services/posts-api";
 import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
 import { useAppDispatch } from "@/app/store/hooks";

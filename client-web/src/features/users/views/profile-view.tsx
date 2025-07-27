@@ -1,10 +1,10 @@
 import React, { type FC, memo } from "react";
 import styled from "styled-components";
+import { Loader } from "@eggziom/geek-regime-js-ui-kit";
 
 import { Profile } from "@/features/users/components/profile";
 import { useActiveUser } from "@/features/users/utils/hooks/use-active-user";
 import { ApiErrorMessage } from "@/shared/components/typography";
-import { Loader } from "@/shared/components/loaders";
 
 const ProfileViewStyled = styled.section`
     height: 100%;

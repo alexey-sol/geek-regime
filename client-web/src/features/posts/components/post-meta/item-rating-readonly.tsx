@@ -1,7 +1,6 @@
 import React, { type FC } from "react";
 import { useTranslation } from "react-i18next";
-
-import { RatingIcon } from "@/shared/components/icon";
+import { RatingIcon } from "@eggziom/geek-regime-js-ui-kit";
 
 import { getCappedCountLabel, getRatingColor } from "./utils";
 import { MetaItem } from "./meta-item";

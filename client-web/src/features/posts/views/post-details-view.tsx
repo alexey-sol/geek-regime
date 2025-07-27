@@ -2,11 +2,11 @@ import React, {
     type FC, memo, useCallback, useState,
 } from "react";
 import styled from "styled-components";
+import { useInfiniteScroll } from "@eggziom/geek-regime-js-ui-kit";
 
 import { PostDetails } from "@/features/posts/components/post-details";
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import { PostComments } from "@/features/posts/components/post-comments";
-import { useInfiniteScroll } from "@/shared/utils/hooks/use-infinite-scroll";
 import { ApiErrorMessage } from "@/shared/components/typography";
 import { createStubItem } from "@/shared/utils/helpers/object";
 

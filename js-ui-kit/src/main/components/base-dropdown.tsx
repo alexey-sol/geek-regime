@@ -8,16 +8,15 @@ import React, {
 } from "react";
 import ReactDOM from "react-dom";
 
-import { BasePopup, type BasePopupStyledProps } from "@/shared/components/base-popup";
-import { useKeyboardControls } from "@/shared/utils/hooks/use-keyboard-controls";
-import { getRootElement } from "@/shared/utils/helpers/dom";
+import { useKeyboardControls } from "@/utils/hooks/use-keyboard-controls";
+import { useClickOutside, UseClickOutsideArg } from "@/utils/hooks/use-click-outside";
 
-import { useClickOutside, UseClickOutsideArg } from "../utils/hooks/use-click-outside";
+import { BasePopup, type BasePopupStyledProps } from "./base-popup";
 
 export type BaseDropdownProps = PropsWithChildren<Pick<UseClickOutsideArg, "mouseEvent">
     & Pick<BasePopupStyledProps, "position">
     & {
-        anchorRef?: RefObject<HTMLElement>;
+        anchorRef: RefObject<HTMLElement>;
         onClose: () => void;
         role?: AriaRole;
     }>;
@@ -43,8 +42,6 @@ export const BaseDropdown: FC<BaseDropdownProps> = memo(({
         onCancel: onClose,
     });
 
-    const container = anchorRef?.current ?? getRootElement();
-
     const dropdown = (
         <BasePopup
             ref={elementRef}
@@ -56,5 +53,5 @@ export const BaseDropdown: FC<BaseDropdownProps> = memo(({
         </BasePopup>
     );
 
-    return ReactDOM.createPortal(dropdown, container);
+    return ReactDOM.createPortal(dropdown, anchorRef.current ?? document.body);
 });

@@ -1,9 +1,9 @@
 import React, { memo, useEffect, useRef } from "react";
+import { useToggle } from "@eggziom/geek-regime-js-ui-kit";
 
 import { ProfileDropdown } from "@/features/auth/components/profile-dropdown";
 import { AuthDialog } from "@/features/auth/components/auth-dialog";
 import { useAuthContext } from "@/features/auth/contexts/auth";
-import { useToggle } from "@/shared/utils/hooks/use-toggle";
 import { ProfileButton } from "@/features/users/components/button/profile-button";
 
 import { ProfileItemStyled } from "./style";

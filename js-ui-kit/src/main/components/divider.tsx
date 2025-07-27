@@ -1,6 +1,7 @@
 import React, { type FC } from "react";
 import styled, { css } from "styled-components";
-import { type HasClassName } from "@eggziom/geek-regime-js-ui-kit";
+
+import { type HasClassName } from "@/types/props";
 
 type DividerProps = Partial<HasClassName> & {
     widthPx?: number;

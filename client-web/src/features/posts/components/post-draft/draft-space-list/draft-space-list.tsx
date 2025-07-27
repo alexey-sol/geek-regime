@@ -3,7 +3,9 @@ import React, {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { FieldArray, type FieldArrayRenderProps, useFormikContext } from "formik";
-import { LinkButton, LinkButtonProps, Typography } from "@eggziom/geek-regime-js-ui-kit";
+import {
+    LinkButton, LinkButtonProps, Skeleton, Typography,
+} from "@eggziom/geek-regime-js-ui-kit";
 import { useLocation } from "react-router-dom";
 
 import { Tag } from "@/shared/components/tag";
@@ -13,7 +15,6 @@ import { defaults } from "@/shared/const";
 import { type Space } from "@/features/spaces/models/entities";
 import { mapPagingQueryParams } from "@/shared/utils/api";
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
-import { Skeleton } from "@/shared/components/loaders";
 import { GetAllMergedSpacesArg } from "@/features/spaces/services/api/types";
 
 import { type SavePostValues } from "../types";

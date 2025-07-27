@@ -1,8 +1,8 @@
 import React, { type FC, useRef } from "react";
 import { Formik, type FormikConfig, type FormikProps } from "formik";
 import { useTranslation } from "react-i18next";
+import { Divider } from "@eggziom/geek-regime-js-ui-kit";
 
-import { Divider } from "@/shared/components/divider";
 import { getProfileSettingsSchema } from "@/features/users/utils/validation/schemas";
 import { notify } from "@/app/store/actions";
 import { createSuccessSnackbarArg } from "@/features/feedback/slice/utils";

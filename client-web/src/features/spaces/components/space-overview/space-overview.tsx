@@ -1,16 +1,15 @@
 import React, { type FC, type PropsWithChildren } from "react";
 import { useTranslation } from "react-i18next";
-import { Typography } from "@eggziom/geek-regime-js-ui-kit";
+import {
+    EditIcon, Skeleton, Tooltip, Typography,
+} from "@eggziom/geek-regime-js-ui-kit";
 import { Link } from "react-router-dom";
 
 import { createAbsoluteSpacePostsPath } from "@/features/spaces/utils/helpers";
 import { type HasItem, MaybeStubItem } from "@/shared/types";
-import { Skeleton } from "@/shared/components/loaders";
 import { isStubItem } from "@/shared/utils/helpers/object";
 import { Space } from "@/features/spaces/models/entities";
 import { OverviewTitle } from "@/shared/components/typography";
-import { EditIcon } from "@/shared/components/icon";
-import { Tooltip } from "@/shared/components/tooltip";
 
 import {
     HeaderStyled, NonOfficialIconWrap, SpaceOverviewStyled,

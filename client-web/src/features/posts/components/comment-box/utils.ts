@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useState } from "react";
+import { PubSub } from "@eggziom/geek-regime-js-ui-kit";
 
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
-import { PubSub } from "@/shared/utils/pub-sub";
 
 import { type UseCommentBoxArg } from "./types";
 

@@ -1,11 +1,10 @@
 import React, { type FC, useRef, useState } from "react";
-import { LinkButton } from "@eggziom/geek-regime-js-ui-kit";
+import {
+    Divider, LinkButton, Tooltip, useTryAction,
+} from "@eggziom/geek-regime-js-ui-kit";
 import { useTranslation } from "react-i18next";
 import { type HasId } from "@eggziom/geek-regime-js-commons";
 
-import { Tooltip } from "@/shared/components/tooltip";
-import { Divider } from "@/shared/components/divider";
-import { useTryAction } from "@/shared/utils/hooks/use-try-action";
 import { type UserDetails } from "@/features/users/models/entities";
 import { useRemoveUserPictureByUserIdMutation, useUploadUserPictureMutation } from "@/features/users/services/api";
 

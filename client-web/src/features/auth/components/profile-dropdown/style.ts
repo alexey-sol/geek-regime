@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import { LinkButton, Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { BaseDropdown, LinkButton, Typography } from "@eggziom/geek-regime-js-ui-kit";
 
-import { BaseDropdown } from "@/shared/components/base-dropdown";
 import { mixins } from "@/app/style/mixins";
 
 export const ProfileDropdownStyled = styled(BaseDropdown)`

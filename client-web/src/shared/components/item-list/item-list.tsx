@@ -1,9 +1,7 @@
 import React, { type ComponentType } from "react";
-import { Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Divider, Typography } from "@eggziom/geek-regime-js-ui-kit";
 import { useTranslation } from "react-i18next";
 import { HasId } from "@eggziom/geek-regime-js-commons";
-
-import { Divider } from "@/shared/components/divider";
 
 import { ListItemStyled, ListStyled } from "./style";
 

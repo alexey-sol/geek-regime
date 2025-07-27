@@ -1,11 +1,9 @@
 import React, { memo } from "react";
 import { useTranslation } from "react-i18next";
 import { resources } from "@eggziom/geek-regime-js-commons";
+import { Tab, TabBar, TabPanel } from "@eggziom/geek-regime-js-ui-kit";
 
 import { paths } from "@/shared/const";
-import { TabBar } from "@/shared/components/tabs/tab-bar";
-import { Tab } from "@/shared/components/tabs/tab";
-import { TabPanel } from "@/shared/components/tabs/tab-panel";
 import { UsersPage } from "@/features/users/components/users-page";
 import { SpacesPage } from "@/features/spaces/components/spaces-page";
 import { PostsPage } from "@/features/posts/components/posts-page";

@@ -1,7 +1,6 @@
 import React from "react";
 
 import { fireEvent, render, screen } from "@/test/setup";
-import * as iconButtonCn from "@/shared/components/icon-button/const";
 
 import { Snackbar } from "./snackbar";
 
@@ -24,9 +23,11 @@ describe("Shared/Snackbar", () => {
     });
 
     test("calls onClose when close button is clicked", () => {
+        const ARIA_LABEL_CLOSE = "close";
+
         render(<Snackbar message={MESSAGE} onClose={onClose} />);
 
-        fireEvent.click(screen.getByLabelText(iconButtonCn.ARIA_LABEL_CLOSE));
+        fireEvent.click(screen.getByLabelText(ARIA_LABEL_CLOSE));
 
         expect(onClose).toBeCalled();
     });

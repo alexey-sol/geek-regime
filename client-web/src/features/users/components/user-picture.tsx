@@ -1,6 +1,6 @@
 import React, { type FC } from "react";
+import { UserIcon } from "@eggziom/geek-regime-js-ui-kit";
 
-import { UserIcon } from "@/shared/components/icon";
 import { type User } from "@/features/users/models/entities";
 
 import { UserImageStyled } from "./style";

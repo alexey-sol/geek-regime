@@ -1,6 +1,6 @@
 import React, { type FC } from "react";
+import { BaseDialog } from "@eggziom/geek-regime-js-ui-kit";
 
-import { BaseDialog } from "@/shared/components/base-dialog";
 import { useAuthDialog } from "@/features/auth/components/auth-dialog/utils";
 
 import { DialogBodyStyled } from "./style";

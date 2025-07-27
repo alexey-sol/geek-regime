@@ -1,12 +1,12 @@
 import React, { type FC } from "react";
 import { Link as RouterDomLink } from "react-router-dom";
+import { Skeleton } from "@eggziom/geek-regime-js-ui-kit";
 
 import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
 import { PostMeta } from "@/features/posts/components/post-meta";
 import { AuthorInfo } from "@/features/posts/components/user-info";
 import { type PostPreview } from "@/features/posts/models/entities";
 import { MaybeStubItem, type HasItem } from "@/shared/types";
-import { Skeleton } from "@/shared/components/loaders";
 import { isStubItem } from "@/shared/utils/helpers/object";
 import { usePrefetch } from "@/features/posts/services/posts-api";
 import { SpaceList } from "@/features/spaces/components/space-list";

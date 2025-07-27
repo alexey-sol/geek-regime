@@ -5,9 +5,9 @@ import React, {
     type ReactNode,
 } from "react";
 import { useTranslation } from "react-i18next";
+import { Tooltip } from "@eggziom/geek-regime-js-ui-kit";
 
 import { defaults } from "@/shared/const";
-import { Tooltip } from "@/shared/components/tooltip";
 
 import { usePagingData } from "./utils";
 import {

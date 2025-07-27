@@ -1,6 +1,6 @@
 import styled from "styled-components";
 
-import { BasePopup } from "@/shared/components/base-popup";
+import { BasePopup } from "../base-popup";
 
 export const TooltipWrapStyled = styled.span`
     position: relative;

@@ -1,9 +1,9 @@
 import React, { type FC, useCallback } from "react";
 import styled, { css } from "styled-components";
-import { Typography } from "@eggziom/geek-regime-js-ui-kit";
 
-import { useTabContext } from "@/shared/components/tabs/tab-context";
+import { Typography } from "../typography";
 
+import { useTabContext } from "./tab-context";
 import * as cn from "./const";
 
 const TabStyled = styled.li<{ isActive?: boolean }>(

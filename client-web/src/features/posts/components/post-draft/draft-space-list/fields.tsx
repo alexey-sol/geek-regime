@@ -3,8 +3,8 @@ import { useTranslation } from "react-i18next";
 import {
     Field, useFormikContext, type ArrayHelpers, type FieldProps,
 } from "formik";
+import { AddItemIconButton } from "@eggziom/geek-regime-js-ui-kit";
 
-import { AddItemIconButton } from "@/shared/components/icon-button";
 import { FieldErrorMessage } from "@/shared/components/typography";
 import { hasTitle } from "@/shared/utils/guards";
 import { TagStyled } from "@/shared/components/tag";
@@ -75,7 +75,6 @@ export const AppendSpaceField: FC<AppendSpaceFieldProps> = ({ index, replace, un
                         />
 
                         <AddItemIconButton
-                            disabled
                             fontSize="xxs"
                             onClick={(event) => {
                                 event.preventDefault();
