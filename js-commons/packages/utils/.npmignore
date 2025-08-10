@@ -1,0 +1,9 @@
+/*.js
+/*.ts
+/*.map
+/tsconfig.*
+.idea
+coverage
+dist/**/tsconfig.tsbuildinfo
+src
+tools

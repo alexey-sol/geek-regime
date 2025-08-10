@@ -1,0 +1,57 @@
+{
+    "name": "@eggziom/geek-regime-js-utils",
+    "version": "1.0.0",
+    "description": "Utilities for JS based modules",
+    "author": "Alexey Soloviev",
+    "license": "UNLICENSED",
+    "engines": {
+        "npm": ">=10.0.0 <11.0.0",
+        "node": ">=18.0.0 <19.0.0"
+    },
+    "main": "dist/index.js",
+    "types": "dist/index.d.ts",
+    "sideEffects": [
+        "**/*.d.ts"
+    ],
+    "exports": {
+        ".": {
+            "types": "./dist/dts/index.d.ts",
+            "require": "./dist/cjs/index.js",
+            "import": "./dist/esm/index.js",
+            "default": "./dist/esm/index.js"
+        },
+        "./models/*": {
+            "types": "./dist/dts/models/*.d.ts"
+        }
+    },
+    "scripts": {
+        "build": "npm run build:dts && npm run build:esm && npm run build:cjs",
+        "build:dts": "tsc --project tsconfig.dts.json && tsc-alias -v --dir dist/dts -p tsconfig.dts.json && npm run build:models:local",
+        "build:esm": "node tools/esbuild.esm.mjs",
+        "build:cjs": "node tools/esbuild.cjs.mjs",
+        "build:models:remote": "npx openapi-typescript https://raw.githubusercontent.com/alexey-sol/geek-regime/main/api-commons/src/main/resources/api-components/schemas-v1.yml -o ./dist/dts/models/schemas-v1.d.ts",
+        "build:models:local": "npm run build:models:local:common && npm run build:models:local:post && npm run build:models:local:post-comment && npm run build:models:local:space && npm run build:models:local:user",
+        "build:models:local:common": "npx openapi-typescript ../../../api-commons/src/main/resources/api-schemas-v1/common.yml -o ./dist/dts/models/common-schemas-v1.d.ts",
+        "build:models:local:post": "npx openapi-typescript ../../../api-commons/src/main/resources/api-schemas-v1/post.yml -o ./dist/dts/models/post-schemas-v1.d.ts",
+        "build:models:local:post-comment": "npx openapi-typescript ../../../api-commons/src/main/resources/api-schemas-v1/post-comment.yml -o ./dist/dts/models/post-comment-schemas-v1.d.ts",
+        "build:models:local:space": "npx openapi-typescript ../../../api-commons/src/main/resources/api-schemas-v1/space.yml -o ./dist/dts/models/space-schemas-v1.d.ts",
+        "build:models:local:user": "npx openapi-typescript ../../../api-commons/src/main/resources/api-schemas-v1/user.yml -o ./dist/dts/models/user-schemas-v1.d.ts",
+        "copy:package": "copyfiles -u 2 src/package/**/*.{json,md} dist",
+        "prebuild": "rimraf dist",
+        "postbuild": "npm run copy:package",
+        "lint": "eslint . --ext .js,.jsx,.mjs,.ts,.tsx",
+        "lint:fix": "npm run lint -- --fix",
+        "test": "jest --config=tools/jest.config.js",
+        "test:watch": "npm run test -- --watch",
+        "test:coverage": "npm run test -- --coverage",
+        "test:coverage:watch": "npm run test:coverage -- --watchAll",
+        "test:clear": "npm run test -- --clearCache"
+    },
+    "peerDependencies": {
+        "@eggziom/geek-regime-js-configs": "1"
+    },
+    "devDependencies": {
+        "@eggziom/geek-regime-js-configs": "1.0.0",
+        "openapi-typescript": "6.7.6"
+    }
+}

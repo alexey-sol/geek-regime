@@ -1,8 +1,0 @@
-/*.js
-/*.ts
-/tsconfig.json
-.idea
-configs
-coverage
-dist/**/tsconfig.tsbuildinfo
-src

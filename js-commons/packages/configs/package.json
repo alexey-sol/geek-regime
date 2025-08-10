@@ -1,0 +1,57 @@
+{
+    "name": "@eggziom/geek-regime-js-configs",
+    "version": "1.0.0",
+    "description": "Configuration files for JS based modules",
+    "author": "Alexey Soloviev",
+    "license": "UNLICENSED",
+    "engines": {
+        "npm": ">=10.0.0 <11.0.0",
+        "node": ">=18.0.0 <19.0.0"
+    },
+    "main": "dist/esm/index.js",
+    "types": "dist/dts/index.d.ts",
+    "sideEffects": [
+        "**/*.d.ts"
+    ],
+    "exports": {
+        "./*": {
+            "types": "./dist/dts/*/index.d.ts",
+            "require": "./dist/cjs/*/index.js",
+            "import": "./dist/esm/*/index.js",
+            "default": "./dist/esm/*/index.js"
+        },
+        "./babel/*": {
+            "types": "./dist/dts/babel/*.cjs",
+            "require": "./dist/cjs/babel/*.js",
+            "import": "./dist/esm/babel/*.cjs",
+            "default": "./dist/esm/babel/*.js"
+        },
+        "./eslint/*": {
+            "types": "./dist/dts/eslint/*.cjs",
+            "require": "./dist/cjs/eslint/*.js",
+            "import": "./dist/esm/eslint/*.cjs",
+            "default": "./dist/esm/eslint/*.js"
+        },
+        "./tsconfig/*": {
+            "import": "./dist/tsconfig/*",
+            "default": "./dist/tsconfig/*"
+        }
+    },
+    "scripts": {
+        "build": "npm run build:dts && npm run build:esm && npm run build:cjs",
+        "build:dts": "tsc --project tsconfig.dts.json",
+        "build:esm": "node tools/esbuild.esm.mjs",
+        "build:cjs": "node tools/esbuild.cjs.mjs",
+        "prebuild": "rimraf dist",
+        "postbuild": "npm run copy:package && npm run copy:tsconfig",
+        "copy:package": "copyfiles -u 2 src/package/**/*.{json,md} dist",
+        "copy:tsconfig": "copyfiles -u 1 src/tsconfig/*.json dist",
+        "prepare": "npm run build",
+        "lint": "eslint . --ext .js,.jsx,.mjs,.ts,.tsx",
+        "lint:fix": "npm run lint -- --fix"
+    },
+    "devDependencies": {
+        "copyfiles": "2.4.1",
+        "rimraf": "5.0.1"
+    }
+}

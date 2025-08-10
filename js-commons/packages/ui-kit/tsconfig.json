@@ -1,0 +1,13 @@
+{
+    "extends": "@eggziom/geek-regime-js-configs/tsconfig/tsconfig.react.json",
+    "compilerOptions": {
+        "moduleResolution": "Bundler",
+        "baseUrl": ".",
+        "noEmit": true,
+        "outDir": "dist",
+        "paths": {
+            "@/*": ["src/*"],
+        },
+    },
+    "include": ["@types", "src", "tools"],
+}

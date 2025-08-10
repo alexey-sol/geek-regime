@@ -1,0 +1,12 @@
+{
+    "extends": "@eggziom/geek-regime-js-configs/tsconfig/tsconfig.base.json",
+    "compilerOptions": {
+        "baseUrl": ".",
+        "moduleResolution": "Bundler",
+        "paths": {
+            "@/*": ["src/*"]
+        },
+    },
+    "include": ["@types", "src"],
+    "exclude": ["**/*.cjs", "**/*.mjs"]
+}
