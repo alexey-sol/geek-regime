@@ -29,7 +29,11 @@ public class PostCommentService {
     }
 
     public long countAllDescendantsByParentId(long parentId) {
-        return postCommentRepository.countAllDescendantsByParentId(parentId);
+        return this.countAllDescendantsByParentId(parentId, false);
+    }
+
+    public long countAllDescendantsByParentId(long parentId, boolean isDeleted) {
+        return postCommentRepository.countAllDescendantsByParentId(parentId, isDeleted);
     }
 
     public Optional<PostComment> findPostCommentById(long id) {

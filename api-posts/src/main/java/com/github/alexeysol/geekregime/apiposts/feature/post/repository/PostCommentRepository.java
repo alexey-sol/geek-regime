@@ -20,14 +20,14 @@ public interface PostCommentRepository extends PagingAndSortingRepository<PostCo
         value = "WITH RECURSIVE tree (id, parent_id) AS " +
             "(SELECT id, parent_id " +
             "FROM post_comment " +
-            "WHERE parent_id = :parentId " +
+            "WHERE parent_id = :parentId AND is_deleted = :isDeleted " +
             "UNION ALL " +
             "SELECT pc.id, pc.parent_id " +
             "FROM tree INNER JOIN post_comment pc " +
             "ON tree.id = pc.parent_id) " +
             "SELECT COUNT(id) FROM tree",
         nativeQuery = true)
-    long countAllDescendantsByParentId(long parentId);
+    long countAllDescendantsByParentId(long parentId, boolean isDeleted);
 
     @Query(
         value = "WITH RECURSIVE tree (id, parent_id) AS " +
