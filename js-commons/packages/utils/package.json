@@ -1,6 +1,6 @@
 {
     "name": "@eggziom/geek-regime-js-utils",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "description": "Utilities for JS based modules",
     "author": "Alexey Soloviev",
     "license": "UNLICENSED",
@@ -47,11 +47,8 @@
         "test:coverage:watch": "npm run test:coverage -- --watchAll",
         "test:clear": "npm run test -- --clearCache"
     },
-    "peerDependencies": {
-        "@eggziom/geek-regime-js-configs": "1"
-    },
     "devDependencies": {
-        "@eggziom/geek-regime-js-configs": "1.0.0",
+        "@eggziom/geek-regime-js-configs": "1.0.3",
         "openapi-typescript": "6.7.6"
     }
 }

@@ -11,7 +11,7 @@ import coreConfig from "./core";
 
 const MODE = "production";
 
-const config: webpack.Configuration = merge(coreConfig, {
+export default merge<webpack.Configuration>(coreConfig, {
     mode: MODE,
     output: {
         filename: `${cn.JS_OUTPUT}/[name].[${cn.HASH}].js`,
@@ -39,5 +39,3 @@ const config: webpack.Configuration = merge(coreConfig, {
         },
     },
 });
-
-export default config;

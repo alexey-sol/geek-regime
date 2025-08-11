@@ -1,7 +1,9 @@
 {
     "name": "@eggziom/geek-regime-js-commons",
     "workspaces": [
-        "packages/*"
+        "packages/configs",
+        "packages/utils",
+        "packages/ui-kit"
     ],
     "description": "Shared tools for JS based modules",
     "author": "Alexey Soloviev",
@@ -13,8 +15,7 @@
     },
     "scripts": {
         "build": "npm run build --ws",
-        "build:configs": "npm run build --workspace packages/configs",
-        "postinstall": "npm run build:configs",
+        "postinstall": "npm run build",
         "lint": "npm run lint --ws",
         "lint:fix": "npm run lint:fix --ws",
         "test": "npm run test --workspace packages/ui-kit",
@@ -24,6 +25,7 @@
         "@babel/core": "7.26.0",
         "@babel/plugin-transform-modules-commonjs": "7.25.7",
         "@babel/preset-env": "7.24.8",
+        "@eggziom/geek-regime-js-configs": "1.0.3",
         "@storybook/addon-a11y": "7.6.20",
         "@storybook/addon-essentials": "7.6.20",
         "@storybook/addon-interactions": "7.6.20",
@@ -34,6 +36,7 @@
         "@types/jest": "29.5.2",
         "@types/merge-deep": "3.0.3",
         "@types/node": "18.15.0",
+        "@types/styled-components": "5.1.26",
         "@types/webpack-node-externals": "3.0.0",
         "@typescript-eslint/eslint-plugin": "6.21.0",
         "@typescript-eslint/parser": "6.21.0",
@@ -64,6 +67,7 @@
         "sass": "1.63.6",
         "sass-loader": "13.3.2",
         "storybook": "7.6.20",
+        "styled-components": "5.3.5",
         "ts-jest": "29.1.1",
         "ts-node": "10.9.1",
         "tsc-alias": "1.8.16",

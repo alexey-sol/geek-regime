@@ -1,6 +1,6 @@
 {
     "name": "@eggziom/geek-regime-js-ui-kit",
-    "version": "1.0.0",
+    "version": "1.0.2",
     "description": "UI kit for web client",
     "author": "Alexey Soloviev",
     "license": "UNLICENSED",
@@ -38,7 +38,6 @@
     },
     "peerDependencies": {
         "@eggziom/geek-regime-js-configs": "1",
-        "@eggziom/geek-regime-js-utils": "1",
         "react": "18",
         "react-dom": "18"
     },
@@ -47,15 +46,13 @@
         "@babel/plugin-proposal-decorators": "7.22.6",
         "@babel/preset-react": "7.22.5",
         "@babel/preset-typescript": "7.22.5",
-        "@eggziom/geek-regime-js-configs": "1.0.0",
-        "@eggziom/geek-regime-js-utils": "1.0.0",
+        "@eggziom/geek-regime-js-utils": "1.0.2",
         "@testing-library/jest-dom": "5.16.5",
         "@testing-library/react": "15.0.6",
         "@types/lodash.debounce": "4.0.7",
         "@types/react": "18.2.14",
         "@types/react-dom": "18.2.6",
         "@types/react-router-dom": "5.3.3",
-        "@types/styled-components": "5.1.26",
         "@types/webpack-bundle-analyzer": "4.6.0",
         "core-js": "3.31.0",
         "jest-environment-jsdom": "29.5.0",
@@ -63,7 +60,6 @@
         "react": "18.2.0",
         "react-dom": "18.2.0",
         "react-router-dom": "6.14.1",
-        "styled-components": "5.3.5",
         "webpack-bundle-analyzer": "4.9.0"
     }
 }

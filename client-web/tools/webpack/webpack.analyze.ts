@@ -1,9 +1,9 @@
 import { merge } from "webpack-merge";
 import { BundleAnalyzerPlugin } from "webpack-bundle-analyzer";
 
-import webpackBuild from "./webpack.build";
+import productionConfig from "./webpack.production";
 
-export default merge(webpackBuild({}, { mode: "production" }), {
+export default merge(productionConfig({}, { mode: "production" }), {
     plugins: [
         new BundleAnalyzerPlugin(),
     ],

@@ -4,7 +4,7 @@ import type webpack from "webpack";
 import merge from "webpack-merge";
 import ForkTsCheckerWebpackPlugin from "fork-ts-checker-webpack-plugin";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import { type Configuration as DevServerConfiguration } from "webpack-dev-server";
+import "webpack-dev-server";
 
 import * as cn from "../const";
 
@@ -18,11 +18,7 @@ const DEV_SERVER_PROXY_API = "http://localhost:3090";
 
 const cwd = process.cwd();
 
-interface DevelopmentConfiguration extends webpack.Configuration {
-    devServer?: DevServerConfiguration;
-}
-
-const config: DevelopmentConfiguration = merge(coreConfig, {
+export default merge<webpack.Configuration>(coreConfig, {
     mode: MODE,
     output: {
         filename: `${cn.JS_OUTPUT}/bundle.js`,
@@ -68,8 +64,6 @@ const config: DevelopmentConfiguration = merge(coreConfig, {
         },
     },
 });
-
-export default config;
 
 // [1]. Makes HMR work in dockerized app.
 // [2]. Serve index.html on an arbitrary path in address bar (fixes "cannot GET /...").

@@ -3,7 +3,7 @@ import path from "path";
 import nodeExternals from "webpack-node-externals";
 import merge from "webpack-merge";
 import MiniCssExtractPlugin from "mini-css-extract-plugin";
-import { baseWebpackConfig, getRules } from "@eggziom/geek-regime-js-configs/webpack";
+import { productionWebpackConfig, getRules } from "@eggziom/geek-regime-js-configs/webpack";
 import { type CallableOption } from "webpack-cli";
 
 const LIBRARY_TYPE = "module";
@@ -11,7 +11,7 @@ const LIBRARY_TYPE = "module";
 const cwd = process.cwd();
 
 /** Deprecated. Use Vite instead to build the library. */
-const config: CallableOption = (env, argv) => merge(baseWebpackConfig(env, argv), {
+const config: CallableOption = (env, argv) => merge(productionWebpackConfig, {
     entry: path.resolve(cwd, "src", "main"),
     output: {
         clean: true,

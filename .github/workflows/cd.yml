@@ -62,10 +62,10 @@ jobs:
             app-path: client-web
         needs: prepare
 
-    test-js-ui-kit:
+    test-js-commons:
         uses: ./.github/workflows/test-npm-app.yml
         with:
-            app-path: js-ui-kit
+            app-path: js-commons
         needs: prepare
 
     deploy:
@@ -81,7 +81,7 @@ jobs:
             - test-api-posts
             - test-api-users
             - test-client-web
-            - test-js-ui-kit
+            - test-js-commons
 
 # [1]. We can't access "env" in "with" section, so we just pass the needed variables across
 # the jobs, as an output of the "prepare" job.

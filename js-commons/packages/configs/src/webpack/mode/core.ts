@@ -6,7 +6,7 @@ import * as cn from "../const";
 
 const cwd = process.cwd();
 
-const config: webpack.Configuration = {
+export default {
     context: cwd,
     output: {
         assetModuleFilename: `${cn.MEDIA_OUTPUT}/[name].[${cn.HASH}][ext]`,
@@ -20,9 +20,7 @@ const config: webpack.Configuration = {
         extensions: [".js", ".jsx", ".ts", ".tsx", ".css", ".scss"],
         modules: [cwd, "node_modules"],
     },
-};
-
-export default config;
+} satisfies webpack.Configuration;
 
 // [1]. Without that in place, the browser may attempt to load a resource from nested path
 // like "/posts/js/bundle.js" instead of "/js/bundle.js" (which is the actual location).

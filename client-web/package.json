@@ -10,8 +10,8 @@
         "node": ">=18.0.0 <19.0.0"
     },
     "scripts": {
-        "start": "webpack serve --mode=development --config tools/webpack/webpack.build.ts",
-        "build": "webpack --mode=production --config tools/webpack/webpack.build.ts",
+        "start": "webpack serve --mode=development --config tools/webpack/webpack.development.ts",
+        "build": "webpack --mode=production --config tools/webpack/webpack.production.ts",
         "analyze": "webpack --config tools/webpack/webpack.analyze.ts",
         "lint": "eslint . --ext .js,.jsx,.cts,.ts,.tsx",
         "lint:fix": "npm run lint -- --fix",
@@ -27,10 +27,11 @@
         "@babel/preset-env": "7.28.0",
         "@babel/preset-react": "7.27.1",
         "@babel/preset-typescript": "7.27.1",
-        "@eggziom/geek-regime-js-configs": "1.0.0",
-        "@eggziom/geek-regime-js-ui-kit": "1.0.0",
-        "@eggziom/geek-regime-js-utils": "1.0.0",
+        "@eggziom/geek-regime-js-configs": "1.0.3",
+        "@eggziom/geek-regime-js-ui-kit": "1.0.2",
+        "@eggziom/geek-regime-js-utils": "1.0.2",
         "@reduxjs/toolkit": "2.3.0",
+        "@types/dotenv-webpack": "7.0.3",
         "babel-loader": "9.1.2",
         "babel-plugin-styled-components": "2.1.4",
         "class-transformer": "0.5.1",
@@ -68,6 +69,7 @@
         "ts-node": "10.9.2",
         "webpack": "5.100.2",
         "webpack-cli": "5.1.4",
+        "webpack-dev-server": "4.15.1",
         "webpack-manifest-plugin": "5.0.1",
         "webpack-merge": "6.0.1",
         "yup": "0.32.11"
@@ -76,7 +78,6 @@
         "@testing-library/jest-dom": "5.16.5",
         "@testing-library/react": "13.4.0",
         "@types/dompurify": "2.3.4",
-        "@types/dotenv-webpack": "7.0.3",
         "@types/jest": "29.5.2",
         "@types/node": "18.15.0",
         "@types/react": "18.2.25",
@@ -103,7 +104,6 @@
         "ts-jest": "29.1.1",
         "typescript": "5.6.3",
         "webpack-bundle-analyzer": "4.9.0",
-        "webpack-dev-server": "4.15.1",
         "whatwg-fetch": "3.6.2"
     }
 }

@@ -1,3 +1,5 @@
-export { baseWebpackConfig } from "./webpack.base";
+export { developmentWebpackConfig } from "./webpack.development";
+
+export { productionWebpackConfig } from "./webpack.production";
 
 export * from "./utils/rules";
