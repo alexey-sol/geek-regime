@@ -65,7 +65,7 @@ jobs:
     test-js-ui-kit:
         uses: ./.github/workflows/test-npm-app.yml
         with:
-            app-path: js-ui-kit
+            app-path: js-commons
         needs: prepare
 
     deploy:

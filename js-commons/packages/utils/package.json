@@ -47,11 +47,8 @@
         "test:coverage:watch": "npm run test:coverage -- --watchAll",
         "test:clear": "npm run test -- --clearCache"
     },
-    "peerDependencies": {
-        "@eggziom/geek-regime-js-configs": "1"
-    },
     "devDependencies": {
-        "@eggziom/geek-regime-js-configs": "1.0.0",
+        "@eggziom/geek-regime-js-configs": "1.0.1",
         "openapi-typescript": "6.7.6"
     }
 }

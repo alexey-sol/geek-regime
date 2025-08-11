@@ -1,5 +1,6 @@
-import { baseJestConfig } from "@eggziom/geek-regime-js-configs/jest";
+// FIXME eslint
+const { baseJestConfig } = require("@eggziom/geek-regime-js-configs/jest");
 
 const cwd = process.cwd();
 
-export default baseJestConfig(cwd);
+module.exports = baseJestConfig(cwd);
