@@ -2,7 +2,7 @@ import React, {
     type FC, memo, useCallback, useState,
 } from "react";
 import styled from "styled-components";
-import { useInfiniteScroll } from "@eggziom/geek-regime-js-ui-kit";
+import { useInfiniteScroll } from "@eggziom/geek-regime-js-ui-kit/utils";
 
 import { PostDetails } from "@/features/posts/components/post-details";
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";

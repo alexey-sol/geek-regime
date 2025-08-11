@@ -1,11 +1,12 @@
 import React, { type FC } from "react";
-import { Tooltip, Typography } from "@eggziom/geek-regime-js-ui-kit";
-
-import { useRelativeDateTime } from "@/shared/utils/hooks/use-relative-date-time";
+import { Tooltip } from "@eggziom/geek-regime-js-ui-kit/components/tooltip";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
 
 import { AuthorInfoStyled } from "./style";
 import { type AuthorInfoProps } from "./types";
 import { DefunctUserName, UserName } from "./user-name";
+
+import { useRelativeDateTime } from "@/shared/utils/hooks/use-relative-date-time";
 
 export const AuthorInfo: FC<AuthorInfoProps> = ({
     author,

@@ -1,4 +1,4 @@
-import { type HasId } from "@eggziom/geek-regime-js-commons";
+import { type HasId } from "@eggziom/geek-regime-js-utils";
 
 export type HasAuthorId = {
     authorId: HasId["id"];

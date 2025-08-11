@@ -1,5 +1,5 @@
 import React, { type FC } from "react";
-import { Button } from "@eggziom/geek-regime-js-ui-kit";
+import { Button } from "@eggziom/geek-regime-js-ui-kit/components/button";
 import { useTranslation } from "react-i18next";
 import { useFormikContext } from "formik";
 

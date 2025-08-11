@@ -1,14 +1,14 @@
 import React, { type FC, useState } from "react";
 import { useTranslation } from "react-i18next";
 
+import { type EditCommentBoxProps } from "./types";
+import { PostCommentBox } from "./post-comment-box";
+
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import { purifyHtml } from "@/shared/utils/helpers/dom";
 import { useUpdatePostCommentByIdMutation } from "@/features/posts/services/post-comments-api";
 import { getUpdateCommentKey } from "@/features/posts/utils/api";
-
-import { type EditCommentBoxProps } from "./types";
-import { PostCommentBox } from "./post-comment-box";
-import {IllegalArgumentError} from "@/shared/utils/errors";
+import { IllegalArgumentError } from "@/shared/utils/errors";
 
 export const EditCommentBox: FC<EditCommentBoxProps> = ({
     body: initialBody = "",

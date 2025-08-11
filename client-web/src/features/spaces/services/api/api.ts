@@ -1,12 +1,12 @@
-import { resources } from "@eggziom/geek-regime-js-commons";
-
-import { type SpacePageResponse, type SpaceResponse } from "@/features/spaces/models/dtos";
-import { appApi } from "@/app/store/api";
-import { mergePageContent } from "@/shared/utils/api";
+import { resources } from "@eggziom/geek-regime-js-utils";
 
 import { provideTags } from "./utils";
 import * as cn from "./const";
 import type * as tp from "./types";
+
+import { type SpacePageResponse, type SpaceResponse } from "@/features/spaces/models/dtos";
+import { appApi } from "@/app/store/api";
+import { mergePageContent } from "@/shared/utils/api";
 
 const { SPACES } = resources;
 

@@ -1,12 +1,14 @@
 import { ConfigService } from "@nestjs/config";
 import { HttpService } from "@nestjs/axios";
-import {Injectable, Logger} from "@nestjs/common";
+import { Injectable, Logger } from "@nestjs/common";
 import {
     catchError, firstValueFrom, map,
 } from "rxjs";
-import { type HasId, resources } from "@eggziom/geek-regime-js-commons";
+import { type HasId, resources } from "@eggziom/geek-regime-js-utils";
 
-import { AppConfig } from "@/config/type";
+import { getUsersApiPath } from "./api";
+
+import { type AppConfig } from "@/config/type";
 import {
     type AuthenticateRequest,
     type CreateEmailConfirmationRequest,
@@ -16,8 +18,6 @@ import {
     type UserResponse,
 } from "@/user/model/dto";
 import { type ResponseDataGetter } from "@/shared/type/api";
-
-import { getUsersApiPath } from "./api";
 
 @Injectable()
 export class UsersService {

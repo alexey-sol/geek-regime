@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
-import { Button, LinkButton, Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Button, LinkButton } from "@eggziom/geek-regime-js-ui-kit/components/button";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
 
 const GAP = "0.5rem";
 

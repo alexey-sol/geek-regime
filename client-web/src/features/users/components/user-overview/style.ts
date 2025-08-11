@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
 import { Link } from "react-router-dom";
 
 const oneLineTextCss = css`

@@ -1,6 +1,6 @@
-import { resources } from "@eggziom/geek-regime-js-commons";
+import { resources } from "@eggziom/geek-regime-js-utils";
 import { type FormikConfig } from "formik";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 import { useAuthContext } from "@/features/auth/contexts/auth";
 import { createConfirmationEmailPath } from "@/features/auth/utils/helpers";

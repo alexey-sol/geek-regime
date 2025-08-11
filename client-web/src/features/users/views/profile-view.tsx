@@ -1,6 +1,6 @@
 import React, { type FC, memo } from "react";
 import styled from "styled-components";
-import { Loader } from "@eggziom/geek-regime-js-ui-kit";
+import { Loader } from "@eggziom/geek-regime-js-ui-kit/components/loaders";
 
 import { Profile } from "@/features/users/components/profile";
 import { useActiveUser } from "@/features/users/utils/hooks/use-active-user";

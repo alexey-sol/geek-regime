@@ -1,10 +1,10 @@
 import React, { type FC } from "react";
-import { type ElementPosition } from "@eggziom/geek-regime-js-ui-kit";
-
-import { useLanguage } from "@/shared/utils/language";
+import { type ElementPosition } from "@eggziom/geek-regime-js-ui-kit/components/base-popup";
 
 import { getFilteredLanguages, getLanguageTitle } from "./utils";
 import { LanguageDropdownStyled, SwitchButtonStyled } from "./style";
+
+import { useLanguage } from "@/shared/utils/language";
 
 const DROPDOWN_POSITION: ElementPosition = ["center", "bottom"];
 

@@ -1,6 +1,6 @@
-import { PubSub } from "@eggziom/geek-regime-js-ui-kit";
+import { PubSub } from "@eggziom/geek-regime-js-ui-kit/utils";
 
-import { ProfileSettingsValues } from "@/features/users/components/profile-settings/types";
+import { type ProfileSettingsValues } from "@/features/users/components/profile-settings/types";
 import { getDateWithoutTime } from "@/shared/utils/formatters/date";
 import { type User } from "@/features/users/models/entities";
 

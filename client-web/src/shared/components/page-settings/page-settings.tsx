@@ -1,13 +1,14 @@
 import React, { memo } from "react";
-import { Button, Tooltip } from "@eggziom/geek-regime-js-ui-kit";
+import { Button } from "@eggziom/geek-regime-js-ui-kit/components/button";
+import { Tooltip } from "@eggziom/geek-regime-js-ui-kit/components/tooltip";
 import { useTranslation } from "react-i18next";
+
+import { PageSettingsStyled } from "./style";
+import { usePageSettings } from "./utils";
 
 import { Select } from "@/shared/components/form/select";
 import { type SortValue } from "@/shared/types";
 import { type PagePeriod } from "@/shared/models/dtos";
-
-import { PageSettingsStyled } from "./style";
-import { usePageSettings } from "./utils";
 
 export const PageSettings = memo(() => {
     const { t } = useTranslation();

@@ -1,4 +1,4 @@
-import { baseTheme } from "@eggziom/geek-regime-js-ui-kit";
+import { baseTheme } from "@eggziom/geek-regime-js-ui-kit/style";
 
 const headerMinHeight = "4rem";
 

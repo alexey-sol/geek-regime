@@ -1,14 +1,14 @@
 import React, {
     type FC, type PropsWithChildren, useCallback, useMemo,
 } from "react";
-import { getUseContextOrThrowError } from "@eggziom/geek-regime-js-ui-kit";
+import { getUseContextOrThrowError } from "@eggziom/geek-regime-js-ui-kit/utils";
+
+import { type PostCommentPending } from "../types";
 
 import { useLazyGetPostCommentTreeByParentIdQuery } from "@/features/posts/services/post-comments-api";
 import { toPostCommentTree } from "@/features/posts/utils/converters";
 import { type HasItem, type MaybeStubItem } from "@/shared/types";
 import { type PostComment, type PostCommentTree } from "@/features/posts/models/entities";
-
-import { type PostCommentPending } from "../types";
 
 type RootCommentContextProviderProps = PropsWithChildren<HasItem<MaybeStubItem<PostComment>>>;
 

@@ -1,8 +1,8 @@
 import { Type } from "class-transformer";
 
-import { formatTimestamp } from "@/shared/utils/formatters/date";
-
 import { type Gender } from "./dtos";
+
+import { formatTimestamp } from "@/shared/utils/formatters/date";
 
 export class UserDetails {
     constructor(

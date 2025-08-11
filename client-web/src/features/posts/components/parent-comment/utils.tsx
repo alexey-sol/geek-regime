@@ -1,13 +1,13 @@
 import React, { type ReactNode } from "react";
-import { type ButtonProps, LinkButton } from "@eggziom/geek-regime-js-ui-kit";
-
-import { type PostComment, type PostCommentTree } from "@/features/posts/models/entities";
-import { type MaybeStubItem } from "@/shared/types";
-import { getStubItems } from "@/shared/utils/helpers/object";
+import { type ButtonProps, LinkButton } from "@eggziom/geek-regime-js-ui-kit/components/button";
 
 import { Comment } from "../comment";
 
 import { CommentBranchStyled, ReplyItemStyled, ReplyListStyled } from "./style";
+
+import { type PostComment, type PostCommentTree } from "@/features/posts/models/entities";
+import { type MaybeStubItem } from "@/shared/types";
+import { getStubItems } from "@/shared/utils/helpers/object";
 
 export const renderToggleReplyTreeButtonIfPossible = ({
     descendantCount,

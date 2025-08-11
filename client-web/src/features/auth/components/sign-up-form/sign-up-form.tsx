@@ -1,16 +1,16 @@
 import React, { memo, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Field, Formik, type FormikProps } from "formik";
-import { Typography } from "@eggziom/geek-regime-js-ui-kit";
-
-import { FormInput } from "@/shared/components/form/form-input";
-import { getSignUpSchema } from "@/features/auth/utils/validation/schemas";
-import { type MemoizedAuthForm } from "@/features/auth/types";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
 
 import {
     ButtonStyled, CheckboxLabelStyled, FormStyled, SignUpFormStyled,
 } from "./style";
 import { useSignUpForm, type SignUpValues } from "./utils";
+
+import { FormInput } from "@/shared/components/form/form-input";
+import { getSignUpSchema } from "@/features/auth/utils/validation/schemas";
+import { type MemoizedAuthForm } from "@/features/auth/types";
 
 const initialValues: SignUpValues = {
     confirmPassword: "",

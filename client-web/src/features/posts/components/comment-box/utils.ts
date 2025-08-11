@@ -1,9 +1,9 @@
 import { useCallback, useEffect, useState } from "react";
-import { PubSub } from "@eggziom/geek-regime-js-ui-kit";
-
-import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
+import { PubSub } from "@eggziom/geek-regime-js-ui-kit/utils";
 
 import { type UseCommentBoxArg } from "./types";
+
+import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 
 type CommentMode = "reply" | "edit";
 
@@ -14,7 +14,7 @@ const pubSub = new PubSub();
 export const useCommentBox = ({
     body: initialBody = "",
     onSubmit,
-}: UseCommentBoxArg = {}) => {
+}: UseCommentBoxArg = {}) => { // eslint-disable-line @typescript-eslint/explicit-module-boundary-types
     const [body, setBody] = useState(initialBody);
     const { post } = useActivePost();
     const [commentMode, setCommentMode] = useState<CommentMode>();

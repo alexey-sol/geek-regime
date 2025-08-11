@@ -1,11 +1,11 @@
 import React from "react";
 
+import { PostOverview } from "./post-overview";
+
 import { render, screen } from "@/features/posts/test/setup";
 import { toPostPreview } from "@/features/posts/utils/converters";
 import { paths } from "@/shared/const";
-import { PostPreviewResponse } from "@/features/posts/models/dtos";
-
-import { PostOverview } from "./post-overview";
+import { type PostPreviewResponse } from "@/features/posts/models/dtos";
 
 const DATE_TIME = "2022-02-01T07:20:00.000Z";
 const TITLE = "Title";

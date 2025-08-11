@@ -1,13 +1,13 @@
-import { type HasId } from "@eggziom/geek-regime-js-commons";
+import { type HasId } from "@eggziom/geek-regime-js-utils";
+
+import * as cn from "./const";
+import type * as tp from "./types";
 
 import {
     type PostCommentPageResponse,
     type PostCommentResponse,
     type PostDetailsResponse,
 } from "@/features/posts/models/dtos";
-
-import * as cn from "./const";
-import type * as tp from "./types";
 
 export const createTag = (id: string | number): {
     id: string | number;

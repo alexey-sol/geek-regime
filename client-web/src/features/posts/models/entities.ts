@@ -1,5 +1,5 @@
 import {
-    Expose, Transform, TransformFnParams, Type,
+    Expose, Transform, type TransformFnParams, Type,
 } from "class-transformer";
 import { t } from "i18next";
 

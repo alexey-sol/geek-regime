@@ -1,13 +1,13 @@
-import { resources } from "@eggziom/geek-regime-js-commons";
-
-import {
-    AuthenticateRequest, CreateEmailConfirmationRequest, CreateUserRequest, UserResponse,
-} from "@/features/users/models/dtos";
-import { appApi } from "@/app/store/api";
+import { resources } from "@eggziom/geek-regime-js-utils";
 
 import { createTag, transformAuthResponse } from "./utils";
-import * as tp from "./types";
+import type * as tp from "./types";
 import * as cn from "./const";
+
+import { appApi } from "@/app/store/api";
+import {
+    type AuthenticateRequest, type CreateEmailConfirmationRequest, type CreateUserRequest, type UserResponse,
+} from "@/features/users/models/dtos";
 
 const { AUTH, CONFIRMATION } = resources;
 

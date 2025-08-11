@@ -1,16 +1,15 @@
 import React, {
     type ChangeEventHandler, type FormEventHandler, memo, useEffect, useRef,
 } from "react";
-import { useLocation } from "react-router-dom";
-import { useParams } from "react-router";
+import { useLocation, useParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
-import { SearchIconButton } from "@eggziom/geek-regime-js-ui-kit";
+import { SearchIconButton } from "@eggziom/geek-regime-js-ui-kit/components/icon-button";
+
+import { createAbsoluteSearchPath, getSearchBoxPlaceholderKey } from "../utils/helpers";
 
 import { Input } from "@/shared/components/form/input";
 import { paths } from "@/shared/const";
-
-import { createAbsoluteSearchPath, getSearchBoxPlaceholderKey } from "../utils/helpers";
 
 const SearchFormStyled = styled.form`
     position: relative;
@@ -77,7 +76,7 @@ export const SearchBox = memo<SearchBoxProps>(({ navigateToSearch, searchText, s
             />
 
             <SearchIconButtonWrapper>
-                <SearchIconButton title={t("shared.navbar.searchButton.tooltip")} type='submit' />
+                <SearchIconButton title={t("shared.navbar.searchButton.tooltip")} type="submit" />
             </SearchIconButtonWrapper>
         </SearchFormStyled>
     );

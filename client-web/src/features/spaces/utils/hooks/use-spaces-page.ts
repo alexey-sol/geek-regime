@@ -1,5 +1,11 @@
 import { useCallback, useEffect, useMemo } from "react";
 
+import {
+    type UseGetAllSpacesResult,
+    type UseGetAllSpacesArg,
+    type UseSpacesPageResult,
+} from "./types";
+
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import { selectPagingOptions } from "@/features/spaces/slice/selectors";
 import { setPagingOptions } from "@/features/spaces/slice";
@@ -9,12 +15,6 @@ import { type PagingOptions } from "@/shared/types";
 import { useSpaceSearchParams } from "@/features/spaces/utils/hooks/use-space-search-params";
 import { useGetAllSpacesQuery } from "@/features/spaces/services/api";
 import { toSpaceList } from "@/features/spaces/utils/converters";
-
-import {
-    type UseGetAllSpacesResult,
-    type UseGetAllSpacesArg,
-    type UseSpacesPageResult,
-} from "./types";
 
 const useGetAllSpaces = ({
     arg,

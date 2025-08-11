@@ -1,10 +1,10 @@
-import { ChangeEventHandler, useCallback, useState } from "react";
+import { type ChangeEventHandler, useCallback, useState } from "react";
 import { useSearchParams } from "react-router-dom";
 
 import { SEARCH_PARAMS } from "@/shared/const";
 import { usePageSearchParams } from "@/shared/utils/hooks/use-page-search-params";
 import { type SortValue, type PeriodAndSortQueryParams } from "@/shared/types";
-import { PagePeriod } from "@/shared/models/dtos";
+import { type PagePeriod } from "@/shared/models/dtos";
 import { isPeriodValue, isSortValue } from "@/shared/utils/guards";
 
 const INITIAL_PERIOD: PagePeriod = "OVERALL";

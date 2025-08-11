@@ -1,10 +1,10 @@
 import { useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { type AuthForm, type AuthView, type MemoizedAuthForm } from "@/features/auth/types";
-
 import { SignUpForm } from "../sign-up-form";
 import { SignInForm } from "../sign-in-form";
+
+import { type AuthForm, type AuthView, type MemoizedAuthForm } from "@/features/auth/types";
 
 const INITIAL_VIEW: AuthView = "sign-in";
 

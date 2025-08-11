@@ -1,8 +1,8 @@
 import React, { type FC, type MouseEventHandler, type PropsWithChildren } from "react";
 import styled, { css } from "styled-components";
-import {
-    type HasClassName, type HasColor, Typography, type TypographyProps, CloseIconButton,
-} from "@eggziom/geek-regime-js-ui-kit";
+import { Typography, type TypographyProps } from "@eggziom/geek-regime-js-ui-kit/components/typography";
+import { CloseIconButton } from "@eggziom/geek-regime-js-ui-kit/components/icon-button";
+import { type HasClassName, type HasColor } from "@eggziom/geek-regime-js-ui-kit/types";
 
 type TagStyledProps = Partial<HasColor> & {
     isClickable?: boolean;

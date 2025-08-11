@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Form } from "formik";
-import { Button } from "@eggziom/geek-regime-js-ui-kit";
+import { Button } from "@eggziom/geek-regime-js-ui-kit/components/button";
 
 export const SignUpFormStyled = styled.section`
     width: 100%;

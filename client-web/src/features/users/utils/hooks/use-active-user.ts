@@ -1,13 +1,13 @@
 import { useMemo } from "react";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import { skipToken } from "@reduxjs/toolkit/query";
+
+import { type ActiveUserErrors, type ActiveUserLoading, type UseActiveUserResult } from "./types";
 
 import { useGetUserBySlugQuery } from "@/features/users/services/api";
 import { toUser } from "@/features/users/utils/converters";
 import { omitUndefined } from "@/shared/utils/helpers/object";
 import { getApiErrorIfPossible } from "@/shared/utils/api";
-
-import { type ActiveUserErrors, type ActiveUserLoading, type UseActiveUserResult } from "./types";
 
 export const useActiveUser = (): UseActiveUserResult => {
     const { slug } = useParams();

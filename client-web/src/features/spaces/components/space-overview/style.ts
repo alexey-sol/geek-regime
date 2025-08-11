@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { type HasColor } from "@eggziom/geek-regime-js-ui-kit";
+import { type HasColor } from "@eggziom/geek-regime-js-ui-kit/types";
 
 import { mixins } from "@/app/style/mixins";
 

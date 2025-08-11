@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 import { Link } from "react-router-dom";
-import { Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
 
 import { mixins } from "@/app/style/mixins";
 

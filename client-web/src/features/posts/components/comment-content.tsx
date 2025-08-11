@@ -1,10 +1,11 @@
 import React, { type FC, type PropsWithChildren } from "react";
-import { Skeleton, Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Skeleton } from "@eggziom/geek-regime-js-ui-kit/components/loaders";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
 import styled, { css } from "styled-components";
 
 import { AuthorInfo } from "@/features/posts/components/user-info";
 import { type PostCommentBase } from "@/features/posts/models/entities";
-import { type HasItem, MaybeStubItem } from "@/shared/types";
+import { type HasItem, type MaybeStubItem } from "@/shared/types";
 import { createInnerHtml } from "@/shared/utils/helpers/dom";
 
 export const CommentContentStyled = styled.section`

@@ -1,7 +1,10 @@
 import { useCallback, useMemo } from "react";
-import { useTryAction, type LinkButtonProps } from "@eggziom/geek-regime-js-ui-kit";
-import { useNavigate } from "react-router";
+import { type LinkButtonProps } from "@eggziom/geek-regime-js-ui-kit/components/button";
+import { useTryAction } from "@eggziom/geek-regime-js-ui-kit/utils";
+import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
+
+import { type PostDetailsPending } from "./types";
 
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import { useRemovePostByIdMutation } from "@/features/posts/services/posts-api";
@@ -9,8 +12,6 @@ import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
 import { useAppDispatch } from "@/app/store/hooks";
 import { notify } from "@/app/store/actions";
 import { createSuccessSnackbarArg } from "@/features/feedback/slice/utils";
-
-import { type PostDetailsPending } from "./types";
 
 type UsePostDetailsResult = {
     pending?: PostDetailsPending;

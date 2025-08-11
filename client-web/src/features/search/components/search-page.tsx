@@ -1,10 +1,11 @@
 import React, {
     type FC, useCallback, useRef, useState,
 } from "react";
-import { createSearchParams, useSearchParams } from "react-router-dom";
+import {
+    createSearchParams, useSearchParams, useNavigate, useParams,
+} from "react-router-dom";
 import styled from "styled-components";
-import { useNavigate, useParams } from "react-router";
-import { TabContextProvider } from "@eggziom/geek-regime-js-ui-kit";
+import { TabContextProvider } from "@eggziom/geek-regime-js-ui-kit/components/tabs";
 
 import { createAbsoluteSearchPath } from "@/features/search/utils/helpers";
 import { SearchBox } from "@/features/search/components/search-box";

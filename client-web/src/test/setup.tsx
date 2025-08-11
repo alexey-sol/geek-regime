@@ -5,13 +5,12 @@ import "whatwg-fetch";
 import React, { type FC, type PropsWithChildren, type ReactElement } from "react";
 import { Provider } from "react-redux";
 import { render, type RenderOptions, type RenderResult } from "@testing-library/react";
-import { BrowserRouter } from "react-router-dom";
 import { ThemeProvider } from "styled-components";
+import { MemoryRouter } from "react-router-dom";
 
 import { theme } from "@/app/style/theme";
 import { store } from "@/app/store";
 import { AuthContextProvider } from "@/features/auth/contexts/auth";
-import {MemoryRouter} from "react-router";
 
 jest.mock("@/config/app", () => ({
     appConfig: {},
@@ -29,7 +28,6 @@ jest.mock("react-i18next", () => ({
 
 export const Wrap: FC<PropsWithChildren> = ({ children }) => (
     <Provider store={store}>
-        {/*<MemoryRouter initialEntries={["?key=value"]}>*/}
         <MemoryRouter>
             <ThemeProvider theme={theme}>
                 <AuthContextProvider>

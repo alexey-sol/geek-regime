@@ -1,4 +1,4 @@
-import type { Color } from "@eggziom/geek-regime-js-ui-kit";
+import { type Color } from "@eggziom/geek-regime-js-ui-kit/types";
 
 const CAP = 999;
 

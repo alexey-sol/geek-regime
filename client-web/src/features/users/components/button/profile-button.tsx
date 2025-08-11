@@ -1,10 +1,11 @@
 import React, { type FC } from "react";
-import { LinkButton, ProfileIconButton } from "@eggziom/geek-regime-js-ui-kit";
+import { LinkButton } from "@eggziom/geek-regime-js-ui-kit/components/button";
+import { ProfileIconButton } from "@eggziom/geek-regime-js-ui-kit/components/icon-button";
 import { useTranslation } from "react-i18next";
 
-import { type User } from "@/features/users/models/entities";
-
 import { UserImageStyled } from "../style";
+
+import { type User } from "@/features/users/models/entities";
 
 type ProfileButtonProps = {
     onClick: () => void;

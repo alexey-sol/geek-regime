@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice, type PayloadAction } from "@reduxjs/toolkit";
 
 import { SPACE_PAGING_OPTIONS } from "@/features/spaces/const";
 import type { PagingOptions } from "@/shared/types";

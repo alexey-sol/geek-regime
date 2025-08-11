@@ -1,4 +1,5 @@
-import { Skeleton, UserIcon } from "@eggziom/geek-regime-js-ui-kit";
+import { Skeleton } from "@eggziom/geek-regime-js-ui-kit/components/loaders";
+import { UserIcon } from "@eggziom/geek-regime-js-ui-kit/components/icon";
 import React, { type FC, type Ref } from "react";
 
 import { UploadFileInputLabelStyled, UploadFileInputStyled } from "./styles";

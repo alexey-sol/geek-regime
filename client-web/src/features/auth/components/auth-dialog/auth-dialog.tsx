@@ -1,9 +1,9 @@
 import React, { type FC } from "react";
-import { BaseDialog } from "@eggziom/geek-regime-js-ui-kit";
-
-import { useAuthDialog } from "@/features/auth/components/auth-dialog/utils";
+import { BaseDialog } from "@eggziom/geek-regime-js-ui-kit/components/base-dialog";
 
 import { DialogBodyStyled } from "./style";
+
+import { useAuthDialog } from "@/features/auth/components/auth-dialog/utils";
 
 export type AuthDialogProps = {
     onClose: () => void;

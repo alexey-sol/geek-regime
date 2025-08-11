@@ -1,20 +1,20 @@
 import React, { type FC } from "react";
 import { Link as RouterDomLink } from "react-router-dom";
-import { Skeleton } from "@eggziom/geek-regime-js-ui-kit";
+import { Skeleton } from "@eggziom/geek-regime-js-ui-kit/components/loaders";
+
+import { ItemRatingReadonly } from "../post-meta/item-rating-readonly";
+
+import { BodyStyled, PostOverviewFooter, PostOverviewStyled } from "./style";
 
 import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
 import { PostMeta } from "@/features/posts/components/post-meta";
 import { AuthorInfo } from "@/features/posts/components/user-info";
 import { type PostPreview } from "@/features/posts/models/entities";
-import { MaybeStubItem, type HasItem } from "@/shared/types";
+import { type MaybeStubItem, type HasItem } from "@/shared/types";
 import { isStubItem } from "@/shared/utils/helpers/object";
 import { usePrefetch } from "@/features/posts/services/posts-api";
 import { SpaceList } from "@/features/spaces/components/space-list";
 import { OverviewExcerpt, OverviewTitle } from "@/shared/components/typography";
-
-import { ItemRatingReadonly } from "../post-meta/item-rating-readonly";
-
-import { BodyStyled, PostOverviewFooter, PostOverviewStyled } from "./style";
 
 const TITLE_MAX_LINE_COUNT = 2;
 const EXCERPT_MAX_LINE_COUNT = 2;

@@ -1,7 +1,9 @@
 import React, { useMemo, type FC } from "react";
 import styled from "styled-components";
-import { type HasId } from "@eggziom/geek-regime-js-commons";
-import { Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { type HasId } from "@eggziom/geek-regime-js-utils";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
+
+import { usePostsBySpacePage } from "../utils/hooks/use-posts-by-space-page";
 
 import { Page } from "@/shared/components/page";
 import { PostOverview } from "@/features/posts/components/post-overview";
@@ -10,8 +12,6 @@ import { createStubItem, getStubItems } from "@/shared/utils/helpers/object";
 import { SpaceOverview } from "@/features/spaces/components/space-overview/space-overview";
 import { PageSettings } from "@/shared/components/page-settings";
 import { type HasPathPrefix } from "@/shared/types";
-
-import { usePostsBySpacePage } from "../utils/hooks/use-posts-by-space-page";
 
 export const PageContentStyled = styled.section`
     display: flex;

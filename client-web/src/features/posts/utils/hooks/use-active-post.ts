@@ -1,6 +1,15 @@
 import { useCallback, useEffect, useMemo } from "react";
-import { useNavigate, useParams } from "react-router";
+import { useNavigate, useParams } from "react-router-dom";
 import { skipToken } from "@reduxjs/toolkit/query";
+
+import {
+    type ActivePostErrors,
+    type ActivePostPending,
+    type CreatePostOnSaveArg,
+    type UpdatePostOnSaveArg,
+    type UseActivePostResult,
+} from "./types";
+import { isCreatePostOnSaveArg } from "./utils";
 
 import { toPostDetails } from "@/features/posts/utils/converters";
 import {
@@ -15,15 +24,6 @@ import { omitUndefined } from "@/shared/utils/helpers/object";
 import { getApiErrorIfPossible } from "@/shared/utils/api";
 import { mapCreateOrUpdatePostArg } from "@/features/posts/utils/api";
 import { IllegalArgumentError } from "@/shared/utils/errors";
-
-import {
-    type ActivePostErrors,
-    type ActivePostPending,
-    type CreatePostOnSaveArg,
-    type UpdatePostOnSaveArg,
-    type UseActivePostResult,
-} from "./types";
-import { isCreatePostOnSaveArg } from "./utils";
 
 const ONE_STEP_BACK = -1;
 

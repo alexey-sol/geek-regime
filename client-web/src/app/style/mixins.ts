@@ -1,5 +1,6 @@
 import { css } from "styled-components";
-import { baseMixins, type Color } from "@eggziom/geek-regime-js-ui-kit";
+import { baseMixins } from "@eggziom/geek-regime-js-ui-kit/style";
+import { type Color } from "@eggziom/geek-regime-js-ui-kit/types";
 
 const LAYOUT_ROW_INNER_PADDING_X = "3rem";
 

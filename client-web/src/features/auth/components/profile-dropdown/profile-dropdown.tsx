@@ -1,14 +1,14 @@
 import React, { type FC } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
-import { type ElementPosition } from "@eggziom/geek-regime-js-ui-kit";
+import { useNavigate } from "react-router-dom";
+import { type ElementPosition } from "@eggziom/geek-regime-js-ui-kit/components/base-popup";
+
+import { ProfileButtonStyled, ProfileDropdownStyled, ProfileListStyled } from "./style";
 
 import { useAuthContext } from "@/features/auth/contexts/auth";
 import { createAbsoluteUsersPath } from "@/features/users/utils/helpers";
 import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
 import { paths } from "@/shared/const";
-
-import { ProfileButtonStyled, ProfileDropdownStyled, ProfileListStyled } from "./style";
 
 const DROPDOWN_POSITION: ElementPosition = ["center-left", "bottom"];
 

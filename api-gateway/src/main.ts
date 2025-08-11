@@ -6,11 +6,11 @@ import cookieParser from "cookie-parser";
 import "dotenv/config";
 import type { NestExpressApplication } from "@nestjs/platform-express";
 
+import { AppModule } from "./app";
+
 import { getUseContainerOptions, getCorsOptions, getVersioningOptions } from "@/app/util";
 import { AppProxyMiddleware } from "@/config";
-import type { AppConfig } from "@/config/type";
-
-import { AppModule } from "./app";
+import { type AppConfig } from "@/config/type";
 
 const GLOBAL_PREFIX = "api";
 

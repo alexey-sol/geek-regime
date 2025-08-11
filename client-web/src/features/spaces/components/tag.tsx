@@ -1,7 +1,7 @@
-import { type Color } from "@eggziom/geek-regime-js-ui-kit";
+import { type Color } from "@eggziom/geek-regime-js-ui-kit/types";
 import styled, { css } from "styled-components";
 
-import { Space } from "@/features/spaces/models/entities";
+import { type Space } from "@/features/spaces/models/entities";
 import { Tag } from "@/shared/components/tag";
 import { mixins } from "@/app/style/mixins";
 

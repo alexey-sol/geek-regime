@@ -1,5 +1,7 @@
 import styled from "styled-components";
-import { BaseDropdown, LinkButton, Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
+import { LinkButton } from "@eggziom/geek-regime-js-ui-kit/components/button";
+import { BaseDropdown } from "@eggziom/geek-regime-js-ui-kit/components/base-dropdown";
 
 import { mixins } from "@/app/style/mixins";
 

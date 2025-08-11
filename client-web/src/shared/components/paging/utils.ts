@@ -4,15 +4,14 @@ import {
     useMemo,
     useState,
 } from "react";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useTheme } from "styled-components";
-import { useSearchParams } from "react-router-dom";
-import { useWindowSize } from "@eggziom/geek-regime-js-ui-kit";
+import { useWindowSize } from "@eggziom/geek-regime-js-ui-kit/utils";
+
+import { type PagingData, type UsePagingDataArg } from "./types";
 
 import { range } from "@/shared/utils/helpers/range";
 import { defaults } from "@/shared/const";
-
-import { type PagingData, type UsePagingDataArg } from "./types";
 
 const { START_PAGE } = defaults;
 

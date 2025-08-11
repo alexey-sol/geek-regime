@@ -1,9 +1,9 @@
 import React, { type FC } from "react";
 
-import { Layout } from "@/shared/components/layout";
-
 import { withProviders } from "./app-providers";
 import { AppRoutes } from "./app-routes";
+
+import { Layout } from "@/shared/components/layout";
 
 export const App: FC = () => (
     <Layout>

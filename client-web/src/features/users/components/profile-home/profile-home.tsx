@@ -1,12 +1,12 @@
 import React, { type FC } from "react";
 import styled from "styled-components";
-import { Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
 import { useTranslation } from "react-i18next";
+
+import { type HasUser } from "../../types";
 
 import { useUserTranslation } from "@/features/users/utils/hooks/use-user-translation";
 import { createInnerHtml } from "@/shared/utils/helpers/dom";
-
-import { type HasUser } from "../../types";
 
 const ProfileHomeStyled = styled.section`
     display: grid;

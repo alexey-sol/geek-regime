@@ -1,7 +1,7 @@
 import { Strategy } from "passport-local";
 import { PassportStrategy } from "@nestjs/passport";
 import { Injectable, UnauthorizedException } from "@nestjs/common";
-import type { HasId } from "@eggziom/geek-regime-js-commons";
+import type { HasId } from "@eggziom/geek-regime-js-utils";
 
 import { AuthService } from "../service";
 

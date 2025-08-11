@@ -1,4 +1,4 @@
-import { type HasId } from "@eggziom/geek-regime-js-commons";
+import { type HasId } from "@eggziom/geek-regime-js-utils";
 
 import { postCommentsApi } from "@/features/posts/services/post-comments-api";
 import { mapPagingQueryParams, mapSearchPagingQueryParams } from "@/shared/utils/api";

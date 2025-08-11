@@ -1,16 +1,17 @@
 import React, { type FC, memo, useMemo } from "react";
-import { Skeleton, Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Skeleton } from "@eggziom/geek-regime-js-ui-kit/components/loaders";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
 import { useTranslation } from "react-i18next";
-import { type HasId } from "@eggziom/geek-regime-js-commons";
-
-import { type PostCommentResponse } from "@/features/posts/models/dtos";
-import { RootCommentContextProvider } from "@/features/posts/contexts/root-comment";
-import { getStubItems } from "@/shared/utils/helpers/object";
+import { type HasId } from "@eggziom/geek-regime-js-utils";
 
 import { ParentComment } from "../parent-comment";
 
 import { CommentListStyled, PostCommentsHeaderStyled, PostCommentsStyled } from "./style";
 import { usePostComments } from "./utils";
+
+import { type PostCommentResponse } from "@/features/posts/models/dtos";
+import { RootCommentContextProvider } from "@/features/posts/contexts/root-comment";
+import { getStubItems } from "@/shared/utils/helpers/object";
 
 const DEFAULT_POST_COMMENTS: PostCommentResponse[] = [];
 

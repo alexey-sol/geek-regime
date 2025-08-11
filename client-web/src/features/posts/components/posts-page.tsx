@@ -1,6 +1,6 @@
 import React, { useMemo, type FC } from "react";
 import styled from "styled-components";
-import { type HasId } from "@eggziom/geek-regime-js-commons";
+import { type HasId } from "@eggziom/geek-regime-js-utils";
 
 import { usePostsPage } from "@/features/posts/utils/hooks/use-posts-page";
 import { Page } from "@/shared/components/page";

@@ -1,6 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import { setupListeners } from "@reduxjs/toolkit/query";
-import { isProduction } from "@eggziom/geek-regime-js-commons";
+import { isProduction } from "@eggziom/geek-regime-js-utils";
 
 import { rootReducer } from "./reducer";
 import { appApi } from "./api";

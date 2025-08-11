@@ -1,7 +1,7 @@
 import { HttpStatus, Injectable } from "@nestjs/common";
 import { JwtService } from "@nestjs/jwt";
 import { isAxiosError } from "axios";
-import { type HasId } from "@eggziom/geek-regime-js-commons";
+import { type HasId } from "@eggziom/geek-regime-js-utils";
 
 import { MailerService } from "@/mailer/service";
 import { UsersService } from "@/user/service";

@@ -1,6 +1,6 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import { isProduction } from "@eggziom/geek-regime-js-commons";
+import { isProduction } from "@eggziom/geek-regime-js-utils";
 import LanguageDetector from "i18next-browser-languagedetector";
 
 import { Language } from "@/shared/const";

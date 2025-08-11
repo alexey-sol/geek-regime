@@ -1,8 +1,18 @@
 import React, { type FC } from "react";
 import { useTranslation } from "react-i18next";
+import { Divider } from "@eggziom/geek-regime-js-ui-kit/components/divider";
+import { Link } from "@eggziom/geek-regime-js-ui-kit/components/link";
+import { LinkButton } from "@eggziom/geek-regime-js-ui-kit/components/button";
+import { Skeleton } from "@eggziom/geek-regime-js-ui-kit/components/loaders";
+import { Tooltip } from "@eggziom/geek-regime-js-ui-kit/components/tooltip";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
+
+import { AuthorInfo } from "../user-info";
+
 import {
-    Divider, Link, LinkButton, Skeleton, Tooltip, Typography,
-} from "@eggziom/geek-regime-js-ui-kit";
+    ContentStyled, ControlsWrap, InfoStyled, PostDetailsStyled,
+} from "./style";
+import { usePostDetails } from "./utils";
 
 import { paths } from "@/shared/const";
 import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
@@ -17,13 +27,6 @@ import { type PostDetails as Details } from "@/features/posts/models/entities";
 import { isStubItem } from "@/shared/utils/helpers/object";
 import { type MaybeStubItem } from "@/shared/types";
 import { SpaceList } from "@/features/spaces/components/space-list";
-
-import { AuthorInfo } from "../user-info";
-
-import {
-    ContentStyled, ControlsWrap, InfoStyled, PostDetailsStyled,
-} from "./style";
-import { usePostDetails } from "./utils";
 
 type PostDetailsProps = {
     post: MaybeStubItem<Details>;

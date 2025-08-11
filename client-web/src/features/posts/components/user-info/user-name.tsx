@@ -1,13 +1,14 @@
 import React, { type FC } from "react";
 import { useTranslation } from "react-i18next";
-import { Tooltip, Typography } from "@eggziom/geek-regime-js-ui-kit";
-
-import { createAbsoluteUsersPath } from "@/features/users/utils/helpers";
-import { UserPicture } from "@/features/users/components/user-picture";
+import { Tooltip } from "@eggziom/geek-regime-js-ui-kit/components/tooltip";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
 
 import { LinkStyled } from "./style";
 import { type AuthorInfoProps } from "./types";
 import { PICTURE_SIZE_PX } from "./const";
+
+import { UserPicture } from "@/features/users/components/user-picture";
+import { createAbsoluteUsersPath } from "@/features/users/utils/helpers";
 
 const DefunctAccountTitle: FC = () => {
     const { t } = useTranslation();

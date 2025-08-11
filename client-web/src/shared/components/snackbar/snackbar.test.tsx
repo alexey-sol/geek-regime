@@ -1,8 +1,8 @@
 import React from "react";
 
-import { fireEvent, render, screen } from "@/test/setup";
-
 import { Snackbar } from "./snackbar";
+
+import { fireEvent, render, screen } from "@/test/setup";
 
 const MESSAGE = "Message";
 const onClose = jest.fn();

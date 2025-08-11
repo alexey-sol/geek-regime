@@ -1,8 +1,12 @@
 import React, { type FC } from "react";
-import { Tooltip, Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Tooltip } from "@eggziom/geek-regime-js-ui-kit/components/tooltip";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
 import { useTranslation } from "react-i18next";
 import { Field, type FieldProps, useFormikContext } from "formik";
 import { sub } from "date-fns";
+
+import { FitContentWrapStyled, GridStyled, SectionStyled } from "./styles";
+import { type ProfileSettingsValues } from "./types";
 
 import { FormInput } from "@/shared/components/form/form-input";
 import { useUserTranslation } from "@/features/users/utils/hooks/use-user-translation";
@@ -10,9 +14,6 @@ import { Select } from "@/shared/components/form/select";
 import { getDateWithoutTime } from "@/shared/utils/formatters/date";
 import { type UserDetails } from "@/features/users/models/entities";
 import { AboutEditor } from "@/features/users/components/profile-settings/about-editor";
-
-import { FitContentWrapStyled, GridStyled, SectionStyled } from "./styles";
-import { type ProfileSettingsValues } from "./types";
 
 const BIRTH_DATE_YEARS_AGO_LIMIT = 150;
 

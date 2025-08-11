@@ -5,9 +5,7 @@ import React, {
     type ReactNode,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { Tooltip } from "@eggziom/geek-regime-js-ui-kit";
-
-import { defaults } from "@/shared/const";
+import { Tooltip } from "@eggziom/geek-regime-js-ui-kit/components/tooltip";
 
 import { usePagingData } from "./utils";
 import {
@@ -22,6 +20,8 @@ import {
 } from "./style";
 import * as cn from "./const";
 import type { UsePagingDataArg } from "./types";
+
+import { defaults } from "@/shared/const";
 
 const { START_PAGE } = defaults;
 const MIN_PAGE_COUNT_TO_SHOW_SPILLS = 3;

@@ -5,11 +5,11 @@ import { useTranslation } from "react-i18next";
 import { useFormikContext } from "formik";
 import type Quill from "quill";
 
-import { FieldErrorMessage } from "@/shared/components/typography";
-import { type EditorProps } from "@/shared/components/editor";
-
 import { type SavePostValues } from "./types";
 import { DraftEditorStyled, RelativePositionWrapStyled } from "./style";
+
+import { FieldErrorMessage } from "@/shared/components/typography";
+import { type EditorProps } from "@/shared/components/editor";
 
 export const DraftEditor: FC<Pick<EditorProps, "initialValue">> = ({ initialValue }) => {
     const editorRef = useRef<Quill>(null);

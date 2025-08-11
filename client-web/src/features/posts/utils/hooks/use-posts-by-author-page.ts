@@ -1,6 +1,12 @@
 import { useCallback, useEffect } from "react";
 import { skipToken } from "@reduxjs/toolkit/query";
 
+import {
+    type UsePostsPageResult,
+    type UsePostsByAuthorArg,
+    type UsePostsByAuthorResult,
+} from "./types";
+
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import { selectPagingOptions } from "@/features/posts/slice/posts/selectors";
 import { setPagingOptions } from "@/features/posts/slice/posts";
@@ -11,12 +17,6 @@ import { usePageSearchParams } from "@/shared/utils/hooks/use-page-search-params
 import { useActiveUser } from "@/features/users/utils/hooks/use-active-user";
 import { useGetAllPostsByAuthorQuery } from "@/features/posts/services/posts-api";
 import { toPostPreviewList } from "@/features/posts/utils/converters";
-
-import {
-    type UsePostsPageResult,
-    type UsePostsByAuthorArg,
-    type UsePostsByAuthorResult,
-} from "./types";
 
 export const usePostsByAuthor = ({
     arg,

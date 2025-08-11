@@ -1,10 +1,10 @@
 import { PassportStrategy } from "@nestjs/passport";
-import { Callback, Strategy } from "passport-yandex";
+import { type Callback, Strategy } from "passport-yandex";
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { resources } from "@eggziom/geek-regime-js-commons";
+import { resources } from "@eggziom/geek-regime-js-utils";
 
-import { AppConfig } from "@/config/type";
+import { type AppConfig } from "@/config/type";
 import { fromYandexProfileToCreateUserDto } from "@/auth/util";
 import { DEFAULT_API_VERSION } from "@/app/const";
 import { type CreateUserRequest } from "@/user/model/dto";

@@ -2,15 +2,15 @@ import { ConfigService, registerAs } from "@nestjs/config";
 import { NotFoundException } from "@nestjs/common";
 import { createProxyMiddleware } from "http-proxy-middleware";
 import type { Request, RequestHandler } from "express";
-import { resources } from "@eggziom/geek-regime-js-commons";
+import { resources } from "@eggziom/geek-regime-js-utils";
+
+import * as ct from "./const";
 
 import { NodeEnv } from "@/shared/const";
 import { getResource } from "@/shared/util/url";
-import type { AppConfig } from "@/config/type";
+import { type AppConfig } from "@/config/type";
 import { unless } from "@/config/util/handler";
 import { validatedEnv, validatedEnv as env } from "@/config/util/validation";
-
-import * as ct from "./const";
 
 export const authConfig = registerAs(ct.AUTH, () => ({
     jwtExpiresIn: env.JWT_EXPIRES_IN,

@@ -1,5 +1,10 @@
-import { resources } from "@eggziom/geek-regime-js-commons";
+import { resources } from "@eggziom/geek-regime-js-utils";
 import { type ThunkDispatch } from "redux-thunk";
+import { type Action } from "@reduxjs/toolkit";
+
+import { createTag, provideTags } from "./utils";
+import * as cn from "./const";
+import type * as tp from "./types";
 
 import {
     type PostDetailsResponse,
@@ -10,10 +15,6 @@ import { type RootState } from "@/app/store";
 import { appApi } from "@/app/store/api";
 import { spacesApi } from "@/features/spaces/services/api";
 import * as spaceCn from "@/features/spaces/services/api/const";
-
-import { createTag, provideTags } from "./utils";
-import * as cn from "./const";
-import type * as tp from "./types";
 
 const { POSTS, SPACES, USERS } = resources;
 
@@ -134,7 +135,7 @@ const updatePostListCacheIfNeeded = (
     queryName: "getAllPosts" | "getAllPostsByAuthor",
     data: PostDetailsResponse,
     state: RootState,
-    dispatch: ThunkDispatch<RootState, unknown, any>,
+    dispatch: ThunkDispatch<RootState, unknown, Action>,
 ) => {
     if (!data) {
         return;

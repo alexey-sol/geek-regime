@@ -1,4 +1,4 @@
-import { type HasId } from "@eggziom/geek-regime-js-commons";
+import { type HasId } from "@eggziom/geek-regime-js-utils";
 
 import { type CommentBoxProps } from "@/shared/components/comment-box";
 import { type HasRootCommentId } from "@/features/posts/services/post-comments-api/types";

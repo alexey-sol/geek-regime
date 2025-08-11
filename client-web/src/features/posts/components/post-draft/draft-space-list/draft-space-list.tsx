@@ -3,10 +3,17 @@ import React, {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { FieldArray, type FieldArrayRenderProps, useFormikContext } from "formik";
-import {
-    LinkButton, LinkButtonProps, Skeleton, Typography,
-} from "@eggziom/geek-regime-js-ui-kit";
+import { LinkButton, type LinkButtonProps } from "@eggziom/geek-regime-js-ui-kit/components/button";
+import { Skeleton } from "@eggziom/geek-regime-js-ui-kit/components/loaders";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
 import { useLocation } from "react-router-dom";
+
+import { type SavePostValues } from "../types";
+import { BLANK_SPACE_INDEX, DEFAULT_SPACES, MAX_SPACE_COUNT } from "../const";
+import { createSpaceValues, pickActiveSpaces, toActiveSpaceList } from "../utils";
+
+import { DraftSpaceListStyled, ListStyled } from "./style";
+import { AppendSpaceField, SpaceField } from "./fields";
 
 import { Tag } from "@/shared/components/tag";
 import { useGetAllMergedSpacesQuery } from "@/features/spaces/services/api";
@@ -15,14 +22,7 @@ import { defaults } from "@/shared/const";
 import { type Space } from "@/features/spaces/models/entities";
 import { mapPagingQueryParams } from "@/shared/utils/api";
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
-import { GetAllMergedSpacesArg } from "@/features/spaces/services/api/types";
-
-import { type SavePostValues } from "../types";
-import { BLANK_SPACE_INDEX, DEFAULT_SPACES, MAX_SPACE_COUNT } from "../const";
-import { createSpaceValues, pickActiveSpaces, toActiveSpaceList } from "../utils";
-
-import { DraftSpaceListStyled, ListStyled } from "./style";
-import { AppendSpaceField, SpaceField } from "./fields";
+import { type GetAllMergedSpacesArg } from "@/features/spaces/services/api/types";
 
 export const DraftSpaceList: FC = () => {
     const allSpacesRef = useRef<Partial<Space>[]>(DEFAULT_SPACES);

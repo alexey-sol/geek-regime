@@ -1,12 +1,12 @@
 import React, { memo, useEffect, useRef } from "react";
-import { useToggle } from "@eggziom/geek-regime-js-ui-kit";
+import { useToggle } from "@eggziom/geek-regime-js-ui-kit/utils";
+
+import { ProfileItemStyled } from "./style";
 
 import { ProfileDropdown } from "@/features/auth/components/profile-dropdown";
 import { AuthDialog } from "@/features/auth/components/auth-dialog";
 import { useAuthContext } from "@/features/auth/contexts/auth";
 import { ProfileButton } from "@/features/users/components/button/profile-button";
-
-import { ProfileItemStyled } from "./style";
 
 const PICTURE_SIZE_PX = 30;
 

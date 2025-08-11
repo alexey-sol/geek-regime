@@ -1,13 +1,12 @@
 {
-    "extends": "@eggziom/geek-regime-js-configs/dist/tsconfig.base.json",
+    "extends": "./node_modules/@eggziom/geek-regime-js-configs/dist/tsconfig/tsconfig.base.json",
     "compilerOptions": {
         "baseUrl": ".",
-        "module": "commonjs",
+        "module": "CommonJS",
         "outDir": "./dist",
         "paths": {
             "@/*": ["src/*"]
-        }
+        },
     },
-    "exclude": ["node_modules", "build", "dist"],
-    "include": ["**/*.ts", "src"]
+    "include": ["src"]
 }

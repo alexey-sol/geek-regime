@@ -1,6 +1,6 @@
-import { resources } from "@eggziom/geek-regime-js-commons";
+import { resources } from "@eggziom/geek-regime-js-utils";
 
-import type { AppConfig } from "@/config/type";
+import { type AppConfig } from "@/config/type";
 
 const API_VERSION = 1;
 

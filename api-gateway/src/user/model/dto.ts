@@ -1,4 +1,4 @@
-import type { components as user } from "@eggziom/geek-regime-js-commons/dist/models/user-schemas-v1";
+import type { components as user } from "@eggziom/geek-regime-js-utils/models/user-schemas-v1";
 
 export type AuthenticateRequest = user["schemas"]["AuthenticateRequest"];
 

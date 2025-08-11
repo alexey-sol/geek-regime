@@ -1,4 +1,4 @@
-import { resources } from "@eggziom/geek-regime-js-commons";
+import { resources } from "@eggziom/geek-regime-js-utils";
 
 import { paths } from "@/shared/const";
 import { createAbsolutePath } from "@/shared/utils/helpers/url";

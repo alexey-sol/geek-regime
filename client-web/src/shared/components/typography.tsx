@@ -1,7 +1,7 @@
 import React, { type FC, type PropsWithChildren } from "react";
-import {
-    type FontSize, Typography, type TypographyProps, useTypography,
-} from "@eggziom/geek-regime-js-ui-kit";
+import { Typography, type TypographyProps } from "@eggziom/geek-regime-js-ui-kit/components/typography";
+import { type FontSize } from "@eggziom/geek-regime-js-ui-kit/types";
+import { useTypography } from "@eggziom/geek-regime-js-ui-kit/utils";
 import styled from "styled-components";
 import { useTranslation } from "react-i18next";
 

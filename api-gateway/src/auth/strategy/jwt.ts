@@ -1,13 +1,13 @@
-import { Request } from "express";
+import { type Request } from "express";
 import { ExtractJwt, Strategy } from "passport-jwt";
 import { PassportStrategy } from "@nestjs/passport";
 import { Injectable } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import type { HasId } from "@eggziom/geek-regime-js-commons";
-
-import { AppConfig } from "@/config/type";
+import type { HasId } from "@eggziom/geek-regime-js-utils";
 
 import * as ct from "../const";
+
+import { type AppConfig } from "@/config/type";
 
 @Injectable()
 export class JwtStrategy extends PassportStrategy(Strategy) {

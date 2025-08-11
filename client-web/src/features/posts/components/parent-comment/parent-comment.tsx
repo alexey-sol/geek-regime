@@ -1,15 +1,15 @@
 import React, { memo, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { useToggle } from "@eggziom/geek-regime-js-ui-kit";
-
-import { useRootCommentContext } from "@/features/posts/contexts/root-comment";
-import { usePrefetch } from "@/features/posts/services/post-comments-api";
+import { useToggle } from "@eggziom/geek-regime-js-ui-kit/utils";
 
 import { Comment } from "../comment";
 
 import {
     renderReplies, renderReplyStubs, renderToggleReplyTreeButtonIfPossible,
 } from "./utils";
+
+import { useRootCommentContext } from "@/features/posts/contexts/root-comment";
+import { usePrefetch } from "@/features/posts/services/post-comments-api";
 
 const DEFAULT_COUNT = 0;
 

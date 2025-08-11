@@ -1,15 +1,16 @@
 import React from "react";
-import * as router from "react-router";
-import { MemoryRouter } from "react-router";
+import router from "react-router-dom";
 import { Provider } from "react-redux";
 import { ThemeProvider } from "styled-components";
+
+import { Paging } from "./paging";
+import * as cn from "./const";
 
 import { store } from "@/app/store";
 import { fireEvent, render, screen } from "@/test/setup";
 import { theme } from "@/app/style/theme";
 
-import { Paging } from "./paging";
-import * as cn from "./const";
+const { MemoryRouter } = router;
 
 const getPageNumberCount = (neighbours: number) => {
     const timesTwo = 2;
@@ -20,6 +21,12 @@ const SIZE = 10;
 const PAGE_COUNT = 50;
 
 const navigate = jest.fn();
+
+jest.mock("react-router-dom", () => ({
+    ...jest.requireActual("react-router-dom"),
+}));
+
+// Cannot spy on "react-router-dom" itself, so here's a workaround.
 jest.spyOn(router, "useNavigate").mockImplementation(() => navigate);
 
 describe("Shared/Paging", () => {

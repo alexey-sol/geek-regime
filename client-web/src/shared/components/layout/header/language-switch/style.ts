@@ -1,5 +1,6 @@
 import styled from "styled-components";
-import { BaseDropdown, Button } from "@eggziom/geek-regime-js-ui-kit";
+import { BaseDropdown } from "@eggziom/geek-regime-js-ui-kit/components/base-dropdown";
+import { Button } from "@eggziom/geek-regime-js-ui-kit/components/button";
 
 export const LanguageSwitchStyled = styled.section`
     position: relative;

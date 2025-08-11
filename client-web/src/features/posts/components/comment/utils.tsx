@@ -1,7 +1,10 @@
 import { useCallback, useMemo } from "react";
-import { useTryAction, type LinkButtonProps } from "@eggziom/geek-regime-js-ui-kit";
+import { type LinkButtonProps } from "@eggziom/geek-regime-js-ui-kit/components/button";
+import { useTryAction } from "@eggziom/geek-regime-js-ui-kit/utils";
 
-import { PostCommentBase } from "@/features/posts/models/entities";
+import { type PostCommentPending } from "../../types";
+
+import { type PostCommentBase } from "@/features/posts/models/entities";
 import { useAuthContext } from "@/features/auth/contexts/auth";
 import { useRootCommentContext } from "@/features/posts/contexts/root-comment";
 import {
@@ -12,8 +15,6 @@ import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import { type HasItem, type MaybeStubItem } from "@/shared/types";
 import { getRemoveCommentKey, getUpdateCommentKey } from "@/features/posts/utils/api";
 import { IllegalArgumentError } from "@/shared/utils/errors";
-
-import { type PostCommentPending } from "../../types";
 
 type UseCommentResult = {
     isAuthor: boolean;

@@ -3,16 +3,16 @@ import { PassportModule } from "@nestjs/passport";
 import { JwtModule } from "@nestjs/jwt";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 
+import { AuthService } from "./service";
+
 import { UsersModule } from "@/user/module";
 import { LocalStrategy } from "@/auth/strategy/local";
-import { AppConfig } from "@/config/type";
+import { type AppConfig } from "@/config/type";
 import { JwtStrategy } from "@/auth/strategy/jwt";
 import { YandexStrategy } from "@/auth/strategy/yandex";
 import { AuthControllerV1 } from "@/auth/controller/auth-v1";
 import { ConfirmationControllerV1 } from "@/auth/controller/confirmation-v1";
 import { MailerModule } from "@/mailer/module";
-
-import { AuthService } from "./service";
 
 @Module({
     controllers: [AuthControllerV1, ConfirmationControllerV1],

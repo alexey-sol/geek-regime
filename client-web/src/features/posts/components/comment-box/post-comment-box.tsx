@@ -4,7 +4,7 @@ import React, {
 import { ValidationError } from "yup";
 import type Quill from "quill";
 
-import { CommentBox, CommentBoxProps } from "@/shared/components/comment-box";
+import { CommentBox, type CommentBoxProps } from "@/shared/components/comment-box";
 import { getPostCommentSchema } from "@/features/posts/utils/validation/schemas";
 
 const INITIAL_ERRORS: string[] = [];

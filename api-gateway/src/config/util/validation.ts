@@ -10,9 +10,9 @@ import {
 import { Optional } from "@nestjs/common";
 import { plainToInstance } from "class-transformer";
 
-import { NodeEnv } from "@/shared/const";
-
 import { InvalidConfigException } from "./exception";
+
+import { NodeEnv } from "@/shared/const";
 
 class EnvironmentVariables {
     @IsString()

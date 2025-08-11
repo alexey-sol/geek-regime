@@ -1,14 +1,14 @@
 import React, { memo } from "react";
 import { useTranslation } from "react-i18next";
-import { resources } from "@eggziom/geek-regime-js-commons";
-import { Tab, TabBar, TabPanel } from "@eggziom/geek-regime-js-ui-kit";
+import { resources } from "@eggziom/geek-regime-js-utils";
+import { Tab, TabBar, TabPanel } from "@eggziom/geek-regime-js-ui-kit/components/tabs";
+
+import { createAbsoluteSearchPath, getSearchBoxTitleKey } from "../utils/helpers";
 
 import { paths } from "@/shared/const";
 import { UsersPage } from "@/features/users/components/users-page";
 import { SpacesPage } from "@/features/spaces/components/spaces-page";
 import { PostsPage } from "@/features/posts/components/posts-page";
-
-import { createAbsoluteSearchPath, getSearchBoxTitleKey } from "../utils/helpers";
 
 const SEARCH_POSTS_PATH = createAbsoluteSearchPath(paths.POSTS);
 const SEARCH_USERS_PATH = createAbsoluteSearchPath(paths.USERS);

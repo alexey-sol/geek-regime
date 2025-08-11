@@ -1,5 +1,6 @@
 import styled, { css } from "styled-components";
-import { Link, Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Link } from "@eggziom/geek-regime-js-ui-kit/components/link";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
 
 const rowCss = css`
     display: flex;

@@ -4,7 +4,7 @@ import React, {
 } from "react";
 import "quill/dist/quill.bubble.css";
 import styled from "styled-components";
-import { type HasClassName } from "@eggziom/geek-regime-js-ui-kit";
+import { type HasClassName } from "@eggziom/geek-regime-js-ui-kit/types";
 
 import { setHtmlValue } from "@/shared/utils/helpers/editor";
 

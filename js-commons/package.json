@@ -5,6 +5,7 @@
     ],
     "description": "Shared tools for JS based modules",
     "author": "Alexey Soloviev",
+    "private": true,
     "license": "UNLICENSED",
     "engines": {
         "npm": ">=10.0.0 <11.0.0",

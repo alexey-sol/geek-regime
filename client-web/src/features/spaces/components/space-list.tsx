@@ -1,6 +1,6 @@
 import React, { type FC, useState } from "react";
 import styled from "styled-components";
-import { LinkButton } from "@eggziom/geek-regime-js-ui-kit";
+import { LinkButton } from "@eggziom/geek-regime-js-ui-kit/components/button";
 import { Link } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 

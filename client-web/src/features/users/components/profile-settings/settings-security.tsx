@@ -1,11 +1,11 @@
 import React, { type FC } from "react";
-import { Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
 import { useTranslation } from "react-i18next";
+
+import { FitContentWrapStyled, SectionStyled } from "./styles";
 
 import { FormInput } from "@/shared/components/form/form-input";
 import { type UserMeta } from "@/features/users/models/entities";
-
-import { FitContentWrapStyled, SectionStyled } from "./styles";
 
 export const SettingsSecurity: FC<Pick<UserMeta, "hasCredentials">> = ({
     hasCredentials = false,

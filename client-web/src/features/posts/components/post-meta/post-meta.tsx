@@ -1,12 +1,12 @@
-import React, { type FC, PropsWithChildren } from "react";
+import React, { type FC, type PropsWithChildren } from "react";
 import { useTranslation } from "react-i18next";
-import { MessageIcon, ViewIcon } from "@eggziom/geek-regime-js-ui-kit";
-
-import { type PostMeta as Meta } from "@/features/posts/models/entities";
+import { MessageIcon, ViewIcon } from "@eggziom/geek-regime-js-ui-kit/components/icon";
 
 import { MetaItem } from "./meta-item";
 import { PostMetaStyled } from "./style";
 import { getCappedCountLabel } from "./utils";
+
+import { type PostMeta as Meta } from "@/features/posts/models/entities";
 
 type PostMetaProps = {
     meta: Meta;

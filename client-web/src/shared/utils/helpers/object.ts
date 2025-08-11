@@ -1,19 +1,19 @@
-import { type HasId } from "@eggziom/geek-regime-js-commons";
+import { type HasId } from "@eggziom/geek-regime-js-utils";
 
-export const omit = <T extends {}>(
+export const omit = <T extends object>(
     object: T,
     shouldOmit: (key: keyof T, value: T[keyof T]) => boolean,
 ): T => Object.fromEntries(
-    Object.entries<T[keyof T]>(object)
+    Object.entries(object)
         .filter(([key, value]) => !shouldOmit(key as keyof T, value)),
 ) as T;
 
-export const omitFalsy = <T extends {}>(object: T): T => omit(
+export const omitFalsy = <T extends object>(object: T): T => omit(
     object,
     (_, value) => !value,
 );
 
-export const omitUndefined = <T extends {}>(object: T): T => omit(
+export const omitUndefined = <T extends object>(object: T): T => omit(
     object,
     (_, value: unknown) => value === undefined,
 );

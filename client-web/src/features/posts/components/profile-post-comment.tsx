@@ -1,15 +1,17 @@
 import React from "react";
 import styled from "styled-components";
-import { Link, Skeleton, Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Link } from "@eggziom/geek-regime-js-ui-kit/components/link";
+import { Skeleton } from "@eggziom/geek-regime-js-ui-kit/components/loaders";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
 import { useTranslation } from "react-i18next";
+
+import { CommentContent } from "./comment-content";
 
 import { type HasItem, type MaybeStubItem } from "@/shared/types";
 import { type ProfilePostComment as ProfilePostCommentEntity } from "@/features/posts/models/entities";
 import { isStubItem } from "@/shared/utils/helpers/object";
 import { usePrefetch } from "@/features/posts/services/posts-api";
 import { createAbsolutePostsPath } from "@/features/posts/utils/helpers";
-
-import { CommentContent } from "./comment-content";
 
 const ProfilePostCommentStyled = styled.section`
     display: flex;
@@ -21,7 +23,7 @@ const LinkStyled = styled(Link)`
     display: unset;
 `;
 
-export const ProfilePostComment = ({ item }: HasItem<MaybeStubItem<ProfilePostCommentEntity>>) => {
+export const ProfilePostComment = ({ item }: HasItem<MaybeStubItem<ProfilePostCommentEntity>>): JSX.Element => {
     const { t } = useTranslation();
     const prefetchPostBySlug = usePrefetch("getPostBySlug");
 

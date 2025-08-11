@@ -1,4 +1,5 @@
-import { useTimeout, useKeyboardControls, type HasElementRef } from "@eggziom/geek-regime-js-ui-kit";
+import { useTimeout, useKeyboardControls } from "@eggziom/geek-regime-js-ui-kit/utils";
+import { type HasElementRef } from "@eggziom/geek-regime-js-ui-kit/types";
 
 import { type SnackbarProps } from "@/shared/components/snackbar";
 

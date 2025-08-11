@@ -3,13 +3,13 @@ import {
     Catch, HttpException, HttpStatus, type ArgumentsHost, type ExceptionFilter,
 } from "@nestjs/common";
 import { AxiosError } from "axios";
-import { resources } from "@eggziom/geek-regime-js-commons";
+import { resources } from "@eggziom/geek-regime-js-utils";
+
+import { type ApiExceptionData } from "./type";
 
 import { ProcessConfigService } from "@/config/service";
 import { getResource } from "@/shared/util/url";
 import { type ApiError } from "@/shared/model/dto";
-
-import { type ApiExceptionData } from "./type";
 
 const DEFAULT_ERROR_STATUS = HttpStatus.INTERNAL_SERVER_ERROR;
 

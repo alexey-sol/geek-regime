@@ -2,9 +2,9 @@ import { ConfigService } from "@nestjs/config";
 import { HttpService } from "@nestjs/axios";
 import { Injectable, Logger } from "@nestjs/common";
 import { catchError, firstValueFrom, map } from "rxjs";
-import { resources } from "@eggziom/geek-regime-js-commons";
+import { resources } from "@eggziom/geek-regime-js-utils";
 
-import { AppConfig } from "@/config/type";
+import { type AppConfig } from "@/config/type";
 import { DEFAULT_API_VERSION } from "@/app/const";
 import { type ResponseDataGetter } from "@/shared/type/api";
 import { type SendEmailRequest } from "@/mailer/model/dto";

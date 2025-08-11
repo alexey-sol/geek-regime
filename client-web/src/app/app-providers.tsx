@@ -4,8 +4,8 @@ import { Provider } from "react-redux";
 import { compose } from "@reduxjs/toolkit";
 import { withTranslation } from "react-i18next";
 import { ThemeProvider } from "styled-components";
-import { ErrorBoundary, GlobalStyle } from "@eggziom/geek-regime-js-ui-kit";
-import "@eggziom/geek-regime-js-ui-kit/dist/main/global.css";
+import { ErrorBoundary } from "@eggziom/geek-regime-js-ui-kit/components/error-boundary";
+import { GlobalStyle } from "@eggziom/geek-regime-js-ui-kit/style";
 
 import { store } from "@/app/store";
 import { theme } from "@/app/style/theme";

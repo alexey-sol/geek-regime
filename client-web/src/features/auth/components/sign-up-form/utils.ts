@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
 import { type FormikConfig } from "formik";
-import { useNavigate } from "react-router";
+import { useNavigate } from "react-router-dom";
 
 import { useAuthContext } from "@/features/auth/contexts/auth";
 import { toCreateUserRequest } from "@/features/auth/utils/converters";

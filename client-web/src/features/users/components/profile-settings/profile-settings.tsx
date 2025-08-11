@@ -1,14 +1,7 @@
 import React, { type FC, useRef } from "react";
 import { Formik, type FormikConfig, type FormikProps } from "formik";
 import { useTranslation } from "react-i18next";
-import { Divider } from "@eggziom/geek-regime-js-ui-kit";
-
-import { getProfileSettingsSchema } from "@/features/users/utils/validation/schemas";
-import { notify } from "@/app/store/actions";
-import { createSuccessSnackbarArg } from "@/features/feedback/slice/utils";
-import { useAppDispatch } from "@/app/store/hooks";
-import { mapUpdateUserByIdArg } from "@/features/users/utils/api";
-import { type HasUser } from "@/features/users/types";
+import { Divider } from "@eggziom/geek-regime-js-ui-kit/components/divider";
 
 import { useUpdateUserByIdMutation } from "../../services/api";
 
@@ -17,8 +10,15 @@ import { SettingsSecurity } from "./settings-security";
 import { SettingsPicture } from "./settings-picture";
 import { SettingsControls } from "./settings-controls";
 import { FormStyled, ProfileSettingsStyled } from "./styles";
-import { ProfileSettingsValues } from "./types";
+import { type ProfileSettingsValues } from "./types";
 import { getInitialValues } from "./utils";
+
+import { type HasUser } from "@/features/users/types";
+import { mapUpdateUserByIdArg } from "@/features/users/utils/api";
+import { useAppDispatch } from "@/app/store/hooks";
+import { createSuccessSnackbarArg } from "@/features/feedback/slice/utils";
+import { notify } from "@/app/store/actions";
+import { getProfileSettingsSchema } from "@/features/users/utils/validation/schemas";
 
 export const ProfileSettings: FC<HasUser> = ({ user }) => {
     const { t } = useTranslation();

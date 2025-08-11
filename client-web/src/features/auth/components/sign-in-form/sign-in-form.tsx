@@ -1,15 +1,15 @@
 import React, { memo, useCallback, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Form, Formik, type FormikProps } from "formik";
-import { Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
+
+import { ButtonStyled, LinkButtonStyled, SignInFormStyled } from "./style";
+import { useSignInForm } from "./utils";
 
 import { FormInput } from "@/shared/components/form/form-input";
 import { getSignInSchema } from "@/features/auth/utils/validation/schemas";
 import { type MemoizedAuthForm } from "@/features/auth/types";
 import { type AuthenticateRequest } from "@/features/users/models/dtos";
-
-import { ButtonStyled, LinkButtonStyled, SignInFormStyled } from "./style";
-import { useSignInForm } from "./utils";
 
 const initialValues: AuthenticateRequest = {
     email: "",

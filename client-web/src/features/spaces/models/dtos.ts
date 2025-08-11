@@ -1,4 +1,4 @@
-import type { components as space } from "@eggziom/geek-regime-js-commons/dist/models/space-schemas-v1";
+import type { components as space } from "@eggziom/geek-regime-js-utils/models/space-schemas-v1";
 
 export type SpaceResponse = space["schemas"]["SpaceResponse"];
 

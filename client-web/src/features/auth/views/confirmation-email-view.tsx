@@ -1,6 +1,7 @@
 import React, { useMemo, type FC } from "react";
 import { useTranslation } from "react-i18next";
-import { LinkButton, Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { LinkButton } from "@eggziom/geek-regime-js-ui-kit/components/button";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
 import { useSearchParams } from "react-router-dom";
 import throttle from "lodash/throttle";
 
@@ -23,7 +24,9 @@ export const ConfirmationEmailView: FC = () => {
 
     const throttledResendEmailConfirmation = useMemo(() => throttle(
         () => email && resendEmailConfirmation({ email }).unwrap()
-            .then(() => dispatch(notify(createSuccessSnackbarArg(t("auth.confirmation.email.query.resendEmail.success")))))
+            .then(() => dispatch(notify(
+                createSuccessSnackbarArg(t("auth.confirmation.email.query.resendEmail.success")),
+            )))
             .catch(console.error),
         RESEND_EMAIL_WAIT_MS,
     ), [dispatch, email, resendEmailConfirmation, t]);

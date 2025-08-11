@@ -1,8 +1,9 @@
 import styled, { css } from "styled-components";
-import { type MapKeyToCss, Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
+import { type MapKeyToCss } from "@eggziom/geek-regime-js-ui-kit/types";
 
 import { mixins } from "@/app/style/mixins";
-import type { SnackbarArg } from "@/features/feedback/models/entities";
+import { type SnackbarArg } from "@/features/feedback/models/entities";
 
 export type SnackbarStyledProps = Pick<SnackbarArg, "view">;
 

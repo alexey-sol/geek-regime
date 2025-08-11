@@ -1,5 +1,5 @@
-import * as cf from "./config";
-import * as ct from "./const";
+import type * as cf from "./config";
+import type * as ct from "./const";
 
 export type AppConfig = {
     [ct.AUTH]: ReturnType<typeof cf.authConfig>;

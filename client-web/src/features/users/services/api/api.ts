@@ -1,13 +1,13 @@
-import { type HasId, resources } from "@eggziom/geek-regime-js-commons";
+import { type HasId, resources } from "@eggziom/geek-regime-js-utils";
+
+import { createTag } from "./utils";
+import * as cn from "./const";
+import type * as tp from "./types";
 
 import { type UserPageResponse, type UserResponse } from "@/features/users/models/dtos";
 import { appApi } from "@/app/store/api";
 import { authApi } from "@/features/auth/services/api";
 import * as authCn from "@/features/auth/services/api/const";
-
-import { createTag } from "./utils";
-import * as cn from "./const";
-import type * as tp from "./types";
 
 const { USERS } = resources;
 

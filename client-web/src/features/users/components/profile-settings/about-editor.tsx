@@ -5,13 +5,13 @@ import { useTranslation } from "react-i18next";
 import { useFormikContext } from "formik";
 import type Quill from "quill";
 
-import { FieldErrorMessage } from "@/shared/components/typography";
-import { setHtmlValue } from "@/shared/utils/helpers/editor";
-import { type EditorProps } from "@/shared/components/editor";
-
 import { subscribeToResetAbout, unsubscribeFromResetAbout } from "./utils";
 import { AboutEditorStyled } from "./styles";
 import { type ProfileSettingsValues } from "./types";
+
+import { FieldErrorMessage } from "@/shared/components/typography";
+import { setHtmlValue } from "@/shared/utils/helpers/editor";
+import { type EditorProps } from "@/shared/components/editor";
 
 type AboutEditorProps = Pick<EditorProps, "initialValue"> & {
     errorMessage?: string;

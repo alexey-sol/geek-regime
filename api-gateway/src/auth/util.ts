@@ -1,9 +1,9 @@
 import type { Profile } from "passport-yandex";
 import type { Response } from "express";
 
-import type { CreateUserRequest, Gender } from "@/user/model/dto";
-
 import * as ct from "./const";
+
+import type { CreateUserRequest, Gender } from "@/user/model/dto";
 
 const convertGender = (gender?: string): Gender | undefined => {
     switch (gender?.toUpperCase()) {

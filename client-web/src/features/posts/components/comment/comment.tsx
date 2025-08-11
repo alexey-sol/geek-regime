@@ -1,19 +1,20 @@
 import React, {
     type FC, type PropsWithChildren, type ReactNode, useMemo,
 } from "react";
-import { LinkButton, Tooltip } from "@eggziom/geek-regime-js-ui-kit";
+import { LinkButton } from "@eggziom/geek-regime-js-ui-kit/components/button";
+import { Tooltip } from "@eggziom/geek-regime-js-ui-kit/components/tooltip";
 import { useTranslation } from "react-i18next";
-
-import { type PostCommentBase } from "@/features/posts/models/entities";
-import { type HasItem, MaybeStubItem } from "@/shared/types";
-import { useRootCommentContext } from "@/features/posts/contexts/root-comment";
-import { useAuthContext } from "@/features/auth/contexts/auth";
-import { isStubItem } from "@/shared/utils/helpers/object";
 
 import { CommentContent, CommentContentStyled } from "../comment-content";
 import { EditCommentBox, ReplyCommentBox, useCommentBox } from "../comment-box";
 
 import { useComment } from "./utils";
+
+import { type PostCommentBase } from "@/features/posts/models/entities";
+import { type HasItem, type MaybeStubItem } from "@/shared/types";
+import { useRootCommentContext } from "@/features/posts/contexts/root-comment";
+import { useAuthContext } from "@/features/auth/contexts/auth";
+import { isStubItem } from "@/shared/utils/helpers/object";
 
 type CommentProps = HasItem<MaybeStubItem<PostCommentBase>> & {
     footerChildren?: ReactNode;

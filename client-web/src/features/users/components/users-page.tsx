@@ -1,5 +1,5 @@
 import React, { type FC, useMemo } from "react";
-import { type HasId } from "@eggziom/geek-regime-js-commons";
+import { type HasId } from "@eggziom/geek-regime-js-utils";
 
 import { useUsersPage } from "@/features/users/utils/hooks/use-users-page";
 import { Page } from "@/shared/components/page";

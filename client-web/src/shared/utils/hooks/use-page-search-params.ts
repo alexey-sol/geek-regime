@@ -1,9 +1,9 @@
 import { useSearchParams } from "react-router-dom";
 
+import { isPeriodValue, isSortValue } from "../guards";
+
 import { SEARCH_PARAMS } from "@/shared/const";
 import { type SortValue, type PeriodAndSortQueryParams } from "@/shared/types";
-
-import { isPeriodValue, isSortValue } from "../guards";
 
 type UsePageSearchParamsResult = PeriodAndSortQueryParams<SortValue> & {
     text?: string;

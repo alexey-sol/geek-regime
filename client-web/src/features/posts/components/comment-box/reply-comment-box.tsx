@@ -1,16 +1,16 @@
 import React, { useMemo, useState, type FC } from "react";
-import { Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
 import { useTranslation } from "react-i18next";
+
+import { PostCommentBox } from "./post-comment-box";
+import { type ReplyCommentBoxProps } from "./types";
 
 import { useAuthContext } from "@/features/auth/contexts/auth";
 import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
 import { purifyHtml } from "@/shared/utils/helpers/dom";
 import { useCreatePostCommentMutation } from "@/features/posts/services/post-comments-api";
 import { getCreateCommentKey } from "@/features/posts/utils/api";
-
-import { PostCommentBox } from "./post-comment-box";
-import { type ReplyCommentBoxProps } from "./types";
-import {IllegalArgumentError} from "@/shared/utils/errors";
+import { IllegalArgumentError } from "@/shared/utils/errors";
 
 export const ReplyCommentBox: FC<ReplyCommentBoxProps> = ({
     authorName,

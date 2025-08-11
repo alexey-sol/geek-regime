@@ -1,4 +1,5 @@
-import React, { MemoExoticComponent } from "react";
+import { type MemoExoticComponent } from "react";
+import type React from "react";
 
 export type AuthView = "sign-in" | "sign-up";
 

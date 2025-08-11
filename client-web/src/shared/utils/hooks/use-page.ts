@@ -1,4 +1,4 @@
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
 import { useCallback, useEffect, useMemo } from "react";
 
 import type { PagingOptions } from "@/shared/types";

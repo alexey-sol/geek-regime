@@ -1,6 +1,13 @@
 import { useCallback, useEffect } from "react";
 import { skipToken } from "@reduxjs/toolkit/query";
-import { useParams } from "react-router";
+import { useParams } from "react-router-dom";
+
+import {
+    type UsePostsBySpaceArg,
+    type UsePostsBySpacePageResult,
+    type UsePostsBySpaceResult,
+    type UseSpaceResult,
+} from "./types";
 
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import { selectPagingOptions } from "@/features/posts/slice/posts/selectors";
@@ -13,13 +20,6 @@ import { useGetAllPostsBySpaceQuery } from "@/features/posts/services/posts-api"
 import { toPostPreviewList } from "@/features/posts/utils/converters";
 import { useGetSpaceBySlugQuery } from "@/features/spaces/services/api";
 import { toSpace } from "@/features/spaces/utils/converters";
-
-import {
-    type UsePostsBySpaceArg,
-    type UsePostsBySpacePageResult,
-    type UsePostsBySpaceResult,
-    type UseSpaceResult,
-} from "./types";
 
 export const useSpace = (): UseSpaceResult => {
     const { slug } = useParams();

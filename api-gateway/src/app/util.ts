@@ -4,9 +4,9 @@ import { ConfigService } from "@nestjs/config";
 import { VersioningType } from "@nestjs/common";
 import type { VersioningOptions } from "@nestjs/common";
 
-import { AppConfig } from "@/config/type";
-
 import * as ct from "./const";
+
+import { type AppConfig } from "@/config/type";
 
 export const getUseContainerOptions = () => ({
     fallbackOnErrors: true, // [1]

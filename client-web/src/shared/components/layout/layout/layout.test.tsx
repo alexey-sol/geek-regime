@@ -1,10 +1,10 @@
 import React from "react";
 
-import { render, screen } from "@/test/setup";
-import type { SnackbarArg } from "@/features/feedback/models/entities";
-
 import { Layout } from "./layout";
 import * as ut from "./utils";
+
+import { render, screen } from "@/test/setup";
+import type { SnackbarArg } from "@/features/feedback/models/entities";
 
 const data: ut.LayoutData = {
     resetSnackbar: jest.fn(),

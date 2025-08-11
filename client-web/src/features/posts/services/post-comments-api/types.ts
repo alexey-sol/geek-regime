@@ -1,4 +1,4 @@
-import { type HasId } from "@eggziom/geek-regime-js-commons";
+import { type HasId } from "@eggziom/geek-regime-js-utils";
 
 import { type HasPagingQueryParams, type HasPeriodAndSortQueryParams } from "@/shared/types";
 import { type CreatePostCommentRequest, type UpdatePostCommentRequest } from "@/features/posts/models/dtos";

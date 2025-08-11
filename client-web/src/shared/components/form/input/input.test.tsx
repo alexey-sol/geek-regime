@@ -1,8 +1,8 @@
 import React, { type FC } from "react";
 
-import { fireEvent, render, screen } from "@/test/setup";
+import { Input, type InputProps } from "./input";
 
-import { Input, InputProps } from "./input";
+import { fireEvent, render, screen } from "@/test/setup";
 
 const NAME = "name";
 const onChange = jest.fn();

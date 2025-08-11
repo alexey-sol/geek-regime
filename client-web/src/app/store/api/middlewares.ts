@@ -1,5 +1,7 @@
 import { createListenerMiddleware, isRejected } from "@reduxjs/toolkit";
 
+import { notify } from "../actions";
+
 import { createFailureSnackbarArg } from "@/features/feedback/slice/utils";
 import { setSnackbar } from "@/features/feedback/slice";
 import {
@@ -8,8 +10,6 @@ import {
     isFailureNotificationDisabled,
 } from "@/shared/utils/guards";
 import { getErrorMessage } from "@/shared/utils/api";
-
-import { notify } from "../actions";
 
 export const appListener = createListenerMiddleware();
 

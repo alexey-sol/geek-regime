@@ -1,13 +1,11 @@
 module.exports = {
     extends: [
-        "./node_modules/@eggziom/geek-regime-js-configs/dist/eslint/config.react",
+        "./node_modules/@eggziom/geek-regime-js-configs/dist/cjs/eslint/eslint.react",
     ],
-    overrides: [
-        {
-            files: ["**/*.config.*", "**/config.*", "**/features/**/*-view.*"],
-            rules: {
-                "import/no-default-export": "off",
-            },
-        },
+    ignorePatterns: [
+        "node_modules/*",
+        "coverage/*",
+        "dist/*",
+        "src/generated/*",
     ],
 };

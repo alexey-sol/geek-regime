@@ -2,15 +2,15 @@ import {
     Controller, Get, HttpStatus, Query, Redirect, Res, UnprocessableEntityException,
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { type HasId, resources } from "@eggziom/geek-regime-js-commons";
+import { type HasId, resources } from "@eggziom/geek-regime-js-utils";
 import { type Response } from "express";
-
-import { AppConfig } from "@/config/type";
-import { ConfirmationEmailSenderException } from "@/shared/util/exception";
 
 import { AuthService } from "../service";
 import { setAuthCookie } from "../util";
 import { paths } from "../const";
+
+import { ConfirmationEmailSenderException } from "@/shared/util/exception";
+import { type AppConfig } from "@/config/type";
 
 @Controller({
     path: resources.CONFIRMATION,

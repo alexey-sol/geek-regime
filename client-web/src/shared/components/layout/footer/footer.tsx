@@ -1,6 +1,6 @@
 import React, { type FC } from "react";
 import { useTranslation } from "react-i18next";
-import { Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
 
 import { FooterInnerStyled, FooterStyled } from "./style";
 

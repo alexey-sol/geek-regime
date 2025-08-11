@@ -2,8 +2,12 @@ import React, {
     type ReactNode, type RefObject, useCallback, useMemo, useState,
 } from "react";
 import { skipToken } from "@reduxjs/toolkit/query";
-import { LinkButton, useInfiniteScroll } from "@eggziom/geek-regime-js-ui-kit";
+import { LinkButton } from "@eggziom/geek-regime-js-ui-kit/components/button";
+import { useInfiniteScroll } from "@eggziom/geek-regime-js-ui-kit/utils";
 import { useTranslation } from "react-i18next";
+
+import { ReplyCommentBox, useCommentBox } from "../comment-box";
+import { type PostCommentPending } from "../../types";
 
 import {
     useCreatePostCommentMutation, useGetAllRootPostCommentsQuery,
@@ -16,9 +20,6 @@ import { type PostCommentResponse } from "@/features/posts/models/dtos";
 import { toPostCommentList } from "@/features/posts/utils/converters";
 import { useAuthContext } from "@/features/auth/contexts/auth";
 import { type PostComment } from "@/features/posts/models/entities";
-
-import { ReplyCommentBox, useCommentBox } from "../comment-box";
-import { type PostCommentPending } from "../../types";
 
 const DEFAULT_POST_COMMENTS: PostCommentResponse[] = [];
 

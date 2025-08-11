@@ -1,4 +1,4 @@
-import { type HasId } from "@eggziom/geek-regime-js-commons";
+import { type HasId } from "@eggziom/geek-regime-js-utils";
 
 import { mapSearchPagingQueryParams } from "@/shared/utils/api";
 import { omit, omitFalsy, omitUndefined } from "@/shared/utils/helpers/object";

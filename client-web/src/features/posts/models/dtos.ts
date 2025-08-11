@@ -1,5 +1,5 @@
-import type { components as post } from "@eggziom/geek-regime-js-commons/dist/models/post-schemas-v1";
-import type { components as postComment } from "@eggziom/geek-regime-js-commons/dist/models/post-comment-schemas-v1";
+import type { components as post } from "@eggziom/geek-regime-js-utils/models/post-schemas-v1";
+import type { components as postComment } from "@eggziom/geek-regime-js-utils/models/post-comment-schemas-v1";
 
 export type PostPreviewResponse = post["schemas"]["PostPreviewResponse"];
 

@@ -1,11 +1,13 @@
 import React, { memo, type ReactNode, type RefObject } from "react";
-import { Button, CloseIconButton, Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Button } from "@eggziom/geek-regime-js-ui-kit/components/button";
+import { CloseIconButton } from "@eggziom/geek-regime-js-ui-kit/components/icon-button";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
 import { useTranslation } from "react-i18next";
 import type Quill from "quill";
 
-import { FieldErrorMessage } from "@/shared/components/typography";
-
 import { CommentEditorStyled, HeaderStyled, CommentBoxStyled } from "./style";
+
+import { FieldErrorMessage } from "@/shared/components/typography";
 
 export type CommentBoxProps = {
     body: string;
@@ -35,7 +37,7 @@ export const CommentBox = memo(({
     return (
         <CommentBoxStyled>
             <HeaderStyled>
-                <Typography fontSize='sm'>
+                <Typography fontSize="sm">
                     {title ?? t("shared.actions.leaveComment")}
                 </Typography>
                 <CloseIconButton onClick={onClose} />

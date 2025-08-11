@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { Color } from "@eggziom/geek-regime-js-ui-kit";
+import { type Color } from "@eggziom/geek-regime-js-ui-kit/types";
 
 import { PICTURE_SIZE_PX } from "../user-info/const";
 

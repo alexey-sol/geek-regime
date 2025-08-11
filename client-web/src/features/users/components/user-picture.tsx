@@ -1,9 +1,9 @@
 import React, { type FC } from "react";
-import { UserIcon } from "@eggziom/geek-regime-js-ui-kit";
-
-import { type User } from "@/features/users/models/entities";
+import { UserIcon } from "@eggziom/geek-regime-js-ui-kit/components/icon";
 
 import { UserImageStyled } from "./style";
+
+import { type User } from "@/features/users/models/entities";
 
 type UserPictureProps = {
     sizePx: number;

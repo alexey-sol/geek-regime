@@ -3,13 +3,13 @@ import { Module } from "@nestjs/common";
 import { ServeStaticModule } from "@nestjs/serve-static";
 import { APP_FILTER } from "@nestjs/core";
 
+import { createServeStaticModuleOptions } from "./util";
+import { ApiExceptionFilter, HttpExceptionFilter } from "./handler/exception.filter";
+
 import { validate } from "@/config/util/validation";
 import { AuthModule } from "@/auth/module";
 import { ProcessConfigService } from "@/config/service";
 import * as cf from "@/config";
-
-import { createServeStaticModuleOptions } from "./util";
-import { ApiExceptionFilter, HttpExceptionFilter } from "./handler/exception.filter";
 
 @Module({
     imports: [

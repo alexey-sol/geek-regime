@@ -2,18 +2,12 @@ import React, {
     type FC, useMemo, useRef,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate } from "react-router";
-import { Button, Skeleton } from "@eggziom/geek-regime-js-ui-kit";
+import { useNavigate } from "react-router-dom";
+import { Button } from "@eggziom/geek-regime-js-ui-kit/components/button";
+import { Skeleton } from "@eggziom/geek-regime-js-ui-kit/components/loaders";
 import {
     ErrorMessage, Field, Formik, type FormikConfig, type FormikProps, type FieldProps,
 } from "formik";
-
-import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
-import { notify } from "@/app/store/actions";
-import { createSuccessSnackbarArg } from "@/features/feedback/slice/utils";
-import { useAppDispatch } from "@/app/store/hooks";
-import { getPostSchema } from "@/features/posts/utils/validation/schemas";
-import { toSaveSpaceRequestList } from "@/features/spaces/utils/converters";
 
 import { DraftEditor } from "./draft-editor";
 import { createSpaceValues, handleTitleKeyDown, pickActiveSpaces } from "./utils";
@@ -27,6 +21,13 @@ import {
     TitleInputStyled,
 } from "./style";
 import { DEFAULT_SPACES, MAX_SPACE_COUNT } from "./const";
+
+import { useActivePost } from "@/features/posts/utils/hooks/use-active-post";
+import { notify } from "@/app/store/actions";
+import { createSuccessSnackbarArg } from "@/features/feedback/slice/utils";
+import { useAppDispatch } from "@/app/store/hooks";
+import { getPostSchema } from "@/features/posts/utils/validation/schemas";
+import { toSaveSpaceRequestList } from "@/features/spaces/utils/converters";
 
 export const PostDraft: FC = () => {
     const formRef = useRef<FormikProps<SavePostValues>>(null);

@@ -1,22 +1,30 @@
 {
-    "extends": "@eggziom/geek-regime-js-configs/dist/tsconfig.react.json",
+    "extends": "./node_modules/@eggziom/geek-regime-js-configs/dist/tsconfig/tsconfig.react.json",
     "compilerOptions": {
         "baseUrl": ".",
+        "moduleResolution": "Bundler",
         "outDir": "./dist",
         "paths": {
             "@/*": ["src/*"]
         },
         "types": [
-            "@eggziom/geek-regime-js-commons/@types",
-            "@eggziom/geek-regime-js-ui-kit/@types"
+            "@eggziom/geek-regime-js-ui-kit/@types",
+            "@eggziom/geek-regime-js-utils/@types"
         ],
         "typeRoots": [
             "node_modules/@types",
-            "node_modules/@eggziom/geek-regime-js-commons/@types",
             "node_modules/@eggziom/geek-regime-js-ui-kit/@types",
+            "node_modules/@eggziom/geek-regime-js-utils/@types",
             "@types"
-        ]
+        ],
+        "verbatimModuleSyntax": false,
     },
-    "exclude": ["node_modules", "build", "dist"],
-    "include": ["**/*.ts", "src"]
+    "ts-node": {
+        "compilerOptions": {
+            "module": "CommonJS"
+        },
+    },
+    "include": ["@types", "src", "tools"],
 }
+
+// [1]. Is necessary for TypeScript Webpack config https://webpack.js.org/configuration/configuration-languages/#typescript

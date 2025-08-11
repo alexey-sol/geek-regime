@@ -11,18 +11,18 @@ import {
     HttpStatus,
 } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
-import { type HasId, resources } from "@eggziom/geek-regime-js-commons";
+import { type HasId, resources } from "@eggziom/geek-regime-js-utils";
 import { type Response } from "express";
 
+import { JwtAuthGuard, LocalAuthGuard, YandexAuthGuard } from "../guard";
+import * as ct from "../const";
+
 import { AuthService } from "@/auth/service";
-import { AppConfig } from "@/config/type";
+import { type AppConfig } from "@/config/type";
 import { type CreateUserRequest, type HasDisableEmailConfirmation } from "@/user/model/dto";
 import { type LocalAuthRequest, type YandexAuthRequest } from "@/auth/type";
 import { setAuthCookie } from "@/auth/util";
 import { ConfirmationEmailSenderException } from "@/shared/util/exception";
-
-import { JwtAuthGuard, LocalAuthGuard, YandexAuthGuard } from "../guard";
-import * as ct from "../const";
 
 @Controller({
     path: resources.AUTH,

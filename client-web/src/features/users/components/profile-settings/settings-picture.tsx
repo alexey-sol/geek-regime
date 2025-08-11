@@ -1,15 +1,16 @@
 import React, { type FC, useRef, useState } from "react";
-import {
-    Divider, LinkButton, Tooltip, useTryAction,
-} from "@eggziom/geek-regime-js-ui-kit";
+import { Divider } from "@eggziom/geek-regime-js-ui-kit/components/divider";
+import { LinkButton } from "@eggziom/geek-regime-js-ui-kit/components/button";
+import { Tooltip } from "@eggziom/geek-regime-js-ui-kit/components/tooltip";
+import { useTryAction } from "@eggziom/geek-regime-js-ui-kit/utils";
 import { useTranslation } from "react-i18next";
-import { type HasId } from "@eggziom/geek-regime-js-commons";
-
-import { type UserDetails } from "@/features/users/models/entities";
-import { useRemoveUserPictureByUserIdMutation, useUploadUserPictureMutation } from "@/features/users/services/api";
+import { type HasId } from "@eggziom/geek-regime-js-utils";
 
 import { ColumnStyled, ControlsWrapStyled, FitContentWrapStyled } from "./styles";
 import { PictureInput } from "./picture-input";
+
+import { type UserDetails } from "@/features/users/models/entities";
+import { useRemoveUserPictureByUserIdMutation, useUploadUserPictureMutation } from "@/features/users/services/api";
 
 type SettingsPictureProps = {
     userDetails: UserDetails;

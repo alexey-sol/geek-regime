@@ -1,7 +1,8 @@
 import React, { type ComponentType } from "react";
-import { Divider, Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Divider } from "@eggziom/geek-regime-js-ui-kit/components/divider";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
 import { useTranslation } from "react-i18next";
-import { HasId } from "@eggziom/geek-regime-js-commons";
+import { type HasId } from "@eggziom/geek-regime-js-utils";
 
 import { ListItemStyled, ListStyled } from "./style";
 
@@ -13,7 +14,7 @@ type ItemListProps<E extends HasId> = {
 export const ItemList = <E extends HasId>({
     ItemComponent,
     items,
-}: ItemListProps<E>) => {
+}: ItemListProps<E>): JSX.Element => {
     const { t } = useTranslation();
 
     const list = (

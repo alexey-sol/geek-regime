@@ -1,6 +1,12 @@
 import { useCallback, useEffect, useMemo } from "react";
 import { skipToken } from "@reduxjs/toolkit/query";
 
+import {
+    type UsePostCommentsByAuthorResult,
+    type UsePostCommentsByAuthorArg,
+    type UsePostCommentsPageResult,
+} from "./types";
+
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import { selectPagingOptions } from "@/features/posts/slice/post-comments/selectors";
 import { setPagingOptions } from "@/features/posts/slice/post-comments";
@@ -12,14 +18,8 @@ import { useActiveUser } from "@/features/users/utils/hooks/use-active-user";
 import { toProfilePostCommentList } from "@/features/posts/utils/converters";
 import { useGetPostCommentsByAuthorQuery } from "@/features/posts/services/post-comments-api";
 import { useGetAllPostsByIdQuery } from "@/features/posts/services/posts-api";
-import { GetAllPostsByIdArg } from "@/features/posts/services/posts-api/types";
+import { type GetAllPostsByIdArg } from "@/features/posts/services/posts-api/types";
 import { type PostCommentResponse, type PostPreviewResponse } from "@/features/posts/models/dtos";
-
-import {
-    type UsePostCommentsByAuthorResult,
-    type UsePostCommentsByAuthorArg,
-    type UsePostCommentsPageResult,
-} from "./types";
 
 const DEFAULT_POST_COMMENTS: PostCommentResponse[] = [];
 const DEFAULT_POST_PREVIEWS: PostPreviewResponse[] = [];

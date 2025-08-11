@@ -1,14 +1,13 @@
 import React, { type FC } from "react";
-import { useSearchParams } from "react-router-dom";
-import { useNavigate } from "react-router";
+import { useNavigate, useSearchParams } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { SearchIconButton } from "@eggziom/geek-regime-js-ui-kit";
-
-import { createAbsoluteSearchPath } from "@/features/search/utils/helpers";
-import { paths } from "@/shared/const";
+import { SearchIconButton } from "@eggziom/geek-regime-js-ui-kit/components/icon-button";
 
 import { NavbarMenuStyled } from "./style";
 import { ProfileItem } from "./profile-item";
+
+import { createAbsoluteSearchPath } from "@/features/search/utils/helpers";
+import { paths } from "@/shared/const";
 
 export const NavbarMenu: FC = () => {
     const { t } = useTranslation();

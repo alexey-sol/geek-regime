@@ -4,6 +4,13 @@ The library contains utilities for JS based frontend and backend in the Geek Reg
 
 ## Usage
 
+First, install the peer dependencies:
+```json
+{
+    "@eggziom/geek-regime-js-configs": "1"
+}
+```
+
 The majority of the stuff gets imported from the root of the package, for example:
 
 ```ts

@@ -1,16 +1,6 @@
-import { resources } from "@eggziom/geek-regime-js-commons";
-import type { ThunkDispatch } from "redux-thunk";
-
-import {
-    type PostCommentResponse,
-    type PostCommentPageResponse,
-    type PostCommentTreeResponse,
-    type PostDetailsResponse,
-} from "@/features/posts/models/dtos";
-import { mergePageContent } from "@/shared/utils/api";
-import { postsApi } from "@/features/posts/services/posts-api";
-import type { RootState } from "@/app/store";
-import { appApi } from "@/app/store/api";
+import { resources } from "@eggziom/geek-regime-js-utils";
+import { type ThunkDispatch } from "redux-thunk";
+import { type Action } from "@reduxjs/toolkit";
 
 import {
     createTag,
@@ -26,6 +16,17 @@ import {
 } from "./utils";
 import * as cn from "./const";
 import type * as tp from "./types";
+
+import {
+    type PostCommentResponse,
+    type PostCommentPageResponse,
+    type PostCommentTreeResponse,
+    type PostDetailsResponse,
+} from "@/features/posts/models/dtos";
+import { mergePageContent } from "@/shared/utils/api";
+import { postsApi } from "@/features/posts/services/posts-api";
+import { type RootState } from "@/app/store";
+import { appApi } from "@/app/store/api";
 
 const { COMMENTS, POSTS, USERS } = resources;
 
@@ -159,7 +160,7 @@ export const postCommentsApi = appApiWithTag.injectEndpoints({
 });
 
 const updatePostCacheIfNeeded = (
-    dispatch: ThunkDispatch<RootState, any, any>,
+    dispatch: ThunkDispatch<RootState, unknown, Action>,
     meta: Partial<tp.HasPostSlug> | undefined,
     onPostCacheUpdate: (post: PostDetailsResponse) => void,
 ) => {

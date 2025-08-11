@@ -18,7 +18,7 @@ export const AuthRoute: FC<AuthRouteProps> = ({
         return <Navigate to={redirectPath} replace />;
     }
 
-    return <>{children}</> ?? <Outlet />; // eslint-disable-line react/jsx-no-useless-fragment
+    return <>{children ?? <Outlet />}</>; // eslint-disable-line react/jsx-no-useless-fragment
 };
 
 export const DefaultSearchRoute: FC = () => <Navigate to={`/${paths.SEARCH}/${paths.POSTS}`} />;

@@ -1,6 +1,8 @@
 import React, { type FC, useMemo } from "react";
-import { type HasId, resources } from "@eggziom/geek-regime-js-commons";
+import { type HasId, resources } from "@eggziom/geek-regime-js-utils";
 import styled from "styled-components";
+
+import { ProfilePostComment } from "./profile-post-comment";
 
 import { Page } from "@/shared/components/page";
 import { createAbsoluteUsersPath } from "@/features/users/utils/helpers";
@@ -9,8 +11,6 @@ import { ItemList } from "@/shared/components/item-list";
 import { getStubItems } from "@/shared/utils/helpers/object";
 import { PageSettings } from "@/shared/components/page-settings";
 import { usePostCommentsByAuthorPage } from "@/features/posts/utils/hooks/use-post-comments-by-author-page";
-
-import { ProfilePostComment } from "./profile-post-comment";
 
 export const PageContentStyled = styled.section`
     display: flex;

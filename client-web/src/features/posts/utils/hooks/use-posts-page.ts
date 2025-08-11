@@ -1,5 +1,11 @@
 import { useCallback, useEffect } from "react";
 
+import {
+    type UseGetAllPostsResult,
+    type UseGetAllPostsArg,
+    type UsePostsPageResult,
+} from "./types";
+
 import { useAppDispatch, useAppSelector } from "@/app/store/hooks";
 import { selectPagingOptions } from "@/features/posts/slice/posts/selectors";
 import { setPagingOptions } from "@/features/posts/slice/posts";
@@ -9,12 +15,6 @@ import { type PagingOptions } from "@/shared/types";
 import { usePageSearchParams } from "@/shared/utils/hooks/use-page-search-params";
 import { useGetAllPostsQuery } from "@/features/posts/services/posts-api";
 import { toPostPreviewList } from "@/features/posts/utils/converters";
-
-import {
-    type UseGetAllPostsResult,
-    type UseGetAllPostsArg,
-    type UsePostsPageResult,
-} from "./types";
 
 const useGetAllPosts = ({
     arg,

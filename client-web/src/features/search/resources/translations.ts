@@ -1,4 +1,4 @@
-import { resources } from "@eggziom/geek-regime-js-commons";
+import { resources } from "@eggziom/geek-regime-js-utils";
 
 export const en = {
     search: {

@@ -1,9 +1,9 @@
 import React, { type FC } from "react";
-import { Typography } from "@eggziom/geek-regime-js-ui-kit";
-
-import { paths } from "@/shared/const";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
 
 import { TitleLinkStyled } from "./style";
+
+import { paths } from "@/shared/const";
 
 export type TitleProps = {
     title: string;

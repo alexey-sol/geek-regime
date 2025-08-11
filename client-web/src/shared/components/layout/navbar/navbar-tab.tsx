@@ -1,6 +1,6 @@
 import React, { type FC } from "react";
-import { LinkProps, useLocation } from "react-router-dom";
-import { Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { type LinkProps, useLocation } from "react-router-dom";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
 
 import { TabLinkStyled } from "./style";
 

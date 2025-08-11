@@ -1,16 +1,16 @@
 import React, { type FC } from "react";
-import {
-    DislikeIconButton, LikeIconButton, Tooltip, Typography,
-} from "@eggziom/geek-regime-js-ui-kit";
+import { DislikeIconButton, LikeIconButton } from "@eggziom/geek-regime-js-ui-kit/components/icon-button";
+import { Tooltip } from "@eggziom/geek-regime-js-ui-kit/components/tooltip";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
 import { useTranslation } from "react-i18next";
-
-import { useAuthContext } from "@/features/auth/contexts/auth";
 
 import { useActivePost } from "../../utils/hooks/use-active-post";
 
 import { getCappedCountLabel, getRatingColor } from "./utils";
 import { MetaItemStyled } from "./style";
 import { type HasPostMeta } from "./types";
+
+import { useAuthContext } from "@/features/auth/contexts/auth";
 
 const NEUTRAL_VOTE_VALUE = 0;
 const DISLIKE_VALUE = -1;
@@ -43,7 +43,7 @@ export const ItemRatingUpdatable: FC<HasPostMeta> = ({ meta }) => {
             />
 
             <Tooltip message={`${t("posts.post.rating")}: ${meta.localizedRatingNumber}`}>
-                <Typography color={ratingColor} fontSize="sm" weight='bolder'>
+                <Typography color={ratingColor} fontSize="sm" weight="bolder">
                     {getCappedCountLabel(meta.rating)}
                 </Typography>
             </Tooltip>

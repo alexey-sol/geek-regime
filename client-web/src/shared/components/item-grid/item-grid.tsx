@@ -1,7 +1,7 @@
 import React, { type ComponentType } from "react";
-import { Typography } from "@eggziom/geek-regime-js-ui-kit";
+import { Typography } from "@eggziom/geek-regime-js-ui-kit/components/typography";
 import { useTranslation } from "react-i18next";
-import { HasId } from "@eggziom/geek-regime-js-commons";
+import { type HasId } from "@eggziom/geek-regime-js-utils";
 
 import { GridStyled, ItemGridStyled } from "./style";
 
@@ -13,7 +13,7 @@ type ItemGridProps<E extends HasId> = {
 export const ItemGrid = <E extends HasId>({
     ItemComponent,
     items,
-}: ItemGridProps<E>) => {
+}: ItemGridProps<E>): JSX.Element => {
     const { t } = useTranslation();
 
     const grid = (

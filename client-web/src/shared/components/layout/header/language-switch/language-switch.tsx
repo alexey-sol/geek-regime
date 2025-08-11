@@ -1,12 +1,12 @@
 import React, { type FC, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { I18nIconButton } from "@eggziom/geek-regime-js-ui-kit";
-
-import { useLanguage } from "@/shared/utils/language";
+import { I18nIconButton } from "@eggziom/geek-regime-js-ui-kit/components/icon-button";
 
 import { getLanguageTitle } from "./utils";
 import { LanguageDropdown } from "./language-dropdown";
 import { LanguageSwitchStyled } from "./style";
+
+import { useLanguage } from "@/shared/utils/language";
 
 export const LanguageSwitch: FC = () => {
     const { t } = useTranslation();

@@ -1,4 +1,4 @@
-import { type HasId } from "@eggziom/geek-regime-js-commons";
+import { type HasId } from "@eggziom/geek-regime-js-utils";
 
 import { type PostDetails } from "@/features/posts/models/entities";
 import { type CreatePostRequest, type UpdatePostRequest } from "@/features/posts/models/dtos";
