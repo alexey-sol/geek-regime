@@ -27,7 +27,7 @@ export const globalTypes = {
     },
 };
 
-export const ContainerStyled = styled.section<{ width: Breakpoint}>`
+export const ContainerStyled = styled.section<{ width: Breakpoint }>`
     display: flex;
     flex-direction: column;
     gap: 1rem;

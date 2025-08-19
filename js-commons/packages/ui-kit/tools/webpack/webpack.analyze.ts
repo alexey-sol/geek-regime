@@ -5,7 +5,5 @@ import productionConfig from "./webpack.production";
 
 /** Deprecated. Use Vite instead to build the library. */
 export default merge(productionConfig({}, { mode: "production" }), {
-    plugins: [
-        new BundleAnalyzerPlugin(),
-    ],
+    plugins: [new BundleAnalyzerPlugin()],
 });

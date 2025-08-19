@@ -43,3 +43,7 @@ Run linter commands in all the packages.
 ### `test`
 
 Run unit testing commands in all the packages.
+
+### `prettier`
+
+Run prettier in all the packages to format code.

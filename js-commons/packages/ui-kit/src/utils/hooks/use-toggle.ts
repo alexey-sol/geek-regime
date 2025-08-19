@@ -17,6 +17,9 @@ export const useToggle = (): UseToggleResult => {
     const on = useCallback(() => setIsOn(true), []);
 
     return {
-        isOn, off, on, toggle,
+        isOn,
+        off,
+        on,
+        toggle,
     };
 };

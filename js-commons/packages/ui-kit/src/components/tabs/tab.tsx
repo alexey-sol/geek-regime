@@ -13,13 +13,15 @@ const TabStyled = styled.li<{ isActive?: boolean }>(
         border-bottom: ${cn.TAB_BORDER_WIDTH} solid transparent;
         transition: border-color ${theme.durations.fast} ease;
 
-        ${isActive ? css`
-            border-color: ${theme.colors.secondary};
-        ` : css`
-            &:hover {
-                border-color: ${theme.colors.grey};
-            }
-        `};
+        ${isActive
+            ? css`
+                  border-color: ${theme.colors.secondary};
+              `
+            : css`
+                  &:hover {
+                      border-color: ${theme.colors.grey};
+                  }
+              `};
     `,
 );
 
@@ -29,10 +31,7 @@ export type TabProps = {
 };
 
 export const Tab: FC<TabProps> = ({ label, value }) => {
-    const {
-        onChange,
-        value: activeValue,
-    } = useTabContext();
+    const { onChange, value: activeValue } = useTabContext();
 
     const handleClick = useCallback(() => {
         onChange(value);
@@ -41,11 +40,7 @@ export const Tab: FC<TabProps> = ({ label, value }) => {
     const isActive = activeValue === value;
 
     return (
-        <TabStyled
-            isActive={isActive}
-            onClick={handleClick}
-            role="tab"
-        >
+        <TabStyled isActive={isActive} onClick={handleClick} role="tab">
             <Typography as="h3" color={isActive ? "secondary" : "grey"}>
                 {label}
             </Typography>

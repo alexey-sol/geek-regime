@@ -1,0 +1,7 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+cd ./js-commons && npm run pre-commit
+
+# Husky requires .git directory in order to function. This is complicated in this monorepo project, so there's
+# a workaround I've found here https://github.com/lint-staged/lint-staged/issues/961#issuecomment-812723106

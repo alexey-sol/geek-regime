@@ -39,13 +39,20 @@
         "copy:package": "copyfiles -u 2 src/package/**/*.{json,md} dist",
         "prebuild": "rimraf dist",
         "postbuild": "npm run copy:package",
-        "lint": "eslint . --ext .js,.jsx,.mjs,.ts,.tsx",
-        "lint:fix": "npm run lint -- --fix",
         "test": "jest --config=tools/jest.config.js",
         "test:watch": "npm run test -- --watch",
         "test:coverage": "npm run test -- --coverage",
         "test:coverage:watch": "npm run test:coverage -- --watchAll",
-        "test:clear": "npm run test -- --clearCache"
+        "test:clear": "npm run test -- --clearCache",
+        "lint": "eslint . --ext .js,.jsx,.mjs,.ts,.tsx",
+        "lint:fix": "npm run lint -- --fix",
+        "lint:pre-commit": "npm run lint:fix",
+        "prettier": "prettier --write '{src,tools}/**/*.{js,jsx,mjs,ts,tsx}'",
+        "prettier:pre-commit": "npm run prettier",
+        "pre-commit": "lint-staged"
+    },
+    "lint-staged": {
+        "*.{js,jsx,mjs,ts,tsx}": ["npm run prettier:pre-commit", "npm run lint:pre-commit"]
     },
     "devDependencies": {
         "@eggziom/geek-regime-js-configs": "1.0.3",

@@ -12,5 +12,7 @@ const useAppContext = <Value>(Ctx: Context<Value | null>): Value | never => {
     return context;
 };
 
-export const getUseContextOrThrowError = <Value>(Ctx: Context<Value | null>): () => Value | never =>
-    () => useAppContext<Value>(Ctx);
+export const getUseContextOrThrowError =
+    <Value>(Ctx: Context<Value | null>): (() => Value | never) =>
+    () =>
+        useAppContext<Value>(Ctx);

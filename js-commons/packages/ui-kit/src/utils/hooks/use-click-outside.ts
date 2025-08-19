@@ -7,16 +7,13 @@ export type UseClickOutsideArg = HasElementRef & {
     onClose: () => void;
 };
 
-export const useClickOutside = ({
-    elementRef,
-    mouseEvent = "click",
-    onClose,
-}: UseClickOutsideArg): void => {
+export const useClickOutside = ({ elementRef, mouseEvent = "click", onClose }: UseClickOutsideArg): void => {
     useEffect(() => {
         const handleClick = ({ target }: Event) => {
-            setTimeout(() => { // [1]
-                const clickedOutside = target instanceof Node && elementRef.current
-                    && !elementRef.current.contains(target);
+            setTimeout(() => {
+                // [1]
+                const clickedOutside =
+                    target instanceof Node && elementRef.current && !elementRef.current.contains(target);
 
                 if (clickedOutside) {
                     onClose();

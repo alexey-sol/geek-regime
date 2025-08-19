@@ -9,9 +9,7 @@ import { type BaseButtonProps } from "@/components/button/base-button";
 
 const INHERIT = "inherit";
 
-export type ButtonProps = BaseButtonProps
-    & ButtonStyledProps
-    & Partial<Pick<BaseIconButtonProps, "icon">>;
+export type ButtonProps = BaseButtonProps & ButtonStyledProps & Partial<Pick<BaseIconButtonProps, "icon">>;
 
 export const Button: FC<ButtonProps> = ({
     children,
@@ -24,12 +22,7 @@ export const Button: FC<ButtonProps> = ({
 }) => (
     <ButtonStyled type={type} {...rest}>
         {children && (
-            <Typography
-                as="span"
-                color={color}
-                font={font}
-                fontSize={fontSize}
-            >
+            <Typography as="span" color={color} font={font} fontSize={fontSize}>
                 {children}
             </Typography>
         )}

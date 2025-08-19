@@ -1,6 +1,4 @@
-import React, {
-    type FC, type PropsWithChildren, useCallback, useMemo, useState,
-} from "react";
+import React, { type FC, type PropsWithChildren, useCallback, useMemo, useState } from "react";
 
 import { type HandleChange } from "./types";
 
@@ -18,31 +16,29 @@ export type TabsContextProps = PropsWithChildren<{
 
 export const TabContext = React.createContext<TabContextValue | null>(null);
 
-export const TabContextProvider: FC<TabsContextProps> = ({
-    children,
-    initialValue,
-    onChange,
-}) => {
+export const TabContextProvider: FC<TabsContextProps> = ({ children, initialValue, onChange }) => {
     const [value, setValue] = useState<string | undefined>(initialValue);
 
-    const handleChange = useCallback<HandleChange>((newValue) => {
-        setValue(newValue);
+    const handleChange = useCallback<HandleChange>(
+        (newValue) => {
+            setValue(newValue);
 
-        if (onChange) {
-            onChange(newValue);
-        }
-    }, [onChange]);
-
-    const contextValue = useMemo(() => ({
-        onChange: handleChange,
-        value,
-    }), [handleChange, value]);
-
-    return (
-        <TabContext.Provider value={contextValue}>
-            {children}
-        </TabContext.Provider>
+            if (onChange) {
+                onChange(newValue);
+            }
+        },
+        [onChange],
     );
+
+    const contextValue = useMemo(
+        () => ({
+            onChange: handleChange,
+            value,
+        }),
+        [handleChange, value],
+    );
+
+    return <TabContext.Provider value={contextValue}>{children}</TabContext.Provider>;
 };
 
 TabContext.displayName = "TabContext";

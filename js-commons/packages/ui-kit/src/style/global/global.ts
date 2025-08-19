@@ -8,7 +8,9 @@ const resetStyle = css`
         font-size: 10px;
     }
 
-    *, *:before, *:after {
+    *,
+    *:before,
+    *:after {
         box-sizing: inherit;
     }
 
@@ -23,7 +25,14 @@ const resetStyle = css`
         }
     }
 
-    p, h1, h2, h3, h4, h5, h6, ul {
+    p,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    ul {
         margin: 0;
     }
 

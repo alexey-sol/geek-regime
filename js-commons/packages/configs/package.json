@@ -32,6 +32,12 @@
             "import": "./dist/esm/eslint/*.cjs",
             "default": "./dist/esm/eslint/*.js"
         },
+        "./prettier/*": {
+            "types": "./dist/dts/prettier/*.cjs",
+            "require": "./dist/cjs/prettier/*.js",
+            "import": "./dist/esm/prettier/*.cjs",
+            "default": "./dist/esm/prettier/*.js"
+        },
         "./tsconfig/*": {
             "import": "./dist/tsconfig/*",
             "default": "./dist/tsconfig/*"
@@ -48,7 +54,14 @@
         "copy:tsconfig": "copyfiles -u 1 src/tsconfig/*.json dist",
         "prepare": "npm run build",
         "lint": "eslint . --ext .js,.jsx,.mjs,.ts,.tsx",
-        "lint:fix": "npm run lint -- --fix"
+        "lint:fix": "npm run lint -- --fix",
+        "lint:pre-commit": "npm run lint:fix",
+        "prettier": "prettier --write '{src,tools}/**/*.{js,jsx,mjs,ts,tsx,less}'",
+        "prettier:pre-commit": "npm run prettier",
+        "pre-commit": "lint-staged"
+    },
+    "lint-staged": {
+        "*.{js,jsx,mjs,ts,tsx}": ["npm run prettier:pre-commit", "npm run lint:pre-commit"]
     },
     "devDependencies": {
         "copyfiles": "2.4.1",

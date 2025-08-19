@@ -41,3 +41,7 @@ Unit testing commands.
 ### `lint:fix`
 
 Linter commands.
+
+### `prettier`
+
+Run prettier to format code.

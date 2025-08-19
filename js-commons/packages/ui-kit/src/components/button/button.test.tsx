@@ -17,7 +17,11 @@ describe("Button", () => {
     });
 
     test("not calls onClick when clicked if disabled is provided", () => {
-        render(<Button disabled onClick={onClick}>{TITLE}</Button>);
+        render(
+            <Button disabled onClick={onClick}>
+                {TITLE}
+            </Button>,
+        );
 
         fireEvent.click(screen.getByRole("button"));
 

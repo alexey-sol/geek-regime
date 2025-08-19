@@ -7,7 +7,7 @@ import { render, screen } from "@/test/setup";
 const TITLE = "Link";
 
 describe("Link", () => {
-    test("renders link equal to \"to\" prop", () => {
+    test('renders link equal to "to" prop', () => {
         const to = "/oh-hi-mark";
 
         render(<Link to={to}>{TITLE}</Link>);

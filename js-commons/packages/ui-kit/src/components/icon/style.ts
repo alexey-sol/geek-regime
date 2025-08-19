@@ -7,8 +7,10 @@ export const BaseIconStyled = styled.svg<Partial<HasColor>>`
     transition: inherit;
 
     path {
-        ${({ theme, color }) => color && css`
-            fill: ${theme.colors[color]};
-        `};
+        ${({ theme, color }) =>
+            color &&
+            css`
+                fill: ${theme.colors[color]};
+            `};
     }
 `;

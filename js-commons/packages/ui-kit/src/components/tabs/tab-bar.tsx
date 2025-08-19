@@ -11,8 +11,4 @@ const TabBarStyled = styled.ul`
     list-style-type: none;
 `;
 
-export const TabBar: FC<PropsWithChildren> = ({ children }) => (
-    <TabBarStyled role="tablist">
-        {children}
-    </TabBarStyled>
-);
+export const TabBar: FC<PropsWithChildren> = ({ children }) => <TabBarStyled role="tablist">{children}</TabBarStyled>;

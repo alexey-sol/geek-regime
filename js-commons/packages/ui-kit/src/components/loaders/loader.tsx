@@ -18,23 +18,31 @@ const LoaderStyled = styled.section(
         border-radius: 50%;
         margin: 15px auto;
         background: ${theme.colors.purpleLighten};
-        box-shadow: -24px 0 ${theme.colors.purpleLighten}, 24px 0 ${theme.colors.purpleLighten};
+        box-shadow:
+            -24px 0 ${theme.colors.purpleLighten},
+            24px 0 ${theme.colors.purpleLighten};
         animation: loading 2s linear infinite;
 
         @keyframes loading {
             33% {
                 background: ${theme.colors.purpleLighten};
-                box-shadow: -24px 0 ${theme.colors.orange}, 24px 0 ${theme.colors.purpleLighten};
+                box-shadow:
+                    -24px 0 ${theme.colors.orange},
+                    24px 0 ${theme.colors.purpleLighten};
             }
 
             66% {
                 background: ${theme.colors.orange};
-                box-shadow: -24px 0 ${theme.colors.purpleLighten}, 24px 0 ${theme.colors.purpleLighten};
+                box-shadow:
+                    -24px 0 ${theme.colors.purpleLighten},
+                    24px 0 ${theme.colors.purpleLighten};
             }
 
             100% {
                 background: ${theme.colors.purpleLighten};
-                box-shadow: -24px 0 ${theme.colors.purpleLighten}, 24px 0 ${theme.colors.orange};
+                box-shadow:
+                    -24px 0 ${theme.colors.purpleLighten},
+                    24px 0 ${theme.colors.orange};
             }
         }
     `,

@@ -22,10 +22,9 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
     }
 
     static renderErrorMessage(errorMessage = defaults.ERROR_MESSAGE): ReactNode {
-        return ( // TODO
-            <Typography>
-                {errorMessage}
-            </Typography>
+        return (
+            // TODO
+            <Typography>{errorMessage}</Typography>
         );
     }
 
@@ -41,8 +40,6 @@ export class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundarySt
         const { error } = this.state;
         const { children, errorMessage } = this.props;
 
-        return (error)
-            ? ErrorBoundary.renderErrorMessage(errorMessage)
-            : children;
+        return error ? ErrorBoundary.renderErrorMessage(errorMessage) : children;
     }
 }

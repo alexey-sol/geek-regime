@@ -46,8 +46,7 @@ export const useKeyboardControls = ({
                 return;
             }
 
-            const targetIsWithinActiveElement = target.contains(current)
-                || current.contains(target);
+            const targetIsWithinActiveElement = target.contains(current) || current.contains(target);
 
             if (handler && targetIsWithinActiveElement) {
                 handler();

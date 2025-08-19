@@ -17,56 +17,62 @@ const EXCLUDE_FILES = [
     "tools",
 ];
 
-const EXTERNAL_DEPENDENCIES = [ // [1]
-    "react", "react/jsx-runtime", "react-dom", "react-router-dom", "styled-components",
+const EXTERNAL_DEPENDENCIES = [
+    // [1]
+    "react",
+    "react/jsx-runtime",
+    "react-dom",
+    "react-router-dom",
+    "styled-components",
 ];
 
 const isExternal = (id: string) => EXTERNAL_DEPENDENCIES.includes(id);
 
-export const libraryViteConfig = (rootDir: string, libraryName?: string): UserConfig => defineConfig({
-    plugins: [
-        reactPlugin({
-            babel: babelViteConfig,
-        }),
-        dtsPlugin({
-            exclude: EXCLUDE_FILES,
-        }),
-        libInjectCss(),
-    ],
-    build: {
-        lib: {
-            entry: path.resolve(rootDir, "src", "index.ts"),
-            formats: ["es"],
-            name: libraryName,
-        },
-        rollupOptions: {
-            external: isExternal,
-            input: Object.fromEntries(
-                globSync("src/**/*.{ts,tsx}", {
-                    ignore: EXCLUDE_FILES,
-                }).map((file) => [
-                    path.relative("src", file.slice(0, file.length - path.extname(file).length)),
-                    path.resolve(rootDir, file),
-                ]),
-            ),
-            output: {
-                dir: "dist",
-                globals: {
-                    react: "React",
-                    "react-dom": "ReactDOM",
+export const libraryViteConfig = (rootDir: string, libraryName?: string): UserConfig =>
+    defineConfig({
+        plugins: [
+            reactPlugin({
+                babel: babelViteConfig,
+            }),
+            dtsPlugin({
+                exclude: EXCLUDE_FILES,
+            }),
+            libInjectCss(),
+        ],
+        build: {
+            lib: {
+                entry: path.resolve(rootDir, "src", "index.ts"),
+                formats: ["es"],
+                name: libraryName,
+            },
+            rollupOptions: {
+                external: isExternal,
+                input: Object.fromEntries(
+                    globSync("src/**/*.{ts,tsx}", {
+                        ignore: EXCLUDE_FILES,
+                    }).map((file) => [
+                        path.relative("src", file.slice(0, file.length - path.extname(file).length)),
+                        path.resolve(rootDir, file),
+                    ]),
+                ),
+                output: {
+                    dir: "dist",
+                    globals: {
+                        react: "React",
+                        "react-dom": "ReactDOM",
+                    },
+                    inlineDynamicImports: false,
+                    assetFileNames: "styles/[name][extname]",
+                    entryFileNames: "[name].js",
                 },
-                inlineDynamicImports: false,
-                assetFileNames: "styles/[name][extname]",
-                entryFileNames: "[name].js",
             },
         },
-    },
-    resolve: {
-        alias: {
-            "@": path.resolve(rootDir, "src"),
+        resolve: {
+            alias: {
+                "@": path.resolve(rootDir, "src"),
+            },
         },
-    },
-});
+    });
 
 // [1]. If a dependency utilizes a context, and you want to share the context of your app, you need to
 // specify that dependency here, otherwise it will create a new context inside the library.

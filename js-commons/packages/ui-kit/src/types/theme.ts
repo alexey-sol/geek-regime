@@ -8,7 +8,4 @@ export type Font = keyof DefaultTheme["fonts"];
 
 export type FontSize = keyof DefaultTheme["fontSizes"];
 
-export type MapKeyToCss<Key extends string> = Record<
-    Key,
-    FlattenInterpolation<ThemeProps<DefaultTheme>>
->;
+export type MapKeyToCss<Key extends string> = Record<Key, FlattenInterpolation<ThemeProps<DefaultTheme>>>;

@@ -1,6 +1,4 @@
-import {
-    css, type DefaultTheme, type FlattenInterpolation, type ThemeProps,
-} from "styled-components";
+import { css, type DefaultTheme, type FlattenInterpolation, type ThemeProps } from "styled-components";
 
 import { Typography } from "@/components/typography";
 import { type Color, type ColorValue, type MapKeyToCss } from "@/types/theme";
@@ -11,7 +9,8 @@ export type LinkDecorationProps = Partial<HasColor> & {
 };
 
 const getColorCss = (color: Color | ColorValue) => css`
-    &, ${Typography} {
+    &,
+    ${Typography} {
         color: ${color};
     }
 `;
@@ -22,24 +21,25 @@ const getMapViewToCss = (color?: Color): MapKeyToCss<NonNullable<LinkDecorationP
     secondary: css(({ theme }) => getColorCss(color ?? theme.colors.secondary)),
 });
 
-export const getLinkDecoration = ({
-    color,
-    view = "primary",
-}: LinkDecorationProps = {}): FlattenInterpolation<ThemeProps<DefaultTheme>> => css`
+export const getLinkDecoration = ({ color, view = "primary" }: LinkDecorationProps = {}): FlattenInterpolation<
+    ThemeProps<DefaultTheme>
+> => css`
     display: inline-block;
     width: fit-content;
 
-    ${() => view !== "plain" && css`
-        ${Typography} {
-            transition: text-decoration ${({ theme }) => theme.durations.normal} ease;
-            text-decoration: underline dashed;
-            text-underline-offset: 0.5rem;
+    ${() =>
+        view !== "plain" &&
+        css`
+            ${Typography} {
+                transition: text-decoration ${({ theme }) => theme.durations.normal} ease;
+                text-decoration: underline dashed;
+                text-underline-offset: 0.5rem;
 
-            &:hover {
-                text-decoration: none;
+                &:hover {
+                    text-decoration: none;
+                }
             }
-        }
-    `};
+        `};
 
     ${getMapViewToCss(color)[view]};
 `;

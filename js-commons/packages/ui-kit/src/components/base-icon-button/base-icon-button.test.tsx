@@ -8,13 +8,7 @@ const ICON_STUB = "icon-stub";
 const Icon = () => <svg>{ICON_STUB}</svg>;
 const onClick = jest.fn();
 
-const Wrap = (props: Partial<BaseIconButtonProps>) => (
-    <BaseIconButton
-        icon={Icon}
-        onClick={onClick}
-        {...props}
-    />
-);
+const Wrap = (props: Partial<BaseIconButtonProps>) => <BaseIconButton icon={Icon} onClick={onClick} {...props} />;
 
 describe("BaseIconButton", () => {
     test("renders icon", () => {

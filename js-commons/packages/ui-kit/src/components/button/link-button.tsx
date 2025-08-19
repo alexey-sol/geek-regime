@@ -10,13 +10,7 @@ import { type LinkProps } from "@/components/link";
 
 export type LinkButtonProps = BaseButtonProps & Pick<LinkProps, "as"> & Pick<LinkDecorationProps, "view">;
 
-export const LinkButton: FC<LinkButtonProps> = ({
-    as: tagName = "span",
-    children,
-    fontSize,
-    font,
-    ...rest
-}) => (
+export const LinkButton: FC<LinkButtonProps> = ({ as: tagName = "span", children, fontSize, font, ...rest }) => (
     <LinkButtonStyled {...rest}>
         <Typography as={tagName} font={font} fontSize={fontSize}>
             {children}

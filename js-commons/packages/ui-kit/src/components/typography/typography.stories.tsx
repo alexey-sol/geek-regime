@@ -29,8 +29,4 @@ export default {
     },
 } as Meta<TypographyProps>;
 
-export const ByView: Story<TypographyProps> = (arg) => (
-    <Typography {...arg}>
-        Oh hi Mark
-    </Typography>
-);
+export const ByView: Story<TypographyProps> = (arg) => <Typography {...arg}>Oh hi Mark</Typography>;

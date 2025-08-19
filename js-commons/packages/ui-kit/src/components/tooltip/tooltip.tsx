@@ -1,6 +1,4 @@
-import React, {
-    type FC, type PropsWithChildren, useEffect, useMemo, useRef, useState,
-} from "react";
+import React, { type FC, type PropsWithChildren, useEffect, useMemo, useRef, useState } from "react";
 
 import { type ElementPosition, type ElementPositionX, type ElementPositionY } from "../base-popup/base-popup";
 import { Typography } from "../typography";
@@ -10,17 +8,14 @@ import { BasePopupStyled, TooltipWrapStyled } from "./style";
 import { useToggle } from "@/utils/hooks/use-toggle";
 import { type HasClassName } from "@/types/props";
 
-export type TooltipProps = PropsWithChildren<Partial<HasClassName> & {
-    disabled?: boolean;
-    message?: string;
-}>;
+export type TooltipProps = PropsWithChildren<
+    Partial<HasClassName> & {
+        disabled?: boolean;
+        message?: string;
+    }
+>;
 
-export const Tooltip: FC<TooltipProps> = ({
-    children,
-    className,
-    disabled = false,
-    message,
-}) => {
+export const Tooltip: FC<TooltipProps> = ({ children, className, disabled = false, message }) => {
     const { isOn, off: closeTooltip, on: openTooltip } = useToggle();
 
     const childrenWrapRef = useRef<HTMLElement>(null);
@@ -41,10 +36,7 @@ export const Tooltip: FC<TooltipProps> = ({
     const [positionX, setPositionX] = useState<ElementPositionX>("center");
     const [positionY, setPositionY] = useState<ElementPositionY>("top");
 
-    const position = useMemo<ElementPosition>(
-        () => ([positionX, positionY]),
-        [positionX, positionY],
-    );
+    const position = useMemo<ElementPosition>(() => [positionX, positionY], [positionX, positionY]);
 
     useEffect(() => {
         if (disabled) {
@@ -54,7 +46,7 @@ export const Tooltip: FC<TooltipProps> = ({
         if (isOn && tooltipRef.current) {
             const tooltipRect = tooltipRef.current.getBoundingClientRect();
 
-            const hasRightEdgeOverflow = (tooltipRect.x + tooltipRect.width) > window.innerWidth;
+            const hasRightEdgeOverflow = tooltipRect.x + tooltipRect.width > window.innerWidth;
             const hasLeftEdgeOverflow = tooltipRect.x < 0;
 
             if (hasRightEdgeOverflow) {
@@ -63,7 +55,7 @@ export const Tooltip: FC<TooltipProps> = ({
                 setPositionX("center-right");
             }
 
-            const hasBottomEdgeOverflow = (tooltipRect.y + tooltipRect.height) > window.innerHeight;
+            const hasBottomEdgeOverflow = tooltipRect.y + tooltipRect.height > window.innerHeight;
             const hasTopEdgeOverflow = tooltipRect.y < 0;
 
             if (hasBottomEdgeOverflow) {
@@ -88,15 +80,8 @@ export const Tooltip: FC<TooltipProps> = ({
             </span>
 
             {showTooltip && (
-                <BasePopupStyled
-                    hasGap
-                    position={position}
-                    ref={tooltipRef}
-                    view="dark"
-                >
-                    <Typography fontSize="xs">
-                        {message}
-                    </Typography>
+                <BasePopupStyled hasGap position={position} ref={tooltipRef} view="dark">
+                    <Typography fontSize="xs">{message}</Typography>
                 </BasePopupStyled>
             )}
         </TooltipWrapStyled>

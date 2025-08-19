@@ -58,12 +58,7 @@ const mapViewToCss: MapKeyToCss<NonNullable<BasePopupStyledProps["view"]>> = {
 };
 
 export const BasePopup = styled.section<BasePopupStyledProps>`
-    ${({
-        theme,
-        hasGap = false,
-        position = DROPDOWN_POSITION,
-        view,
-    }) => css`
+    ${({ theme, hasGap = false, position = DROPDOWN_POSITION, view }) => css`
         position: absolute;
         z-index: ${theme.zIndex.modal};
         width: max-content;
@@ -73,9 +68,12 @@ export const BasePopup = styled.section<BasePopupStyledProps>`
         ${mapPositionXToCss[position[0]]}};
         ${mapPositionYToCss[position[1]]}};
 
-        ${hasGap && css`
-            margin-top: 0.5rem;
-            margin-bottom: 0.5rem;
-        `};
+        ${
+            hasGap &&
+            css`
+                margin-top: 0.5rem;
+                margin-bottom: 0.5rem;
+            `
+        };
     `};
 `;

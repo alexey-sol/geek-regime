@@ -7,9 +7,9 @@ import { LinkStyled } from "./style";
 
 import { type LinkDecorationProps } from "@/style/mixins/link-decoration";
 
-export type LinkProps = PropsWithChildren<Pick<RouterDomLinkProps, "to" | "replace">
-    & LinkDecorationProps
-    & Omit<TypographyProps, "view">>;
+export type LinkProps = PropsWithChildren<
+    Pick<RouterDomLinkProps, "to" | "replace"> & LinkDecorationProps & Omit<TypographyProps, "view">
+>;
 
 export const Link: FC<LinkProps> = ({
     as: tagName = "span",

@@ -1,6 +1,7 @@
 **/*.tsbuildinfo
 .DS_Store
 .env
+.husky/_
 .nyc_output
 .idea
 .vscode

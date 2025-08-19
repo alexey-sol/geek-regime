@@ -29,24 +29,27 @@ module.exports = {
         ecmaVersion: "latest",
         sourceType: "module",
     },
-    plugins: [
-        "@typescript-eslint",
-        "unicorn",
-    ],
+    plugins: ["@typescript-eslint", "unicorn"],
     rules: {
-        "@typescript-eslint/consistent-type-imports": ["error", {
-            fixStyle: "inline-type-imports",
-        }],
+        "@typescript-eslint/consistent-type-imports": [
+            "error",
+            {
+                fixStyle: "inline-type-imports",
+            },
+        ],
         "@typescript-eslint/member-delimiter-style": "warn",
         "@typescript-eslint/no-shadow": ["error"],
         "@typescript-eslint/no-empty-function": "error",
         "@typescript-eslint/explicit-module-boundary-types": "error",
         "@typescript-eslint/no-redeclare": "error",
-        "@typescript-eslint/no-unused-vars": ["error", {
-            args: "after-used",
-            ignoreRestSiblings: true,
-            varsIgnorePattern: "^_",
-        }],
+        "@typescript-eslint/no-unused-vars": [
+            "error",
+            {
+                args: "after-used",
+                ignoreRestSiblings: true,
+                varsIgnorePattern: "^_",
+            },
+        ],
         "@typescript-eslint/no-useless-constructor": "error",
         "@typescript-eslint/semi": "warn",
         "class-methods-use-this": "off",
@@ -55,50 +58,77 @@ module.exports = {
         "import/newline-after-import": "warn",
         "import/no-extraneous-dependencies": "off",
         "import/no-unresolved": "off", // [1]
-        "import/order": ["warn", {
-            groups: [
-                "builtin", "external", "internal", "parent", "sibling", "index",
-            ],
-            "newlines-between": "always",
-        }],
+        "import/order": [
+            "warn",
+            {
+                groups: ["builtin", "external", "internal", "parent", "sibling", "index"],
+                "newlines-between": "always",
+            },
+        ],
         "import/prefer-default-export": "off",
-        indent: ["error", 4, {
-            SwitchCase: 1,
-            ignoredNodes: ["PropertyDefinition"],
-        }],
+        indent: [
+            "error",
+            4,
+            {
+                SwitchCase: 1,
+                ignoredNodes: ["PropertyDefinition"],
+            },
+        ],
         "linebreak-style": ["error", "unix"],
-        "lines-between-class-members": ["error", "always", {
-            exceptAfterSingleLine: true,
-        }],
+        "lines-between-class-members": [
+            "error",
+            "always",
+            {
+                exceptAfterSingleLine: true,
+            },
+        ],
         "max-classes-per-file": "off",
-        "max-len": ["error", {
-            code: 120,
-            ignorePattern: "^import\\s.+\\sfrom\\s.+;$",
-            ignoreUrls: true,
-        }],
-        "no-console": ["error", {
-            allow: ["warn", "error"],
-        }],
-        "no-else-return": ["error", {
-            allowElseIf: true,
-        }],
+        "max-len": [
+            "error",
+            {
+                code: 120,
+                ignorePattern: "^import\\s.+\\sfrom\\s.+;$",
+                ignoreUrls: true,
+            },
+        ],
+        "no-console": [
+            "error",
+            {
+                allow: ["warn", "error"],
+            },
+        ],
+        "no-else-return": [
+            "error",
+            {
+                allowElseIf: true,
+            },
+        ],
         "no-empty-function": "off",
-        "no-param-reassign": ["error", {
-            props: false,
-        }],
+        "no-param-reassign": [
+            "error",
+            {
+                props: false,
+            },
+        ],
         "no-redeclare": "off",
-        "no-restricted-exports": ["error", {
-            restrictedNamedExports: [],
-        }],
+        "no-restricted-exports": [
+            "error",
+            {
+                restrictedNamedExports: [],
+            },
+        ],
         "no-shadow": "off",
         "no-undef": "off",
         "no-unused-vars": "off",
         "no-useless-constructor": "off",
         quotes: ["error", "double"],
         semi: "off",
-        "unicorn/filename-case": ["error", {
-            case: "kebabCase",
-        }],
+        "unicorn/filename-case": [
+            "error",
+            {
+                case: "kebabCase",
+            },
+        ],
     },
     settings: {
         "import/resolver": {

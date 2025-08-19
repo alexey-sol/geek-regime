@@ -1,9 +1,7 @@
 import { type StorybookConfig } from "@storybook/react-vite";
 
 export const baseStorybookConfig = (rootDir: string): StorybookConfig => ({
-    stories: [
-        `${rootDir}/src/**/*.mdx`, `${rootDir}/src/**/*.stories.@(ts|tsx)`,
-    ],
+    stories: [`${rootDir}/src/**/*.mdx`, `${rootDir}/src/**/*.stories.@(ts|tsx)`],
     addons: [
         "@storybook/addon-a11y",
         "@storybook/addon-essentials",
@@ -35,7 +33,7 @@ export const baseStorybookConfig = (rootDir: string): StorybookConfig => ({
                 allowSyntheticDefaultImports: false,
                 esModuleInterop: false,
             },
-            propFilter: (prop) => ((prop.parent) ? !/node_modules/.test(prop.parent.fileName) : true),
+            propFilter: (prop) => (prop.parent ? !/node_modules/.test(prop.parent.fileName) : true),
         },
     },
 });

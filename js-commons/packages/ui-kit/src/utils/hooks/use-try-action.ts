@@ -13,11 +13,7 @@ type UseTryActionResult = {
 };
 
 export const useTryAction = ({ onAction }: UseTryActionArg): UseTryActionResult => {
-    const {
-        isOn: isTryModeOn,
-        off: disableTryMode,
-        on: enableTryMode,
-    } = useToggle();
+    const { isOn: isTryModeOn, off: disableTryMode, on: enableTryMode } = useToggle();
 
     useTimeout({
         durationMs: TRY_MODE_DURATION_MS,

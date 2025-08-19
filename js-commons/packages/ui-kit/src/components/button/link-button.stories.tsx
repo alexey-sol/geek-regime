@@ -52,11 +52,7 @@ export default {
 export const ByView: Story<LinkButtonProps> = ({ children, ...arg }) => (
     <>
         {VIEWS.map((view) => (
-            <LinkButton
-                key={view}
-                view={view}
-                {...arg}
-            >
+            <LinkButton key={view} view={view} {...arg}>
                 {children ?? getTitle(view)}
             </LinkButton>
         ))}

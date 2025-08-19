@@ -12,11 +12,7 @@ type UseTimeoutResult = {
     resetTimeout: () => void;
 };
 
-export const useTimeout = ({
-    durationMs = 0,
-    onTimeout,
-    skipTimeout = false,
-}: UseTimeoutArg): UseTimeoutResult => {
+export const useTimeout = ({ durationMs = 0, onTimeout, skipTimeout = false }: UseTimeoutArg): UseTimeoutResult => {
     const timerIdRef = useRef<number>(0);
 
     const resetTimeout = useCallback(() => {

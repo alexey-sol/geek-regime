@@ -5,7 +5,8 @@ import { type FontSize } from "@/types/theme";
 
 const NORMAL_LINE_HEIGHT_COEF = 1.4;
 
-const mapSizeToLineHeightCoef: Partial<Record<FontSize, number>> = { // [1]
+const mapSizeToLineHeightCoef: Partial<Record<FontSize, number>> = {
+    // [1]
     lg: 1.2,
     md: NORMAL_LINE_HEIGHT_COEF,
 };

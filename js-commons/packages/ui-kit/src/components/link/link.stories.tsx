@@ -42,11 +42,7 @@ export default {
 export const ByView: Story<LinkProps> = (arg) => (
     <MemoryRouter>
         {views.map((view) => (
-            <Link
-                key={view}
-                view={view}
-                {...arg}
-            >
+            <Link key={view} view={view} {...arg}>
                 {getLinkTitle(view)}
             </Link>
         ))}

@@ -9,11 +9,7 @@ const dirName = getDirName();
 
 export const baseJestConfig = (rootDir = DEFAULT_ROOT_DIR): JestConfigWithTsJest => ({
     clearMocks: true,
-    collectCoverageFrom: [
-        "<rootDir>/src/**/*.{ts,tsx}",
-        "!**/*.d.ts",
-        "!**/node_modules/**",
-    ],
+    collectCoverageFrom: ["<rootDir>/src/**/*.{ts,tsx}", "!**/*.d.ts", "!**/node_modules/**"],
     maxWorkers: 2,
     moduleNameMapper: {
         "^@/(.*)$": "<rootDir>/src/$1",
@@ -24,8 +20,6 @@ export const baseJestConfig = (rootDir = DEFAULT_ROOT_DIR): JestConfigWithTsJest
     transform: {
         ".+\\.(svg|css|styl|less|sass|scss|png|jpg|ttf|woff|woff2)$": path.resolve(dirName, "mocks", "file-mock.js"),
     },
-    transformIgnorePatterns: [
-        "<rootDir>/node_modules/(?!(lodash-es|@popperjs|@eggziom)/)",
-    ],
+    transformIgnorePatterns: ["<rootDir>/node_modules/(?!(lodash-es|@popperjs|@eggziom)/)"],
     verbose: true,
 });

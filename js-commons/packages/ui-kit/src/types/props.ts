@@ -24,10 +24,10 @@ export type HasFontSize = {
 
 export type FontSizeOrSizeProp =
     | {
-        fontSize?: FontSize;
-        size?: never;
-    }
+          fontSize?: FontSize;
+          size?: never;
+      }
     | {
-        fontSize?: never;
-        size?: string | number;
-    };
+          fontSize?: never;
+          size?: string | number;
+      };

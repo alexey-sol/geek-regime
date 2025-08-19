@@ -12,17 +12,11 @@ const TabPanelStyled = styled.section`
 `;
 
 export const TabPanel: FC<TabPanelProps> = ({ children, value }) => {
-    const {
-        value: activeValue,
-    } = useTabContext();
+    const { value: activeValue } = useTabContext();
 
     if (activeValue !== value) {
         return null;
     }
 
-    return (
-        <TabPanelStyled role="tabpanel">
-            {children}
-        </TabPanelStyled>
-    );
+    return <TabPanelStyled role="tabpanel">{children}</TabPanelStyled>;
 };

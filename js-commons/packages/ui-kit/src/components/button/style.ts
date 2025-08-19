@@ -26,40 +26,38 @@ const getBgColorCss = (bgColor: ColorValue, bgColorOnHover: ColorValue) => css`
 `;
 
 const mapViewToCss: MapKeyToCss<NonNullable<ButtonStyledProps["view"]>> = {
-    plain: css(({ theme: { colors } }) => css`
-        padding-top: calc(${PADDING_Y} - ${PLAIN_BORDER_WIDTH});
-        padding-bottom: calc(${PADDING_Y} - ${PLAIN_BORDER_WIDTH});
-        border: ${PLAIN_BORDER_WIDTH} solid ${colors.primary};
-        color: ${colors.primary};
-        ${getBgColorCss(colors.white, colors.orangeDark)};
-
-        ${BaseIconStyled} {
-            fill: ${colors.primary};
-        }
-
-        &:disabled {
+    plain: css(
+        ({ theme: { colors } }) => css`
+            padding-top: calc(${PADDING_Y} - ${PLAIN_BORDER_WIDTH});
+            padding-bottom: calc(${PADDING_Y} - ${PLAIN_BORDER_WIDTH});
+            border: ${PLAIN_BORDER_WIDTH} solid ${colors.primary};
             color: ${colors.primary};
-        }
-
-        &:not(:disabled):hover {
-            border-color: ${colors.orangeDark};
-            color: ${colors.white};
+            ${getBgColorCss(colors.white, colors.orangeDark)};
 
             ${BaseIconStyled} {
-                fill: ${colors.white};
+                fill: ${colors.primary};
             }
-        }
-    `),
+
+            &:disabled {
+                color: ${colors.primary};
+            }
+
+            &:not(:disabled):hover {
+                border-color: ${colors.orangeDark};
+                color: ${colors.white};
+
+                ${BaseIconStyled} {
+                    fill: ${colors.white};
+                }
+            }
+        `,
+    ),
     primary: css(({ theme }) => getBgColorCss(theme.colors.purpleLight, theme.colors.primary)),
     secondary: css(({ theme }) => getBgColorCss(theme.colors.secondary, theme.colors.orangeDark)),
 };
 
 export const ButtonStyled = styled(BaseButton)<ButtonStyledProps>(
-    ({
-        theme,
-        isStretched = false,
-        view = "primary",
-    }) => css`
+    ({ theme, isStretched = false, view = "primary" }) => css`
         display: flex;
         justify-content: center;
         align-items: center;

@@ -52,11 +52,7 @@ export default {
 export const ByView: Story<ButtonProps> = ({ children, ...arg }) => (
     <>
         {VIEWS.map((view) => (
-            <Button
-                key={view}
-                view={view}
-                {...arg}
-            >
+            <Button key={view} view={view} {...arg}>
                 {children ?? getTitle(view)}
             </Button>
         ))}
@@ -66,12 +62,7 @@ export const ByView: Story<ButtonProps> = ({ children, ...arg }) => (
 export const ByViewWithIcon: Story<ButtonProps> = ({ children, ...arg }) => (
     <>
         {VIEWS.map((view) => (
-            <Button
-                key={view}
-                icon={SearchIcon}
-                view={view}
-                {...arg}
-            >
+            <Button key={view} icon={SearchIcon} view={view} {...arg}>
                 {children ?? getTitle(view)}
             </Button>
         ))}

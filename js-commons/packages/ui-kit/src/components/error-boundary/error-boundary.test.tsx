@@ -10,9 +10,7 @@ const Failure = () => {
     throw new Error();
 };
 
-const Success = () => (
-    <section role={SUCCESS_ELEMENT_ROLE} />
-);
+const Success = () => <section role={SUCCESS_ELEMENT_ROLE} />;
 
 describe("ErrorBoundary", () => {
     beforeEach(() => {

@@ -18,14 +18,9 @@ const SkeletonStyled = styled.section<SkeletonStyledProps>`
     overflow: hidden;
 
     &::before {
-        content: '';
+        content: "";
         position: absolute;
-        background: linear-gradient(
-            90deg,
-            transparent,
-            rgba(255, 255, 255, 0.5),
-            transparent
-        );
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.5), transparent);
         width: 50%;
         height: 100%;
         top: 0;
@@ -47,12 +42,10 @@ type SkeletonProps = SkeletonStyledProps & {
     isLoading?: boolean;
 };
 
-export const Skeleton: FC<PropsWithChildren<SkeletonProps>> = ({
-    children,
-    heightPx,
-    isLoading = false,
-    widthPx,
-}) => (isLoading
-    ? <SkeletonStyled heightPx={heightPx} widthPx={widthPx} />
-    // eslint-disable-next-line react/jsx-no-useless-fragment
-    : <>{children}</>);
+export const Skeleton: FC<PropsWithChildren<SkeletonProps>> = ({ children, heightPx, isLoading = false, widthPx }) =>
+    isLoading ? (
+        <SkeletonStyled heightPx={heightPx} widthPx={widthPx} />
+    ) : (
+        // eslint-disable-next-line react/jsx-no-useless-fragment
+        <>{children}</>
+    );

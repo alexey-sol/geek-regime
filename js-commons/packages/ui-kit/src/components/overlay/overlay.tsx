@@ -39,21 +39,19 @@ export const Overlay: FC<OverlayProps> = ({
 }) => {
     const rootRef = useRef<HTMLElement>(null);
 
-    const handleMouseDownOnRoot: MouseEventHandler<HTMLElement> = useCallback(({ target }) => {
-        const targetIsRoot = target === rootRef.current;
+    const handleMouseDownOnRoot: MouseEventHandler<HTMLElement> = useCallback(
+        ({ target }) => {
+            const targetIsRoot = target === rootRef.current;
 
-        if (targetIsRoot && !disableCloseOnClick) {
-            onClose();
-        }
-    }, [disableCloseOnClick, onClose]);
+            if (targetIsRoot && !disableCloseOnClick) {
+                onClose();
+            }
+        },
+        [disableCloseOnClick, onClose],
+    );
 
     const overlay = (
-        <OverlayStyled
-            className={className}
-            onMouseDown={handleMouseDownOnRoot}
-            ref={rootRef}
-            role={role}
-        >
+        <OverlayStyled className={className} onMouseDown={handleMouseDownOnRoot} ref={rootRef} role={role}>
             {children}
         </OverlayStyled>
     );

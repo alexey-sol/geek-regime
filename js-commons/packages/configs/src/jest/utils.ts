@@ -2,8 +2,8 @@ import { dirname } from "path";
 import { fileURLToPath } from "url";
 
 /**
- * Get absolute path to the directory containing the currently executing JavaScript file. It's cross-platform
- * since the library gets built as CJS and ESM both.
+ * Get absolute path to the directory containing the currently executing JavaScript file. It must be cross-
+ * platform since the library is consumed by CJS and ESM clients.
  */
 export const getDirName = (): string => {
     try {

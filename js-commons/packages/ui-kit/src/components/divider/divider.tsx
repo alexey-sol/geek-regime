@@ -15,6 +15,4 @@ const DividerStyled = styled.hr<DividerProps>`
     `};
 `;
 
-export const Divider: FC<DividerProps> = ({ widthPx, ...rest }) => (
-    <DividerStyled widthPx={widthPx} {...rest} />
-);
+export const Divider: FC<DividerProps> = ({ widthPx, ...rest }) => <DividerStyled widthPx={widthPx} {...rest} />;
